@@ -28,11 +28,12 @@
     },
     "scripts": {
         "fix": "npm run fix:eslint && npm run fix:prettier",
-        "fix:eslint": "eslint --fix **/**.js",
-        "fix:prettier": "prettier --write **/**.js",
+        "fix:eslint": "eslint --fix **/*.js",
+        "fix:prettier": "prettier --write **/*.js",
         "lint": "npm run lint:eslint && npm run lint:prettier",
-        "lint:eslint": "eslint **/**.js",
-        "lint:prettier": "prettier --check **/**.js",
+        "lint:eslint": "eslint . --ext js",
+        "lint:prettier": "prettier --check **/*.js",
+        "lint:sarif": "node lint.js . --ext js",
         "release": "release-it",
         "release:ci": "npm run release --disable-metrics --ci",
         "update:deps": "ncu -u && npm install"
@@ -78,6 +79,7 @@
         "unzipper": "0.10.11"
     },
     "devDependencies": {
+        "@microsoft/eslint-formatter-sarif": "2.1.5",
         "husky": "4.3.0",
         "lint-staged": "10.5.1",
         "npm-check-updates": "10.2.1",
