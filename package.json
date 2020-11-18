@@ -1,0 +1,88 @@
+{
+    "name": "@synthetixio/synpress",
+    "version": "0.1.0",
+    "description": "Synpress in an wrapper around Cypress test runner which extends its capabilities with conjunction of Puppeteer. It's used used across Synthetix projects.",
+    "keywords": [
+        "Synpress",
+        "Cypress",
+        "testing",
+        "e2e"
+    ],
+    "homepage": "https://github.com/synthetixio/synpress#readme",
+    "bugs": {
+        "url": "https://github.com/synthetixio/synpress/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/synthetixio/synpress.git"
+    },
+    "license": "MIT",
+    "author": {
+        "name": "Synthetix"
+    },
+    "type": "commonjs",
+    "main": "launcher.js",
+    "bin": {
+        "synpress": "synpress.js"
+    },
+    "scripts": {
+        "fix": "npm run fix:eslint && npm run fix:prettier",
+        "fix:eslint": "eslint --fix **/**.js",
+        "fix:prettier": "prettier --write **/**.js",
+        "lint": "npm run lint:eslint && npm run lint:prettier",
+        "lint:eslint": "eslint **/**.js",
+        "lint:prettier": "prettier --check **/**.js",
+        "release": "release-it",
+        "release:ci": "npm run release --disable-metrics --ci",
+        "update:deps": "ncu -u && npm install"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.js": "npm run lint"
+    },
+    "dependencies": {
+        "@testing-library/cypress": "7.0.1",
+        "@testing-library/react": "11.1.0",
+        "@types/puppeteer-core": "2.0.0",
+        "@types/testing-library__cypress": "5.0.8",
+        "axios": "0.21.0",
+        "babel-plugin-react-generate-property": "1.0.5",
+        "babel-plugin-react-remove-properties": "0.3.0",
+        "babel-plugin-transform-react-qa-classes": "1.6.0",
+        "babel-plugin-transform-react-styled-components-qa": "2.0.1",
+        "commander": "6.2.0",
+        "cypress": "5.5.0",
+        "cypress-wait-until": "1.7.1",
+        "eslint": "7.12.1",
+        "eslint-config-prettier": "6.15.0",
+        "eslint-config-standard": "16.0.1",
+        "eslint-plugin-chai-friendly": "0.6.0",
+        "eslint-plugin-cypress": "2.11.2",
+        "eslint-plugin-import": "2.22.1",
+        "eslint-plugin-node": "11.1.0",
+        "eslint-plugin-prettier": "3.1.4",
+        "eslint-plugin-promise": "4.2.1",
+        "eslint-plugin-standard": "4.0.2",
+        "eslint-plugin-testing-library": "3.10.0",
+        "eslint-plugin-ui-testing": "1.0.1",
+        "eslint-plugin-unicorn": "23.0.0",
+        "node-fetch": "2.6.1",
+        "prettier": "2.1.2",
+        "puppeteer-core": "5.4.1",
+        "start-server-and-test": "1.11.5",
+        "unzipper": "0.10.11"
+    },
+    "devDependencies": {
+        "husky": "4.3.0",
+        "lint-staged": "10.5.1",
+        "npm-check-updates": "9.2.3",
+        "release-it": "14.2.1"
+    },
+    "engines": {
+        "node": ">=10"
+    }
+}
