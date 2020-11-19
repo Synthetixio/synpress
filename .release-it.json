@@ -5,8 +5,5 @@
   },
   "github": {
     "release": true
-  },
-  "npm": {
-    "publish": true
   }
 }
