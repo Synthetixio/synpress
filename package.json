@@ -34,8 +34,9 @@
         "lint:eslint": "eslint . --ext js",
         "lint:prettier": "prettier --check **/*.js",
         "lint:sarif": "node lint.js . --ext js",
-        "release": "release-it",
-        "release:ci": "npm run release --disable-metrics --ci",
+        "release:major": "release-it major --disable-metrics",
+        "release:minor": "release-it minor --disable-metrics",
+        "release:patch": "release-it patch --disable-metrics",
         "update:deps": "ncu -u && npm install"
     },
     "husky": {
@@ -87,5 +88,8 @@
     },
     "engines": {
         "node": ">=10"
+    },
+    "publishConfig": {
+        "access": "public"
     }
 }
