@@ -81,7 +81,6 @@
     },
     "devDependencies": {
         "@microsoft/eslint-formatter-sarif": "2.1.5",
-        "@release-it/keep-a-changelog": "2.1.0",
         "husky": "4.3.0",
         "lint-staged": "10.5.1",
         "npm-check-updates": "10.2.1",
