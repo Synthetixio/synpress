@@ -122,3 +122,9 @@ Options:
 3. Switch to `master` branch and pull latest changes
 4. Run `npm run release:patch/minor/major` command
 5. Keep `dev` branch up to date with `master`
+
+Above actions will lead to:
+
+- New npm node module release
+- New GitHub packages node module release
+- New GitHub release (tagged) created with changelog from commit messages
