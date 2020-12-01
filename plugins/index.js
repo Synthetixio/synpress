@@ -303,7 +303,7 @@ async function changeMetamaskNetwork(network) {
 }
 
 async function acceptMetamaskAccess() {
-  await metamaskWindow.waitForTimeout(1000);
+  await metamaskWindow.waitForTimeout(3000);
   const notificationPage = await switchToMetamaskNotification();
   await waitAndClick(notificationPageElements.nextButton, notificationPage);
   await waitAndClick(permissionsPageElements.connectButton, notificationPage);
