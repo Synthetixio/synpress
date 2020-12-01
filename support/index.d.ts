@@ -15,6 +15,13 @@ declare namespace Cypress {
      */
     getText(selector: string): Chainable<Subject>;
     /**
+     * Waits until element exists
+     * @example
+     * cy.waitUntilExist('selector')
+     * cy.waitUntilExist('alias')
+     */
+    waitUntilExist(selector: string): Chainable<Subject>;
+    /**
      * Get the most popular desktop resolutions
      * @example
      * cy.getDesktopSizes()
