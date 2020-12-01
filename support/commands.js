@@ -7,6 +7,11 @@ Cypress.Commands.add('getId', name => {
   }
   return cy.get(`[data-testid="${name}"]`).as(name);
 });
+
+Cypress.Commands.add('getText', selector => {
+  return cy.getId(`${selector}`).invoke('text');
+});
+
 Cypress.Commands.add('getDesktopSizes', () => {
   return [
     [1366, 768],
