@@ -8,20 +8,6 @@ declare namespace Cypress {
      */
     getId(testid: string): Chainable<Subject>;
     /**
-     * Get text of element
-     * @example
-     * cy.getText('selector').then(text => cy.log(text))
-     * cy.getText('alias').then(text => cy.log(text))
-     */
-    getText(selector: string): Chainable<Subject>;
-    /**
-     * Waits until element exists
-     * @example
-     * cy.waitUntilExist('selector')
-     * cy.waitUntilExist('alias')
-     */
-    waitUntilExist(selector: string): Chainable<Subject>;
-    /**
      * Get the most popular desktop resolutions
      * @example
      * cy.getDesktopSizes()
