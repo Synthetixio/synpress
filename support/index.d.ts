@@ -1,13 +1,6 @@
 declare namespace Cypress {
   interface Chainable<Subject> {
     /**
-     * Get element using data-testid and sets an alias for it
-     * @example
-     * cy.getId('dataTestId')
-     * cy.getId('alias')
-     */
-    getId(testid: string): Chainable<Subject>;
-    /**
      * Get the most popular desktop resolutions
      * @example
      * cy.getDesktopSizes()

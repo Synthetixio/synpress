@@ -1,13 +1,6 @@
 import '@testing-library/cypress/add-commands';
 import 'cypress-wait-until';
 
-Cypress.Commands.add('getId', name => {
-  if (name.includes('@')) {
-    return cy.get(`${name}`);
-  }
-  return cy.get(`[data-testid="${name}"]`).as(name);
-});
-
 Cypress.Commands.add('getDesktopSizes', () => {
   return [
     [1366, 768],
