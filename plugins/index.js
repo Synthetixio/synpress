@@ -157,8 +157,10 @@ async function waitFor(selector, page = metamaskWindow) {
 
 async function waitAndClick(selector, page = metamaskWindow) {
   await waitFor(selector, page);
-  const element = await page.$(selector);
-  await element.click();
+  await page.evaluate(
+    selector => document.querySelector(selector).click(),
+    selector,
+  );
 }
 
 async function waitAndType(selector, value, page = metamaskWindow) {
