@@ -61,7 +61,7 @@ module.exports = {
     "compilerOptions": {
         "allowJs": true,
         "baseUrl": "../../node_modules",
-        "types": ["cypress", "@types/puppeteer-core", "@synthetixio/synpress/support"],
+        "types": ["cypress", "@types/puppeteer-core", "@synthetixio/synpress/support", "cypress-wait-until", "@testing-library/cypress"],
         "outDir": "./output"
     },
     "include": ["**/*.*"]
