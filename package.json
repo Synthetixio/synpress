@@ -68,6 +68,7 @@
         "node-fetch": "2.6.1",
         "prettier": "2.2.1",
         "puppeteer-core": "5.5.0",
+        "puppeteer-recorder": "1.0.7",
         "start-server-and-test": "1.11.6",
         "unzipper": "0.10.11"
     },
