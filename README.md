@@ -114,3 +114,17 @@ Options:
   -cf, --configFile <path>  specify a path to a JSON file where configuration values are set
   -h, --help                display help for command
 ```
+
+## 🚢 Release process
+
+1. Create PR from `dev` branch to `master` branch
+2. Merge it
+3. Switch to `master` branch and pull latest changes
+4. Run `npm run release:patch/minor/major` command
+5. Keep `dev` branch up to date with `master`
+
+Above actions will lead to:
+
+- New npm node module release
+- New GitHub packages node module release
+- New GitHub release (tagged) created with changelog from commit messages
