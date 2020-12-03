@@ -59,6 +59,12 @@ module.exports = (on, config) => {
   });
 
   on('task', {
+    error(message) {
+      console.error('\u001B[31m', 'ERROR:', message, '\u001B[0m');
+    },
+    warn(message) {
+      console.warn('\u001B[33m', 'WARNING:', message, '\u001B[0m');
+    },
     initPuppeteer: async () => {
       const connected = await initPuppeteer();
       return connected;
