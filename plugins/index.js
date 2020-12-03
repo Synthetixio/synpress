@@ -2,7 +2,6 @@ const path = require('path');
 const fs = require('fs');
 const helpers = require('../helpers');
 const puppeteer = require('puppeteer-core');
-const { recordPuppeteer } = require('puppeteer-recorder');
 const fetch = require('node-fetch');
 const { pageElements } = require('../pages/metamask/page');
 const {
@@ -116,12 +115,6 @@ module.exports = (on, config) => {
 
       await initPuppeteer();
       await assignWindows();
-      // record puppeteer browser
-      await record(
-        puppeteerBrowser,
-        `${helpers.getSynpressPath()}/puppeteer.webm`,
-      );
-      // no suitable element to wait for
       await metamaskWindow.waitForTimeout(1000);
       if ((await metamaskWindow.$(unlockPageElements.unlockPage)) === null) {
         await confirmMetamaskWelcomePage();
@@ -232,18 +225,6 @@ async function assignWindows() {
       metamaskWindow = page;
     }
   }
-  return true;
-}
-
-async function record(browser, path) {
-  await recordPuppeteer({
-    browser: browser,
-    output: path,
-    fps: 60,
-    frames: 60 * 5,
-    prepare: function () {},
-    render: function () {},
-  });
   return true;
 }
 
