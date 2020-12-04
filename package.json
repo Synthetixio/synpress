@@ -51,6 +51,7 @@
         "babel-plugin-transform-react-styled-components-qa": "2.0.1",
         "commander": "6.2.0",
         "cypress": "6.0.1",
+        "cypress-ethereum-provider": "0.1.0",
         "cypress-wait-until": "1.7.1",
         "eslint": "7.14.0",
         "eslint-config-prettier": "6.15.0",
