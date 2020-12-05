@@ -140,10 +140,7 @@ module.exports = (on, config) => {
     config.baseUrl = process.env.BASE_URL;
   }
 
-  if (process.env.DEV) {
-    config.retries.runMode = 0;
-    config.retries.openMode = 0;
-  } else {
+  if (process.env.CI) {
     config.retries.runMode = 1;
     config.retries.openMode = 1;
   }
