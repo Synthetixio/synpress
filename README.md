@@ -9,7 +9,7 @@
 
 ## ⚡ Important
 
-Synpress in conjunction with metamask doesn't work well with `"chromeWebSecurity": false`. More about it [here](https://github.com/Synthetixio/synpress/issues/17).
+Synpress doesn't seem to communicate with metamask properly if `"chromeWebSecurity": false` flag is set. More about it [here](https://github.com/Synthetixio/synpress/issues/17).
 
 Tests work only in headed mode because extensions are not supported in headless mode in [puppeteer](https://github.com/puppeteer/puppeteer/issues/659) and [Cypress](https://docs.cypress.io/api/plugins/browser-launch-api.html#Add-browser-extensions). It's intended to be used in conjunction with `xvfb` on CI.
 
