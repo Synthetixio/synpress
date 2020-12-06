@@ -1,4 +1,4 @@
-const app = '#app-content';
+const app = '#app-content .app';
 
 const welcomePage = '.welcome-page';
 const confirmButton = `${welcomePage} .first-time-flow__button`;
