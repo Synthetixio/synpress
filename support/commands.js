@@ -83,6 +83,14 @@ Cypress.Commands.add('acceptMetamaskAccess', () => {
   return cy.task('acceptMetamaskAccess');
 });
 
+Cypress.Commands.add('confirmMetamaskTransaction', () => {
+  return cy.task('confirmMetamaskTransaction');
+});
+
+Cypress.Commands.add('rejectMetamaskTransaction', () => {
+  return cy.task('rejectMetamaskTransaction');
+});
+
 Cypress.Commands.add('switchToMetamaskNotification', () => {
   return cy.task('switchToMetamaskNotification');
 });
