@@ -16,6 +16,7 @@ const { unlockPageElements } = require('../pages/metamask/unlock-page');
 const {
   notificationPageElements,
   permissionsPageElements,
+  confirmPageElements,
 } = require('../pages/metamask/notification-page');
 
 let puppeteerBrowser;
@@ -104,6 +105,14 @@ module.exports = (on, config) => {
       const accepted = await acceptMetamaskAccess();
       return accepted;
     },
+    confirmMetamaskTransaction: async () => {
+      const confirmed = await confirmMetamaskTransaction();
+      return confirmed;
+    },
+    rejectMetamaskTransaction: async () => {
+      const rejected = await rejectMetamaskTransaction();
+      return rejected;
+    },
     getMetamaskWalletAddress: async () => {
       const walletAddress = await getMetamaskWalletAddress();
       return walletAddress;
@@ -177,6 +186,16 @@ async function waitAndGetValue(selector, page = metamaskWindow) {
   const property = await element.getProperty('value');
   const value = await property.jsonValue();
   return value;
+}
+
+async function waitAndSetValue(text, selector, page = metamaskWindow) {
+  await waitFor(selector, page);
+  await page.evaluate(
+    selector => (document.querySelector(selector).value = ''),
+    selector,
+  );
+  await page.focus(selector);
+  await page.keyboard.type(text);
 }
 
 async function waitForText(selector, text, page = metamaskWindow) {
@@ -311,6 +330,33 @@ async function acceptMetamaskAccess() {
   const notificationPage = await switchToMetamaskNotification();
   await waitAndClick(notificationPageElements.nextButton, notificationPage);
   await waitAndClick(permissionsPageElements.connectButton, notificationPage);
+  await metamaskWindow.waitForTimeout(3000);
+  return true;
+}
+
+async function confirmMetamaskTransaction() {
+  await metamaskWindow.waitForTimeout(3000);
+  const notificationPage = await switchToMetamaskNotification();
+  const currentGasFee = await waitAndGetValue(
+    confirmPageElements.gasFeeInput,
+    notificationPage,
+  );
+  const newGasFee = (Number(currentGasFee) + 10).toString();
+  await waitAndSetValue(
+    newGasFee,
+    confirmPageElements.gasFeeInput,
+    notificationPage,
+  );
+  await waitAndClick(confirmPageElements.confirmButton, notificationPage);
+  await metamaskWindow.waitForTimeout(3000);
+  return true;
+}
+
+async function rejectMetamaskTransaction() {
+  await metamaskWindow.waitForTimeout(3000);
+  const notificationPage = await switchToMetamaskNotification();
+  await waitAndClick(confirmPageElements.rejectButton, notificationPage);
+  await metamaskWindow.waitForTimeout(3000);
   return true;
 }
 
