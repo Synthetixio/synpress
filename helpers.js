@@ -1,6 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 const unzip = require('unzipper');
+const path = require('path');
 
 module.exports = {
   getSynpressPath: () => {
@@ -33,5 +34,17 @@ module.exports = {
     await new Promise(resolve =>
       stream.pipe(unzip.Extract({ path: destination }).on('close', resolve)),
     );
+  },
+  prepareMetamask: async () => {
+    const release = await this.getMetamaskReleases();
+    const downloadsDirectory = path.resolve(__dirname, 'downloads');
+    if (!fs.existsSync(downloadsDirectory)) {
+      fs.mkdirSync(downloadsDirectory);
+    }
+    const downloadDestination = path.join(downloadsDirectory, release.filename);
+    await this.download(release.downloadUrl, downloadDestination);
+    const metamaskDirectory = path.join(downloadsDirectory, 'metamask');
+    await this.extract(downloadDestination, metamaskDirectory);
+    return metamaskDirectory;
   },
 };
