@@ -6,9 +6,15 @@ let mainWindow;
 let metamaskWindow;
 
 module.exports = {
-  puppeteerBrowser,
-  mainWindow,
-  metamaskWindow,
+  puppeteerBrowser: () => {
+    return puppeteerBrowser;
+  },
+  mainWindow: () => {
+    return mainWindow;
+  },
+  metamaskWindow: () => {
+    return metamaskWindow;
+  },
   init: async () => {
     const debuggerDetails = await fetch('http://localhost:9222/json/version');
     const debuggerDetailsConfig = await debuggerDetails.json();

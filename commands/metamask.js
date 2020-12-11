@@ -22,13 +22,13 @@ module.exports = {
   walletAddress,
   // workaround for metamask random blank page on first run
   fixBlankPage: async () => {
-    await puppeteer.metamaskWindow.waitForTimeout(1000);
+    await puppeteer.metamaskWindow().waitForTimeout(1000);
     for (let times = 0; times < 5; times++) {
       if (
-        (await puppeteer.metamaskWindow.$(welcomePageElements.app)) === null
+        (await puppeteer.metamaskWindow().$(welcomePageElements.app)) === null
       ) {
-        await puppeteer.metamaskWindow.reload();
-        await puppeteer.metamaskWindow.waitForTimeout(2000);
+        await puppeteer.metamaskWindow().reload();
+        await puppeteer.metamaskWindow().waitForTimeout(2000);
       } else {
         break;
       }
@@ -66,13 +66,13 @@ module.exports = {
     // metamask hangs, reload as workaround
     // await puppeteer.waitAndClick(endOfFlowPageElements.allDoneButton);
     await puppeteer.waitFor(pageElements.loadingSpinner);
-    await puppeteer.metamaskWindow.reload();
+    await puppeteer.metamaskWindow().reload();
     await puppeteer.waitAndClick(revealSeedPageElements.remindLaterButton);
     await puppeteer.waitFor(mainPageElements.walletOverview);
 
     // close popup if present
     if (
-      (await puppeteer.metamaskWindow.$(mainPageElements.popup.container)) !==
+      (await puppeteer.metamaskWindow().$(mainPageElements.popup.container)) !==
       null
     ) {
       await puppeteer.waitAndClick(mainPageElements.popup.closeButton);
@@ -113,7 +113,7 @@ module.exports = {
     return true;
   },
   acceptAccess: async () => {
-    await puppeteer.metamaskWindow.waitForTimeout(3000);
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     await puppeteer.waitAndClick(
       notificationPageElements.nextButton,
@@ -123,11 +123,11 @@ module.exports = {
       permissionsPageElements.connectButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow.waitForTimeout(3000);
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
     return true;
   },
   confirmTransaction: async () => {
-    await puppeteer.metamaskWindow.waitForTimeout(3000);
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     const currentGasFee = await puppeteer.waitAndGetValue(
       confirmPageElements.gasFeeInput,
@@ -143,17 +143,17 @@ module.exports = {
       confirmPageElements.confirmButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow.waitForTimeout(3000);
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
     return true;
   },
   rejectTransaction: async () => {
-    await puppeteer.metamaskWindow.waitForTimeout(3000);
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     await puppeteer.waitAndClick(
       confirmPageElements.rejectButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow.waitForTimeout(3000);
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
     return true;
   },
   getWalletAddress: async () => {
@@ -171,9 +171,10 @@ module.exports = {
     }
     await puppeteer.init();
     await puppeteer.assignWindows();
-    await puppeteer.metamaskWindow.waitForTimeout(1000);
+    await puppeteer.metamaskWindow().waitForTimeout(1000);
     if (
-      (await puppeteer.metamaskWindow.$(unlockPageElements.unlockPage)) === null
+      (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) ===
+      null
     ) {
       await module.exports.confirmWelcomePage();
       await module.exports.importWallet(secretWords, password);
