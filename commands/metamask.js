@@ -35,12 +35,12 @@ module.exports = {
     }
   },
   confirmWelcomePage: async () => {
-    await this.fixBlankPage();
+    await module.exports.fixBlankPage();
     await puppeteer.waitAndClick(welcomePageElements.confirmButton);
     return true;
   },
   unlock: async password => {
-    await this.fixBlankPage();
+    await module.exports.fixBlankPage();
     await puppeteer.waitAndType(unlockPageElements.passwordInput, password);
     await puppeteer.waitAndClick(unlockPageElements.unlockButton);
     return true;
@@ -175,15 +175,15 @@ module.exports = {
     if (
       (await puppeteer.metamaskWindow.$(unlockPageElements.unlockPage)) === null
     ) {
-      await this.confirmWelcomePage();
-      await this.importWallet(secretWords, password);
-      await this.changeNetwork(network);
-      walletAddress = await this.getWalletAddress();
+      await module.exports.confirmWelcomePage();
+      await module.exports.importWallet(secretWords, password);
+      await module.exports.changeNetwork(network);
+      walletAddress = await module.exports.getWalletAddress();
       await puppeteer.switchToCypressWindow();
       return true;
     } else {
-      await this.unlock(password);
-      walletAddress = await this.getWalletAddress();
+      await module.exports.unlock(password);
+      walletAddress = await module.exports.getWalletAddress();
       await puppeteer.switchToCypressWindow();
       return true;
     }
