@@ -70,26 +70,26 @@ module.exports = {
     await page.waitForTimeout(300);
   },
   waitAndClick: async (selector, page = metamaskWindow) => {
-    await this.waitFor(selector, page);
+    await module.exports.waitFor(selector, page);
     await page.evaluate(
       selector => document.querySelector(selector).click(),
       selector,
     );
   },
   waitAndType: async (selector, value, page = metamaskWindow) => {
-    await this.waitFor(selector, page);
+    await module.exports.waitFor(selector, page);
     const element = await page.$(selector);
     await element.type(value);
   },
   waitAndGetValue: async (selector, page = metamaskWindow) => {
-    await this.waitFor(selector, page);
+    await module.exports.waitFor(selector, page);
     const element = await page.$(selector);
     const property = await element.getProperty('value');
     const value = await property.jsonValue();
     return value;
   },
   waitAndSetValue: async (text, selector, page = metamaskWindow) => {
-    await this.waitFor(selector, page);
+    await module.exports.waitFor(selector, page);
     await page.evaluate(
       selector => (document.querySelector(selector).value = ''),
       selector,
@@ -98,7 +98,7 @@ module.exports = {
     await page.keyboard.type(text);
   },
   waitForText: async (selector, text, page = metamaskWindow) => {
-    await this.waitFor(selector, page);
+    await module.exports.waitFor(selector, page);
     await page.waitForFunction(
       `document.querySelector('${selector}').innerText.toLowerCase().includes('${text}')`,
     );
