@@ -3,8 +3,8 @@ const fs = require('fs');
 const unzip = require('unzipper');
 const path = require('path');
 
-let networkName;
-let networkId;
+let networkName = 'mainnet';
+let networkId = 1;
 
 module.exports = {
   setNetwork: network => {
