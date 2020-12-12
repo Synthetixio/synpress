@@ -20,7 +20,9 @@ const { setNetwork, getNetwork } = require('../helpers');
 let walletAddress;
 
 module.exports = {
-  walletAddress,
+  walletAddress: () => {
+    return walletAddress;
+  },
   // workaround for metamask random blank page on first run
   fixBlankPage: async () => {
     await puppeteer.metamaskWindow().waitForTimeout(1000);
