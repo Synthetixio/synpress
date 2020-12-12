@@ -114,9 +114,15 @@ declare namespace Cypress {
     /**
      * Execute settle on Exchanger contract
      * @example
-     * cy.snxExchangerSettle('sETH', '123123123123123123...')
+     * cy.snxExchangerSettle('sETH', '0x...', '123123123123123123...')
      */
-    snxExchangerSettle(asset, privateKey): Chainable<Subject>;
+    snxExchangerSettle(asset, walletAddress, privateKey): Chainable<Subject>;
+    /**
+     * Check waiting period on Exchanger contract
+     * @example
+     * cy.snxCheckWaitingPeriod('sETH', '0x...')
+     */
+    snxCheckWaitingPeriod(asset, walletAddress): Chainable<Subject>;
     /**
      * Get current network
      * @example

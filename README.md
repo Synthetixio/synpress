@@ -72,7 +72,7 @@ module.exports = {
 
 3. You're done! 🎉
 
-Feel free to take a look at [kwenta](https://github.com/Synthetixio/kwenta) repository for setup example.
+Feel free to take a look at [kwenta](https://github.com/Synthetixio/kwenta/tree/master/tests/e2e) repository for setup example.
 
 ## 🧪 Usage
 
