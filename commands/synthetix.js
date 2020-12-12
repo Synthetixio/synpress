@@ -1,16 +1,19 @@
-const { synthetixJs } = require('synthetix-js');
+const { SynthetixJs } = require('synthetix-js');
 const { getNetwork } = require('../helpers');
 
 module.exports = {
   settle: async ({ asset, privateKey }) => {
+    if (privateKey === undefined && process.env.PRIVATE_KEY) {
+      privateKey = process.env.PRIVATE_KEY;
+    }
     const network = getNetwork();
-    const signer = new synthetixJs.signers.PrivateKey(
+    const signer = new SynthetixJs.signers.PrivateKey(
       // eslint-disable-next-line unicorn/no-null
       null,
       network,
       `0x${privateKey}`,
     );
-    const snxjs = new synthetixJs({ signer, network });
+    const snxjs = new SynthetixJs({ signer, network });
     const { toUtf8Bytes32 } = snxjs.utils;
 
     try {
