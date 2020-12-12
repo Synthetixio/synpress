@@ -26,7 +26,7 @@ It requires environmental variable called `SECRET_WORDS` to be present in follow
 
 If you want to customize it, instead of using environmental variable, you can modify [`setupMetamask()`](https://github.com/synthetixio/synpress/blob/master/support/index.js#L26) to following:
 
-`setupMetamask(secretWords, network, password)`, for example: `setupMetamask('word1, word2, etc..', 'main', 'password')`.
+`setupMetamask(secretWords, network, password)`, for example: `setupMetamask('word1, word2, etc..', 'mainnet', 'password')`.
 
 ## 👷 Example setup for eslint and tsconfig
 
