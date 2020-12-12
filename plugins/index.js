@@ -1,6 +1,7 @@
 const helpers = require('../helpers');
 const puppeteer = require('../commands/puppeteer');
 const metamask = require('../commands/metamask');
+const synthetix = require('../commands/synthetix');
 
 /**
  * @type {Cypress.PluginConfig}
@@ -100,6 +101,10 @@ module.exports = (on, config) => {
     },
     setupMetamask: async ({ secretWords, network, password }) => {
       return metamask.initialSetup({ secretWords, network, password });
+    },
+    snxExchangerSettle: async ({ asset, privateKey }) => {
+      const settled = await synthetix.settle({ asset, privateKey });
+      return settled;
     },
   });
 

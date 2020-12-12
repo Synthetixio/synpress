@@ -100,16 +100,22 @@ declare namespace Cypress {
      */
     unlockMetamask(password: string): Chainable<Subject>;
     /**
+     * Fetches previous metamask wallet address
+     * @example
+     * cy.fetchMetamaskWalletAddress().then(address => cy.log(address))
+     */
+    fetchMetamaskWalletAddress(): Chainable<Subject>;
+    /**
      * Run the flow for metamask setup
      * @example
      * cy.setupMetamask('secret, words, ...', 'rinkeby', 'password for metamask')
      */
     setupMetamask(secretWords, network, password): Chainable<Subject>;
     /**
-     * Fetches previous metamask wallet address
+     * Execute settle on Exchanger contract
      * @example
-     * cy.fetchMetamaskWalletAddress().then(address => cy.log(address))
+     * cy.snxExchangerSettle('sETH', '123123123123123123...')
      */
-    fetchMetamaskWalletAddress(): Chainable<Subject>;
+    snxExchangerSettle(asset, privateKey): Chainable<Subject>;
   }
 }
