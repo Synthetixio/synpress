@@ -118,3 +118,7 @@ Cypress.Commands.add(
     return cy.task('snxExchangerSettle', { asset, privateKey });
   },
 );
+
+Cypress.Commands.add('getNetwork', () => {
+  return cy.task('getNetwork');
+});

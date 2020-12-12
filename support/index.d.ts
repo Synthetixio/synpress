@@ -117,5 +117,11 @@ declare namespace Cypress {
      * cy.snxExchangerSettle('sETH', '123123123123123123...')
      */
     snxExchangerSettle(asset, privateKey): Chainable<Subject>;
+    /**
+     * Get current network
+     * @example
+     * cy.getNetwork()
+     */
+    getNetwork(): Chainable<Subject>;
   }
 }

@@ -18,6 +18,6 @@ module.exports = {
     const txn = await snxjs.Synthetix.settle(assetAsBytes32);
     console.log(`Settle executed: ${txn.hash}`);
     await txn.wait();
-    return true;
+    return txn.hash;
   },
 };

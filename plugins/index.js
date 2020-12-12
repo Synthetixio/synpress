@@ -107,6 +107,10 @@ module.exports = (on, config) => {
       const settled = await synthetix.settle({ asset, privateKey });
       return settled;
     },
+    getNetwork: () => {
+      const network = helpers.getNetwork();
+      return network;
+    },
   });
 
   if (process.env.BASE_URL) {
