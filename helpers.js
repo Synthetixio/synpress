@@ -3,7 +3,31 @@ const fs = require('fs');
 const unzip = require('unzipper');
 const path = require('path');
 
+let networkName = 'mainnet';
+let networkId = 1;
+
 module.exports = {
+  setNetwork: network => {
+    if (network === 'main' || network === 'mainnet' || network === 1) {
+      networkName = 'mainnet';
+      networkId = 1;
+    } else if (network === 'ropsten') {
+      networkName = 'ropsten';
+      networkId = 3;
+    } else if (network === 'kovan') {
+      networkName = 'kovan';
+      networkId = 42;
+    } else if (network === 'rinkeby') {
+      networkName = 'rinkeby';
+      networkId = 4;
+    } else if (network === 'goerli') {
+      networkName = 'goerli';
+      networkId = 5;
+    }
+  },
+  getNetwork: () => {
+    return { networkName, networkId };
+  },
   getSynpressPath: () => {
     return 'node_modules/@synthetixio/synpress';
   },

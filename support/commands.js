@@ -99,6 +99,12 @@ Cypress.Commands.add('unlockMetamask', (password = 'Tester@1234') => {
   return cy.task('unlockMetamask', password);
 });
 
+Cypress.Commands.add('fetchMetamaskWalletAddress', () => {
+  cy.task('fetchMetamaskWalletAddress').then(address => {
+    return address;
+  });
+});
+
 Cypress.Commands.add(
   'setupMetamask',
   (secretWords, network = 'rinkeby', password = 'Tester@1234') => {
@@ -106,8 +112,9 @@ Cypress.Commands.add(
   },
 );
 
-Cypress.Commands.add('fetchMetamaskWalletAddress', () => {
-  cy.task('fetchMetamaskWalletAddress').then(address => {
-    return address;
-  });
-});
+Cypress.Commands.add(
+  'snxExchangerSettle',
+  (asset, privateKey = process.env.PRIVATE_KEY) => {
+    return cy.task('snxExchangerSettle', { asset, privateKey });
+  },
+);

@@ -15,6 +15,7 @@ const {
   permissionsPageElements,
   confirmPageElements,
 } = require('../pages/metamask/notification-page');
+const { setNetwork } = require('../helpers');
 
 let walletAddress;
 
@@ -77,8 +78,9 @@ module.exports = {
     return true;
   },
   changeNetwork: async network => {
+    setNetwork(network);
     await puppeteer.waitAndClick(mainPageElements.networkSwitcher.button);
-    if (network === 'main') {
+    if (network === 'main' || network === 'mainnet') {
       await puppeteer.waitAndClick(
         mainPageElements.networkSwitcher.networkButton(0),
       );
