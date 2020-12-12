@@ -6,7 +6,7 @@ const {
   firstTimeFlowPageElements,
   metametricsPageElements,
   firstTimeFlowFormPageElements,
-  revealSeedPageElements,
+  endOfFlowPageElements,
 } = require('../pages/metamask/first-time-flow-page');
 const { mainPageElements } = require('../pages/metamask/main-page');
 const { unlockPageElements } = require('../pages/metamask/unlock-page');
@@ -63,11 +63,8 @@ module.exports = {
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.termsCheckbox);
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.importButton);
 
-    // metamask hangs, reload as workaround
-    // await puppeteer.waitAndClick(endOfFlowPageElements.allDoneButton);
     await puppeteer.waitFor(pageElements.loadingSpinner);
-    await puppeteer.metamaskWindow().reload();
-    await puppeteer.waitAndClick(revealSeedPageElements.remindLaterButton);
+    await puppeteer.waitAndClick(endOfFlowPageElements.allDoneButton);
     await puppeteer.waitFor(mainPageElements.walletOverview);
 
     // close popup if present
