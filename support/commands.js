@@ -115,7 +115,11 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'snxExchangerSettle',
   (asset, privateKey = process.env.PRIVATE_KEY) => {
-    return cy.task('snxExchangerSettle', { asset, privateKey });
+    return cy.task(
+      'snxExchangerSettle',
+      { asset, privateKey },
+      { timeout: 120000 },
+    );
   },
 );
 
