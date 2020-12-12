@@ -10,8 +10,7 @@ module.exports = {
     }
     const networkId = getNetwork().networkId;
     const signer = new SynthetixJs.signers.PrivateKey(
-      // eslint-disable-next-line unicorn/no-null
-      null,
+      undefined,
       networkId,
       `0x${privateKey}`,
     );
