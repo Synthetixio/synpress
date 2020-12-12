@@ -100,7 +100,8 @@ module.exports = (on, config) => {
       return metamask.walletAddress;
     },
     setupMetamask: async ({ secretWords, network, password }) => {
-      return metamask.initialSetup({ secretWords, network, password });
+      await metamask.initialSetup({ secretWords, network, password });
+      return true;
     },
     snxExchangerSettle: async ({ asset, privateKey }) => {
       const settled = await synthetix.settle({ asset, privateKey });
