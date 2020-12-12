@@ -5,28 +5,34 @@ const path = require('path');
 
 let networkName = 'mainnet';
 let networkId = 1;
+let isTestnet = false;
 
 module.exports = {
   setNetwork: network => {
     if (network === 'main' || network === 'mainnet' || network === 1) {
       networkName = 'mainnet';
       networkId = 1;
+      isTestnet = false;
     } else if (network === 'ropsten') {
       networkName = 'ropsten';
       networkId = 3;
+      isTestnet = true;
     } else if (network === 'kovan') {
       networkName = 'kovan';
       networkId = 42;
+      isTestnet = true;
     } else if (network === 'rinkeby') {
       networkName = 'rinkeby';
       networkId = 4;
+      isTestnet = true;
     } else if (network === 'goerli') {
       networkName = 'goerli';
       networkId = 5;
+      isTestnet = true;
     }
   },
   getNetwork: () => {
-    return { networkName, networkId };
+    return { networkName, networkId, isTestnet };
   },
   getSynpressPath: () => {
     return 'node_modules/@synthetixio/synpress';
