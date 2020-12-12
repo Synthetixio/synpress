@@ -114,14 +114,22 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   'snxExchangerSettle',
-  (asset, privateKey = process.env.PRIVATE_KEY) => {
+  (asset, walletAddress, privateKey = process.env.PRIVATE_KEY) => {
     return cy.task(
       'snxExchangerSettle',
-      { asset, privateKey },
+      { asset, walletAddress, privateKey },
       { timeout: 120000 },
     );
   },
 );
+
+Cypress.Commands.add('snxCheckWaitingPeriod', (asset, walletAddress) => {
+  return cy.task(
+    'snxCheckWaitingPeriod',
+    { asset, walletAddress },
+    { timeout: 30000 },
+  );
+});
 
 Cypress.Commands.add('getNetwork', () => {
   return cy.task('getNetwork');

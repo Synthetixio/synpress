@@ -97,15 +97,26 @@ module.exports = (on, config) => {
       return walletAddress;
     },
     fetchMetamaskWalletAddress: async () => {
-      return metamask.walletAddress;
+      return metamask.walletAddress();
     },
     setupMetamask: async ({ secretWords, network, password }) => {
       await metamask.initialSetup({ secretWords, network, password });
       return true;
     },
-    snxExchangerSettle: async ({ asset, privateKey }) => {
-      const settled = await synthetix.settle({ asset, privateKey });
+    snxExchangerSettle: async ({ asset, walletAddress, privateKey }) => {
+      const settled = await synthetix.settle({
+        asset,
+        walletAddress,
+        privateKey,
+      });
       return settled;
+    },
+    snxCheckWaitingPeriod: async ({ asset, walletAddress }) => {
+      const waitingPeriod = await synthetix.checkWaitingPeriod({
+        asset,
+        walletAddress,
+      });
+      return waitingPeriod;
     },
     getNetwork: () => {
       const network = helpers.getNetwork();
