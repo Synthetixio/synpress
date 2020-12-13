@@ -52,6 +52,7 @@ module.exports = {
       console.log(
         `Current length of entries in queue is ${currentLengthOfEntries}, no need to settle yet.`,
       );
+      return false;
     }
 
     async function sendSettleTx() {
@@ -61,7 +62,7 @@ module.exports = {
       return txn.hash;
     }
   },
-  checkWaitingPeriod: async (asset, walletAddress) => {
+  checkWaitingPeriod: async ({ asset, walletAddress }) => {
     if (walletAddress === undefined) {
       walletAddress = metamask.walletAddress();
     }
