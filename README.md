@@ -7,26 +7,52 @@
 
 [Synpress](https://github.com/Synthetixio/synpress) is an wrapper around [Cypress.io](https://github.com/cypress-io/cypress) with [metamask](https://metamask.io/) support thanks to [puppeteer](https://github.com/puppeteer/puppeteer).
 
-## ⚡ Important
+Synpress makes sure to always use latest version of metamask before tests are ran. It also provides an easy way to use metamask straight from your e2e tests.
 
-Synpress doesn't seem to communicate with metamask properly if `"chromeWebSecurity": false` flag is set. More about it [here](https://github.com/Synthetixio/synpress/issues/17).
+Feel free to take a look at [kwenta](https://github.com/Synthetixio/kwenta/tree/master/tests/e2e) repository for examples of usage.
 
-Tests work only in headed mode because extensions are not supported in headless mode in [puppeteer](https://github.com/puppeteer/puppeteer/issues/659) and [Cypress](https://docs.cypress.io/api/plugins/browser-launch-api.html#Add-browser-extensions). It's intended to be used in conjunction with `xvfb` on CI.
+For additional custom commands and their examples, [check here](https://github.com/synthetixio/synpress/blob/master/support/index.d.ts).
 
-Synpress downloads latest version of metamask before tests run and loads it automatically to the browser.
+## 🧪 Usage
 
-There is a global [`before()`](https://github.com/synthetixio/synpress/blob/master/support/index.js#L25) which runs metamask setup before all tests:
+- `synpress run` to run tests
+- `synpress open` to open Cypress UI
 
-- passes welcome page
-- imports wallet
-- changes network (defaults to `rinkeby`)
-- switches back to Cypress window and starts testing
+Command line interface (`synpress help`):
 
-It requires environmental variable called `SECRET_WORDS` to be present in following format => `'word1, word2, etc..'`.
+```text
+Usage: synpress run [options]
 
-If you want to customize it, instead of using environmental variable, you can modify [`setupMetamask()`](https://github.com/synthetixio/synpress/blob/master/support/index.js#L26) to following:
+launch tests
 
-`setupMetamask(secretWords, network, password)`, for example: `setupMetamask('word1, word2, etc..', 'mainnet', 'password')`.
+Options:
+  -b, --browser <name>               run on specified browser (default: "chrome")
+  -c, --config <config>              set configuration values, separate multiple values with a comma
+  -cf, --configFile <path>          specify a path to a JSON file where configuration values are set
+  -e, --env <env=val>                set environment variables, separate multiple values with comma
+  -s, --spec <path or glob>          run only provided spec files
+  -ne, --noExit                     keep runner open after tests finish
+  -pr, --project <path>              run with specific project path
+  -q, --quiet                        only test runner output in console
+  -r, --reporter <reporter>          specify mocha reporter
+  -ro, --reporterOptions <options>  specify mocha reporter options, separate multiple values with comma
+  -r, --record                       [dashboard] record video of tests running after setting up your project to record
+  -k, --key <key>                    [dashboard] set record key
+  -p, --parallel                     [dashboard] run recorded specs in parallel across multiple machines
+  -g, --group <name>                 [dashboard] group recorded tests together under a single run
+  -t, --tag <name>                   [dashboard] add tags to dashboard for test run
+  -h, --help                         display help for command
+```
+
+```text
+Usage: synpress open [options]
+
+launch test runner UI
+
+Options:
+  -cf, --configFile <path>  specify a path to a JSON file where configuration values are set
+  -h, --help                display help for command
+```
 
 ## 👷 Example setup for eslint and tsconfig
 
@@ -72,50 +98,24 @@ module.exports = {
 
 3. You're done! 🎉
 
-Feel free to take a look at [kwenta](https://github.com/Synthetixio/kwenta/tree/master/tests/e2e) repository for setup example.
+## ⚡ Important
 
-## 🧪 Usage
+Synpress doesn't seem to communicate with metamask properly if `"chromeWebSecurity": false` flag is set. More about it [here](https://github.com/Synthetixio/synpress/issues/17).
 
-- `synpress run` to run tests
-- `synpress open` to open Cypress UI
+Tests work only in headed mode because extensions are not supported in headless mode in [puppeteer](https://github.com/puppeteer/puppeteer/issues/659) and [Cypress](https://docs.cypress.io/api/plugins/browser-launch-api.html#Add-browser-extensions). It's intended to be used in conjunction with `xvfb` on CI.
 
-Take a look [here](https://github.com/synthetixio/synpress/blob/master/support/index.d.ts) for additional custom commands and their examples.
+There is a global [`before()`](https://github.com/synthetixio/synpress/blob/master/support/index.js#L25) which runs metamask setup before all tests:
 
-Command line interface (`synpress help`):
+- passes welcome page
+- imports wallet
+- changes network (defaults to `rinkeby`)
+- switches back to Cypress window and starts testing
 
-```text
-Usage: synpress run [options]
+It requires environmental variable called `SECRET_WORDS` to be present in following format => `'word1, word2, etc..'`.
 
-launch tests
+If you want to customize it, instead of using environmental variable, you can modify [`setupMetamask()`](https://github.com/synthetixio/synpress/blob/master/support/index.js#L26) to following:
 
-Options:
-  -b, --browser <name>               run on specified browser (default: "chrome")
-  -c, --config <config>              set configuration values, separate multiple values with a comma
-  -cf, --configFile <path>          specify a path to a JSON file where configuration values are set
-  -e, --env <env=val>                set environment variables, separate multiple values with comma
-  -s, --spec <path or glob>          run only provided spec files
-  -ne, --noExit                     keep runner open after tests finish
-  -pr, --project <path>              run with specific project path
-  -q, --quiet                        only test runner output in console
-  -r, --reporter <reporter>          specify mocha reporter
-  -ro, --reporterOptions <options>  specify mocha reporter options, separate multiple values with comma
-  -r, --record                       [dashboard] record video of tests running after setting up your project to record
-  -k, --key <key>                    [dashboard] set record key
-  -p, --parallel                     [dashboard] run recorded specs in parallel across multiple machines
-  -g, --group <name>                 [dashboard] group recorded tests together under a single run
-  -t, --tag <name>                   [dashboard] add tags to dashboard for test run
-  -h, --help                         display help for command
-```
-
-```text
-Usage: synpress open [options]
-
-launch test runner UI
-
-Options:
-  -cf, --configFile <path>  specify a path to a JSON file where configuration values are set
-  -h, --help                display help for command
-```
+`setupMetamask(secretWords, network, password)`, for example: `setupMetamask('word1, word2, etc..', 'mainnet', 'password')`.
 
 ## 🚢 Release process
 
