@@ -7,52 +7,13 @@
 
 [Synpress](https://github.com/Synthetixio/synpress) is an wrapper around [Cypress.io](https://github.com/cypress-io/cypress) with [metamask](https://metamask.io/) support thanks to [puppeteer](https://github.com/puppeteer/puppeteer).
 
-Synpress makes sure to always use latest version of metamask before tests are ran. It also provides an easy way to use metamask straight from your e2e tests.
+Synpress makes sure to always use latest version of metamask before tests are ran.
+
+It also provides an easy way to use metamask straight from your e2e tests.
 
 Feel free to take a look at [kwenta](https://github.com/Synthetixio/kwenta/tree/master/tests/e2e) repository for examples of usage.
 
 For additional custom commands and their examples, [check here](https://github.com/synthetixio/synpress/blob/master/support/index.d.ts).
-
-## 🧪 Usage
-
-- `synpress run` to run tests
-- `synpress open` to open Cypress UI
-
-Command line interface (`synpress help`):
-
-```text
-Usage: synpress run [options]
-
-launch tests
-
-Options:
-  -b, --browser <name>               run on specified browser (default: "chrome")
-  -c, --config <config>              set configuration values, separate multiple values with a comma
-  -cf, --configFile <path>          specify a path to a JSON file where configuration values are set
-  -e, --env <env=val>                set environment variables, separate multiple values with comma
-  -s, --spec <path or glob>          run only provided spec files
-  -ne, --noExit                     keep runner open after tests finish
-  -pr, --project <path>              run with specific project path
-  -q, --quiet                        only test runner output in console
-  -r, --reporter <reporter>          specify mocha reporter
-  -ro, --reporterOptions <options>  specify mocha reporter options, separate multiple values with comma
-  -r, --record                       [dashboard] record video of tests running after setting up your project to record
-  -k, --key <key>                    [dashboard] set record key
-  -p, --parallel                     [dashboard] run recorded specs in parallel across multiple machines
-  -g, --group <name>                 [dashboard] group recorded tests together under a single run
-  -t, --tag <name>                   [dashboard] add tags to dashboard for test run
-  -h, --help                         display help for command
-```
-
-```text
-Usage: synpress open [options]
-
-launch test runner UI
-
-Options:
-  -cf, --configFile <path>  specify a path to a JSON file where configuration values are set
-  -h, --help                display help for command
-```
 
 ## 👷 Example setup for eslint and tsconfig
 
@@ -116,6 +77,47 @@ It requires environmental variable called `SECRET_WORDS` to be present in follow
 If you want to customize it, instead of using environmental variable, you can modify [`setupMetamask()`](https://github.com/synthetixio/synpress/blob/master/support/index.js#L26) to following:
 
 `setupMetamask(secretWords, network, password)`, for example: `setupMetamask('word1, word2, etc..', 'mainnet', 'password')`.
+
+## 🧪 Usage
+
+- `synpress run` to run tests
+- `synpress open` to open Cypress UI
+
+Command line interface (`synpress help`):
+
+```text
+Usage: synpress run [options]
+
+launch tests
+
+Options:
+  -b, --browser <name>               run on specified browser (default: "chrome")
+  -c, --config <config>              set configuration values, separate multiple values with a comma
+  -cf, --configFile <path>          specify a path to a JSON file where configuration values are set
+  -e, --env <env=val>                set environment variables, separate multiple values with comma
+  -s, --spec <path or glob>          run only provided spec files
+  -ne, --noExit                     keep runner open after tests finish
+  -pr, --project <path>              run with specific project path
+  -q, --quiet                        only test runner output in console
+  -r, --reporter <reporter>          specify mocha reporter
+  -ro, --reporterOptions <options>  specify mocha reporter options, separate multiple values with comma
+  -r, --record                       [dashboard] record video of tests running after setting up your project to record
+  -k, --key <key>                    [dashboard] set record key
+  -p, --parallel                     [dashboard] run recorded specs in parallel across multiple machines
+  -g, --group <name>                 [dashboard] group recorded tests together under a single run
+  -t, --tag <name>                   [dashboard] add tags to dashboard for test run
+  -h, --help                         display help for command
+```
+
+```text
+Usage: synpress open [options]
+
+launch test runner UI
+
+Options:
+  -cf, --configFile <path>  specify a path to a JSON file where configuration values are set
+  -h, --help                display help for command
+```
 
 ## 🚢 Release process
 
