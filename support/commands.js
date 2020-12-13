@@ -118,7 +118,7 @@ Cypress.Commands.add(
     return cy.task(
       'snxExchangerSettle',
       { asset, walletAddress, privateKey },
-      { timeout: 120000 },
+      { timeout: 300000 },
     );
   },
 );
@@ -127,7 +127,7 @@ Cypress.Commands.add('snxCheckWaitingPeriod', (asset, walletAddress) => {
   return cy.task(
     'snxCheckWaitingPeriod',
     { asset, walletAddress },
-    { timeout: 30000 },
+    { timeout: 200000 },
   );
 });
 
