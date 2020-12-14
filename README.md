@@ -7,26 +7,13 @@
 
 [Synpress](https://github.com/Synthetixio/synpress) is an wrapper around [Cypress.io](https://github.com/cypress-io/cypress) with [metamask](https://metamask.io/) support thanks to [puppeteer](https://github.com/puppeteer/puppeteer).
 
-## ⚡ Important
+Synpress makes sure to always use latest version of metamask before tests are ran.
 
-Synpress doesn't seem to communicate with metamask properly if `"chromeWebSecurity": false` flag is set. More about it [here](https://github.com/Synthetixio/synpress/issues/17).
+It also provides an easy way to use metamask straight from your e2e tests.
 
-Tests work only in headed mode because extensions are not supported in headless mode in [puppeteer](https://github.com/puppeteer/puppeteer/issues/659) and [Cypress](https://docs.cypress.io/api/plugins/browser-launch-api.html#Add-browser-extensions). It's intended to be used in conjunction with `xvfb` on CI.
+Feel free to take a look at [kwenta](https://github.com/Synthetixio/kwenta/tree/master/tests/e2e) repository for examples of usage.
 
-Synpress downloads latest version of metamask before tests run and loads it automatically to the browser.
-
-There is a global [`before()`](https://github.com/synthetixio/synpress/blob/master/support/index.js#L25) which runs metamask setup before all tests:
-
-- passes welcome page
-- imports wallet
-- changes network (defaults to `rinkeby`)
-- switches back to Cypress window and starts testing
-
-It requires environmental variable called `SECRET_WORDS` to be present in following format => `'word1, word2, etc..'`.
-
-If you want to customize it, instead of using environmental variable, you can modify [`setupMetamask()`](https://github.com/synthetixio/synpress/blob/master/support/index.js#L26) to following:
-
-`setupMetamask(secretWords, network, password)`, for example: `setupMetamask('word1, word2, etc..', 'mainnet', 'password')`.
+For additional custom commands and their examples, [check here](https://github.com/synthetixio/synpress/blob/master/support/index.d.ts).
 
 ## 👷 Example setup for eslint and tsconfig
 
@@ -72,14 +59,29 @@ module.exports = {
 
 3. You're done! 🎉
 
-Feel free to take a look at [kwenta](https://github.com/Synthetixio/kwenta/tree/master/tests/e2e) repository for setup example.
+## ⚡ Important
+
+Synpress doesn't seem to communicate with metamask properly if `"chromeWebSecurity": false` flag is set. More about it [here](https://github.com/Synthetixio/synpress/issues/17).
+
+Tests work only in headed mode because extensions are not supported in headless mode in [puppeteer](https://github.com/puppeteer/puppeteer/issues/659) and [Cypress](https://docs.cypress.io/api/plugins/browser-launch-api.html#Add-browser-extensions). It's intended to be used in conjunction with `xvfb` on CI.
+
+There is a global [`before()`](https://github.com/synthetixio/synpress/blob/master/support/index.js#L25) which runs metamask setup before all tests:
+
+- passes welcome page
+- imports wallet
+- changes network (defaults to `rinkeby`)
+- switches back to Cypress window and starts testing
+
+It requires environmental variable called `SECRET_WORDS` to be present in following format => `'word1, word2, etc..'`.
+
+If you want to customize it, instead of using environmental variable, you can modify [`setupMetamask()`](https://github.com/synthetixio/synpress/blob/master/support/index.js#L26) to following:
+
+`setupMetamask(secretWords, network, password)`, for example: `setupMetamask('word1, word2, etc..', 'mainnet', 'password')`.
 
 ## 🧪 Usage
 
 - `synpress run` to run tests
 - `synpress open` to open Cypress UI
-
-Take a look [here](https://github.com/synthetixio/synpress/blob/master/support/index.d.ts) for additional custom commands and their examples.
 
 Command line interface (`synpress help`):
 
