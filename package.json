@@ -52,7 +52,7 @@
         "babel-plugin-transform-react-styled-components-qa": "2.0.1",
         "bytes32": "0.0.3",
         "commander": "6.2.0",
-        "cypress": "6.1.0",
+        "cypress": "6.2.0",
         "cypress-wait-until": "1.7.1",
         "eslint": "7.15.0",
         "eslint-config-prettier": "7.0.0",
