@@ -1,5 +1,7 @@
 const loadingSpinner = '.lds-spinner';
 
-export const pageElements = {
+const pageElements = {
   loadingSpinner,
 };
+
+module.exports = pageElements;

@@ -2,8 +2,12 @@ const unlockPage = '.unlock-page';
 const passwordInput = `${unlockPage} #password`;
 const unlockButton = `${unlockPage} button`;
 
-export const unlockPageElements = {
+const unlockPageElements = {
   unlockPage,
   passwordInput,
   unlockButton,
 };
+
+module.exports = {
+  unlockPageElements
+}

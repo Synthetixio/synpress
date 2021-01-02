@@ -20,10 +20,14 @@ const accountModal = {
   closeButton: '.account-modal__close',
 };
 
-export const mainPageElements = {
+const mainPageElements = {
   networkSwitcher,
   walletOverview,
   popup,
   options,
   accountModal,
 };
+
+module.exports = {
+  mainPageElements
+}
