@@ -45,7 +45,7 @@
         "@testing-library/react": "11.2.2",
         "@types/puppeteer-core": "2.0.0",
         "@types/testing-library__cypress": "5.0.8",
-        "axios": "0.21.0",
+        "axios": "0.21.1",
         "babel-plugin-react-generate-property": "1.0.5",
         "babel-plugin-react-remove-properties": "0.3.0",
         "babel-plugin-transform-react-qa-classes": "1.6.0",
