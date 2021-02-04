@@ -71,7 +71,7 @@
         "prettier": "2.2.1",
         "puppeteer-core": "5.5.0",
         "start-server-and-test": "1.11.6",
-        "synthetix-js": "2.35.0-ovm-no-old-deposit",
+        "synthetix-js": "2.37.2",
         "unzipper": "0.10.11"
     },
     "devDependencies": {
