@@ -40,19 +40,19 @@
         "update:deps": "ncu -u && npm install"
     },
     "dependencies": {
-        "@synthetixio/js": "2.35.0-ovm",
+        "@synthetixio/js": "2.39.0",
         "@testing-library/cypress": "7.0.2",
         "@testing-library/react": "11.2.2",
         "@types/puppeteer-core": "2.0.0",
         "@types/testing-library__cypress": "5.0.8",
-        "axios": "0.21.0",
+        "axios": "0.21.1",
         "babel-plugin-react-generate-property": "1.0.5",
         "babel-plugin-react-remove-properties": "0.3.0",
         "babel-plugin-transform-react-qa-classes": "1.6.0",
         "babel-plugin-transform-react-styled-components-qa": "2.0.1",
         "bytes32": "0.0.3",
         "commander": "6.2.0",
-        "cypress": "6.1.0",
+        "cypress": "6.4.0",
         "cypress-wait-until": "1.7.1",
         "eslint": "7.15.0",
         "eslint-config-prettier": "7.0.0",
@@ -71,7 +71,7 @@
         "prettier": "2.2.1",
         "puppeteer-core": "5.5.0",
         "start-server-and-test": "1.11.6",
-        "synthetix-js": "2.35.0-ovm-no-old-deposit",
+        "synthetix-js": "2.39.0",
         "unzipper": "0.10.11"
     },
     "devDependencies": {
