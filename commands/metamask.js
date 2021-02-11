@@ -15,7 +15,7 @@ const {
   permissionsPageElements,
   confirmPageElements,
 } = require('../pages/metamask/notification-page');
-const { setNetwork, getNetwork } = require('../helpers');
+const { setNetwork } = require('../helpers');
 
 let walletAddress;
 
@@ -128,16 +128,13 @@ module.exports = {
     return true;
   },
   confirmTransaction: async () => {
-    const isTestnet = getNetwork().isTestnet;
     await puppeteer.metamaskWindow().waitForTimeout(3000);
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     const currentGasFee = await puppeteer.waitAndGetValue(
       confirmPageElements.gasFeeInput,
       notificationPage,
     );
-    const newGasFee = isTestnet
-      ? '10'
-      : (Number(currentGasFee) + 10).toString();
+    const newGasFee = (Number(currentGasFee) + 10).toString();
     await puppeteer.waitAndSetValue(
       newGasFee,
       confirmPageElements.gasFeeInput,

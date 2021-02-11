@@ -1,6 +1,6 @@
 const networkSwitcher = {
-  button: '.ethereum-network',
-  networkName: '.network-name',
+  button: '.network-display',
+  networkName: '.typography',
   networkButton: number => `.dropdown-menu-item:nth-child(${3 + number})`,
 };
 
