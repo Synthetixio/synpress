@@ -26,9 +26,11 @@ module.exports = (on, config) => {
 
     // metamask welcome screen blocks cypress from loading
     if (browser.name === 'chrome') {
-      arguments_.args.push('--disable-background-timer-throttling');
-      arguments_.args.push('--disable-backgrounding-occluded-windows');
-      arguments_.args.push('--disable-renderer-backgrounding');
+      arguments_.args.push(
+        '--disable-background-timer-throttling',
+        '--disable-backgrounding-occluded-windows',
+        '--disable-renderer-backgrounding',
+      );
     }
 
     // NOTE: extensions cannot be loaded in headless Chrome
