@@ -40,7 +40,7 @@
         "update:deps": "ncu -u && npm install"
     },
     "dependencies": {
-        "@synthetixio/js": "2.39.0",
+        "@synthetixio/js": "2.39.1",
         "@testing-library/cypress": "7.0.3",
         "@testing-library/react": "11.2.5",
         "@types/puppeteer-core": "5.4.0",
