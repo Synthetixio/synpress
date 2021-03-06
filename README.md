@@ -78,6 +78,8 @@ If you want to customize it, instead of using environmental variable, you can mo
 
 `setupMetamask(secretWords, network, password)`, for example: `setupMetamask('word1, word2, etc..', 'mainnet', 'password')`.
 
+Metamask version is hardcoded and frequently updated under supervision to avoid a case when e2e tests break because of CSS classes changes in new version. You can override metamask with `METAMASK_VERSION` environmental variable, for example: `METAMASK_VERSION=9.1.1`.
+
 ## 🧪 Usage
 
 - `synpress run` to run tests

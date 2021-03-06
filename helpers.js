@@ -37,12 +37,22 @@ module.exports = {
   getSynpressPath: () => {
     return 'node_modules/@synthetixio/synpress';
   },
-  getMetamaskReleases: async () => {
+  getMetamaskReleases: async version => {
+    let filename;
+    let downloadUrl;
+
     const response = await axios.get(
       'https://api.github.com/repos/metamask/metamask-extension/releases',
     );
-    const filename = response.data[0].assets[0].name;
-    const downloadUrl = response.data[0].assets[0].browser_download_url;
+
+    if (version) {
+      filename = `metamask-chrome-${version}.zip`;
+      downloadUrl = `https://github.com/MetaMask/metamask-extension/releases/download/v${version}/metamask-chrome-${version}.zip`;
+    } else {
+      filename = response.data[0].assets[0].name;
+      downloadUrl = response.data[0].assets[0].browser_download_url;
+    }
+
     return {
       filename,
       downloadUrl,
@@ -65,8 +75,8 @@ module.exports = {
       stream.pipe(unzip.Extract({ path: destination }).on('close', resolve)),
     );
   },
-  prepareMetamask: async () => {
-    const release = await module.exports.getMetamaskReleases();
+  prepareMetamask: async version => {
+    const release = await module.exports.getMetamaskReleases(version);
     const downloadsDirectory = path.resolve(__dirname, 'downloads');
     if (!fs.existsSync(downloadsDirectory)) {
       fs.mkdirSync(downloadsDirectory);

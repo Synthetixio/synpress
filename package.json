@@ -40,8 +40,8 @@
         "update:deps": "ncu -u && npm install"
     },
     "dependencies": {
-        "@synthetixio/js": "2.39.0",
-        "@testing-library/cypress": "7.0.3",
+        "@synthetixio/js": "2.39.3",
+        "@testing-library/cypress": "7.0.4",
         "@testing-library/react": "11.2.5",
         "@types/puppeteer-core": "5.4.0",
         "@types/testing-library__cypress": "5.0.8",
@@ -51,11 +51,11 @@
         "babel-plugin-transform-react-qa-classes": "1.6.0",
         "babel-plugin-transform-react-styled-components-qa": "2.0.1",
         "bytes32": "0.0.3",
-        "commander": "7.0.0",
-        "cypress": "6.4.0",
+        "commander": "7.1.0",
+        "cypress": "6.6.0",
         "cypress-wait-until": "1.7.1",
-        "eslint": "7.19.0",
-        "eslint-config-prettier": "7.2.0",
+        "eslint": "7.21.0",
+        "eslint-config-prettier": "8.1.0",
         "eslint-config-standard": "16.0.2",
         "eslint-plugin-chai-friendly": "0.6.0",
         "eslint-plugin-cypress": "2.11.2",
@@ -66,18 +66,18 @@
         "eslint-plugin-standard": "4.1.0",
         "eslint-plugin-testing-library": "3.10.1",
         "eslint-plugin-ui-testing": "1.0.2",
-        "eslint-plugin-unicorn": "28.0.0",
+        "eslint-plugin-unicorn": "28.0.2",
         "node-fetch": "2.6.1",
         "prettier": "2.2.1",
-        "puppeteer-core": "7.0.4",
+        "puppeteer-core": "8.0.0",
         "start-server-and-test": "1.12.0",
-        "synthetix-js": "2.39.0",
+        "synthetix-js": "2.39.3",
         "unzipper": "0.10.11"
     },
     "devDependencies": {
         "@microsoft/eslint-formatter-sarif": "2.1.5",
-        "npm-check-updates": "11.1.1",
-        "release-it": "14.3.0"
+        "npm-check-updates": "11.1.10",
+        "release-it": "14.4.1"
     },
     "engines": {
         "node": ">=10"
