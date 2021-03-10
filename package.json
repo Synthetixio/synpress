@@ -83,6 +83,8 @@
         "node": ">=10"
     },
     "publishConfig": {
-        "access": "public"
+        "access": "public",
+        "cache": "~/.npm",
+        "registry": "https://npm.pkg.github.com"
     }
 }
