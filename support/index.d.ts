@@ -48,7 +48,7 @@ declare namespace Cypress {
     /**
      * Change network in metamask
      * @example
-     * cy.changeMetamaskNetwork('rinkeby')
+     * cy.changeMetamaskNetwork('kovan')
      */
     changeMetamaskNetwork(network: string): Chainable<Subject>;
     /**
@@ -108,7 +108,7 @@ declare namespace Cypress {
     /**
      * Run the flow for metamask setup
      * @example
-     * cy.setupMetamask('secret, words, ...', 'rinkeby', 'password for metamask')
+     * cy.setupMetamask('secret, words, ...', 'kovan', 'password for metamask')
      */
     setupMetamask(secretWords, network, password): Chainable<Subject>;
     /**
