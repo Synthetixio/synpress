@@ -69,7 +69,7 @@ There is a global [`before()`](https://github.com/synthetixio/synpress/blob/mast
 
 - passes welcome page
 - imports wallet
-- changes network (defaults to `rinkeby`)
+- changes network (defaults to `kovan`)
 - switches back to Cypress window and starts testing
 
 It requires environmental variable called `SECRET_WORDS` to be present in following format => `'word1, word2, etc..'`.
