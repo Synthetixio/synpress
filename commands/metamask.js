@@ -143,6 +143,8 @@ module.exports = {
       confirmPageElements.gasFeeInput,
       notificationPage,
     );
+    // metamask reloads popup after changing a fee, you have to wait for this event otherwise transaction will fail
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
     await puppeteer.waitAndClick(
       confirmPageElements.confirmButton,
       notificationPage,
