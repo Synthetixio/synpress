@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/synthetixio/docker-node/alpine:12.19
+      image: ghcr.io/synthetixio/docker-node/alpine:12.21
       credentials:
         username: synthetixio
         password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
@@ -61,7 +61,7 @@ jobs:
     - name: Lint
       # run only on master/dev branch and pull requests
       if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || github.event_name == 'pull_request'
-      run: npm run lint:sarif
+      run: node lint.js . --ext js
 
     - name: Upload lint results
       # run if lint failed and only on master/dev branch and pull requests
