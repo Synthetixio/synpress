@@ -23,7 +23,6 @@ module.exports = {
     puppeteerBrowser = await puppeteer.connect({
       browserWSEndpoint: webSocketDebuggerUrl,
       ignoreHTTPSErrors: true,
-      // eslint-disable-next-line unicorn/no-null
       defaultViewport: null,
     });
     return puppeteerBrowser.isConnected();
