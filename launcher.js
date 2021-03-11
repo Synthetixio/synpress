@@ -75,12 +75,6 @@ const launcher = {
     }
 
     const runOptions = await cypress.cli.parseRunArguments(defaultArguments);
-    if (!arguments_.configFile) {
-      runOptions.configFile = synpressConfigPath;
-    } else {
-      runOptions.configFile = arguments_.configFile;
-    }
-
     const results = await cypress.run(runOptions);
     if (results.failures) {
       console.error('Failed to run Cypress');
