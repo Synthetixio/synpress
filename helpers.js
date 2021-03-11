@@ -1,6 +1,6 @@
 const axios = require('axios');
 const fs = require('fs');
-const unzip = require('unzipper');
+const extractZip = require('extract-zip');
 const path = require('path');
 
 let networkName = 'mainnet';
@@ -70,10 +70,7 @@ module.exports = {
     );
   },
   extract: async (file, destination) => {
-    const stream = fs.createReadStream(file);
-    await new Promise(resolve =>
-      stream.pipe(unzip.Extract({ path: destination }).on('close', resolve)),
-    );
+    await extractZip(file, { dir: destination });
   },
   prepareMetamask: async version => {
     const release = await module.exports.getMetamaskReleases(version);
