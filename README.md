@@ -59,6 +59,10 @@ module.exports = {
 
 3. You're done! 🎉
 
+If you would like to use custom paths for your tests and configs, feel free to mirror [default synpress config](https://github.com/Synthetixio/synpress/blob/dev/synpress.json) and modify it for your needs. Then you can direct synpress to use it with `--configFile` flag.
+
+For example: `synpress run --configFile __tests__/e2e/customConfig.json`
+
 ## ⚡ Important
 
 Synpress doesn't seem to communicate with metamask properly if `"chromeWebSecurity": false` flag is set. More about it [here](https://github.com/Synthetixio/synpress/issues/17).
