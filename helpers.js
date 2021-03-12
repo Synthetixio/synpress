@@ -1,6 +1,6 @@
 const axios = require('axios');
 const fs = require('fs');
-const extractZip = require('extract-zip');
+const zip = require('cross-zip');
 const path = require('path');
 
 let networkName = 'mainnet';
@@ -70,7 +70,7 @@ module.exports = {
     );
   },
   extract: async (file, destination) => {
-    await extractZip(file, { dir: destination });
+    await zip.unzip(file, destination);
   },
   prepareMetamask: async version => {
     const release = await module.exports.getMetamaskReleases(version);
