@@ -52,10 +52,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     - name: Release ${{ github.event.inputs.version }}
-      run: npm run release:${{ github.event.inputs.version }}
+      run: npm run release:${{ github.event.inputs.version }} --ci
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-# blocker:
-# https://github.com/release-it/release-it/issues/742
