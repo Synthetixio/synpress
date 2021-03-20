@@ -1,5 +1,7 @@
 [![npm version](https://badge.fury.io/js/%40synthetixio%2Fsynpress.svg)](https://badge.fury.io/js/%40synthetixio%2Fsynpress)
 ![Synpress CI](https://github.com/Synthetixio/synpress/workflows/Synpress%20CI/badge.svg?branch=master)
+[![Release CI](https://github.com/Synthetixio/synpress/actions/workflows/release.yml/badge.svg?branch=master)](https://github.com/Synthetixio/synpress/actions/workflows/release.yml)
+[![CodeQL](https://github.com/Synthetixio/synpress/actions/workflows/codeql.yml/badge.svg?branch=master)](https://github.com/Synthetixio/synpress/actions/workflows/codeql.yml)
 [![Discord](https://img.shields.io/discord/413890591840272394.svg?color=768AD4&label=discord&logo=https%3A%2F%2Fdiscordapp.com%2Fassets%2F8c9701b98ad4372b58f13fd9f65f966e.svg)](https://discordapp.com/channels/413890591840272394/)
 [![Twitter Follow](https://img.shields.io/twitter/follow/synthetix_io.svg?label=synthetix_io&style=social)](https://twitter.com/synthetix_io)
 
@@ -129,9 +131,10 @@ Options:
 
 1. Create PR from `dev` branch to `master` branch
 2. Merge it
-3. Run [GitHub Action workflow](https://github.com/Synthetixio/synpress/actions/workflows/release.yml) named `Release CI` with `patch|minor|major` depending on your choice
+3. Run GitHub Action workflow named [Release CI](https://github.com/Synthetixio/synpress/actions/workflows/release.yml) with `patch|minor|major` depending on your needs.
 
-Intead of running GitHub Action for release, you can move on with manual release process:
+Alternatively, instead of running GitHub Action for release, you can move on with manual release process:
+
 1. Switch to `master` branch and pull latest changes
 2. Run `npm run release:patch/minor/major` command
 3. Keep `dev` branch up to date with `master`
