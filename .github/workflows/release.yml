@@ -40,8 +40,6 @@ jobs:
 
     - name: Install dependencies
       run: npm install --no-audit
-      env:
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     - name: Release ${{ github.event.inputs.version }}
       run: |
@@ -49,8 +47,8 @@ jobs:
         git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
         DEBUG=release-it:* npm run release:${{ github.event.inputs.version }} --ci
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 # blocker:
 # https://github.com/release-it/release-it/issues/742
