@@ -46,7 +46,7 @@ jobs:
         git config user.name ${{ secrets.GIT_USER }}
         git config user.email ${{ secrets.GIT_EMAIL }}
         mkdir -p ~/.gnupg/
-        printf "$GPG_KEY" | base64 --decode > ~/.gnupg/private.key
+        printf $GPG_KEY | base64 --decode > ~/.gnupg/private.key
         gpg --import ~/.gnupg/private.key
         git config commit.gpgsign true
         git config user.signingkey ${{ secrets.GIT_SIGNING_KEY }}
