@@ -53,7 +53,7 @@ jobs:
 
     - name: Release ${{ github.event.inputs.version }}
       run: |
-        git status
+        git reset --hard
         npm run release:${{ github.event.inputs.version }} --ci
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
