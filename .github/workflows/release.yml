@@ -66,5 +66,9 @@ jobs:
         git reset --hard
         npm run release:${{ github.event.inputs.version }} --ci
       env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        GIT_USER: ${{ secrets.GIT_USER }}
+        GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+        GPG_KEY: ${{ secrets.GPG_KEY }}
+        GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
