@@ -129,9 +129,10 @@ Options:
 
 1. Create PR from `dev` branch to `master` branch
 2. Merge it
-3. Run [GitHub Action workflow](https://github.com/Synthetixio/synpress/actions/workflows/release.yml) named `Release CI` with `patch|minor|major` depending on your choice
+3. Run GitHub Action workflow named [Release CI](https://github.com/Synthetixio/synpress/actions/workflows/release.yml) with `patch|minor|major` depending on your needs.
 
-Intead of running GitHub Action for release, you can move on with manual release process:
+Alternatively, instead of running GitHub Action for release, you can move on with manual release process:
+
 1. Switch to `master` branch and pull latest changes
 2. Run `npm run release:patch/minor/major` command
 3. Keep `dev` branch up to date with `master`
