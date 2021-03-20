@@ -43,8 +43,18 @@ jobs:
 
     - name: git config
       run: |
-        git config user.name $GITHUB_ACTOR
-        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+        git config user.name ${{ secrets.GIT_USER }}
+        git config user.email ${{ secrets.GIT_EMAIL }}
+        mkdir -p ~/.gnupg/
+        printf "$GPG_KEY" | base64 --decode > ~/.gnupg/private.key
+        gpg --import ~/.gnupg/private.key
+        git config commit.gpgsign true
+        git config user.signingkey ${{ secrets.GIT_SIGNING_KEY }}
+      env:
+        GIT_USER: ${{ secrets.GIT_USER }}
+        GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+        GPG_KEY: ${{ secrets.GPG_KEY }}
+        GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
 
     - name: npm config
       run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
