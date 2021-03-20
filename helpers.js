@@ -45,12 +45,12 @@ module.exports = {
       'https://api.github.com/repos/metamask/metamask-extension/releases',
     );
 
-    if (version) {
-      filename = `metamask-chrome-${version}.zip`;
-      downloadUrl = `https://github.com/MetaMask/metamask-extension/releases/download/v${version}/metamask-chrome-${version}.zip`;
-    } else {
+    if (version === 'latest' || !version) {
       filename = response.data[0].assets[0].name;
       downloadUrl = response.data[0].assets[0].browser_download_url;
+    } else if (version) {
+      filename = `metamask-chrome-${version}.zip`;
+      downloadUrl = `https://github.com/MetaMask/metamask-extension/releases/download/v${version}/metamask-chrome-${version}.zip`;
     }
 
     return {

@@ -1,0 +1,57 @@
+name: Release CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'release: major|minor|patch'
+        required: true
+        default: patch
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    name: release
+
+    container:
+      image: ghcr.io/synthetixio/docker-node/alpine:12.21-npm6
+      credentials:
+        username: synthetixio
+        password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@ee5a9d1395988d7c82c67c69571871f5994b94df # pin@v2
+      with:
+        fetch-depth: 0
+
+    - name: Cache node modules
+      uses: actions/cache@3b70782066bd817837b6bd8c518d45b54d91bf76 # pin@v2
+      with:
+        path: |
+          .npm
+          node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+          ${{ runner.os }}-
+      continue-on-error: true
+
+    - name: Install dependencies
+      run: npm install --no-audit
+
+    - name: git config
+      run: |
+        git config user.name "${GITHUB_ACTOR}"
+        git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+
+    - name: npm config
+      run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
+      env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+    - name: Release ${{ github.event.inputs.version }}
+      run: npm run release:${{ github.event.inputs.version }}
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
