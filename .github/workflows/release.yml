@@ -41,18 +41,11 @@ jobs:
     - name: Install dependencies
       run: npm install --no-audit
 
-    - name: git config
+    - name: Release ${{ github.event.inputs.version }}
       run: |
         git config user.name $GITHUB_ACTOR
         git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-
-    - name: npm config
-      run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-      env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-    - name: Release ${{ github.event.inputs.version }}
-      run: DEBUG=release-it:* npm run release:${{ github.event.inputs.version }} --ci
+        DEBUG=release-it:* npm run release:${{ github.event.inputs.version }} --ci
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
