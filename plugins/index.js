@@ -35,7 +35,7 @@ module.exports = (on, config) => {
 
     // NOTE: extensions cannot be loaded in headless Chrome
     const metamaskPath = await helpers.prepareMetamask(
-      process.env.METAMASK_VERSION || '9.2.1',
+      process.env.METAMASK_VERSION || '9.3.0',
     );
     arguments_.extensions.push(metamaskPath);
     return arguments_;
@@ -135,6 +135,11 @@ module.exports = (on, config) => {
   if (process.env.CI) {
     config.retries.runMode = 1;
     config.retries.openMode = 1;
+  }
+
+  // next component testing
+  if (config.testingType === 'component') {
+    require('@cypress/react/plugins/next')(on, config);
   }
 
   return config;

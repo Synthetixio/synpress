@@ -5,5 +5,12 @@
     "integrationFolder": "tests/e2e/specs",
     "screenshotsFolder": "tests/e2e/screenshots",
     "videosFolder": "tests/e2e/videos",
-    "chromeWebSecurity": true
+    "chromeWebSecurity": true,
+    "component": {
+        "componentFolder": ".",
+        "testFiles": "**/*spec.{js,jsx,ts,tsx}"
+    },
+    "env": {
+        "coverage": false
+    }
 }
