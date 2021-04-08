@@ -137,5 +137,10 @@ module.exports = (on, config) => {
     config.retries.openMode = 1;
   }
 
+  // next component testing
+  if (config.testingType === 'component') {
+    require('@cypress/react/plugins/next')(on, config);
+  }
+
   return config;
 };
