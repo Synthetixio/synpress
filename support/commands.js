@@ -36,9 +36,12 @@ Cypress.Commands.add(
   },
 );
 
-Cypress.Commands.add('changeMetamaskNetwork', (network = 'kovan') => {
-  return cy.task('changeMetamaskNetwork', network);
-});
+Cypress.Commands.add(
+  'changeMetamaskNetwork',
+  (network = process.env.NETWORK_NAME) => {
+    return cy.task('changeMetamaskNetwork', network);
+  },
+);
 
 Cypress.Commands.add('getMetamaskWalletAddress', () => {
   cy.task('getMetamaskWalletAddress').then(address => {
@@ -82,7 +85,11 @@ Cypress.Commands.add('fetchMetamaskWalletAddress', () => {
 
 Cypress.Commands.add(
   'setupMetamask',
-  (secretWords, network = 'kovan', password = 'Tester@1234') => {
+  (
+    secretWords,
+    network = process.env.NETWORK_NAME,
+    password = 'Tester@1234',
+  ) => {
     return cy.task('setupMetamask', { secretWords, network, password });
   },
 );
