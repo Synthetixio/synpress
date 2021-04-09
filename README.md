@@ -80,17 +80,11 @@ There is a global [`before()`](https://github.com/synthetixio/synpress/blob/mast
 
 It requires environmental variable called `SECRET_WORDS` to be present in following format => `'word1, word2, etc..'`.
 
-If you would like to change network with environmental variable, you can specify it's name with `NETWORK_NAME` variable, for example: `NETWORK_NAME=rinkeby`.
+To change default network (`kovan`), you can use `NETWORK_NAME` environmental variable, for example: `NETWORK_NAME=rinkeby`.
 
 Available choices are: `mainnet`, `ropsten`, `kovan`, `rinkeby`, `goerli` and `localhost`.
 
-If you want to customize it, instead of using environmental variable, you can modify [`setupMetamask()`](https://github.com/synthetixio/synpress/blob/master/support/index.js#L26) to following:
-
-`setupMetamask(secretWords, network, password)`, for example: `setupMetamask('word1, word2, etc..', 'mainnet', 'password')`.
-
-You can also add and switch to custom network by passing an `object` instead of `string` inside `setupMetamask(secret_words, network, password)` function for `network` parameter.
-
-If you prefer to use environmental variables to create and switch to custom network at start, use these:
+To create and switch to custom network at metamask setup phase, use these:
 
 1. `NETWORK_NAME` => ex: `synthetix`
 2. `RPC_URL` => ex: `https://synthetix-node.io`
@@ -100,6 +94,12 @@ If you prefer to use environmental variables to create and switch to custom netw
 6. `IS_TESTNET` (optional) => ex: `false`
 
 Metamask version is hardcoded and frequently updated under supervision to avoid a case when e2e tests break because of CSS classes changes in new version, so all you need is to keep synpress updated in your project. However, you can still override metamask with `METAMASK_VERSION` environmental variable, for example: `METAMASK_VERSION=9.3.0` or `METAMASK_VERSION=latest`.
+
+Instead of using environmental variables, you can modify [`setupMetamask()`](https://github.com/synthetixio/synpress/blob/master/support/index.js#L26) to following:
+
+`setupMetamask(secretWords, network, password)`, for example: `setupMetamask('word1, word2, etc..', 'mainnet', 'password')`.
+
+You can also add and switch to custom network by passing an `object` instead of `string` inside `setupMetamask(secret_words, network, password)` function for `network` parameter.
 
 ## 🧪 Usage
 
