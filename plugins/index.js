@@ -135,6 +135,9 @@ module.exports = (on, config) => {
       if (process.env.NETWORK_NAME) {
         network = process.env.NETWORK_NAME;
       }
+      if (process.env.SECRET_WORDS) {
+        secretWords = process.env.SECRET_WORDS;
+      }
       await metamask.initialSetup({ secretWords, network, password });
       return true;
     },
