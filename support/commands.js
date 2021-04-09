@@ -20,6 +20,22 @@ Cypress.Commands.add(
   },
 );
 
+Cypress.Commands.add(
+  'addMetamaskNetwork',
+  (
+    network = {
+      networkName: process.env.NETWORK_NAME,
+      rpcUrl: process.env.RPC_URL,
+      chainId: process.env.CHAIN_ID,
+      symbol: process.env.SYMBOL,
+      blockExplorer: process.env.BLOCK_EXPLORER,
+      isTestnet: process.env.IS_TESTNET,
+    },
+  ) => {
+    return cy.task('addMetamaskNetwork', network);
+  },
+);
+
 Cypress.Commands.add('changeMetamaskNetwork', (network = 'kovan') => {
   return cy.task('changeMetamaskNetwork', network);
 });
