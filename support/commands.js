@@ -1,47 +1,6 @@
 import '@testing-library/cypress/add-commands';
 import 'cypress-wait-until';
 
-Cypress.Commands.add('getDesktopSizes', () => {
-  return [
-    [1366, 768],
-    [1920, 1080],
-    [1536, 864],
-    [1440, 900],
-    [1280, 720],
-    [1600, 900],
-  ];
-});
-
-Cypress.Commands.add('getTabletSizes', () => {
-  return [
-    [768, 1024],
-    [1024, 768],
-    [1280, 800],
-    [800, 1280],
-    [601, 962],
-    [962, 601],
-    [600, 1024],
-    [1024, 600],
-  ];
-});
-
-Cypress.Commands.add('getMobileSizes', () => {
-  return [
-    [360, 640],
-    [640, 360],
-    [375, 667],
-    [667, 375],
-    [414, 896],
-    [896, 414],
-    [360, 780],
-    [780, 360],
-    [360, 760],
-    [760, 360],
-    [375, 812],
-    [812, 375],
-  ];
-});
-
 Cypress.Commands.add('initPuppeteer', () => {
   return cy.task('initPuppeteer');
 });
@@ -61,9 +20,28 @@ Cypress.Commands.add(
   },
 );
 
-Cypress.Commands.add('changeMetamaskNetwork', (network = 'kovan') => {
-  return cy.task('changeMetamaskNetwork', network);
-});
+Cypress.Commands.add(
+  'addMetamaskNetwork',
+  (
+    network = {
+      networkName: process.env.NETWORK_NAME,
+      rpcUrl: process.env.RPC_URL,
+      chainId: process.env.CHAIN_ID,
+      symbol: process.env.SYMBOL,
+      blockExplorer: process.env.BLOCK_EXPLORER,
+      isTestnet: process.env.IS_TESTNET,
+    },
+  ) => {
+    return cy.task('addMetamaskNetwork', network);
+  },
+);
+
+Cypress.Commands.add(
+  'changeMetamaskNetwork',
+  (network = process.env.NETWORK_NAME) => {
+    return cy.task('changeMetamaskNetwork', network);
+  },
+);
 
 Cypress.Commands.add('getMetamaskWalletAddress', () => {
   cy.task('getMetamaskWalletAddress').then(address => {
@@ -107,7 +85,11 @@ Cypress.Commands.add('fetchMetamaskWalletAddress', () => {
 
 Cypress.Commands.add(
   'setupMetamask',
-  (secretWords, network = 'kovan', password = 'Tester@1234') => {
+  (
+    secretWords,
+    network = process.env.NETWORK_NAME,
+    password = 'Tester@1234',
+  ) => {
     return cy.task('setupMetamask', { secretWords, network, password });
   },
 );
@@ -133,4 +115,45 @@ Cypress.Commands.add('snxCheckWaitingPeriod', (asset, walletAddress) => {
 
 Cypress.Commands.add('getNetwork', () => {
   return cy.task('getNetwork');
+});
+
+Cypress.Commands.add('getDesktopSizes', () => {
+  return [
+    [1366, 768],
+    [1920, 1080],
+    [1536, 864],
+    [1440, 900],
+    [1280, 720],
+    [1600, 900],
+  ];
+});
+
+Cypress.Commands.add('getTabletSizes', () => {
+  return [
+    [768, 1024],
+    [1024, 768],
+    [1280, 800],
+    [800, 1280],
+    [601, 962],
+    [962, 601],
+    [600, 1024],
+    [1024, 600],
+  ];
+});
+
+Cypress.Commands.add('getMobileSizes', () => {
+  return [
+    [360, 640],
+    [640, 360],
+    [375, 667],
+    [667, 375],
+    [414, 896],
+    [896, 414],
+    [360, 780],
+    [780, 360],
+    [360, 760],
+    [760, 360],
+    [375, 812],
+    [812, 375],
+  ];
 });
