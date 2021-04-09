@@ -80,6 +80,9 @@ module.exports = {
     return true;
   },
   changeNetwork: async network => {
+    if (!network) {
+      network = 'kovan';
+    }
     setNetwork(network);
     await puppeteer.waitAndClick(mainPageElements.networkSwitcher.button);
     if (network === 'main' || network === 'mainnet') {
@@ -230,7 +233,10 @@ module.exports = {
       secretWords = process.env.SECRET_WORDS;
     }
     const isCustomNetwork =
-      process.env.NETWORK_NAME && process.env.RPC_URL && process.env.CHAIN_ID;
+      network === undefined &&
+      process.env.NETWORK_NAME &&
+      process.env.RPC_URL &&
+      process.env.CHAIN_ID;
     if (isCustomNetwork) {
       network = {};
       network.networkName = process.env.NETWORK_NAME;
@@ -239,6 +245,9 @@ module.exports = {
       network.symbol = process.env.SYMBOL;
       network.blockExplorer = process.env.BLOCK_EXPLORER;
       network.isTestnet = process.env.IS_TESTNET;
+    }
+    if (!network) {
+      network = 'kovan';
     }
     await puppeteer.init();
     await puppeteer.assignWindows();
