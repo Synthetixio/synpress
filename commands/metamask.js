@@ -133,6 +133,20 @@ module.exports = {
     return true;
   },
   addNetwork: async network => {
+    if (
+      process.env.NETWORK_NAME &&
+      process.env.RPC_URL &&
+      process.env.CHAIN_ID
+    ) {
+      network = {
+        networkName: process.env.NETWORK_NAME,
+        rpcUrl: process.env.RPC_URL,
+        chainId: process.env.CHAIN_ID,
+        symbol: process.env.SYMBOL,
+        blockExplorer: process.env.BLOCK_EXPLORER,
+        isTestnet: process.env.IS_TESTNET,
+      };
+    }
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
     await puppeteer.waitAndClick(mainPageElements.accountMenu.settingsButton);
     await puppeteer.waitAndClick(mainPageElements.settingsPage.networksButton);

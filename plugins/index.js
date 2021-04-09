@@ -86,20 +86,6 @@ module.exports = (on, config) => {
       return imported;
     },
     addMetamaskNetwork: async network => {
-      if (
-        process.env.NETWORK_NAME &&
-        process.env.RPC_URL &&
-        process.env.CHAIN_ID
-      ) {
-        network = {
-          networkName: process.env.NETWORK_NAME,
-          rpcUrl: process.env.RPC_URL,
-          chainId: process.env.CHAIN_ID,
-          symbol: process.env.SYMBOL,
-          blockExplorer: process.env.BLOCK_EXPLORER,
-          isTestnet: process.env.IS_TESTNET,
-        };
-      }
       const networkAdded = await metamask.addNetwork(network);
       return networkAdded;
     },
