@@ -106,10 +106,64 @@ module.exports = {
       await puppeteer.waitAndClick(
         mainPageElements.networkSwitcher.networkButton(5),
       );
+    } else if (typeof network === 'object') {
+      await puppeteer.waitAndClickByText(
+        mainPageElements.networkSwitcher.dropdownMenuItem,
+        network.networkName,
+      );
+    } else {
+      await puppeteer.waitAndClickByText(
+        mainPageElements.networkSwitcher.dropdownMenuItem,
+        network,
+      );
     }
+
+    if (typeof network === 'object') {
+      await puppeteer.waitForText(
+        mainPageElements.networkSwitcher.networkName,
+        network.networkName,
+      );
+    } else {
+      await puppeteer.waitForText(
+        mainPageElements.networkSwitcher.networkName,
+        network,
+      );
+    }
+
+    return true;
+  },
+  addNetwork: async network => {
+    await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
+    await puppeteer.waitAndClick(mainPageElements.accountMenu.settingsButton);
+    await puppeteer.waitAndClick(mainPageElements.settingsPage.networksButton);
+    await puppeteer.waitAndClick(
+      mainPageElements.networksPage.addNetworkButton,
+    );
+    await puppeteer.waitAndType(
+      mainPageElements.addNetworkPage.networkNameInput,
+      network.networkName,
+    );
+    await puppeteer.waitAndType(
+      mainPageElements.addNetworkPage.rpcUrlInput,
+      network.rpcUrl,
+    );
+    await puppeteer.waitAndType(
+      mainPageElements.addNetworkPage.chainIdInput,
+      network.chainId,
+    );
+    await puppeteer.waitAndType(
+      mainPageElements.addNetworkPage.symbolInput,
+      network.symbol,
+    );
+    await puppeteer.waitAndType(
+      mainPageElements.addNetworkPage.blockExplorerInput,
+      network.blockExplorer,
+    );
+    await puppeteer.waitAndClick(mainPageElements.addNetworkPage.saveButton);
+    await puppeteer.waitAndClick(mainPageElements.networksPage.closeButton);
     await puppeteer.waitForText(
       mainPageElements.networkSwitcher.networkName,
-      network,
+      network.networkName,
     );
     return true;
   },
@@ -175,6 +229,17 @@ module.exports = {
     if (secretWords === undefined && process.env.SECRET_WORDS) {
       secretWords = process.env.SECRET_WORDS;
     }
+    const isCustomNetwork =
+      process.env.NETWORK_NAME && process.env.RPC_URL && process.env.CHAIN_ID;
+    if (isCustomNetwork) {
+      network = {};
+      network.networkName = process.env.NETWORK_NAME;
+      network.rpcUrl = process.env.RPC_URL;
+      network.chainId = process.env.CHAIN_ID;
+      network.symbol = process.env.SYMBOL;
+      network.blockExplorer = process.env.BLOCK_EXPLORER;
+      network.isTestnet = process.env.IS_TESTNET;
+    }
     await puppeteer.init();
     await puppeteer.assignWindows();
     await puppeteer.metamaskWindow().waitForTimeout(1000);
@@ -184,7 +249,11 @@ module.exports = {
     ) {
       await module.exports.confirmWelcomePage();
       await module.exports.importWallet(secretWords, password);
-      await module.exports.changeNetwork(network);
+      if (isCustomNetwork) {
+        await module.exports.addNetwork(network);
+      } else {
+        await module.exports.changeNetwork(network);
+      }
       walletAddress = await module.exports.getWalletAddress();
       await puppeteer.switchToCypressWindow();
       return true;
