@@ -95,11 +95,11 @@ To create and switch to custom network at metamask setup phase, use these:
 
 Metamask version is hardcoded and frequently updated under supervision to avoid a case when e2e tests break because of CSS classes changes in new version, so all you need is to keep synpress updated in your project. However, you can still override metamask with `METAMASK_VERSION` environmental variable, for example: `METAMASK_VERSION=9.3.0` or `METAMASK_VERSION=latest`.
 
-Instead of using environmental variables, you can modify [`setupMetamask()`](https://github.com/synthetixio/synpress/blob/master/support/index.js#L26) to following:
+If you don't want to use environmental variables, you can modify [`setupMetamask()`](https://github.com/synthetixio/synpress/blob/master/support/index.js#L26) to following:
 
 `setupMetamask(secretWords, network, password)`, for example: `setupMetamask('word1, word2, etc..', 'mainnet', 'password')`.
 
-You can also add and switch to custom network by passing an `object` instead of `string` inside `setupMetamask(secret_words, network, password)` function for `network` parameter.
+You can also add and switch to custom network by passing an `object` instead of `string` inside `setupMetamask(secretWords, network, password)` function for `network` parameter.
 
 ## 🧪 Usage
 
