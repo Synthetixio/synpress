@@ -81,6 +81,14 @@ module.exports = {
       selector,
     );
   },
+  waitAndClickByText: async (selector, text, page = metamaskWindow) => {
+    await module.exports.waitFor(selector, page);
+    await page.evaluate(() => {
+      [...document.querySelectorAll(selector)]
+        .find(element => element.textContent === text)
+        .click();
+    });
+  },
   waitAndType: async (selector, value, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
     const element = await page.$(selector);

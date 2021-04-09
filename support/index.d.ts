@@ -31,6 +31,12 @@ declare namespace Cypress {
      */
     assignWindows(): Chainable<Subject>;
     /**
+     * Get current network
+     * @example
+     * cy.getNetwork()
+     */
+    getNetwork(): Chainable<Subject>;
+    /**
      * Confirms metamask welcome page
      * @example
      * cy.confirmMetamaskWelcomePage()
@@ -46,9 +52,16 @@ declare namespace Cypress {
       password: string,
     ): Chainable<Subject>;
     /**
+     * Add network in metamask
+     * @example
+     * cy.addMetamaskNetwork({networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true})
+     */
+    addMetamaskNetwork(object): Chainable<Subject>;
+    /**
      * Change network in metamask
      * @example
      * cy.changeMetamaskNetwork('kovan')
+     * cy.changeMetamaskNetwork('networkName')
      */
     changeMetamaskNetwork(network: string): Chainable<Subject>;
     /**
@@ -109,25 +122,32 @@ declare namespace Cypress {
      * Run the flow for metamask setup
      * @example
      * cy.setupMetamask('secret, words, ...', 'kovan', 'password for metamask')
+     * cy.setupMetamask('secret, words, ...', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for metamask')
      */
-    setupMetamask(secretWords, network, password): Chainable<Subject>;
+    setupMetamask(
+      secretWords: string,
+      network: string | object,
+      password: string,
+    ): Chainable<Subject>;
     /**
      * Execute settle on Exchanger contract
      * @example
      * cy.snxExchangerSettle('sETH', '0x...', '123123123123123123...')
      */
-    snxExchangerSettle(asset, walletAddress, privateKey): Chainable<Subject>;
+
+    snxExchangerSettle(
+      asset: string,
+      walletAddress: string,
+      privateKey: string,
+    ): Chainable<Subject>;
     /**
      * Check waiting period on Exchanger contract
      * @example
      * cy.snxCheckWaitingPeriod('sETH', '0x...')
      */
-    snxCheckWaitingPeriod(asset, walletAddress): Chainable<Subject>;
-    /**
-     * Get current network
-     * @example
-     * cy.getNetwork()
-     */
-    getNetwork(): Chainable<Subject>;
+    snxCheckWaitingPeriod(
+      asset: string,
+      walletAddress: string,
+    ): Chainable<Subject>;
   }
 }

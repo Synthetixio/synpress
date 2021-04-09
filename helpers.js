@@ -29,7 +29,12 @@ module.exports = {
       networkName = 'goerli';
       networkId = 5;
       isTestnet = true;
+    } else if (typeof network === 'object') {
+      networkName = network.networkName;
+      networkId = network.chainId;
+      isTestnet = network.isTestnet;
     }
+    // todo: handle a case when setNetwork() is triggered by changeNetwork() with a string of already added custom networks
   },
   getNetwork: () => {
     return { networkName, networkId, isTestnet };
