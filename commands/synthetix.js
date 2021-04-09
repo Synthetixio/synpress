@@ -7,9 +7,6 @@ const sleep = require('util').promisify(setTimeout);
 
 module.exports = {
   settle: async ({ asset, walletAddress, privateKey }) => {
-    if (privateKey === undefined && process.env.PRIVATE_KEY) {
-      privateKey = process.env.PRIVATE_KEY;
-    }
     if (walletAddress === undefined) {
       walletAddress = metamask.walletAddress();
     }

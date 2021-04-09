@@ -80,9 +80,6 @@ module.exports = {
     return true;
   },
   changeNetwork: async network => {
-    if (!network) {
-      network = 'kovan';
-    }
     setNetwork(network);
     await puppeteer.waitAndClick(mainPageElements.networkSwitcher.button);
     if (network === 'main' || network === 'mainnet') {
@@ -136,6 +133,20 @@ module.exports = {
     return true;
   },
   addNetwork: async network => {
+    if (
+      process.env.NETWORK_NAME &&
+      process.env.RPC_URL &&
+      process.env.CHAIN_ID
+    ) {
+      network = {
+        networkName: process.env.NETWORK_NAME,
+        rpcUrl: process.env.RPC_URL,
+        chainId: process.env.CHAIN_ID,
+        symbol: process.env.SYMBOL,
+        blockExplorer: process.env.BLOCK_EXPLORER,
+        isTestnet: process.env.IS_TESTNET,
+      };
+    }
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
     await puppeteer.waitAndClick(mainPageElements.accountMenu.settingsButton);
     await puppeteer.waitAndClick(mainPageElements.settingsPage.networksButton);
@@ -229,26 +240,9 @@ module.exports = {
     return walletAddress;
   },
   initialSetup: async ({ secretWords, network, password }) => {
-    if (secretWords === undefined && process.env.SECRET_WORDS) {
-      secretWords = process.env.SECRET_WORDS;
-    }
     const isCustomNetwork =
-      network === undefined &&
-      process.env.NETWORK_NAME &&
-      process.env.RPC_URL &&
-      process.env.CHAIN_ID;
-    if (isCustomNetwork) {
-      network = {};
-      network.networkName = process.env.NETWORK_NAME;
-      network.rpcUrl = process.env.RPC_URL;
-      network.chainId = process.env.CHAIN_ID;
-      network.symbol = process.env.SYMBOL;
-      network.blockExplorer = process.env.BLOCK_EXPLORER;
-      network.isTestnet = process.env.IS_TESTNET;
-    }
-    if (!network) {
-      network = 'kovan';
-    }
+      process.env.NETWORK_NAME && process.env.RPC_URL && process.env.CHAIN_ID;
+
     await puppeteer.init();
     await puppeteer.assignWindows();
     await puppeteer.metamaskWindow().waitForTimeout(1000);
