@@ -15,33 +15,18 @@ Cypress.Commands.add('confirmMetamaskWelcomePage', () => {
 
 Cypress.Commands.add(
   'importMetamaskWallet',
-  (secretWords = process.env.SECRET_WORDS, password = 'Tester@1234') => {
+  (secretWords, password = 'Tester@1234') => {
     return cy.task('importMetamaskWallet', { secretWords, password });
   },
 );
 
-Cypress.Commands.add(
-  'addMetamaskNetwork',
-  (
-    network = {
-      networkName: process.env.NETWORK_NAME,
-      rpcUrl: process.env.RPC_URL,
-      chainId: process.env.CHAIN_ID,
-      symbol: process.env.SYMBOL,
-      blockExplorer: process.env.BLOCK_EXPLORER,
-      isTestnet: process.env.IS_TESTNET,
-    },
-  ) => {
-    return cy.task('addMetamaskNetwork', network);
-  },
-);
+Cypress.Commands.add('addMetamaskNetwork', network => {
+  return cy.task('addMetamaskNetwork', network);
+});
 
-Cypress.Commands.add(
-  'changeMetamaskNetwork',
-  (network = process.env.NETWORK_NAME) => {
-    return cy.task('changeMetamaskNetwork', network);
-  },
-);
+Cypress.Commands.add('changeMetamaskNetwork', network => {
+  return cy.task('changeMetamaskNetwork', network);
+});
 
 Cypress.Commands.add('getMetamaskWalletAddress', () => {
   cy.task('getMetamaskWalletAddress').then(address => {
@@ -85,18 +70,14 @@ Cypress.Commands.add('fetchMetamaskWalletAddress', () => {
 
 Cypress.Commands.add(
   'setupMetamask',
-  (
-    secretWords,
-    network = process.env.NETWORK_NAME,
-    password = 'Tester@1234',
-  ) => {
+  (secretWords, network, password = 'Tester@1234') => {
     return cy.task('setupMetamask', { secretWords, network, password });
   },
 );
 
 Cypress.Commands.add(
   'snxExchangerSettle',
-  (asset, walletAddress, privateKey = process.env.PRIVATE_KEY) => {
+  (asset, walletAddress, privateKey) => {
     return cy.task(
       'snxExchangerSettle',
       { asset, walletAddress, privateKey },

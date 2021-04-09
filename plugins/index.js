@@ -79,14 +79,36 @@ module.exports = (on, config) => {
       return unlocked;
     },
     importMetamaskWallet: async ({ secretWords, password }) => {
+      if (process.env.SECRET_WORDS) {
+        secretWords = process.env.SECRET_WORDS;
+      }
       const imported = await metamask.importWallet(secretWords, password);
       return imported;
     },
     addMetamaskNetwork: async network => {
+      if (
+        process.env.NETWORK_NAME &&
+        process.env.RPC_URL &&
+        process.env.CHAIN_ID
+      ) {
+        network = {
+          networkName: process.env.NETWORK_NAME,
+          rpcUrl: process.env.RPC_URL,
+          chainId: process.env.CHAIN_ID,
+          symbol: process.env.SYMBOL,
+          blockExplorer: process.env.BLOCK_EXPLORER,
+          isTestnet: process.env.IS_TESTNET,
+        };
+      }
       const networkAdded = await metamask.addNetwork(network);
       return networkAdded;
     },
     changeMetamaskNetwork: async network => {
+      if (process.env.NETWORK_NAME) {
+        network = process.env.NETWORK_NAME;
+      } else {
+        network = 'kovan';
+      }
       const networkChanged = await metamask.changeNetwork(network);
       return networkChanged;
     },
@@ -110,10 +132,16 @@ module.exports = (on, config) => {
       return metamask.walletAddress();
     },
     setupMetamask: async ({ secretWords, network, password }) => {
+      if (process.env.NETWORK_NAME) {
+        network = process.env.NETWORK_NAME;
+      }
       await metamask.initialSetup({ secretWords, network, password });
       return true;
     },
     snxExchangerSettle: async ({ asset, walletAddress, privateKey }) => {
+      if (process.env.PRIVATE_KEY) {
+        privateKey = process.env.PRIVATE_KEY;
+      }
       const settled = await synthetix.settle({
         asset,
         walletAddress,

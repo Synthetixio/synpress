@@ -229,26 +229,9 @@ module.exports = {
     return walletAddress;
   },
   initialSetup: async ({ secretWords, network, password }) => {
-    if (secretWords === undefined && process.env.SECRET_WORDS) {
-      secretWords = process.env.SECRET_WORDS;
-    }
     const isCustomNetwork =
-      network === undefined &&
-      process.env.NETWORK_NAME &&
-      process.env.RPC_URL &&
-      process.env.CHAIN_ID;
-    if (isCustomNetwork) {
-      network = {};
-      network.networkName = process.env.NETWORK_NAME;
-      network.rpcUrl = process.env.RPC_URL;
-      network.chainId = process.env.CHAIN_ID;
-      network.symbol = process.env.SYMBOL;
-      network.blockExplorer = process.env.BLOCK_EXPLORER;
-      network.isTestnet = process.env.IS_TESTNET;
-    }
-    if (!network) {
-      network = 'kovan';
-    }
+      process.env.NETWORK_NAME && process.env.RPC_URL && process.env.CHAIN_ID;
+
     await puppeteer.init();
     await puppeteer.assignWindows();
     await puppeteer.metamaskWindow().waitForTimeout(1000);
