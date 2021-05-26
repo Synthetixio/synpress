@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/synthetixio/docker-sec-tools/base:12.21-npm6
+      image: ghcr.io/synthetixio/docker-sec-tools/base:14.17
       credentials:
         username: synthetixio
         password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
@@ -25,7 +25,7 @@ jobs:
       run: npm audit --audit-level=critical
 
     - name: Lockfile lint
-      run: lockfile-lint -p package-lock.json --type npm --allowed-hosts npm github.com --allowed-schemes "https:" "git+https:" "github:" "git+ssh:"
+      run: lockfile-lint -p package-lock.json --type npm --allowed-hosts npm --allowed-schemes "npm:"
 
   build:
     needs: audit
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/synthetixio/docker-node/alpine:12.21-npm6
+      image: ghcr.io/synthetixio/docker-node/alpine:14.17
       credentials:
         username: synthetixio
         password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
