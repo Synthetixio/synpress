@@ -14,7 +14,7 @@ jobs:
     name: release
 
     container:
-      image: ghcr.io/synthetixio/docker-node/alpine:12.21-npm6
+      image: ghcr.io/synthetixio/docker-node/alpine:14.17
       credentials:
         username: synthetixio
         password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
