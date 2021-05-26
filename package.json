@@ -57,7 +57,7 @@
         "bytes32": "0.0.3",
         "commander": "7.2.0",
         "cross-zip": "4.0.0",
-        "cypress": "7.1.0",
+        "cypress": "7.4.0",
         "cypress-wait-until": "1.7.1",
         "eslint": "7.23.0",
         "eslint-config-prettier": "8.1.0",
