@@ -84,16 +84,18 @@ module.exports = {
 
 async function getMaxEntriesInQueue(networkName) {
   const snxjs = synthetix({ network: networkName });
-  const maxEntriesInQueue = await snxjs.contracts.ExchangeState.maxEntriesInQueue();
+  const maxEntriesInQueue =
+    await snxjs.contracts.ExchangeState.maxEntriesInQueue();
   return Number(maxEntriesInQueue);
 }
 
 async function getLengthOfEntries(networkName, walletAddress, assetAsBytes32) {
   const snxjs = synthetix({ network: networkName });
-  const getLengthOfEntries = await snxjs.contracts.ExchangeState.getLengthOfEntries(
-    walletAddress,
-    assetAsBytes32,
-  );
+  const getLengthOfEntries =
+    await snxjs.contracts.ExchangeState.getLengthOfEntries(
+      walletAddress,
+      assetAsBytes32,
+    );
   return Number(getLengthOfEntries);
 }
 
@@ -116,9 +118,10 @@ async function getMaxSecsLeftInWaitingPeriod(
   assetAsBytes32,
 ) {
   const snxjs = synthetix({ network: networkName });
-  const maxSecsLeftInWaitingPeriod = await snxjs.contracts.Exchanger.maxSecsLeftInWaitingPeriod(
-    walletAddress,
-    assetAsBytes32,
-  );
+  const maxSecsLeftInWaitingPeriod =
+    await snxjs.contracts.Exchanger.maxSecsLeftInWaitingPeriod(
+      walletAddress,
+      assetAsBytes32,
+    );
   return Number(maxSecsLeftInWaitingPeriod);
 }
