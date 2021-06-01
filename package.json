@@ -40,8 +40,8 @@
         "update:deps": "ncu -u && npm install"
     },
     "dependencies": {
-        "@cypress/code-coverage": "3.9.5",
-        "@cypress/react": "5.8.1",
+        "@cypress/code-coverage": "3.9.6",
+        "@cypress/react": "5.9.0",
         "@cypress/webpack-dev-server": "1.3.1",
         "@synthetixio/js": "2.41.0",
         "@testing-library/cypress": "7.0.6",
@@ -64,7 +64,7 @@
         "eslint-config-standard": "16.0.3",
         "eslint-plugin-chai-friendly": "0.7.1",
         "eslint-plugin-cypress": "2.11.3",
-        "eslint-plugin-import": "2.23.3",
+        "eslint-plugin-import": "2.23.4",
         "eslint-plugin-node": "11.1.0",
         "eslint-plugin-prettier": "3.4.0",
         "eslint-plugin-promise": "5.1.0",
@@ -74,13 +74,13 @@
         "eslint-plugin-unicorn": "32.0.1",
         "node-fetch": "2.6.1",
         "prettier": "2.3.0",
-        "puppeteer-core": "9.1.1",
+        "puppeteer-core": "10.0.0",
         "start-server-and-test": "1.12.3",
         "synthetix-js": "2.45.2"
     },
     "devDependencies": {
         "@microsoft/eslint-formatter-sarif": "2.1.5",
-        "npm-check-updates": "11.5.13",
+        "npm-check-updates": "11.6.0",
         "release-it": "14.7.0"
     },
     "engines": {
