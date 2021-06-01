@@ -66,7 +66,7 @@ jobs:
     - name: Upload lint results
       # run if lint failed and only on master/dev branch and pull requests
       if: always() && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || github.event_name == 'pull_request')
-      uses: github/codeql-action/upload-sarif@b1e2c9b8bd0550a90e66c967d9795316f9f21910 # pin@codeql-bundle-20201008
+      uses: github/codeql-action/upload-sarif@4917d3c7e89fbbaf67ce4697fa42cd195979dbbd # pin@codeql-bundle-20201008
       with:
         sarif_file: lint-results.sarif
       continue-on-error: true
