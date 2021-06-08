@@ -148,5 +148,17 @@ declare namespace Cypress {
       asset: string,
       walletAddress: string,
     ): Chainable<Subject>;
+    /**
+     * Get transaction status from Etherscan API
+     * @example
+     * cy.etherscanGetTransactionStatus('0xf..')
+     */
+    etherscanGetTransactionStatus(txid: string): Chainable<Subject>;
+    /**
+     * Wait until transaction is success using Etherscan API
+     * @example
+     * cy.etherscanWaitForTxSuccess('0xf..')
+     */
+    etherscanWaitForTxSuccess(txid: string): Chainable<Subject>;
   }
 }

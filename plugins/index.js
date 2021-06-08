@@ -2,6 +2,7 @@ const helpers = require('../helpers');
 const puppeteer = require('../commands/puppeteer');
 const metamask = require('../commands/metamask');
 const synthetix = require('../commands/synthetix');
+const etherscan = require('../commands/etherscan');
 
 /**
  * @type {Cypress.PluginConfig}
@@ -149,6 +150,14 @@ module.exports = (on, config) => {
     getNetwork: () => {
       const network = helpers.getNetwork();
       return network;
+    },
+    etherscanGetTransactionStatus: async ({ txid }) => {
+      const txStatus = await etherscan.getTransactionStatus(txid);
+      return txStatus;
+    },
+    etherscanWaitForTxSuccess: async ({ txid }) => {
+      const txSuccess = await etherscan.waitForTxSuccess(txid);
+      return txSuccess;
     },
   });
 

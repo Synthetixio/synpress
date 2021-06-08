@@ -15,7 +15,7 @@ module.exports = {
     const txReceipt = await etherscanApi.proxy.eth_getTransactionReceipt(txid);
     return { txStatus, txReceipt };
   },
-  waitForTxSuccess: async ({ txid, timeout = 30000 }) => {
+  waitForTxSuccess: async ({ txid }) => {
     const txStatus = await module.exports.getTransactionStatus(txid);
     if (
       // status success
@@ -38,7 +38,7 @@ module.exports = {
       console.log(`Transaction ${txid} is still pending.. waiting..`);
       retries++;
       await sleep(5000);
-      const result = await module.exports.waitForTxSuccess(txid, timeout);
+      const result = await module.exports.waitForTxSuccess(txid);
       return result;
     } else {
       retries = 0;
