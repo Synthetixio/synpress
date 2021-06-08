@@ -100,6 +100,8 @@ If you don't want to use environmental variables, you can modify [`setupMetamask
 
 You can also add and switch to custom network by passing an `object` instead of `string` inside `setupMetamask(secretWords, network, password)` function for `network` parameter.
 
+If you want to use Etherscan API helpers, you will have to provide Etherscan API key using `ETHERSCAN_KEY` enironmental variable.
+
 ## 🧪 Usage
 
 - `synpress run` to run tests
