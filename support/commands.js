@@ -98,6 +98,14 @@ Cypress.Commands.add('getNetwork', () => {
   return cy.task('getNetwork');
 });
 
+Cypress.Commands.add('etherscanGetTransactionStatus', txid => {
+  return cy.task('etherscanGetTransactionStatus', { txid }, { timeout: 30000 });
+});
+
+Cypress.Commands.add('etherscanWaitForTxSuccess', txid => {
+  return cy.task('etherscanWaitForTxSuccess', { txid }, { timeout: 120000 });
+});
+
 Cypress.Commands.add('getDesktopSizes', () => {
   return [
     [1366, 768],
