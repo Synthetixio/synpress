@@ -136,6 +136,7 @@ module.exports = (on, config) => {
         walletAddress,
         privateKey,
       });
+      // todo: wait for confirmation?
       return settled;
     },
     snxCheckWaitingPeriod: async ({ asset, walletAddress }) => {
