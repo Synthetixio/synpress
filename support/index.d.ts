@@ -134,7 +134,6 @@ declare namespace Cypress {
      * @example
      * cy.snxExchangerSettle('sETH', '0x...', '123123123123123123...')
      */
-
     snxExchangerSettle(
       asset: string,
       walletAddress: string,
