@@ -4,6 +4,9 @@ const nextButton = `${notificationPage} .permissions-connect-choose-account__bot
 const permissionsPage = '.permissions-connect';
 const connectButton = `${permissionsPage} .permission-approval-container__footers button:nth-child(2)`;
 
+const requestSignaturePage = '.request-signature__container';
+const signButton = `${requestSignaturePage} [data-testid="request-signature__sign"]`;
+
 const confirmPageHeader = `${notificationPage} .confirm-page-container-header`;
 const confirmPageContent = `${notificationPage} .confirm-page-container-content`;
 const confirmPageGasFeeSection = `${confirmPageContent} .confirm-page-container-content__gas-fee`;
@@ -23,6 +26,11 @@ export const permissionsPageElements = {
   permissionsPage,
   connectButton,
 };
+
+export const requestSignaturePageElements = {
+  requestSignaturePage,
+  signButton
+}
 
 export const confirmPageElements = {
   notificationPage,

@@ -13,6 +13,7 @@ const { unlockPageElements } = require('../pages/metamask/unlock-page');
 const {
   notificationPageElements,
   permissionsPageElements,
+  requestSignaturePageElements,
   confirmPageElements,
 } = require('../pages/metamask/notification-page');
 const { setNetwork, getNetwork } = require('../helpers');
@@ -191,6 +192,16 @@ module.exports = {
     await puppeteer.waitAndClick(
       permissionsPageElements.connectButton,
       notificationPage,
+    );
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    return true;
+  },
+  signMessage: async () => {
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    const requestSignaturePage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndClick(
+      requestSignaturePageElements.signButton,
+      requestSignaturePage,
     );
     await puppeteer.metamaskWindow().waitForTimeout(3000);
     return true;

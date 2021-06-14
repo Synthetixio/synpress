@@ -103,6 +103,10 @@ module.exports = (on, config) => {
       const accepted = await metamask.acceptAccess();
       return accepted;
     },
+    signMetamaskMessage: async () => {
+      const signed = await metamask.signMessage();
+      return signed;
+    },
     confirmMetamaskTransaction: async () => {
       const confirmed = await metamask.confirmTransaction();
       return confirmed;
