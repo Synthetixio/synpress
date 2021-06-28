@@ -14,25 +14,25 @@ const totalLabel = `${confirmPageContent} div:nth-child(2) > .confirm-detail-row
 const rejectButton = `${confirmPageContent} [data-testid="page-container-footer-cancel"]`;
 const confirmButton = `${confirmPageContent} [data-testid="page-container-footer-next"]`;
 
-export const notificationPageElements = {
-  notificationPage,
-  nextButton,
-};
-
-export const permissionsPageElements = {
-  permissionsPage,
-  connectButton,
-};
-
-export const confirmPageElements = {
-  notificationPage,
-  confirmPageHeader,
-  confirmPageContent,
-  confirmPageGasFeeSection,
-  gasFeeLabel,
-  gasFeeInput,
-  gasLimitInput,
-  totalLabel,
-  rejectButton,
-  confirmButton,
-};
+module.exports = {
+  notificationPageElements: {
+    notificationPage,
+    nextButton,
+  },
+  permissionsPageElements: {
+    permissionsPage,
+    connectButton,
+  },
+  confirmPageElements: {
+    notificationPage,
+    confirmPageHeader,
+    confirmPageContent,
+    confirmPageGasFeeSection,
+    gasFeeLabel,
+    gasFeeInput,
+    gasLimitInput,
+    totalLabel,
+    rejectButton,
+    confirmButton,
+  }
+}

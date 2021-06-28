@@ -44,14 +44,16 @@ const accountModal = {
   closeButton: '.account-modal__close',
 };
 
-export const mainPageElements = {
-  networkSwitcher,
-  walletOverview,
-  popup,
-  accountMenu,
-  settingsPage,
-  networksPage,
-  addNetworkPage,
-  options,
-  accountModal,
-};
+module.exports = {
+  mainPageElements: {
+    networkSwitcher,
+    walletOverview,
+    popup,
+    accountMenu,
+    settingsPage,
+    networksPage,
+    addNetworkPage,
+    options,
+    accountModal,
+  }
+}

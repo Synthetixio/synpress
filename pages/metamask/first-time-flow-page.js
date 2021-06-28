@@ -21,38 +21,34 @@ const allDoneButton = `${endOfFlowPage} .first-time-flow__button`;
 
 const revealSeedPage = '.reveal-seed-phrase';
 const remindLaterButton = `${revealSeedPage} .first-time-flow__button`;
-
-export const welcomePageElements = {
-  app,
-  welcomePage,
-  confirmButton,
-};
-
-export const firstTimeFlowPageElements = {
-  firstTimeFlowPage,
-  importWalletButton,
-};
-
-export const metametricsPageElements = {
-  metametricsPage,
-  optOutAnalyticsButton,
-};
-
-export const firstTimeFlowFormPageElements = {
-  firstTimeFlowFormPage,
-  secretWordsInput,
-  passwordInput,
-  confirmPasswordInput,
-  termsCheckbox,
-  importButton,
-};
-
-export const endOfFlowPageElements = {
-  endOfFlowPage,
-  allDoneButton,
-};
-
-export const revealSeedPageElements = {
-  revealSeedPage,
-  remindLaterButton,
-};
+module.exports = {
+  welcomePageElements: {
+    app,
+    welcomePage,
+    confirmButton,
+  },
+  firstTimeFlowPageElements: {
+    firstTimeFlowPage,
+    importWalletButton,
+  },
+  metametricsPageElements: {
+    metametricsPage,
+    optOutAnalyticsButton,
+  },
+  firstTimeFlowFormPageElements: {
+    firstTimeFlowFormPage,
+    secretWordsInput,
+    passwordInput,
+    confirmPasswordInput,
+    termsCheckbox,
+    importButton,
+  },
+  endOfFlowPageElements: {
+    endOfFlowPage,
+    allDoneButton,
+  },
+  revealSeedPageElements: {
+    revealSeedPage,
+    remindLaterButton,
+  },
+}
