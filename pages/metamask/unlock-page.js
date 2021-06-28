@@ -3,7 +3,7 @@ const passwordInput = `${unlockPage} #password`;
 const unlockButton = `${unlockPage} button`;
 
 module.exports = {
-  unlockPageElements = {
+  unlockPageElements: {
     unlockPage,
     passwordInput,
     unlockButton,
