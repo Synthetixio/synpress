@@ -195,6 +195,20 @@ module.exports = {
     await puppeteer.metamaskWindow().waitForTimeout(3000);
     return true;
   },
+  rejectAccess: async () => {
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndClick(
+      notificationPageElements.nextButton,
+      notificationPage,
+    );
+    await puppeteer.waitAndClick(
+      permissionsPageElements.cancelButton,
+      notificationPage,
+    );
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    return true;
+  },
   confirmTransaction: async () => {
     const isKovanTestnet = getNetwork().networkName === 'kovan';
     await puppeteer.metamaskWindow().waitForTimeout(3000);

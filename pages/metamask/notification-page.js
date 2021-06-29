@@ -3,6 +3,7 @@ const nextButton = `${notificationPage} .permissions-connect-choose-account__bot
 
 const permissionsPage = '.permissions-connect';
 const connectButton = `${permissionsPage} .permission-approval-container__footers button:nth-child(2)`;
+const cancelButton = `${permissionsPage} .permission-approval-container__footers button:nth-child(1)`;
 
 const confirmPageHeader = `${notificationPage} .confirm-page-container-header`;
 const confirmPageContent = `${notificationPage} .confirm-page-container-content`;
@@ -22,6 +23,7 @@ module.exports = {
   permissionsPageElements: {
     permissionsPage,
     connectButton,
+    cancelButton,
   },
   confirmPageElements: {
     notificationPage,
