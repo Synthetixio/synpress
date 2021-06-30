@@ -88,6 +88,12 @@ declare namespace Cypress {
      * cy.acceptMetamaskAccess()
      */
     acceptMetamaskAccess(): Chainable<Subject>;
+      /**
+     * Disconnects metamask
+     * @example
+     * cy.disconnectMetamask()
+     */
+    disconnectMetamask(): Chainable<Subject>;
     /**
      * Reject metamask access request
      * @example

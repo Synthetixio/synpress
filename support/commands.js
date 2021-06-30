@@ -46,6 +46,10 @@ Cypress.Commands.add('acceptMetamaskAccess', () => {
   return cy.task('acceptMetamaskAccess');
 });
 
+Cypress.Commands.add('disconnectMetamask', () => {
+  return cy.task('disconnectMetamask');
+});
+
 Cypress.Commands.add('rejectMetamaskAccess', () => {
   return cy.task('rejectMetamaskAccess');
 });

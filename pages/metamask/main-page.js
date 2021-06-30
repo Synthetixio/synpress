@@ -37,6 +37,9 @@ const addNetworkPage = {
 const options = {
   button: '[data-testid=account-options-menu-button]',
   accountDetailsButton: '[data-testid="account-options-menu__account-details"]',
+  connectedSites: '[data-testid="account-options-menu__connected-sites"]',
+  disconnectSite: '.connected-sites-list__trash',
+  disconnectConfirm: '.connected-sites__footer-row>btn-primary'
 };
 
 const accountModal = {
