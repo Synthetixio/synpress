@@ -42,12 +42,12 @@ Cypress.Commands.add('switchToMetamaskWindow', () => {
   return cy.task('switchToMetamaskWindow');
 });
 
-Cypress.Commands.add('acceptMetamaskAccess', () => {
-  return cy.task('acceptMetamaskAccess');
-});
-
 Cypress.Commands.add('disconnectMetamask', () => {
   return cy.task('disconnectMetamask');
+});
+
+Cypress.Commands.add('acceptMetamaskAccess', () => {
+  return cy.task('acceptMetamaskAccess');
 });
 
 Cypress.Commands.add('rejectMetamaskAccess', () => {

@@ -178,8 +178,16 @@ module.exports = {
     await puppeteer.waitForText(
       mainPageElements.networkSwitcher.networkName,
       network.networkName,
-    );
-    return true;
+      );
+      return true;
+    },
+  disconnect: async () => {
+    await puppeteer.switchToMetamaskWindow();
+    await puppeteer.waitAndClick(mainPageElements.options.button);
+    await puppeteer.waitAndClick(mainPageElements.options.connectedSites);
+    await puppeteer.waitAndClick(mainPageElements.options.disconnectSite);
+    await puppeteer.waitAndClick(mainPageElements.options.disconnectConfirm);
+    return true
   },
   acceptAccess: async () => {
     await puppeteer.metamaskWindow().waitForTimeout(3000);
@@ -252,16 +260,6 @@ module.exports = {
     );
     await puppeteer.waitAndClick(mainPageElements.accountModal.closeButton);
     return walletAddress;
-  },
-  disconnect: async () => {
-    // await puppeteer.assignWindows();
-    // await puppeteer.metamaskWindow().waitForTimeout(1000);
-    // await puppeteer.switchToMetamaskWindow();
-    await puppeteer.waitAndClick(mainPageElements.options.button);
-    await puppeteer.waitAndClick(mainPageElements.options.connectedSites);
-    await puppeteer.waitAndClick(mainPageElements.options.disconnectSite);
-    await puppeteer.waitAndClick(mainPageElements.options.disconnectConfirm);
-    return true
   },
   initialSetup: async ({ secretWords, network, password }) => {
     const isCustomNetwork =

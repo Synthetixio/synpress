@@ -71,10 +71,6 @@ module.exports = (on, config) => {
       const notificationPage = await puppeteer.switchToMetamaskNotification();
       return notificationPage;
     },
-    disconnectMetamask: async () => {
-      const disconnect = await metamask.disconnect();
-      return disconnect
-    },
     confirmMetamaskWelcomePage: async () => {
       const confirmed = await metamask.confirmWelcomePage();
       return confirmed;
@@ -102,6 +98,10 @@ module.exports = (on, config) => {
       }
       const networkChanged = await metamask.changeNetwork(network);
       return networkChanged;
+    },
+    disconnectMetamask: async () => {
+      const disconnect = await metamask.disconnect();
+      return disconnect
     },
     acceptMetamaskAccess: async () => {
       const accepted = await metamask.acceptAccess();

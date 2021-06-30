@@ -39,7 +39,7 @@ const options = {
   accountDetailsButton: '[data-testid="account-options-menu__account-details"]',
   connectedSites: '[data-testid="account-options-menu__connected-sites"]',
   disconnectSite: '.connected-sites-list__trash',
-  disconnectConfirm: '.connected-sites__footer-row>btn-primary'
+  disconnectConfirm: '.btn-primary'
 };
 
 const accountModal = {
