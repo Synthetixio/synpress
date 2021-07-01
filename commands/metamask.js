@@ -18,7 +18,7 @@ const {
 } = require('../pages/metamask/notification-page');
 const { setNetwork, getNetwork } = require('../helpers');
 
-let walletAddress;
+let walletAddress, isConnected;
 
 module.exports = {
   walletAddress: () => {
@@ -79,6 +79,24 @@ module.exports = {
       await puppeteer.waitAndClick(mainPageElements.popup.closeButton);
     }
     return true;
+  },
+  getIsConnected: async address => {
+    let _isConnected = false;
+    await puppeteer.waitAndClick(mainPageElements.options.button);
+    await puppeteer.waitAndClick(mainPageElements.options.connectedSitesButton);
+    try {
+      await puppeteer.waitForXPathText(
+        address,
+        `//*[@class="connected-sites-list__content-rows"]`,
+      );
+      _isConnected = true;
+    } catch (e) {
+      _isConnected = false;
+    }
+    await puppeteer.waitAndClick(
+      mainPageElements.connectedSitesModal.closeButton,
+    );
+    return _isConnected;
   },
   changeNetwork: async network => {
     setNetwork(network);
@@ -183,6 +201,9 @@ module.exports = {
     return true;
   },
   acceptAccess: async () => {
+    if (isConnected) {
+      return true;
+    }
     await puppeteer.metamaskWindow().waitForTimeout(3000);
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     await puppeteer.waitAndClick(
@@ -250,7 +271,7 @@ module.exports = {
     await puppeteer.waitAndClick(mainPageElements.accountModal.closeButton);
     return walletAddress;
   },
-  initialSetup: async ({ secretWords, network, password }) => {
+  initialSetup: async ({ secretWords, network, password, baseUrl = '' }) => {
     const isCustomNetwork =
       process.env.NETWORK_NAME && process.env.RPC_URL && process.env.CHAIN_ID;
 
@@ -273,6 +294,14 @@ module.exports = {
       return true;
     } else {
       await module.exports.unlock(password);
+
+      // switch network if network is not the one provided in NETWORK_NAME
+      await module.exports.changeNetwork(network);
+
+      isConnected = await module.exports.getIsConnected(
+        baseUrl.replace(/https?:\/\//, ''),
+      );
+
       walletAddress = await module.exports.getWalletAddress();
       await puppeteer.switchToCypressWindow();
       return true;

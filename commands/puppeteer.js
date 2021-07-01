@@ -74,6 +74,7 @@ module.exports = {
     // puppeteer going too fast breaks metamask in corner cases
     await page.waitForTimeout(300);
   },
+
   waitAndClick: async (selector, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
     await page.evaluate(
@@ -109,6 +110,16 @@ module.exports = {
     );
     await page.focus(selector);
     await page.keyboard.type(text);
+  },
+  waitForXPathText: async (
+    text,
+    xPathSelector = '//*',
+    page = metamaskWindow,
+  ) => {
+    await page.waitForXPath(
+      `${xPathSelector}//*[contains(text(), "${text}")]`,
+      { timeout: 3000 },
+    );
   },
   waitForText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);

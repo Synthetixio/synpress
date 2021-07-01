@@ -129,7 +129,12 @@ module.exports = (on, config) => {
       if (process.env.SECRET_WORDS) {
         secretWords = process.env.SECRET_WORDS;
       }
-      await metamask.initialSetup({ secretWords, network, password });
+      await metamask.initialSetup({
+        secretWords,
+        network,
+        password,
+        baseUrl: config.baseUrl,
+      });
       return true;
     },
     snxExchangerSettle: async ({ asset, walletAddress, privateKey }) => {

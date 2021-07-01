@@ -37,11 +37,16 @@ const addNetworkPage = {
 const options = {
   button: '[data-testid=account-options-menu-button]',
   accountDetailsButton: '[data-testid="account-options-menu__account-details"]',
+  connectedSitesButton: '[data-testid="account-options-menu__connected-sites"]',
 };
 
 const accountModal = {
   walletAddressInput: '.account-modal input',
   closeButton: '.account-modal__close',
+};
+
+const connectedSitesModal = {
+  closeButton: '.connected-sites [data-testid="popover-close"]',
 };
 
 export const mainPageElements = {
@@ -54,4 +59,5 @@ export const mainPageElements = {
   addNetworkPage,
   options,
   accountModal,
+  connectedSitesModal,
 };
