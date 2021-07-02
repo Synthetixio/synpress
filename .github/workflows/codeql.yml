@@ -3,12 +3,8 @@ name: CodeQL
 on:
   push:
     branches: [master, dev]
-    paths-ignore:
-    - node_modules
   pull_request:
     branches: [master, dev]
-    paths-ignore:
-    - node_modules
   schedule:
     - cron: '0 6 * * 3'
 
