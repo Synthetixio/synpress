@@ -118,7 +118,7 @@ module.exports = (on, config) => {
     fetchMetamaskWalletAddress: async () => {
       return metamask.walletAddress();
     },
-    setupMetamask: async ({ secretWords, network, password }) => {
+    setupMetamask: async ({ secretWords, network = 'kovan', password }) => {
       if (process.env.NETWORK_NAME) {
         network = process.env.NETWORK_NAME;
       }
