@@ -67,10 +67,7 @@ jobs:
     - name: Release ${{ github.event.inputs.version }}
       run: |
         git reset --hard
-
-        # workaround permission issues while using npm 7
-        chown -R $(whoami) .git
-
+        chown -R $(whoami) .
         npm run release:${{ github.event.inputs.version }} --ci
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
