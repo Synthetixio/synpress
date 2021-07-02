@@ -42,7 +42,7 @@ jobs:
       continue-on-error: true
 
     - name: Install dependencies
-      run: npm install --no-audit
+      run: npm ci --no-audit
 
     - name: git config
       run: |

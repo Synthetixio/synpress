@@ -59,7 +59,7 @@ jobs:
       continue-on-error: true
 
     - name: Install dependencies
-      run: npm install --no-audit
+      run: npm ci --no-audit
 
     - name: Lint
       # run only on master/dev branch and pull requests
