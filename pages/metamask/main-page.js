@@ -44,7 +44,7 @@ const accountModal = {
   closeButton: '.account-modal__close',
 };
 
-export const mainPageElements = {
+module.exports.mainPageElements = {
   networkSwitcher,
   walletOverview,
   popup,
