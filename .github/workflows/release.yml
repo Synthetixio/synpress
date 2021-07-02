@@ -68,7 +68,7 @@ jobs:
       run: |
         git reset --hard
         chown -R $(whoami) .
-        chmod a+rw .git/FETCH_HEAD
+        chmod g+w .git -R
         npm run release:${{ github.event.inputs.version }} --ci
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
