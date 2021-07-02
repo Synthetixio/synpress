@@ -22,23 +22,23 @@ const allDoneButton = `${endOfFlowPage} .first-time-flow__button`;
 const revealSeedPage = '.reveal-seed-phrase';
 const remindLaterButton = `${revealSeedPage} .first-time-flow__button`;
 
-export const welcomePageElements = {
+module.exports.welcomePageElements = {
   app,
   welcomePage,
   confirmButton,
 };
 
-export const firstTimeFlowPageElements = {
+module.exports.firstTimeFlowPageElements = {
   firstTimeFlowPage,
   importWalletButton,
 };
 
-export const metametricsPageElements = {
+module.exports.metametricsPageElements = {
   metametricsPage,
   optOutAnalyticsButton,
 };
 
-export const firstTimeFlowFormPageElements = {
+module.exports.firstTimeFlowFormPageElements = {
   firstTimeFlowFormPage,
   secretWordsInput,
   passwordInput,
@@ -47,12 +47,12 @@ export const firstTimeFlowFormPageElements = {
   importButton,
 };
 
-export const endOfFlowPageElements = {
+module.exports.endOfFlowPageElements = {
   endOfFlowPage,
   allDoneButton,
 };
 
-export const revealSeedPageElements = {
+module.exports.revealSeedPageElements = {
   revealSeedPage,
   remindLaterButton,
 };

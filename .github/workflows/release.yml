@@ -26,20 +26,23 @@ jobs:
         fetch-depth: 0
         ref: master
 
-    - name: Cache node modules
-      uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353 # pin@v2
+    - name: Get npm cache directory
+      id: npm-cache-dir
+      run: |
+        echo "::set-output name=dir::$(npm config get cache)"
+      continue-on-error: true
+
+    - uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353 # pin@v2
+      id: npm-cache
       with:
-        path: |
-          .npm
-          node_modules
+        path: ${{ steps.npm-cache-dir.outputs.dir }}
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
-          ${{ runner.os }}-
       continue-on-error: true
 
     - name: Install dependencies
-      run: npm install --no-audit
+      run: npm ci --no-audit
 
     - name: git config
       run: |
@@ -64,6 +67,10 @@ jobs:
     - name: Release ${{ github.event.inputs.version }}
       run: |
         git reset --hard
+
+        # workaround permission issues on npm 7
+        chown -R $(whoami) .
+        
         npm run release:${{ github.event.inputs.version }} --ci
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
