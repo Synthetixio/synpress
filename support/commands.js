@@ -42,6 +42,10 @@ Cypress.Commands.add('switchToMetamaskWindow', () => {
   return cy.task('switchToMetamaskWindow');
 });
 
+Cypress.Commands.add('approveMetamaskPermisions', () => {
+  return cy.task('approveMetamaskPermisions');
+});
+
 Cypress.Commands.add('acceptMetamaskAccess', () => {
   return cy.task('acceptMetamaskAccess');
 });
