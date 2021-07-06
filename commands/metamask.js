@@ -185,7 +185,7 @@ module.exports = {
     await puppeteer.metamaskWindow().waitForTimeout(3000);
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     await puppeteer.waitAndClick(
-      confirmPageElements.confirmButton,
+      '[data-testid="page-container-footer-next"]',
       notificationPage,
     );
     await puppeteer.metamaskWindow().waitForTimeout(3000);
