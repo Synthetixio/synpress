@@ -9,7 +9,7 @@ module.exports = {
     const etherscanApi = require('etherscan-api').init(
       process.env.ETHERSCAN_KEY,
       currentNetwork,
-      '30000',
+      30000,
     );
     const txStatus = await etherscanApi.transaction.getstatus(txid);
     const txReceipt = await etherscanApi.proxy.eth_getTransactionReceipt(txid);
