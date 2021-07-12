@@ -20,7 +20,7 @@ module.exports = {
     if (
       // status success
       txStatus.txReceipt.result &&
-      txStatus.txReceipt.result === '0x1' &&
+      txStatus.txReceipt.result.status === '0x1' &&
       txStatus.txStatus.result &&
       txStatus.txStatus.result.isError === '0'
     ) {
