@@ -181,11 +181,21 @@ module.exports = {
     );
     return true;
   },
-  approveMetamaskPermisions: async () => {
+  confirmPermissionToSpend: async () => {
     await puppeteer.metamaskWindow().waitForTimeout(3000);
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     await puppeteer.waitAndClick(
-      '[data-testid="page-container-footer-next"]',
+      notificationPageElements.allowToSpendButton,
+      notificationPage,
+    );
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    return true;
+  },
+  rejectPermissionToSpend: async () => {
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndClick(
+      notificationPageElements.rejectToSpendButton,
       notificationPage,
     );
     await puppeteer.metamaskWindow().waitForTimeout(3000);
