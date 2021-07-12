@@ -1,5 +1,7 @@
 const notificationPage = '.notification';
 const nextButton = `${notificationPage} .permissions-connect-choose-account__bottom-buttons button:nth-child(2)`;
+const allowToSpendButton = `${notificationPage} [data-testid="page-container-footer-cancel"]`;
+const rejectToSpendButton = `${notificationPage} [data-testid="page-container-footer-next"]`;
 
 const permissionsPage = '.permissions-connect';
 const connectButton = `${permissionsPage} .permission-approval-container__footers button:nth-child(2)`;
@@ -17,6 +19,8 @@ const confirmButton = `${confirmPageContent} [data-testid="page-container-footer
 module.exports.notificationPageElements = {
   notificationPage,
   nextButton,
+  allowToSpendButton,
+  rejectToSpendButton,
 };
 
 module.exports.permissionsPageElements = {
