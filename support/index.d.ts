@@ -83,6 +83,18 @@ declare namespace Cypress {
      */
     switchToMetamaskWindow(): Chainable<Subject>;
     /**
+     * Confirm metamask permission to spend asset
+     * @example
+     * cy.confirmMetamaskPermissionToSpend()
+     */
+    confirmMetamaskPermissionToSpend(): Chainable<Subject>;
+    /**
+     * Reject metamask permission to spend asset
+     * @example
+     * cy.rejectMetamaskPermissionToSpend()
+     */
+    rejectMetamaskPermissionToSpend(): Chainable<Subject>;
+    /**
      * Accept metamask access request
      * @example
      * cy.acceptMetamaskAccess()

@@ -3,24 +3,24 @@ const sleep = require('util').promisify(setTimeout);
 let retries = 0;
 
 module.exports = {
-  getTransactionStatus: async ({ txid }) => {
+  getTransactionStatus: async txid => {
     const { getNetwork } = require('../helpers');
     const currentNetwork = getNetwork().networkName;
     const etherscanApi = require('etherscan-api').init(
       process.env.ETHERSCAN_KEY,
       currentNetwork,
-      '30000',
+      30000,
     );
     const txStatus = await etherscanApi.transaction.getstatus(txid);
     const txReceipt = await etherscanApi.proxy.eth_getTransactionReceipt(txid);
     return { txStatus, txReceipt };
   },
-  waitForTxSuccess: async ({ txid }) => {
+  waitForTxSuccess: async txid => {
     const txStatus = await module.exports.getTransactionStatus(txid);
     if (
       // status success
       txStatus.txReceipt.result &&
-      txStatus.txReceipt.result === '0x1' &&
+      txStatus.txReceipt.result.status === '0x1' &&
       txStatus.txStatus.result &&
       txStatus.txStatus.result.isError === '0'
     ) {
