@@ -3,7 +3,7 @@ const sleep = require('util').promisify(setTimeout);
 let retries = 0;
 
 module.exports = {
-  getTransactionStatus: async ({ txid }) => {
+  getTransactionStatus: async txid => {
     const { getNetwork } = require('../helpers');
     const currentNetwork = getNetwork().networkName;
     const etherscanApi = require('etherscan-api').init(
@@ -15,7 +15,7 @@ module.exports = {
     const txReceipt = await etherscanApi.proxy.eth_getTransactionReceipt(txid);
     return { txStatus, txReceipt };
   },
-  waitForTxSuccess: async ({ txid }) => {
+  waitForTxSuccess: async txid => {
     const txStatus = await module.exports.getTransactionStatus(txid);
     if (
       // status success
