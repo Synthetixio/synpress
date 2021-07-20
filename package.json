@@ -37,7 +37,7 @@
         "release:major": "release-it major --disable-metrics",
         "release:minor": "release-it minor --disable-metrics",
         "release:patch": "release-it patch --disable-metrics",
-        "update:deps": "ncu -u && npm install"
+        "update:deps": "ncu -u && npm install --legacy-peer-deps"
     },
     "dependencies": {
         "@cypress/code-coverage": "3.9.9",
@@ -57,9 +57,9 @@
         "bytes32": "0.0.3",
         "commander": "8.0.0",
         "cross-zip": "4.0.0",
-        "cypress": "7.7.0",
+        "cypress": "8.0.0",
         "cypress-wait-until": "1.7.1",
-        "eslint": "7.30.0",
+        "eslint": "7.31.0",
         "eslint-config-prettier": "8.3.0",
         "eslint-config-standard": "16.0.3",
         "eslint-plugin-chai-friendly": "0.7.1",
@@ -69,7 +69,7 @@
         "eslint-plugin-prettier": "3.4.0",
         "eslint-plugin-promise": "5.1.0",
         "eslint-plugin-standard": "4.1.0",
-        "eslint-plugin-testing-library": "4.9.0",
+        "eslint-plugin-testing-library": "4.9.1",
         "eslint-plugin-ui-testing": "1.0.4",
         "eslint-plugin-unicorn": "34.0.1",
         "etherscan-api": "10.0.5",
@@ -81,7 +81,7 @@
     },
     "devDependencies": {
         "@microsoft/eslint-formatter-sarif": "2.1.5",
-        "npm-check-updates": "11.8.2",
+        "npm-check-updates": "11.8.3",
         "release-it": "14.10.0"
     },
     "engines": {
