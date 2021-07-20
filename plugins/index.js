@@ -36,7 +36,7 @@ module.exports = (on, config) => {
 
     // NOTE: extensions cannot be loaded in headless Chrome
     const metamaskPath = await helpers.prepareMetamask(
-      process.env.METAMASK_VERSION || '9.5.9',
+      process.env.METAMASK_VERSION || '9.7.1',
     );
     arguments_.extensions.push(metamaskPath);
     return arguments_;
@@ -99,6 +99,22 @@ module.exports = (on, config) => {
       const networkChanged = await metamask.changeNetwork(network);
       return networkChanged;
     },
+    confirmMetamaskPermissionToSpend: async () => {
+      const confirmed = await metamask.confirmPermissionToSpend();
+      return confirmed;
+    },
+    rejectMetamaskPermissionToSpend: async () => {
+      const rejected = await metamask.rejectPermissionToSpend();
+      return rejected;
+    },
+    signMetamaskTransaction: async () => {
+      const signed = await metamask.signMetamaskTransaction();
+      return signed;
+    },
+    cancelMetamaskSignature: async () => {
+      const cancelled = await metamask.cancelMetamaskSignature();
+      return cancelled;
+    },
     acceptMetamaskAccess: async () => {
       const accepted = await metamask.acceptAccess();
       return accepted;
@@ -118,7 +134,7 @@ module.exports = (on, config) => {
     fetchMetamaskWalletAddress: async () => {
       return metamask.walletAddress();
     },
-    setupMetamask: async ({ secretWords, network, password }) => {
+    setupMetamask: async ({ secretWords, network = 'kovan', password }) => {
       if (process.env.NETWORK_NAME) {
         network = process.env.NETWORK_NAME;
       }

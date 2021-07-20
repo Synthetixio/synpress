@@ -110,6 +110,19 @@ module.exports = {
     await page.focus(selector);
     await page.keyboard.type(text);
   },
+  waitAndClearWithBackspace: async (selector, page = metamaskWindow) => {
+    await module.exports.waitFor(selector, page);
+    const inputValue = await page.evaluate(selector, el => el.value);
+    for (let i = 0; i < inputValue.length; i++) {
+      await page.keyboard.press('Backspace');
+    }
+  },
+  waitClearAndType: async (text, selector, page = metamaskWindow) => {
+    await module.exports.waitFor(selector, page);
+    const input = await page.$(selector);
+    await input.click({ clickCount: 3 });
+    await input.type(text);
+  },
   waitForText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
     await page.waitForFunction(
