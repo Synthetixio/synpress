@@ -39,14 +39,12 @@ module.exports = {
   },
   confirmWelcomePage: async () => {
     await module.exports.fixBlankPage();
-    await puppeteer.waitAndClick(welcomePageElements.confirmButton);
-    return true;
+    return puppeteer.waitAndClick(welcomePageElements.confirmButton);
   },
   unlock: async password => {
     await module.exports.fixBlankPage();
     await puppeteer.waitAndType(unlockPageElements.passwordInput, password);
-    await puppeteer.waitAndClick(unlockPageElements.unlockButton);
-    return true;
+    return puppeteer.waitAndClick(unlockPageElements.unlockButton);
   },
   importWallet: async (secretWords, password) => {
     await puppeteer.waitAndClick(firstTimeFlowPageElements.importWalletButton);
@@ -119,18 +117,16 @@ module.exports = {
     }
 
     if (typeof network === 'object') {
-      await puppeteer.waitForText(
+      return puppeteer.waitForText(
         mainPageElements.networkSwitcher.networkName,
         network.networkName,
       );
     } else {
-      await puppeteer.waitForText(
+      return puppeteer.waitForText(
         mainPageElements.networkSwitcher.networkName,
         network,
       );
     }
-
-    return true;
   },
   addNetwork: async network => {
     if (
@@ -175,11 +171,10 @@ module.exports = {
     );
     await puppeteer.waitAndClick(mainPageElements.addNetworkPage.saveButton);
     await puppeteer.waitAndClick(mainPageElements.networksPage.closeButton);
-    await puppeteer.waitForText(
+    return puppeteer.waitForText(
       mainPageElements.networkSwitcher.networkName,
       network.networkName,
     );
-    return true;
   },
   confirmPermissionToSpend: async () => {
     await puppeteer.metamaskWindow().waitForTimeout(3000);
@@ -188,8 +183,7 @@ module.exports = {
       notificationPageElements.allowToSpendButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
-    return true;
+    return puppeteer.metamaskWindow().waitForTimeout(3000);
   },
   rejectPermissionToSpend: async () => {
     await puppeteer.metamaskWindow().waitForTimeout(3000);
@@ -198,8 +192,7 @@ module.exports = {
       notificationPageElements.rejectToSpendButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
-    return true;
+    return puppeteer.metamaskWindow().waitForTimeout(3000);
   },
   acceptAccess: async () => {
     await puppeteer.metamaskWindow().waitForTimeout(3000);
@@ -212,8 +205,7 @@ module.exports = {
       permissionsPageElements.connectButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
-    return true;
+    return puppeteer.metamaskWindow().waitForTimeout(3000);
   },
   confirmTransaction: async () => {
     const isKovanTestnet = getNetwork().networkName === 'kovan';
@@ -237,8 +229,7 @@ module.exports = {
       confirmPageElements.confirmButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
-    return true;
+    return puppeteer.metamaskWindow().waitForTimeout(3000);
   },
   rejectTransaction: async () => {
     await puppeteer.metamaskWindow().waitForTimeout(3000);
@@ -247,8 +238,7 @@ module.exports = {
       confirmPageElements.rejectButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
-    return true;
+    return puppeteer.metamaskWindow().waitForTimeout(3000);
   },
   getWalletAddress: async () => {
     await puppeteer.waitAndClick(mainPageElements.options.button);
@@ -278,13 +268,11 @@ module.exports = {
         await module.exports.changeNetwork(network);
       }
       walletAddress = await module.exports.getWalletAddress();
-      await puppeteer.switchToCypressWindow();
-      return true;
+      return puppeteer.switchToCypressWindow();
     } else {
       await module.exports.unlock(password);
       walletAddress = await module.exports.getWalletAddress();
-      await puppeteer.switchToCypressWindow();
-      return true;
+      return puppeteer.switchToCypressWindow();
     }
   },
 };
