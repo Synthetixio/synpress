@@ -17,12 +17,21 @@ const accountMenu = {
 };
 
 const settingsPage = {
+  advancedButton: '.settings-page button:nth-child(2)',
   networksButton: '.settings-page button:nth-child(6)',
+  customNonceToggle: '[data-testid="advanced-setting-custom-nonce"] .toggle-button > div',
+  customNonceToggleDisabled: '[data-testid="advanced-setting-custom-nonce"] .toggle-button.toggle-button--off > div',
+  resetAccountButton: '[data-testid="advanced-setting-reset-account"] button',
+  closeButton: '.settings-page__close-button',
+};
+
+const resetAccountModal = {
+  confirm: '.modal-container__footer button:nth-child(2)',
+  cancel: '.modal-container__footer button:nth-child(1)',
 };
 
 const networksPage = {
   addNetworkButton: '.networks-tab__body button',
-  closeButton: '.settings-page__close-button',
 };
 
 const addNetworkPage = {
@@ -49,6 +58,7 @@ module.exports.mainPageElements = {
   walletOverview,
   popup,
   accountMenu,
+  resetAccountModal,
   settingsPage,
   networksPage,
   addNetworkPage,

@@ -174,12 +174,31 @@ module.exports = {
       network.blockExplorer,
     );
     await puppeteer.waitAndClick(mainPageElements.addNetworkPage.saveButton);
-    await puppeteer.waitAndClick(mainPageElements.networksPage.closeButton);
+    await puppeteer.waitAndClick(mainPageElements.settingsPage.closeButton);
     await puppeteer.waitForText(
       mainPageElements.networkSwitcher.networkName,
       network.networkName,
     );
     return true;
+  }, 
+  activeCustomNonce: async () => {
+    await waitAndClick(mainPageElements.accountMenu.button);
+    await waitAndClick(mainPageElements.accountMenu.settingsButton);
+    await waitAndClick(mainPageElements.settingsPage.advancedButton);
+    if (await getMetamaskWindow().$(mainPageElements.settingsPage.customNonceToggleDisabled)) {
+        await waitAndClick(mainPageElements.settingsPage.customNonceToggle);
+    }
+    await waitAndClick(mainPageElements.settingsPage.closeButton);
+    return waitFor(mainPageElements.walletOverview);
+  },
+  resetAccount: async () => {
+    await waitAndClick(mainPageElements.accountMenu.button);
+    await waitAndClick(mainPageElements.accountMenu.settingsButton);
+    await waitAndClick(mainPageElements.settingsPage.advancedButton);
+    await waitAndClick(mainPageElements.settingsPage.resetAccountButton);
+    await waitAndClick(mainPageElements.resetAccountModal.confirm);
+    await waitAndClick(mainPageElements.settingsPage.closeButton);
+    return waitFor(mainPageElements.walletOverview);
   },
   confirmPermissionToSpend: async () => {
     await puppeteer.metamaskWindow().waitForTimeout(3000);
