@@ -17,10 +17,10 @@ jobs:
         uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # pin@v2
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@33f3438c1d59883f5e769fdf2b6adb6794d91d0f
+        uses: github/codeql-action/init@2632b65a568f8a71eda2432339ad253429c6520a
         with:
           queries: security-and-quality
           languages: javascript
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@33f3438c1d59883f5e769fdf2b6adb6794d91d0f
+        uses: github/codeql-action/analyze@2632b65a568f8a71eda2432339ad253429c6520a
