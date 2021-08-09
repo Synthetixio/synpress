@@ -42,6 +42,14 @@ Cypress.Commands.add('switchToMetamaskWindow', () => {
   return cy.task('switchToMetamaskWindow');
 });
 
+Cypress.Commands.add('activateCustomNonceInMetamask', () => {
+  return cy.task('activateCustomNonceInMetamask');
+});
+
+Cypress.Commands.add('resetMetamaskAccount', () => {
+  return cy.task('resetMetamaskAccount');
+});
+
 Cypress.Commands.add('confirmMetamaskPermissionToSpend', () => {
   return cy.task('confirmMetamaskPermissionToSpend');
 });

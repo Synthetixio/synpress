@@ -15,6 +15,13 @@ const {
   permissionsPageElements,
   confirmPageElements,
 } = require('../pages/metamask/notification-page');
+const {
+  settingsPageElements,
+  advancedPageElements,
+  resetAccountModalElements,
+  networksPageElements,
+  addNetworkPageElements,
+} = require('../pages/metamask/settings-page');
 const { setNetwork, getNetwork } = require('../helpers');
 
 let walletAddress;
@@ -149,36 +156,59 @@ module.exports = {
     }
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
     await puppeteer.waitAndClick(mainPageElements.accountMenu.settingsButton);
-    await puppeteer.waitAndClick(mainPageElements.settingsPage.networksButton);
-    await puppeteer.waitAndClick(
-      mainPageElements.networksPage.addNetworkButton,
-    );
+    await puppeteer.waitAndClick(settingsPageElements.networksButton);
+    await puppeteer.waitAndClick(networksPageElements.addNetworkButton);
     await puppeteer.waitAndType(
-      mainPageElements.addNetworkPage.networkNameInput,
+      addNetworkPageElements.networkNameInput,
       network.networkName,
     );
     await puppeteer.waitAndType(
-      mainPageElements.addNetworkPage.rpcUrlInput,
+      addNetworkPageElements.rpcUrlInput,
       network.rpcUrl,
     );
     await puppeteer.waitAndType(
-      mainPageElements.addNetworkPage.chainIdInput,
+      addNetworkPageElements.chainIdInput,
       network.chainId,
     );
     await puppeteer.waitAndType(
-      mainPageElements.addNetworkPage.symbolInput,
+      addNetworkPageElements.symbolInput,
       network.symbol,
     );
     await puppeteer.waitAndType(
-      mainPageElements.addNetworkPage.blockExplorerInput,
+      addNetworkPageElements.blockExplorerInput,
       network.blockExplorer,
     );
-    await puppeteer.waitAndClick(mainPageElements.addNetworkPage.saveButton);
-    await puppeteer.waitAndClick(mainPageElements.networksPage.closeButton);
+    await puppeteer.waitAndClick(addNetworkPageElements.saveButton);
+    await puppeteer.waitAndClick(settingsPageElements.closeButton);
     await puppeteer.waitForText(
       mainPageElements.networkSwitcher.networkName,
       network.networkName,
     );
+    return true;
+  },
+  activateCustomNonce: async () => {
+    await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
+    await puppeteer.waitAndClick(mainPageElements.accountMenu.settingsButton);
+    await puppeteer.waitAndClick(settingsPageElements.advancedButton);
+    if (
+      (await puppeteer
+        .metamaskWindow()
+        .$(advancedPageElements.customNonceToggleOn)) === null
+    ) {
+      await puppeteer.waitAndClick(advancedPageElements.customNonceToggleOff);
+    }
+    await puppeteer.waitAndClick(settingsPageElements.closeButton);
+    await puppeteer.waitFor(mainPageElements.walletOverview);
+    return true;
+  },
+  resetAccount: async () => {
+    await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
+    await puppeteer.waitAndClick(mainPageElements.accountMenu.settingsButton);
+    await puppeteer.waitAndClick(settingsPageElements.advancedButton);
+    await puppeteer.waitAndClick(advancedPageElements.resetAccountButton);
+    await puppeteer.waitAndClick(resetAccountModalElements.resetButton);
+    await puppeteer.waitAndClick(settingsPageElements.closeButton);
+    await puppeteer.waitFor(mainPageElements.walletOverview);
     return true;
   },
   confirmPermissionToSpend: async () => {
@@ -251,8 +281,10 @@ module.exports = {
     return true;
   },
   getWalletAddress: async () => {
-    await puppeteer.waitAndClick(mainPageElements.options.button);
-    await puppeteer.waitAndClick(mainPageElements.options.accountDetailsButton);
+    await puppeteer.waitAndClick(mainPageElements.optionsMenu.button);
+    await puppeteer.waitAndClick(
+      mainPageElements.optionsMenu.accountDetailsButton,
+    );
     walletAddress = await puppeteer.waitAndGetValue(
       mainPageElements.accountModal.walletAddressInput,
     );

@@ -16,25 +16,7 @@ const accountMenu = {
   settingsButton: '.account-menu__item--clickable:nth-child(11)',
 };
 
-const settingsPage = {
-  networksButton: '.settings-page button:nth-child(6)',
-};
-
-const networksPage = {
-  addNetworkButton: '.networks-tab__body button',
-  closeButton: '.settings-page__close-button',
-};
-
-const addNetworkPage = {
-  networkNameInput: '#network-name',
-  rpcUrlInput: '#rpc-url',
-  chainIdInput: '#chainId',
-  symbolInput: '#network-ticker',
-  blockExplorerInput: '#block-explorer-url',
-  saveButton: '.network-form__footer button:nth-child(2)',
-};
-
-const options = {
+const optionsMenu = {
   button: '[data-testid=account-options-menu-button]',
   accountDetailsButton: '[data-testid="account-options-menu__account-details"]',
 };
@@ -49,9 +31,6 @@ module.exports.mainPageElements = {
   walletOverview,
   popup,
   accountMenu,
-  settingsPage,
-  networksPage,
-  addNetworkPage,
-  options,
+  optionsMenu,
   accountModal,
 };
