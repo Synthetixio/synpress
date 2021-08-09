@@ -41,6 +41,10 @@ jobs:
           ${{ runner.os }}-node-
       continue-on-error: true
 
+    # fixes permission issues on npm@7
+    - name: Chown workspace
+      run: chown -R $(whoami) .
+
     - name: Install dependencies
       run: npm ci --no-audit
 
@@ -62,15 +66,11 @@ jobs:
     - name: npm config
       run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
       env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     - name: Release ${{ github.event.inputs.version }}
       run: |
         git reset --hard
-
-        # workaround permission issues on npm 7
-        chown -R $(whoami) .
-        
         npm run release:${{ github.event.inputs.version }} --ci
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
