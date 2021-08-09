@@ -41,12 +41,12 @@ jobs:
             ${{ runner.os }}-node-
         continue-on-error: true
 
-      # fixes permission issues on npm@7
+      # fixes permission issues on docker+npm@7
       - name: Chown workspace
         run: chown -R $(whoami) .
 
       - name: Install dependencies
-        run: npm ci --no-audit
+        run: npm ci --prefer-offline --no-audit --no-optional
 
       - name: git config
         run: |
