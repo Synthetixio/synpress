@@ -1,37 +1,47 @@
-const settingsPage = {
-  advancedButton: '.settings-page button:nth-child(2)',
-  networksButton: '.settings-page button:nth-child(6)',
-  closeButton: '.settings-page .settings-page__close-button',
-};
-
-const advancedPage = {
-  customNonceToggleOn:
-    '[data-testid="advanced-setting-custom-nonce"] .toggle-button--on input',
-  customNonceToggleOff:
-    '[data-testid="advanced-setting-custom-nonce"] .toggle-button--off input',
-  resetAccountButton: '[data-testid="advanced-setting-reset-account"] button',
-  resetAccountModal: {
-    nevermindButton: '.modal-container button:nth-child(1)',
-    resetButton: '.modal-container button:nth-child(2)',
-  },
-};
-
-const networksPage = {
-  addNetworkButton: '.networks-tab__body button',
-};
-
-const addNetworkPage = {
-  networkNameInput: '#network-name',
-  rpcUrlInput: '#rpc-url',
-  chainIdInput: '#chainId',
-  symbolInput: '#network-ticker',
-  blockExplorerInput: '#block-explorer-url',
-  saveButton: '.network-form__footer button:nth-child(2)',
-};
-
+const settingsPage = '.settings-page';
+const advancedButton = `${settingsPage} button:nth-child(2)`;
+const networksButton = `${settingsPage} button:nth-child(6)`;
+const closeButton = `${settingsPage} .settings-page__close-button`;
 module.exports.settingsPageElements = {
   settingsPage,
-  advancedPage,
-  networksPage,
-  addNetworkPage,
+  advancedButton,
+  networksButton,
+  closeButton,
+};
+
+const customNonceToggleOn =
+  '[data-testid="advanced-setting-custom-nonce"] .toggle-button--on input';
+const customNonceToggleOff =
+  '[data-testid="advanced-setting-custom-nonce"] .toggle-button--off input';
+const resetAccountButton =
+  '[data-testid="advanced-setting-reset-account"] button';
+module.exports.advancedPageElements = {
+  customNonceToggleOn,
+  customNonceToggleOff,
+  resetAccountButton,
+};
+
+const nevermindButton = '.modal-container button:nth-child(1)';
+const resetButton = '.modal-container button:nth-child(2)';
+module.exports.resetAccountModalElements = {
+  nevermindButton,
+  resetButton,
+};
+
+const addNetworkButton = '.networks-tab__body button';
+module.exports.networksPageElements = { addNetworkButton };
+
+const networkNameInput = '#network-name';
+const rpcUrlInput = '#rpc-url';
+const chainIdInput = '#chainId';
+const symbolInput = '#network-ticker';
+const blockExplorerInput = '#block-explorer-url';
+const saveButton = '.network-form__footer button:nth-child(2)';
+module.exports.addNetworkPageElements = {
+  networkNameInput,
+  rpcUrlInput,
+  chainIdInput,
+  symbolInput,
+  blockExplorerInput,
+  saveButton,
 };
