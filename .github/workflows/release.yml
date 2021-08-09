@@ -20,62 +20,62 @@ jobs:
         password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # pin@v2
-      with:
-        fetch-depth: 0
-        ref: master
+      - name: Checkout
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # pin@v2
+        with:
+          fetch-depth: 0
+          ref: master
 
-    - name: Get npm cache directory
-      id: npm-cache-dir
-      run: |
-        echo "::set-output name=dir::$(npm config get cache)"
-      continue-on-error: true
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+        continue-on-error: true
 
-    - uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353 # pin@v2
-      id: npm-cache
-      with:
-        path: ${{ steps.npm-cache-dir.outputs.dir }}
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-      continue-on-error: true
+      - uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353 # pin@v2
+        id: npm-cache
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+        continue-on-error: true
 
-    # fixes permission issues on npm@7
-    - name: Chown workspace
-      run: chown -R $(whoami) .
+      # fixes permission issues on npm@7
+      - name: Chown workspace
+        run: chown -R $(whoami) .
 
-    - name: Install dependencies
-      run: npm ci --no-audit
+      - name: Install dependencies
+        run: npm ci --no-audit
 
-    - name: git config
-      run: |
-        git config user.name $GIT_USER
-        git config user.email $GIT_EMAIL
-        mkdir -p ~/.gnupg/
-        printf $GPG_KEY | base64 -d > ~/.gnupg/private.key
-        gpg --import ~/.gnupg/private.key
-        git config commit.gpgsign true
-        git config user.signingkey $GIT_SIGNING_KEY
-      env:
-        GIT_USER: ${{ secrets.GIT_USER }}
-        GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
-        GPG_KEY: ${{ secrets.GPG_KEY }}
-        GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
+      - name: git config
+        run: |
+          git config user.name $GIT_USER
+          git config user.email $GIT_EMAIL
+          mkdir -p ~/.gnupg/
+          printf $GPG_KEY | base64 -d > ~/.gnupg/private.key
+          gpg --import ~/.gnupg/private.key
+          git config commit.gpgsign true
+          git config user.signingkey $GIT_SIGNING_KEY
+        env:
+          GIT_USER: ${{ secrets.GIT_USER }}
+          GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+          GPG_KEY: ${{ secrets.GPG_KEY }}
+          GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
 
-    - name: npm config
-      run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-      env:
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: npm config
+        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-    - name: Release ${{ github.event.inputs.version }}
-      run: |
-        git reset --hard
-        npm run release:${{ github.event.inputs.version }} --ci
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        GIT_USER: ${{ secrets.GIT_USER }}
-        GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
-        GPG_KEY: ${{ secrets.GPG_KEY }}
-        GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
+      - name: Release ${{ github.event.inputs.version }}
+        run: |
+          git reset --hard
+          npm run release:${{ github.event.inputs.version }} --ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GIT_USER: ${{ secrets.GIT_USER }}
+          GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+          GPG_KEY: ${{ secrets.GPG_KEY }}
+          GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
