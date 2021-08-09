@@ -99,6 +99,14 @@ module.exports = (on, config) => {
       const networkChanged = await metamask.changeNetwork(network);
       return networkChanged;
     },
+    activateCustomNonceInMetamask: async () => {
+      const activated = await metamask.activateCustomNonce();
+      return activated;
+    },
+    resetMetamaskAccount: async () => {
+      const resetted = await metamask.resetAccount();
+      return resetted;
+    },
     confirmMetamaskPermissionToSpend: async () => {
       const confirmed = await metamask.confirmPermissionToSpend();
       return confirmed;

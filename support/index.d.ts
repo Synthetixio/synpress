@@ -83,6 +83,18 @@ declare namespace Cypress {
      */
     switchToMetamaskWindow(): Chainable<Subject>;
     /**
+     * Activate ability (in metamask settings) to specify custom nonce while doing transactions in metamask
+     * @example
+     * cy.activateCustomNonceInMetamask()
+     */
+    activateCustomNonceInMetamask(): Chainable<Subject>;
+    /**
+     * Reset metamask account state in settings
+     * @example
+     * cy.resetMetamaskAccount()
+     */
+    resetMetamaskAccount(): Chainable<Subject>;
+    /**
      * Confirm metamask permission to spend asset
      * @example
      * cy.confirmMetamaskPermissionToSpend()
