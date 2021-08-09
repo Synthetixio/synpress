@@ -1,10 +1,20 @@
 const notificationPage = '.notification';
 const nextButton = `${notificationPage} .permissions-connect-choose-account__bottom-buttons button:nth-child(2)`;
-const allowToSpendButton = `${notificationPage} [data-testid="page-container-footer-cancel"]`;
-const rejectToSpendButton = `${notificationPage} [data-testid="page-container-footer-next"]`;
+const allowToSpendButton = `${notificationPage} [data-testid="page-container-footer-next"]`;
+const rejectToSpendButton = `${notificationPage} [data-testid="page-container-footer-cancel"]`;
+module.exports.notificationPageElements = {
+  notificationPage,
+  nextButton,
+  allowToSpendButton,
+  rejectToSpendButton,
+};
 
 const permissionsPage = '.permissions-connect';
 const connectButton = `${permissionsPage} .permission-approval-container__footers button:nth-child(2)`;
+module.exports.permissionsPageElements = {
+  permissionsPage,
+  connectButton,
+};
 
 const confirmPageHeader = `${notificationPage} .confirm-page-container-header`;
 const confirmPageContent = `${notificationPage} .confirm-page-container-content`;
@@ -15,19 +25,6 @@ const gasLimitInput = `${confirmPageGasFeeSection} .advanced-gas-inputs__gas-edi
 const totalLabel = `${confirmPageContent} div:nth-child(2) > .confirm-detail-row .currency-display-component__text`;
 const rejectButton = `${confirmPageContent} [data-testid="page-container-footer-cancel"]`;
 const confirmButton = `${confirmPageContent} [data-testid="page-container-footer-next"]`;
-
-module.exports.notificationPageElements = {
-  notificationPage,
-  nextButton,
-  allowToSpendButton,
-  rejectToSpendButton,
-};
-
-module.exports.permissionsPageElements = {
-  permissionsPage,
-  connectButton,
-};
-
 module.exports.confirmPageElements = {
   notificationPage,
   confirmPageHeader,
