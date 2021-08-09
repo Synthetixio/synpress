@@ -16,34 +16,7 @@ const accountMenu = {
   settingsButton: '.account-menu__item--clickable:nth-child(11)',
 };
 
-const settingsPage = {
-  advancedButton: '.settings-page button:nth-child(2)',
-  networksButton: '.settings-page button:nth-child(6)',
-  customNonceToggle: '[data-testid="advanced-setting-custom-nonce"] .toggle-button > div',
-  customNonceToggleDisabled: '[data-testid="advanced-setting-custom-nonce"] .toggle-button.toggle-button--off > div',
-  resetAccountButton: '[data-testid="advanced-setting-reset-account"] button',
-  closeButton: '.settings-page__close-button',
-};
-
-const resetAccountModal = {
-  confirm: '.modal-container__footer button:nth-child(2)',
-  cancel: '.modal-container__footer button:nth-child(1)',
-};
-
-const networksPage = {
-  addNetworkButton: '.networks-tab__body button',
-};
-
-const addNetworkPage = {
-  networkNameInput: '#network-name',
-  rpcUrlInput: '#rpc-url',
-  chainIdInput: '#chainId',
-  symbolInput: '#network-ticker',
-  blockExplorerInput: '#block-explorer-url',
-  saveButton: '.network-form__footer button:nth-child(2)',
-};
-
-const options = {
+const optionsMenu = {
   button: '[data-testid=account-options-menu-button]',
   accountDetailsButton: '[data-testid="account-options-menu__account-details"]',
 };
@@ -58,10 +31,6 @@ module.exports.mainPageElements = {
   walletOverview,
   popup,
   accountMenu,
-  resetAccountModal,
-  settingsPage,
-  networksPage,
-  addNetworkPage,
-  options,
+  optionsMenu,
   accountModal,
 };
