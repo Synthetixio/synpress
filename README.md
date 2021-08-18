@@ -106,7 +106,7 @@ If you want to use Etherscan API helpers, you will have to provide Etherscan API
 ## 🧪 Usage
 
 - `synpress run` to run tests
-- `synpress open` to open Cypress UI
+- `synpress open` to open Cypress UI (may be bugged in some cases because it doesn't clear metamask state before each e2e test, please use `synpress run`)
 
 Command line interface (`synpress help`):
 
