@@ -14,5 +14,7 @@
     },
     "env": {
         "coverage": false
-    }
+    },
+    "defaultCommandTimeout": 8000,
+    "requestTimeout": 30000
 }
