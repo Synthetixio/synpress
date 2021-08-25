@@ -184,5 +184,15 @@ declare namespace Cypress {
      * cy.etherscanWaitForTxSuccess('0xf..')
      */
     etherscanWaitForTxSuccess(txid: string): Chainable<Subject>;
+    /**
+     * Wait until all XHR requests are finished (networkidle0)
+     * @example
+     * cy.waitForResources()
+     * cy.waitForResources([{name:"fa-solid-900.woff2"}])
+     * cy.waitForResources([{name:"fonts.gstatic.com/s/worksans",number:2}])
+     */
+    waitForResources(
+      resources: Array<{ name: string; number?: number }> | undefined,
+    ): Chainable<Subject>;
   }
 }
