@@ -29,21 +29,15 @@ jobs:
           ref: master
 
       - name: Set npm cache directory
-        run: npm config set cache ${{ github.workspace }}/.npm-cache --global 
-        continue-on-error: true
-
-      - name: Get npm cache directory
-        id: npm-cache-dir
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
+        run: npm config set cache .npm-cache --global 
         continue-on-error: true
 
       - uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353 # pin@v2
         id: npm-cache
         with:
           path: |
-            ${{ steps.npm-cache-dir.outputs.dir }}
-            ${{ github.workspace }}/node_modules
+            .npm-cache
+            node_modules
           key: ${{ runner.os }}-ubuntu-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-ubuntu-node-
@@ -100,7 +94,7 @@ jobs:
         run: |
           git reset --hard
 
-          if echo ${{ steps.extract-version.outputs.current-version }} | grep -q "-beta"; then
+          if echo ${{ steps.extract-version.outputs.current-version }} | grep -q "beta"; then
             npm run release -- --ci --preRelease
           else
             npm run release:patch -- --ci --preRelease=beta
