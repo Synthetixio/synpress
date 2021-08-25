@@ -100,7 +100,7 @@ jobs:
         run: |
           git reset --hard
 
-          if [[ ${{ steps.extract-version.outputs.current-version }} == *"-beta"* ]]; then
+          if [[ ${{ steps.extract-version.outputs.current-version }} =~ "-beta" ]]; then
             npm run release:patch -- --ci --preRelease
           else
             npm run release:patch -- --ci --preRelease=beta
