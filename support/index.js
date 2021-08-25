@@ -7,7 +7,9 @@ Cypress.on('window:before:load', win => {
   cy.stub(win.console, 'error').callsFake(message => {
     cy.now('task', 'error', message);
     // fail test on browser console error
-    // throw new Error(message);
+    if (process.env.FAIL_ON_ERROR) {
+      throw new Error(message);
+    }
   });
 
   cy.stub(win.console, 'warn').callsFake(message => {

@@ -1,6 +1,8 @@
 import '@testing-library/cypress/add-commands';
 import 'cypress-wait-until';
 
+// puppeteer commands
+
 Cypress.Commands.add('initPuppeteer', () => {
   return cy.task('initPuppeteer');
 });
@@ -8,6 +10,8 @@ Cypress.Commands.add('initPuppeteer', () => {
 Cypress.Commands.add('assignWindows', () => {
   return cy.task('assignWindows');
 });
+
+// metamask commands
 
 Cypress.Commands.add('confirmMetamaskWelcomePage', () => {
   return cy.task('confirmMetamaskWelcomePage');
@@ -91,6 +95,12 @@ Cypress.Commands.add(
   },
 );
 
+Cypress.Commands.add('getNetwork', () => {
+  return cy.task('getNetwork');
+});
+
+// SNX commands
+
 Cypress.Commands.add(
   'snxExchangerSettle',
   (asset, walletAddress, privateKey) => {
@@ -110,9 +120,7 @@ Cypress.Commands.add('snxCheckWaitingPeriod', (asset, walletAddress) => {
   );
 });
 
-Cypress.Commands.add('getNetwork', () => {
-  return cy.task('getNetwork');
-});
+// etherscan commands
 
 Cypress.Commands.add('etherscanGetTransactionStatus', txid => {
   return cy.task('etherscanGetTransactionStatus', { txid }, { timeout: 30000 });
@@ -121,6 +129,8 @@ Cypress.Commands.add('etherscanGetTransactionStatus', txid => {
 Cypress.Commands.add('etherscanWaitForTxSuccess', txid => {
   return cy.task('etherscanWaitForTxSuccess', { txid }, { timeout: 120000 });
 });
+
+// helper commands
 
 Cypress.Commands.add('getDesktopSizes', () => {
   return [
@@ -161,4 +171,43 @@ Cypress.Commands.add('getMobileSizes', () => {
     [375, 812],
     [812, 375],
   ];
+});
+
+let totalRunningQueries = 0;
+const observer = new PerformanceObserver(list => {
+  for (const entry of list.getEntries()) {
+    if (entry.initiatorType === 'fetch') {
+      totalRunningQueries++;
+    }
+  }
+});
+observer.observe({
+  entryTypes: ['resource'],
+});
+Cypress.Commands.add('waitForResources', () => {
+  let tries = 0;
+  return new Cypress.Promise(resolve => {
+    const check = () => {
+      const requests = window.performance
+        .getEntriesByType('resource')
+        .filter(n => n.initiatorType === 'fetch');
+      if (requests.length === totalRunningQueries) {
+        tries++;
+        if (tries === 3) {
+          resolve();
+        } else {
+          setTimeout(check, 100);
+        }
+      } else {
+        tries = 0;
+        setTimeout(check, 100);
+      }
+    };
+    check();
+  });
+});
+
+Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
+  originalFn(url, options);
+  return cy.waitForResources();
 });

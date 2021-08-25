@@ -15,6 +15,7 @@
     "env": {
         "coverage": false
     },
-    "defaultCommandTimeout": 8000,
+    "defaultCommandTimeout": 30000,
+    "pageLoadTimeout": 30000,
     "requestTimeout": 30000
 }
