@@ -1,6 +1,8 @@
 name: Release CI
 
 on:
+  push:
+    branches: [master]
   workflow_dispatch:
     inputs:
       version:
@@ -69,9 +71,23 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Release ${{ github.event.inputs.version }}
+        if: github.event_name == 'workflow_dispatch'
         run: |
           git reset --hard
           npm run release:${{ github.event.inputs.version }} --ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GIT_USER: ${{ secrets.GIT_USER }}
+          GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+          GPG_KEY: ${{ secrets.GPG_KEY }}
+          GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
+
+      - name: Release patch:beta
+        if: github.event_name == 'push'
+        run: |
+          git reset --hard
+          npm run release:patch --ci --preRelease=beta
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
