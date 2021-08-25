@@ -19,6 +19,15 @@ const accountMenu = {
 const optionsMenu = {
   button: '[data-testid=account-options-menu-button]',
   accountDetailsButton: '[data-testid="account-options-menu__account-details"]',
+  connectedSitesButton: '[data-testid="account-options-menu__connected-sites"]',
+};
+
+const connectedSitesSelector = '.connected-sites';
+const connectedSites = {
+  modal: connectedSitesSelector,
+  trashButton: `${connectedSitesSelector} .connected-sites-list__trash`,
+  cancelButton: `${connectedSitesSelector} .btn-secondary`,
+  disconnectButton: `${connectedSitesSelector} .btn-primary`,
 };
 
 const accountModal = {
@@ -32,5 +41,6 @@ module.exports.mainPageElements = {
   popup,
   accountMenu,
   optionsMenu,
+  connectedSites,
   accountModal,
 };
