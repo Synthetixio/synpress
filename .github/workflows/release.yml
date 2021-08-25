@@ -94,6 +94,7 @@ jobs:
         run: |
           git reset --hard
 
+          echo ${{ steps.extract-version.outputs.current-version }}
           if echo ${{ steps.extract-version.outputs.current-version }} | grep -q "beta"; then
             npm run release -- --ci --preRelease
           else
