@@ -16,7 +16,7 @@ jobs:
     name: release
 
     container:
-      image: ghcr.io/synthetixio/docker-node/alpine:14.17
+      image: ghcr.io/synthetixio/docker-node/ubuntu:14.17
       credentials:
         username: synthetixio
         password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
@@ -44,9 +44,9 @@ jobs:
           path: |
             ${{ steps.npm-cache-dir.outputs.dir }}
             ${{ github.workspace }}/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-ubuntu-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-ubuntu-node-
         continue-on-error: true
 
       # fixes permission issues on docker+npm@7
