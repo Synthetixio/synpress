@@ -74,7 +74,7 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         run: |
           git reset --hard
-          npm run release:${{ github.event.inputs.version }} --ci
+          npm run release:${{ github.event.inputs.version }} -- --ci
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -87,7 +87,7 @@ jobs:
         if: github.event_name == 'push'
         run: |
           git reset --hard
-          npm run release:patch --ci --preRelease=beta
+          npm run release:patch -- --ci --preRelease=beta
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
