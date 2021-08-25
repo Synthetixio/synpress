@@ -103,6 +103,8 @@ You can also add and switch to custom network by passing an `object` instead of 
 
 If you want to use Etherscan API helpers, you will have to provide Etherscan API key using `ETHERSCAN_KEY` enironmental variable.
 
+If you want to fail a test if there are any browser console errors, set `FAIL_ON_ERROR` to `1` or `true`.
+
 ## 🧪 Usage
 
 - `synpress run` to run tests
