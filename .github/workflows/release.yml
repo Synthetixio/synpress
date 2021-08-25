@@ -70,6 +70,12 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: Set current npm package version
+        id: extract-version
+        run: |
+          PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
+          echo ::set-output name=current-version::$PACKAGE_VERSION
+
       - name: Release ${{ github.event.inputs.version }}
         if: github.event_name == 'workflow_dispatch'
         run: |
@@ -87,7 +93,13 @@ jobs:
         if: github.event_name == 'push'
         run: |
           git reset --hard
-          npm run release:patch -- --ci --preRelease=beta
+
+          version=${{ steps.extract-version.outputs.current-version }}
+          if [[ $version == *"-beta"* ]]; then
+            npm run release:patch -- --ci --preRelease
+          else
+            npm run release:patch -- --ci --preRelease=beta
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
