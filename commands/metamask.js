@@ -186,6 +186,40 @@ module.exports = {
     );
     return true;
   },
+  async disconnectWalletFromDapp() {
+    await puppeteer.switchToMetamaskWindow();
+    await puppeteer.waitAndClick(mainPageElements.optionsMenu.button);
+    await puppeteer.waitAndClick(
+      mainPageElements.optionsMenu.connectedSitesButton,
+    );
+    await puppeteer.waitAndClick(mainPageElements.connectedSites.trashButton);
+    await puppeteer.waitAndClick(
+      mainPageElements.connectedSites.disconnectButton,
+    );
+    await puppeteer.waitAndClick(mainPageElements.connectedSites.closeButton);
+    await puppeteer.switchToCypressWindow();
+    return true;
+  },
+  async disconnectWalletFromAllDapps() {
+    await puppeteer.switchToMetamaskWindow();
+    await puppeteer.waitAndClick(mainPageElements.optionsMenu.button);
+    await puppeteer.waitAndClick(
+      mainPageElements.optionsMenu.connectedSitesButton,
+    );
+    const trashButtons = await puppeteer
+      .metamaskWindow()
+      .$$(mainPageElements.connectedSites.trashButton);
+    // eslint-disable-next-line no-unused-vars
+    for (const trashButton of trashButtons) {
+      await puppeteer.waitAndClick(mainPageElements.connectedSites.trashButton);
+      await puppeteer.waitAndClick(
+        mainPageElements.connectedSites.disconnectButton,
+      );
+    }
+    await puppeteer.waitAndClick(mainPageElements.connectedSites.closeButton);
+    await puppeteer.switchToCypressWindow();
+    return true;
+  },
   activateCustomNonce: async () => {
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
     await puppeteer.waitAndClick(mainPageElements.accountMenu.settingsButton);

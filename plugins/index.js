@@ -107,6 +107,14 @@ module.exports = (on, config) => {
       const resetted = await metamask.resetAccount();
       return resetted;
     },
+    disconnectMetamaskWalletFromDapp: async () => {
+      const disconnected = await metamask.disconnectWalletFromDapp();
+      return disconnected;
+    },
+    disconnectMetamaskWalletFromAllDapps: async () => {
+      const disconnected = await metamask.disconnectWalletFromAllDapps();
+      return disconnected;
+    },
     confirmMetamaskPermissionToSpend: async () => {
       const confirmed = await metamask.confirmPermissionToSpend();
       return confirmed;

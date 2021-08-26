@@ -95,6 +95,18 @@ declare namespace Cypress {
      */
     resetMetamaskAccount(): Chainable<Subject>;
     /**
+     * Disconnects metamask wallet from last connected dapp
+     * @example
+     * cy.disconnectMetamaskWalletFromDapp()
+     */
+    disconnectMetamaskWalletFromDapp(): Chainable<Subject>;
+    /**
+     * Disconnects metamask wallet from all connected dapps
+     * @example
+     * cy.disconnectMetamaskWalletFromAllDapps()
+     */
+    disconnectMetamaskWalletFromAllDapps(): Chainable<Subject>;
+    /**
      * Confirm metamask permission to spend asset
      * @example
      * cy.confirmMetamaskPermissionToSpend()

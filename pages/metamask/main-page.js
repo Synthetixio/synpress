@@ -28,6 +28,7 @@ const connectedSites = {
   trashButton: `${connectedSitesSelector} .connected-sites-list__trash`,
   cancelButton: `${connectedSitesSelector} .btn-secondary`,
   disconnectButton: `${connectedSitesSelector} .btn-primary`,
+  closeButton: `${connectedSitesSelector} [data-testid="popover-close"]`,
 };
 
 const accountModal = {

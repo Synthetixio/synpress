@@ -54,6 +54,14 @@ Cypress.Commands.add('resetMetamaskAccount', () => {
   return cy.task('resetMetamaskAccount');
 });
 
+Cypress.Commands.add('disconnectMetamaskWalletFromDapp', () => {
+  return cy.task('disconnectMetamaskWalletFromDapp');
+});
+
+Cypress.Commands.add('disconnectMetamaskWalletFromAllDapps', () => {
+  return cy.task('disconnectMetamaskWalletFromAllDapps');
+});
+
 Cypress.Commands.add('confirmMetamaskPermissionToSpend', () => {
   return cy.task('confirmMetamaskPermissionToSpend');
 });
