@@ -27,6 +27,9 @@ module.exports = {
     });
     return puppeteerBrowser.isConnected();
   },
+  clear: async () => {
+    puppeteerBrowser = null;
+  },
   assignWindows: async () => {
     let pages = await puppeteerBrowser.pages();
     for (const page of pages) {
@@ -48,6 +51,10 @@ module.exports = {
       mainWindow,
       metamaskWindow,
     };
+  },
+  clearWindows: async () => {
+    mainWindow = null;
+    metamaskWindow = null;
   },
   getActiveTabPage: async () => {
     let pages = await puppeteerBrowser.pages();
