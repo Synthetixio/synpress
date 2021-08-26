@@ -161,8 +161,8 @@ Options:
 ## 🚢 Release process
 
 1. Create PR from `dev` branch to `master` branch
-2. Merge it
-3. Run GitHub Action workflow named [Release CI](https://github.com/Synthetixio/synpress/actions/workflows/release.yml) with `patch|minor|major` depending on your needs.
+2. Merge it (new `-beta` version is automatically released)
+3. Run GitHub Action workflow named [Release CI](https://github.com/Synthetixio/synpress/actions/workflows/release.yml) with `patch|minor|major` depending on your needs to promote your build.
 
 Alternatively, instead of running GitHub Action for release, you can move on with manual release process:
 
