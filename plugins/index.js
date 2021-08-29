@@ -55,9 +55,17 @@ module.exports = (on, config) => {
       const connected = await puppeteer.init();
       return connected;
     },
+    clearPuppeteer: async () => {
+      const cleared = await puppeteer.clear();
+      return cleared;
+    },
     assignWindows: async () => {
       const assigned = await puppeteer.assignWindows();
       return assigned;
+    },
+    clearWindows: async () => {
+      const cleared = await puppeteer.clearWindows();
+      return cleared;
     },
     switchToCypressWindow: async () => {
       const switched = await puppeteer.switchToCypressWindow();
@@ -106,6 +114,14 @@ module.exports = (on, config) => {
     resetMetamaskAccount: async () => {
       const resetted = await metamask.resetAccount();
       return resetted;
+    },
+    disconnectMetamaskWalletFromDapp: async () => {
+      const disconnected = await metamask.disconnectWalletFromDapp();
+      return disconnected;
+    },
+    disconnectMetamaskWalletFromAllDapps: async () => {
+      const disconnected = await metamask.disconnectWalletFromAllDapps();
+      return disconnected;
     },
     confirmMetamaskPermissionToSpend: async () => {
       const confirmed = await metamask.confirmPermissionToSpend();

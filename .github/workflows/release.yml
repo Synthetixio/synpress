@@ -16,7 +16,7 @@ jobs:
     name: release
 
     container:
-      image: ghcr.io/synthetixio/docker-node/alpine:14.17
+      image: ghcr.io/synthetixio/docker-node/ubuntu:14.17
       credentials:
         username: synthetixio
         password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
@@ -28,19 +28,18 @@ jobs:
           fetch-depth: 0
           ref: master
 
-      - name: Get npm cache directory
-        id: npm-cache-dir
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
+      - name: Set npm cache directory
+        run: npm config set cache .npm-cache --global 
         continue-on-error: true
 
       - uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353 # pin@v2
-        id: npm-cache
         with:
-          path: ${{ steps.npm-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: |
+            .npm-cache
+            node_modules
+          key: ${{ runner.os }}-ubuntu-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-ubuntu-node-
         continue-on-error: true
 
       # fixes permission issues on docker+npm@7
@@ -48,7 +47,7 @@ jobs:
         run: chown -R $(whoami) .
 
       - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --no-optional
+        run: npm install --prefer-offline --no-audit
 
       - name: git config
         run: |
@@ -70,6 +69,12 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: Set current npm package version
+        id: extract-version
+        run: |
+          PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
+          echo ::set-output name=current-version::$PACKAGE_VERSION
+
       - name: Release ${{ github.event.inputs.version }}
         if: github.event_name == 'workflow_dispatch'
         run: |
@@ -87,7 +92,13 @@ jobs:
         if: github.event_name == 'push'
         run: |
           git reset --hard
-          npm run release:patch -- --ci --preRelease=beta
+
+          echo ${{ steps.extract-version.outputs.current-version }}
+          if echo ${{ steps.extract-version.outputs.current-version }} | grep -q "beta"; then
+            npm run release -- --ci --preRelease
+          else
+            npm run release:patch -- --ci --preRelease=beta
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -13,9 +13,21 @@ Synpress makes sure to always use latest version of metamask before tests are ra
 
 It also provides an easy way to use metamask straight from your e2e tests.
 
-Feel free to take a look at [kwenta](https://github.com/Synthetixio/kwenta/tree/master/tests/e2e) repository for examples of usage.
+Feel free to take a look at [kwenta](https://github.com/kwenta/kwenta/tree/master/tests/e2e) repository for examples of usage.
 
 For additional custom commands and their examples, [check here](https://github.com/synthetixio/synpress/blob/master/support/index.d.ts).
+
+**Features:**
+
+- metamask support
+- ability to use latest metamask or lock it's version to avoid unexpected failures related to metamask update
+- supports multi-lang of metamask, it doesn't depend on any labels
+- automatically waits for all XHR requests to be finished before tests are run
+- ability to fail e2e tests if there are any browser console error found during test run
+- types support for all additional custom commands
+- the best possible options set up in place to avoid flakiness
+- etherscan API helpers in place which for ex. allows to compare your transaction results with etherscan and check tx status
+- synthetix helpers in place which allows to interact with synthetix protocol programatically
 
 ## 👷 Example setup for eslint and tsconfig
 
@@ -149,8 +161,8 @@ Options:
 ## 🚢 Release process
 
 1. Create PR from `dev` branch to `master` branch
-2. Merge it
-3. Run GitHub Action workflow named [Release CI](https://github.com/Synthetixio/synpress/actions/workflows/release.yml) with `patch|minor|major` depending on your needs.
+2. Merge it (new `-beta` version is automatically released)
+3. Run GitHub Action workflow named [Release CI](https://github.com/Synthetixio/synpress/actions/workflows/release.yml) with `patch|minor|major` depending on your needs to promote your build.
 
 Alternatively, instead of running GitHub Action for release, you can move on with manual release process:
 

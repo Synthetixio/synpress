@@ -27,6 +27,9 @@ module.exports = {
     });
     return puppeteerBrowser.isConnected();
   },
+  clear: async () => {
+    puppeteerBrowser = null;
+  },
   assignWindows: async () => {
     let pages = await puppeteerBrowser.pages();
     for (const page of pages) {
@@ -49,12 +52,48 @@ module.exports = {
       metamaskWindow,
     };
   },
+  clearWindows: async () => {
+    mainWindow = null;
+    metamaskWindow = null;
+  },
+  getActiveTabPage: async () => {
+    let pages = await puppeteerBrowser.pages();
+    const visiblePages = pages.filter(async page => {
+      const state = await page.evaluate(() => document.visibilityState);
+      return state === 'visible';
+    });
+    const activeTabPage = visiblePages[0];
+    return activeTabPage;
+  },
+  isMetamaskWindowActive: async () => {
+    let activeTabPage = await module.exports.getActiveTabPage();
+    if (
+      activeTabPage.url().includes('extension') ||
+      activeTabPage.url().includes('notification')
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+  isCypressWindowActive: async () => {
+    let activeTabPage = await module.exports.getActiveTabPage();
+    if (activeTabPage.url().includes('integration')) {
+      return true;
+    } else {
+      return false;
+    }
+  },
   switchToCypressWindow: async () => {
-    await mainWindow.bringToFront();
+    if (!(await module.exports.isCypressWindowActive())) {
+      await mainWindow.bringToFront();
+    }
     return true;
   },
   switchToMetamaskWindow: async () => {
-    await metamaskWindow.bringToFront();
+    if (!(await module.exports.isMetamaskWindowActive())) {
+      await metamaskWindow.bringToFront();
+    }
     return true;
   },
   switchToMetamaskNotification: async () => {

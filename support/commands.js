@@ -54,6 +54,14 @@ Cypress.Commands.add('resetMetamaskAccount', () => {
   return cy.task('resetMetamaskAccount');
 });
 
+Cypress.Commands.add('disconnectMetamaskWalletFromDapp', () => {
+  return cy.task('disconnectMetamaskWalletFromDapp');
+});
+
+Cypress.Commands.add('disconnectMetamaskWalletFromAllDapps', () => {
+  return cy.task('disconnectMetamaskWalletFromAllDapps');
+});
+
 Cypress.Commands.add('confirmMetamaskPermissionToSpend', () => {
   return cy.task('confirmMetamaskPermissionToSpend');
 });
@@ -173,37 +181,52 @@ Cypress.Commands.add('getMobileSizes', () => {
   ];
 });
 
-let totalRunningQueries = 0;
-const observer = new PerformanceObserver(list => {
-  for (const entry of list.getEntries()) {
-    if (entry.initiatorType === 'fetch') {
-      totalRunningQueries++;
-    }
-  }
-});
-observer.observe({
-  entryTypes: ['resource'],
-});
-Cypress.Commands.add('waitForResources', () => {
-  let tries = 0;
-  return new Cypress.Promise(resolve => {
-    const check = () => {
-      const requests = window.performance
-        .getEntriesByType('resource')
-        .filter(n => n.initiatorType === 'fetch');
-      if (requests.length === totalRunningQueries) {
-        tries++;
-        if (tries === 3) {
-          resolve();
-        } else {
-          setTimeout(check, 100);
+Cypress.Commands.add('waitForResources', (resources = []) => {
+  const globalTimeout = 30000;
+  const resourceCheckInterval = 2000;
+  const idleTimesInit = 3;
+  let idleTimes = idleTimesInit;
+  let resourcesLengthPrevious;
+  let timeout;
+
+  return new Cypress.Promise((resolve, reject) => {
+    const checkIfResourcesLoaded = () => {
+      const resourcesLoaded = cy
+        .state('window')
+        .performance.getEntriesByType('resource')
+        .filter(r => !['script', 'xmlhttprequest'].includes(r.initiatorType));
+
+      const allFilesFound = resources.every(resource => {
+        const found = resourcesLoaded.filter(resourceLoaded => {
+          return resourceLoaded.name.includes(resource.name);
+        });
+        if (found.length === 0) {
+          return false;
         }
-      } else {
-        tries = 0;
-        setTimeout(check, 100);
+        return !resource.number || found.length >= resource.number;
+      });
+
+      if (allFilesFound) {
+        if (resourcesLoaded.length === resourcesLengthPrevious) {
+          idleTimes--;
+        } else {
+          idleTimes = idleTimesInit;
+          resourcesLengthPrevious = resourcesLoaded.length;
+        }
       }
+      if (!idleTimes) {
+        resolve();
+        return;
+      }
+
+      timeout = setTimeout(checkIfResourcesLoaded, resourceCheckInterval);
     };
-    check();
+
+    checkIfResourcesLoaded();
+    setTimeout(() => {
+      reject();
+      clearTimeout(timeout);
+    }, globalTimeout);
   });
 });
 
