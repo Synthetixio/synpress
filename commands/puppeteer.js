@@ -96,20 +96,22 @@ module.exports = {
     return true;
   },
   switchToMetamaskNotification: async () => {
-    await module.exports.metamaskWindow().waitForTimeout(3000);
+    await metamaskWindow.waitForTimeout(3000);
     let pages = await puppeteerBrowser.pages();
     for (const page of pages) {
       if (page.url().includes('notification')) {
         switchToMetamaskNotificationRetries = 0;
         await page.bringToFront();
         return page;
-      } else if (switchToMetamaskNotificationRetries < 4) {
-        switchToMetamaskNotificationRetries++;
-        const page = await module.exports.switchToMetamaskNotification();
-        return page;
-      } else {
-        return false;
       }
+    }
+
+    if (switchToMetamaskNotificationRetries < 4) {
+      switchToMetamaskNotificationRetries++;
+      const page = await module.exports.switchToMetamaskNotification();
+      return page;
+    } else {
+      return false;
     }
   },
   waitFor: async (selector, page = metamaskWindow) => {
