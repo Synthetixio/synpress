@@ -96,7 +96,7 @@ module.exports = {
     return true;
   },
   switchToMetamaskNotification: async () => {
-    await metamaskWindow.waitForTimeout(3000);
+    await metamaskWindow.waitForTimeout(500);
     let pages = await puppeteerBrowser.pages();
     for (const page of pages) {
       if (page.url().includes('notification')) {
@@ -106,7 +106,8 @@ module.exports = {
       }
     }
 
-    if (switchToMetamaskNotificationRetries < 4) {
+    // 24*500ms = 12 seconds in total
+    if (switchToMetamaskNotificationRetries < 24) {
       switchToMetamaskNotificationRetries++;
       const page = await module.exports.switchToMetamaskNotification();
       return page;
