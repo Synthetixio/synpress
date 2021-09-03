@@ -7,11 +7,14 @@ module.exports.welcomePageElements = {
   confirmButton,
 };
 
+
 const firstTimeFlowPage = '.first-time-flow';
 const importWalletButton = `${firstTimeFlowPage} .first-time-flow__button`;
+const createWalletButton = `${firstTimeFlowPage} .select-action__select-button:nth-child(2) .first-time-flow__button`;
 module.exports.firstTimeFlowPageElements = {
   firstTimeFlowPage,
   importWalletButton,
+  createWalletButton
 };
 
 const metametricsPage = '.metametrics-opt-in';
@@ -27,6 +30,11 @@ const passwordInput = `${firstTimeFlowFormPage} #password`;
 const confirmPasswordInput = `${firstTimeFlowFormPage} #confirm-password`;
 const termsCheckbox = `${firstTimeFlowFormPage} .first-time-flow__terms`;
 const importButton = `${firstTimeFlowFormPage} .first-time-flow__button`;
+const newPasswordInput = `${firstTimeFlowFormPage} #create-password`;
+const newSignupCheckbox = `${firstTimeFlowFormPage} .first-time-flow__checkbox`;
+const nextButton = `.seed-phrase-intro button.button.btn-primary`;
+const remindMeLaterButton = `.button.btn-secondary.first-time-flow__button`;
+
 module.exports.firstTimeFlowFormPageElements = {
   firstTimeFlowFormPage,
   secretWordsInput,
@@ -34,6 +42,10 @@ module.exports.firstTimeFlowFormPageElements = {
   confirmPasswordInput,
   termsCheckbox,
   importButton,
+  newPasswordInput,
+  newSignupCheckbox,
+  nextButton,
+  remindMeLaterButton
 };
 
 const endOfFlowPage = '.end-of-flow';

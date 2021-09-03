@@ -90,7 +90,7 @@ There is a global [`before()`](https://github.com/synthetixio/synpress/blob/mast
 - changes network (defaults to `kovan`) or creates custom network and changes to it (depending on your setup)
 - switches back to Cypress window and starts testing
 
-It requires environmental variable called `SECRET_WORDS` to be present in following format => `'word1, word2, etc..'`.
+It requires environmental variable called `SECRET_WORDS` to be present in following format => `'word1, word2, etc..'` or a signer's private key in an environmental variable called `PRIVATE_KEY`.
 
 To change default network (`kovan`), you can use `NETWORK_NAME` environmental variable, for example: `NETWORK_NAME=rinkeby`.
 
@@ -109,9 +109,9 @@ Metamask version is hardcoded and frequently updated under supervision to avoid 
 
 If you don't want to use environmental variables, you can modify [`setupMetamask()`](https://github.com/synthetixio/synpress/blob/master/support/index.js#L26) to following:
 
-`setupMetamask(secretWords, network, password)`, for example: `setupMetamask('word1, word2, etc..', 'mainnet', 'password')`.
+`setupMetamask(secret, network, password)`, for example: `setupMetamask('word1, word2, etc..', 'mainnet', 'password')`.
 
-You can also add and switch to custom network by passing an `object` instead of `string` inside `setupMetamask(secretWords, network, password)` function for `network` parameter.
+You can also add and switch to custom network by passing an `object` instead of `string` inside `setupMetamask(secret, network, password)` function for `network` parameter.
 
 If you want to use Etherscan API helpers, you will have to provide Etherscan API key using `ETHERSCAN_KEY` enironmental variable.
 

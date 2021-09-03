@@ -86,6 +86,41 @@ module.exports = {
     }
     return true;
   },
+  createWallet: async (password) => {
+    await puppeteer.waitAndClick(firstTimeFlowPageElements.createWalletButton);
+    await puppeteer.waitAndClick(metametricsPageElements.optOutAnalyticsButton);
+    await puppeteer.waitAndType(
+      firstTimeFlowFormPageElements.newPasswordInput,
+      password,
+    );
+    await puppeteer.waitAndType(
+      firstTimeFlowFormPageElements.confirmPasswordInput,
+      password,
+    );
+    await puppeteer.waitAndClick(firstTimeFlowFormPageElements.newSignupCheckbox);
+    await puppeteer.waitAndClick(firstTimeFlowFormPageElements.importButton);
+
+    await puppeteer.waitFor(pageElements.loadingSpinner);
+    await puppeteer.waitAndClick(firstTimeFlowFormPageElements.nextButton);
+    await puppeteer.waitAndClick(firstTimeFlowFormPageElements.remindMeLaterButton);
+    await puppeteer.waitFor(mainPageElements.walletOverview);
+
+    // close popup if present
+    if (
+      (await puppeteer.metamaskWindow().$(mainPageElements.popup.container)) !==
+      null
+    ) {
+      await puppeteer.waitAndClick(mainPageElements.popup.closeButton);
+    }
+    return true;
+  },
+  importFromPrivateKey: async (privateKey) => {
+    await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
+    await puppeteer.waitAndClick(mainPageElements.accountMenu.importAccountButton);
+
+    await puppeteer.waitAndType(mainPageElements.newAccountImport.input, privateKey);
+    await puppeteer.waitAndClick(mainPageElements.newAccountImport.button);
+  },
   changeNetwork: async network => {
     setNetwork(network);
     await puppeteer.waitAndClick(mainPageElements.networkSwitcher.button);
@@ -343,6 +378,36 @@ module.exports = {
       } else {
         await module.exports.changeNetwork(network);
       }
+      walletAddress = await module.exports.getWalletAddress();
+      await puppeteer.switchToCypressWindow();
+      return true;
+    } else {
+      await module.exports.unlock(password);
+      walletAddress = await module.exports.getWalletAddress();
+      await puppeteer.switchToCypressWindow();
+      return true;
+    }
+  },
+  initialSetupWithPrivateKey: async ({ privateKey, network, password }) => {
+    const isCustomNetwork =
+      process.env.NETWORK_NAME && process.env.RPC_URL && process.env.CHAIN_ID;
+    await puppeteer.init();
+    await puppeteer.assignWindows();
+    await puppeteer.metamaskWindow().waitForTimeout(1000);
+    if (
+      (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) ===
+      null
+    ) {
+      await module.exports.confirmWelcomePage();
+      await module.exports.createWallet(password);
+      if (isCustomNetwork) {
+        await module.exports.addNetwork(network);
+      } else {
+        await module.exports.changeNetwork(network);
+      }
+
+      await module.exports.importFromPrivateKey(privateKey);
+
       walletAddress = await module.exports.getWalletAddress();
       await puppeteer.switchToCypressWindow();
       return true;
