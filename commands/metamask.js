@@ -86,7 +86,7 @@ module.exports = {
     }
     return true;
   },
-  createWallet: async (password) => {
+  createWallet: async password => {
     await puppeteer.waitAndClick(firstTimeFlowPageElements.createWalletButton);
     await puppeteer.waitAndClick(metametricsPageElements.optOutAnalyticsButton);
     await puppeteer.waitAndType(
@@ -97,12 +97,16 @@ module.exports = {
       firstTimeFlowFormPageElements.confirmPasswordInput,
       password,
     );
-    await puppeteer.waitAndClick(firstTimeFlowFormPageElements.newSignupCheckbox);
+    await puppeteer.waitAndClick(
+      firstTimeFlowFormPageElements.newSignupCheckbox,
+    );
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.importButton);
 
     await puppeteer.waitFor(pageElements.loadingSpinner);
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.nextButton);
-    await puppeteer.waitAndClick(firstTimeFlowFormPageElements.remindMeLaterButton);
+    await puppeteer.waitAndClick(
+      firstTimeFlowFormPageElements.remindMeLaterButton,
+    );
     await puppeteer.waitFor(mainPageElements.walletOverview);
 
     // close popup if present
@@ -114,11 +118,16 @@ module.exports = {
     }
     return true;
   },
-  importFromPrivateKey: async (privateKey) => {
+  importFromPrivateKey: async privateKey => {
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
-    await puppeteer.waitAndClick(mainPageElements.accountMenu.importAccountButton);
+    await puppeteer.waitAndClick(
+      mainPageElements.accountMenu.importAccountButton,
+    );
 
-    await puppeteer.waitAndType(mainPageElements.newAccountImport.input, privateKey);
+    await puppeteer.waitAndType(
+      mainPageElements.newAccountImport.input,
+      privateKey,
+    );
     await puppeteer.waitAndClick(mainPageElements.newAccountImport.button);
   },
   changeNetwork: async network => {
