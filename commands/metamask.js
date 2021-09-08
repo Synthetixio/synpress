@@ -370,7 +370,7 @@ module.exports = {
     await puppeteer.waitAndClick(mainPageElements.accountModal.closeButton);
     return walletAddress;
   },
-  initialSetup: async ({ secretWords, network, password }) => {
+  initialSetup: async ({ secretWordsOrPrivateKey, network, password }) => {
     const isCustomNetwork =
       process.env.NETWORK_NAME && process.env.RPC_URL && process.env.CHAIN_ID;
 
@@ -382,42 +382,17 @@ module.exports = {
       null
     ) {
       await module.exports.confirmWelcomePage();
-      await module.exports.importWallet(secretWords, password);
+      if (secretWordsOrPrivateKey.includes(' ')) {
+        await module.exports.importWallet(secretWordsOrPrivateKey, password);
+      } else {
+        await module.exports.createWallet(password);
+        await module.exports.importFromPrivateKey(secretWordsOrPrivateKey);
+      }
       if (isCustomNetwork) {
         await module.exports.addNetwork(network);
       } else {
         await module.exports.changeNetwork(network);
       }
-      walletAddress = await module.exports.getWalletAddress();
-      await puppeteer.switchToCypressWindow();
-      return true;
-    } else {
-      await module.exports.unlock(password);
-      walletAddress = await module.exports.getWalletAddress();
-      await puppeteer.switchToCypressWindow();
-      return true;
-    }
-  },
-  initialSetupWithPrivateKey: async ({ privateKey, network, password }) => {
-    const isCustomNetwork =
-      process.env.NETWORK_NAME && process.env.RPC_URL && process.env.CHAIN_ID;
-    await puppeteer.init();
-    await puppeteer.assignWindows();
-    await puppeteer.metamaskWindow().waitForTimeout(1000);
-    if (
-      (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) ===
-      null
-    ) {
-      await module.exports.confirmWelcomePage();
-      await module.exports.createWallet(password);
-      if (isCustomNetwork) {
-        await module.exports.addNetwork(network);
-      } else {
-        await module.exports.changeNetwork(network);
-      }
-
-      await module.exports.importFromPrivateKey(privateKey);
-
       walletAddress = await module.exports.getWalletAddress();
       await puppeteer.switchToCypressWindow();
       return true;
