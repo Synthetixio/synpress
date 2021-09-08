@@ -6,6 +6,8 @@ const {
   firstTimeFlowPageElements,
   metametricsPageElements,
   firstTimeFlowFormPageElements,
+  secureYourWalletPageElements,
+  revealSeedPageElements,
   endOfFlowPageElements,
 } = require('../pages/metamask/first-time-flow-page');
 const { mainPageElements } = require('../pages/metamask/main-page');
@@ -103,10 +105,8 @@ module.exports = {
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.importButton);
 
     await puppeteer.waitFor(pageElements.loadingSpinner);
-    await puppeteer.waitAndClick(firstTimeFlowFormPageElements.nextButton);
-    await puppeteer.waitAndClick(
-      firstTimeFlowFormPageElements.remindMeLaterButton,
-    );
+    await puppeteer.waitAndClick(secureYourWalletPageElements.nextButton);
+    await puppeteer.waitAndClick(revealSeedPageElements.remindLaterButton);
     await puppeteer.waitFor(mainPageElements.walletOverview);
 
     // close popup if present
@@ -125,10 +125,11 @@ module.exports = {
     );
 
     await puppeteer.waitAndType(
-      mainPageElements.newAccountImport.input,
+      mainPageElements.importAccount.input,
       privateKey,
     );
-    await puppeteer.waitAndClick(mainPageElements.newAccountImport.button);
+    await puppeteer.waitAndClick(mainPageElements.importAccount.importButton);
+    return true;
   },
   changeNetwork: async network => {
     setNetwork(network);
