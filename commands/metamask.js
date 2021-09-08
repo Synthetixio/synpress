@@ -291,7 +291,6 @@ module.exports = {
     return true;
   },
   confirmPermissionToSpend: async () => {
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     await puppeteer.waitAndClick(
       notificationPageElements.allowToSpendButton,
@@ -301,7 +300,6 @@ module.exports = {
     return true;
   },
   rejectPermissionToSpend: async () => {
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     await puppeteer.waitAndClick(
       notificationPageElements.rejectToSpendButton,
@@ -311,7 +309,6 @@ module.exports = {
     return true;
   },
   acceptAccess: async () => {
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     await puppeteer.waitAndClick(
       notificationPageElements.nextButton,
@@ -326,7 +323,6 @@ module.exports = {
   },
   confirmTransaction: async () => {
     const isKovanTestnet = getNetwork().networkName === 'kovan';
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     const currentGasFee = await puppeteer.waitAndGetValue(
       confirmPageElements.gasFeeInput,
@@ -350,7 +346,6 @@ module.exports = {
     return true;
   },
   rejectTransaction: async () => {
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     await puppeteer.waitAndClick(
       confirmPageElements.rejectButton,

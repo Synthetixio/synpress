@@ -5,6 +5,8 @@ let puppeteerBrowser;
 let mainWindow;
 let metamaskWindow;
 
+let switchToMetamaskNotificationRetries;
+
 module.exports = {
   puppeteerBrowser: () => {
     return puppeteerBrowser;
@@ -60,6 +62,7 @@ module.exports = {
     let pages = await puppeteerBrowser.pages();
     const visiblePages = pages.filter(async page => {
       const state = await page.evaluate(() => document.visibilityState);
+      // todo: seem to be bugged out with cypress first tab always having visiblityState visible
       return state === 'visible';
     });
     const activeTabPage = visiblePages[0];
@@ -85,24 +88,31 @@ module.exports = {
     }
   },
   switchToCypressWindow: async () => {
-    if (!(await module.exports.isCypressWindowActive())) {
-      await mainWindow.bringToFront();
-    }
+    await mainWindow.bringToFront();
     return true;
   },
   switchToMetamaskWindow: async () => {
-    if (!(await module.exports.isMetamaskWindowActive())) {
-      await metamaskWindow.bringToFront();
-    }
+    await metamaskWindow.bringToFront();
     return true;
   },
   switchToMetamaskNotification: async () => {
+    await metamaskWindow.waitForTimeout(500);
     let pages = await puppeteerBrowser.pages();
     for (const page of pages) {
       if (page.url().includes('notification')) {
+        switchToMetamaskNotificationRetries = 0;
         await page.bringToFront();
         return page;
       }
+    }
+
+    // 24*500ms = 12 seconds in total
+    if (switchToMetamaskNotificationRetries < 24) {
+      switchToMetamaskNotificationRetries++;
+      const page = await module.exports.switchToMetamaskNotification();
+      return page;
+    } else {
+      return false;
     }
   },
   waitFor: async (selector, page = metamaskWindow) => {
