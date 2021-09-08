@@ -37,10 +37,13 @@ const accountModal = {
   closeButton: '.account-modal__close',
 };
 
-const newAccountImport = {
-  input: "#private-key-box",
-  button: ".btn-secondary.button.new-account-create-form__button"
-}
+const importAccountSelector = '.new-account';
+const importAccount = {
+  page: importAccountSelector,
+  input: `${importAccountSelector} #private-key-box`,
+  cancelButton: `${importAccountSelector} .btn-default`,
+  importButton: `${importAccountSelector} .btn-secondary`,
+};
 
 module.exports.mainPageElements = {
   networkSwitcher,
@@ -50,5 +53,5 @@ module.exports.mainPageElements = {
   optionsMenu,
   connectedSites,
   accountModal,
-  newAccountImport
+  importAccount,
 };
