@@ -14,6 +14,7 @@ const popup = {
 const accountMenu = {
   button: '.account-menu__icon',
   settingsButton: '.account-menu__item--clickable:nth-child(11)',
+  importAccountButton: '.account-menu__item--clickable:nth-child(7)',
 };
 
 const optionsMenu = {
@@ -36,6 +37,14 @@ const accountModal = {
   closeButton: '.account-modal__close',
 };
 
+const importAccountSelector = '.new-account';
+const importAccount = {
+  page: importAccountSelector,
+  input: `${importAccountSelector} #private-key-box`,
+  cancelButton: `${importAccountSelector} .btn-default`,
+  importButton: `${importAccountSelector} .btn-secondary`,
+};
+
 module.exports.mainPageElements = {
   networkSwitcher,
   walletOverview,
@@ -44,4 +53,5 @@ module.exports.mainPageElements = {
   optionsMenu,
   connectedSites,
   accountModal,
+  importAccount,
 };
