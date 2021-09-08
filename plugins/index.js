@@ -150,21 +150,25 @@ module.exports = (on, config) => {
     fetchMetamaskWalletAddress: async () => {
       return metamask.walletAddress();
     },
-    setupMetamask: async ({ secret, network = 'kovan', password }) => {
+    setupMetamask: async ({
+      secretWordsOrPrivateKey,
+      network = 'kovan',
+      password,
+    }) => {
       if (process.env.NETWORK_NAME) {
         network = process.env.NETWORK_NAME;
       }
       if (process.env.PRIVATE_KEY) {
-        secret = process.env.PRIVATE_KEY;
+        secretWordsOrPrivateKey = process.env.PRIVATE_KEY;
       }
       if (process.env.SECRET_WORDS) {
-        secret = process.env.SECRET_WORDS;
+        secretWordsOrPrivateKey = process.env.SECRET_WORDS;
       }
-      if (secret && secret.startsWith("0x")) {
-        await metamask.initialSetupWithPrivateKey({ privateKey: secret, network, password });
-      } else {
-        await metamask.initialSetup({ secret, network, password });
-      }
+      await metamask.initialSetup({
+        secretWordsOrPrivateKey,
+        network,
+        password,
+      });
       return true;
     },
     snxExchangerSettle: async ({ asset, walletAddress, privateKey }) => {
