@@ -6,6 +6,8 @@ const {
   firstTimeFlowPageElements,
   metametricsPageElements,
   firstTimeFlowFormPageElements,
+  secureYourWalletPageElements,
+  revealSeedPageElements,
   endOfFlowPageElements,
 } = require('../pages/metamask/first-time-flow-page');
 const { mainPageElements } = require('../pages/metamask/main-page');
@@ -84,6 +86,49 @@ module.exports = {
     ) {
       await puppeteer.waitAndClick(mainPageElements.popup.closeButton);
     }
+    return true;
+  },
+  createWallet: async password => {
+    await puppeteer.waitAndClick(firstTimeFlowPageElements.createWalletButton);
+    await puppeteer.waitAndClick(metametricsPageElements.optOutAnalyticsButton);
+    await puppeteer.waitAndType(
+      firstTimeFlowFormPageElements.newPasswordInput,
+      password,
+    );
+    await puppeteer.waitAndType(
+      firstTimeFlowFormPageElements.confirmPasswordInput,
+      password,
+    );
+    await puppeteer.waitAndClick(
+      firstTimeFlowFormPageElements.newSignupCheckbox,
+    );
+    await puppeteer.waitAndClick(firstTimeFlowFormPageElements.importButton);
+
+    await puppeteer.waitFor(pageElements.loadingSpinner);
+    await puppeteer.waitAndClick(secureYourWalletPageElements.nextButton);
+    await puppeteer.waitAndClick(revealSeedPageElements.remindLaterButton);
+    await puppeteer.waitFor(mainPageElements.walletOverview);
+
+    // close popup if present
+    if (
+      (await puppeteer.metamaskWindow().$(mainPageElements.popup.container)) !==
+      null
+    ) {
+      await puppeteer.waitAndClick(mainPageElements.popup.closeButton);
+    }
+    return true;
+  },
+  importFromPrivateKey: async privateKey => {
+    await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
+    await puppeteer.waitAndClick(
+      mainPageElements.accountMenu.importAccountButton,
+    );
+
+    await puppeteer.waitAndType(
+      mainPageElements.importAccount.input,
+      privateKey,
+    );
+    await puppeteer.waitAndClick(mainPageElements.importAccount.importButton);
     return true;
   },
   changeNetwork: async network => {
@@ -325,7 +370,7 @@ module.exports = {
     await puppeteer.waitAndClick(mainPageElements.accountModal.closeButton);
     return walletAddress;
   },
-  initialSetup: async ({ secretWords, network, password }) => {
+  initialSetup: async ({ secretWordsOrPrivateKey, network, password }) => {
     const isCustomNetwork =
       process.env.NETWORK_NAME && process.env.RPC_URL && process.env.CHAIN_ID;
 
@@ -337,7 +382,12 @@ module.exports = {
       null
     ) {
       await module.exports.confirmWelcomePage();
-      await module.exports.importWallet(secretWords, password);
+      if (secretWordsOrPrivateKey.includes(' ')) {
+        await module.exports.importWallet(secretWordsOrPrivateKey, password);
+      } else {
+        await module.exports.createWallet(password);
+        await module.exports.importFromPrivateKey(secretWordsOrPrivateKey);
+      }
       if (isCustomNetwork) {
         await module.exports.addNetwork(network);
       } else {
