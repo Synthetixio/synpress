@@ -107,6 +107,18 @@ declare namespace Cypress {
      */
     disconnectMetamaskWalletFromAllDapps(): Chainable<Subject>;
     /**
+     * Confirm metamask permission to sign message
+     * @example
+     * cy.confirmMetamaskSignatureRequest()
+     */
+    confirmMetamaskSignatureRequest(): Chainable<Subject>;
+    /**
+     * Reject metamask permission to sign message
+     * @example
+     * cy.rejectMetamaskSignatureRequest()
+     */
+    rejectMetamaskSignatureRequest(): Chainable<Subject>;
+    /**
      * Confirm metamask permission to spend asset
      * @example
      * cy.confirmMetamaskPermissionToSpend()
