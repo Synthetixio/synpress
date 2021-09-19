@@ -9,6 +9,13 @@ module.exports.notificationPageElements = {
   rejectToSpendButton,
 };
 
+const confirmSignatureRequestButton = `${notificationPage} .request-signature__footer__sign-button`;
+const rejectSignatureRequestButton = `${notificationPage} .request-signature__footer__cancel-button`;
+module.exports.signaturePageElements = {
+  confirmSignatureRequestButton,
+  rejectSignatureRequestButton,
+};
+
 const permissionsPage = '.permissions-connect';
 const connectButton = `${permissionsPage} .permission-approval-container__footers button:nth-child(2)`;
 module.exports.permissionsPageElements = {

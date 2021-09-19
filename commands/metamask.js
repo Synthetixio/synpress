@@ -16,6 +16,7 @@ const {
   notificationPageElements,
   permissionsPageElements,
   confirmPageElements,
+  signaturePageElements,
 } = require('../pages/metamask/notification-page');
 const {
   settingsPageElements,
@@ -288,6 +289,24 @@ module.exports = {
     await puppeteer.waitAndClick(resetAccountModalElements.resetButton);
     await puppeteer.waitAndClick(settingsPageElements.closeButton);
     await puppeteer.waitFor(mainPageElements.walletOverview);
+    return true;
+  },
+  confirmSignatureRequest: async () => {
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndClick(
+      signaturePageElements.confirmSignatureRequestButton,
+      notificationPage,
+    );
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    return true;
+  },
+  rejectSignatureRequest: async () => {
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndClick(
+      signaturePageElements.rejectSignatureRequestButton,
+      notificationPage,
+    );
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
     return true;
   },
   confirmPermissionToSpend: async () => {

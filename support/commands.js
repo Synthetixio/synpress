@@ -62,6 +62,14 @@ Cypress.Commands.add('disconnectMetamaskWalletFromAllDapps', () => {
   return cy.task('disconnectMetamaskWalletFromAllDapps');
 });
 
+Cypress.Commands.add('confirmMetamaskSignatureRequest', () => {
+  return cy.task('confirmMetamaskSignatureRequest');
+});
+
+Cypress.Commands.add('rejectMetamaskSignatureRequest', () => {
+  return cy.task('rejectMetamaskSignatureRequest');
+});
+
 Cypress.Commands.add('confirmMetamaskPermissionToSpend', () => {
   return cy.task('confirmMetamaskPermissionToSpend');
 });

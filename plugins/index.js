@@ -123,6 +123,14 @@ module.exports = (on, config) => {
       const disconnected = await metamask.disconnectWalletFromAllDapps();
       return disconnected;
     },
+    confirmMetamaskSignatureRequest: async () => {
+      const confirmed = await metamask.confirmSignatureRequest();
+      return confirmed;
+    },
+    rejectMetamaskSignatureRequest: async () => {
+      const rejected = await metamask.rejectSignatureRequest();
+      return rejected;
+    },
     confirmMetamaskPermissionToSpend: async () => {
       const confirmed = await metamask.confirmPermissionToSpend();
       return confirmed;
