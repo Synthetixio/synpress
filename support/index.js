@@ -3,6 +3,13 @@ import { configure } from '@testing-library/cypress';
 
 configure({ testIdAttribute: 'data-testid' });
 
+// dont fail tests on uncaught exceptions of websites
+Cypress.on('uncaught:exception', () => {
+  if (!process.env.FAIL_ON_ERROR) {
+    return false;
+  }
+});
+
 Cypress.on('window:before:load', win => {
   cy.stub(win.console, 'error').callsFake(message => {
     cy.now('task', 'error', message);
