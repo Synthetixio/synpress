@@ -238,7 +238,10 @@ Cypress.Commands.add('waitForResources', (resources = []) => {
   });
 });
 
-Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
-  originalFn(url, options);
-  return cy.waitForResources();
-});
+// overwrite default cypress commands
+if (!process.env.SKIP_RESOURCES_WAIT) {
+  Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
+    originalFn(url, options);
+    return cy.waitForResources();
+  });
+}
