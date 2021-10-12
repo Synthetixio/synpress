@@ -9,7 +9,6 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'prettier',
-    // 'plugin:unicorn/recommended',
     'plugin:prettier/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
@@ -20,7 +19,6 @@ module.exports = {
   ],
   plugins: [
     'prettier',
-    // 'unicorn',
     'import',
     'cypress',
     'chai-friendly',
@@ -34,6 +32,5 @@ module.exports = {
   rules: {
     'no-debugger': 0,
     'no-console': 0,
-    // 'unicorn/no-process-exit': 0,
   },
 };
