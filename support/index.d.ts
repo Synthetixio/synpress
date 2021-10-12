@@ -171,9 +171,11 @@ declare namespace Cypress {
      * @example
      * cy.setupMetamask('secret, words, ...', 'kovan', 'password for metamask')
      * cy.setupMetamask('secret, words, ...', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for metamask')
+     * cy.setupMetamask('private_key', 'kovan', 'password for metamask')
+     * cy.setupMetamask('private_key', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for metamask')
      */
     setupMetamask(
-      secretWords: string,
+      secretWordsOrPrivateKey: string,
       network: string | object,
       password: string,
     ): Chainable<Subject>;

@@ -386,7 +386,10 @@ module.exports = {
   },
   initialSetup: async ({ secretWordsOrPrivateKey, network, password }) => {
     const isCustomNetwork =
-      (process.env.NETWORK_NAME && process.env.RPC_URL && process.env.CHAIN_ID) || typeof(network) == 'object';
+      (process.env.NETWORK_NAME &&
+        process.env.RPC_URL &&
+        process.env.CHAIN_ID) ||
+      typeof network == 'object';
 
     await puppeteer.init();
     await puppeteer.assignWindows();
@@ -397,8 +400,10 @@ module.exports = {
     ) {
       await module.exports.confirmWelcomePage();
       if (secretWordsOrPrivateKey.includes(' ')) {
+        // secret words
         await module.exports.importWallet(secretWordsOrPrivateKey, password);
       } else {
+        // private key
         await module.exports.createWallet(password);
         await module.exports.importFromPrivateKey(secretWordsOrPrivateKey);
       }

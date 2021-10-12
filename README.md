@@ -115,7 +115,9 @@ You can also add and switch to custom network by passing an `object` instead of 
 
 If you want to use Etherscan API helpers, you will have to provide Etherscan API key using `ETHERSCAN_KEY` enironmental variable.
 
-If you want to fail a test if there are any browser console errors, set `FAIL_ON_ERROR` to `1` or `true`.
+To fail a test if there are any browser console errors, set `FAIL_ON_ERROR` to `1` or `true`.
+
+Automatic waiting for XHR requests to finish before tests start can be turned off with `SKIP_RESOURCES_WAIT` environmental variable, set it to `1` or `true`.
 
 ## 🧪 Usage
 

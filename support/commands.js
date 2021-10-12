@@ -106,8 +106,12 @@ Cypress.Commands.add('fetchMetamaskWalletAddress', () => {
 
 Cypress.Commands.add(
   'setupMetamask',
-  (secretWords, network, password = 'Tester@1234') => {
-    return cy.task('setupMetamask', { secretWords, network, password });
+  (secretWordsOrPrivateKey, network, password = 'Tester@1234') => {
+    return cy.task('setupMetamask', {
+      secretWordsOrPrivateKey,
+      network,
+      password,
+    });
   },
 );
 
@@ -238,7 +242,10 @@ Cypress.Commands.add('waitForResources', (resources = []) => {
   });
 });
 
-Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
-  originalFn(url, options);
-  return cy.waitForResources();
-});
+// overwrite default cypress commands
+if (!process.env.SKIP_RESOURCES_WAIT) {
+  Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
+    originalFn(url, options);
+    return cy.waitForResources();
+  });
+}
