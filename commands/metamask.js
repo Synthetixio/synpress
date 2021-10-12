@@ -397,8 +397,10 @@ module.exports = {
     ) {
       await module.exports.confirmWelcomePage();
       if (secretWordsOrPrivateKey.includes(' ')) {
+        // secret words
         await module.exports.importWallet(secretWordsOrPrivateKey, password);
       } else {
+        // private key
         await module.exports.createWallet(password);
         await module.exports.importFromPrivateKey(secretWordsOrPrivateKey);
       }
