@@ -79,20 +79,21 @@ module.exports = (on, config) => {
       const notificationPage = await puppeteer.switchToMetamaskNotification();
       return notificationPage;
     },
-    confirmMetamaskWelcomePage: async () => {
-      const confirmed = await metamask.confirmWelcomePage();
-      return confirmed;
-    },
     unlockMetamask: async password => {
       const unlocked = await metamask.unlock(password);
       return unlocked;
     },
-    importMetamaskWallet: async ({ secretWords, password }) => {
-      if (process.env.SECRET_WORDS) {
-        secretWords = process.env.SECRET_WORDS;
-      }
-      const imported = await metamask.importWallet(secretWords, password);
+    importMetamaskAccount: async privateKey => {
+      const imported = await metamask.importAccount(privateKey);
       return imported;
+    },
+    createMetamaskAccount: async accountName => {
+      const created = await metamask.createAccount(accountName);
+      return created;
+    },
+    switchMetamaskAccount: async accountNameOrAccountNumber => {
+      const switched = await metamask.switchAccount(accountNameOrAccountNumber);
+      return switched;
     },
     addMetamaskNetwork: async network => {
       const networkAdded = await metamask.addNetwork(network);

@@ -37,21 +37,6 @@ declare namespace Cypress {
      */
     getNetwork(): Chainable<Subject>;
     /**
-     * Confirms metamask welcome page
-     * @example
-     * cy.confirmMetamaskWelcomePage()
-     */
-    confirmMetamaskWelcomePage(): Chainable<Subject>;
-    /**
-     * Import metamask wallet using secret words
-     * @example
-     * cy.importMetamaskWallet('secret, words, ...', 'password for metamask')
-     */
-    importMetamaskWallet(
-      secretWords: string,
-      password: string,
-    ): Chainable<Subject>;
-    /**
      * Add network in metamask
      * @example
      * cy.addMetamaskNetwork({networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true})
@@ -64,6 +49,28 @@ declare namespace Cypress {
      * cy.changeMetamaskNetwork('networkName')
      */
     changeMetamaskNetwork(network: string): Chainable<Subject>;
+    /**
+     * Import new account in metamask using private key
+     * @example
+     * cy.importMetamaskAccount('private_key')
+     */
+    importMetamaskAccount(privateKey: string): Chainable<Subject>;
+    /**
+     * Create new account in metamask
+     * @example
+     * cy.createMetamaskAccount()
+     * cy.createMetamaskAccount('accountName')
+     */
+    createMetamaskAccount(accountName: string | undefined): Chainable<Subject>;
+    /**
+     * Switch metamask account
+     * @example
+     * cy.switchMetamaskAccount(2)
+     * cy.switchMetamaskAccount('Account 2')
+     */
+    switchMetamaskAccount(
+      accountNameOrAccountNumber: string | number,
+    ): Chainable<Subject>;
     /**
      * Get current wallet address of metamask wallet
      * @example

@@ -13,23 +13,24 @@ Cypress.Commands.add('assignWindows', () => {
 
 // metamask commands
 
-Cypress.Commands.add('confirmMetamaskWelcomePage', () => {
-  return cy.task('confirmMetamaskWelcomePage');
-});
-
-Cypress.Commands.add(
-  'importMetamaskWallet',
-  (secretWords, password = 'Tester@1234') => {
-    return cy.task('importMetamaskWallet', { secretWords, password });
-  },
-);
-
 Cypress.Commands.add('addMetamaskNetwork', network => {
   return cy.task('addMetamaskNetwork', network);
 });
 
 Cypress.Commands.add('changeMetamaskNetwork', network => {
   return cy.task('changeMetamaskNetwork', network);
+});
+
+Cypress.Commands.add('importMetamaskAccount', privateKey => {
+  return cy.task('importMetamaskAccount', privateKey);
+});
+
+Cypress.Commands.add('createMetamaskAccount', accountName => {
+  return cy.task('createMetamaskAccount', accountName);
+});
+
+Cypress.Commands.add('switchMetamaskAccount', accountNameOrAccountNumber => {
+  return cy.task('switchMetamaskAccount', accountNameOrAccountNumber);
 });
 
 Cypress.Commands.add('getMetamaskWalletAddress', () => {

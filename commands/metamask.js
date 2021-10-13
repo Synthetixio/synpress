@@ -119,7 +119,7 @@ module.exports = {
     }
     return true;
   },
-  importFromPrivateKey: async privateKey => {
+  importAccount: async privateKey => {
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
     await puppeteer.waitAndClick(
       mainPageElements.accountMenu.importAccountButton,
@@ -130,6 +130,36 @@ module.exports = {
       privateKey,
     );
     await puppeteer.waitAndClick(mainPageElements.importAccount.importButton);
+    return true;
+  },
+  createAccount: async accountName => {
+    await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
+    await puppeteer.waitAndClick(
+      mainPageElements.accountMenu.createAccountButton,
+    );
+
+    if (accountName) {
+      await puppeteer.waitAndType(
+        mainPageElements.createAccount.input,
+        accountName,
+      );
+    }
+    await puppeteer.waitAndClick(mainPageElements.createAccount.createButton);
+    return true;
+  },
+  switchAccount: async accountNameOrAccountNumber => {
+    await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
+
+    if (typeof accountNameOrAccountNumber === 'number') {
+      await puppeteer.waitAndClick(
+        mainPageElements.accountMenu.accountButton(accountNameOrAccountNumber),
+      );
+    } else {
+      await puppeteer.waitAndClickByText(
+        mainPageElements.accountMenu.accountName,
+        accountNameOrAccountNumber,
+      );
+    }
     return true;
   },
   changeNetwork: async network => {
@@ -405,7 +435,7 @@ module.exports = {
       } else {
         // private key
         await module.exports.createWallet(password);
-        await module.exports.importFromPrivateKey(secretWordsOrPrivateKey);
+        await module.exports.importAccount(secretWordsOrPrivateKey);
       }
       if (isCustomNetwork) {
         await module.exports.addNetwork(network);
