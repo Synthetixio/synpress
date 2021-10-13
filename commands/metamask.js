@@ -132,6 +132,21 @@ module.exports = {
     await puppeteer.waitAndClick(mainPageElements.importAccount.importButton);
     return true;
   },
+  createAccount: async accountName => {
+    await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
+    await puppeteer.waitAndClick(
+      mainPageElements.accountMenu.createAccountButton,
+    );
+
+    if (accountName) {
+      await puppeteer.waitAndType(
+        mainPageElements.createAccount.input,
+        accountName,
+      );
+    }
+    await puppeteer.waitAndClick(mainPageElements.createAccount.createButton);
+    return true;
+  },
   changeNetwork: async network => {
     setNetwork(network);
     await puppeteer.waitAndClick(mainPageElements.networkSwitcher.button);

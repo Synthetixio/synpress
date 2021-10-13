@@ -87,6 +87,10 @@ module.exports = (on, config) => {
       const imported = await metamask.importAccount(privateKey);
       return imported;
     },
+    createMetamaskAccount: async accountName => {
+      const created = await metamask.createAccount(accountName);
+      return created;
+    },
     addMetamaskNetwork: async network => {
       const networkAdded = await metamask.addNetwork(network);
       return networkAdded;

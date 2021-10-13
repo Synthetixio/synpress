@@ -56,6 +56,13 @@ declare namespace Cypress {
      */
     importMetamaskAccount(privateKey: string): Chainable<Subject>;
     /**
+     * Create new account in metamask
+     * @example
+     * cy.createMetamaskAccount()
+     * cy.createMetamaskAccount('accountName')
+     */
+    createMetamaskAccount(accountName: string | undefined): Chainable<Subject>;
+    /**
      * Get current wallet address of metamask wallet
      * @example
      * cy.getMetamaskWalletAddress().then(address => cy.log(address))
