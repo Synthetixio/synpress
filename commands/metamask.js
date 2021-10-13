@@ -147,6 +147,21 @@ module.exports = {
     await puppeteer.waitAndClick(mainPageElements.createAccount.createButton);
     return true;
   },
+  switchAccount: async accountNameOrAccountNumber => {
+    await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
+
+    if (typeof accountNameOrAccountNumber === 'number') {
+      await puppeteer.waitAndClick(
+        mainPageElements.accountMenu.accountButton(accountNameOrAccountNumber),
+      );
+    } else {
+      await puppeteer.waitAndClickByText(
+        mainPageElements.accountMenu.accountName,
+        accountNameOrAccountNumber,
+      );
+    }
+    return true;
+  },
   changeNetwork: async network => {
     setNetwork(network);
     await puppeteer.waitAndClick(mainPageElements.networkSwitcher.button);

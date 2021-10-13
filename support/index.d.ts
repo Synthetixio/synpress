@@ -63,6 +63,15 @@ declare namespace Cypress {
      */
     createMetamaskAccount(accountName: string | undefined): Chainable<Subject>;
     /**
+     * Switch metamask account
+     * @example
+     * cy.switchMetamaskAccount(2)
+     * cy.switchMetamaskAccount('Account 2')
+     */
+    switchMetamaskAccount(
+      accountNameOrAccountNumber: string | number,
+    ): Chainable<Subject>;
+    /**
      * Get current wallet address of metamask wallet
      * @example
      * cy.getMetamaskWalletAddress().then(address => cy.log(address))

@@ -13,9 +13,11 @@ const popup = {
 
 const accountMenu = {
   button: '.account-menu__icon',
-  settingsButton: '.account-menu__item--clickable:nth-child(11)',
+  accountButton: number => `.account-menu__account:nth-child(${number})`,
+  accountName: '.account-menu__name',
   createAccountButton: '.account-menu__item--clickable:nth-child(6)',
   importAccountButton: '.account-menu__item--clickable:nth-child(7)',
+  settingsButton: '.account-menu__item--clickable:nth-child(11)',
 };
 
 const optionsMenu = {

@@ -91,6 +91,10 @@ module.exports = (on, config) => {
       const created = await metamask.createAccount(accountName);
       return created;
     },
+    switchMetamaskAccount: async accountNameOrAccountNumber => {
+      const switched = await metamask.switchAccount(accountNameOrAccountNumber);
+      return switched;
+    },
     addMetamaskNetwork: async network => {
       const networkAdded = await metamask.addNetwork(network);
       return networkAdded;

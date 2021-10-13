@@ -29,6 +29,10 @@ Cypress.Commands.add('createMetamaskAccount', accountName => {
   return cy.task('createMetamaskAccount', accountName);
 });
 
+Cypress.Commands.add('switchMetamaskAccount', accountNameOrAccountNumber => {
+  return cy.task('switchMetamaskAccount', accountNameOrAccountNumber);
+});
+
 Cypress.Commands.add('getMetamaskWalletAddress', () => {
   cy.task('getMetamaskWalletAddress').then(address => {
     return address;
