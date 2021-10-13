@@ -83,6 +83,10 @@ module.exports = (on, config) => {
       const unlocked = await metamask.unlock(password);
       return unlocked;
     },
+    importMetamaskAccount: async privateKey => {
+      const imported = await metamask.importAccount(privateKey);
+      return imported;
+    },
     addMetamaskNetwork: async network => {
       const networkAdded = await metamask.addNetwork(network);
       return networkAdded;

@@ -21,6 +21,10 @@ Cypress.Commands.add('changeMetamaskNetwork', network => {
   return cy.task('changeMetamaskNetwork', network);
 });
 
+Cypress.Commands.add('importMetamaskAccount', privateKey => {
+  return cy.task('importMetamaskAccount', privateKey);
+});
+
 Cypress.Commands.add('getMetamaskWalletAddress', () => {
   cy.task('getMetamaskWalletAddress').then(address => {
     return address;
