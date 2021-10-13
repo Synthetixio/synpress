@@ -119,7 +119,7 @@ module.exports = {
     }
     return true;
   },
-  importFromPrivateKey: async privateKey => {
+  importAccount: async privateKey => {
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
     await puppeteer.waitAndClick(
       mainPageElements.accountMenu.importAccountButton,
@@ -405,7 +405,7 @@ module.exports = {
       } else {
         // private key
         await module.exports.createWallet(password);
-        await module.exports.importFromPrivateKey(secretWordsOrPrivateKey);
+        await module.exports.importAccount(secretWordsOrPrivateKey);
       }
       if (isCustomNetwork) {
         await module.exports.addNetwork(network);
