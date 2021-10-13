@@ -52,9 +52,9 @@ jobs:
           path: |
             .npm-cache
             node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-1-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-node-1-
         continue-on-error: true
 
       - name: Install dependencies
