@@ -13,17 +13,6 @@ Cypress.Commands.add('assignWindows', () => {
 
 // metamask commands
 
-Cypress.Commands.add('confirmMetamaskWelcomePage', () => {
-  return cy.task('confirmMetamaskWelcomePage');
-});
-
-Cypress.Commands.add(
-  'importMetamaskWallet',
-  (secretWords, password = 'Tester@1234') => {
-    return cy.task('importMetamaskWallet', { secretWords, password });
-  },
-);
-
 Cypress.Commands.add('addMetamaskNetwork', network => {
   return cy.task('addMetamaskNetwork', network);
 });

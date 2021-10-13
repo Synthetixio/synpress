@@ -37,21 +37,6 @@ declare namespace Cypress {
      */
     getNetwork(): Chainable<Subject>;
     /**
-     * Confirms metamask welcome page
-     * @example
-     * cy.confirmMetamaskWelcomePage()
-     */
-    confirmMetamaskWelcomePage(): Chainable<Subject>;
-    /**
-     * Import metamask wallet using secret words
-     * @example
-     * cy.importMetamaskWallet('secret, words, ...', 'password for metamask')
-     */
-    importMetamaskWallet(
-      secretWords: string,
-      password: string,
-    ): Chainable<Subject>;
-    /**
      * Add network in metamask
      * @example
      * cy.addMetamaskNetwork({networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true})
