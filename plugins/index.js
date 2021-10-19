@@ -33,12 +33,14 @@ module.exports = (on, config) => {
         '--disable-renderer-backgrounding',
       );
     }
+    if (!process.env.SKIP_METAMASK_SETUP) {
+      // NOTE: extensions cannot be loaded in headless Chrome
+      const metamaskPath = await helpers.prepareMetamask(
+        process.env.METAMASK_VERSION || '9.7.1',
+      );
+      arguments_.extensions.push(metamaskPath);
+    }
 
-    // NOTE: extensions cannot be loaded in headless Chrome
-    const metamaskPath = await helpers.prepareMetamask(
-      process.env.METAMASK_VERSION || '9.7.1',
-    );
-    arguments_.extensions.push(metamaskPath);
     return arguments_;
   });
 
