@@ -74,7 +74,7 @@
         "eslint-plugin-ui-testing": "1.0.4",
         "eslint-plugin-unicorn": "35.0.0",
         "etherscan-api": "10.0.5",
-        "gremlins.js": "2.2.0",
+        "gremlins.js": "github:thijsvdanker/gremlins.js#aff434c",
         "node-fetch": "2.6.1",
         "prettier": "2.3.2",
         "puppeteer-core": "10.2.0",
