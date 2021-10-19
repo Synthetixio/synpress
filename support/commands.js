@@ -251,33 +251,40 @@ if (!process.env.SKIP_RESOURCES_WAIT) {
   });
 }
 
-Cypress.Commands.add('topIsWithinViewport', { prevSubject: true }, subject => {
-  const windowInnerWidth = Cypress.config(`viewportWidth`);
+Cypress.Commands.add(
+  'topIsWithinViewport',
+  { prevSubject: true },
+  (subject, viewportWidth = Cypress.config(`viewportWidth`)) => {
+    const bounding = subject[0].getBoundingClientRect();
 
-  const bounding = subject[0].getBoundingClientRect();
+    const rightBoundOfWindow = viewportWidth;
 
-  const rightBoundOfWindow = windowInnerWidth;
+    expect(bounding.top).to.be.at.least(0);
+    expect(bounding.left).to.be.at.least(0);
+    expect(bounding.right).to.be.lessThan(rightBoundOfWindow);
 
-  expect(bounding.top).to.be.at.least(0);
-  expect(bounding.left).to.be.at.least(0);
-  expect(bounding.right).to.be.lessThan(rightBoundOfWindow);
+    return subject;
+  },
+);
 
-  return subject;
-});
+Cypress.Commands.add(
+  'isWithinViewport',
+  { prevSubject: true },
+  (
+    subject,
+    viewportWidth = Cypress.config(`viewportWidth`),
+    viewportHeight = Cypress.config(`viewportHeight`),
+  ) => {
+    const bounding = subject[0].getBoundingClientRect();
 
-Cypress.Commands.add('isWithinViewport', { prevSubject: true }, subject => {
-  const windowInnerWidth = Cypress.config(`viewportWidth`);
-  const windowInnerHeight = Cypress.config(`viewportHeight`);
+    const rightBoundOfWindow = viewportWidth;
+    const bottomBoundOfWindow = viewportHeight;
 
-  const bounding = subject[0].getBoundingClientRect();
+    expect(bounding.top).to.be.at.least(0);
+    expect(bounding.left).to.be.at.least(0);
+    expect(bounding.right).to.be.lessThan(rightBoundOfWindow);
+    expect(bounding.bottom).to.be.lessThan(bottomBoundOfWindow);
 
-  const rightBoundOfWindow = windowInnerWidth;
-  const bottomBoundOfWindow = windowInnerHeight;
-
-  expect(bounding.top).to.be.at.least(0);
-  expect(bounding.left).to.be.at.least(0);
-  expect(bounding.right).to.be.lessThan(rightBoundOfWindow);
-  expect(bounding.bottom).to.be.lessThan(bottomBoundOfWindow);
-
-  return subject;
-});
+    return subject;
+  },
+);
