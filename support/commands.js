@@ -258,10 +258,13 @@ Cypress.Commands.add(
     const bounding = subject[0].getBoundingClientRect();
 
     const rightBoundOfWindow = viewportWidth;
+    const boundingRightLessThanOrEqualRightBoundOfWindow =
+      bounding.right <= rightBoundOfWindow;
 
     expect(bounding.top).to.be.at.least(0);
     expect(bounding.left).to.be.at.least(0);
-    expect(bounding.right).to.be.lessThan(rightBoundOfWindow);
+    // todo: lessThanOrEqual doesn't seem to work
+    expect(boundingRightLessThanOrEqualRightBoundOfWindow).to.be.true;
 
     return subject;
   },
@@ -278,12 +281,17 @@ Cypress.Commands.add(
     const bounding = subject[0].getBoundingClientRect();
 
     const rightBoundOfWindow = viewportWidth;
+    const boundingRightLessThanOrEqualRightBoundOfWindow =
+      bounding.right <= rightBoundOfWindow;
     const bottomBoundOfWindow = viewportHeight;
+    const boundingBottomLessThanOrEqualBottomBoundOfWindow =
+      bounding.bottom <= bottomBoundOfWindow;
 
     expect(bounding.top).to.be.at.least(0);
     expect(bounding.left).to.be.at.least(0);
-    expect(bounding.right).to.be.lessThan(rightBoundOfWindow);
-    expect(bounding.bottom).to.be.lessThan(bottomBoundOfWindow);
+    // todo: lessThanOrEqual doesn't seem to work
+    expect(boundingRightLessThanOrEqualRightBoundOfWindow).to.be.true;
+    expect(boundingBottomLessThanOrEqualBottomBoundOfWindow).to.be.true;
 
     return subject;
   },
