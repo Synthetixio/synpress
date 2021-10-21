@@ -25,7 +25,7 @@ jobs:
         run: npm audit --audit-level=critical
 
       - name: Lockfile lint
-        run: lockfile-lint -p package-lock.json --type npm --allowed-hosts npm github.com --allowed-schemes "npm:" "https:" "git+ssh:"
+        run: lockfile-lint -p package-lock.json --type npm --allowed-hosts npm github.com npm.pkg.github.com --allowed-schemes "npm:" "https:" "git+ssh:"
 
   build:
     needs: audit
@@ -44,7 +44,7 @@ jobs:
         uses: actions/checkout@1e204e9a9253d643386038d443f96446fa156a97 # pin@v2
 
       - name: Set npm cache directory
-        run: npm config set cache .npm-cache --global 
+        run: npm config set cache .npm-cache --global
         continue-on-error: true
 
       - uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353 # pin@v2
