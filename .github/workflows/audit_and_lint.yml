@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # pin@v2
+        uses: actions/checkout@1e204e9a9253d643386038d443f96446fa156a97 # pin@v2
 
       - name: Audit dependencies
         run: npm audit --audit-level=critical
@@ -41,7 +41,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # pin@v2
+        uses: actions/checkout@1e204e9a9253d643386038d443f96446fa156a97 # pin@v2
 
       - name: Set npm cache directory
         run: npm config set cache .npm-cache --global 
@@ -68,7 +68,7 @@ jobs:
       - name: Upload lint results
         # run if lint failed and only on master/dev branch and pull requests
         if: always() && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || github.event_name == 'pull_request')
-        uses: github/codeql-action/upload-sarif@fd3190bba58b65cbefb742009518a03a07af24d7 # pin@codeql-bundle-20210517
+        uses: github/codeql-action/upload-sarif@1990ded3d254be86a1af1948d034534fad74a032 # pin@codeql-bundle-20210517
         with:
           sarif_file: lint-results.sarif
         continue-on-error: true
