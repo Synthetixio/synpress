@@ -227,5 +227,22 @@ declare namespace Cypress {
     waitForResources(
       resources: Array<{ name: string; number?: number }> | undefined,
     ): Chainable<Subject>;
+    /**
+     * Assert that element top is within viewport
+     * @example
+     * cy.get('selector').topIsWithinViewport()
+     * cy.get('selector').topIsWithinViewport(800)
+     */
+    topIsWithinViewport(viewportWidth: number): Chainable<Subject>;
+    /**
+     * Assert that element is within viewport
+     * @example
+     * cy.get('selector').isWithinViewport()
+     * cy.get('selector').isWithinViewport(800, 600)
+     */
+    isWithinViewport(
+      viewportWidth: number,
+      viewportHeight: number,
+    ): Chainable<Subject>;
   }
 }
