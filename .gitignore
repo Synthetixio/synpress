@@ -1,5 +1,4 @@
 node_modules
 downloads
 lint-results.sarif
-.npmrc
 .npm-cache
