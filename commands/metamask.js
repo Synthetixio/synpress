@@ -372,6 +372,8 @@ module.exports = {
   },
   confirmTransaction: async () => {
     const isKovanTestnet = getNetwork().networkName === 'kovan';
+    // todo: remove waitForTimeout below after improving switchToMetamaskNotification
+    await puppeteer.metamaskWindow().waitForTimeout(1000);
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     const currentGasFee = await puppeteer.waitAndGetValue(
       confirmPageElements.gasFeeInput,

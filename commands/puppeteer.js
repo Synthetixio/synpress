@@ -5,8 +5,6 @@ let puppeteerBrowser;
 let mainWindow;
 let metamaskWindow;
 
-let switchToMetamaskNotificationRetries;
-
 module.exports = {
   puppeteerBrowser: () => {
     return puppeteerBrowser;
@@ -98,23 +96,17 @@ module.exports = {
     return true;
   },
   switchToMetamaskNotification: async () => {
-    await metamaskWindow.waitForTimeout(500);
+    // todo: wait for page to be initialized before triggering waitFor
+    // todo: wait for spinning loader to be gone before triggering waitFor
+    // todo: get rid of waitForTimeout after fixing above
+    // todo: all of the above are issues related to metamask notification of tx confirmation
+    await module.exports.metamaskWindow().waitForTimeout(3000);
     let pages = await puppeteerBrowser.pages();
     for (const page of pages) {
       if (page.url().includes('notification')) {
-        switchToMetamaskNotificationRetries = 0;
         await page.bringToFront();
         return page;
       }
-    }
-
-    // 24*500ms = 12 seconds in total
-    if (switchToMetamaskNotificationRetries < 24) {
-      switchToMetamaskNotificationRetries++;
-      const page = await module.exports.switchToMetamaskNotification();
-      return page;
-    } else {
-      return false;
     }
   },
   waitFor: async (selector, page = metamaskWindow) => {
