@@ -250,3 +250,49 @@ if (!process.env.SKIP_RESOURCES_WAIT) {
     return cy.waitForResources();
   });
 }
+
+Cypress.Commands.add(
+  'topIsWithinViewport',
+  { prevSubject: true },
+  (subject, viewportWidth = Cypress.config(`viewportWidth`)) => {
+    const bounding = subject[0].getBoundingClientRect();
+
+    const rightBoundOfWindow = viewportWidth;
+    const boundingRightLessThanOrEqualRightBoundOfWindow =
+      bounding.right <= rightBoundOfWindow;
+
+    expect(bounding.top).to.be.at.least(0);
+    expect(bounding.left).to.be.at.least(0);
+    // todo: lessThanOrEqual doesn't seem to work
+    expect(boundingRightLessThanOrEqualRightBoundOfWindow).to.be.true;
+
+    return subject;
+  },
+);
+
+Cypress.Commands.add(
+  'isWithinViewport',
+  { prevSubject: true },
+  (
+    subject,
+    viewportWidth = Cypress.config(`viewportWidth`),
+    viewportHeight = Cypress.config(`viewportHeight`),
+  ) => {
+    const bounding = subject[0].getBoundingClientRect();
+
+    const rightBoundOfWindow = viewportWidth;
+    const boundingRightLessThanOrEqualRightBoundOfWindow =
+      bounding.right <= rightBoundOfWindow;
+    const bottomBoundOfWindow = viewportHeight;
+    const boundingBottomLessThanOrEqualBottomBoundOfWindow =
+      bounding.bottom <= bottomBoundOfWindow;
+
+    expect(bounding.top).to.be.at.least(0);
+    expect(bounding.left).to.be.at.least(0);
+    // todo: lessThanOrEqual doesn't seem to work
+    expect(boundingRightLessThanOrEqualRightBoundOfWindow).to.be.true;
+    expect(boundingBottomLessThanOrEqualBottomBoundOfWindow).to.be.true;
+
+    return subject;
+  },
+);

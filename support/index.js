@@ -25,5 +25,7 @@ Cypress.on('window:before:load', win => {
 });
 
 before(() => {
-  cy.setupMetamask();
+  if (!Cypress.env('SKIP_METAMASK_SETUP')) {
+    cy.setupMetamask();
+  }
 });
