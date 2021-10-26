@@ -44,7 +44,7 @@
     "@cypress/code-coverage": "3.9.10",
     "@cypress/react": "5.9.4",
     "@cypress/webpack-dev-server": "1.4.0",
-    "@drptbl/gremlins.js": "2.2.2",
+    "@drptbl/gremlins.js": "2.2.1",
     "@synthetixio/js": "2.41.0",
     "@testing-library/cypress": "8.0.0",
     "@testing-library/react": "12.0.0",
