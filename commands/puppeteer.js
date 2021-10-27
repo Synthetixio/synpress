@@ -117,12 +117,23 @@ module.exports = {
     // puppeteer going too fast breaks metamask in corner cases
     await page.waitForTimeout(300);
   },
-  waitAndClick: async (selector, page = metamaskWindow) => {
+  waitAndClick: async (selector, page = metamaskWindow, numberOfClicks) => {
     await module.exports.waitFor(selector, page);
-    await page.evaluate(
-      selector => document.querySelector(selector).click(),
-      selector,
-    );
+    if (numberOfClicks) {
+      let i = 0;
+      while (i < numberOfClicks) {
+        i++;
+        await page.evaluate(
+          selector => document.querySelector(selector).click(),
+          selector,
+        );
+      }
+    } else {
+      await page.evaluate(
+        selector => document.querySelector(selector).click(),
+        selector,
+      );
+    }
   },
   waitAndClickByText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
