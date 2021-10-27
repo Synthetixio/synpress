@@ -381,8 +381,8 @@ module.exports = {
     );
     const newGasFee = isKovanTestnet
       ? '1'
-      : (Number(currentGasFee) + 10).toString();
-    await puppeteer.waitClearAndType(
+      : (Number(currentGasFee) + 10).toString().replace('.', ',');
+    await puppeteer.waitAndSetValue(
       newGasFee,
       confirmPageElements.gasFeeInput,
       notificationPage,
