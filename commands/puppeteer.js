@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 let puppeteerBrowser;
 let mainWindow;
 let metamaskWindow;
+let activeTabName;
 
 module.exports = {
   puppeteerBrowser: () => {
@@ -14,6 +15,9 @@ module.exports = {
   },
   metamaskWindow: () => {
     return metamaskWindow;
+  },
+  activeTabName: () => {
+    return activeTabName;
   },
   init: async () => {
     const debuggerDetails = await fetch('http://localhost:9222/json/version'); //DevSkim: ignore DS137138
@@ -43,6 +47,9 @@ module.exports = {
     }
     return true;
   },
+  assignActiveTabName: async tabName => {
+    activeTabName = tabName;
+    return true;
   },
   clearWindows: async () => {
     mainWindow = null;
@@ -50,19 +57,14 @@ module.exports = {
   },
   },
   isMetamaskWindowActive: async () => {
-    let activeTabPage = await module.exports.getActiveTabPage();
-    if (
-      activeTabPage.url().includes('extension') ||
-      activeTabPage.url().includes('notification')
-    ) {
+    if (activeTabName === 'metamask') {
       return true;
     } else {
       return false;
     }
   },
   isCypressWindowActive: async () => {
-    let activeTabPage = await module.exports.getActiveTabPage();
-    if (activeTabPage.url().includes('integration')) {
+    if (activeTabName === 'cypress') {
       return true;
     } else {
       return false;
@@ -70,10 +72,12 @@ module.exports = {
   },
   switchToCypressWindow: async () => {
     await mainWindow.bringToFront();
+    await module.exports.assignActiveTabName('cypress');
     return true;
   },
   switchToMetamaskWindow: async () => {
     await metamaskWindow.bringToFront();
+    await module.exports.assignActiveTabName('metamask');
     return true;
   },
   switchToMetamaskNotification: async () => {
