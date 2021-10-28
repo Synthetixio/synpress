@@ -154,6 +154,26 @@ module.exports = (on, config) => {
       const rejected = await metamask.rejectTransaction();
       return rejected;
     },
+    allowMetamaskToAddNetwork: async () => {
+      const allowed = await metamask.allowToAddNetwork();
+      return allowed;
+    },
+    rejectMetamaskToAddNetwork: async () => {
+      const rejected = await metamask.rejectToAddNetwork();
+      return rejected;
+    },
+    allowMetamaskToSwitchNetwork: async () => {
+      const allowed = await metamask.allowToSwitchNetwork();
+      return allowed;
+    },
+    rejectMetamaskToSwitchNetwork: async () => {
+      const rejected = await metamask.rejectToSwitchNetwork();
+      return rejected;
+    },
+    allowMetamaskToAddAndSwitchNetwork: async () => {
+      const allowed = await metamask.allowToAddAndSwitchNetwork();
+      return allowed;
+    },
     getMetamaskWalletAddress: async () => {
       const walletAddress = await metamask.getWalletAddress();
       return walletAddress;

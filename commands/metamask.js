@@ -25,6 +25,9 @@ const {
   networksPageElements,
   addNetworkPageElements,
 } = require('../pages/metamask/settings-page');
+const {
+  confirmationPageElements,
+} = require('../pages/metamask/confirmation-page');
 const { setNetwork, getNetwork } = require('../helpers');
 
 let walletAddress;
@@ -349,7 +352,7 @@ module.exports = {
       signaturePageElements.rejectSignatureRequestButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    await puppeteer.metamaskWindow().waitForTimeout(1000);
     return true;
   },
   confirmPermissionToSpend: async () => {
@@ -367,7 +370,7 @@ module.exports = {
       notificationPageElements.rejectToSpendButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    await puppeteer.metamaskWindow().waitForTimeout(1000);
     return true;
   },
   acceptAccess: async () => {
@@ -416,7 +419,45 @@ module.exports = {
       confirmPageElements.rejectButton,
       notificationPage,
     );
+    await puppeteer.metamaskWindow().waitForTimeout(1000);
+    return true;
+  },
+  allowToAddNetwork: async () => {
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndClick(
+      confirmationPageElements.footer.approveButton,
+      notificationPage,
+    );
+    return true;
+  },
+  rejectToAddNetwork: async () => {
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndClick(
+      confirmationPageElements.footer.cancelButton,
+      notificationPage,
+    );
+    return true;
+  },
+  allowToSwitchNetwork: async () => {
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndClick(
+      confirmationPageElements.footer.approveButton,
+      notificationPage,
+    );
     await puppeteer.metamaskWindow().waitForTimeout(3000);
+    return true;
+  },
+  rejectToSwitchNetwork: async () => {
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndClick(
+      confirmationPageElements.footer.cancelButton,
+      notificationPage,
+    );
+    return true;
+  },
+  allowToAddAndSwitchNetwork: async () => {
+    await module.exports.allowToAddNetwork();
+    await module.exports.allowToSwitchNetwork();
     return true;
   },
   getWalletAddress: async () => {
