@@ -43,30 +43,11 @@ module.exports = {
     }
     return true;
   },
-  getBrowser: async () => {
-    return {
-      puppeteerBrowser,
-    };
-  },
-  getWindows: async () => {
-    return {
-      mainWindow,
-      metamaskWindow,
-    };
   },
   clearWindows: async () => {
     mainWindow = null;
     metamaskWindow = null;
   },
-  getActiveTabPage: async () => {
-    let pages = await puppeteerBrowser.pages();
-    const visiblePages = pages.filter(async page => {
-      const state = await page.evaluate(() => document.visibilityState);
-      // todo: seem to be bugged out with cypress first tab always having visiblityState visible
-      return state === 'visible';
-    });
-    const activeTabPage = visiblePages[0];
-    return activeTabPage;
   },
   isMetamaskWindowActive: async () => {
     let activeTabPage = await module.exports.getActiveTabPage();
