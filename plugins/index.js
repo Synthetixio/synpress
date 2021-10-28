@@ -102,7 +102,7 @@ module.exports = (on, config) => {
       return networkAdded;
     },
     changeMetamaskNetwork: async network => {
-      if (process.env.NETWORK_NAME) {
+      if (process.env.NETWORK_NAME && !network) {
         network = process.env.NETWORK_NAME;
       } else if (!network) {
         network = 'kovan';
