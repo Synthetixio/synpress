@@ -33,6 +33,7 @@ module.exports = {
   },
   clear: async () => {
     puppeteerBrowser = null;
+    return true;
   },
   assignWindows: async () => {
     let pages = await puppeteerBrowser.pages();
@@ -54,7 +55,7 @@ module.exports = {
   clearWindows: async () => {
     mainWindow = null;
     metamaskWindow = null;
-  },
+    return true;
   },
   isMetamaskWindowActive: async () => {
     if (activeTabName === 'metamask') {
