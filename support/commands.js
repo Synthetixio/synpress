@@ -91,6 +91,26 @@ Cypress.Commands.add('rejectMetamaskTransaction', () => {
   return cy.task('rejectMetamaskTransaction');
 });
 
+Cypress.Commands.add('allowMetamaskToAddNetwork', () => {
+  return cy.task('allowMetamaskToAddNetwork');
+});
+
+Cypress.Commands.add('rejectMetamaskToAddNetwork', () => {
+  return cy.task('rejectMetamaskToAddNetwork');
+});
+
+Cypress.Commands.add('allowMetamaskToSwitchNetwork', () => {
+  return cy.task('allowMetamaskToSwitchNetwork');
+});
+
+Cypress.Commands.add('rejectMetamaskToSwitchNetwork', () => {
+  return cy.task('rejectMetamaskToSwitchNetwork');
+});
+
+Cypress.Commands.add('allowMetamaskToAddAndSwitchNetwork', () => {
+  return cy.task('allowMetamaskToAddAndSwitchNetwork');
+});
+
 Cypress.Commands.add('switchToMetamaskNotification', () => {
   return cy.task('switchToMetamaskNotification');
 });

@@ -4,8 +4,7 @@ const fetch = require('node-fetch');
 let puppeteerBrowser;
 let mainWindow;
 let metamaskWindow;
-
-let switchToMetamaskNotificationRetries;
+let activeTabName;
 
 module.exports = {
   puppeteerBrowser: () => {
@@ -16,6 +15,9 @@ module.exports = {
   },
   metamaskWindow: () => {
     return metamaskWindow;
+  },
+  activeTabName: () => {
+    return activeTabName;
   },
   init: async () => {
     const debuggerDetails = await fetch('http://localhost:9222/json/version'); //DevSkim: ignore DS137138
@@ -31,6 +33,7 @@ module.exports = {
   },
   clear: async () => {
     puppeteerBrowser = null;
+    return true;
   },
   assignWindows: async () => {
     let pages = await puppeteerBrowser.pages();
@@ -45,45 +48,24 @@ module.exports = {
     }
     return true;
   },
-  getBrowser: async () => {
-    return {
-      puppeteerBrowser,
-    };
-  },
-  getWindows: async () => {
-    return {
-      mainWindow,
-      metamaskWindow,
-    };
+  assignActiveTabName: async tabName => {
+    activeTabName = tabName;
+    return true;
   },
   clearWindows: async () => {
     mainWindow = null;
     metamaskWindow = null;
-  },
-  getActiveTabPage: async () => {
-    let pages = await puppeteerBrowser.pages();
-    const visiblePages = pages.filter(async page => {
-      const state = await page.evaluate(() => document.visibilityState);
-      // todo: seem to be bugged out with cypress first tab always having visiblityState visible
-      return state === 'visible';
-    });
-    const activeTabPage = visiblePages[0];
-    return activeTabPage;
+    return true;
   },
   isMetamaskWindowActive: async () => {
-    let activeTabPage = await module.exports.getActiveTabPage();
-    if (
-      activeTabPage.url().includes('extension') ||
-      activeTabPage.url().includes('notification')
-    ) {
+    if (activeTabName === 'metamask') {
       return true;
     } else {
       return false;
     }
   },
   isCypressWindowActive: async () => {
-    let activeTabPage = await module.exports.getActiveTabPage();
-    if (activeTabPage.url().includes('integration')) {
+    if (activeTabName === 'cypress') {
       return true;
     } else {
       return false;
@@ -91,30 +73,26 @@ module.exports = {
   },
   switchToCypressWindow: async () => {
     await mainWindow.bringToFront();
+    await module.exports.assignActiveTabName('cypress');
     return true;
   },
   switchToMetamaskWindow: async () => {
     await metamaskWindow.bringToFront();
+    await module.exports.assignActiveTabName('metamask');
     return true;
   },
   switchToMetamaskNotification: async () => {
-    await metamaskWindow.waitForTimeout(500);
+    // todo: wait for page to be initialized before triggering waitFor
+    // todo: wait for spinning loader to be gone before triggering waitFor
+    // todo: get rid of waitForTimeout after fixing above
+    // todo: all of the above are issues related to metamask notification of tx confirmation
+    await module.exports.metamaskWindow().waitForTimeout(3000);
     let pages = await puppeteerBrowser.pages();
     for (const page of pages) {
       if (page.url().includes('notification')) {
-        switchToMetamaskNotificationRetries = 0;
         await page.bringToFront();
         return page;
       }
-    }
-
-    // 24*500ms = 12 seconds in total
-    if (switchToMetamaskNotificationRetries < 24) {
-      switchToMetamaskNotificationRetries++;
-      const page = await module.exports.switchToMetamaskNotification();
-      return page;
-    } else {
-      return false;
     }
   },
   waitFor: async (selector, page = metamaskWindow) => {
@@ -125,12 +103,23 @@ module.exports = {
     // puppeteer going too fast breaks metamask in corner cases
     await page.waitForTimeout(300);
   },
-  waitAndClick: async (selector, page = metamaskWindow) => {
+  waitAndClick: async (selector, page = metamaskWindow, numberOfClicks) => {
     await module.exports.waitFor(selector, page);
-    await page.evaluate(
-      selector => document.querySelector(selector).click(),
-      selector,
-    );
+    if (numberOfClicks) {
+      let i = 0;
+      while (i < numberOfClicks) {
+        i++;
+        await page.evaluate(
+          selector => document.querySelector(selector).click(),
+          selector,
+        );
+      }
+    } else {
+      await page.evaluate(
+        selector => document.querySelector(selector).click(),
+        selector,
+      );
+    }
   },
   waitAndClickByText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);

@@ -25,6 +25,9 @@ const {
   networksPageElements,
   addNetworkPageElements,
 } = require('../pages/metamask/settings-page');
+const {
+  confirmationPageElements,
+} = require('../pages/metamask/confirmation-page');
 const { setNetwork, getNetwork } = require('../helpers');
 
 let walletAddress;
@@ -163,7 +166,15 @@ module.exports = {
     return true;
   },
   changeNetwork: async network => {
+    let switchBackToCypressWindow;
+
     setNetwork(network);
+
+    if (await puppeteer.isCypressWindowActive()) {
+      await puppeteer.switchToMetamaskWindow();
+      switchBackToCypressWindow = true;
+    }
+
     await puppeteer.waitAndClick(mainPageElements.networkSwitcher.button);
     if (network === 'main' || network === 'mainnet') {
       await puppeteer.waitAndClick(
@@ -211,6 +222,11 @@ module.exports = {
         mainPageElements.networkSwitcher.networkName,
         network,
       );
+    }
+
+    if (switchBackToCypressWindow) {
+      await puppeteer.switchToCypressWindow();
+      switchBackToCypressWindow = false;
     }
 
     return true;
@@ -336,7 +352,7 @@ module.exports = {
       signaturePageElements.rejectSignatureRequestButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    await puppeteer.metamaskWindow().waitForTimeout(1000);
     return true;
   },
   confirmPermissionToSpend: async () => {
@@ -354,7 +370,7 @@ module.exports = {
       notificationPageElements.rejectToSpendButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    await puppeteer.metamaskWindow().waitForTimeout(1000);
     return true;
   },
   acceptAccess: async () => {
@@ -372,19 +388,22 @@ module.exports = {
   },
   confirmTransaction: async () => {
     const isKovanTestnet = getNetwork().networkName === 'kovan';
+    // todo: remove waitForTimeout below after improving switchToMetamaskNotification
+    await puppeteer.metamaskWindow().waitForTimeout(1000);
     const notificationPage = await puppeteer.switchToMetamaskNotification();
-    const currentGasFee = await puppeteer.waitAndGetValue(
-      confirmPageElements.gasFeeInput,
-      notificationPage,
-    );
-    const newGasFee = isKovanTestnet
-      ? '1'
-      : (Number(currentGasFee) + 10).toString();
-    await puppeteer.waitClearAndType(
-      newGasFee,
-      confirmPageElements.gasFeeInput,
-      notificationPage,
-    );
+    if (isKovanTestnet) {
+      await puppeteer.waitAndSetValue(
+        '1',
+        confirmPageElements.gasFeeInput,
+        notificationPage,
+      );
+    } else {
+      await puppeteer.waitAndClick(
+        confirmPageElements.gasFeeArrowUpButton,
+        notificationPage,
+        10,
+      );
+    }
     // metamask reloads popup after changing a fee, you have to wait for this event otherwise transaction will fail
     await puppeteer.metamaskWindow().waitForTimeout(3000);
     await puppeteer.waitAndClick(
@@ -400,7 +419,45 @@ module.exports = {
       confirmPageElements.rejectButton,
       notificationPage,
     );
+    await puppeteer.metamaskWindow().waitForTimeout(1000);
+    return true;
+  },
+  allowToAddNetwork: async () => {
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndClick(
+      confirmationPageElements.footer.approveButton,
+      notificationPage,
+    );
+    return true;
+  },
+  rejectToAddNetwork: async () => {
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndClick(
+      confirmationPageElements.footer.cancelButton,
+      notificationPage,
+    );
+    return true;
+  },
+  allowToSwitchNetwork: async () => {
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndClick(
+      confirmationPageElements.footer.approveButton,
+      notificationPage,
+    );
     await puppeteer.metamaskWindow().waitForTimeout(3000);
+    return true;
+  },
+  rejectToSwitchNetwork: async () => {
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndClick(
+      confirmationPageElements.footer.cancelButton,
+      notificationPage,
+    );
+    return true;
+  },
+  allowToAddAndSwitchNetwork: async () => {
+    await module.exports.allowToAddNetwork();
+    await module.exports.allowToSwitchNetwork();
     return true;
   },
   getWalletAddress: async () => {
@@ -423,6 +480,7 @@ module.exports = {
 
     await puppeteer.init();
     await puppeteer.assignWindows();
+    await puppeteer.assignActiveTabName('metamask');
     await puppeteer.metamaskWindow().waitForTimeout(1000);
     if (
       (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) ===

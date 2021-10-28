@@ -156,6 +156,36 @@ declare namespace Cypress {
      */
     rejectMetamaskTransaction(): Chainable<Subject>;
     /**
+     * Allow site to add new network in metamask
+     * @example
+     * cy.allowMetamaskToAddNetwork()
+     */
+    allowMetamaskToAddNetwork(): Chainable<Subject>;
+    /**
+     * Reject site to add new network in metamask
+     * @example
+     * cy.rejectMetamaskToAddNetwork()
+     */
+    rejectMetamaskToAddNetwork(): Chainable<Subject>;
+    /**
+     * Allow site to switch network in metamask
+     * @example
+     * cy.allowMetamaskToSwitchNetwork()
+     */
+    allowMetamaskToSwitchNetwork(): Chainable<Subject>;
+    /**
+     * Reject site to switch network in metamask
+     * @example
+     * cy.rejectMetamaskToSwitchNetwork()
+     */
+    rejectMetamaskToSwitchNetwork(): Chainable<Subject>;
+    /**
+     * Allow site to add new network in metamask and switch to it
+     * @example
+     * cy.allowMetamaskToAddAndSwitchNetwork()
+     */
+    allowMetamaskToAddAndSwitchNetwork(): Chainable<Subject>;
+    /**
      * Switch to metamask notification window
      * @example
      * cy.switchToMetamaskNotification()

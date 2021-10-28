@@ -28,7 +28,11 @@ const confirmPageContent = `${notificationPage} .confirm-page-container-content`
 const confirmPageGasFeeSection = `${confirmPageContent} .confirm-page-container-content__gas-fee`;
 const gasFeeLabel = `${confirmPageGasFeeSection} .currency-display-component__text`;
 const gasFeeInput = `${confirmPageGasFeeSection} .advanced-gas-inputs__gas-edit-row:nth-child(1) .advanced-gas-inputs__gas-edit-row__input`;
+const gasFeeArrowUpButton = `${confirmPageGasFeeSection} .advanced-gas-inputs__gas-edit-row:nth-child(1) .advanced-gas-inputs__gas-edit-row__input-arrows__i-wrap:nth-child(1)`;
+const gasFeeArrowDownButton = `${confirmPageGasFeeSection} .advanced-gas-inputs__gas-edit-row:nth-child(1) .advanced-gas-inputs__gas-edit-row__input-arrows__i-wrap:nth-child(2)`;
 const gasLimitInput = `${confirmPageGasFeeSection} .advanced-gas-inputs__gas-edit-row:nth-child(2) .advanced-gas-inputs__gas-edit-row__input`;
+const gasLimitArrowUpButton = `${confirmPageGasFeeSection} .advanced-gas-inputs__gas-edit-row:nth-child(2) .advanced-gas-inputs__gas-edit-row__input-arrows__i-wrap:nth-child(1)`;
+const gasLimitArrowDownButton = `${confirmPageGasFeeSection} .advanced-gas-inputs__gas-edit-row:nth-child(2) .advanced-gas-inputs__gas-edit-row__input-arrows__i-wrap:nth-child(2)`;
 const totalLabel = `${confirmPageContent} div:nth-child(2) > .confirm-detail-row .currency-display-component__text`;
 const rejectButton = `${confirmPageContent} [data-testid="page-container-footer-cancel"]`;
 const confirmButton = `${confirmPageContent} [data-testid="page-container-footer-next"]`;
@@ -39,7 +43,11 @@ module.exports.confirmPageElements = {
   confirmPageGasFeeSection,
   gasFeeLabel,
   gasFeeInput,
+  gasFeeArrowUpButton,
+  gasFeeArrowDownButton,
   gasLimitInput,
+  gasLimitArrowUpButton,
+  gasLimitArrowDownButton,
   totalLabel,
   rejectButton,
   confirmButton,
