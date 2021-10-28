@@ -104,7 +104,7 @@ module.exports = (on, config) => {
     changeMetamaskNetwork: async network => {
       if (process.env.NETWORK_NAME) {
         network = process.env.NETWORK_NAME;
-      } else {
+      } else if (!network) {
         network = 'kovan';
       }
       const networkChanged = await metamask.changeNetwork(network);

@@ -163,7 +163,15 @@ module.exports = {
     return true;
   },
   changeNetwork: async network => {
+    let switchBackToCypressWindow;
+
     setNetwork(network);
+
+    if (await puppeteer.isCypressWindowActive()) {
+      await puppeteer.switchToMetamaskWindow();
+      switchBackToCypressWindow = true;
+    }
+
     await puppeteer.waitAndClick(mainPageElements.networkSwitcher.button);
     if (network === 'main' || network === 'mainnet') {
       await puppeteer.waitAndClick(
@@ -211,6 +219,11 @@ module.exports = {
         mainPageElements.networkSwitcher.networkName,
         network,
       );
+    }
+
+    if (switchBackToCypressWindow) {
+      await puppeteer.switchToCypressWindow();
+      switchBackToCypressWindow = false;
     }
 
     return true;
@@ -426,6 +439,7 @@ module.exports = {
 
     await puppeteer.init();
     await puppeteer.assignWindows();
+    await puppeteer.assignActiveTabName('metamask');
     await puppeteer.metamaskWindow().waitForTimeout(1000);
     if (
       (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) ===
