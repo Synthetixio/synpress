@@ -166,7 +166,7 @@ module.exports = {
   waitForText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
     await page.waitForFunction(
-      `document.querySelector('${selector}').innerText.toLowerCase().includes('${text}')`,
+      `document.querySelector('${selector}').innerText.toLowerCase().includes('${text.toLowerCase()}')`,
     );
   },
 };
