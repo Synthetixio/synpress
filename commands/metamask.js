@@ -109,6 +109,7 @@ module.exports = {
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.importButton);
 
     await puppeteer.waitFor(pageElements.loadingSpinner);
+    await puppeteer.waitFor(secureYourWalletPageElements.secureYourWalletPage);
     await puppeteer.waitAndClick(secureYourWalletPageElements.nextButton);
     await puppeteer.waitAndClick(revealSeedPageElements.remindLaterButton);
     await puppeteer.waitFor(mainPageElements.walletOverview);
