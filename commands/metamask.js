@@ -261,14 +261,21 @@ module.exports = {
       addNetworkPageElements.chainIdInput,
       network.chainId,
     );
-    await puppeteer.waitAndType(
-      addNetworkPageElements.symbolInput,
-      network.symbol,
-    );
-    await puppeteer.waitAndType(
-      addNetworkPageElements.blockExplorerInput,
-      network.blockExplorer,
-    );
+
+    if (network.symbol) {
+      await puppeteer.waitAndType(
+        addNetworkPageElements.symbolInput,
+        network.symbol,
+      );
+    }
+
+    if (network.blockExplorer) {
+      await puppeteer.waitAndType(
+        addNetworkPageElements.blockExplorerInput,
+        network.blockExplorer,
+      );
+    }
+
     await puppeteer.waitAndClick(addNetworkPageElements.saveButton);
     await puppeteer.waitAndClick(settingsPageElements.closeButton);
     await puppeteer.waitForText(
