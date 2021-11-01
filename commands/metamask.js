@@ -1,6 +1,5 @@
 const puppeteer = require('./puppeteer');
 
-const { pageElements } = require('../pages/metamask/page');
 const {
   welcomePageElements,
   firstTimeFlowPageElements,
