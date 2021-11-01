@@ -1,6 +1,5 @@
 const puppeteer = require('./puppeteer');
 
-const { pageElements } = require('../pages/metamask/page');
 const {
   welcomePageElements,
   firstTimeFlowPageElements,
@@ -79,7 +78,7 @@ module.exports = {
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.termsCheckbox);
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.importButton);
 
-    await puppeteer.waitFor(pageElements.loadingSpinner);
+    await puppeteer.waitFor(endOfFlowPageElements.endOfFlowPage);
     await puppeteer.waitAndClick(endOfFlowPageElements.allDoneButton);
     await puppeteer.waitFor(mainPageElements.walletOverview);
 
@@ -108,7 +107,7 @@ module.exports = {
     );
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.importButton);
 
-    await puppeteer.waitFor(pageElements.loadingSpinner);
+    await puppeteer.waitFor(secureYourWalletPageElements.secureYourWalletPage);
     await puppeteer.waitAndClick(secureYourWalletPageElements.nextButton);
     await puppeteer.waitAndClick(revealSeedPageElements.remindLaterButton);
     await puppeteer.waitFor(mainPageElements.walletOverview);
@@ -262,14 +261,21 @@ module.exports = {
       addNetworkPageElements.chainIdInput,
       network.chainId,
     );
-    await puppeteer.waitAndType(
-      addNetworkPageElements.symbolInput,
-      network.symbol,
-    );
-    await puppeteer.waitAndType(
-      addNetworkPageElements.blockExplorerInput,
-      network.blockExplorer,
-    );
+
+    if (network.symbol) {
+      await puppeteer.waitAndType(
+        addNetworkPageElements.symbolInput,
+        network.symbol,
+      );
+    }
+
+    if (network.blockExplorer) {
+      await puppeteer.waitAndType(
+        addNetworkPageElements.blockExplorerInput,
+        network.blockExplorer,
+      );
+    }
+
     await puppeteer.waitAndClick(addNetworkPageElements.saveButton);
     await puppeteer.waitAndClick(settingsPageElements.closeButton);
     await puppeteer.waitForText(
