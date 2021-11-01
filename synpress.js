@@ -29,6 +29,17 @@ if (process.env.RPC_URL || process.env.CHAIN_ID) {
       'RPC_URL environment variable should start with "http://" or "https://"', //DevSkim: ignore DS137138
     );
   }
+
+  if (process.env.BLOCK_EXPLORER) {
+    if (
+      !process.env.BLOCK_EXPLORER.startsWith('http://') && //DevSkim: ignore DS137138
+      !process.env.BLOCK_EXPLORER.startsWith('https://')
+    ) {
+      throw new Error(
+        'BLOCK_EXPLORER environment variable should start with "http://" or "https://"', //DevSkim: ignore DS137138
+      );
+    }
+  }
 }
 
 program.version(version, '-v, --version');
