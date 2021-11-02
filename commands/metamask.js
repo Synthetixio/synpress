@@ -77,8 +77,6 @@ module.exports = {
     );
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.termsCheckbox);
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.importButton);
-
-    await puppeteer.waitFor(endOfFlowPageElements.endOfFlowPage);
     await puppeteer.waitAndClick(endOfFlowPageElements.allDoneButton);
     await puppeteer.waitFor(mainPageElements.walletOverview);
 
@@ -106,8 +104,6 @@ module.exports = {
       firstTimeFlowFormPageElements.newSignupCheckbox,
     );
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.importButton);
-
-    await puppeteer.waitFor(secureYourWalletPageElements.secureYourWalletPage);
     await puppeteer.waitAndClick(secureYourWalletPageElements.nextButton);
     await puppeteer.waitAndClick(revealSeedPageElements.remindLaterButton);
     await puppeteer.waitFor(mainPageElements.walletOverview);
