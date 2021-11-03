@@ -110,7 +110,7 @@ jobs:
           CYPRESS_CACHE_FOLDER: ${{ github.workspace }}/node_modules/.cache/Cypress
 
       - name: Run e2e tests
-        run: npm run test:e2e -- --group smoke-tests --record
+        run: npm run test:e2e:ci
         env:
           SKIP_METAMASK_SETUP: ${{ secrets.SKIP_METAMASK_SETUP }}
           CYPRESS_PRIVATE_KEY_WITH_FUNDS: ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
