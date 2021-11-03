@@ -1,24 +1,6 @@
 declare namespace Cypress {
   interface Chainable<Subject> {
     /**
-     * Get the most popular desktop resolutions
-     * @example
-     * cy.getDesktopSizes()
-     */
-    getDesktopSizes(): Chainable<Subject>;
-    /**
-     * Get the most popular tablet resolutions
-     * @example
-     * cy.getTabletSizes()
-     */
-    getTabletSizes(): Chainable<Subject>;
-    /**
-     * Get the most popular mobile resolutions
-     * @example
-     * cy.getMobileSizes()
-     */
-    getMobileSizes(): Chainable<Subject>;
-    /**
      * Connect puppeteer with Cypress instance
      * @example
      * cy.initPuppeteer()
@@ -31,6 +13,42 @@ declare namespace Cypress {
      */
     assignWindows(): Chainable<Subject>;
     /**
+     * Assigns currently active tab
+     * @example
+     * cy.assignActiveTabName('tabName')
+     */
+    assignActiveTabName(): Chainable<Subject>;
+    /**
+     * Checks if current active tab is metamask
+     * @example
+     * cy.isMetamaskWindowActive()
+     */
+    isMetamaskWindowActive(): Chainable<Subject>;
+    /**
+     * Checks if current active tab is cypress
+     * @example
+     * cy.isCypressWindowActive()
+     */
+    isCypressWindowActive(): Chainable<Subject>;
+    /**
+     * Switch to Cypress window
+     * @example
+     * cy.switchToCypressWindow()
+     */
+    switchToCypressWindow(): Chainable<Subject>;
+    /**
+     * Switch to metamask window
+     * @example
+     * cy.switchToMetamaskWindow()
+     */
+    switchToMetamaskWindow(): Chainable<Subject>;
+    /**
+     * Switch to metamask notification window
+     * @example
+     * cy.switchToMetamaskNotification()
+     */
+    switchToMetamaskNotification(): Chainable<Subject>;
+    /**
      * Get current network
      * @example
      * cy.getNetwork()
@@ -39,14 +57,15 @@ declare namespace Cypress {
     /**
      * Add network in metamask
      * @example
-     * cy.addMetamaskNetwork({networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true})
+     * cy.addMetamaskNetwork({networkName: 'name', rpcUrl: 'https://url', chainId: '1', symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true})
      */
-    addMetamaskNetwork(object): Chainable<Subject>;
+    addMetamaskNetwork(network: object): Chainable<Subject>;
     /**
      * Change network in metamask
      * @example
      * cy.changeMetamaskNetwork('kovan')
-     * cy.changeMetamaskNetwork('networkName')
+     * cy.changeMetamaskNetwork('custom network')
+     * cy.changeMetamaskNetwork({networkName: 'name'})
      */
     changeMetamaskNetwork(network: string): Chainable<Subject>;
     /**
@@ -77,18 +96,6 @@ declare namespace Cypress {
      * cy.getMetamaskWalletAddress().then(address => cy.log(address))
      */
     getMetamaskWalletAddress(): Chainable<Subject>;
-    /**
-     * Switch to Cypress window
-     * @example
-     * cy.switchToCypressWindow()
-     */
-    switchToCypressWindow(): Chainable<Subject>;
-    /**
-     * Switch to metamask window
-     * @example
-     * cy.switchToMetamaskWindow()
-     */
-    switchToMetamaskWindow(): Chainable<Subject>;
     /**
      * Activate ability (in metamask settings) to specify custom nonce while doing transactions in metamask
      * @example
@@ -185,12 +192,6 @@ declare namespace Cypress {
      * cy.allowMetamaskToAddAndSwitchNetwork()
      */
     allowMetamaskToAddAndSwitchNetwork(): Chainable<Subject>;
-    /**
-     * Switch to metamask notification window
-     * @example
-     * cy.switchToMetamaskNotification()
-     */
-    switchToMetamaskNotification(): Chainable<Subject>;
     /**
      * Unlock metamask
      * @example

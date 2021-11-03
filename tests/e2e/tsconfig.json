@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": "../../node_modules",
+    "types": [
+      "cypress",
+      "@types/puppeteer-core",
+      "cypress-wait-until",
+      "@testing-library/cypress",
+      "../../support"
+    ],
+    "outDir": "./output"
+  },
+  "include": ["**/*.*"]
+}
