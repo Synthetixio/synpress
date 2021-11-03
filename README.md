@@ -120,6 +120,8 @@ To fail a test if there are any browser console errors, set `FAIL_ON_ERROR` to `
 
 Automatic waiting for XHR requests to finish before tests start can be turned off with `SKIP_RESOURCES_WAIT` environmental variable, set it to `1` or `true`.
 
+If you want to skip metamask extension installation or metamask setup, you can use `SKIP_METAMASK_INSTALL` and `SKIP_METAMASK_SETUP` separately. Both variables accept `1` or `true`.
+
 ## 🧪 Usage
 
 - `synpress run` to run tests
