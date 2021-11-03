@@ -57,6 +57,10 @@ jobs:
             ${{ runner.os }}-node-1-
         continue-on-error: true
 
+      # fix: permission issues on ghactions+docker+npm@7
+      - name: Chown workspace
+        run: chown -R $(whoami) .
+
       - name: Install dependencies
         run: npm install --prefer-offline --no-audit
 
@@ -103,6 +107,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-ubuntu-e2e-1-
         continue-on-error: true
+
+      # fix: permission issues on ghactions+docker+npm@7
+      - name: Chown workspace
+        run: chown -R $(whoami) .
 
       - name: Install dependencies
         run: npm install --prefer-offline --no-audit
