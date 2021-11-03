@@ -1,6 +1,6 @@
 {
   "name": "@synthetixio/synpress",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Synpress in an wrapper around Cypress test runner which extends its capabilities with conjunction of Puppeteer. It's used used across Synthetix projects.",
   "keywords": [
     "Synpress",
@@ -38,7 +38,10 @@
     "release:major": "release-it major --disable-metrics",
     "release:minor": "release-it minor --disable-metrics",
     "release:patch": "release-it patch --disable-metrics",
-    "update:deps": "ncu -u && npm install --legacy-peer-deps"
+    "update:deps": "ncu -u && npm install --legacy-peer-deps",
+    "start:server": "serve tests/test-dapp -p 3000",
+    "test:e2e": "start-server-and-test 'npm run start:server' http-get://localhost:3000 'node synpress.js run --configFile=tests/e2e/config.json --config='fixturesFolder=fixtures,pluginsFile=plugins/index.js,supportFile=support/index.js''",
+    "test:e2e:ci": "start-server-and-test 'npm run start:server' http-get://localhost:3000 'node synpress.js run --group smoke-tests --record --configFile=tests/e2e/config.json --config='fixturesFolder=fixtures,pluginsFile=plugins/index.js,supportFile=support/index.js''"
   },
   "dependencies": {
     "@cypress/code-coverage": "3.9.10",

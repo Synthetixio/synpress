@@ -1,0 +1,520 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>E2E Test Dapp</title>
+    <link rel="icon" type="image/svg" href="metamask-fox.svg" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.14.1/css/mdb.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="index.css" type="text/css" />
+  </head>
+
+  <body>
+    <main class="container-fluid">
+      <header>
+        <div id="logo-container">
+          <h1 id="logo-text" class="text-center">
+            E2E Test Dapp
+          </h1>
+
+          <img id="mm-logo" src="metamask-fox.svg" />
+        </div>
+      </header>
+      <section>
+        <h3 class="card-title">
+          Status
+        </h3>
+
+        <div class="row">
+          <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+            <p class="info-text alert alert-primary">
+              Network: <span id="network"></span>
+            </p>
+          </div>
+
+          <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+            <p class="info-text alert alert-secondary">
+              ChainId: <span id="chainId"></span>
+            </p>
+          </div>
+
+          <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+            <p class="info-text alert alert-success">
+              Accounts: <span id="accounts"></span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="row d-flex justify-content-center">
+          <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">
+                  Basic Actions
+                </h4>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="connectButton"
+                  disabled
+                >
+                  Connect
+                </button>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="getAccounts"
+                >
+                  eth_accounts
+                </button>
+
+                <p class="info-text alert alert-secondary">
+                  eth_accounts result: <span id="getAccountsResult"></span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="row d-flex justify-content-center">
+          <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">
+                  Permissions Actions
+                </h4>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="requestPermissions"
+                >
+                  Request Permissions
+                </button>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="getPermissions"
+                >
+                  Get Permissions
+                </button>
+
+                <p class="info-text alert alert-secondary">
+                  Permissions result: <span id="permissionsResult"></span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="row">
+          <div
+            class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 d-flex align-items-stretch"
+          >
+            <div class="card full-width">
+              <div class="card-body">
+                <h4 class="card-title">
+                  Send Eth
+                </h4>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="sendButton"
+                  disabled
+                >
+                  Send
+                </button>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="sendEIP1559Button"
+                  disabled
+                  hidden
+                >
+                  Send EIP 1559 Transaction
+                </button>
+                <hr />
+                <h4 class="card-title">
+                  Contract
+                </h4>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="deployButton"
+                  disabled
+                >
+                  Deploy Contract
+                </button>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="depositButton"
+                  disabled
+                >
+                  Deposit
+                </button>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="withdrawButton"
+                  disabled
+                >
+                  Withdraw
+                </button>
+
+                <p class="info-text alert alert-secondary">
+                  Contract Status: <span id="contractStatus">Not clicked</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 d-flex align-items-stretch"
+          >
+            <div class="card full-width">
+              <div class="card-body">
+                <h4 class="card-title">
+                  Send Tokens
+                </h4>
+
+                <p class="info-text alert alert-success">
+                  Token: <span id="tokenAddress"></span>
+                </p>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="createToken"
+                  disabled
+                >
+                  Create Token
+                </button>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="watchAsset"
+                  disabled
+                >
+                  Add Token to Wallet
+                </button>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="transferTokens"
+                  disabled
+                >
+                  Transfer Tokens
+                </button>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="approveTokens"
+                  disabled
+                >
+                  Approve Tokens
+                </button>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="transferTokensWithoutGas"
+                  disabled
+                >
+                  Transfer Tokens Without Gas
+                </button>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="approveTokensWithoutGas"
+                  disabled
+                >
+                  Approve Tokens Without Gas
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 d-flex align-items-stretch"
+          >
+            <div class="card full-width">
+              <div class="card-body">
+                <h4 class="card-title">
+                  Encrypt / Decrypt
+                </h4>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="getEncryptionKeyButton"
+                  disabled
+                >
+                  Get Encryption Key
+                </button>
+
+                <hr />
+
+                <div id="encrypt-message-form">
+                  <input
+                    class="form-control"
+                    type="text"
+                    placeholder="Message to encrypt"
+                    id="encryptMessageInput"
+                  />
+
+                  <button
+                    class="btn btn-primary btn-lg btn-block mb-3"
+                    id="encryptButton"
+                    disabled
+                  >
+                    Encrypt
+                  </button>
+                </div>
+
+                <hr />
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="decryptButton"
+                  disabled
+                >
+                  Decrypt
+                </button>
+
+                <p class="info-text alert alert-secondary">
+                  Encryption key: <span id="encryptionKeyDisplay"></span>
+                </p>
+
+                <p class="info-text text-truncate alert alert-secondary">
+                  Ciphertext: <span id="ciphertextDisplay"></span>
+                </p>
+
+                <p class="info-text alert alert-secondary">
+                  Cleartext: <span id="cleartextDisplay"></span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="row">
+          <div
+            class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 d-flex align-items-stretch"
+          >
+            <div class="card full-width">
+              <div class="card-body">
+                <h4>
+                  Eth Sign
+                </h4>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="ethSign"
+                  disabled
+                >
+                  Sign
+                </button>
+
+                <p class="info-text alert alert-warning">
+                  Result: <span id="ethSignResult"></span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 d-flex align-items-stretch"
+          >
+            <div class="card full-width">
+              <div class="card-body">
+                <h4>
+                  Personal Sign
+                </h4>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="personalSign"
+                  disabled
+                >
+                  Sign
+                </button>
+
+                <p class="info-text alert alert-warning">
+                  Result: <span id="personalSignResult"></span>
+                </p>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="personalSignVerify"
+                  disabled
+                >
+                  Verify
+                </button>
+
+                <p class="info-text alert alert-warning">
+                  eth-sig-util recovery result:
+                  <span id="personalSignVerifySigUtilResult"></span>
+                </p>
+                <p class="info-text alert alert-warning">
+                  personal_ecRecover result:
+                  <span id="personalSignVerifyECRecoverResult"></span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 d-flex align-items-stretch"
+          >
+            <div class="card full-width">
+              <div class="card-body">
+                <h4>
+                  Sign Typed Data
+                </h4>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="signTypedData"
+                  disabled
+                >
+                  Sign
+                </button>
+
+                <p class="info-text alert alert-warning">
+                  Result: <span id="signTypedDataResult"></span>
+                </p>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="signTypedDataVerify"
+                  disabled
+                >
+                  Verify
+                </button>
+
+                <p class="info-text alert alert-warning">
+                  Recovery result:
+                  <span id="signTypedDataVerifyResult"></span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 d-flex align-items-stretch"
+          >
+            <div class="card full-width">
+              <div class="card-body">
+                <h4>
+                  Sign Typed Data V3
+                </h4>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="signTypedDataV3"
+                  disabled
+                >
+                  Sign
+                </button>
+
+                <p class="info-text alert alert-warning">
+                  Result:
+                  <span id="signTypedDataV3Result"></span>
+                </p>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="signTypedDataV3Verify"
+                  disabled
+                >
+                  Verify
+                </button>
+
+                <p class="info-text alert alert-warning">
+                  Recovery result:
+                  <span id="signTypedDataV3VerifyResult"></span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 d-flex align-items-stretch"
+          >
+            <div class="card full-width">
+              <div class="card-body">
+                <h4>
+                  Sign Typed Data V4
+                </h4>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="signTypedDataV4"
+                  disabled
+                >
+                  Sign
+                </button>
+
+                <p class="info-text alert alert-warning">
+                  Result:
+                  <span id="signTypedDataV4Result"></span>
+                </p>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="signTypedDataV4Verify"
+                  disabled
+                >
+                  Verify
+                </button>
+
+                <p class="info-text alert alert-warning">
+                  Recovery result:
+                  <span id="signTypedDataV4VerifyResult"></span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="row d-flex justify-content-center">
+          <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">
+                  Ethereum Chain Interactions
+                </h4>
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="addEthereumChain"
+                  disabled
+                >
+                  Add xDAI Chain
+                </button>
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="switchEthereumChain"
+                  disabled
+                >
+                  Switch to xDAI Chain
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="bundle.js" defer></script>
+  </body>
+</html>

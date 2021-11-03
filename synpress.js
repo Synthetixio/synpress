@@ -7,7 +7,8 @@ const { version } = require('./package.json');
 if (
   !process.env.SECRET_WORDS &&
   !process.env.PRIVATE_KEY &&
-  !process.env.SKIP_METAMASK_SETUP
+  !process.env.SKIP_METAMASK_SETUP &&
+  !process.env.SKIP_METAMASK_INSTALL
 ) {
   throw new Error(
     'Please provide SECRET_WORDS or PRIVATE_KEY environment variable',

@@ -9,7 +9,7 @@ let isTestnet = false;
 
 module.exports = {
   setNetwork: network => {
-    if (network === 'main' || network === 'mainnet' || network === 1) {
+    if (network === 'mainnet') {
       networkName = 'mainnet';
       networkId = 1;
       isTestnet = false;
@@ -31,7 +31,7 @@ module.exports = {
       isTestnet = true;
     } else if (typeof network === 'object') {
       networkName = network.networkName;
-      networkId = network.chainId;
+      networkId = Number(network.chainId);
       isTestnet = network.isTestnet;
     }
     // todo: handle a case when setNetwork() is triggered by changeNetwork() with a string of already added custom networks

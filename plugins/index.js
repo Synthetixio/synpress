@@ -33,7 +33,7 @@ module.exports = (on, config) => {
         '--disable-renderer-backgrounding',
       );
     }
-    if (!process.env.SKIP_METAMASK_SETUP) {
+    if (!process.env.SKIP_METAMASK_INSTALL) {
       // NOTE: extensions cannot be loaded in headless Chrome
       const metamaskPath = await helpers.prepareMetamask(
         process.env.METAMASK_VERSION || '9.7.1',
@@ -53,6 +53,7 @@ module.exports = (on, config) => {
       console.warn('\u001B[33m', 'WARNING:', message, '\u001B[0m');
       return true;
     },
+    // puppeteer commands
     initPuppeteer: async () => {
       const connected = await puppeteer.init();
       return connected;
@@ -68,6 +69,18 @@ module.exports = (on, config) => {
     clearWindows: async () => {
       const cleared = await puppeteer.clearWindows();
       return cleared;
+    },
+    assignActiveTabName: async tabName => {
+      const assigned = await puppeteer.assignActiveTabName(tabName);
+      return assigned;
+    },
+    isMetamaskWindowActive: async () => {
+      const isMetamaskActive = await puppeteer.isMetamaskWindowActive();
+      return isMetamaskActive;
+    },
+    isCypressWindowActive: async () => {
+      const isCypressActive = await puppeteer.isCypressWindowActive();
+      return isCypressActive;
     },
     switchToCypressWindow: async () => {
       const switched = await puppeteer.switchToCypressWindow();

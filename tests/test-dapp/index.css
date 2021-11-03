@@ -1,0 +1,43 @@
+section {
+  margin: 20px 0 20px 0;
+}
+
+.info-text {
+  font-size: 1.1em;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.card {
+  margin-bottom: 20px;
+}
+
+/* Logo & Header */
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#logo-container {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+#logo-text {
+  padding-top: 15px;
+  padding-bottom: 5px;
+}
+
+#mm-logo {
+  width: 100%;
+}
+
+/* Encrypt/Decrypt */
+
+#encryptMessageInput {
+  margin-bottom: 1rem;
+}

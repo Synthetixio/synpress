@@ -30,6 +30,7 @@ const {
 const { setNetwork, getNetwork } = require('../helpers');
 
 let walletAddress;
+let switchBackToCypressWindow;
 
 module.exports = {
   walletAddress: () => {
@@ -77,8 +78,6 @@ module.exports = {
     );
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.termsCheckbox);
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.importButton);
-
-    await puppeteer.waitFor(endOfFlowPageElements.endOfFlowPage);
     await puppeteer.waitAndClick(endOfFlowPageElements.allDoneButton);
     await puppeteer.waitFor(mainPageElements.walletOverview);
 
@@ -106,8 +105,6 @@ module.exports = {
       firstTimeFlowFormPageElements.newSignupCheckbox,
     );
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.importButton);
-
-    await puppeteer.waitFor(secureYourWalletPageElements.secureYourWalletPage);
     await puppeteer.waitAndClick(secureYourWalletPageElements.nextButton);
     await puppeteer.waitAndClick(revealSeedPageElements.remindLaterButton);
     await puppeteer.waitFor(mainPageElements.walletOverview);
@@ -122,6 +119,8 @@ module.exports = {
     return true;
   },
   importAccount: async privateKey => {
+    await switchToMetamaskIfNotActive();
+
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
     await puppeteer.waitAndClick(
       mainPageElements.accountMenu.importAccountButton,
@@ -132,9 +131,17 @@ module.exports = {
       privateKey,
     );
     await puppeteer.waitAndClick(mainPageElements.importAccount.importButton);
+
+    await switchToCypressIfNotActive();
     return true;
   },
   createAccount: async accountName => {
+    if (accountName) {
+      accountName = accountName.toLowerCase();
+    }
+
+    await switchToMetamaskIfNotActive();
+
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
     await puppeteer.waitAndClick(
       mainPageElements.accountMenu.createAccountButton,
@@ -147,9 +154,17 @@ module.exports = {
       );
     }
     await puppeteer.waitAndClick(mainPageElements.createAccount.createButton);
+
+    await switchToCypressIfNotActive();
     return true;
   },
   switchAccount: async accountNameOrAccountNumber => {
+    if (typeof accountNameOrAccountNumber === 'string') {
+      accountNameOrAccountNumber = accountNameOrAccountNumber.toLowerCase();
+    }
+
+    await switchToMetamaskIfNotActive();
+
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
 
     if (typeof accountNameOrAccountNumber === 'number') {
@@ -162,16 +177,17 @@ module.exports = {
         accountNameOrAccountNumber,
       );
     }
+
+    await switchToCypressIfNotActive();
     return true;
   },
   changeNetwork: async network => {
-    let switchBackToCypressWindow;
+    await switchToMetamaskIfNotActive();
 
-    setNetwork(network);
-
-    if (await puppeteer.isCypressWindowActive()) {
-      await puppeteer.switchToMetamaskWindow();
-      switchBackToCypressWindow = true;
+    if (typeof network === 'string') {
+      network = network.toLowerCase();
+    } else if (typeof network === 'object') {
+      network.networkName = network.networkName.toLowerCase();
     }
 
     await puppeteer.waitAndClick(mainPageElements.networkSwitcher.button);
@@ -211,6 +227,8 @@ module.exports = {
       );
     }
 
+    setNetwork(network);
+
     if (typeof network === 'object') {
       await puppeteer.waitForText(
         mainPageElements.networkSwitcher.networkName,
@@ -223,14 +241,13 @@ module.exports = {
       );
     }
 
-    if (switchBackToCypressWindow) {
-      await puppeteer.switchToCypressWindow();
-      switchBackToCypressWindow = false;
-    }
+    await switchToCypressIfNotActive();
 
     return true;
   },
   addNetwork: async network => {
+    await switchToMetamaskIfNotActive();
+
     if (
       process.env.NETWORK_NAME &&
       process.env.RPC_URL &&
@@ -245,6 +262,13 @@ module.exports = {
         isTestnet: process.env.IS_TESTNET,
       };
     }
+
+    if (typeof network === 'string') {
+      network = network.toLowerCase();
+    } else if (typeof network === 'object') {
+      network.networkName = network.networkName.toLowerCase();
+    }
+
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
     await puppeteer.waitAndClick(mainPageElements.accountMenu.settingsButton);
     await puppeteer.waitAndClick(settingsPageElements.networksButton);
@@ -278,14 +302,20 @@ module.exports = {
 
     await puppeteer.waitAndClick(addNetworkPageElements.saveButton);
     await puppeteer.waitAndClick(settingsPageElements.closeButton);
+
+    setNetwork(network);
+
     await puppeteer.waitForText(
       mainPageElements.networkSwitcher.networkName,
       network.networkName,
     );
+
+    await switchToCypressIfNotActive();
     return true;
   },
   async disconnectWalletFromDapp() {
-    await puppeteer.switchToMetamaskWindow();
+    await switchToMetamaskIfNotActive();
+
     await puppeteer.waitAndClick(mainPageElements.optionsMenu.button);
     await puppeteer.waitAndClick(
       mainPageElements.optionsMenu.connectedSitesButton,
@@ -294,12 +324,22 @@ module.exports = {
     await puppeteer.waitAndClick(
       mainPageElements.connectedSites.disconnectButton,
     );
-    await puppeteer.waitAndClick(mainPageElements.connectedSites.closeButton);
-    await puppeteer.switchToCypressWindow();
+
+    // close popup if present
+    if (
+      (await puppeteer
+        .metamaskWindow()
+        .$(mainPageElements.connectedSites.modal)) !== null
+    ) {
+      await puppeteer.waitAndClick(mainPageElements.connectedSites.closeButton);
+    }
+
+    await switchToCypressIfNotActive();
     return true;
   },
   async disconnectWalletFromAllDapps() {
-    await puppeteer.switchToMetamaskWindow();
+    await switchToMetamaskIfNotActive();
+
     await puppeteer.waitAndClick(mainPageElements.optionsMenu.button);
     await puppeteer.waitAndClick(
       mainPageElements.optionsMenu.connectedSitesButton,
@@ -314,11 +354,13 @@ module.exports = {
         mainPageElements.connectedSites.disconnectButton,
       );
     }
-    await puppeteer.waitAndClick(mainPageElements.connectedSites.closeButton);
-    await puppeteer.switchToCypressWindow();
+
+    await switchToCypressIfNotActive();
     return true;
   },
   activateCustomNonce: async () => {
+    await switchToMetamaskIfNotActive();
+
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
     await puppeteer.waitAndClick(mainPageElements.accountMenu.settingsButton);
     await puppeteer.waitAndClick(settingsPageElements.advancedButton);
@@ -331,9 +373,13 @@ module.exports = {
     }
     await puppeteer.waitAndClick(settingsPageElements.closeButton);
     await puppeteer.waitFor(mainPageElements.walletOverview);
+
+    await switchToCypressIfNotActive();
     return true;
   },
   resetAccount: async () => {
+    await switchToMetamaskIfNotActive();
+
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
     await puppeteer.waitAndClick(mainPageElements.accountMenu.settingsButton);
     await puppeteer.waitAndClick(settingsPageElements.advancedButton);
@@ -341,6 +387,8 @@ module.exports = {
     await puppeteer.waitAndClick(resetAccountModalElements.resetButton);
     await puppeteer.waitAndClick(settingsPageElements.closeButton);
     await puppeteer.waitFor(mainPageElements.walletOverview);
+
+    await switchToCypressIfNotActive();
     return true;
   },
   confirmSignatureRequest: async () => {
@@ -470,6 +518,8 @@ module.exports = {
     return true;
   },
   getWalletAddress: async () => {
+    await switchToMetamaskIfNotActive();
+
     await puppeteer.waitAndClick(mainPageElements.optionsMenu.button);
     await puppeteer.waitAndClick(
       mainPageElements.optionsMenu.accountDetailsButton,
@@ -478,6 +528,9 @@ module.exports = {
       mainPageElements.accountModal.walletAddressInput,
     );
     await puppeteer.waitAndClick(mainPageElements.accountModal.closeButton);
+
+    await switchToCypressIfNotActive();
+
     return walletAddress;
   },
   initialSetup: async ({ secretWordsOrPrivateKey, network, password }) => {
@@ -520,3 +573,19 @@ module.exports = {
     }
   },
 };
+
+async function switchToMetamaskIfNotActive() {
+  if (await puppeteer.isCypressWindowActive()) {
+    await puppeteer.switchToMetamaskWindow();
+    switchBackToCypressWindow = true;
+  }
+  return switchBackToCypressWindow;
+}
+
+async function switchToCypressIfNotActive() {
+  if (switchBackToCypressWindow) {
+    await puppeteer.switchToCypressWindow();
+    switchBackToCypressWindow = false;
+  }
+  return switchBackToCypressWindow;
+}

@@ -43,7 +43,7 @@ module.exports.firstTimeFlowFormPageElements = {
   newSignupCheckbox,
 };
 
-const secureYourWalletPage = '.first-time-flow__wrapper';
+const secureYourWalletPage = '.seed-phrase-intro';
 const nextButton = `${secureYourWalletPage} button`;
 module.exports.secureYourWalletPageElements = {
   secureYourWalletPage,
