@@ -14,7 +14,7 @@ Synpress makes sure to always use latest version of metamask before tests are ra
 
 It also provides an easy way to use metamask straight from your e2e tests.
 
-Feel free to take a look at [kwenta](https://github.com/kwenta/kwenta/tree/master/tests/e2e) repository for examples of usage.
+For usage examples, feel free to take a look at [kwenta](https://github.com/kwenta/kwenta/tree/master/tests/e2e), [staking](https://github.com/Synthetixio/staking/tree/master/tests/e2e) or [synpress](https://github.com/Synthetixio/synpress/tree/master/tests/e2e) repository.
 
 For additional custom commands and their examples, [check here](https://github.com/synthetixio/synpress/blob/master/support/index.d.ts).
 
@@ -23,6 +23,7 @@ For additional custom commands and their examples, [check here](https://github.c
 - metamask support
 - ability to use latest metamask or lock it's version to avoid unexpected failures related to metamask update
 - supports multi-lang of metamask, it doesn't depend on any labels
+- synpress is fully [tested](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e/specs)
 - automatically waits for all XHR requests to be finished before tests are run
 - ability to fail e2e tests if there are any browser console error found during test run
 - types support for all additional custom commands
