@@ -32,7 +32,7 @@ jobs:
         run: npm config set cache .npm-cache --global 
         continue-on-error: true
 
-      - uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353 # pin@v2
+      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # pin@v2
         with:
           path: |
             .npm-cache
