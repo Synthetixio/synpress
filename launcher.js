@@ -1,14 +1,7 @@
 const cypress = require('cypress');
-const helpers = require('./helpers');
-const synpressConfigPath = `${helpers.getSynpressPath()}/synpress.json`;
+const synpressConfigPath = `${__dirname}/synpress.json`;
 
 process.env.CYPRESS_REMOTE_DEBUGGING_PORT = 9222;
-
-const fixturesFolder = `${helpers.getSynpressPath()}/fixtures`;
-const pluginsFile = `${helpers.getSynpressPath()}/plugins/index.js`;
-const supportFile = `${helpers.getSynpressPath()}/support/index.js`;
-
-const defaultConfig = `fixturesFolder=${fixturesFolder},pluginsFile=${pluginsFile},supportFile=${supportFile}`;
 
 const defaultArguments = [
   'cypress',
@@ -20,10 +13,7 @@ const launcher = {
   async open(arguments_) {
     await (arguments_.configFile
       ? cypress.open({ configFile: arguments_.configFile })
-      : cypress.open({
-          configFile: synpressConfigPath,
-          config: defaultConfig,
-        }));
+      : cypress.open({ configFile: synpressConfigPath }));
   },
   async run(arguments_) {
     if (arguments_.configFile) {
@@ -33,9 +23,7 @@ const launcher = {
     }
     defaultArguments.push(`--browser=${arguments_.browser}`);
     if (arguments_.config) {
-      defaultArguments.push(`--config=${defaultConfig},${arguments_.config}`);
-    } else {
-      defaultArguments.push(`--config=${defaultConfig}`);
+      defaultArguments.push(`--config=${arguments_.config}`);
     }
     if (arguments_.env) {
       defaultArguments.push(`--env=${arguments_.env}`);

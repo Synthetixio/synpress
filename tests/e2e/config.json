@@ -1,10 +1,16 @@
 {
   "baseUrl": "http://localhost:3000",
   "userAgent": "synpress",
-  "retries": { "runMode": 0, "openMode": 0 },
+  "retries": {
+    "runMode": 0,
+    "openMode": 0
+  },
   "integrationFolder": "tests/e2e/specs",
   "screenshotsFolder": "tests/e2e/screenshots",
   "videosFolder": "tests/e2e/videos",
+  "supportFile": "support/index.js",
+  "pluginsFile": "plugins/index.js",
+  "fixturesFolder": "fixtures",
   "chromeWebSecurity": true,
   "viewportWidth": 1366,
   "viewportHeight": 768,

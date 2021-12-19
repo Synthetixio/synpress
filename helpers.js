@@ -39,9 +39,6 @@ module.exports = {
   getNetwork: () => {
     return { networkName, networkId, isTestnet };
   },
-  getSynpressPath: () => {
-    return __dirname;
-  },
   getMetamaskReleases: async version => {
     let filename;
     let downloadUrl;
