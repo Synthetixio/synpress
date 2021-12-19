@@ -50,6 +50,21 @@ module.exports = {
       }
     }
   },
+  waitWelcomeConfirmButton: async  () => {
+    await module.exports.fixBlankPage();
+
+    try{
+      await puppeteer.waitFor(welcomePageElements.confirmButton, undefined, {
+        polling: 'mutation',
+        timeout: 3000, // 3s is enough for confirm popup to appear
+      });
+
+      return true;
+    } catch (error) {
+      /* that's ok, button hasn't been found */
+      return false;
+    }
+  },
   confirmWelcomePage: async () => {
     await module.exports.fixBlankPage();
     await puppeteer.waitAndClick(welcomePageElements.confirmButton);
@@ -548,19 +563,22 @@ module.exports = {
       (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) ===
       null
     ) {
-      await module.exports.confirmWelcomePage();
-      if (secretWordsOrPrivateKey.includes(' ')) {
-        // secret words
-        await module.exports.importWallet(secretWordsOrPrivateKey, password);
-      } else {
-        // private key
-        await module.exports.createWallet(password);
-        await module.exports.importAccount(secretWordsOrPrivateKey);
-      }
-      if (isCustomNetwork) {
-        await module.exports.addNetwork(network);
-      } else {
-        await module.exports.changeNetwork(network);
+      if (await module.exports.waitWelcomeConfirmButton()){
+        await module.exports.confirmWelcomePage();
+
+        if (secretWordsOrPrivateKey.includes(' ')) {
+          // secret words
+          await module.exports.importWallet(secretWordsOrPrivateKey, password);
+        } else {
+          // private key
+          await module.exports.createWallet(password);
+          await module.exports.importAccount(secretWordsOrPrivateKey);
+        }
+        if (isCustomNetwork) {
+          await module.exports.addNetwork(network);
+        } else {
+          await module.exports.changeNetwork(network);
+        }
       }
       walletAddress = await module.exports.getWalletAddress();
       await puppeteer.switchToCypressWindow();

@@ -95,10 +95,10 @@ module.exports = {
       }
     }
   },
-  waitFor: async (selector, page = metamaskWindow) => {
+  waitFor: async (selector, page = metamaskWindow, options = undefined) => {
     await page.waitForFunction(
       `document.querySelector('${selector}') && document.querySelector('${selector}').clientHeight != 0`,
-      { visible: true },
+      { visible: true, ...options },
     );
     // puppeteer going too fast breaks metamask in corner cases
     await page.waitForTimeout(300);
