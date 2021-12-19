@@ -3,6 +3,8 @@ downloads
 lint-results.sarif
 .npm-cache
 .npmrc
+.idea
+.DS_Store
 
 tests/e2e/videos
 tests/e2e/screenshots
