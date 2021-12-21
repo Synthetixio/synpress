@@ -440,7 +440,7 @@ module.exports = {
     await puppeteer.metamaskWindow().waitForTimeout(3000);
     return true;
   },
-  confirmTransaction: async () => {
+  confirmTransaction: async gasConfig => {
     const isKovanTestnet = getNetwork().networkName === 'kovan';
     // todo: remove waitForTimeout below after improving switchToMetamaskNotification
     await puppeteer.metamaskWindow().waitForTimeout(1000);
@@ -451,11 +451,25 @@ module.exports = {
         confirmPageElements.gasFeeInput,
         notificationPage,
       );
+    } else if (gasConfig && gasConfig.gasFee) {
+      await puppeteer.waitAndSetValue(
+        gasConfig.gasFee.toString(),
+        confirmPageElements.gasFeeInput,
+        notificationPage,
+      );
     } else {
       await puppeteer.waitAndClick(
         confirmPageElements.gasFeeArrowUpButton,
         notificationPage,
         10,
+      );
+    }
+
+    if (gasConfig && gasConfig.gasLimit) {
+      await puppeteer.waitAndSetValue(
+        gasConfig.gasLimit.toString(),
+        confirmPageElements.gasLimitInput,
+        notificationPage,
       );
     }
     // metamask reloads popup after changing a fee, you have to wait for this event otherwise transaction will fail

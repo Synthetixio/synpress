@@ -159,8 +159,8 @@ module.exports = (on, config) => {
       const accepted = await metamask.acceptAccess();
       return accepted;
     },
-    confirmMetamaskTransaction: async () => {
-      const confirmed = await metamask.confirmTransaction();
+    confirmMetamaskTransaction: async gasConfig => {
+      const confirmed = await metamask.confirmTransaction(gasConfig);
       return confirmed;
     },
     rejectMetamaskTransaction: async () => {
