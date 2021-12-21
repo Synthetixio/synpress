@@ -55,10 +55,21 @@ module.exports = {
     await puppeteer.waitAndClick(welcomePageElements.confirmButton);
     return true;
   },
+  closeMetamaskPopup: async () => {
+    if (
+      (await puppeteer.metamaskWindow().$(mainPageElements.popup.container)) !==
+      null
+    ) {
+      await puppeteer.waitAndClick(mainPageElements.popup.closeButton);
+    }
+    return true
+  },
   unlock: async password => {
     await module.exports.fixBlankPage();
     await puppeteer.waitAndType(unlockPageElements.passwordInput, password);
     await puppeteer.waitAndClick(unlockPageElements.unlockButton);
+    await puppeteer.waitFor(mainPageElements.walletOverview);
+    await module.exports.closePopup();
     return true;
   },
   importWallet: async (secretWords, password) => {
@@ -80,14 +91,7 @@ module.exports = {
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.importButton);
     await puppeteer.waitAndClick(endOfFlowPageElements.allDoneButton);
     await puppeteer.waitFor(mainPageElements.walletOverview);
-
-    // close popup if present
-    if (
-      (await puppeteer.metamaskWindow().$(mainPageElements.popup.container)) !==
-      null
-    ) {
-      await puppeteer.waitAndClick(mainPageElements.popup.closeButton);
-    }
+    await module.exports.closeMetamaskPopup();
     return true;
   },
   createWallet: async password => {
@@ -108,14 +112,7 @@ module.exports = {
     await puppeteer.waitAndClick(secureYourWalletPageElements.nextButton);
     await puppeteer.waitAndClick(revealSeedPageElements.remindLaterButton);
     await puppeteer.waitFor(mainPageElements.walletOverview);
-
-    // close popup if present
-    if (
-      (await puppeteer.metamaskWindow().$(mainPageElements.popup.container)) !==
-      null
-    ) {
-      await puppeteer.waitAndClick(mainPageElements.popup.closeButton);
-    }
+    await module.exports.closeMetamaskPopup();
     return true;
   },
   importAccount: async privateKey => {
