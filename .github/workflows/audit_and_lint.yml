@@ -47,7 +47,7 @@ jobs:
         run: npm config set cache .npm-cache --global
         continue-on-error: true
 
-      - uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353 # pin@v2
+      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # pin@v2
         with:
           path: |
             .npm-cache
@@ -72,7 +72,7 @@ jobs:
       - name: Upload lint results
         # run if lint failed and only on master/dev branch and pull requests
         if: always() && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || github.event_name == 'pull_request')
-        uses: github/codeql-action/upload-sarif@e891551dd4836643fb9f223d7ff08e83e8073534 # pin@codeql-bundle-20210517
+        uses: github/codeql-action/upload-sarif@5f532563584d71fdef14ee64d17bafb34f751ce5 # pin@codeql-bundle-20210517
         with:
           sarif_file: lint-results.sarif
         continue-on-error: true
@@ -98,7 +98,7 @@ jobs:
   #       continue-on-error: true
 
   #     - name: Cache node modules
-  #       uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353 # pin@v2
+  #       uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # pin@v2
   #       with:
   #         path: |
   #           .npm-cache

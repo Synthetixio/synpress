@@ -99,8 +99,8 @@ Cypress.Commands.add('acceptMetamaskAccess', () => {
   return cy.task('acceptMetamaskAccess');
 });
 
-Cypress.Commands.add('confirmMetamaskTransaction', () => {
-  return cy.task('confirmMetamaskTransaction');
+Cypress.Commands.add('confirmMetamaskTransaction', gasConfig => {
+  return cy.task('confirmMetamaskTransaction', gasConfig);
 });
 
 Cypress.Commands.add('rejectMetamaskTransaction', () => {
@@ -235,7 +235,7 @@ Cypress.Commands.add('waitForResources', (resources = []) => {
 });
 
 // overwrite default cypress commands
-if (!process.env.SKIP_RESOURCES_WAIT) {
+if (!Cypress.env('SKIP_RESOURCES_WAIT')) {
   Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
     originalFn(url, options);
     return cy.waitForResources();
