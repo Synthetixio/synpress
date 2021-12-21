@@ -69,7 +69,7 @@ module.exports = {
     await puppeteer.waitAndType(unlockPageElements.passwordInput, password);
     await puppeteer.waitAndClick(unlockPageElements.unlockButton);
     await puppeteer.waitFor(mainPageElements.walletOverview);
-    await module.exports.closePopup();
+    await module.exports.closeMetamaskPopup();
     return true;
   },
   importWallet: async (secretWords, password) => {
