@@ -135,6 +135,10 @@ module.exports = (on, config) => {
       const isCypressActive = await puppeteer.isCypressWindowActive();
       return isCypressActive;
     },
+    switchToCENNZnetWindow: async () => {
+      const switched = await puppeteer.switchToCENNZnetWindow();
+      return switched;
+    },
     switchToCypressWindow: async () => {
       const switched = await puppeteer.switchToCypressWindow();
       return switched;
@@ -267,6 +271,10 @@ module.exports = (on, config) => {
         password,
       });
       return true;
+    },
+    metamaskAddTokenDAI: async () => {
+      const added = await metamask.addTokenDAI();
+      return added;
     },
     snxExchangerSettle: async ({ asset, walletAddress, privateKey }) => {
       if (process.env.PRIVATE_KEY) {
