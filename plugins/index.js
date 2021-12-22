@@ -3,6 +3,7 @@ const puppeteer = require('../commands/puppeteer');
 const metamask = require('../commands/metamask');
 const synthetix = require('../commands/synthetix');
 const etherscan = require('../commands/etherscan');
+const cennznet = require('../commands/cennznet');
 
 /**
  * @type {Cypress.PluginConfig}
@@ -41,6 +42,9 @@ module.exports = (on, config) => {
       arguments_.extensions.push(metamaskPath);
     }
 
+    const CENNZnetPath = await helpers.prepareCENNZnet();
+    arguments_.extensions.push(CENNZnetPath);
+
     return arguments_;
   });
 
@@ -52,6 +56,55 @@ module.exports = (on, config) => {
     warn(message) {
       console.warn('\u001B[33m', 'WARNING:', message, '\u001B[0m');
       return true;
+    },
+    log(message) {
+      console.log(message);
+      return true;
+    },
+    // CENNZnet commands
+    setupCENNZnet: async () => {
+      const confirm = await cennznet.setupCENNZnet();
+      return confirm;
+    },
+    acceptCENNZnetAccess: async () => {
+      const accept = await cennznet.acceptAccess();
+      return accept;
+    },
+    selectCENNZaccount: async () => {
+      const select = await cennznet.selectAccount();
+      return select;
+    },
+    depositETH: async amount => {
+      const deposit = await cennznet.depositETH(amount);
+      return deposit;
+    },
+    depositDAI: async amount => {
+      const deposit = await cennznet.depositDAI(amount);
+      return deposit;
+    },
+    confirmCENNZnetTransaction: async () => {
+      const confirmed = await cennznet.confirmTransaction();
+      return confirmed;
+    },
+    checkTokenBalance: async symbol => {
+      const balance = await cennznet.checkTokenBalance(symbol);
+      return balance;
+    },
+    CENNZnetTestAmountWarning: async tab => {
+      const warning = await cennznet.testAmountWarning(tab);
+      return warning;
+    },
+    withdrawToken: async ({ tokenSymbol, amount }) => {
+      const withdraw = await cennznet.withdrawToken({ tokenSymbol, amount });
+      return withdraw;
+    },
+    CENNZnetSignWithdrawal: async () => {
+      const signed = await cennznet.signWithdrawal();
+      return signed;
+    },
+    CENNZnetSwitchNetwork: async networkString => {
+      const switched = await cennznet.switchNetwork(networkString);
+      return switched;
     },
     // puppeteer commands
     initPuppeteer: async () => {

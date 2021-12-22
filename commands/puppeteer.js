@@ -3,8 +3,10 @@ const fetch = require('node-fetch');
 
 let puppeteerBrowser;
 let mainWindow;
+let CENNZnetWindow;
 let metamaskWindow;
 let activeTabName;
+let local;
 
 module.exports = {
   puppeteerBrowser: () => {
@@ -12,6 +14,12 @@ module.exports = {
   },
   mainWindow: () => {
     return mainWindow;
+  },
+  CENNZnetWindow: () => {
+    return CENNZnetWindow;
+  },
+  localWindow: () => {
+    return local;
   },
   metamaskWindow: () => {
     return metamaskWindow;
@@ -31,6 +39,10 @@ module.exports = {
     });
     return puppeteerBrowser.isConnected();
   },
+  setupLocal: async () => {
+    local = await puppeteerBrowser.newPage();
+    local.goto('http://localhost:3000');
+  },
   clear: async () => {
     puppeteerBrowser = null;
     return true;
@@ -44,8 +56,21 @@ module.exports = {
         mainWindow = page;
       } else if (page.url().includes('extension')) {
         metamaskWindow = page;
+        for (const target of puppeteerBrowser.targets()) {
+          if (
+            target.url().includes('extension') &&
+            target.type() === 'background_page' &&
+            !target.url().includes(page.url().substring(0, 51)) &&
+            !target.url().includes('caljajdfkjjjdehjdoimjkkakekklcck')
+          ) {
+            CENNZnetWindow = await puppeteerBrowser.newPage();
+            CENNZnetWindow.goto(`${target.url().substring(0, 51)}/index.html#`);
+            break;
+          }
+        }
       }
     }
+
     return true;
   },
   assignActiveTabName: async tabName => {
@@ -76,6 +101,11 @@ module.exports = {
     await module.exports.assignActiveTabName('cypress');
     return true;
   },
+  switchToCENNZnetWindow: async () => {
+    await CENNZnetWindow.bringToFront();
+    await module.exports.assignActiveTabName('CENNZnet');
+    return true;
+  },
   switchToMetamaskWindow: async () => {
     await metamaskWindow.bringToFront();
     await module.exports.assignActiveTabName('metamask');
@@ -87,6 +117,16 @@ module.exports = {
     // todo: get rid of waitForTimeout after fixing above
     // todo: all of the above are issues related to metamask notification of tx confirmation
     await module.exports.metamaskWindow().waitForTimeout(3000);
+    let pages = await puppeteerBrowser.pages();
+    for (const page of pages) {
+      if (page.url().includes('notification')) {
+        await page.bringToFront();
+        return page;
+      }
+    }
+  },
+  switchToCENNZnetNotification: async () => {
+    await module.exports.localWindow().waitForTimeout(3000);
     let pages = await puppeteerBrowser.pages();
     for (const page of pages) {
       if (page.url().includes('notification')) {

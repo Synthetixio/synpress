@@ -63,6 +63,22 @@ module.exports = {
       downloadUrl,
     };
   },
+  getCENNZnetRelease: async () => {
+    let filename;
+    let downloadUrl;
+
+    const response = await axios.get(
+      'https://api.github.com/repos/cennznet/extension/releases',
+    );
+
+    filename = response.data[0].assets[0].name;
+    downloadUrl = response.data[0].assets[0].browser_download_url;
+
+    return {
+      filename,
+      downloadUrl,
+    };
+  },
   download: async (url, destination) => {
     const writer = fs.createWriteStream(destination);
     const result = await axios({
@@ -88,5 +104,17 @@ module.exports = {
     const metamaskDirectory = path.join(downloadsDirectory, 'metamask');
     await module.exports.extract(downloadDestination, metamaskDirectory);
     return metamaskDirectory;
+  },
+  prepareCENNZnet: async () => {
+    const release = await module.exports.getCENNZnetRelease();
+    const downloadsDirectory = path.resolve(__dirname, 'downloads');
+    if (!fs.existsSync(downloadsDirectory)) {
+      fs.mkdirSync(downloadsDirectory);
+    }
+    const downloadDestination = path.join(downloadsDirectory, release.filename);
+    await module.exports.download(release.downloadUrl, downloadDestination);
+    const CENNZnetDirectory = path.join(downloadsDirectory, 'CENNZnet');
+    await module.exports.extract(downloadDestination, CENNZnetDirectory);
+    return CENNZnetDirectory;
   },
 };

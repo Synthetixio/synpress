@@ -1,6 +1,56 @@
 import '@testing-library/cypress/add-commands';
 import 'cypress-wait-until';
 
+Cypress.Commands.add('log', message => {
+  return cy.task('log', message);
+});
+
+// CENNZnet commands
+
+Cypress.Commands.add('setupCENNZnet', () => {
+  return cy.task('setupCENNZnet');
+});
+
+Cypress.Commands.add('acceptCENNZnetAccess', () => {
+  return cy.task('acceptCENNZnetAccess');
+});
+
+Cypress.Commands.add('selectCENNZaccount', () => {
+  return cy.task('selectCENNZaccount');
+});
+
+Cypress.Commands.add('depositETH', amount => {
+  return cy.task('depositETH', amount);
+});
+
+Cypress.Commands.add('depositDAI', amount => {
+  return cy.task('depositDAI', amount);
+});
+
+Cypress.Commands.add('confirmCENNZnetTransaction', () => {
+  return cy.task('confirmCENNZnetTransaction');
+});
+
+Cypress.Commands.add('checkTokenBalance', symbol => {
+  return cy.task('checkTokenBalance', symbol);
+});
+
+Cypress.Commands.add('CENNZnetTestAmountWarning', tab => {
+  return cy.task('CENNZnetTestAmountWarning', tab);
+});
+
+Cypress.Commands.add('withdrawToken', (tokenSymbol, amount) => {
+  return cy.task('withdrawToken', { tokenSymbol, amount });
+});
+
+Cypress.Commands.add('CENNZnetSignWithdrawal', () => {
+  return cy.task('CENNZnetSignWithdrawal');
+});
+
+Cypress.Commands.add('CENNZnetSwitchNetwork', networkString => {
+  return cy.task('CENNZnetSwitchNetwork', networkString);
+});
+
 // puppeteer commands
 
 Cypress.Commands.add('initPuppeteer', () => {
@@ -25,6 +75,10 @@ Cypress.Commands.add('isCypressWindowActive', () => {
 
 Cypress.Commands.add('switchToCypressWindow', () => {
   return cy.task('switchToCypressWindow');
+});
+
+Cypress.Commands.add('switchToCENNZnetWindow', () => {
+  return cy.task('switchToCENNZnetWindow');
 });
 
 Cypress.Commands.add('switchToMetamaskWindow', () => {
@@ -150,6 +204,10 @@ Cypress.Commands.add(
 
 Cypress.Commands.add('getNetwork', () => {
   return cy.task('getNetwork');
+});
+
+Cypress.Commands.add('metamaskAddTokenDAI', () => {
+  return cy.task('metamaskAddTokenDAI');
 });
 
 // SNX commands

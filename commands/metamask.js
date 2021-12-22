@@ -583,6 +583,24 @@ module.exports = {
       return true;
     }
   },
+  addTokenDAI: async () => {
+    await switchToMetamaskIfNotActive();
+    await puppeteer.waitAndClick(
+      'button.button.btn-secondary.btn--rounded.add-token-button__button',
+    );
+    await puppeteer.waitAndType(
+      '#custom-address',
+      '0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa',
+    );
+    await puppeteer.waitAndType('#custom-symbol', 'DAI');
+    await puppeteer.waitAndClick('[data-testid="page-container-footer-next"]');
+    await puppeteer.waitAndClick(
+      'button.button.btn-secondary.btn--large.page-container__footer-button',
+    );
+
+    await puppeteer.switchToCypressWindow();
+    return true;
+  },
 };
 
 async function switchToMetamaskIfNotActive() {

@@ -7,6 +7,78 @@ declare namespace Cypress {
      */
     initPuppeteer(): Chainable<Subject>;
     /**
+     * Setup CENNZnet extension
+     * @example
+     * cy.setupCENNZnet()
+     */
+    setupCENNZnet(): Chainable<Subject>;
+    /**
+     * Accept CENNZnet acceess
+     * @example
+     * cy.acceptCENNZnetAccess()
+     */
+    acceptCENNZnetAccess(): Chainable<Subject>;
+    /**
+     * Select CENNZnet account
+     * @example
+     * cy.selectCENNZaccount()
+     */
+    selectCENNZaccount(): Chainable<Subject>;
+    /**
+     * Make Ethereum deposit
+     * @example
+     * cy.depositETH()
+     */
+    depositETH(amount: string): Chainable<Subject>;
+    /**
+     * Make DAI deposit
+     * @example
+     * cy.depositDAI()
+     */
+    depositDAI(amount: string): Chainable<Subject>;
+    /**
+     * Confirm CENNZ deposit
+     * @example
+     * cy.confirmCENNZnetTransaction()
+     */
+    confirmCENNZnetTransaction(): Chainable<Subject>;
+    /**
+     * Check Token Balance
+     * @example
+     * cy.checkTokenBalance()
+     */
+    checkTokenBalance(symbol: string): Chainable<Subject>;
+    /**
+     * Test 'Account balance too low' warning
+     * @example
+     * cy.CENNZnetTestAmountWarning()
+     */
+    CENNZnetTestAmountWarning(tab: string): Chainable<Subject>;
+    /**
+     * Make Ethereum withdrawal
+     * @example
+     * cy.withdrawETH()
+     */
+    withdrawToken(tokenSymbol: string, amount: string): Chainable<Subject>;
+    /**
+     * Sign Ethereum withdraw
+     * @example
+     * cy.CENNZnetSignWithdrawal()
+     */
+    CENNZnetSignWithdrawal(): Chainable<Subject>;
+    /**
+     * Switch to CENNZnet window
+     * @example
+     * cy.switchToCENNZnetWindow()
+     */
+    switchToCENNZnetWindow(): Chainable<Subject>;
+    /**
+     * Switch networks
+     * @example
+     * cy.CENNZnetSwitchNetwork()
+     */
+    CENNZnetSwitchNetwork(networkString): Chainable<Subject>;
+    /**
      * Assign currently open tabs with puppeteer
      * @example
      * cy.assignWindows()
@@ -156,7 +228,9 @@ declare namespace Cypress {
      * cy.confirmMetamaskTransaction()
      * cy.confirmMetamaskTransaction({gasFee: 10, gasLimit: 1000000})
      */
-    confirmMetamaskTransaction(gasConfig : object | undefined): Chainable<Subject>;
+    confirmMetamaskTransaction(
+      gasConfig: object | undefined,
+    ): Chainable<Subject>;
     /**
      * Reject metamask transaction
      * @example
@@ -218,6 +292,12 @@ declare namespace Cypress {
       network: string | object,
       password: string,
     ): Chainable<Subject>;
+    /**
+     * Add DAI to MetaMask
+     * @example
+     * cy.metamaskAddTokenDAI()
+     */
+    metamaskAddTokenDAI(): Chainable<Subject>;
     /**
      * Execute settle on Exchanger contract
      * @example
