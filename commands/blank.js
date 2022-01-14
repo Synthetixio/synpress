@@ -1,4 +1,9 @@
+/* eslint-disable testing-library/no-await-sync-query */
+/* eslint-disable no-unused-vars */
+// eslint-disable-next-line testing-library/no-await-sync-query
+/* eslint-disable testing-library/prefer-screen-queries */
 const puppeteer = require('./puppeteer');
+const { queries, getDocument } = require('pptr-testing-library');
 
 const {
   welcomePageElements,
@@ -38,26 +43,34 @@ module.exports = {
   },
   // workaround for metamask random blank page on first run
   fixBlankPage: async () => {
-    await puppeteer.metamaskWindow().waitForTimeout(1000);
+    await puppeteer.blankWindow().waitForTimeout(1000);
     for (let times = 0; times < 5; times++) {
-      if (
-        (await puppeteer.metamaskWindow().$(welcomePageElements.app)) === null
-      ) {
-        await puppeteer.metamaskWindow().reload();
-        await puppeteer.metamaskWindow().waitForTimeout(2000);
+      if ((await puppeteer.blankWindow().$(welcomePageElements.app)) === null) {
+        await puppeteer.blankWindow().reload();
+        await puppeteer.blankWindow().waitForTimeout(2000);
       } else {
         break;
       }
     }
   },
   confirmWelcomePage: async () => {
-    await module.exports.fixBlankPage();
-    await puppeteer.waitAndClick(welcomePageElements.confirmButton);
+    const page = puppeteer.blankWindow();
+    const $document = await getDocument(page);
+    (
+      await queries.findByRole($document, 'link', {
+        name: /get started/i,
+      })
+    ).click();
+    (
+      await queries.findByRole($document, 'button', {
+        name: /i understand/i,
+      })
+    ).click();
     return true;
   },
   closePopup: async () => {
     if (
-      (await puppeteer.metamaskWindow().$(mainPageElements.popup.container)) !==
+      (await puppeteer.blankWindow().$(mainPageElements.popup.container)) !==
       null
     ) {
       await puppeteer.waitAndClick(mainPageElements.popup.closeButton);
@@ -73,25 +86,43 @@ module.exports = {
     return true;
   },
   importWallet: async (secretWords, password) => {
-    await puppeteer.waitAndClick(firstTimeFlowPageElements.importWalletButton);
-    await puppeteer.waitAndClick(metametricsPageElements.optOutAnalyticsButton);
-    await puppeteer.waitAndType(
-      firstTimeFlowFormPageElements.secretWordsInput,
-      secretWords,
-    );
-    await puppeteer.waitAndType(
-      firstTimeFlowFormPageElements.passwordInput,
-      password,
-    );
-    await puppeteer.waitAndType(
-      firstTimeFlowFormPageElements.confirmPasswordInput,
-      password,
-    );
-    await puppeteer.waitAndClick(firstTimeFlowFormPageElements.termsCheckbox);
-    await puppeteer.waitAndClick(firstTimeFlowFormPageElements.importButton);
-    await puppeteer.waitAndClick(endOfFlowPageElements.allDoneButton);
-    await puppeteer.waitFor(mainPageElements.walletOverview);
-    await module.exports.closePopup();
+    console.log('REACHED');
+    const page = puppeteer.blankWindow();
+    const $document = await getDocument(page);
+    const importBtn = await queries.findByRole($document, 'link', {
+      name: /Import Your wallet/i,
+    });
+    await importBtn.click();
+
+    try {
+      await (
+        await queries.getByPlaceholderText($document, /Enter Seed Phrase/i)
+      ).type(secretWords);
+      await (
+        await queries.getByPlaceholderText($document, /Enter New Password/i)
+      ).type(password);
+      await (
+        await queries.getByPlaceholderText($document, /Confirm New Password/i)
+      ).type(password);
+
+      await (
+        await queries.findByLabelText(
+          $document,
+          'I have read and agree to the Terms of Use',
+          undefined,
+          {
+            timeout: 5000,
+          },
+        )
+      ).click();
+
+      await (
+        await queries.findByRole($document, 'button', { name: /Import/i })
+      ).click();
+      //await module.exports.closePopup();
+    } catch (e) {
+      console.log(e);
+    }
     return true;
   },
   createWallet: async password => {
@@ -325,7 +356,7 @@ module.exports = {
     // close popup if present
     if (
       (await puppeteer
-        .metamaskWindow()
+        .blankWindow()
         .$(mainPageElements.connectedSites.modal)) !== null
     ) {
       await puppeteer.waitAndClick(mainPageElements.connectedSites.closeButton);
@@ -342,7 +373,7 @@ module.exports = {
       mainPageElements.optionsMenu.connectedSitesButton,
     );
     const trashButtons = await puppeteer
-      .metamaskWindow()
+      .blankWindow()
       .$$(mainPageElements.connectedSites.trashButton);
     // eslint-disable-next-line no-unused-vars
     for (const trashButton of trashButtons) {
@@ -363,7 +394,7 @@ module.exports = {
     await puppeteer.waitAndClick(settingsPageElements.advancedButton);
     if (
       (await puppeteer
-        .metamaskWindow()
+        .blankWindow()
         .$(advancedPageElements.customNonceToggleOn)) === null
     ) {
       await puppeteer.waitAndClick(advancedPageElements.customNonceToggleOff);
@@ -394,7 +425,7 @@ module.exports = {
       signaturePageElements.confirmSignatureRequestButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    await puppeteer.blankWindow().waitForTimeout(3000);
     return true;
   },
   rejectSignatureRequest: async () => {
@@ -403,7 +434,7 @@ module.exports = {
       signaturePageElements.rejectSignatureRequestButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow().waitForTimeout(1000);
+    await puppeteer.blankWindow().waitForTimeout(1000);
     return true;
   },
   confirmPermissionToSpend: async () => {
@@ -412,7 +443,7 @@ module.exports = {
       notificationPageElements.allowToSpendButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    await puppeteer.blankWindow().waitForTimeout(3000);
     return true;
   },
   rejectPermissionToSpend: async () => {
@@ -421,7 +452,7 @@ module.exports = {
       notificationPageElements.rejectToSpendButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow().waitForTimeout(1000);
+    await puppeteer.blankWindow().waitForTimeout(1000);
     return true;
   },
   acceptAccess: async () => {
@@ -434,13 +465,13 @@ module.exports = {
       permissionsPageElements.connectButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    await puppeteer.blankWindow().waitForTimeout(3000);
     return true;
   },
   confirmTransaction: async gasConfig => {
     const isKovanTestnet = getNetwork().networkName === 'kovan';
     // todo: remove waitForTimeout below after improving switchToMetamaskNotification
-    await puppeteer.metamaskWindow().waitForTimeout(1000);
+    await puppeteer.blankWindow().waitForTimeout(1000);
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     if (isKovanTestnet) {
       await puppeteer.waitAndSetValue(
@@ -470,7 +501,7 @@ module.exports = {
       );
     }
     // metamask reloads popup after changing a fee, you have to wait for this event otherwise transaction will fail
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    await puppeteer.blankWindow().waitForTimeout(3000);
     await notificationPage.waitForFunction(
       `document.querySelector('${confirmPageElements.gasLimitInput}').value != "0"`,
     );
@@ -478,7 +509,7 @@ module.exports = {
       confirmPageElements.confirmButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    await puppeteer.blankWindow().waitForTimeout(3000);
     return true;
   },
   rejectTransaction: async () => {
@@ -487,7 +518,7 @@ module.exports = {
       confirmPageElements.rejectButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow().waitForTimeout(1000);
+    await puppeteer.blankWindow().waitForTimeout(1000);
     return true;
   },
   allowToAddNetwork: async () => {
@@ -512,7 +543,7 @@ module.exports = {
       confirmationPageElements.footer.approveButton,
       notificationPage,
     );
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    await puppeteer.blankWindow().waitForTimeout(3000);
     return true;
   },
   rejectToSwitchNetwork: async () => {
@@ -553,11 +584,10 @@ module.exports = {
 
     await puppeteer.init();
     await puppeteer.assignWindows();
-    await puppeteer.assignActiveTabName('metamask');
-    await puppeteer.metamaskWindow().waitForTimeout(1000);
+    await puppeteer.assignActiveTabName('blank');
+    await puppeteer.blankWindow().waitForTimeout(1000);
     if (
-      (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) ===
-      null
+      (await puppeteer.blankWindow().$(unlockPageElements.unlockPage)) === null
     ) {
       await module.exports.confirmWelcomePage();
       if (secretWordsOrPrivateKey.includes(' ')) {

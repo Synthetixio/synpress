@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 
 let puppeteerBrowser;
 let mainWindow;
-let metamaskWindow;
+let blankWindow;
 let activeTabName;
 
 module.exports = {
@@ -13,8 +13,8 @@ module.exports = {
   mainWindow: () => {
     return mainWindow;
   },
-  metamaskWindow: () => {
-    return metamaskWindow;
+  blankWindow: () => {
+    return blankWindow;
   },
   activeTabName: () => {
     return activeTabName;
@@ -43,7 +43,7 @@ module.exports = {
       } else if (page.url().includes('tests')) {
         mainWindow = page;
       } else if (page.url().includes('extension')) {
-        metamaskWindow = page;
+        blankWindow = page;
       }
     }
     return true;
@@ -54,11 +54,11 @@ module.exports = {
   },
   clearWindows: async () => {
     mainWindow = null;
-    metamaskWindow = null;
+    blankWindow = null;
     return true;
   },
   isMetamaskWindowActive: async () => {
-    if (activeTabName === 'metamask') {
+    if (activeTabName === 'blank') {
       return true;
     } else {
       return false;
@@ -77,16 +77,16 @@ module.exports = {
     return true;
   },
   switchToMetamaskWindow: async () => {
-    await metamaskWindow.bringToFront();
-    await module.exports.assignActiveTabName('metamask');
+    await blankWindow.bringToFront();
+    await module.exports.assignActiveTabName('blank');
     return true;
   },
   switchToMetamaskNotification: async () => {
     // todo: wait for page to be initialized before triggering waitFor
     // todo: wait for spinning loader to be gone before triggering waitFor
     // todo: get rid of waitForTimeout after fixing above
-    // todo: all of the above are issues related to metamask notification of tx confirmation
-    await module.exports.metamaskWindow().waitForTimeout(3000);
+    // todo: all of the above are issues related to blank notification of tx confirmation
+    await module.exports.blankWindow().waitForTimeout(3000);
     let pages = await puppeteerBrowser.pages();
     for (const page of pages) {
       if (page.url().includes('notification')) {
@@ -95,15 +95,15 @@ module.exports = {
       }
     }
   },
-  waitFor: async (selector, page = metamaskWindow) => {
+  waitFor: async (selector, page = blankWindow) => {
     await page.waitForFunction(
       `document.querySelector('${selector}') && document.querySelector('${selector}').clientHeight != 0`,
       { visible: true },
     );
-    // puppeteer going too fast breaks metamask in corner cases
+    // puppeteer going too fast breaks blank in corner cases
     await page.waitForTimeout(300);
   },
-  waitAndClick: async (selector, page = metamaskWindow, numberOfClicks) => {
+  waitAndClick: async (selector, page = blankWindow, numberOfClicks) => {
     await module.exports.waitFor(selector, page);
     if (numberOfClicks) {
       let i = 0;
@@ -121,7 +121,7 @@ module.exports = {
       );
     }
   },
-  waitAndClickByText: async (selector, text, page = metamaskWindow) => {
+  waitAndClickByText: async (selector, text, page = blankWindow) => {
     await module.exports.waitFor(selector, page);
     const elements = await page.$$(selector);
     if (elements) {
@@ -134,19 +134,19 @@ module.exports = {
       }
     }
   },
-  waitAndType: async (selector, value, page = metamaskWindow) => {
+  waitAndType: async (selector, value, page = blankWindow) => {
     await module.exports.waitFor(selector, page);
     const element = await page.$(selector);
     await element.type(value);
   },
-  waitAndGetValue: async (selector, page = metamaskWindow) => {
+  waitAndGetValue: async (selector, page = blankWindow) => {
     await module.exports.waitFor(selector, page);
     const element = await page.$(selector);
     const property = await element.getProperty('value');
     const value = await property.jsonValue();
     return value;
   },
-  waitAndSetValue: async (text, selector, page = metamaskWindow) => {
+  waitAndSetValue: async (text, selector, page = blankWindow) => {
     await module.exports.waitFor(selector, page);
     await page.evaluate(
       selector => (document.querySelector(selector).value = ''),
@@ -155,20 +155,20 @@ module.exports = {
     await page.focus(selector);
     await page.keyboard.type(text);
   },
-  waitAndClearWithBackspace: async (selector, page = metamaskWindow) => {
+  waitAndClearWithBackspace: async (selector, page = blankWindow) => {
     await module.exports.waitFor(selector, page);
     const inputValue = await page.evaluate(selector, el => el.value);
     for (let i = 0; i < inputValue.length; i++) {
       await page.keyboard.press('Backspace');
     }
   },
-  waitClearAndType: async (text, selector, page = metamaskWindow) => {
+  waitClearAndType: async (text, selector, page = blankWindow) => {
     await module.exports.waitFor(selector, page);
     const input = await page.$(selector);
     await input.click({ clickCount: 3 });
     await input.type(text);
   },
-  waitForText: async (selector, text, page = metamaskWindow) => {
+  waitForText: async (selector, text, page = blankWindow) => {
     await module.exports.waitFor(selector, page);
     await page.waitForFunction(
       `document.querySelector('${selector}').innerText.toLowerCase().includes('${text.toLowerCase()}')`,

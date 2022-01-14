@@ -1,6 +1,6 @@
 const helpers = require('../helpers');
 const puppeteer = require('../commands/puppeteer');
-const metamask = require('../commands/metamask');
+const blank = require('../commands/blank');
 const synthetix = require('../commands/synthetix');
 const etherscan = require('../commands/etherscan');
 
@@ -25,7 +25,7 @@ module.exports = (on, config) => {
       return arguments_;
     }
 
-    // metamask welcome screen blocks cypress from loading
+    // blank welcome screen blocks cypress from loading
     if (browser.name === 'chrome') {
       arguments_.args.push(
         '--disable-background-timer-throttling',
@@ -35,10 +35,8 @@ module.exports = (on, config) => {
     }
     if (!process.env.SKIP_METAMASK_INSTALL) {
       // NOTE: extensions cannot be loaded in headless Chrome
-      const metamaskPath = await helpers.prepareMetamask(
-        process.env.METAMASK_VERSION || '9.7.1',
-      );
-      arguments_.extensions.push(metamaskPath);
+      const blankPath = await helpers.prepareBlank();
+      arguments_.extensions.push(blankPath);
     }
 
     return arguments_;
@@ -74,9 +72,9 @@ module.exports = (on, config) => {
       const assigned = await puppeteer.assignActiveTabName(tabName);
       return assigned;
     },
-    isMetamaskWindowActive: async () => {
-      const isMetamaskActive = await puppeteer.isMetamaskWindowActive();
-      return isMetamaskActive;
+    isBlankWindowActive: async () => {
+      const isBlankActive = await puppeteer.isBlankWindowActive();
+      return isBlankActive;
     },
     isCypressWindowActive: async () => {
       const isCypressActive = await puppeteer.isCypressWindowActive();
@@ -86,115 +84,115 @@ module.exports = (on, config) => {
       const switched = await puppeteer.switchToCypressWindow();
       return switched;
     },
-    switchToMetamaskWindow: async () => {
-      const switched = await puppeteer.switchToMetamaskWindow();
+    switchToBlankWindow: async () => {
+      const switched = await puppeteer.switchToBlankWindow();
       return switched;
     },
-    switchToMetamaskNotification: async () => {
-      const notificationPage = await puppeteer.switchToMetamaskNotification();
+    switchToBlankNotification: async () => {
+      const notificationPage = await puppeteer.switchToBlankNotification();
       return notificationPage;
     },
-    unlockMetamask: async password => {
-      const unlocked = await metamask.unlock(password);
+    unlockBlank: async password => {
+      const unlocked = await blank.unlock(password);
       return unlocked;
     },
-    importMetamaskAccount: async privateKey => {
-      const imported = await metamask.importAccount(privateKey);
+    importBlankAccount: async privateKey => {
+      const imported = await blank.importAccount(privateKey);
       return imported;
     },
-    createMetamaskAccount: async accountName => {
-      const created = await metamask.createAccount(accountName);
+    createBlankAccount: async accountName => {
+      const created = await blank.createAccount(accountName);
       return created;
     },
-    switchMetamaskAccount: async accountNameOrAccountNumber => {
-      const switched = await metamask.switchAccount(accountNameOrAccountNumber);
+    switchBlankAccount: async accountNameOrAccountNumber => {
+      const switched = await blank.switchAccount(accountNameOrAccountNumber);
       return switched;
     },
-    addMetamaskNetwork: async network => {
-      const networkAdded = await metamask.addNetwork(network);
+    addBlankNetwork: async network => {
+      const networkAdded = await blank.addNetwork(network);
       return networkAdded;
     },
-    changeMetamaskNetwork: async network => {
+    changeBlankNetwork: async network => {
       if (process.env.NETWORK_NAME && !network) {
         network = process.env.NETWORK_NAME;
       } else if (!network) {
         network = 'kovan';
       }
-      const networkChanged = await metamask.changeNetwork(network);
+      const networkChanged = await blank.changeNetwork(network);
       return networkChanged;
     },
-    activateCustomNonceInMetamask: async () => {
-      const activated = await metamask.activateCustomNonce();
+    activateCustomNonceInBlank: async () => {
+      const activated = await blank.activateCustomNonce();
       return activated;
     },
-    resetMetamaskAccount: async () => {
-      const resetted = await metamask.resetAccount();
+    resetBlankAccount: async () => {
+      const resetted = await blank.resetAccount();
       return resetted;
     },
-    disconnectMetamaskWalletFromDapp: async () => {
-      const disconnected = await metamask.disconnectWalletFromDapp();
+    disconnectBlankWalletFromDapp: async () => {
+      const disconnected = await blank.disconnectWalletFromDapp();
       return disconnected;
     },
-    disconnectMetamaskWalletFromAllDapps: async () => {
-      const disconnected = await metamask.disconnectWalletFromAllDapps();
+    disconnectBlankWalletFromAllDapps: async () => {
+      const disconnected = await blank.disconnectWalletFromAllDapps();
       return disconnected;
     },
-    confirmMetamaskSignatureRequest: async () => {
-      const confirmed = await metamask.confirmSignatureRequest();
+    confirmBlankSignatureRequest: async () => {
+      const confirmed = await blank.confirmSignatureRequest();
       return confirmed;
     },
-    rejectMetamaskSignatureRequest: async () => {
-      const rejected = await metamask.rejectSignatureRequest();
+    rejectBlankSignatureRequest: async () => {
+      const rejected = await blank.rejectSignatureRequest();
       return rejected;
     },
-    confirmMetamaskPermissionToSpend: async () => {
-      const confirmed = await metamask.confirmPermissionToSpend();
+    confirmBlankPermissionToSpend: async () => {
+      const confirmed = await blank.confirmPermissionToSpend();
       return confirmed;
     },
-    rejectMetamaskPermissionToSpend: async () => {
-      const rejected = await metamask.rejectPermissionToSpend();
+    rejectBlankPermissionToSpend: async () => {
+      const rejected = await blank.rejectPermissionToSpend();
       return rejected;
     },
-    acceptMetamaskAccess: async () => {
-      const accepted = await metamask.acceptAccess();
+    acceptBlankAccess: async () => {
+      const accepted = await blank.acceptAccess();
       return accepted;
     },
-    confirmMetamaskTransaction: async gasConfig => {
-      const confirmed = await metamask.confirmTransaction(gasConfig);
+    confirmBlankTransaction: async gasConfig => {
+      const confirmed = await blank.confirmTransaction(gasConfig);
       return confirmed;
     },
-    rejectMetamaskTransaction: async () => {
-      const rejected = await metamask.rejectTransaction();
+    rejectBlankTransaction: async () => {
+      const rejected = await blank.rejectTransaction();
       return rejected;
     },
-    allowMetamaskToAddNetwork: async () => {
-      const allowed = await metamask.allowToAddNetwork();
+    allowBlankToAddNetwork: async () => {
+      const allowed = await blank.allowToAddNetwork();
       return allowed;
     },
-    rejectMetamaskToAddNetwork: async () => {
-      const rejected = await metamask.rejectToAddNetwork();
+    rejectBlankToAddNetwork: async () => {
+      const rejected = await blank.rejectToAddNetwork();
       return rejected;
     },
-    allowMetamaskToSwitchNetwork: async () => {
-      const allowed = await metamask.allowToSwitchNetwork();
+    allowBlankToSwitchNetwork: async () => {
+      const allowed = await blank.allowToSwitchNetwork();
       return allowed;
     },
-    rejectMetamaskToSwitchNetwork: async () => {
-      const rejected = await metamask.rejectToSwitchNetwork();
+    rejectBlankToSwitchNetwork: async () => {
+      const rejected = await blank.rejectToSwitchNetwork();
       return rejected;
     },
-    allowMetamaskToAddAndSwitchNetwork: async () => {
-      const allowed = await metamask.allowToAddAndSwitchNetwork();
+    allowBlankToAddAndSwitchNetwork: async () => {
+      const allowed = await blank.allowToAddAndSwitchNetwork();
       return allowed;
     },
-    getMetamaskWalletAddress: async () => {
-      const walletAddress = await metamask.getWalletAddress();
+    getBlankWalletAddress: async () => {
+      const walletAddress = await blank.getWalletAddress();
       return walletAddress;
     },
-    fetchMetamaskWalletAddress: async () => {
-      return metamask.walletAddress();
+    fetchBlankWalletAddress: async () => {
+      return blank.walletAddress();
     },
-    setupMetamask: async ({
+    setupBlank: async ({
       secretWordsOrPrivateKey,
       network = 'kovan',
       password,
@@ -208,7 +206,7 @@ module.exports = (on, config) => {
       if (process.env.SECRET_WORDS) {
         secretWordsOrPrivateKey = process.env.SECRET_WORDS;
       }
-      await metamask.initialSetup({
+      await blank.initialSetup({
         secretWordsOrPrivateKey,
         network,
         password,

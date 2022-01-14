@@ -40,7 +40,7 @@
     "release:patch": "release-it patch --disable-metrics",
     "update:deps": "ncu -u && npm install --legacy-peer-deps",
     "start:server": "serve tests/test-dapp -p 3000",
-    "test:e2e": "start-server-and-test 'npm run start:server' http-get://localhost:3000 'node synpress.js run --configFile=tests/e2e/config.json --config='fixturesFolder=fixtures,pluginsFile=plugins/index.js,supportFile=support/index.js''",
+    "test:e2e": "SECRET_WORDS=\"\" start-server-and-test 'npm run start:server' http-get://localhost:3000 'node synpress.js run --configFile=tests/e2e/config.json --config='fixturesFolder=fixtures,pluginsFile=plugins/index.js,supportFile=support/index.js''",
     "test:e2e:ci": "start-server-and-test 'npm run start:server' http-get://localhost:3000 'node synpress.js run --group smoke-tests --record --configFile=tests/e2e/config.json --config='fixturesFolder=fixtures,pluginsFile=plugins/index.js,supportFile=support/index.js''"
   },
   "dependencies": {
@@ -88,6 +88,7 @@
   "devDependencies": {
     "@microsoft/eslint-formatter-sarif": "2.1.5",
     "npm-check-updates": "11.8.3",
+    "pptr-testing-library": "^0.7.0",
     "release-it": "14.11.5"
   },
   "engines": {

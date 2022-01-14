@@ -21,9 +21,9 @@ declare namespace Cypress {
     /**
      * Checks if current active tab is metamask
      * @example
-     * cy.isMetamaskWindowActive()
+     * cy.isBlankWindowActive()
      */
-    isMetamaskWindowActive(): Chainable<Subject>;
+    isBlankWindowActive(): Chainable<Subject>;
     /**
      * Checks if current active tab is cypress
      * @example
@@ -39,15 +39,15 @@ declare namespace Cypress {
     /**
      * Switch to metamask window
      * @example
-     * cy.switchToMetamaskWindow()
+     * cy.switchToBlankWindow()
      */
-    switchToMetamaskWindow(): Chainable<Subject>;
+    switchToBlankWindow(): Chainable<Subject>;
     /**
      * Switch to metamask notification window
      * @example
-     * cy.switchToMetamaskNotification()
+     * cy.switchToBlankNotification()
      */
-    switchToMetamaskNotification(): Chainable<Subject>;
+    switchToBlankNotification(): Chainable<Subject>;
     /**
      * Get current network
      * @example
@@ -57,163 +57,163 @@ declare namespace Cypress {
     /**
      * Add network in metamask
      * @example
-     * cy.addMetamaskNetwork({networkName: 'name', rpcUrl: 'https://url', chainId: '1', symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true})
+     * cy.addBlankNetwork({networkName: 'name', rpcUrl: 'https://url', chainId: '1', symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true})
      */
-    addMetamaskNetwork(network: object): Chainable<Subject>;
+    addBlankNetwork(network: object): Chainable<Subject>;
     /**
      * Change network in metamask
      * @example
-     * cy.changeMetamaskNetwork('kovan')
-     * cy.changeMetamaskNetwork('custom network')
-     * cy.changeMetamaskNetwork({networkName: 'name'})
+     * cy.changeBlankNetwork('kovan')
+     * cy.changeBlankNetwork('custom network')
+     * cy.changeBlankNetwork({networkName: 'name'})
      */
-    changeMetamaskNetwork(network: string): Chainable<Subject>;
+    changeBlankNetwork(network: string): Chainable<Subject>;
     /**
      * Import new account in metamask using private key
      * @example
-     * cy.importMetamaskAccount('private_key')
+     * cy.importBlankAccount('private_key')
      */
-    importMetamaskAccount(privateKey: string): Chainable<Subject>;
+    importBlankAccount(privateKey: string): Chainable<Subject>;
     /**
      * Create new account in metamask
      * @example
-     * cy.createMetamaskAccount()
-     * cy.createMetamaskAccount('accountName')
+     * cy.createBlankAccount()
+     * cy.createBlankAccount('accountName')
      */
-    createMetamaskAccount(accountName: string | undefined): Chainable<Subject>;
+    createBlankAccount(accountName: string | undefined): Chainable<Subject>;
     /**
      * Switch metamask account
      * @example
-     * cy.switchMetamaskAccount(2)
-     * cy.switchMetamaskAccount('Account 2')
+     * cy.switchBlankAccount(2)
+     * cy.switchBlankAccount('Account 2')
      */
-    switchMetamaskAccount(
+    switchBlankAccount(
       accountNameOrAccountNumber: string | number,
     ): Chainable<Subject>;
     /**
      * Get current wallet address of metamask wallet
      * @example
-     * cy.getMetamaskWalletAddress().then(address => cy.log(address))
+     * cy.getBlankWalletAddress().then(address => cy.log(address))
      */
-    getMetamaskWalletAddress(): Chainable<Subject>;
+    getBlankWalletAddress(): Chainable<Subject>;
     /**
      * Activate ability (in metamask settings) to specify custom nonce while doing transactions in metamask
      * @example
-     * cy.activateCustomNonceInMetamask()
+     * cy.activateCustomNonceInBlank()
      */
-    activateCustomNonceInMetamask(): Chainable<Subject>;
+    activateCustomNonceInBlank(): Chainable<Subject>;
     /**
      * Reset metamask account state in settings
      * @example
-     * cy.resetMetamaskAccount()
+     * cy.resetBlankAccount()
      */
-    resetMetamaskAccount(): Chainable<Subject>;
+    resetBlankAccount(): Chainable<Subject>;
     /**
      * Disconnects metamask wallet from last connected dapp
      * @example
-     * cy.disconnectMetamaskWalletFromDapp()
+     * cy.disconnectBlankWalletFromDapp()
      */
-    disconnectMetamaskWalletFromDapp(): Chainable<Subject>;
+    disconnectBlankWalletFromDapp(): Chainable<Subject>;
     /**
      * Disconnects metamask wallet from all connected dapps
      * @example
-     * cy.disconnectMetamaskWalletFromAllDapps()
+     * cy.disconnectBlankWalletFromAllDapps()
      */
-    disconnectMetamaskWalletFromAllDapps(): Chainable<Subject>;
+    disconnectBlankWalletFromAllDapps(): Chainable<Subject>;
     /**
      * Confirm metamask permission to sign message
      * @example
-     * cy.confirmMetamaskSignatureRequest()
+     * cy.confirmBlankSignatureRequest()
      */
-    confirmMetamaskSignatureRequest(): Chainable<Subject>;
+    confirmBlankSignatureRequest(): Chainable<Subject>;
     /**
      * Reject metamask permission to sign message
      * @example
-     * cy.rejectMetamaskSignatureRequest()
+     * cy.rejectBlankSignatureRequest()
      */
-    rejectMetamaskSignatureRequest(): Chainable<Subject>;
+    rejectBlankSignatureRequest(): Chainable<Subject>;
     /**
      * Confirm metamask permission to spend asset
      * @example
-     * cy.confirmMetamaskPermissionToSpend()
+     * cy.confirmBlankPermissionToSpend()
      */
-    confirmMetamaskPermissionToSpend(): Chainable<Subject>;
+    confirmBlankPermissionToSpend(): Chainable<Subject>;
     /**
      * Reject metamask permission to spend asset
      * @example
-     * cy.rejectMetamaskPermissionToSpend()
+     * cy.rejectBlankPermissionToSpend()
      */
-    rejectMetamaskPermissionToSpend(): Chainable<Subject>;
+    rejectBlankPermissionToSpend(): Chainable<Subject>;
     /**
      * Accept metamask access request
      * @example
-     * cy.acceptMetamaskAccess()
+     * cy.acceptBlankAccess()
      */
-    acceptMetamaskAccess(): Chainable<Subject>;
+    acceptBlankAccess(): Chainable<Subject>;
     /**
      * Confirm metamask atransaction
      * @example
-     * cy.confirmMetamaskTransaction()
-     * cy.confirmMetamaskTransaction({gasFee: 10, gasLimit: 1000000})
+     * cy.confirmBlankTransaction()
+     * cy.confirmBlankTransaction({gasFee: 10, gasLimit: 1000000})
      */
-    confirmMetamaskTransaction(gasConfig : object | undefined): Chainable<Subject>;
+    confirmBlankTransaction(gasConfig : object | undefined): Chainable<Subject>;
     /**
      * Reject metamask transaction
      * @example
-     * cy.rejectMetamaskTransaction()
+     * cy.rejectBlankTransaction()
      */
-    rejectMetamaskTransaction(): Chainable<Subject>;
+    rejectBlankTransaction(): Chainable<Subject>;
     /**
      * Allow site to add new network in metamask
      * @example
-     * cy.allowMetamaskToAddNetwork()
+     * cy.allowBlankToAddNetwork()
      */
-    allowMetamaskToAddNetwork(): Chainable<Subject>;
+    allowBlankToAddNetwork(): Chainable<Subject>;
     /**
      * Reject site to add new network in metamask
      * @example
-     * cy.rejectMetamaskToAddNetwork()
+     * cy.rejectBlankToAddNetwork()
      */
-    rejectMetamaskToAddNetwork(): Chainable<Subject>;
+    rejectBlankToAddNetwork(): Chainable<Subject>;
     /**
      * Allow site to switch network in metamask
      * @example
-     * cy.allowMetamaskToSwitchNetwork()
+     * cy.allowBlankToSwitchNetwork()
      */
-    allowMetamaskToSwitchNetwork(): Chainable<Subject>;
+    allowBlankToSwitchNetwork(): Chainable<Subject>;
     /**
      * Reject site to switch network in metamask
      * @example
-     * cy.rejectMetamaskToSwitchNetwork()
+     * cy.rejectBlankToSwitchNetwork()
      */
-    rejectMetamaskToSwitchNetwork(): Chainable<Subject>;
+    rejectBlankToSwitchNetwork(): Chainable<Subject>;
     /**
      * Allow site to add new network in metamask and switch to it
      * @example
-     * cy.allowMetamaskToAddAndSwitchNetwork()
+     * cy.allowBlankToAddAndSwitchNetwork()
      */
-    allowMetamaskToAddAndSwitchNetwork(): Chainable<Subject>;
+    allowBlankToAddAndSwitchNetwork(): Chainable<Subject>;
     /**
      * Unlock metamask
      * @example
-     * cy.unlockMetamask('password')
+     * cy.unlockBlank('password')
      */
-    unlockMetamask(password: string): Chainable<Subject>;
+    unlockBlank(password: string): Chainable<Subject>;
     /**
      * Fetches previous metamask wallet address
      * @example
-     * cy.fetchMetamaskWalletAddress().then(address => cy.log(address))
+     * cy.fetchBlankWalletAddress().then(address => cy.log(address))
      */
-    fetchMetamaskWalletAddress(): Chainable<Subject>;
+    fetchBlankWalletAddress(): Chainable<Subject>;
     /**
      * Run the flow for metamask setup
      * @example
-     * cy.setupMetamask('secret, words, ...', 'kovan', 'password for metamask')
-     * cy.setupMetamask('secret, words, ...', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for metamask')
-     * cy.setupMetamask('private_key', 'kovan', 'password for metamask')
-     * cy.setupMetamask('private_key', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for metamask')
+     * cy.setupBlank('secret, words, ...', 'kovan', 'password for metamask')
+     * cy.setupBlank('secret, words, ...', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for metamask')
+     * cy.setupBlank('private_key', 'kovan', 'password for metamask')
+     * cy.setupBlank('private_key', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for metamask')
      */
-    setupMetamask(
+    setupBlank(
       secretWordsOrPrivateKey: string,
       network: string | object,
       password: string,

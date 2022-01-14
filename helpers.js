@@ -1,7 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 const zip = require('cross-zip');
-const path = require('path');
+//const path = require('path');
 
 let networkName = 'mainnet';
 let networkId = 1;
@@ -77,16 +77,7 @@ module.exports = {
   extract: async (file, destination) => {
     await zip.unzip(file, destination);
   },
-  prepareMetamask: async version => {
-    const release = await module.exports.getMetamaskReleases(version);
-    const downloadsDirectory = path.resolve(__dirname, 'downloads');
-    if (!fs.existsSync(downloadsDirectory)) {
-      fs.mkdirSync(downloadsDirectory);
-    }
-    const downloadDestination = path.join(downloadsDirectory, release.filename);
-    await module.exports.download(release.downloadUrl, downloadDestination);
-    const metamaskDirectory = path.join(downloadsDirectory, 'metamask');
-    await module.exports.extract(downloadDestination, metamaskDirectory);
-    return metamaskDirectory;
+  prepareBlank: () => {
+    return './dist';
   },
 };

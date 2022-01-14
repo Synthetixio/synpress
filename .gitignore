@@ -3,6 +3,6 @@ downloads
 lint-results.sarif
 .npm-cache
 .npmrc
-
+dist/
 tests/e2e/videos
 tests/e2e/screenshots

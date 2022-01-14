@@ -15,8 +15,8 @@ Cypress.Commands.add('assignActiveTabName', tabName => {
   return cy.task('assignActiveTabName', tabName);
 });
 
-Cypress.Commands.add('isMetamaskWindowActive', () => {
-  return cy.task('isMetamaskWindowActive');
+Cypress.Commands.add('isBlankWindowActive', () => {
+  return cy.task('isBlankWindowActive');
 });
 
 Cypress.Commands.add('isCypressWindowActive', () => {
@@ -27,120 +27,120 @@ Cypress.Commands.add('switchToCypressWindow', () => {
   return cy.task('switchToCypressWindow');
 });
 
-Cypress.Commands.add('switchToMetamaskWindow', () => {
-  return cy.task('switchToMetamaskWindow');
+Cypress.Commands.add('switchToBlankWindow', () => {
+  return cy.task('switchToBlankWindow');
 });
 
-Cypress.Commands.add('switchToMetamaskNotification', () => {
-  return cy.task('switchToMetamaskNotification');
+Cypress.Commands.add('switchToBlankNotification', () => {
+  return cy.task('switchToBlankNotification');
 });
 
 // metamask commands
 
-Cypress.Commands.add('addMetamaskNetwork', network => {
-  return cy.task('addMetamaskNetwork', network);
+Cypress.Commands.add('addBlankNetwork', network => {
+  return cy.task('addBlankNetwork', network);
 });
 
-Cypress.Commands.add('changeMetamaskNetwork', network => {
-  return cy.task('changeMetamaskNetwork', network);
+Cypress.Commands.add('changeBlankNetwork', network => {
+  return cy.task('changeBlankNetwork', network);
 });
 
-Cypress.Commands.add('importMetamaskAccount', privateKey => {
-  return cy.task('importMetamaskAccount', privateKey);
+Cypress.Commands.add('importBlankAccount', privateKey => {
+  return cy.task('importBlankAccount', privateKey);
 });
 
-Cypress.Commands.add('createMetamaskAccount', accountName => {
-  return cy.task('createMetamaskAccount', accountName);
+Cypress.Commands.add('createBlankAccount', accountName => {
+  return cy.task('createBlankAccount', accountName);
 });
 
-Cypress.Commands.add('switchMetamaskAccount', accountNameOrAccountNumber => {
-  return cy.task('switchMetamaskAccount', accountNameOrAccountNumber);
+Cypress.Commands.add('switchBlankAccount', accountNameOrAccountNumber => {
+  return cy.task('switchBlankAccount', accountNameOrAccountNumber);
 });
 
-Cypress.Commands.add('getMetamaskWalletAddress', () => {
-  cy.task('getMetamaskWalletAddress').then(address => {
+Cypress.Commands.add('getBlankWalletAddress', () => {
+  cy.task('getBlankWalletAddress').then(address => {
     return address;
   });
 });
 
-Cypress.Commands.add('activateCustomNonceInMetamask', () => {
-  return cy.task('activateCustomNonceInMetamask');
+Cypress.Commands.add('activateCustomNonceInBlank', () => {
+  return cy.task('activateCustomNonceInBlank');
 });
 
-Cypress.Commands.add('resetMetamaskAccount', () => {
-  return cy.task('resetMetamaskAccount');
+Cypress.Commands.add('resetBlankAccount', () => {
+  return cy.task('resetBlankAccount');
 });
 
-Cypress.Commands.add('disconnectMetamaskWalletFromDapp', () => {
-  return cy.task('disconnectMetamaskWalletFromDapp');
+Cypress.Commands.add('disconnectBlankWalletFromDapp', () => {
+  return cy.task('disconnectBlankWalletFromDapp');
 });
 
-Cypress.Commands.add('disconnectMetamaskWalletFromAllDapps', () => {
-  return cy.task('disconnectMetamaskWalletFromAllDapps');
+Cypress.Commands.add('disconnectBlankWalletFromAllDapps', () => {
+  return cy.task('disconnectBlankWalletFromAllDapps');
 });
 
-Cypress.Commands.add('confirmMetamaskSignatureRequest', () => {
-  return cy.task('confirmMetamaskSignatureRequest');
+Cypress.Commands.add('confirmBlankSignatureRequest', () => {
+  return cy.task('confirmBlankSignatureRequest');
 });
 
-Cypress.Commands.add('rejectMetamaskSignatureRequest', () => {
-  return cy.task('rejectMetamaskSignatureRequest');
+Cypress.Commands.add('rejectBlankSignatureRequest', () => {
+  return cy.task('rejectBlankSignatureRequest');
 });
 
-Cypress.Commands.add('confirmMetamaskPermissionToSpend', () => {
-  return cy.task('confirmMetamaskPermissionToSpend');
+Cypress.Commands.add('confirmBlankPermissionToSpend', () => {
+  return cy.task('confirmBlankPermissionToSpend');
 });
 
-Cypress.Commands.add('rejectMetamaskPermissionToSpend', () => {
-  return cy.task('rejectMetamaskPermissionToSpend');
+Cypress.Commands.add('rejectBlankPermissionToSpend', () => {
+  return cy.task('rejectBlankPermissionToSpend');
 });
 
-Cypress.Commands.add('acceptMetamaskAccess', () => {
-  return cy.task('acceptMetamaskAccess');
+Cypress.Commands.add('acceptBlankAccess', () => {
+  return cy.task('acceptBlankAccess');
 });
 
-Cypress.Commands.add('confirmMetamaskTransaction', gasConfig => {
-  return cy.task('confirmMetamaskTransaction', gasConfig);
+Cypress.Commands.add('confirmBlankTransaction', gasConfig => {
+  return cy.task('confirmBlankTransaction', gasConfig);
 });
 
-Cypress.Commands.add('rejectMetamaskTransaction', () => {
-  return cy.task('rejectMetamaskTransaction');
+Cypress.Commands.add('rejectBlankTransaction', () => {
+  return cy.task('rejectBlankTransaction');
 });
 
-Cypress.Commands.add('allowMetamaskToAddNetwork', () => {
-  return cy.task('allowMetamaskToAddNetwork');
+Cypress.Commands.add('allowBlankToAddNetwork', () => {
+  return cy.task('allowBlankToAddNetwork');
 });
 
-Cypress.Commands.add('rejectMetamaskToAddNetwork', () => {
-  return cy.task('rejectMetamaskToAddNetwork');
+Cypress.Commands.add('rejectBlankToAddNetwork', () => {
+  return cy.task('rejectBlankToAddNetwork');
 });
 
-Cypress.Commands.add('allowMetamaskToSwitchNetwork', () => {
-  return cy.task('allowMetamaskToSwitchNetwork');
+Cypress.Commands.add('allowBlankToSwitchNetwork', () => {
+  return cy.task('allowBlankToSwitchNetwork');
 });
 
-Cypress.Commands.add('rejectMetamaskToSwitchNetwork', () => {
-  return cy.task('rejectMetamaskToSwitchNetwork');
+Cypress.Commands.add('rejectBlankToSwitchNetwork', () => {
+  return cy.task('rejectBlankToSwitchNetwork');
 });
 
-Cypress.Commands.add('allowMetamaskToAddAndSwitchNetwork', () => {
-  return cy.task('allowMetamaskToAddAndSwitchNetwork');
+Cypress.Commands.add('allowBlankToAddAndSwitchNetwork', () => {
+  return cy.task('allowBlankToAddAndSwitchNetwork');
 });
 
-Cypress.Commands.add('unlockMetamask', (password = 'Tester@1234') => {
-  return cy.task('unlockMetamask', password);
+Cypress.Commands.add('unlockBlank', (password = 'Tester@1234') => {
+  return cy.task('unlockBlank', password);
 });
 
-Cypress.Commands.add('fetchMetamaskWalletAddress', () => {
-  cy.task('fetchMetamaskWalletAddress').then(address => {
+Cypress.Commands.add('fetchBlankWalletAddress', () => {
+  cy.task('fetchBlankWalletAddress').then(address => {
     return address;
   });
 });
 
 Cypress.Commands.add(
-  'setupMetamask',
+  'setupBlank',
   (secretWordsOrPrivateKey, network, password = 'Tester@1234') => {
-    return cy.task('setupMetamask', {
+    return cy.task('setupBlank', {
       secretWordsOrPrivateKey,
       network,
       password,

@@ -1,6 +1,11 @@
+//const { queries } = require('pptr-testing-library');
+//const { getByText } = queries;
+
 const app = '#app-content .app';
 const welcomePage = '.welcome-page';
-const confirmButton = `${welcomePage} .first-time-flow__button`;
+// eslint-disable-next-line testing-library/prefer-screen-queries
+// eslint-disable-next-line prettier/prettier
+const confirmButton = '.border-primary-300';
 module.exports.welcomePageElements = {
   app,
   welcomePage,
