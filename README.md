@@ -52,10 +52,13 @@ project_dir
 
 ```js
 const path = require('path');
-const synpressPath = path.join(process.cwd(), '/node_modules/@synthetixio/synpress');
+const synpressPath = path.join(
+  process.cwd(),
+  '/node_modules/@synthetixio/synpress',
+);
 
 module.exports = {
-    extends: `${synpressPath}/.eslintrc.js`,
+  extends: `${synpressPath}/.eslintrc.js`,
 };
 ```
 
@@ -63,13 +66,19 @@ module.exports = {
 
 ```json
 {
-    "compilerOptions": {
-        "allowJs": true,
-        "baseUrl": "../../node_modules",
-        "types": ["cypress", "@types/puppeteer-core", "@synthetixio/synpress/support", "cypress-wait-until", "@testing-library/cypress"],
-        "outDir": "./output"
-    },
-    "include": ["**/*.*"]
+  "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": "../../node_modules",
+    "types": [
+      "cypress",
+      "@types/puppeteer-core",
+      "@synthetixio/synpress/support",
+      "cypress-wait-until",
+      "@testing-library/cypress"
+    ],
+    "outDir": "./output"
+  },
+  "include": ["**/*.*"]
 }
 ```
 
@@ -121,7 +130,7 @@ To fail a test if there are any browser console errors, set `FAIL_ON_ERROR` to `
 
 Automatic waiting for XHR requests to finish before tests start can be turned off with `CYPRESS_SKIP_RESOURCES_WAIT` environmental variable, set it to `1` or `true`.
 
-If you want to skip metamask extension installation or metamask setup, you can use `SKIP_METAMASK_INSTALL` and `SKIP_METAMASK_SETUP` separately. Both variables accept `1` or `true`.
+If you want to skip metamask extension installation or metamask setup, you can use `SKIP_BLANK_INSTALL` and `SKIP_BLANK_SETUP` separately. Both variables accept `1` or `true`.
 
 ## 🧪 Usage
 

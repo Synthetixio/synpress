@@ -120,7 +120,7 @@ jobs:
   #     - name: Run e2e tests
   #       run: npm run test:e2e:ci
   #       env:
-  #         SKIP_METAMASK_SETUP: ${{ secrets.SKIP_METAMASK_SETUP }}
+  #         SKIP_BLANK_SETUP: ${{ secrets.SKIP_BLANK_SETUP }}
   #         CYPRESS_PRIVATE_KEY_WITH_FUNDS: ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
   #         CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
   #         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}

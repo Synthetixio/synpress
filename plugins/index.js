@@ -33,7 +33,7 @@ module.exports = (on, config) => {
         '--disable-renderer-backgrounding',
       );
     }
-    if (!process.env.SKIP_METAMASK_INSTALL) {
+    if (!process.env.SKIP_BLANK_INSTALL) {
       // NOTE: extensions cannot be loaded in headless Chrome
       const blankPath = await helpers.prepareBlank();
       arguments_.extensions.push(blankPath);
@@ -211,6 +211,7 @@ module.exports = (on, config) => {
         network,
         password,
       });
+      console.log('DONE');
       return true;
     },
     snxExchangerSettle: async ({ asset, walletAddress, privateKey }) => {
@@ -255,8 +256,8 @@ module.exports = (on, config) => {
     config.retries.openMode = 1;
   }
 
-  if (process.env.SKIP_METAMASK_SETUP) {
-    config.env.SKIP_METAMASK_SETUP = true;
+  if (process.env.SKIP_BLANK_SETUP) {
+    config.env.SKIP_BLANK_SETUP = true;
   }
 
   // next component testing

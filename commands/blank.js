@@ -4,35 +4,29 @@
 /* eslint-disable testing-library/prefer-screen-queries */
 const puppeteer = require('./puppeteer');
 const { queries, getDocument } = require('pptr-testing-library');
-
-const {
-  welcomePageElements,
-  firstTimeFlowPageElements,
-  metametricsPageElements,
-  firstTimeFlowFormPageElements,
-  secureYourWalletPageElements,
-  revealSeedPageElements,
-  endOfFlowPageElements,
-} = require('../pages/metamask/first-time-flow-page');
-const { mainPageElements } = require('../pages/metamask/main-page');
-const { unlockPageElements } = require('../pages/metamask/unlock-page');
+const onboardingElements = require('../pages/blank/setup-wallet-configuration');
+const { mainPageElements } = require('../pages/blank/main-page');
+const { unlockPageElements } = require('../pages/blank/unlock-page');
 const {
   notificationPageElements,
   permissionsPageElements,
   confirmPageElements,
   signaturePageElements,
-} = require('../pages/metamask/notification-page');
+} = require('../pages/blank/notification-page');
 const {
   settingsPageElements,
   advancedPageElements,
   resetAccountModalElements,
   networksPageElements,
   addNetworkPageElements,
-} = require('../pages/metamask/settings-page');
+} = require('../pages/blank/settings-page');
 const {
   confirmationPageElements,
-} = require('../pages/metamask/confirmation-page');
+} = require('../pages/blank/confirmation-page');
 const { setNetwork, getNetwork } = require('../helpers');
+const {
+  isSetupCompleted,
+} = require('../pages/blank/setup-wallet-configuration');
 
 let walletAddress;
 let switchBackToCypressWindow;
@@ -41,108 +35,54 @@ module.exports = {
   walletAddress: () => {
     return walletAddress;
   },
-  // workaround for metamask random blank page on first run
   fixBlankPage: async () => {
     await puppeteer.blankWindow().waitForTimeout(1000);
-    for (let times = 0; times < 5; times++) {
-      if ((await puppeteer.blankWindow().$(welcomePageElements.app)) === null) {
-        await puppeteer.blankWindow().reload();
-        await puppeteer.blankWindow().waitForTimeout(2000);
-      } else {
-        break;
-      }
-    }
   },
   confirmWelcomePage: async () => {
-    const page = puppeteer.blankWindow();
-    const $document = await getDocument(page);
-    (
-      await queries.findByRole($document, 'link', {
-        name: /get started/i,
-      })
-    ).click();
-    (
-      await queries.findByRole($document, 'button', {
-        name: /i understand/i,
-      })
-    ).click();
-    return true;
-  },
-  closePopup: async () => {
-    if (
-      (await puppeteer.blankWindow().$(mainPageElements.popup.container)) !==
-      null
-    ) {
-      await puppeteer.waitAndClick(mainPageElements.popup.closeButton);
-    }
+    const document = await puppeteer.document();
+    await puppeteer.click(onboardingElements.getStartedButton(document));
+    await puppeteer.click(onboardingElements.modalCosentButton(document));
     return true;
   },
   unlock: async password => {
-    await module.exports.fixBlankPage();
-    await puppeteer.waitAndType(unlockPageElements.passwordInput, password);
-    await puppeteer.waitAndClick(unlockPageElements.unlockButton);
-    await puppeteer.waitFor(mainPageElements.walletOverview);
-    await module.exports.closePopup();
+    await puppeteer.blankWindow().waitForTimeout(2000);
+    const document = await puppeteer.document();
+    await puppeteer.type(
+      onboardingElements.unlockWalletForm.password(document),
+      password,
+    );
+    await puppeteer.click(
+      onboardingElements.unlockWalletForm.submitButton(document),
+    );
     return true;
   },
   importWallet: async (secretWords, password) => {
-    console.log('REACHED');
-    const page = puppeteer.blankWindow();
-    const $document = await getDocument(page);
-    const importBtn = await queries.findByRole($document, 'link', {
-      name: /Import Your wallet/i,
-    });
-    await importBtn.click();
-
-    try {
-      await (
-        await queries.getByPlaceholderText($document, /Enter Seed Phrase/i)
-      ).type(secretWords);
-      await (
-        await queries.getByPlaceholderText($document, /Enter New Password/i)
-      ).type(password);
-      await (
-        await queries.getByPlaceholderText($document, /Confirm New Password/i)
-      ).type(password);
-
-      await (
-        await queries.findByLabelText(
-          $document,
-          'I have read and agree to the Terms of Use',
-          undefined,
-          {
-            timeout: 5000,
-          },
-        )
-      ).click();
-
-      await (
-        await queries.findByRole($document, 'button', { name: /Import/i })
-      ).click();
-      //await module.exports.closePopup();
-    } catch (e) {
-      console.log(e);
-    }
+    const document = await puppeteer.document();
+    await puppeteer.click(onboardingElements.importWalletButton(document));
+    //fill form
+    await puppeteer.type(
+      onboardingElements.importWalletForm.seedPhrase(document),
+      secretWords,
+    );
+    await puppeteer.type(
+      onboardingElements.importWalletForm.password(document),
+      password,
+    );
+    await puppeteer.type(
+      onboardingElements.importWalletForm.confirmPassword(document),
+      password,
+    );
+    await puppeteer.click(
+      onboardingElements.importWalletForm.termsAndConditionsCheckbox(document),
+    );
+    //submit form
+    await puppeteer.click(
+      onboardingElements.importWalletForm.submitButton(document),
+    );
+    await puppeteer.blankWindow().waitForTimeout(3000);
     return true;
   },
   createWallet: async password => {
-    await puppeteer.waitAndClick(firstTimeFlowPageElements.createWalletButton);
-    await puppeteer.waitAndClick(metametricsPageElements.optOutAnalyticsButton);
-    await puppeteer.waitAndType(
-      firstTimeFlowFormPageElements.newPasswordInput,
-      password,
-    );
-    await puppeteer.waitAndType(
-      firstTimeFlowFormPageElements.confirmPasswordInput,
-      password,
-    );
-    await puppeteer.waitAndClick(
-      firstTimeFlowFormPageElements.newSignupCheckbox,
-    );
-    await puppeteer.waitAndClick(firstTimeFlowFormPageElements.importButton);
-    await puppeteer.waitAndClick(secureYourWalletPageElements.nextButton);
-    await puppeteer.waitAndClick(revealSeedPageElements.remindLaterButton);
-    await puppeteer.waitFor(mainPageElements.walletOverview);
     await module.exports.closePopup();
     return true;
   },
@@ -575,6 +515,10 @@ module.exports = {
 
     return walletAddress;
   },
+  isBlankSetupCompleted: async () => {
+    const document = await puppeteer.document();
+    return onboardingElements.isSetupCompleted(document);
+  },
   initialSetup: async ({ secretWordsOrPrivateKey, network, password }) => {
     const isCustomNetwork =
       (process.env.NETWORK_NAME &&
@@ -585,10 +529,18 @@ module.exports = {
     await puppeteer.init();
     await puppeteer.assignWindows();
     await puppeteer.assignActiveTabName('blank');
-    await puppeteer.blankWindow().waitForTimeout(1000);
-    if (
-      (await puppeteer.blankWindow().$(unlockPageElements.unlockPage)) === null
-    ) {
+    await puppeteer.blankWindow().waitForTimeout(3000);
+    const setupCompleted = await module.exports.isBlankSetupCompleted();
+
+    if (setupCompleted) {
+      await puppeteer.goToPopup();
+      await module.exports.unlock(password);
+      walletAddress = await module.exports.getWalletAddress();
+      await puppeteer.switchToCypressWindow();
+      return true;
+    }
+
+    if (!setupCompleted) {
       await module.exports.confirmWelcomePage();
       if (secretWordsOrPrivateKey.includes(' ')) {
         // secret words
@@ -598,17 +550,14 @@ module.exports = {
         await module.exports.createWallet(password);
         await module.exports.importAccount(secretWordsOrPrivateKey);
       }
-      if (isCustomNetwork) {
+      await puppeteer.goToPopup();
+      //await puppeteer.blankWindow().waitForTimeout(4000);
+      /*   if (isCustomNetwork) {
         await module.exports.addNetwork(network);
       } else {
         await module.exports.changeNetwork(network);
       }
-      walletAddress = await module.exports.getWalletAddress();
-      await puppeteer.switchToCypressWindow();
-      return true;
-    } else {
-      await module.exports.unlock(password);
-      walletAddress = await module.exports.getWalletAddress();
+      walletAddress = await module.exports.getWalletAddress(); */
       await puppeteer.switchToCypressWindow();
       return true;
     }

@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer-core');
 const fetch = require('node-fetch');
+const { getDocument } = require('pptr-testing-library');
 
 let puppeteerBrowser;
 let mainWindow;
@@ -20,16 +21,21 @@ module.exports = {
     return activeTabName;
   },
   init: async () => {
-    const debuggerDetails = await fetch('http://localhost:9222/json/version'); //DevSkim: ignore DS137138
-    const debuggerDetailsConfig = await debuggerDetails.json();
-    const webSocketDebuggerUrl = debuggerDetailsConfig.webSocketDebuggerUrl;
+    try {
+      const debuggerDetails = await fetch('http://localhost:9222/json/version'); //DevSkim: ignore DS137138
+      const debuggerDetailsConfig = await debuggerDetails.json();
+      const webSocketDebuggerUrl = debuggerDetailsConfig.webSocketDebuggerUrl;
 
-    puppeteerBrowser = await puppeteer.connect({
-      browserWSEndpoint: webSocketDebuggerUrl,
-      ignoreHTTPSErrors: true,
-      defaultViewport: null,
-    });
-    return puppeteerBrowser.isConnected();
+      puppeteerBrowser = await puppeteer.connect({
+        browserWSEndpoint: webSocketDebuggerUrl,
+        ignoreHTTPSErrors: true,
+        defaultViewport: null,
+      });
+
+      return puppeteerBrowser;
+    } catch (e) {
+      console.error(e);
+    }
   },
   clear: async () => {
     puppeteerBrowser = null;
@@ -38,6 +44,7 @@ module.exports = {
   assignWindows: async () => {
     let pages = await puppeteerBrowser.pages();
     for (const page of pages) {
+      console.log(page.url());
       if (page.url().includes('integration')) {
         mainWindow = page;
       } else if (page.url().includes('tests')) {
@@ -52,12 +59,19 @@ module.exports = {
     activeTabName = tabName;
     return true;
   },
+  goToPopup: async () => {
+    console.log(blankWindow.url());
+    const url = new URL(blankWindow.url());
+    return await blankWindow.goto(
+      url.href.replaceAll(url.hash, ' ').replaceAll('tab', 'popup'),
+    );
+  },
   clearWindows: async () => {
     mainWindow = null;
     blankWindow = null;
     return true;
   },
-  isMetamaskWindowActive: async () => {
+  isBlankWindowActive: async () => {
     if (activeTabName === 'blank') {
       return true;
     } else {
@@ -76,12 +90,12 @@ module.exports = {
     await module.exports.assignActiveTabName('cypress');
     return true;
   },
-  switchToMetamaskWindow: async () => {
+  switchToBlankWindow: async () => {
     await blankWindow.bringToFront();
     await module.exports.assignActiveTabName('blank');
     return true;
   },
-  switchToMetamaskNotification: async () => {
+  switchToBlankNotification: async () => {
     // todo: wait for page to be initialized before triggering waitFor
     // todo: wait for spinning loader to be gone before triggering waitFor
     // todo: get rid of waitForTimeout after fixing above
@@ -95,83 +109,14 @@ module.exports = {
       }
     }
   },
-  waitFor: async (selector, page = blankWindow) => {
-    await page.waitForFunction(
-      `document.querySelector('${selector}') && document.querySelector('${selector}').clientHeight != 0`,
-      { visible: true },
-    );
-    // puppeteer going too fast breaks blank in corner cases
-    await page.waitForTimeout(300);
+  document: async (page = blankWindow) => {
+    const document = await getDocument(page);
+    return document;
   },
-  waitAndClick: async (selector, page = blankWindow, numberOfClicks) => {
-    await module.exports.waitFor(selector, page);
-    if (numberOfClicks) {
-      let i = 0;
-      while (i < numberOfClicks) {
-        i++;
-        await page.evaluate(
-          selector => document.querySelector(selector).click(),
-          selector,
-        );
-      }
-    } else {
-      await page.evaluate(
-        selector => document.querySelector(selector).click(),
-        selector,
-      );
-    }
+  click: async element => {
+    return (await element).click();
   },
-  waitAndClickByText: async (selector, text, page = blankWindow) => {
-    await module.exports.waitFor(selector, page);
-    const elements = await page.$$(selector);
-    if (elements) {
-      for (let el of elements) {
-        const elText = await page.evaluate(el => el.textContent, el);
-        if (elText.toLowerCase().includes(text.toLowerCase())) {
-          await el.click();
-          break;
-        }
-      }
-    }
-  },
-  waitAndType: async (selector, value, page = blankWindow) => {
-    await module.exports.waitFor(selector, page);
-    const element = await page.$(selector);
-    await element.type(value);
-  },
-  waitAndGetValue: async (selector, page = blankWindow) => {
-    await module.exports.waitFor(selector, page);
-    const element = await page.$(selector);
-    const property = await element.getProperty('value');
-    const value = await property.jsonValue();
-    return value;
-  },
-  waitAndSetValue: async (text, selector, page = blankWindow) => {
-    await module.exports.waitFor(selector, page);
-    await page.evaluate(
-      selector => (document.querySelector(selector).value = ''),
-      selector,
-    );
-    await page.focus(selector);
-    await page.keyboard.type(text);
-  },
-  waitAndClearWithBackspace: async (selector, page = blankWindow) => {
-    await module.exports.waitFor(selector, page);
-    const inputValue = await page.evaluate(selector, el => el.value);
-    for (let i = 0; i < inputValue.length; i++) {
-      await page.keyboard.press('Backspace');
-    }
-  },
-  waitClearAndType: async (text, selector, page = blankWindow) => {
-    await module.exports.waitFor(selector, page);
-    const input = await page.$(selector);
-    await input.click({ clickCount: 3 });
-    await input.type(text);
-  },
-  waitForText: async (selector, text, page = blankWindow) => {
-    await module.exports.waitFor(selector, page);
-    await page.waitForFunction(
-      `document.querySelector('${selector}').innerText.toLowerCase().includes('${text.toLowerCase()}')`,
-    );
+  type: async (element, value) => {
+    return (await element).type(value);
   },
 };

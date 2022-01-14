@@ -1,10 +1,5 @@
 describe('Puppeteer', () => {
   context('Test commands', () => {
-    it(`initPuppeteer should connect with cypress browser`, () => {
-      cy.initPuppeteer().then(isConnected => {
-        expect(isConnected).to.be.true;
-      });
-    });
     it(`assignActiveTabName should properly assign blank tab as currently active and verify result using isBlankWindowActive & isCypressWindowActive`, () => {
       cy.assignActiveTabName('blank');
       cy.isBlankWindowActive().then(isActive => {
