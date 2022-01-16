@@ -496,7 +496,7 @@ module.exports = {
   },
   allowToAddNetwork: async () => {
     const notificationPage = await puppeteer.switchToMetamaskNotification();
-    const definitionList = await notificationPage.$('definition-list');
+    const definitionList = await notificationPage.$('.definition-list');
 
     if (definitionList !== null) {
       // could be already added
