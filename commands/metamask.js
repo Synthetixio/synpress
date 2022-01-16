@@ -496,10 +496,16 @@ module.exports = {
   },
   allowToAddNetwork: async () => {
     const notificationPage = await puppeteer.switchToMetamaskNotification();
-    await puppeteer.waitAndClick(
-      confirmationPageElements.footer.approveButton,
-      notificationPage,
-    );
+    const definitionList = await notificationPage.$('definition-list');
+
+    if (definitionList !== null) {
+      // could be already added
+      await puppeteer.waitAndClick(
+          confirmationPageElements.footer.approveButton,
+          notificationPage,
+      );
+    }
+
     return true;
   },
   rejectToAddNetwork: async () => {
