@@ -1,0 +1,12 @@
+{
+    "accounts":[
+        {
+            "name":"Account 1",
+            "address":"0x3eaF496818D1a2Cc8aB64C28Df0D2b39c2763211"
+        },
+        {
+            "name":"Account 2",
+            "address":"0x662D157B93652A73aF10422F94Ca0904d08eAf25"
+        }
+    ]
+}

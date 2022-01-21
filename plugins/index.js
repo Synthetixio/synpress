@@ -17,7 +17,6 @@ module.exports = (on, config) => {
       arguments_.args.push('--window-size=1920,1080');
       return arguments_;
     }
-
     if (browser.name === 'electron') {
       arguments_['width'] = 1920;
       arguments_['height'] = 1080;
@@ -31,6 +30,15 @@ module.exports = (on, config) => {
         '--disable-background-timer-throttling',
         '--disable-backgrounding-occluded-windows',
         '--disable-renderer-backgrounding',
+        '--disable-dev-shm-usage',
+        '--enable-features=NetworkService',
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-web-security',
+        '--disable-features=IsolateOrigins,site-per-process',
+        '--shm-size=3gb', // this solves the issue
+        '--clipboard-read',
+        '--clipboard-write',
       );
     }
     if (!process.env.SKIP_BLANK_INSTALL) {
@@ -91,6 +99,12 @@ module.exports = (on, config) => {
     switchToBlankNotification: async () => {
       const notificationPage = await puppeteer.switchToBlankNotification();
       return notificationPage;
+    },
+    getLastTransactionId: async () => {
+      return await blank.getLastTransactionId();
+    },
+    sendTransaction: async (accountName, amount) => {
+      return await blank.sendTransaction(accountName, amount);
     },
     unlockBlank: async password => {
       const unlocked = await blank.unlock(password);
@@ -189,6 +203,10 @@ module.exports = (on, config) => {
       const walletAddress = await blank.getWalletAddress();
       return walletAddress;
     },
+    getBlankAccountName: async () => {
+      const accountName = await blank.getAccountName();
+      return accountName;
+    },
     fetchBlankWalletAddress: async () => {
       return blank.walletAddress();
     },
@@ -211,7 +229,6 @@ module.exports = (on, config) => {
         network,
         password,
       });
-      console.log('DONE');
       return true;
     },
     snxExchangerSettle: async ({ asset, walletAddress, privateKey }) => {
@@ -234,8 +251,10 @@ module.exports = (on, config) => {
       return waitingPeriod;
     },
     getNetwork: () => {
-      const network = helpers.getNetwork();
-      return network;
+      return blank.getCurrentNetwork();
+    },
+    getConfiguredNetwork: () => {
+      return blank.getNetwork();
     },
     etherscanGetTransactionStatus: async ({ txid }) => {
       const txStatus = await etherscan.getTransactionStatus(txid);
@@ -244,6 +263,9 @@ module.exports = (on, config) => {
     etherscanWaitForTxSuccess: async ({ txid }) => {
       const txSuccess = await etherscan.waitForTxSuccess(txid);
       return txSuccess;
+    },
+    etherscanGetAccountTransactions: async accountAddress => {
+      return await etherscan.getAccountTransactions(accountAddress);
     },
   });
 

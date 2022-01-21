@@ -18,4 +18,29 @@ module.exports = {
       timeoutOptions,
     );
   },
+  getForm: async (documentNode, queryOptions = {}, timeoutOptions = {}) => {
+    return queries.findByRole(
+      documentNode,
+      'form',
+      queryOptions,
+      timeoutOptions,
+    );
+  },
+  getLoadingElement: async (documentNode, timeout = 2000) => {
+    return queries.findByRole(
+      documentNode,
+      'alert',
+      {
+        name: /loading/i,
+      },
+      {
+        timeout,
+      },
+    );
+  },
+  awaitLoadingButtonFinish: async puppeterPage => {
+    return puppeterPage.waitForSelector('[aria-label="loading"]', {
+      hidden: true,
+    });
+  },
 };

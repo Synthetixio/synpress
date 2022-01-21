@@ -6,10 +6,13 @@ let puppeteerBrowser;
 let mainWindow;
 let blankWindow;
 let activeTabName;
-
+let blankUrl;
 module.exports = {
   puppeteerBrowser: () => {
     return puppeteerBrowser;
+  },
+  blankUrl: () => {
+    return blankUrl;
   },
   mainWindow: () => {
     return mainWindow;
@@ -20,31 +23,44 @@ module.exports = {
   activeTabName: () => {
     return activeTabName;
   },
+  reOpen: async () => {
+    blankWindow = await puppeteerBrowser.newPage();
+    await blankWindow.goto(blankUrl);
+  },
   init: async () => {
-    try {
-      const debuggerDetails = await fetch('http://localhost:9222/json/version'); //DevSkim: ignore DS137138
-      const debuggerDetailsConfig = await debuggerDetails.json();
-      const webSocketDebuggerUrl = debuggerDetailsConfig.webSocketDebuggerUrl;
+    const debuggerDetails = await fetch('http://localhost:9222/json/version'); //DevSkim: ignore DS137138
+    const debuggerDetailsConfig = await debuggerDetails.json();
+    const webSocketDebuggerUrl = debuggerDetailsConfig.webSocketDebuggerUrl;
 
-      puppeteerBrowser = await puppeteer.connect({
-        browserWSEndpoint: webSocketDebuggerUrl,
-        ignoreHTTPSErrors: true,
-        defaultViewport: null,
-      });
-
-      return puppeteerBrowser;
-    } catch (e) {
-      console.error(e);
-    }
+    puppeteerBrowser = await puppeteer.connect({
+      browserWSEndpoint: webSocketDebuggerUrl,
+      ignoreHTTPSErrors: true,
+      defaultViewport: null,
+    });
+    return puppeteerBrowser;
   },
   clear: async () => {
     puppeteerBrowser = null;
     return true;
   },
+  /*   allowClipboardRead: async origin => {
+    const context = puppeteerBrowser.defaultBrowserContext();
+    try {
+      console.log(origin);
+      await context.overridePermissions(origin, [
+        'clipboard-read',
+        'clipboard-write',
+      ]);
+    } catch (e) {
+      console.error(e);
+    }
+
+    puppeteerBrowser = context.browser();
+    return puppeteerBrowser;
+  }, */
   assignWindows: async () => {
     let pages = await puppeteerBrowser.pages();
     for (const page of pages) {
-      console.log(page.url());
       if (page.url().includes('integration')) {
         mainWindow = page;
       } else if (page.url().includes('tests')) {
@@ -60,11 +76,9 @@ module.exports = {
     return true;
   },
   goToPopup: async () => {
-    console.log(blankWindow.url());
     const url = new URL(blankWindow.url());
-    return await blankWindow.goto(
-      url.href.replaceAll(url.hash, ' ').replaceAll('tab', 'popup'),
-    );
+    blankUrl = url.href.replaceAll(url.hash, ' ').replaceAll('tab', 'popup');
+    return await blankWindow.goto(blankUrl);
   },
   clearWindows: async () => {
     mainWindow = null;
@@ -78,6 +92,9 @@ module.exports = {
       return false;
     }
   },
+  readClipboard: async () => {
+    return blankWindow.evaluate(() => navigator.clipboard.readText());
+  },
   isCypressWindowActive: async () => {
     if (activeTabName === 'cypress') {
       return true;
@@ -90,7 +107,13 @@ module.exports = {
     await module.exports.assignActiveTabName('cypress');
     return true;
   },
+  reOpenIfNecessary: async () => {
+    if (blankWindow.isClosed()) {
+      return await module.exports.reOpen();
+    }
+  },
   switchToBlankWindow: async () => {
+    await module.exports.reOpenIfNecessary();
     await blankWindow.bringToFront();
     await module.exports.assignActiveTabName('blank');
     return true;

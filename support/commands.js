@@ -53,8 +53,20 @@ Cypress.Commands.add('createBlankAccount', accountName => {
   return cy.task('createBlankAccount', accountName);
 });
 
+Cypress.Commands.add('getBlankAccountName', () => {
+  return cy.task('getBlankAccountName');
+});
+
 Cypress.Commands.add('switchBlankAccount', accountNameOrAccountNumber => {
   return cy.task('switchBlankAccount', accountNameOrAccountNumber);
+});
+
+Cypress.Commands.add('getLastTransactionId', () => {
+  return cy.task('getLastTransactionId');
+});
+
+Cypress.Commands.add('sendTransaction', (accountName, amount = 0.1) => {
+  return cy.task('sendTransaction', accountName, amount);
 });
 
 Cypress.Commands.add('getBlankWalletAddress', () => {
@@ -151,6 +163,9 @@ Cypress.Commands.add(
 Cypress.Commands.add('getNetwork', () => {
   return cy.task('getNetwork');
 });
+Cypress.Commands.add('getCurrentNetwork', () => {
+  return cy.task('getConfiguredNetwork');
+});
 
 // SNX commands
 
@@ -174,13 +189,18 @@ Cypress.Commands.add('snxCheckWaitingPeriod', (asset, walletAddress) => {
 });
 
 // etherscan commands
-
-Cypress.Commands.add('etherscanGetTransactionStatus', txid => {
+Cypress.Commands.add('etherscanGetTransactionStatus', ({ txid }) => {
   return cy.task('etherscanGetTransactionStatus', { txid }, { timeout: 30000 });
 });
 
-Cypress.Commands.add('etherscanWaitForTxSuccess', txid => {
+Cypress.Commands.add('etherscanWaitForTxSuccess', ({ txid }) => {
   return cy.task('etherscanWaitForTxSuccess', { txid }, { timeout: 120000 });
+});
+
+Cypress.Commands.add('etherscanGetAccountTransactions', accountAddress => {
+  return cy.task('etherscanGetAccountTransactions', accountAddress, {
+    timeout: 30000,
+  });
 });
 
 // helper commands

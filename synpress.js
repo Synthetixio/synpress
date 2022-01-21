@@ -3,6 +3,7 @@
 const program = require('commander');
 const { run, open } = require('./launcher');
 const { version } = require('./package.json');
+require('dotenv').config();
 
 if (
   !process.env.SECRET_WORDS &&

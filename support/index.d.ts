@@ -19,7 +19,7 @@ declare namespace Cypress {
      */
     assignActiveTabName(): Chainable<Subject>;
     /**
-     * Checks if current active tab is metamask
+     * Checks if current active tab is blank
      * @example
      * cy.isBlankWindowActive()
      */
@@ -37,13 +37,13 @@ declare namespace Cypress {
      */
     switchToCypressWindow(): Chainable<Subject>;
     /**
-     * Switch to metamask window
+     * Switch to blank window
      * @example
      * cy.switchToBlankWindow()
      */
     switchToBlankWindow(): Chainable<Subject>;
     /**
-     * Switch to metamask notification window
+     * Switch to blank notification window
      * @example
      * cy.switchToBlankNotification()
      */
@@ -55,13 +55,19 @@ declare namespace Cypress {
      */
     getNetwork(): Chainable<Subject>;
     /**
-     * Add network in metamask
+     * Get current network
+     * @example
+     * cy.getNetwork()
+     */
+    getCurrentNetwork(): Chainable<Subject>;
+    /**
+     * Add network in blank
      * @example
      * cy.addBlankNetwork({networkName: 'name', rpcUrl: 'https://url', chainId: '1', symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true})
      */
     addBlankNetwork(network: object): Chainable<Subject>;
     /**
-     * Change network in metamask
+     * Change network in blank
      * @example
      * cy.changeBlankNetwork('kovan')
      * cy.changeBlankNetwork('custom network')
@@ -69,20 +75,20 @@ declare namespace Cypress {
      */
     changeBlankNetwork(network: string): Chainable<Subject>;
     /**
-     * Import new account in metamask using private key
+     * Import new account in blank using private key
      * @example
      * cy.importBlankAccount('private_key')
      */
     importBlankAccount(privateKey: string): Chainable<Subject>;
     /**
-     * Create new account in metamask
+     * Create new account in blank
      * @example
      * cy.createBlankAccount()
      * cy.createBlankAccount('accountName')
      */
     createBlankAccount(accountName: string | undefined): Chainable<Subject>;
     /**
-     * Switch metamask account
+     * Switch blank account
      * @example
      * cy.switchBlankAccount(2)
      * cy.switchBlankAccount('Account 2')
@@ -91,127 +97,147 @@ declare namespace Cypress {
       accountNameOrAccountNumber: string | number,
     ): Chainable<Subject>;
     /**
-     * Get current wallet address of metamask wallet
+     * Gets the last transaction Id done by the current Account. 
+     * Returns empty if the last activity is not a transaction or there no activities
+     * @example
+     * cy.getLastTransactionId()
+    */
+    getLastTransactionId(): Chainable<Subject>;
+    /**
+     * Sends an ETH transaction from the current account to the given account name and transaction amount.
+     * Returns the transaction Id.
+     * @example
+     * cy.sendTransaction('Account 2','0.1')
+    */
+    sendTransaction(accountName:string,amount:string): Chainable<Subject>;
+    /**
+     * Get current wallet address of blank wallet
      * @example
      * cy.getBlankWalletAddress().then(address => cy.log(address))
      */
     getBlankWalletAddress(): Chainable<Subject>;
     /**
-     * Activate ability (in metamask settings) to specify custom nonce while doing transactions in metamask
+   * Get current account name of blank wallet
+   * @example
+   * cy.getBlankAccountName().then(address => cy.log(address))
+   */
+    getBlankAccountName(): Chainable<Subject>;
+    /**
+     * Activate ability (in blank settings) to specify custom nonce while doing transactions in blank
      * @example
      * cy.activateCustomNonceInBlank()
      */
     activateCustomNonceInBlank(): Chainable<Subject>;
     /**
-     * Reset metamask account state in settings
+     * Reset blank account state in settings
      * @example
      * cy.resetBlankAccount()
      */
     resetBlankAccount(): Chainable<Subject>;
     /**
-     * Disconnects metamask wallet from last connected dapp
+     * Disconnects blank wallet from last connected dapp
      * @example
      * cy.disconnectBlankWalletFromDapp()
      */
     disconnectBlankWalletFromDapp(): Chainable<Subject>;
     /**
-     * Disconnects metamask wallet from all connected dapps
+     * Disconnects blank wallet from all connected dapps
      * @example
      * cy.disconnectBlankWalletFromAllDapps()
      */
     disconnectBlankWalletFromAllDapps(): Chainable<Subject>;
     /**
-     * Confirm metamask permission to sign message
+     * Confirm blank permission to sign message
      * @example
      * cy.confirmBlankSignatureRequest()
      */
     confirmBlankSignatureRequest(): Chainable<Subject>;
     /**
-     * Reject metamask permission to sign message
+     * Reject blank permission to sign message
      * @example
      * cy.rejectBlankSignatureRequest()
      */
     rejectBlankSignatureRequest(): Chainable<Subject>;
     /**
-     * Confirm metamask permission to spend asset
+     * Confirm blank permission to spend asset
      * @example
      * cy.confirmBlankPermissionToSpend()
      */
     confirmBlankPermissionToSpend(): Chainable<Subject>;
     /**
-     * Reject metamask permission to spend asset
+     * Reject blank permission to spend asset
      * @example
      * cy.rejectBlankPermissionToSpend()
      */
     rejectBlankPermissionToSpend(): Chainable<Subject>;
     /**
-     * Accept metamask access request
+     * Accept blank access request
      * @example
      * cy.acceptBlankAccess()
      */
     acceptBlankAccess(): Chainable<Subject>;
     /**
-     * Confirm metamask atransaction
+     * Confirm blank atransaction
      * @example
      * cy.confirmBlankTransaction()
      * cy.confirmBlankTransaction({gasFee: 10, gasLimit: 1000000})
      */
     confirmBlankTransaction(gasConfig : object | undefined): Chainable<Subject>;
     /**
-     * Reject metamask transaction
+     * Reject blank transaction
      * @example
      * cy.rejectBlankTransaction()
      */
     rejectBlankTransaction(): Chainable<Subject>;
     /**
-     * Allow site to add new network in metamask
+     * Allow site to add new network in blank
      * @example
      * cy.allowBlankToAddNetwork()
      */
     allowBlankToAddNetwork(): Chainable<Subject>;
     /**
-     * Reject site to add new network in metamask
+     * Reject site to add new network in blank
      * @example
      * cy.rejectBlankToAddNetwork()
      */
     rejectBlankToAddNetwork(): Chainable<Subject>;
     /**
-     * Allow site to switch network in metamask
+     * Allow site to switch network in blank
      * @example
      * cy.allowBlankToSwitchNetwork()
      */
     allowBlankToSwitchNetwork(): Chainable<Subject>;
     /**
-     * Reject site to switch network in metamask
+     * Reject site to switch network in blank
      * @example
      * cy.rejectBlankToSwitchNetwork()
      */
     rejectBlankToSwitchNetwork(): Chainable<Subject>;
     /**
-     * Allow site to add new network in metamask and switch to it
+     * Allow site to add new network in blank and switch to it
      * @example
      * cy.allowBlankToAddAndSwitchNetwork()
      */
     allowBlankToAddAndSwitchNetwork(): Chainable<Subject>;
     /**
-     * Unlock metamask
+     * Unlock blank
      * @example
      * cy.unlockBlank('password')
      */
     unlockBlank(password: string): Chainable<Subject>;
     /**
-     * Fetches previous metamask wallet address
+     * Fetches previous blank wallet address
      * @example
      * cy.fetchBlankWalletAddress().then(address => cy.log(address))
      */
     fetchBlankWalletAddress(): Chainable<Subject>;
     /**
-     * Run the flow for metamask setup
+     * Run the flow for blank setup
      * @example
-     * cy.setupBlank('secret, words, ...', 'kovan', 'password for metamask')
-     * cy.setupBlank('secret, words, ...', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for metamask')
-     * cy.setupBlank('private_key', 'kovan', 'password for metamask')
-     * cy.setupBlank('private_key', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for metamask')
+     * cy.setupBlank('secret, words, ...', 'kovan', 'password for blank')
+     * cy.setupBlank('secret, words, ...', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for blank')
+     * cy.setupBlank('private_key', 'kovan', 'password for blank')
+     * cy.setupBlank('private_key', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for blank')
      */
     setupBlank(
       secretWordsOrPrivateKey: string,
@@ -243,6 +269,12 @@ declare namespace Cypress {
      * cy.etherscanGetTransactionStatus('0xf..')
      */
     etherscanGetTransactionStatus(txid: string): Chainable<Subject>;
+    /**
+     * Get the lasts 10 transactions for the given from Etherscan API
+     * @example
+     * cy.etherscanGetAccountTransactions('0xf..')
+     */
+    etherscanGetAccountTransactions(accountAddress:string): Chainable<Subject>;
     /**
      * Wait until transaction is success using Etherscan API
      * @example

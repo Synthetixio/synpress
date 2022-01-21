@@ -6,9 +6,16 @@ const { queries } = require('pptr-testing-library');
 const { getLink, getButton } = require('../documentUtils');
 
 module.exports = {
-  isSetupCompleted: async documentNode => {
+  isSetupCompleted: async (documentNode, customTimeout) => {
     try {
-      await queries.getByText(documentNode, /set-up completed/i);
+      await queries.findByText(
+        documentNode,
+        /set-up completed/i,
+        {},
+        {
+          timeout: customTimeout || 1000,
+        },
+      );
     } catch (e) {
       return false;
     }
