@@ -1,14 +1,27 @@
 /* eslint-disable testing-library/await-async-utils */
 /* eslint-disable cypress/no-unnecessary-waiting */
 /* eslint-disable ui-testing/no-hard-wait */
-describe('Blank basic commands flows', () => {
+describe('Blank send flow', () => {
   let accountsInfo = null;
   before(() => {
     cy.fixture('accounts.json').then(info => {
       accountsInfo = info.accounts;
     });
   });
-  context('Accounts management', () => {
+  after(() => {
+    //test teardown
+    //Return the money from Account 1 => Account 2,
+    //This should be a done in the beforeAll hook
+    const firstAccount = accountsInfo[0];
+    const secondAccount = accountsInfo[1];
+    cy.switchBlankAccount(secondAccount.name).then(name => {
+      expect(name).to.equal(secondAccount.name);
+    });
+    cy.sendTransaction(firstAccount.name, '0.1').then(isOk => {
+      expect(isOk).to.be.true;
+    });
+  });
+  context('Send flow', () => {
     it(`Set Georli as the desired network`, () => {
       cy.changeBlankNetwork('goerli').then(assigned => {
         expect(assigned).to.be.true;
