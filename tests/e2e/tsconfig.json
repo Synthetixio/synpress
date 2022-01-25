@@ -11,5 +11,5 @@
     ],
     "outDir": "./output"
   },
-  "include": ["**/*.*", "specs/puppeteer", "specs/metamask"]
+  "include": ["**/*.*", "specs/puppeteer", "specs/blank"]
 }

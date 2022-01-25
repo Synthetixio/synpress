@@ -78,7 +78,6 @@ module.exports = {
       allLinks,
     );
     const txid = new URL(value).pathname.split('/')[2];
-    console.log(txid);
     return txid;
   },
 };

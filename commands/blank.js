@@ -21,6 +21,34 @@ const copyWalletAddressToClipboard = async () => {
   return clipboardData;
 };
 
+const updateNetwork = async network => {
+  const document = await puppeteer.document();
+  if (typeof network === 'string') {
+    network = network.toLowerCase();
+  } else if (typeof network === 'object') {
+    network.networkName = network.networkName.toLowerCase();
+  }
+  const networkSelector = await homePage.networkSelector(document);
+  await puppeteer.click(networkSelector);
+  let networkNode = await homePage.findNetworkInSelector(
+    networkSelector,
+    network,
+  );
+  if (!networkNode) {
+    const showTestNetworks = await homePage.showTestNetworkCheckbox(
+      networkSelector,
+    );
+    await puppeteer.click(showTestNetworks);
+    networkNode = await homePage.findNetworkInSelector(
+      networkSelector,
+      network,
+    );
+  }
+
+  await networkNode.click();
+  setNetwork(network);
+};
+
 module.exports = {
   walletAddress: () => {
     return walletAddress;
@@ -75,31 +103,7 @@ module.exports = {
   },
   changeNetwork: async network => {
     await switchToBlankIfNotActive();
-    const document = await puppeteer.document();
-    if (typeof network === 'string') {
-      network = network.toLowerCase();
-    } else if (typeof network === 'object') {
-      network.networkName = network.networkName.toLowerCase();
-    }
-    const networkSelector = await homePage.networkSelector(document);
-    await puppeteer.click(networkSelector);
-    let networkNode = await homePage.findNetworkInSelector(
-      networkSelector,
-      network,
-    );
-    if (!networkNode) {
-      const showTestNetworks = await homePage.showTestNetworkCheckbox(
-        networkSelector,
-      );
-      await puppeteer.click(showTestNetworks);
-      networkNode = await homePage.findNetworkInSelector(
-        networkSelector,
-        network,
-      );
-    }
-
-    await networkNode.click();
-    setNetwork(network);
+    await updateNetwork(network);
     await switchToCypressIfNotActive();
     return true;
   },
@@ -137,10 +141,7 @@ module.exports = {
     await puppeteer.click(
       await accountsPage.getConfirmCreationButton(creationForm),
     );
-    console.time('start-end');
-    console.log('checking...');
     await documentUtils.awaitLoadingButtonFinish(creationForm);
-    console.timeEnd('start-end');
     await puppeteer.blankWindow().waitForTimeout(5000);
     const accountName = await homePage.getAccountName();
     await switchToCypressIfNotActive();
@@ -157,13 +158,7 @@ module.exports = {
     await switchToCypressIfNotActive();
     return assignedAccountName;
   },
-  initialSetup: async ({ secretWordsOrPrivateKey, network, password }) => {
-    const isCustomNetwork =
-      (process.env.NETWORK_NAME &&
-        process.env.RPC_URL &&
-        process.env.CHAIN_ID) ||
-      typeof network == 'object';
-
+  initialSetup: async ({ secretWords, password }) => {
     await puppeteer.init();
     await puppeteer.assignWindows();
     await puppeteer.assignActiveTabName('blank');
@@ -181,13 +176,9 @@ module.exports = {
 
     if (!setupCompleted) {
       await module.exports.confirmWelcomePage();
-      if (secretWordsOrPrivateKey.includes(' ')) {
+      if (secretWords.includes(' ')) {
         // secret words
-        await module.exports.importWallet(secretWordsOrPrivateKey, password);
-      } else {
-        // private key
-        await module.exports.createWallet(password);
-        await module.exports.importAccount(secretWordsOrPrivateKey);
+        await module.exports.importWallet(secretWords, password);
       }
       await puppeteer.goToPopup();
       await puppeteer.switchToCypressWindow();
@@ -204,12 +195,7 @@ module.exports = {
     );
     await puppeteer.click(sendTransactionPage.getNextButton(document));
     const amountInput = await sendTransactionPage.getAmountInput(document);
-    try {
-      await puppeteer.type(amountInput, amount);
-    } catch (e) {
-      console.log(e, amount);
-      return Promise.reject(e);
-    }
+    await puppeteer.type(amountInput, amount);
     await puppeteer.blankWindow().waitForTimeout(5000);
     await puppeteer.click(sendTransactionPage.getConfirmButton(document));
     await puppeteer.blankWindow().waitForTimeout(3000);
@@ -219,13 +205,11 @@ module.exports = {
   getLastTransactionId: async () => {
     await switchToBlankIfNotActive(true);
     const document = await puppeteer.document();
-    console.log('HERE1');
     try {
       const txId = await homePage.getLastTransactionId(document);
       return txId;
     } catch (e) {
       //do not fail if there are not transactions
-      console.log('EEEE', e);
       return '';
     } finally {
       await switchToCypressIfNotActive();

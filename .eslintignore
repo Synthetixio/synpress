@@ -4,7 +4,6 @@ node_modules
 dist
 # don't lint nyc coverage output
 coverage
-# don't lint metamask download folder
 downloads
 # don't list test-dapp
 tests/test-dapp

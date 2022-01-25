@@ -13,7 +13,7 @@ const defaultConfig = `fixturesFolder=${fixturesFolder},pluginsFile=${pluginsFil
 const defaultArguments = [
   'cypress',
   'run',
-  '--headed', // needed for extensions like metamask to work
+  '--headed', // extensions can only run in headed browsers
 ];
 
 const launcher = {

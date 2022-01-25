@@ -97,19 +97,19 @@ declare namespace Cypress {
       accountNameOrAccountNumber: string | number,
     ): Chainable<Subject>;
     /**
-     * Gets the last transaction Id done by the current Account. 
+     * Gets the last transaction Id done by the current Account.
      * Returns empty if the last activity is not a transaction or there no activities
      * @example
      * cy.getLastTransactionId()
-    */
+     */
     getLastTransactionId(): Chainable<Subject>;
     /**
      * Sends an ETH transaction from the current account to the given account name and transaction amount.
      * Returns the transaction Id.
      * @example
      * cy.sendTransaction('Account 2','0.1')
-    */
-    sendTransaction(accountName:string,amount:string): Chainable<Subject>;
+     */
+    sendTransaction(accountName: string, amount: string): Chainable<Subject>;
     /**
      * Get current wallet address of blank wallet
      * @example
@@ -117,10 +117,10 @@ declare namespace Cypress {
      */
     getBlankWalletAddress(): Chainable<Subject>;
     /**
-   * Get current account name of blank wallet
-   * @example
-   * cy.getBlankAccountName().then(address => cy.log(address))
-   */
+     * Get current account name of blank wallet
+     * @example
+     * cy.getBlankAccountName().then(address => cy.log(address))
+     */
     getBlankAccountName(): Chainable<Subject>;
     /**
      * Activate ability (in blank settings) to specify custom nonce while doing transactions in blank
@@ -182,7 +182,7 @@ declare namespace Cypress {
      * cy.confirmBlankTransaction()
      * cy.confirmBlankTransaction({gasFee: 10, gasLimit: 1000000})
      */
-    confirmBlankTransaction(gasConfig : object | undefined): Chainable<Subject>;
+    confirmBlankTransaction(gasConfig: object | undefined): Chainable<Subject>;
     /**
      * Reject blank transaction
      * @example
@@ -234,16 +234,12 @@ declare namespace Cypress {
     /**
      * Run the flow for blank setup
      * @example
-     * cy.setupBlank('secret, words, ...', 'kovan', 'password for blank')
-     * cy.setupBlank('secret, words, ...', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for blank')
-     * cy.setupBlank('private_key', 'kovan', 'password for blank')
-     * cy.setupBlank('private_key', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for blank')
+     * cy.setupBlank('secret, words, ...', 'password for blank')
+     * cy.setupBlank('secret, words, ...', 'password for blank')
+     * cy.setupBlank('private_key','password for blank')
+     * cy.setupBlank('private_key','password for blank')
      */
-    setupBlank(
-      secretWordsOrPrivateKey: string,
-      network: string | object,
-      password: string,
-    ): Chainable<Subject>;
+    setupBlank(secretWords: string, password: string): Chainable<Subject>;
     /**
      * Execute settle on Exchanger contract
      * @example
@@ -274,7 +270,7 @@ declare namespace Cypress {
      * @example
      * cy.etherscanGetAccountTransactions('0xf..')
      */
-    etherscanGetAccountTransactions(accountAddress:string): Chainable<Subject>;
+    etherscanGetAccountTransactions(accountAddress: string): Chainable<Subject>;
     /**
      * Wait until transaction is success using Etherscan API
      * @example

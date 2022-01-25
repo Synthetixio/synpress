@@ -1,7 +1,6 @@
 const helpers = require('../helpers');
 const puppeteer = require('../commands/puppeteer');
 const blank = require('../commands/blank');
-const synthetix = require('../commands/synthetix');
 const etherscan = require('../commands/etherscan');
 
 /**
@@ -130,7 +129,7 @@ module.exports = (on, config) => {
       if (process.env.NETWORK_NAME && !network) {
         network = process.env.NETWORK_NAME;
       } else if (!network) {
-        network = 'kovan';
+        network = 'goerli';
       }
       const networkChanged = await blank.changeNetwork(network);
       return networkChanged;
@@ -210,45 +209,15 @@ module.exports = (on, config) => {
     fetchBlankWalletAddress: async () => {
       return blank.walletAddress();
     },
-    setupBlank: async ({
-      secretWordsOrPrivateKey,
-      network = 'kovan',
-      password,
-    }) => {
-      if (process.env.NETWORK_NAME) {
-        network = process.env.NETWORK_NAME;
-      }
-      if (process.env.PRIVATE_KEY) {
-        secretWordsOrPrivateKey = process.env.PRIVATE_KEY;
-      }
+    setupBlank: async ({ secretWords, password }) => {
       if (process.env.SECRET_WORDS) {
-        secretWordsOrPrivateKey = process.env.SECRET_WORDS;
+        secretWords = process.env.SECRET_WORDS;
       }
       await blank.initialSetup({
-        secretWordsOrPrivateKey,
-        network,
+        secretWords,
         password,
       });
       return true;
-    },
-    snxExchangerSettle: async ({ asset, walletAddress, privateKey }) => {
-      if (process.env.PRIVATE_KEY) {
-        privateKey = process.env.PRIVATE_KEY;
-      }
-      const settled = await synthetix.settle({
-        asset,
-        walletAddress,
-        privateKey,
-      });
-      // todo: wait for confirmation?
-      return settled;
-    },
-    snxCheckWaitingPeriod: async ({ asset, walletAddress }) => {
-      const waitingPeriod = await synthetix.checkWaitingPeriod({
-        asset,
-        walletAddress,
-      });
-      return waitingPeriod;
     },
     getNetwork: () => {
       return blank.getCurrentNetwork();

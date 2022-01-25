@@ -35,7 +35,7 @@ Cypress.Commands.add('switchToBlankNotification', () => {
   return cy.task('switchToBlankNotification');
 });
 
-// metamask commands
+// Blank commands
 
 Cypress.Commands.add('addBlankNetwork', network => {
   return cy.task('addBlankNetwork', network);
@@ -149,16 +149,12 @@ Cypress.Commands.add('fetchBlankWalletAddress', () => {
   });
 });
 
-Cypress.Commands.add(
-  'setupBlank',
-  (secretWordsOrPrivateKey, network, password = 'Tester@1234') => {
-    return cy.task('setupBlank', {
-      secretWordsOrPrivateKey,
-      network,
-      password,
-    });
-  },
-);
+Cypress.Commands.add('setupBlank', (secretWords, password = 'Tester@1234') => {
+  return cy.task('setupBlank', {
+    secretWords,
+    password,
+  });
+});
 
 Cypress.Commands.add('getNetwork', () => {
   return cy.task('getNetwork');
