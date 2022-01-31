@@ -119,7 +119,7 @@ If you want to use Etherscan API helpers, you will have to provide Etherscan API
 
 To fail a test if there are any browser console errors, set `FAIL_ON_ERROR` to `1` or `true`.
 
-Automatic waiting for XHR requests to finish before tests start can be turned off with `SKIP_RESOURCES_WAIT` environmental variable, set it to `1` or `true`.
+Automatic waiting for XHR requests to finish before tests start can be turned off with `CYPRESS_SKIP_RESOURCES_WAIT` environmental variable, set it to `1` or `true`.
 
 If you want to skip metamask extension installation or metamask setup, you can use `SKIP_METAMASK_INSTALL` and `SKIP_METAMASK_SETUP` separately. Both variables accept `1` or `true`.
 

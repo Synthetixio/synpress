@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/synthetixio/docker-sec-tools/alpine:14.17
+      image: ghcr.io/synthetixio/docker-sec-tools/alpine:16.13
       credentials:
         username: synthetixio
         password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
@@ -25,7 +25,7 @@ jobs:
         run: npm audit --audit-level=critical
 
       - name: Lockfile lint
-        run: lockfile-lint -p package-lock.json --type npm --allowed-hosts npm github.com --allowed-schemes "npm:" "https:" "git+ssh:"
+        run: lockfile-lint -p package-lock.json --type npm --allowed-hosts npm --validate-https --empty-hostname false
 
   build:
     needs: audit
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/synthetixio/docker-node/alpine:14.17
+      image: ghcr.io/synthetixio/docker-node/alpine:16.13
       credentials:
         username: synthetixio
         password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
@@ -52,9 +52,9 @@ jobs:
           path: |
             .npm-cache
             node_modules
-          key: ${{ runner.os }}-node-1-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-16-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-1-
+            ${{ runner.os }}-node-16-
         continue-on-error: true
 
       # fix: permission issues on ghactions+docker+npm@7
@@ -72,7 +72,7 @@ jobs:
       - name: Upload lint results
         # run if lint failed and only on master/dev branch and pull requests
         if: always() && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || github.event_name == 'pull_request')
-        uses: github/codeql-action/upload-sarif@5f532563584d71fdef14ee64d17bafb34f751ce5 # pin@codeql-bundle-20210517
+        uses: github/codeql-action/upload-sarif@8b37404d562d866ad6a65d0ecb4fa5131e047ca4 # pin@codeql-bundle-20210517
         with:
           sarif_file: lint-results.sarif
         continue-on-error: true
@@ -84,7 +84,7 @@ jobs:
   #   runs-on: ubuntu-latest
 
   #   container:
-  #     image: ghcr.io/synthetixio/docker-e2e/ubuntu:14.17
+  #     image: ghcr.io/synthetixio/docker-e2e/ubuntu:16.13
   #     credentials:
   #       username: synthetixio
   #       password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
@@ -103,9 +103,9 @@ jobs:
   #         path: |
   #           .npm-cache
   #           node_modules
-  #         key: ${{ runner.os }}-ubuntu-e2e-1-${{ hashFiles('**/package-lock.json') }}
+  #         key: ${{ runner.os }}-ubuntu-e2e-16-${{ hashFiles('**/package-lock.json') }}
   #         restore-keys: |
-  #           ${{ runner.os }}-ubuntu-e2e-1-
+  #           ${{ runner.os }}-ubuntu-e2e-16-
   #       continue-on-error: true
 
   #     # fix: permission issues on ghactions+docker+npm@7

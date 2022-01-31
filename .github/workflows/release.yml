@@ -16,7 +16,7 @@ jobs:
     name: release
 
     container:
-      image: ghcr.io/synthetixio/docker-node/ubuntu:14.17
+      image: ghcr.io/synthetixio/docker-node/ubuntu:16.13
       credentials:
         username: synthetixio
         password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
@@ -29,7 +29,7 @@ jobs:
           ref: master
 
       - name: Set npm cache directory
-        run: npm config set cache .npm-cache --global 
+        run: npm config set cache .npm-cache --global
         continue-on-error: true
 
       - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # pin@v2
@@ -37,9 +37,9 @@ jobs:
           path: |
             .npm-cache
             node_modules
-          key: ${{ runner.os }}-ubuntu-node-1-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-ubuntu-node-16-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-ubuntu-node-1-
+            ${{ runner.os }}-ubuntu-node-16-
         continue-on-error: true
 
       # fixes permission issues on docker+npm@7

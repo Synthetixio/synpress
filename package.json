@@ -1,6 +1,6 @@
 {
   "name": "@synthetixio/synpress",
-  "version": "1.1.0",
+  "version": "1.1.1-beta.1",
   "description": "Synpress in an wrapper around Cypress test runner which extends its capabilities with conjunction of Puppeteer. It's used used across Synthetix projects.",
   "keywords": [
     "Synpress",
@@ -63,7 +63,7 @@
     "bytes32": "0.0.3",
     "commander": "8.1.0",
     "cross-zip": "4.0.0",
-    "cypress": "9.1.1",
+    "cypress": "9.3.1",
     "cypress-wait-until": "1.7.1",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
@@ -84,7 +84,7 @@
     "puppeteer-core": "10.4.0",
     "serve": "12.0.0",
     "start-server-and-test": "1.13.1",
-    "synthetix-js": "2.55.0"
+    "synthetix-js": "2.57.2"
   },
   "devDependencies": {
     "@microsoft/eslint-formatter-sarif": "2.1.5",
