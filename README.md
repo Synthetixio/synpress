@@ -31,53 +31,125 @@ For additional custom commands and their examples, [check here](https://github.c
 - etherscan API helpers in place which for ex. allows to compare your transaction results with etherscan and check tx status
 - synthetix helpers in place which allows to interact with synthetix protocol programatically
 
-## 👷 Example setup for eslint and tsconfig
+## 👉 Tutorial configure Synpress
 
 Project structure:
 
 ```text
 project_dir
+└── package.json
 └── src
-└── tests
-    └── e2e
+└── testing
+     └── e2e
         └── .eslintrc.js
         └── tsconfig.json
+        └── synpress.json
         └── specs
             └── example-spec.js
         └── pages
             └── example-page.js
+        └── screenshots
+        └── support
+            └── commands.ts
 ```
 
-1. Create `.eslintrc.js` inside your tests folder (`/project_dir/tests/e2e`):
+1. Create a test folder (you can use the cypress default folder structure: [cypress folder](https://docs.cypress.io/guides/core-concepts/writing-and-organizing-tests)).
 
-```js
-const path = require('path');
-const synpressPath = path.join(process.cwd(), '/node_modules/@synthetixio/synpress');
+2. Add synpress and cypress-es-lint-plugin to your dependencies:
 
-module.exports = {
-    extends: `${synpressPath}/.eslintrc.js`,
-};
-```
+   Example `package.json`:
 
-2. Create `tsconfig.json` inside your tests folder (`/project_dir/tests/e2e`):
+   ```json
+   {
+     "devDependencies": {
+       "@synthetixio/synpress": "1.1.1",
+       "eslint-plugin-cypress": "^2.12.1"
+     },
+     "name": "testing",
+     "version": "1.0.0",
+     "description": "",
+     "main": ".eslintrc.js",
+     "scripts": {
+       "test": "npy synpress run -ne -cf tests/e2e/synpress.json",
+       "start": "npx synpress open -cf tests/e2e/synpress.json"
+     }
+   }
+   ```
 
-```json
-{
-    "compilerOptions": {
-        "allowJs": true,
-        "baseUrl": "../../node_modules",
-        "types": ["cypress", "@types/puppeteer-core", "@synthetixio/synpress/support", "cypress-wait-until", "@testing-library/cypress"],
-        "outDir": "./output"
-    },
-    "include": ["**/*.*"]
-}
-```
+3. If you would like to use custom paths for your tests and configs and modify it for your needs. Then you can direct synpress to use it with `--configFile <pathToConfigFile>` or `-cf <pathToConfigFile>` flag.
 
-3. You're done! 🎉
+   Example `synpress.json`:
 
-If you would like to use custom paths for your tests and configs, feel free to mirror [default synpress config](https://github.com/Synthetixio/synpress/blob/dev/synpress.json) and modify it for your needs. Then you can direct synpress to use it with `--configFile` flag.
+   ```json
+   {
+     "baseUrl": "http://localhost:3000",
+     "userAgent": "synpress",
+     "retries": { "runMode": 0, "openMode": 0 },
+     "integrationFolder": "tests/e2e/specs",
+     "screenshotsFolder": "tests/e2e/screenshots",
+     "videosFolder": "tests/e2e/videos",
+     "chromeWebSecurity": true,
+     "viewportWidth": 1366,
+     "viewportHeight": 768,
+     "component": {
+       "componentFolder": ".",
+       "testFiles": "**/*spec.{js,jsx,ts,tsx}"
+     },
+     "env": {
+       "coverage": false
+     },
+     "defaultCommandTimeout": 30000,
+     "pageLoadTimeout": 30000,
+     "requestTimeout": 30000
+   }
+   ```
 
-For example: `synpress run --configFile __tests__/e2e/customConfig.json`
+4. Create `.eslintrc.js` and if you write your spec files in TypeScript `tsconfig.json`
+
+   👷 Example setup for eslint and tsconfig:
+
+   1. Create `.eslintrc.js` inside your tests folder (`/project_dir/tests/e2e`):
+
+      ```js
+      const path = require('path');
+      const synpressPath = path.join(
+        process.cwd(),
+        '/node_modules/@synthetixio/synpress',
+      );
+
+      module.exports = {
+        extends: `${synpressPath}/.eslintrc.js`,
+      };
+      ```
+
+   2. Create `tsconfig.json` inside your tests folder (`/project_dir/tests/e2e`):
+
+      ```json
+      {
+        "compilerOptions": {
+          "allowJs": true,
+          "baseUrl": "../../node_modules",
+          "types": [
+            "cypress",
+            "@types/puppeteer-core",
+            "@synthetixio/synpress/support",
+            "cypress-wait-until",
+            "@testing-library/cypress"
+          ],
+          "outDir": "./output"
+        },
+        "include": ["**/*.*"]
+      }
+      ```
+
+5. Write your e2e test spec files
+
+   - you can run single tests with `npy synpress run --spec <specFilePath> -ne -cf synpress.json`
+   - or you can run all tests with `npy synpress run -ne -cf synpress.json` or `npm run test`
+
+6. To define custom commands, you can use the `support/commands.js` file, but you have to import it in each spec file, where you want to use the custom commands.
+
+7. You're done! 🎉
 
 ## ⚡ Important
 
@@ -181,3 +253,5 @@ Above actions will lead to:
 - New npm node module release
 - New GitHub packages node module release
 - New GitHub release (tagged) created with changelog from commit messages
+
+## 📝
