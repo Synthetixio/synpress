@@ -17,6 +17,7 @@ const {
   confirmPageElements,
   signaturePageElements,
   encryptionPublicKeyPageElements,
+  decryptPageElements,
 } = require('../pages/metamask/notification-page');
 const {
   settingsPageElements,
@@ -505,6 +506,24 @@ module.exports = {
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     await puppeteer.waitAndClick(
       encryptionPublicKeyPageElements.rejectEncryptionPublicKeyButton,
+      notificationPage,
+    );
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    return true;
+  },
+  confirmDecryptionRequest: async () => {
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndClick(
+      decryptPageElements.confirmDecryptionRequestButton,
+      notificationPage,
+    );
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    return true;
+  },
+  rejectDecryptionRequest: async () => {
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndClick(
+      decryptPageElements.rejectDecryptionRequestButton,
       notificationPage,
     );
     await puppeteer.metamaskWindow().waitForTimeout(3000);

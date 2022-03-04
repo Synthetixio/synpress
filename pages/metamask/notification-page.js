@@ -60,3 +60,9 @@ module.exports.encryptionPublicKeyPageElements = {
   rejectEncryptionPublicKeyButton,
 };
 
+const confirmDecryptionRequestButton = `${notificationPage} .request-decrypt-message__footer__sign-button`;
+const rejectDecryptionRequestButton = `${notificationPage} .request-decrypt-message__footer__cancel-button`;
+module.exports.decryptPageElements = {
+  confirmDecryptionRequestButton,
+  rejectDecryptionRequestButton,
+};

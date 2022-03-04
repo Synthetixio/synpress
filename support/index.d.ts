@@ -145,6 +145,18 @@ declare namespace Cypress {
      */
     rejectMetamaskEncryptionPublicKeyRequest(): Chainable<Subject>;
     /**
+     * Confirm metamask request to decrypt message with private key
+     * @example
+     * cy.confirmMetamaskDecryptionRequest()
+     */
+    confirmMetamaskDecryptionRequest(): Chainable<Subject>;
+    /**
+     * Reject metamask request to decrypt message with private key
+     * @example
+     * cy.rejectMetamaskDecryptionRequest()
+     */
+    rejectMetamaskDecryptionRequest(): Chainable<Subject>;
+    /**
      * Confirm metamask permission to spend asset
      * @example
      * cy.confirmMetamaskPermissionToSpend()
