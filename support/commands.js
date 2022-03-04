@@ -83,6 +83,14 @@ Cypress.Commands.add('confirmMetamaskSignatureRequest', () => {
   return cy.task('confirmMetamaskSignatureRequest');
 });
 
+Cypress.Commands.add('confirmMetamaskEncryptionPublicKeyRequest', () => {
+  return cy.task('confirmMetamaskEncryptionPublicKeyRequest');
+});
+
+Cypress.Commands.add('rejectMetamaskEncryptionPublicKeyRequest', () => {
+  return cy.task('rejectMetamaskEncryptionPublicKeyRequest');
+});
+
 Cypress.Commands.add('rejectMetamaskSignatureRequest', () => {
   return cy.task('rejectMetamaskSignatureRequest');
 });

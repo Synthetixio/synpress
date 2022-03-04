@@ -52,3 +52,11 @@ module.exports.confirmPageElements = {
   rejectButton,
   confirmButton,
 };
+
+const confirmEncryptionPublicKeyButton = `${notificationPage} .request-encryption-public-key__footer__sign-button`;
+const rejectEncryptionPublicKeyButton = `${notificationPage} .request-encryption-public-key__footer__cancel-button`;
+module.exports.encryptionPublicKeyPageElements = {
+  confirmEncryptionPublicKeyButton,
+  rejectEncryptionPublicKeyButton,
+};
+
