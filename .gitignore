@@ -7,3 +7,6 @@ dist/
 tests/e2e/videos
 tests/e2e/screenshots
 .DS_Store
+blockwallet-extension
+yarn-error.log
+.gitconfig

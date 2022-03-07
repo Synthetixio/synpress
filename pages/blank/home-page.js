@@ -72,12 +72,13 @@ module.exports = {
     await page.waitForSelector('[data-testid="activity-list"]');
     await page.waitForTimeout(5000);
     let activityNode = await module.exports.getActivityList(documentNode);
-    const allLinks = await activityNode.waitForSelector('a');
-    const value = await page.evaluate(
-      anchor => anchor.getAttribute('href'),
-      allLinks,
+    const activityListButtons = await activityNode.waitForSelector(
+      '[role="button"]',
     );
-    const txid = new URL(value).pathname.split('/')[2];
+    const txid = await page.evaluate(
+      anchor => anchor.getAttribute('data-txid'),
+      activityListButtons,
+    );
     return txid;
   },
 };

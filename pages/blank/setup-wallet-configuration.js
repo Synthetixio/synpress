@@ -33,8 +33,19 @@ module.exports = {
   },
   importWalletButton: async documnetNode => {
     return await getLink(documnetNode, {
-      name: /Import Your wallet/i,
+      name: /import/i,
     });
+  },
+  getWelcomeMessageDmismissButton: async docomuentNode => {
+    try {
+      const btn = await getButton(docomuentNode, {
+        name: /start/i,
+      });
+      return btn;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
   },
   unlockWalletForm: {
     password: async documentNode => {

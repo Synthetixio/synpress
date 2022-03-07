@@ -57,6 +57,6 @@ module.exports = {
     await zip.unzip(file, destination);
   },
   prepareBlank: () => {
-    return './dist';
+    return './blockwallet-extension';
   },
 };

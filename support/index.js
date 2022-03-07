@@ -1,3 +1,6 @@
+/* eslint-disable cypress/no-unnecessary-waiting */
+/* eslint-disable ui-testing/no-hard-wait */
+/* eslint-disable testing-library/await-async-utils */
 import './commands';
 import { configure } from '@testing-library/cypress';
 

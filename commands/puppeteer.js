@@ -2,9 +2,17 @@ const puppeteer = require('puppeteer-core');
 const fetch = require('node-fetch');
 const { getDocument } = require('pptr-testing-library');
 
+const DEPOSITS_MOCK = {
+  deposits: [],
+};
+const WITHDRAWALS_MOCK = {
+  withdrawals: [],
+};
+
 let puppeteerBrowser;
 let mainWindow;
 let blankWindow;
+let backgroundPage;
 let activeTabName;
 let blankUrl;
 module.exports = {
@@ -75,10 +83,40 @@ module.exports = {
     activeTabName = tabName;
     return true;
   },
+  mockDepositsAndWithdrawls: async () => {
+    backgroundPage = await puppeteerBrowser.newPage();
+    const backgroundResource = '_generated_background_page.html';
+    const extensionURL = new URL(blankWindow.url());
+    const origin = `${extensionURL.protocol}//${extensionURL.hostname}`;
+    backgroundPage.goto(`${origin}/${backgroundResource}`);
+    await backgroundPage.setRequestInterception(true);
+    backgroundPage.on('request', req => {
+      const requestURL = req.url();
+      console.log(requestURL);
+      if (requestURL.indexOf('/deposits') > -1) {
+        console.log('mocking deposits');
+        return req.respond({
+          content: 'application/json',
+          headers: { 'Access-Control-Allow-Origin': '*' },
+          body: JSON.stringify(DEPOSITS_MOCK),
+        });
+      }
+      if (requestURL.indexOf('/withdrawals') > -1) {
+        console.log('mocking withdrawals');
+        return req.respond({
+          content: 'application/json',
+          headers: { 'Access-Control-Allow-Origin': '*' },
+          body: JSON.stringify(WITHDRAWALS_MOCK),
+        });
+      }
+      req.continue();
+    });
+    return blankWindow.bringToFront();
+  },
   goToPopup: async () => {
     const url = new URL(blankWindow.url());
     blankUrl = url.href.replaceAll(url.hash, ' ').replaceAll('tab', 'popup');
-    return await blankWindow.goto(blankUrl);
+    await blankWindow.goto(blankUrl);
   },
   clearWindows: async () => {
     mainWindow = null;

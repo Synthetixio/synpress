@@ -1,0 +1,30 @@
+name: Extension e2e testing
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+
+jobs:
+  e2e:
+    # run only on pull requests
+    if: github.event_name == 'pull_request'
+    runs-on: self-hosted
+    env:
+      GH_ACCESS_TOKEN: ${{ secrets.USER_PAT }}:${{ secrets.PAT }}
+    steps:
+      - name: Configure git
+        run: git config --global url.https://$GH_ACCESS_TOKEN@github.com/.insteadOf https://github.com/
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Download extension
+        run: ./prepare-extension.sh
+
+      - name: Run tests
+        run: yarn run test:e2e:ci
+`

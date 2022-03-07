@@ -59,7 +59,6 @@ module.exports = {
   confirmWelcomePage: async () => {
     const document = await puppeteer.document();
     await puppeteer.click(onboardingElements.getStartedButton(document));
-    await puppeteer.click(onboardingElements.modalCosentButton(document));
     return true;
   },
   unlock: async password => {
@@ -158,18 +157,30 @@ module.exports = {
     await switchToCypressIfNotActive();
     return assignedAccountName;
   },
+  dismissWelcomeMessage: async () => {
+    const welcomeButton =
+      await onboardingElements.getWelcomeMessageDmismissButton(
+        await puppeteer.document(),
+      );
+    //if exists, dismiss the welcome info.
+    if (welcomeButton) {
+      return puppeteer.click(welcomeButton);
+    }
+  },
   initialSetup: async ({ secretWords, password }) => {
     await puppeteer.init();
     await puppeteer.assignWindows();
     await puppeteer.assignActiveTabName('blank');
-    await puppeteer.blankWindow().waitForTimeout(3000);
+    await puppeteer.mockDepositsAndWithdrawls();
+    await puppeteer.blankWindow().waitForTimeout(10000);
     const setupCompleted = await module.exports.isBlankSetupCompleted();
 
     if (setupCompleted) {
       await puppeteer.goToPopup();
       await module.exports.unlock(password);
       //await the app to be ready for tests
-      await puppeteer.blankWindow().waitForTimeout(20000);
+      await puppeteer.blankWindow().waitForTimeout(10000);
+      await module.exports.dismissWelcomeMessage();
       await puppeteer.switchToCypressWindow();
       return true;
     }
@@ -180,7 +191,9 @@ module.exports = {
         // secret words
         await module.exports.importWallet(secretWords, password);
       }
+      await puppeteer.blankWindow().waitForTimeout(30000);
       await puppeteer.goToPopup();
+      await module.exports.dismissWelcomeMessage();
       await puppeteer.switchToCypressWindow();
       return true;
     }
@@ -209,6 +222,7 @@ module.exports = {
       const txId = await homePage.getLastTransactionId(document);
       return txId;
     } catch (e) {
+      console.log(e);
       //do not fail if there are not transactions
       return '';
     } finally {
