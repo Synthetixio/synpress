@@ -287,3 +287,12 @@ Cypress.Commands.add(
     return subject;
   },
 );
+
+Cypress.Commands.add('checkToastMessage', message => {
+  cy.get('.Toastify__toast').should('contain', message)
+  cy.closeAllAlertMessages()
+})
+
+Cypress.Commands.add('closeAllAlertMessages', () => {
+  cy.get('.Toastify__close-button').click({ multiple: true, force: true })
+})
