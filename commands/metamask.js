@@ -424,7 +424,7 @@ module.exports = {
     await puppeteer.metamaskWindow().waitForTimeout(1000);
     return true;
   },
-  acceptAccess: async (allAccounts) => {
+  acceptAccess: async allAccounts => {
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     if (allAccounts === true) {
       await puppeteer.waitAndClick(
