@@ -78,7 +78,7 @@
     "eslint-plugin-ui-testing": "2.0.0",
     "eslint-plugin-unicorn": "41.0.1",
     "etherscan-api": "10.0.5",
-    "node-fetch": "3.2.3",
+    "node-fetch": "2.6.1",
     "prettier": "2.6.0",
     "puppeteer-core": "13.5.1",
     "serve": "13.0.2",
