@@ -11,8 +11,8 @@ module.exports.notificationPageElements = {
   selectAllCheck,
 };
 
-const confirmSignatureRequestButton = `${notificationPage} .signature-request-footer :last-child`;
-const rejectSignatureRequestButton = `${notificationPage} .signature-request-footer :first-child`;
+const confirmSignatureRequestButton = `${notificationPage} .request-signature__footer__sign-button`;
+const rejectSignatureRequestButton = `${notificationPage} .request-signature__footer__cancel-button`;
 module.exports.signaturePageElements = {
   confirmSignatureRequestButton,
   rejectSignatureRequestButton,
