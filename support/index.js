@@ -24,8 +24,10 @@ Cypress.on('window:before:load', win => {
   });
 });
 
-before(() => {
+before(async function () {
+  this.timeout(60000);
+
   if (!Cypress.env('SKIP_METAMASK_SETUP')) {
-    cy.setupMetamask();
+    await cy.setupMetamask();
   }
 });
