@@ -62,7 +62,7 @@ jobs:
         run: chown -R $(whoami) .
 
       - name: Install dependencies
-        run: npm install --prefer-offline --no-audit
+        run: npm install --legacy-peer-deps --prefer-offline --no-audit
 
       - name: Lint
         # run only on master/dev branch and pull requests
@@ -113,7 +113,7 @@ jobs:
   #       run: chown -R $(whoami) .
 
   #     - name: Install dependencies
-  #       run: npm install --prefer-offline --no-audit
+  #       run: npm install --legacy-peer-deps --prefer-offline --no-audit
   #       env:
   #         CYPRESS_CACHE_FOLDER: ${{ github.workspace }}/node_modules/.cache/Cypress
 
