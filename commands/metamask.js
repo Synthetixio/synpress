@@ -450,15 +450,15 @@ module.exports = {
     // todo: remove waitForTimeout below after improving switchToMetamaskNotification
     await puppeteer.metamaskWindow().waitForTimeout(1000);
     const notificationPage = await puppeteer.switchToMetamaskNotification();
-    if (isKovanTestnet) {
+    if (gasConfig && gasConfig.gasFee) {
       await puppeteer.waitAndSetValue(
-        '1',
+        gasConfig.gasFee.toString(),
         confirmPageElements.gasFeeInput,
         notificationPage,
       );
-    } else if (gasConfig && gasConfig.gasFee) {
+    } else if (isKovanTestnet) {
       await puppeteer.waitAndSetValue(
-        gasConfig.gasFee.toString(),
+        '1',
         confirmPageElements.gasFeeInput,
         notificationPage,
       );
