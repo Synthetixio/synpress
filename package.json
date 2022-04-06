@@ -38,7 +38,7 @@
     "release:major": "release-it major --disable-metrics",
     "release:minor": "release-it minor --disable-metrics",
     "release:patch": "release-it patch --disable-metrics",
-    "update:deps": "ncu -u && npm install --legacy-peer-deps",
+    "update:deps": "ncu -u -x 'node-fetch eslint' && npm install --legacy-peer-deps",
     "start:server": "serve tests/test-dapp -p 3000",
     "test:e2e": "start-server-and-test 'npm run start:server' http-get://localhost:3000 'SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=tests/e2e/config.json'",
     "test:e2e:ci": "start-server-and-test 'npm run start:server' http-get://localhost:3000 'SYNPRESS_LOCAL_TEST=true node synpress.js run --group smoke-tests --record'"
@@ -78,7 +78,7 @@
     "eslint-plugin-ui-testing": "2.0.1",
     "eslint-plugin-unicorn": "42.0.0",
     "etherscan-api": "10.0.5",
-    "node-fetch": "3.2.3",
+    "node-fetch": "2.6.1",
     "prettier": "2.6.2",
     "puppeteer-core": "13.5.2",
     "serve": "13.0.2",
