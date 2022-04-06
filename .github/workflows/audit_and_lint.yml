@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # pin@v2
+        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # pin@v2
 
       - name: Audit dependencies
         run: npm audit --audit-level=critical
@@ -41,13 +41,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # pin@v2
+        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # pin@v2
 
       - name: Set npm cache directory
         run: npm config set cache .npm-cache --global
         continue-on-error: true
 
-      - uses: actions/cache@4b0cf6cc4619e737324ddfcec08fff2413359514 # pin@v2
+      - uses: actions/cache@136d96b4aee02b1f0de3ba493b1d47135042d9c0 # pin@v2
         with:
           path: |
             .npm-cache
@@ -72,7 +72,7 @@ jobs:
       - name: Upload lint results
         # run if lint failed and only on master/dev branch and pull requests
         if: always() && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || github.event_name == 'pull_request')
-        uses: github/codeql-action/upload-sarif@883476649888a9e8e219d5b2e6b789dc024f690c # pin@codeql-bundle-20210517
+        uses: github/codeql-action/upload-sarif@81bfc289f5947eca8a3358341c874cb4f4697b64 # pin@codeql-bundle-20210517
         with:
           sarif_file: lint-results.sarif
         continue-on-error: true
@@ -98,7 +98,7 @@ jobs:
   #       continue-on-error: true
 
   #     - name: Cache node modules
-  #       uses: actions/cache@4b0cf6cc4619e737324ddfcec08fff2413359514 # pin@v2
+  #       uses: actions/cache@136d96b4aee02b1f0de3ba493b1d47135042d9c0 # pin@v2
   #       with:
   #         path: |
   #           .npm-cache
