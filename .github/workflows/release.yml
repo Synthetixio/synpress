@@ -16,7 +16,7 @@ jobs:
     name: release
 
     container:
-      image: ghcr.io/synthetixio/docker-node/ubuntu:16.13
+      image: ghcr.io/synthetixio/docker-node/ubuntu:16.14
       credentials:
         username: synthetixio
         password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
@@ -32,7 +32,7 @@ jobs:
         run: npm config set cache .npm-cache --global
         continue-on-error: true
 
-      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # pin@v2
+      - uses: actions/cache@136d96b4aee02b1f0de3ba493b1d47135042d9c0 # pin@v2
         with:
           path: |
             .npm-cache
@@ -47,7 +47,7 @@ jobs:
         run: chown -R $(whoami) .
 
       - name: Install dependencies
-        run: npm install --prefer-offline --no-audit
+        run: npm install --legacy-peer-deps --prefer-offline --no-audit
 
       - name: git config
         run: |
