@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/synthetixio/docker-sec-tools/alpine:16.13
+      image: ghcr.io/synthetixio/docker-sec-tools/alpine:16.14
       credentials:
         username: synthetixio
         password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/synthetixio/docker-node/alpine:16.13
+      image: ghcr.io/synthetixio/docker-node/alpine:16.14
       credentials:
         username: synthetixio
         password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
@@ -84,7 +84,7 @@ jobs:
   #   runs-on: ubuntu-latest
 
   #   container:
-  #     image: ghcr.io/synthetixio/docker-e2e/ubuntu:16.13
+  #     image: ghcr.io/synthetixio/docker-e2e/ubuntu:16.14
   #     credentials:
   #       username: synthetixio
   #       password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
