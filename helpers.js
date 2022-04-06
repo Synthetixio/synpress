@@ -40,7 +40,11 @@ module.exports = {
     return { networkName, networkId, isTestnet };
   },
   getSynpressPath: () => {
-    return path.dirname(require.resolve(`@synthetixio/synpress`));
+    if (process.env.SYNPRESS_LOCAL_TEST) {
+      return '.';
+    } else {
+      return path.dirname(require.resolve(`@synthetixio/synpress`));
+    }
   },
   getMetamaskReleases: async version => {
     let filename;
