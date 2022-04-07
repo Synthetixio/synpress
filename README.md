@@ -13,7 +13,7 @@
 
 #
 
-[Synpress](https://github.com/Synthetixio/synpress) is an wrapper around [Cypress.io](https://github.com/cypress-io/cypress) with [metamask](https://metamask.io/) support thanks to [puppeteer](https://github.com/puppeteer/puppeteer).
+[Synpress](https://github.com/Synthetixio/synpress) is a wrapper around [Cypress.io](https://github.com/cypress-io/cypress) with [metamask](https://metamask.io/) support thanks to [puppeteer](https://github.com/puppeteer/puppeteer).
 
 Synpress makes sure to always use latest version of metamask before tests are ran.
 
