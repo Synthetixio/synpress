@@ -83,7 +83,7 @@
     "puppeteer-core": "13.5.2",
     "serve": "13.0.2",
     "start-server-and-test": "1.14.0",
-    "synthetix-js": "2.66.0"
+    "synthetix-js": "2.66.2"
   },
   "devDependencies": {
     "@microsoft/eslint-formatter-sarif": "2.1.7",
