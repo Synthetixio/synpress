@@ -34,6 +34,9 @@ const { setNetwork, getNetwork } = require('../helpers');
 let walletAddress;
 let switchBackToCypressWindow;
 
+let accessAccepted = false;
+let firstSetupDone = false;
+
 module.exports = {
   walletAddress: () => {
     return walletAddress;
@@ -427,6 +430,7 @@ module.exports = {
     return true;
   },
   acceptAccess: async allAccounts => {
+    if(accessAccepted) { return true; }
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     if (allAccounts === true) {
       await puppeteer.waitAndClick(
@@ -443,6 +447,7 @@ module.exports = {
       notificationPage,
     );
     await puppeteer.metamaskWindow().waitForTimeout(3000);
+    accessAccepted = true;
     return true;
   },
   confirmTransaction: async gasConfig => {
@@ -590,6 +595,7 @@ module.exports = {
     return walletAddress;
   },
   initialSetup: async ({ secretWordsOrPrivateKey, network, password }) => {
+    if(firstSetupDone) { return true; }
     const isCustomNetwork =
       (process.env.NETWORK_NAME &&
         process.env.RPC_URL &&
@@ -600,6 +606,8 @@ module.exports = {
     await puppeteer.assignWindows();
     await puppeteer.assignActiveTabName('metamask');
     await puppeteer.metamaskWindow().waitForTimeout(1000);
+    firstSetupDone = true;
+    
     if (
       (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) ===
       null
