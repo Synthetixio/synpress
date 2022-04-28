@@ -70,11 +70,17 @@ module.exports = {
     return true;
   },
   unlock: async password => {
-    await module.exports.fixBlankPage();
-    await puppeteer.waitAndType(unlockPageElements.passwordInput, password);
-    await puppeteer.waitAndClick(unlockPageElements.unlockButton);
-    await puppeteer.waitFor(mainPageElements.walletOverview);
-    await module.exports.closePopup();
+    // check if unlock exists.
+    if (
+      (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) ===
+      null
+    ) {
+      await module.exports.fixBlankPage();
+      await puppeteer.waitAndType(unlockPageElements.passwordInput, password);
+      await puppeteer.waitAndClick(unlockPageElements.unlockButton);
+      await puppeteer.waitFor(mainPageElements.walletOverview);
+      await module.exports.closePopup();
+    }
     return true;
   },
   importWallet: async (secretWords, password) => {
@@ -430,7 +436,9 @@ module.exports = {
     return true;
   },
   acceptAccess: async allAccounts => {
-    if(accessAccepted) { return true; }
+    if (accessAccepted) {
+      return true;
+    }
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     if (allAccounts === true) {
       await puppeteer.waitAndClick(
@@ -595,7 +603,9 @@ module.exports = {
     return walletAddress;
   },
   initialSetup: async ({ secretWordsOrPrivateKey, network, password }) => {
-    if(firstSetupDone) { return true; }
+    if (firstSetupDone) {
+      return true;
+    }
     const isCustomNetwork =
       (process.env.NETWORK_NAME &&
         process.env.RPC_URL &&
@@ -607,7 +617,7 @@ module.exports = {
     await puppeteer.assignActiveTabName('metamask');
     await puppeteer.metamaskWindow().waitForTimeout(1000);
     firstSetupDone = true;
-    
+
     if (
       (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) ===
       null
