@@ -72,7 +72,7 @@ module.exports = {
   unlock: async password => {
     // check if unlock exists.
     if (
-      (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) ===
+      (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) !==
       null
     ) {
       await module.exports.fixBlankPage();
