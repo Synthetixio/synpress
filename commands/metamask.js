@@ -84,8 +84,16 @@ module.exports = {
     return true;
   },
   unlockNotification: async password => {
-    await puppeteer.switchToMetamaskNotification();
-    await module.exports.unlock(password);
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndType(
+      unlockPageElements.passwordInput,
+      password,
+      notificationPage,
+    );
+    await puppeteer.waitAndClick(
+      unlockPageElements.unlockButton,
+      notificationPage,
+    );
     return true;
   },
   importWallet: async (secretWords, password) => {
