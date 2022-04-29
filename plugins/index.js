@@ -98,6 +98,10 @@ module.exports = (on, config) => {
       const unlocked = await metamask.unlock(password);
       return unlocked;
     },
+    unlockNotification: async password => {
+      const unlocked = await metamask.unlockNotification(password);
+      return unlocked;
+    },
     importMetamaskAccount: async privateKey => {
       const imported = await metamask.importAccount(privateKey);
       return imported;

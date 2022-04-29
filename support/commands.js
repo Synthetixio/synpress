@@ -147,6 +147,10 @@ Cypress.Commands.add('unlockMetamask', (password = 'Tester@1234') => {
   return cy.task('unlockMetamask', password);
 });
 
+Cypress.Commands.add('unlockNotification', (password = 'Tester@1234') => {
+  return cy.task('unlockNotification', password);
+});
+
 Cypress.Commands.add('fetchMetamaskWalletAddress', () => {
   cy.task('fetchMetamaskWalletAddress').then(address => {
     return address;

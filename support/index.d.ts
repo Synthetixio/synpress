@@ -225,6 +225,12 @@ declare namespace Cypress {
      */
     unlockMetamask(password: string): Chainable<Subject>;
     /**
+     * Unlock metamask when notification opens
+     * @example
+     * cy.unlockNotification('password')
+     */
+    unlockNotification(password: string): Chainable<Subject>;
+    /**
      * Fetches previous metamask wallet address
      * @example
      * cy.fetchMetamaskWalletAddress().then(address => cy.log(address))

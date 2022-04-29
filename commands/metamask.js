@@ -83,6 +83,11 @@ module.exports = {
     }
     return true;
   },
+  unlockNotification: async password => {
+    await puppeteer.switchToMetamaskNotification();
+    await module.exports.unlock(password);
+    return true;
+  },
   importWallet: async (secretWords, password) => {
     await puppeteer.waitAndClick(firstTimeFlowPageElements.importWalletButton);
     await puppeteer.waitAndClick(metametricsPageElements.optOutAnalyticsButton);
@@ -401,11 +406,17 @@ module.exports = {
   },
   confirmSignatureRequest: async () => {
     const notificationPage = await puppeteer.switchToMetamaskNotification();
-    await puppeteer.waitAndClick(
-      signaturePageElements.confirmSignatureRequestButton,
-      notificationPage,
-    );
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    if (
+      (await puppeteer
+        .metamaskWindow()
+        .$(signaturePageElements.confirmSignatureRequestButton)) !== null
+    ) {
+      await puppeteer.waitAndClick(
+        signaturePageElements.confirmSignatureRequestButton,
+        notificationPage,
+      );
+      await puppeteer.metamaskWindow().waitForTimeout(3000);
+    }
     return true;
   },
   rejectSignatureRequest: async () => {
