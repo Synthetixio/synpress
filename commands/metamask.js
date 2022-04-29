@@ -85,15 +85,19 @@ module.exports = {
   },
   unlockNotification: async password => {
     const notificationPage = await puppeteer.switchToMetamaskNotification();
-    await puppeteer.waitAndType(
-      unlockPageElements.passwordInput,
-      password,
-      notificationPage,
-    );
-    await puppeteer.waitAndClick(
-      unlockPageElements.unlockButton,
-      notificationPage,
-    );
+    try {
+      await puppeteer.waitAndType(
+        unlockPageElements.passwordInput,
+        password,
+        notificationPage,
+      );
+      await puppeteer.waitAndClick(
+        unlockPageElements.unlockButton,
+        notificationPage,
+      );
+    } catch {
+      // TODO: I need to check if the signature was not added.
+    }
     return true;
   },
   importWallet: async (secretWords, password) => {
@@ -414,19 +418,15 @@ module.exports = {
   },
   confirmSignatureRequest: async () => {
     const notificationPage = await puppeteer.switchToMetamaskNotification();
-    // TODO: I need to check if the signature was not added.
-    let notificationExists = await notificationPage.$(
-      signaturePageElements.confirmSignatureRequestButton,
-    );
-
-    if (!notificationExists) {
-      return true;
+    try {
+      await puppeteer.waitAndClick(
+        signaturePageElements.confirmSignatureRequestButton,
+        notificationPage,
+      );
+      await puppeteer.metamaskWindow().waitForTimeout(3000);
+    } catch {
+      // TODO: I need to check if the signature was not added.
     }
-    await puppeteer.waitAndClick(
-      signaturePageElements.confirmSignatureRequestButton,
-      notificationPage,
-    );
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
     return true;
   },
   rejectSignatureRequest: async () => {
