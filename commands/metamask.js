@@ -414,6 +414,14 @@ module.exports = {
   },
   confirmSignatureRequest: async () => {
     const notificationPage = await puppeteer.switchToMetamaskNotification();
+    // TODO: I need to check if the signature was not added.
+    let notificationExists = await notificationPage.$(
+      signaturePageElements.confirmSignatureRequestButton,
+    );
+
+    if (!notificationExists) {
+      return true;
+    }
     await puppeteer.waitAndClick(
       signaturePageElements.confirmSignatureRequestButton,
       notificationPage,
