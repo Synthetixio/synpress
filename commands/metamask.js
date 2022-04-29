@@ -414,17 +414,11 @@ module.exports = {
   },
   confirmSignatureRequest: async () => {
     const notificationPage = await puppeteer.switchToMetamaskNotification();
-    if (
-      (await puppeteer
-        .metamaskWindow()
-        .$(signaturePageElements.confirmSignatureRequestButton)) !== null
-    ) {
-      await puppeteer.waitAndClick(
-        signaturePageElements.confirmSignatureRequestButton,
-        notificationPage,
-      );
-      await puppeteer.metamaskWindow().waitForTimeout(3000);
-    }
+    await puppeteer.waitAndClick(
+      signaturePageElements.confirmSignatureRequestButton,
+      notificationPage,
+    );
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
     return true;
   },
   rejectSignatureRequest: async () => {
