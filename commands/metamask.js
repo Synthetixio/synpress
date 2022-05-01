@@ -624,9 +624,6 @@ module.exports = {
     return walletAddress;
   },
   initialSetup: async ({ secretWordsOrPrivateKey, network, password }) => {
-    if (firstSetupDone) {
-      return true;
-    }
     const isCustomNetwork =
       (process.env.NETWORK_NAME &&
         process.env.RPC_URL &&
@@ -637,6 +634,10 @@ module.exports = {
     await puppeteer.assignWindows();
     await puppeteer.assignActiveTabName('metamask');
     await puppeteer.metamaskWindow().waitForTimeout(1000);
+
+    if (firstSetupDone) {
+      return true;
+    }
     firstSetupDone = true;
 
     if (
