@@ -23,13 +23,3 @@ Cypress.on('window:before:load', win => {
     cy.now('task', 'warn', message);
   });
 });
-
-before(async () => {
-  if (!Cypress.env('SKIP_METAMASK_SETUP')) {
-    await cy.setupMetamask(
-      Cypress.env('SECRET_WORDS'),
-      Cypress.env('NETWORK_NAME'),
-      Cypress.env('METAMASK_PW'),
-    );
-  }
-});
