@@ -636,7 +636,6 @@ module.exports = {
 
     console.log(puppeteer.metamaskWindow());
     await puppeteer.metamaskWindow().waitForTimeout(1000);
-    console.log('e');
     if (firstSetupDone) {
       return true;
     }
