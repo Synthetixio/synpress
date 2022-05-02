@@ -640,13 +640,12 @@ module.exports = {
     await puppeteer.assignActiveTabName('metamask');
 
     console.log('d')
-    await puppeteer.switchToMetamaskWindow();
-    console.log('e')
     if (firstSetupDone) {
       return true;
     }
     firstSetupDone = true;
 
+    console.log('e')
     if (
       (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) ===
       null
