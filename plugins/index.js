@@ -41,7 +41,7 @@ module.exports = (on, config) => {
       );
       arguments_.extensions.push(metamaskPath);
     }
-
+    console.log(arguments_)
     return arguments_;
   });
 
