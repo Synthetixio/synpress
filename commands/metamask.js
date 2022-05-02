@@ -639,7 +639,7 @@ module.exports = {
     console.log('c');
     await puppeteer.assignActiveTabName('metamask');
 
-    console.log(puppeteer);
+    console.log(puppeteer.metamaskWindow());
     await puppeteer.metamaskWindow().waitForTimeout(1000);
     console.log('e');
     if (firstSetupDone) {
