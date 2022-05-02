@@ -639,9 +639,7 @@ module.exports = {
     console.log('c')
     await puppeteer.assignActiveTabName('metamask');
 
-    console.log('d')
-    await puppeteer.waitForTimeout(500);
-
+  
     console.log('e')
     if (firstSetupDone) {
       return true;
