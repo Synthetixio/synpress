@@ -630,17 +630,18 @@ module.exports = {
         process.env.CHAIN_ID) ||
       typeof network == 'object';
 
-      console.log('a')
+    console.log('a');
     await puppeteer.init();
 
-    console.log('b')
+    console.log('b');
     await puppeteer.assignWindows();
 
-    console.log('c')
+    console.log('c');
     await puppeteer.assignActiveTabName('metamask');
 
+    console.log(puppeteer);
     await puppeteer.metamaskWindow().waitForTimeout(1000);
-    console.log('e')
+    console.log('e');
     if (firstSetupDone) {
       return true;
     }
@@ -650,16 +651,15 @@ module.exports = {
       (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) ===
       null
     ) {
-
-      console.log('null 1')
+      console.log('null 1');
       await module.exports.confirmWelcomePage();
 
-      console.log('null 2')
+      console.log('null 2');
       if (secretWordsOrPrivateKey.includes(' ')) {
         // secret words
         await module.exports.importWallet(secretWordsOrPrivateKey, password);
 
-      console.log('null 3')
+        console.log('null 3');
       } else {
         // private key
         await module.exports.createWallet(password);
@@ -668,28 +668,27 @@ module.exports = {
       if (isCustomNetwork) {
         await module.exports.addNetwork(network);
 
-      console.log('null 5')
+        console.log('null 5');
       } else {
-
-      console.log('null 4')
+        console.log('null 4');
         await module.exports.changeNetwork(network);
       }
 
-      console.log('null 5')
+      console.log('null 5');
       walletAddress = await module.exports.getWalletAddress();
 
-      console.log('null 6')
+      console.log('null 6');
       await puppeteer.switchToCypressWindow();
-      console.log('null 7')
+      console.log('null 7');
       return true;
     } else {
-      console.log('not null 1')
+      console.log('not null 1');
       await module.exports.unlock(password);
 
-      console.log('not null 2')
+      console.log('not null 2');
       walletAddress = await module.exports.getWalletAddress();
 
-      console.log('not null 3')
+      console.log('not null 3');
       await puppeteer.switchToCypressWindow();
       return true;
     }
