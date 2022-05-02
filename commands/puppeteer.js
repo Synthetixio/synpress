@@ -21,11 +21,8 @@ module.exports = {
   },
   init: async () => {
     const debuggerDetails = await fetch('http://localhost:9222/json/version'); //DevSkim: ignore DS137138
-    console.log("debuggerDetails", debuggerDetails);
     const debuggerDetailsConfig = await debuggerDetails.json();
-    console.log("debuggerDetailsConfig", debuggerDetailsConfig);
     const webSocketDebuggerUrl = debuggerDetailsConfig.webSocketDebuggerUrl;
-    console.log("webSocketDebuggerUrl", webSocketDebuggerUrl);
 
     puppeteerBrowser = await puppeteer.connect({
       browserWSEndpoint: webSocketDebuggerUrl,
@@ -33,7 +30,6 @@ module.exports = {
       defaultViewport: null,
     });
 
-    console.log("puppeteerBrowser", puppeteerBrowser);
     return puppeteerBrowser.isConnected();
   },
   clear: async () => {
@@ -42,7 +38,10 @@ module.exports = {
   },
   assignWindows: async () => {
     let pages = await puppeteerBrowser.pages();
-    console.log("pages", pages);
+    console.log(
+      'pages',
+      pages.map(page => page.url()),
+    );
     for (const page of pages) {
       if (page.url().includes('integration')) {
         mainWindow = page;
