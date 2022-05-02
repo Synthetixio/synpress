@@ -630,13 +630,8 @@ module.exports = {
         process.env.CHAIN_ID) ||
       typeof network == 'object';
 
-    console.log('a');
     await puppeteer.init();
-
-    console.log('b');
     await puppeteer.assignWindows();
-
-    console.log('c');
     await puppeteer.assignActiveTabName('metamask');
 
     console.log(puppeteer.metamaskWindow());
