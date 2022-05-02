@@ -640,7 +640,7 @@ module.exports = {
     await puppeteer.assignActiveTabName('metamask');
 
     console.log('d')
-    await puppeteer.metamaskWindow().waitForTimeout(1000);
+    await puppeteer.waitForTimeout(500);
 
     console.log('e')
     if (firstSetupDone) {
