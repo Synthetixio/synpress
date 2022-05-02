@@ -639,13 +639,13 @@ module.exports = {
     console.log('c')
     await puppeteer.assignActiveTabName('metamask');
 
-    console.log('d')
+    await puppeteer.metamaskWindow().waitForTimeout(1000);
+    console.log('e')
     if (firstSetupDone) {
       return true;
     }
     firstSetupDone = true;
 
-    console.log('e')
     if (
       (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) ===
       null
