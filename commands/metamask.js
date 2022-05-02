@@ -639,7 +639,8 @@ module.exports = {
     console.log('c')
     await puppeteer.assignActiveTabName('metamask');
 
-  
+    console.log('d')
+    await puppeteer.switchToMetamaskWindow();
     console.log('e')
     if (firstSetupDone) {
       return true;
