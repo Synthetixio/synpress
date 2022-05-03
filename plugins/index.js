@@ -39,10 +39,13 @@ module.exports = (on, config) => {
         process.env.METAMASK_VERSION || '9.7.1',
       );
       arguments_.extensions.push(metamaskPath);
-      arguments_.args.push(
-        `--disable-extensions-except=${metamaskPath}`,
-        `--load-extension=${metamaskPath}`,
-      );
+
+      if (process.env.CI) {
+        arguments_.args.push(
+          `--disable-extensions-except=${metamaskPath}`,
+          `--load-extension=${metamaskPath}`,
+        );
+      }
     }
     console.log(arguments_);
     return arguments_;

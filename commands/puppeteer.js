@@ -28,7 +28,6 @@ module.exports = {
       browserWSEndpoint: webSocketDebuggerUrl,
       ignoreHTTPSErrors: true,
       defaultViewport: null,
-      slowMo: 1500,
     });
 
     return puppeteerBrowser.isConnected();
