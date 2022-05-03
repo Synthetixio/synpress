@@ -460,23 +460,27 @@ module.exports = {
     if (accessAccepted) {
       return true;
     }
-    const notificationPage = await puppeteer.switchToMetamaskNotification();
-    if (allAccounts === true) {
+    try {
+      const notificationPage = await puppeteer.switchToMetamaskNotification();
+      if (allAccounts === true) {
+        await puppeteer.waitAndClick(
+          notificationPageElements.selectAllCheck,
+          notificationPage,
+        );
+      }
       await puppeteer.waitAndClick(
-        notificationPageElements.selectAllCheck,
+        notificationPageElements.nextButton,
         notificationPage,
       );
+      await puppeteer.waitAndClick(
+        permissionsPageElements.connectButton,
+        notificationPage,
+      );
+      await puppeteer.metamaskWindow().waitForTimeout(3000);
+      accessAccepted = true;
+    } catch {
+      // TODO: I need to check if the signature was not added.
     }
-    await puppeteer.waitAndClick(
-      notificationPageElements.nextButton,
-      notificationPage,
-    );
-    await puppeteer.waitAndClick(
-      permissionsPageElements.connectButton,
-      notificationPage,
-    );
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
-    accessAccepted = true;
     return true;
   },
   confirmTransaction: async gasConfig => {
