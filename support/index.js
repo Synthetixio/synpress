@@ -11,6 +11,16 @@ Cypress.on('uncaught:exception', () => {
 });
 
 Cypress.on('window:before:load', win => {
+  if (!Cypress.env('SKIP_METAMASK_SETUP')) {
+    const secret_words = Cypress.env('SECRET_WORDS');
+    const network = Cypress.env('NETWORK_NAME');
+    const pw = Cypress.env('METAMASK_PW');
+
+    cy.setupMetamask(secret_words, network, pw).then(success => {
+      expect(success).to.be.true;
+    });
+  }
+
   cy.stub(win.console, 'error').callsFake(message => {
     cy.now('task', 'error', message);
     // fail test on browser console error
