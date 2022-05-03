@@ -35,7 +35,6 @@ let walletAddress;
 let switchBackToCypressWindow;
 
 let accessAccepted = false;
-let firstSetupDone = false;
 
 module.exports = {
   walletAddress: () => {
@@ -628,10 +627,6 @@ module.exports = {
     return walletAddress;
   },
   initialSetup: async ({ secretWordsOrPrivateKey, network, password }) => {
-    if (firstSetupDone) {
-      return true;
-    }
-
     const isCustomNetwork =
       (process.env.NETWORK_NAME &&
         process.env.RPC_URL &&
@@ -653,7 +648,6 @@ module.exports = {
         // sometimes it will fail here.
         await puppeteer.metamaskWindow().waitForTimeout(1000);
         successful = true;
-        firstSetupDone = true;
       } catch {
         retriesInit = --retriesInit;
         if (retriesInit === 0) {
