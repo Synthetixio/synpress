@@ -36,6 +36,7 @@ let switchBackToCypressWindow;
 
 let accessAccepted = false;
 let firstSetupDone = false;
+let retriesInit = 3;
 
 module.exports = {
   walletAddress: () => {
@@ -624,6 +625,10 @@ module.exports = {
     return walletAddress;
   },
   initialSetup: async ({ secretWordsOrPrivateKey, network, password }) => {
+    if (firstSetupDone) {
+      return true;
+    }
+
     const isCustomNetwork =
       (process.env.NETWORK_NAME &&
         process.env.RPC_URL &&
@@ -631,15 +636,25 @@ module.exports = {
       typeof network == 'object';
 
     await puppeteer.init();
-    await puppeteer.assignWindows();
-    await puppeteer.assignActiveTabName('metamask');
+    let successful = false;
 
-    console.log(puppeteer.metamaskWindow());
-    await puppeteer.metamaskWindow().waitForTimeout(1000);
-    if (firstSetupDone) {
-      return true;
+    /*
+     * Puppeteer sometimes fails on the first test.
+     * this is an attempt to fix test it.
+     */
+    while (!successful && retriesInit !== 0) {
+      try {
+        await puppeteer.assignWindows();
+        await puppeteer.assignActiveTabName('metamask');
+
+        // sometimes it will fail here.
+        await puppeteer.metamaskWindow().waitForTimeout(1000);
+        successful = true;
+        firstSetupDone = true;
+      } catch {
+        retriesInit = retriesInit--;
+      }
     }
-    firstSetupDone = true;
 
     if (
       (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) ===
