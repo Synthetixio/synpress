@@ -38,10 +38,9 @@ module.exports = {
   },
   assignWindows: async () => {
     let pages = await puppeteerBrowser.pages();
-    console.log(
-      'pages',
-      pages.map(page => page.url()),
-    );
+
+    let targets = await puppeteerBrowser.targets();
+    console.log('targets', targets);
     for (const page of pages) {
       if (page.url().includes('integration')) {
         mainWindow = page;

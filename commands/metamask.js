@@ -635,7 +635,6 @@ module.exports = {
         process.env.CHAIN_ID) ||
       typeof network == 'object';
 
-    await puppeteer.init();
     let successful = false;
 
     /*
@@ -644,6 +643,7 @@ module.exports = {
      */
     while (!successful && retriesInit !== 0) {
       try {
+        await puppeteer.init();
         await puppeteer.assignWindows();
         await puppeteer.assignActiveTabName('metamask');
 
@@ -652,7 +652,10 @@ module.exports = {
         successful = true;
         firstSetupDone = true;
       } catch {
-        retriesInit = retriesInit--;
+        retriesInit = --retriesInit;
+        if (retriesInit === 0) {
+          throw new Error('puppeteer failed to initialize the metamask wallet');
+        }
       }
     }
 
