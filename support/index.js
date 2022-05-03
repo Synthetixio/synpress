@@ -24,12 +24,12 @@ Cypress.on('window:before:load', win => {
   });
 });
 
-before(async () => {
-  if (!Cypress.env('SKIP_METAMASK_SETUP')) {
-    const secret_words = Cypress.env('SECRET_WORDS');
-    const network = Cypress.env('NETWORK_NAME');
-    const pw = Cypress.env('METAMASK_PW');
+// before(async () => {
+//   if (!Cypress.env('SKIP_METAMASK_SETUP')) {
+//     const secret_words = Cypress.env('SECRET_WORDS');
+//     const network = Cypress.env('NETWORK_NAME');
+//     const pw = Cypress.env('METAMASK_PW');
 
-    await cy.setupMetamask(secret_words, network, pw);
-  }
-});
+//     await cy.setupMetamask(secret_words, network, pw);
+//   }
+// });

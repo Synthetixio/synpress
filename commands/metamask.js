@@ -36,7 +36,6 @@ let switchBackToCypressWindow;
 
 let accessAccepted = false;
 let firstSetupDone = false;
-let retriesInit = 3;
 
 module.exports = {
   walletAddress: () => {
@@ -636,7 +635,7 @@ module.exports = {
       typeof network == 'object';
 
     let successful = false;
-
+    let retriesInit = 3;
     /*
      * Puppeteer sometimes fails on the first test.
      * this is an attempt to fix test it.
@@ -654,7 +653,7 @@ module.exports = {
       } catch {
         retriesInit = --retriesInit;
         if (retriesInit === 0) {
-          throw new Error('puppeteer failed to initialize the metamask wallet');
+          throw new Error('Puppeteer failed to initialize the metamask wallet');
         }
       }
     }
