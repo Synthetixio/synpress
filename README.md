@@ -187,3 +187,13 @@ Above actions will lead to:
 - New npm node module release
 - New GitHub packages node module release
 - New GitHub release (tagged) created with changelog from commit messages
+
+
+### Using on a cypress environment.
+
+- add the varibles on the cypress configuration environment.
+- setupMetamask on the files you intended to use metamask.
+
+### Known Issues
+ 
+CI/CD - setup metamask on beforeAll on the first test will cause failure.
