@@ -133,6 +133,30 @@ declare namespace Cypress {
      */
     rejectMetamaskSignatureRequest(): Chainable<Subject>;
     /**
+     * Confirm metamask request for public encryption key
+     * @example
+     * cy.confirmMetamaskEncryptionPublicKeyRequest()
+     */
+    confirmMetamaskEncryptionPublicKeyRequest(): Chainable<Subject>;
+    /**
+     * Reject metamask request for public encryption key
+     * @example
+     * cy.rejectMetamaskEncryptionPublicKeyRequest()
+     */
+    rejectMetamaskEncryptionPublicKeyRequest(): Chainable<Subject>;
+    /**
+     * Confirm metamask request to decrypt message with private key
+     * @example
+     * cy.confirmMetamaskDecryptionRequest()
+     */
+    confirmMetamaskDecryptionRequest(): Chainable<Subject>;
+    /**
+     * Reject metamask request to decrypt message with private key
+     * @example
+     * cy.rejectMetamaskDecryptionRequest()
+     */
+    rejectMetamaskDecryptionRequest(): Chainable<Subject>;
+    /**
      * Confirm metamask permission to spend asset
      * @example
      * cy.confirmMetamaskPermissionToSpend()
@@ -148,8 +172,9 @@ declare namespace Cypress {
      * Accept metamask access request
      * @example
      * cy.acceptMetamaskAccess()
+     * cy.acceptMetamaskAccess(true)
      */
-    acceptMetamaskAccess(): Chainable<Subject>;
+    acceptMetamaskAccess(allAccounts: boolean | undefined): Chainable<Subject>;
     /**
      * Confirm metamask atransaction
      * @example

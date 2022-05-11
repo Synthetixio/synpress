@@ -2,13 +2,17 @@
 ![Synpress CI](https://github.com/Synthetixio/synpress/workflows/Synpress%20CI/badge.svg?branch=master)
 [![CodeQL](https://github.com/Synthetixio/synpress/actions/workflows/codeql.yml/badge.svg?branch=master)](https://github.com/Synthetixio/synpress/actions/workflows/codeql.yml)
 [![Release CI](https://github.com/Synthetixio/synpress/actions/workflows/release.yml/badge.svg?branch=master)](https://github.com/Synthetixio/synpress/actions/workflows/release.yml)
-[![synpress](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/wv9yi9/master&style=flat)](https://dashboard.cypress.io/projects/wv9yi9/runs)
-[![Discord](https://img.shields.io/discord/413890591840272394.svg?color=768AD4&label=discord&logo=https%3A%2F%2Fdiscordapp.com%2Fassets%2F8c9701b98ad4372b58f13fd9f65f966e.svg)](https://discordapp.com/channels/413890591840272394/)
-[![Twitter Follow](https://img.shields.io/twitter/follow/synthetix_io.svg?label=synthetix_io&style=social)](https://twitter.com/synthetix_io)
+[![Discord](https://img.shields.io/discord/961408653502599171.svg?color=768AD4&label=discord&logo=https%3A%2F%2Fdiscordapp.com%2Fassets%2F8c9701b98ad4372b58f13fd9f65f966e.svg)](https://discordapp.com/channels/961408653502599171/)
+[![Twitter Follow](https://img.shields.io/twitter/follow/synpress_.svg?label=Synpress_&style=social)](https://twitter.com/Synpress_)
+#
 
-# ⚙️ Synpress
+<p align="center">
+  <img src="https://i.imgur.com/Bg8Rch6.png" />
+</p>
 
-[Synpress](https://github.com/Synthetixio/synpress) is an wrapper around [Cypress.io](https://github.com/cypress-io/cypress) with [metamask](https://metamask.io/) support thanks to [puppeteer](https://github.com/puppeteer/puppeteer).
+#
+
+[Synpress](https://github.com/Synthetixio/synpress) is a wrapper around [Cypress.io](https://github.com/cypress-io/cypress) with [metamask](https://metamask.io/) support thanks to [puppeteer](https://github.com/puppeteer/puppeteer).
 
 Synpress makes sure to always use latest version of metamask before tests are ran.
 
@@ -17,6 +21,8 @@ It also provides an easy way to use metamask straight from your e2e tests.
 For usage examples, feel free to take a look at [kwenta](https://github.com/kwenta/kwenta/tree/master/tests/e2e), [staking](https://github.com/Synthetixio/staking/tree/master/tests/e2e) or [synpress](https://github.com/Synthetixio/synpress/tree/master/tests/e2e) repository.
 
 For additional custom commands and their examples, [check here](https://github.com/synthetixio/synpress/blob/master/support/index.d.ts).
+
+To see in which direction Synpress is headed to, take a look at this [planning board](https://github.com/orgs/Synthetixio/projects/14).
 
 **Features:**
 
