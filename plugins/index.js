@@ -28,6 +28,7 @@ module.exports = (on, config) => {
     // metamask welcome screen blocks cypress from loading
     if (browser.name === 'chrome') {
       arguments_.args.push(
+        '--remote-debugging-port=9222',
         '--disable-background-timer-throttling',
         '--disable-backgrounding-occluded-windows',
         '--disable-renderer-backgrounding',
