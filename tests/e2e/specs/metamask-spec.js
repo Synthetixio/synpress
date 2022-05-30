@@ -10,7 +10,7 @@ describe('Metamask', () => {
         expect(setupFinished).to.be.true;
       });
     });
-    it.only(`acceptMetamaskAccess should accept connection request to metamask`, () => {
+    it(`acceptMetamaskAccess should accept connection request to metamask`, () => {
       cy.visit('/');
       cy.get('#connectButton').click();
       cy.acceptMetamaskAccess().then(connected => {
@@ -18,9 +18,9 @@ describe('Metamask', () => {
       });
       cy.get('#network').contains('42');
       cy.get('#chainId').contains('0x2a');
-      // cy.get('#accounts').contains(
-      //   '0x352e559b06e9c6c72edbf5af2bf52c61f088db71',
-      // );
+      cy.get('#accounts').contains(
+        '0x352e559b06e9c6c72edbf5af2bf52c61f088db71',
+      );
     });
     it(`getNetwork should return network by default`, () => {
       cy.getNetwork().then(network => {
