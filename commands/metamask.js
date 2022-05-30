@@ -16,6 +16,8 @@ const {
   permissionsPageElements,
   confirmPageElements,
   signaturePageElements,
+  encryptionPublicKeyPageElements,
+  decryptPageElements,
   dataSignaturePageElements
 } = require('../pages/metamask/notification-page');
 const {

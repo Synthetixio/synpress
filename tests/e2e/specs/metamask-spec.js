@@ -164,6 +164,43 @@ describe('Metamask', () => {
         '0x',
       );
     });
+    it(`rejectMetamaskEncryptionPublicKeyRequest should reject public encryption key request`, () => {
+      cy.get('#getEncryptionKeyButton').click();
+      cy.rejectMetamaskEncryptionPublicKeyRequest().then(rejected => {
+        expect(rejected).to.be.true;
+      });
+      cy.get('#encryptionKeyDisplay').contains(
+          'Error: MetaMask EncryptionPublicKey: User denied message EncryptionPublicKey.',
+      );
+    });
+    it(`confirmMetamaskEncryptionPublicKeyRequest should confirm public encryption key request`, () => {
+      cy.get('#getEncryptionKeyButton').click();
+      cy.confirmMetamaskEncryptionPublicKeyRequest().then(confirmed => {
+        expect(confirmed).to.be.true;
+      });
+      cy.get('#encryptionKeyDisplay').contains(
+          'PF4wuX6QqcIKdCzructa1JlY/LninxRWFdMThIDIJEU=',
+      );
+    });
+    it(`confirmMetamaskDecryptionRequest should confirm request to decrypt message with private key`, () => {
+      cy.get('#encryptMessageInput').type('test message');
+      cy.get('#encryptButton').click();
+      cy.get('#ciphertextDisplay').contains('0x7');
+      cy.get('#decryptButton').click();
+      cy.confirmMetamaskDecryptionRequest().then(confirmed => {
+        expect(confirmed).to.be.true;
+      });
+      cy.get('#cleartextDisplay').contains('test message');
+    });
+  });
+    it(`rejectMetamaskDecryptionRequest should reject request to decrypt message with private key`, () => {
+      cy.get('#decryptButton').click();
+      cy.rejectMetamaskDecryptionRequest().then(rejected => {
+        expect(rejected).to.be.true;
+      });
+      cy.get('#cleartextDisplay').contains(
+          'Error: MetaMask Decryption: User denied message decryption.',
+      );
     it(`rejectMetamaskSignatureRequest should reject signature request`, () => {
       cy.get('#personalSign').click();
       cy.rejectMetamaskSignatureRequest().then(rejected => {
