@@ -103,6 +103,10 @@ Cypress.Commands.add('rejectMetamaskSignatureRequest', () => {
   return cy.task('rejectMetamaskSignatureRequest');
 });
 
+Cypress.Commands.add('rejectMetamaskDataSignatureRequest', () => {
+  return cy.task('rejectMetamaskDataSignatureRequest');
+});
+
 Cypress.Commands.add('confirmMetamaskPermissionToSpend', () => {
   return cy.task('confirmMetamaskPermissionToSpend');
 });
@@ -303,3 +307,12 @@ Cypress.Commands.add(
     return subject;
   },
 );
+
+Cypress.Commands.add('checkToastMessage', message => {
+  cy.get('.Toastify__toast').should('contain', message)
+  cy.closeAllAlertMessages()
+})
+
+Cypress.Commands.add('closeAllAlertMessages', () => {
+  cy.get('.Toastify__close-button').click({ multiple: true, force: true })
+})
