@@ -170,7 +170,7 @@ describe('Metamask', () => {
         expect(rejected).to.be.true;
       });
       cy.get('#encryptionKeyDisplay').contains(
-          'Error: MetaMask EncryptionPublicKey: User denied message EncryptionPublicKey.',
+        'Error: MetaMask EncryptionPublicKey: User denied message EncryptionPublicKey.',
       );
     });
     it(`confirmMetamaskEncryptionPublicKeyRequest should confirm public encryption key request`, () => {
