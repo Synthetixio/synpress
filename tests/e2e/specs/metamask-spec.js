@@ -208,7 +208,7 @@ describe('Metamask', () => {
       });
       cy.get('#personalSign').contains('User denied message signature');
     });
-    it(`rejectMetamaskSignatureRequest should confirm data signature request`, () => {
+    it(`rejectMetamaskDataSignatureRequest should confirm data signature request`, () => {
       cy.get('#signTypedDataV4').click();
       cy.rejectMetamaskDataSignatureRequest().then(rejected => {
         expect(rejected).to.be.true;
