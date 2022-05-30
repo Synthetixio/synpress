@@ -10,7 +10,7 @@ describe('Metamask', () => {
         expect(setupFinished).to.be.true;
       });
     });
-    it(`acceptMetamaskAccess should accept connection request to metamask`, () => {
+    it.only(`acceptMetamaskAccess should accept connection request to metamask`, () => {
       cy.visit('/');
       cy.get('#connectButton').click();
       cy.acceptMetamaskAccess().then(connected => {
@@ -18,9 +18,9 @@ describe('Metamask', () => {
       });
       cy.get('#network').contains('42');
       cy.get('#chainId').contains('0x2a');
-      cy.get('#accounts').contains(
-        '0x352e559b06e9c6c72edbf5af2bf52c61f088db71',
-      );
+      // cy.get('#accounts').contains(
+      //   '0x352e559b06e9c6c72edbf5af2bf52c61f088db71',
+      // );
     });
     it(`getNetwork should return network by default`, () => {
       cy.getNetwork().then(network => {
@@ -154,12 +154,29 @@ describe('Metamask', () => {
         '0x352e559b06e9c6c72edbf5af2bf52c61f088db71',
       );
     });
+    it(`confirmMetamaskSignatureRequest should confirm data signature request`, () => {
+      cy.get('#signTypedDataV4').click();
+      cy.confirmMetamaskDataSignatureRequest().then(confirmed => {
+        expect(confirmed).to.be.true;
+      });
+      cy.get('#signTypedDataV4Verify').click();
+      cy.get('#signTypedDataV4VerifyResult').contains(
+        '0x',
+      );
+    });
     it(`rejectMetamaskSignatureRequest should reject signature request`, () => {
       cy.get('#personalSign').click();
       cy.rejectMetamaskSignatureRequest().then(rejected => {
         expect(rejected).to.be.true;
       });
       cy.get('#personalSign').contains('User denied message signature');
+    });
+    it(`rejectMetamaskSignatureRequest should confirm data signature request`, () => {
+      cy.get('#signTypedDataV4').click();
+      cy.rejectMetamaskDataSignatureRequest().then(rejected => {
+        expect(rejected).to.be.true;
+      });
+      cy.get('#signTypedDataV4Result').contains('User denied message signature');
     });
     it(`confirmMetamaskTransaction should confirm transaction`, () => {
       cy.importMetamaskAccount(Cypress.env('PRIVATE_KEY_WITH_FUNDS'));
