@@ -13,9 +13,11 @@ module.exports.notificationPageElements = {
 
 const confirmSignatureRequestButton = `${notificationPage} .request-signature__footer__sign-button`;
 const rejectSignatureRequestButton = `${notificationPage} .request-signature__footer__cancel-button`;
+const confirmMetamaskSignTypedDataButton = `${notificationPage} .signature-request-footer button:nth-child(2)`;
 module.exports.signaturePageElements = {
   confirmSignatureRequestButton,
   rejectSignatureRequestButton,
+  confirmMetamaskSignTypedDataButton
 };
 
 const permissionsPage = '.permissions-connect';

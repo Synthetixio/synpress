@@ -83,6 +83,10 @@ Cypress.Commands.add('confirmMetamaskSignatureRequest', () => {
   return cy.task('confirmMetamaskSignatureRequest');
 });
 
+Cypress.Commands.add('confirmMetamaskSignTypedData', () => {
+  return cy.task('confirmMetamaskSignTypedData');
+});
+
 Cypress.Commands.add('confirmMetamaskEncryptionPublicKeyRequest', () => {
   return cy.task('confirmMetamaskEncryptionPublicKeyRequest');
 });

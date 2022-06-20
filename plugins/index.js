@@ -143,6 +143,10 @@ module.exports = (on, config) => {
       const confirmed = await metamask.confirmSignatureRequest();
       return confirmed;
     },
+    confirmMetamaskSignTypedData: async () => {
+      const confirmed = await metamask.confirmMetamaskSignTypedData();
+      return confirmed;
+    },
     rejectMetamaskSignatureRequest: async () => {
       const rejected = await metamask.rejectSignatureRequest();
       return rejected;

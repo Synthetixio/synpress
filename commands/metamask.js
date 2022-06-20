@@ -399,6 +399,15 @@ module.exports = {
     await puppeteer.metamaskWindow().waitForTimeout(3000);
     return true;
   },
+  confirmMetamaskSignTypedData: async () => {
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndClick(
+      signaturePageElements.confirmMetamaskSignTypedDataButton,
+      notificationPage,
+    );
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    return true;
+  },
   rejectSignatureRequest: async () => {
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     await puppeteer.waitAndClick(
