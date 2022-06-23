@@ -19,7 +19,7 @@ describe('Metamask', () => {
       cy.get('#network').contains('42');
       cy.get('#chainId').contains('0x2a');
       cy.get('#accounts').contains(
-        '0x892bef8fe252b1678cdb581822727c2d4537826b',
+        '0x352e559b06e9c6c72edbf5af2bf52c61f088db71',
       );
     });
     it(`getNetwork should return network by default`, () => {
