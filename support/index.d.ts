@@ -139,12 +139,6 @@ declare namespace Cypress {
      */
     rejectMetamaskSignatureRequest(): Chainable<Subject>;
     /**
-     * Reject metamask permission to sign Data message
-     * @example
-     * cy.rejectMetamaskDataSignatureRequest()
-     */
-    rejectMetamaskDataSignatureRequest(): Chainable<Subject>;
-    /**
      * Confirm metamask request for public encryption key
      * @example
      * cy.confirmMetamaskEncryptionPublicKeyRequest()
@@ -168,6 +162,12 @@ declare namespace Cypress {
      * cy.rejectMetamaskDecryptionRequest()
      */
     rejectMetamaskDecryptionRequest(): Chainable<Subject>;
+    /**
+     * Reject metamask permission to sign Data message
+     * @example
+     * cy.rejectMetamaskDataSignatureRequest()
+     */
+    rejectMetamaskDataSignatureRequest(): Chainable<Subject>;
     /**
      * Confirm metamask permission to spend asset
      * @example

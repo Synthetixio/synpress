@@ -83,16 +83,8 @@ Cypress.Commands.add('confirmMetamaskSignatureRequest', () => {
   return cy.task('confirmMetamaskSignatureRequest');
 });
 
-Cypress.Commands.add('confirmMetamaskDataSignatureRequest', () => {
-  return cy.task('confirmMetamaskDataSignatureRequest');
-});
-
 Cypress.Commands.add('confirmMetamaskEncryptionPublicKeyRequest', () => {
   return cy.task('confirmMetamaskEncryptionPublicKeyRequest');
-});
-
-Cypress.Commands.add('rejectMetamaskDataSignatureRequest', () => {
-  return cy.task('rejectMetamaskDataSignatureRequest');
 });
 
 Cypress.Commands.add('rejectMetamaskEncryptionPublicKeyRequest', () => {
@@ -109,6 +101,10 @@ Cypress.Commands.add('rejectMetamaskDecryptionRequest', () => {
 
 Cypress.Commands.add('rejectMetamaskSignatureRequest', () => {
   return cy.task('rejectMetamaskSignatureRequest');
+});
+
+Cypress.Commands.add('rejectMetamaskDataSignatureRequest', () => {
+  return cy.task('rejectMetamaskDataSignatureRequest');
 });
 
 Cypress.Commands.add('confirmMetamaskPermissionToSpend', () => {
