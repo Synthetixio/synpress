@@ -1,5 +1,5 @@
 {
-  "name": "@synthetixio/synpress",
+  "name": "@niemam29/synpress-x",
   "version": "1.2.0",
   "description": "Synpress in an wrapper around Cypress test runner which extends its capabilities with conjunction of Puppeteer. It's used used across Synthetix projects.",
   "keywords": [
