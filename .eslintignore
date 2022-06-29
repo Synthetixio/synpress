@@ -6,3 +6,5 @@ dist
 coverage
 # don't lint metamask download folder
 downloads
+# don't list test-dapp
+tests/test-dapp

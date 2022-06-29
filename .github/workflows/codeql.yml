@@ -3,12 +3,8 @@ name: CodeQL
 on:
   push:
     branches: [master, dev]
-    paths-ignore:
-    - node_modules
   pull_request:
     branches: [master, dev]
-    paths-ignore:
-    - node_modules
   schedule:
     - cron: '0 6 * * 3'
 
@@ -18,13 +14,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@ee5a9d1395988d7c82c67c69571871f5994b94df # pin@v2
+        uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # pin@v2
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@ece2addcff6617641ef7caf0016fb0fd4c2a9962
+        uses: github/codeql-action/init@1ed1437484560351c5be56cf73a48a279d116b78
         with:
           queries: security-and-quality
           languages: javascript
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@ece2addcff6617641ef7caf0016fb0fd4c2a9962
+        uses: github/codeql-action/analyze@1ed1437484560351c5be56cf73a48a279d116b78

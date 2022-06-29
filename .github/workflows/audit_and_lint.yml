@@ -12,20 +12,20 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/synthetixio/docker-sec-tools/base:14.17
+      image: ghcr.io/synthetixio/docker-sec-tools/alpine:16.14
       credentials:
         username: synthetixio
         password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@ee5a9d1395988d7c82c67c69571871f5994b94df # pin@v2
+      - name: Checkout
+        uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # pin@v2
 
-    - name: Audit dependencies
-      run: npm audit --audit-level=critical
+      - name: Audit dependencies
+        run: npm audit --audit-level=critical
 
-    - name: Lockfile lint
-      run: lockfile-lint -p package-lock.json --type npm --allowed-hosts npm github.com --allowed-schemes "npm:" "https:" "git+ssh:"
+      - name: Lockfile lint
+        run: lockfile-lint -p package-lock.json --type npm --allowed-hosts npm --validate-https --empty-hostname false
 
   build:
     needs: audit
@@ -34,39 +34,105 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/synthetixio/docker-node/alpine:14.17
+      image: ghcr.io/synthetixio/docker-node/alpine:16.14
       credentials:
         username: synthetixio
         password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@ee5a9d1395988d7c82c67c69571871f5994b94df # pin@v2
+      - name: Checkout
+        uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # pin@v2
 
-    - name: Cache node modules
-      uses: actions/cache@3b70782066bd817837b6bd8c518d45b54d91bf76 # pin@v2
-      with:
-        path: |
-          .npm
-          node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-          ${{ runner.os }}-
-      continue-on-error: true
+      - name: Set npm cache directory
+        run: npm config set cache .npm-cache --global
+        continue-on-error: true
 
-    - name: Install dependencies
-      run: npm install --no-audit
+      - uses: actions/cache@136d96b4aee02b1f0de3ba493b1d47135042d9c0 # pin@v2
+        with:
+          path: |
+            .npm-cache
+            node_modules
+          key: ${{ runner.os }}-node-16-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-16-
+        continue-on-error: true
 
-    - name: Lint
-      # run only on master/dev branch and pull requests
-      if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || github.event_name == 'pull_request'
-      run: npm run lint:sarif
+      # fix: permission issues on ghactions+docker+npm@7
+      - name: Chown workspace
+        run: chown -R $(whoami) .
 
-    - name: Upload lint results
-      # run if lint failed and only on master/dev branch and pull requests
-      if: always() && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || github.event_name == 'pull_request')
-      uses: github/codeql-action/upload-sarif@ece2addcff6617641ef7caf0016fb0fd4c2a9962 # pin@codeql-bundle-20201008
-      with:
-        sarif_file: lint-results.sarif
-      continue-on-error: true
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps --prefer-offline --no-audit
+
+      - name: Lint
+        # run only on master/dev branch and pull requests
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || github.event_name == 'pull_request'
+        run: npm run lint:sarif
+
+      - name: Upload lint results
+        # run if lint failed and only on master/dev branch and pull requests
+        if: always() && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || github.event_name == 'pull_request')
+        uses: github/codeql-action/upload-sarif@1ed1437484560351c5be56cf73a48a279d116b78 # pin@codeql-bundle-20210517
+        with:
+          sarif_file: lint-results.sarif
+        continue-on-error: true
+
+  # e2e:
+  #   needs: build
+  #   # run only on master/dev branch
+  #   if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || github.event_name == 'pull_request'
+  #   runs-on: ubuntu-latest
+
+  #   container:
+  #     image: ghcr.io/synthetixio/docker-e2e/ubuntu:16.14
+  #     credentials:
+  #       username: synthetixio
+  #       password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@1e204e9a9253d643386038d443f96446fa156a97 # pin@v2
+
+  #     - name: Set npm cache directory
+  #       run: npm config set cache .npm-cache --global
+  #       continue-on-error: true
+
+  #     - name: Cache node modules
+  #       uses: actions/cache@136d96b4aee02b1f0de3ba493b1d47135042d9c0 # pin@v2
+  #       with:
+  #         path: |
+  #           .npm-cache
+  #           node_modules
+  #         key: ${{ runner.os }}-ubuntu-e2e-16-${{ hashFiles('**/package-lock.json') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-ubuntu-e2e-16-
+  #       continue-on-error: true
+
+  #     # fix: permission issues on ghactions+docker+npm@7
+  #     - name: Chown workspace
+  #       run: chown -R $(whoami) .
+
+  #     - name: Install dependencies
+  #       run: npm install --legacy-peer-deps --prefer-offline --no-audit
+  #       env:
+  #         CYPRESS_CACHE_FOLDER: ${{ github.workspace }}/node_modules/.cache/Cypress
+
+  #     - name: Run e2e tests
+  #       run: npm run test:e2e:ci
+  #       env:
+  #         SKIP_METAMASK_SETUP: ${{ secrets.SKIP_METAMASK_SETUP }}
+  #         CYPRESS_PRIVATE_KEY_WITH_FUNDS: ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
+  #         CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+  #         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         CYPRESS_CACHE_FOLDER: ${{ github.workspace }}/node_modules/.cache/Cypress
+
+  #     - name: Archive e2e artifacts
+  #       uses: actions/upload-artifact@27121b0bdffd731efa15d66772be8dc71245d074 # pin@v2
+  #       if: always()
+  #       with:
+  #         name: e2e-artifacts
+  #         path: |
+  #           tests/e2e/videos
+  #           tests/e2e/screenshots
+  #       continue-on-error: true

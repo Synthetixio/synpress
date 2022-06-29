@@ -1,6 +1,8 @@
 name: Release CI
 
 on:
+  push:
+    branches: [master]
   workflow_dispatch:
     inputs:
       version:
@@ -14,61 +16,93 @@ jobs:
     name: release
 
     container:
-      image: ghcr.io/synthetixio/docker-node/alpine:14.17
+      image: ghcr.io/synthetixio/docker-node/ubuntu:16.14
       credentials:
         username: synthetixio
         password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@ee5a9d1395988d7c82c67c69571871f5994b94df # pin@v2
-      with:
-        fetch-depth: 0
-        ref: master
+      - name: Checkout
+        uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # pin@v2
+        with:
+          fetch-depth: 0
+          ref: master
 
-    - name: Cache node modules
-      uses: actions/cache@3b70782066bd817837b6bd8c518d45b54d91bf76 # pin@v2
-      with:
-        path: |
-          .npm
-          node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-          ${{ runner.os }}-
-      continue-on-error: true
+      - name: Set npm cache directory
+        run: npm config set cache .npm-cache --global
+        continue-on-error: true
 
-    - name: Install dependencies
-      run: npm install --no-audit
+      - uses: actions/cache@136d96b4aee02b1f0de3ba493b1d47135042d9c0 # pin@v2
+        with:
+          path: |
+            .npm-cache
+            node_modules
+          key: ${{ runner.os }}-ubuntu-node-16-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-ubuntu-node-16-
+        continue-on-error: true
 
-    - name: git config
-      run: |
-        git config user.name $GIT_USER
-        git config user.email $GIT_EMAIL
-        mkdir -p ~/.gnupg/
-        printf $GPG_KEY | base64 -d > ~/.gnupg/private.key
-        gpg --import ~/.gnupg/private.key
-        git config commit.gpgsign true
-        git config user.signingkey $GIT_SIGNING_KEY
-      env:
-        GIT_USER: ${{ secrets.GIT_USER }}
-        GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
-        GPG_KEY: ${{ secrets.GPG_KEY }}
-        GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
+      # fixes permission issues on docker+npm@7
+      - name: Chown workspace
+        run: chown -R $(whoami) .
 
-    - name: npm config
-      run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-      env:
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps --prefer-offline --no-audit
+
+      - name: git config
+        run: |
+          git config user.name $GIT_USER
+          git config user.email $GIT_EMAIL
+          mkdir -p ~/.gnupg/
+          printf $GPG_KEY | base64 -d > ~/.gnupg/private.key
+          gpg --import ~/.gnupg/private.key
+          git config commit.gpgsign true
+          git config user.signingkey $GIT_SIGNING_KEY
+        env:
+          GIT_USER: ${{ secrets.GIT_USER }}
+          GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+          GPG_KEY: ${{ secrets.GPG_KEY }}
+          GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
+
+      - name: npm config
+        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+        env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-    - name: Release ${{ github.event.inputs.version }}
-      run: |
-        git reset --hard
-        npm run release:${{ github.event.inputs.version }} --ci
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        GIT_USER: ${{ secrets.GIT_USER }}
-        GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
-        GPG_KEY: ${{ secrets.GPG_KEY }}
-        GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
+      - name: Set current npm package version
+        id: extract-version
+        run: |
+          PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
+          echo ::set-output name=current-version::$PACKAGE_VERSION
+
+      - name: Release ${{ github.event.inputs.version }}
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          git reset --hard
+          npm run release:${{ github.event.inputs.version }} -- --ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GIT_USER: ${{ secrets.GIT_USER }}
+          GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+          GPG_KEY: ${{ secrets.GPG_KEY }}
+          GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
+
+      - name: Release patch:beta
+        if: github.event_name == 'push'
+        run: |
+          git reset --hard
+
+          echo ${{ steps.extract-version.outputs.current-version }}
+          if echo ${{ steps.extract-version.outputs.current-version }} | grep -q "beta"; then
+            npm run release -- --ci --preRelease
+          else
+            npm run release:patch -- --ci --preRelease=beta
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GIT_USER: ${{ secrets.GIT_USER }}
+          GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+          GPG_KEY: ${{ secrets.GPG_KEY }}
+          GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
