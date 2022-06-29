@@ -1,15 +1,15 @@
 describe('Metamask', () => {
   context('Test commands', () => {
     // todo: clear the state of extension and test different combinations of setupMetamask with private key & custom network
-    it(`setupMetamask should finish metamask setup using secret words`, () => {
-      cy.setupMetamask(
-        'shuffle stay hair student wagon senior problem drama parrot creek enact pluck',
-        'kovan',
-        'Tester@1234',
-      ).then(setupFinished => {
-        expect(setupFinished).to.be.true;
-      });
-    });
+    // it(`setupMetamask should finish metamask setup using secret words`, () => {
+    //   cy.setupMetamask(
+    //     'shuffle stay hair student wagon senior problem drama parrot creek enact pluck',
+    //     'kovan',
+    //     'Tester@1234',
+    //   ).then(setupFinished => {
+    //     expect(setupFinished).to.be.true;
+    //   });
+    // });
     it(`acceptMetamaskAccess should accept connection request to metamask`, () => {
       cy.visit('/');
       cy.get('#connectButton').click();
@@ -40,6 +40,7 @@ describe('Metamask', () => {
       }).then(networkAdded => {
         expect(networkAdded).to.be.true;
       });
+      cy.visit('/');
       cy.get('#network').contains('137');
       cy.get('#chainId').contains('0x89');
     });
@@ -54,6 +55,7 @@ describe('Metamask', () => {
       cy.changeMetamaskNetwork('kovan').then(networkChanged => {
         expect(networkChanged).to.be.true;
       });
+      cy.visit('/');
       cy.get('#network').contains('42');
       cy.get('#chainId').contains('0x2a');
     });
@@ -65,12 +67,28 @@ describe('Metamask', () => {
       });
     });
     it(`changeMetamaskNetwork should change network using custom network name`, () => {
+      cy.addMetamaskNetwork({
+        networkName: 'Polygon Network',
+        rpcUrl: 'https://polygon-rpc.com',
+        chainId: '137',
+        symbol: 'MATIC',
+        blockExplorer: 'https://polygonscan.com',
+        isTestnet: false,
+      }).then(networkAdded => {
+        expect(networkAdded).to.be.true;
+      });
+      cy.visit('/');
+      cy.changeMetamaskNetwork('polygon network').then(networkChanged => {
+        expect(networkChanged).to.be.true;
+      });
+      cy.changeMetamaskNetwork('kovan');
+      cy.get('#network').contains('42');
+
       cy.changeMetamaskNetwork('polygon network').then(networkChanged => {
         expect(networkChanged).to.be.true;
       });
       cy.get('#network').contains('137');
       cy.get('#chainId').contains('0x89');
-      cy.changeMetamaskNetwork('kovan');
     });
     it(`importMetamaskAccount should import new account using private key`, () => {
       cy.importMetamaskAccount(
@@ -78,7 +96,8 @@ describe('Metamask', () => {
       ).then(imported => {
         expect(imported).to.be.true;
       });
-      cy.get('#requestPermissions').click();
+      cy.visit('/');
+      cy.get('#connectButton').click();
       cy.acceptMetamaskAccess();
       cy.get('#accounts').contains(
         '0x210b7af5962af8ab4ac55d5800ef42e0b0c09e62',

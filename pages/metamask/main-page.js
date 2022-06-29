@@ -32,6 +32,7 @@ const connectedSites = {
   trashButton: `${connectedSitesSelector} .connected-sites-list__trash`,
   cancelButton: `${connectedSitesSelector} .btn-secondary`,
   disconnectButton: `${connectedSitesSelector} .btn-primary`,
+  subTitle: `${connectedSitesSelector} .popover-header__subtitle`,
   closeButton: `${connectedSitesSelector} [data-testid="popover-close"]`,
 };
 

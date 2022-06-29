@@ -11,5 +11,5 @@
     ],
     "outDir": "./output"
   },
-  "include": ["**/*.*"]
+  "include": ["**/*.*", "../../plugins.js"]
 }

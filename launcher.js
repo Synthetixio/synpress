@@ -4,11 +4,7 @@ const synpressConfigPath = `${helpers.getSynpressPath()}/synpress.json`;
 
 process.env.CYPRESS_REMOTE_DEBUGGING_PORT = 9222;
 
-const fixturesFolder = `${helpers.getSynpressPath()}/fixtures`;
-const pluginsFile = `${helpers.getSynpressPath()}/plugins/index.js`;
-const supportFile = `${helpers.getSynpressPath()}/support/index.js`;
-
-const defaultConfig = `fixturesFolder=${fixturesFolder},pluginsFile=${pluginsFile},supportFile=${supportFile}`;
+const defaultConfig = ``;
 
 const defaultArguments = [
   'cypress',

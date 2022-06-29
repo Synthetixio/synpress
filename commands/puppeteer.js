@@ -31,6 +31,9 @@ module.exports = {
     });
     return puppeteerBrowser.isConnected();
   },
+  isMetamaskSetUp: async () => {
+    return metamaskWindow.url().match(/home\.html#?$/);
+  },
   clear: async () => {
     puppeteerBrowser = null;
     return true;
@@ -41,6 +44,8 @@ module.exports = {
       if (page.url().includes('integration')) {
         mainWindow = page;
       } else if (page.url().includes('tests')) {
+        mainWindow = page;
+      } else if (page.url().includes('specs')) {
         mainWindow = page;
       } else if (page.url().includes('extension')) {
         metamaskWindow = page;
@@ -182,6 +187,16 @@ module.exports = {
     await module.exports.waitFor(selector, page);
     await page.waitForFunction(
       `document.querySelector('${selector}').innerText.toLowerCase().includes('${text.toLowerCase()}')`,
+    );
+  },
+  waitForXPathText: async (
+    text,
+    xPathSelector = '//*',
+    page = metamaskWindow,
+  ) => {
+    await page.waitForXPath(
+      `${xPathSelector}//*[contains(text(), "${text}")]`,
+      { timeout: 3000 },
     );
   },
 };

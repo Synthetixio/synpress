@@ -2,6 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 const zip = require('cross-zip');
 const path = require('path');
+const packageJson = require('./package.json');
 
 let networkName = 'mainnet';
 let networkId = 1;
@@ -43,7 +44,7 @@ module.exports = {
     if (process.env.SYNPRESS_LOCAL_TEST) {
       return '.';
     } else {
-      return path.dirname(require.resolve(`@synthetixio/synpress`));
+      return path.dirname(require.resolve(packageJson.name));
     }
   },
   getMetamaskReleases: async version => {
