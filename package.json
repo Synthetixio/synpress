@@ -1,6 +1,6 @@
 {
   "name": "@synthetixio/synpress",
-  "version": "1.2.1-beta.1",
+  "version": "1.2.1-beta.3",
   "description": "Synpress in an wrapper around Cypress test runner which extends its capabilities with conjunction of Puppeteer. It's used used across Synthetix projects.",
   "keywords": [
     "Synpress",
@@ -44,9 +44,9 @@
     "test:e2e:ci": "start-server-and-test 'npm run start:server' http-get://localhost:3000 'SYNPRESS_LOCAL_TEST=true node synpress.js run --group smoke-tests --record'"
   },
   "dependencies": {
-    "@cypress/code-coverage": "3.9.12",
-    "@cypress/react": "5.12.4",
-    "@cypress/webpack-dev-server": "1.8.4",
+    "@cypress/code-coverage": "^3.10.0",
+    "@cypress/react": "^6.0.0",
+    "@cypress/webpack-dev-server": "^2.0.0",
     "@drptbl/gremlins.js": "2.2.1",
     "@synthetixio/js": "2.41.0",
     "@testing-library/cypress": "8.0.2",
@@ -62,8 +62,8 @@
     "bytes32": "0.0.3",
     "commander": "9.1.0",
     "cross-zip": "4.0.0",
-    "cypress": "9.5.3",
-    "cypress-wait-until": "1.7.2",
+    "cypress": "^10.3.0",
+    "cypress-wait-until": "^1.7.2",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-config-standard": "16.0.3",
@@ -80,7 +80,7 @@
     "etherscan-api": "10.0.5",
     "node-fetch": "2.6.1",
     "prettier": "2.6.2",
-    "puppeteer-core": "13.5.2",
+    "puppeteer-core": "15.1.1",
     "serve": "13.0.2",
     "start-server-and-test": "1.14.0",
     "synthetix-js": "2.66.2"

@@ -626,7 +626,12 @@ module.exports = {
 
     return walletAddress;
   },
-  initialSetup: async ({ secretWordsOrPrivateKey, network, password }) => {
+  initialSetup: async ({
+    secretWordsOrPrivateKey,
+    network,
+    password,
+    baseUrl,
+  }) => {
     const isCustomNetwork =
       (process.env.NETWORK_NAME &&
         process.env.RPC_URL &&
@@ -659,6 +664,7 @@ module.exports = {
       await puppeteer.switchToCypressWindow();
       return true;
     } else {
+      await puppeteer.switchToMetamaskWindow();
       await module.exports.unlock(password);
 
       // switch network if network is not the one provided in NETWORK_NAME
