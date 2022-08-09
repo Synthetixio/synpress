@@ -1711,11 +1711,6 @@
   "resolved" "https://registry.npmjs.org/@ledgerhq/logs/-/logs-4.72.0.tgz"
   "version" "4.72.0"
 
-"@leichtgewicht/ip-codec@^2.0.1":
-  "integrity" "sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A=="
-  "resolved" "https://registry.npmjs.org/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz"
-  "version" "2.0.4"
-
 "@metamask/safe-event-emitter@^2.0.0":
   "integrity" "sha512-/kSXhY692qiV1MXu6EeOZvg5nECLclxNXcKCxJ3cXQgYuRymRHpdx/t7JXfsK+JLjwA1e1c1/SBrlQYpusC29Q=="
   "resolved" "https://registry.npmjs.org/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz"
@@ -2905,7 +2900,7 @@
   "resolved" "https://registry.npmjs.org/abbrev/-/abbrev-1.1.1.tgz"
   "version" "1.1.1"
 
-"abi-decoder@2.3.0":
+"abi-decoder@^2.3.0", "abi-decoder@2.3.0":
   "integrity" "sha512-RZXG5mo1JhJjTBg/4NXlS8hyTr2fxiuFaz3UveRpoX9IIc3LPHmWz89dFqTHNQVbWi3VZqxSJqfUwWpb/mCHxA=="
   "resolved" "https://registry.npmjs.org/abi-decoder/-/abi-decoder-2.3.0.tgz"
   "version" "2.3.0"
@@ -3277,11 +3272,6 @@
   "integrity" "sha1-45sJrqne+Gao8gbiiK9jkZuuOcQ="
   "resolved" "https://registry.npmjs.org/arr-union/-/arr-union-3.1.0.tgz"
   "version" "3.1.0"
-
-"array-flatten@^2.1.2":
-  "integrity" "sha512-hNfzcOV8W4NdualtqBFPyVO+54DSJuZGY9qT4pRroB6S9e3iiido2ISIC5h9R2sPJ8H3FHCIiEnsv1lPXO3KtQ=="
-  "resolved" "https://registry.npmjs.org/array-flatten/-/array-flatten-2.1.2.tgz"
-  "version" "2.1.2"
 
 "array-flatten@1.1.1":
   "integrity" "sha1-ml9pkFGx5wczKPKgCJaLZOopVdI="
@@ -4304,16 +4294,6 @@
     "type-is" "~1.6.18"
     "unpipe" "1.0.0"
 
-"bonjour-service@^1.0.11":
-  "integrity" "sha512-LWKRU/7EqDUC9CTAQtuZl5HzBALoCYwtLhffW3et7vZMwv3bWLpJf8bRYlMD5OCcDpTfnPgNCV4yo9ZIaJGMiA=="
-  "resolved" "https://registry.npmjs.org/bonjour-service/-/bonjour-service-1.0.13.tgz"
-  "version" "1.0.13"
-  dependencies:
-    "array-flatten" "^2.1.2"
-    "dns-equal" "^1.0.0"
-    "fast-deep-equal" "^3.1.3"
-    "multicast-dns" "^7.2.5"
-
 "boolbase@^1.0.0":
   "integrity" "sha1-aN/1++YMUes3cl6p4+0xDcwed24="
   "resolved" "https://registry.npmjs.org/boolbase/-/boolbase-1.0.0.tgz"
@@ -5190,7 +5170,7 @@
   "version" "2.2.1"
 
 "cli-cursor@^2.1.0":
-  "integrity" "sha1-s12sN2R5+sw+lHR9QdDQ9SOP/LU="
+  "integrity" "sha512-8lgKz8LmCRYZZQDpRyT2m5rKJ08TnU4tR9FFFW2rxpxR1FzWi4PQ/NfyODchAatHaUgnSPVcx/R5w6NuTBzFiw=="
   "resolved" "https://registry.npmjs.org/cli-cursor/-/cli-cursor-2.1.0.tgz"
   "version" "2.1.0"
   dependencies:
@@ -5438,6 +5418,11 @@
   "resolved" "https://registry.npmjs.org/commander/-/commander-5.1.0.tgz"
   "version" "5.1.0"
 
+"commander@^8.1.0":
+  "integrity" "sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww=="
+  "resolved" "https://registry.npmjs.org/commander/-/commander-8.3.0.tgz"
+  "version" "8.3.0"
+
 "commander@^8.3.0":
   "integrity" "sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww=="
   "resolved" "https://registry.npmjs.org/commander/-/commander-8.3.0.tgz"
@@ -5452,11 +5437,6 @@
   "integrity" "sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg=="
   "resolved" "https://registry.npmjs.org/commander/-/commander-5.1.0.tgz"
   "version" "5.1.0"
-
-"commander@8.1.0":
-  "integrity" "sha512-mf45ldcuHSYShkplHHGKWb4TrmwQadxOn7v4WuhDJy0ZVoY5JFajaRDKD0PNe5qXzBX0rhovjTnP6Kz9LETcuA=="
-  "resolved" "https://registry.npmjs.org/commander/-/commander-8.1.0.tgz"
-  "version" "8.1.0"
 
 "common-tags@^1.8.0":
   "integrity" "sha512-6P6g0uetGpW/sdyUy/iQQCbFF0kWVMSIVSyYz7Zgjcgh8mgw8PQzDNZeyZ5DQ2gM7LBoZPHmnjz8rUthkBG5tw=="
@@ -5822,15 +5802,15 @@
   "resolved" "https://registry.npmjs.org/csstype/-/csstype-3.0.11.tgz"
   "version" "3.0.11"
 
-"cypress-wait-until@^1.7.2":
+"cypress-wait-until@1.7.2":
   "integrity" "sha512-uZ+M8/MqRcpf+FII/UZrU7g1qYZ4aVlHcgyVopnladyoBrpoaMJ4PKZDrdOJ05H5RHbr7s9Tid635X3E+ZLU/Q=="
   "resolved" "https://registry.npmjs.org/cypress-wait-until/-/cypress-wait-until-1.7.2.tgz"
   "version" "1.7.2"
 
-"cypress@*", "cypress@^10.3.0", "cypress@^2.1.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0":
-  "integrity" "sha512-txkQWKzvBVnWdCuKs5Xc08gjpO89W2Dom2wpZgT9zWZT5jXxqPIxqP/NC1YArtkpmp3fN5HW8aDjYBizHLUFvg=="
-  "resolved" "https://registry.npmjs.org/cypress/-/cypress-10.3.0.tgz"
-  "version" "10.3.0"
+"cypress@*", "cypress@^2.1.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0", "cypress@10.3.1":
+  "integrity" "sha512-As9HrExjAgpgjCnbiQCuPdw5sWKx5HUJcK2EOKziu642akwufr/GUeqL5UnCPYXTyyibvEdWT/pSC2qnGW/e5w=="
+  "resolved" "https://registry.npmjs.org/cypress/-/cypress-10.3.1.tgz"
+  "version" "10.3.1"
   dependencies:
     "@cypress/request" "^2.88.10"
     "@cypress/xvfb" "^1.2.4"
@@ -6212,18 +6192,6 @@
   "version" "3.0.1"
   dependencies:
     "path-type" "^4.0.0"
-
-"dns-equal@^1.0.0":
-  "integrity" "sha512-z+paD6YUQsk+AbGCEM4PrOXSss5gd66QfcVBFTKR/HpFL9jCqikS94HYwKww6fQyO7IxrIIyUu+g0Ka9tUS2Cg=="
-  "resolved" "https://registry.npmjs.org/dns-equal/-/dns-equal-1.0.0.tgz"
-  "version" "1.0.0"
-
-"dns-packet@^5.2.2":
-  "integrity" "sha512-EgqGeaBB8hLiHLZtp/IbaDQTL8pZ0+IvwzSHA6d7VyMDM+B9hgddEMa9xjK5oYnw0ci0JQ6g2XCD7/f6cafU6g=="
-  "resolved" "https://registry.npmjs.org/dns-packet/-/dns-packet-5.4.0.tgz"
-  "version" "5.4.0"
-  dependencies:
-    "@leichtgewicht/ip-codec" "^2.0.1"
 
 "doctrine@^2.1.0":
   "integrity" "sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw=="
@@ -7934,7 +7902,7 @@
   "version" "3.5.2"
 
 "figures@^2.0.0":
-  "integrity" "sha1-OrGi0qYsi/tDGgyUy3l6L84nyWI="
+  "integrity" "sha512-Oa2M9atig69ZkfwiApY8F2Yy+tzMbazyvqv21R0NsSC8floSOC09BbT1ITWAdoMGQvJ/aZnR1KMwdx9tvHnTNA=="
   "resolved" "https://registry.npmjs.org/figures/-/figures-2.0.0.tgz"
   "version" "2.0.0"
   dependencies:
@@ -11122,14 +11090,6 @@
     "base-x" "^3.0.8"
     "buffer" "^5.5.0"
 
-"multicast-dns@^7.2.5":
-  "integrity" "sha512-2eznPJP8z2BFLX50tf0LuODrpINqP1RVIm/CObbTcBRITQgmC/TjcREF1NeTBzIcR5XO/ukWo+YHOjBbFwIupg=="
-  "resolved" "https://registry.npmjs.org/multicast-dns/-/multicast-dns-7.2.5.tgz"
-  "version" "7.2.5"
-  dependencies:
-    "dns-packet" "^5.2.2"
-    "thunky" "^1.0.2"
-
 "multicodec@^0.5.5":
   "integrity" "sha512-PscoRxm3f+88fAtELwUnZxGDkduE2HD9Q6GHUOywQLjOGT/HAdhjLDYNZ1e7VR0s0TP0EwZ16LNUTFpoBGivOA=="
   "resolved" "https://registry.npmjs.org/multicodec/-/multicodec-0.5.7.tgz"
@@ -11155,7 +11115,7 @@
     "varint" "^5.0.0"
 
 "mute-stream@0.0.7":
-  "integrity" "sha1-MHXOk7whuPq0PhvE2n6BFe0ee6s="
+  "integrity" "sha512-r65nCZhrbXXb6dXOACihYApHw2Q6pV0M3V0PSxd74N0+D8nzAdEAITq2oAjA1jVnKI+tGvEBUpqiMh0+rW6zDQ=="
   "resolved" "https://registry.npmjs.org/mute-stream/-/mute-stream-0.0.7.tgz"
   "version" "0.0.7"
 
@@ -11713,7 +11673,7 @@
     "wrappy" "1"
 
 "onetime@^2.0.0":
-  "integrity" "sha1-BnQoIw/WdEOyeUsiu6UotoZ5YtQ="
+  "integrity" "sha512-oyyPpiMaKARvvcgip+JV+7zci5L8D1W9RZIz2l1o08AM3pfspitVWnPt3mzHcBPp12oYMTy0pqrFs/C+m3EwsQ=="
   "resolved" "https://registry.npmjs.org/onetime/-/onetime-2.0.1.tgz"
   "version" "2.0.1"
   dependencies:
@@ -13345,7 +13305,7 @@
     "lowercase-keys" "^2.0.0"
 
 "restore-cursor@^2.0.0":
-  "integrity" "sha1-n37ih/gv0ybU/RYpI9YhKe7g368="
+  "integrity" "sha512-6IzJLuGi4+R14vwagDHX+JrXmPVtPpn4mffDJ1UdR7/Edm87fl6yi8mMBIVvFtJaNTUvjughmW4hwLhRG7gC1Q=="
   "resolved" "https://registry.npmjs.org/restore-cursor/-/restore-cursor-2.0.0.tgz"
   "version" "2.0.0"
   dependencies:
@@ -14631,10 +14591,10 @@
   dependencies:
     "acorn-node" "^1.2.0"
 
-"synthetix-js@2.66.2":
-  "integrity" "sha512-xI+/7Q3waIp1wiysgjMskPUHVAGof99u7eYIfoJkUbix39vwnelhw/oq0WZzg4UizvBqdan6sBurWqMzsB5sCw=="
-  "resolved" "https://registry.npmjs.org/synthetix-js/-/synthetix-js-2.66.2.tgz"
-  "version" "2.66.2"
+"synthetix-js@2.74.1":
+  "integrity" "sha512-9RwwEVUlKNGxUszZ3qCuGjBL4LBH4w3+QQnxZei5rJ5MFcyzwHrV3Uzkzoz6lmW1TjzKpXMKxmnzmNuy19w3jw=="
+  "resolved" "https://registry.npmjs.org/synthetix-js/-/synthetix-js-2.74.1.tgz"
+  "version" "2.74.1"
   dependencies:
     "@ledgerhq/hw-app-eth" "4.74.2"
     "@ledgerhq/hw-transport" "4.74.2"
@@ -14646,7 +14606,7 @@
     "ethers" "4.0.44"
     "hdkey" "1.1.1"
     "lodash" "4.17.15"
-    "synthetix" "2.66.2"
+    "synthetix" "2.74.1"
     "trezor-connect" "8.1.8"
     "walletlink" "2.0.2"
 
@@ -14665,19 +14625,19 @@
     "solidity-parser-antlr" "^0.4.11"
     "web3-utils" "1.2.2"
 
-"synthetix@2.66.2":
-  "integrity" "sha512-hzIgyaZjf1pQ06SZvMp3Txzz75gPeVqs6H88Bh6Vea6w9MnIKAITnUcHitYmqGQb7kW2IwDEmmMVJfZwRMAG1g=="
-  "resolved" "https://registry.npmjs.org/synthetix/-/synthetix-2.66.2.tgz"
-  "version" "2.66.2"
+"synthetix@2.74.1":
+  "integrity" "sha512-ArZUnbMvbH96TN7M63s2lAiRZrqPYYUo3yHUJBSlzYK0Blx6AJEKgLH6RpmRTCwA48R/V5+3TmdAlWsAra6qPg=="
+  "resolved" "https://registry.npmjs.org/synthetix/-/synthetix-2.74.1.tgz"
+  "version" "2.74.1"
   dependencies:
-    "abi-decoder" "2.3.0"
-    "commander" "8.1.0"
+    "abi-decoder" "^2.3.0"
+    "commander" "^8.1.0"
     "inquirer" "^6.5.2"
     "inquirer-list-search-prompt" "^1.0.2"
     "js-levenshtein" "^1.1.6"
     "pretty-error" "^2.1.1"
     "solidity-parser-antlr" "^0.4.11"
-    "web3-utils" "1.2.2"
+    "web3-utils" "^1.2.2"
 
 "table@^6.0.9":
   "integrity" "sha512-UFZK67uvyNivLeQbVtkiUs8Uuuxv24aSL4/Vil2PJVtMgU8Lx0CYkP12uCGa3kjyQzOSgV1+z9Wkb82fCGsO0g=="
@@ -14856,11 +14816,6 @@
   "version" "4.0.2"
   dependencies:
     "readable-stream" "3"
-
-"thunky@^1.0.2":
-  "integrity" "sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA=="
-  "resolved" "https://registry.npmjs.org/thunky/-/thunky-1.1.0.tgz"
-  "version" "1.1.0"
 
 "timed-out@^4.0.0", "timed-out@^4.0.1":
   "integrity" "sha1-8y6srFoXW+ol1/q1Zas+2HQe9W8="
@@ -15859,7 +15814,7 @@
     "web3-core-subscriptions" "1.5.3"
     "web3-net" "1.5.3"
 
-"web3-utils@^1.0.0-beta.31", "web3-utils@^1.2.1", "web3-utils@1.2.11":
+"web3-utils@^1.0.0-beta.31", "web3-utils@^1.2.1", "web3-utils@^1.2.2", "web3-utils@1.2.11":
   "integrity" "sha512-3Tq09izhD+ThqHEaWYX4VOT7dNPdZiO+c/1QMA0s5X2lDFKK/xHJb7cyTRRVzN2LvlHbR7baS1tmQhSua51TcQ=="
   "resolved" "https://registry.npmjs.org/web3-utils/-/web3-utils-1.2.11.tgz"
   "version" "1.2.11"

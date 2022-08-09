@@ -62,8 +62,8 @@
     "bytes32": "0.0.3",
     "commander": "9.1.0",
     "cross-zip": "4.0.0",
-    "cypress": "^10.3.0",
-    "cypress-wait-until": "^1.7.2",
+    "cypress": "10.3.1",
+    "cypress-wait-until": "1.7.2",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-config-standard": "16.0.3",
@@ -83,7 +83,7 @@
     "puppeteer-core": "^15.1.1",
     "serve": "13.0.2",
     "start-server-and-test": "1.14.0",
-    "synthetix-js": "2.66.2"
+    "synthetix-js": "2.74.1"
   },
   "devDependencies": {
     "@microsoft/eslint-formatter-sarif": "2.1.7",
