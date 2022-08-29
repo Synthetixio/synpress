@@ -27,6 +27,7 @@
     "synpress": "synpress.js"
   },
   "scripts": {
+    "setup": "npm install --legacy-peer-deps",
     "fix": "npm run fix:eslint && npm run fix:prettier",
     "fix:eslint": "eslint --fix **/*.js",
     "fix:prettier": "prettier --write **/*.js",
