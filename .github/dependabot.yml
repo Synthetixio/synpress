@@ -1,25 +1,25 @@
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "daily"
+      interval: 'daily'
 
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "daily"
+      interval: 'daily'
     open-pull-requests-limit: 5
-    target-branch: "dev"
+    target-branch: 'dev'
     allow:
-      - dependency-name: "cypress"
-        dependency-type: "production"
-      - dependency-name: "synthetix-*"
-        dependency-type: "production"
-      - dependency-name: "@synthetixio/*"
-        dependency-type: "production"
+      - dependency-name: 'cypress'
+        dependency-type: 'production'
+      - dependency-name: 'synthetix-*'
+        dependency-type: 'production'
+      - dependency-name: '@synthetixio/*'
+        dependency-type: 'production'
     labels:
-      - "npm"
-      - "dependencies"
+      - 'npm'
+      - 'dependencies'
     pull-request-branch-name:
-      separator: "-"
+      separator: '-'

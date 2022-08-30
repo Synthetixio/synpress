@@ -1,3 +1,4 @@
+// trunk-ignore(eslint)
 declare namespace Cypress {
   interface Chainable<Subject> {
     /**
@@ -193,7 +194,9 @@ declare namespace Cypress {
      * cy.confirmMetamaskTransaction()
      * cy.confirmMetamaskTransaction({gasFee: 10, gasLimit: 1000000})
      */
-    confirmMetamaskTransaction(gasConfig : object | undefined): Chainable<Subject>;
+    confirmMetamaskTransaction(
+      gasConfig: object | undefined,
+    ): Chainable<Subject>;
     /**
      * Reject metamask transaction
      * @example

@@ -37,7 +37,9 @@ jobs:
           path: |
             .npm-cache
             node_modules
-          key: ${{ runner.os }}-ubuntu-node-16-${{ hashFiles('**/package-lock.json') }}
+          key:
+            ${{ runner.os }}-ubuntu-node-16-${{
+            hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-ubuntu-node-16-
         continue-on-error: true
