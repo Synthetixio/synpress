@@ -76,6 +76,13 @@ jobs:
         run: npm install --legacy-peer-deps --prefer-offline --no-audit
 
       - name: Lint
+        # run only on pull requests
+        if:
+          github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' ||
+          github.event_name == 'pull_request'
+        uses: trunk-io/trunk-action@b64e8d2c91b6bff32cad2c4445656afd942a124d # pin@v1
+
+      - name: Generate sarif report
         # run only on master/dev branch and pull requests
         if:
           github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' ||
