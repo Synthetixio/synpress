@@ -112,7 +112,7 @@ mirror
 and modify it for your needs. Then you can direct synpress to use it with
 `--configFile` flag.
 
-For example: `synpress run --configFile __tests__/e2e/customConfig.json`
+For example: `synpress run --configFile __tests__/e2e/customConfig.config.js`
 
 ## ⚡ Important
 
