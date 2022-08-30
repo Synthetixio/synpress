@@ -154,12 +154,15 @@ describe('Metamask', () => {
         '0x352e559b06e9c6c72edbf5af2bf52c61f088db71',
       );
     });
-    it(`rejectMetamaskSignatureRequest should reject signature request`, () => {
-      cy.get('#personalSign').click();
-      cy.rejectMetamaskSignatureRequest().then(rejected => {
-        expect(rejected).to.be.true;
+    it(`confirmMetamaskSignatureRequest should confirm data signature request`, () => {
+      cy.get('#signTypedDataV4').click();
+      cy.confirmMetamaskDataSignatureRequest().then(confirmed => {
+        expect(confirmed).to.be.true;
       });
-      cy.get('#personalSign').contains('User denied message signature');
+      cy.get('#signTypedDataV4Verify').click();
+      cy.get('#signTypedDataV4VerifyResult').contains(
+        '0x',
+      );
     });
     it(`rejectMetamaskEncryptionPublicKeyRequest should reject public encryption key request`, () => {
       cy.get('#getEncryptionKeyButton').click();
@@ -176,7 +179,7 @@ describe('Metamask', () => {
         expect(confirmed).to.be.true;
       });
       cy.get('#encryptionKeyDisplay').contains(
-        'PF4wuX6QqcIKdCzructa1JlY/LninxRWFdMThIDIJEU=',
+          'PF4wuX6QqcIKdCzructa1JlY/LninxRWFdMThIDIJEU=',
       );
     });
     it(`confirmMetamaskDecryptionRequest should confirm request to decrypt message with private key`, () => {
@@ -189,14 +192,28 @@ describe('Metamask', () => {
       });
       cy.get('#cleartextDisplay').contains('test message');
     });
+  });
     it(`rejectMetamaskDecryptionRequest should reject request to decrypt message with private key`, () => {
       cy.get('#decryptButton').click();
       cy.rejectMetamaskDecryptionRequest().then(rejected => {
         expect(rejected).to.be.true;
       });
       cy.get('#cleartextDisplay').contains(
-        'Error: MetaMask Decryption: User denied message decryption.',
+          'Error: MetaMask Decryption: User denied message decryption.',
       );
+    it(`rejectMetamaskSignatureRequest should reject signature request`, () => {
+      cy.get('#personalSign').click();
+      cy.rejectMetamaskSignatureRequest().then(rejected => {
+        expect(rejected).to.be.true;
+      });
+      cy.get('#personalSign').contains('User denied message signature');
+    });
+    it(`rejectMetamaskDataSignatureRequest should confirm data signature request`, () => {
+      cy.get('#signTypedDataV4').click();
+      cy.rejectMetamaskDataSignatureRequest().then(rejected => {
+        expect(rejected).to.be.true;
+      });
+      cy.get('#signTypedDataV4Result').contains('User denied message signature');
     });
     it(`confirmMetamaskTransaction should confirm transaction`, () => {
       cy.importMetamaskAccount(Cypress.env('PRIVATE_KEY_WITH_FUNDS'));

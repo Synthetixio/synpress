@@ -18,6 +18,7 @@ const {
   signaturePageElements,
   encryptionPublicKeyPageElements,
   decryptPageElements,
+  dataSignaturePageElements,
 } = require('../pages/metamask/notification-page');
 const {
   settingsPageElements,
@@ -399,6 +400,15 @@ module.exports = {
     await puppeteer.metamaskWindow().waitForTimeout(3000);
     return true;
   },
+  confirmDataSignatureRequest: async () => {
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    await puppeteer.waitAndClick(
+      dataSignaturePageElements.confirmDataSignatureRequestButton,
+      notificationPage,
+    );
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    return true;
+  },
   rejectSignatureRequest: async () => {
     const notificationPage = await puppeteer.switchToMetamaskNotification();
     await puppeteer.waitAndClick(
@@ -406,6 +416,12 @@ module.exports = {
       notificationPage,
     );
     await puppeteer.metamaskWindow().waitForTimeout(1000);
+    return true;
+  },
+  rejectDataSignatureRequest: async () => {
+    const notificationPage = await puppeteer.switchToMetamaskNotification();
+    notificationPage.click('.btn-default');
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
     return true;
   },
   confirmPermissionToSpend: async () => {
