@@ -1,0 +1,26 @@
+version: 0.1
+cli:
+  version: 0.16.1-beta
+  sha256:
+    darwin_arm64: 3fb733a9907ec366d86d06313d1b0c956a0f9e86cdbaeaaa72ecf29fb9de17a7
+    darwin_x86_64: d15589aaf2128d4a732f96f101ccfad433532d2027a9b809c74169371c7e270e
+    linux_x86_64: 87245d043c5f0c9bf5b21ff66a43df715f459068bd2e47964c7d517cca074007
+lint:
+  enabled:
+    - actionlint@1.6.17
+    - eslint@8.23.0
+    - git-diff-check@SYSTEM
+    - gitleaks@8.11.2
+    - markdownlint@0.32.2
+    - prettier@2.7.1
+  ignore:
+    - linters: [ALL]
+      paths:
+        - node_modules/**
+        - tests/test-dapp
+        - downloads
+        - tests/e2e/videos
+        - tests/e2e/screenshots
+  threshold:
+    - linters: [ALL]
+      level: high
