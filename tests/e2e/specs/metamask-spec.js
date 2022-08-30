@@ -160,9 +160,7 @@ describe('Metamask', () => {
         expect(confirmed).to.be.true;
       });
       cy.get('#signTypedDataV4Verify').click();
-      cy.get('#signTypedDataV4VerifyResult').contains(
-        '0x',
-      );
+      cy.get('#signTypedDataV4VerifyResult').contains('0x');
     });
     it(`rejectMetamaskEncryptionPublicKeyRequest should reject public encryption key request`, () => {
       cy.get('#getEncryptionKeyButton').click();
@@ -179,7 +177,7 @@ describe('Metamask', () => {
         expect(confirmed).to.be.true;
       });
       cy.get('#encryptionKeyDisplay').contains(
-          'PF4wuX6QqcIKdCzructa1JlY/LninxRWFdMThIDIJEU=',
+        'PF4wuX6QqcIKdCzructa1JlY/LninxRWFdMThIDIJEU=',
       );
     });
     it(`confirmMetamaskDecryptionRequest should confirm request to decrypt message with private key`, () => {
@@ -192,15 +190,15 @@ describe('Metamask', () => {
       });
       cy.get('#cleartextDisplay').contains('test message');
     });
-  });
     it(`rejectMetamaskDecryptionRequest should reject request to decrypt message with private key`, () => {
       cy.get('#decryptButton').click();
       cy.rejectMetamaskDecryptionRequest().then(rejected => {
         expect(rejected).to.be.true;
       });
       cy.get('#cleartextDisplay').contains(
-          'Error: MetaMask Decryption: User denied message decryption.',
+        'Error: MetaMask Decryption: User denied message decryption.',
       );
+    });
     it(`rejectMetamaskSignatureRequest should reject signature request`, () => {
       cy.get('#personalSign').click();
       cy.rejectMetamaskSignatureRequest().then(rejected => {
@@ -213,7 +211,9 @@ describe('Metamask', () => {
       cy.rejectMetamaskDataSignatureRequest().then(rejected => {
         expect(rejected).to.be.true;
       });
-      cy.get('#signTypedDataV4Result').contains('User denied message signature');
+      cy.get('#signTypedDataV4Result').contains(
+        'User denied message signature',
+      );
     });
     it(`confirmMetamaskTransaction should confirm transaction`, () => {
       cy.importMetamaskAccount(Cypress.env('PRIVATE_KEY_WITH_FUNDS'));
