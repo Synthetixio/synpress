@@ -5,6 +5,10 @@ on:
   pull_request:
     branches: [master, dev]
 
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   audit:
     # run only on master/dev branch and pull requests
@@ -72,13 +76,18 @@ jobs:
         run: npm install --legacy-peer-deps --prefer-offline --no-audit
 
       - name: Lint
+        # run only on pull requests
+        if: github.event_name == 'pull_request'
+        uses: trunk-io/trunk-action@b64e8d2c91b6bff32cad2c4445656afd942a124d # pin@v1
+
+      - name: Prepare sarif report
         # run only on master/dev branch and pull requests
         if:
           github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' ||
           github.event_name == 'pull_request'
         run: npm run lint:sarif
 
-      - name: Upload lint results
+      - name: Upload sarif report
         # run if lint failed and only on master/dev branch and pull requests
         if:
           always() && (github.ref == 'refs/heads/master' || github.ref ==
