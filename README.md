@@ -22,6 +22,8 @@ For usage examples, feel free to take a look at [kwenta](https://github.com/kwen
 
 For additional custom commands and their examples, [check here](https://github.com/synthetixio/synpress/blob/master/support/index.d.ts).
 
+To see in which direction Synpress is headed to, take a look at this [planning board](https://github.com/orgs/Synthetixio/projects/14).
+
 **Features:**
 
 - metamask support
