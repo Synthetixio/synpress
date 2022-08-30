@@ -41,7 +41,7 @@
     "release:patch": "release-it patch --disable-metrics",
     "update:deps": "ncu -u -x 'node-fetch eslint' && npm install --legacy-peer-deps",
     "start:server": "serve tests/test-dapp -p 3000",
-    "test:e2e": "start-server-and-test 'npm run start:server' http-get://localhost:3000 'SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=tests/e2e/config.json'",
+    "test:e2e": "start-server-and-test 'npm run start:server' http-get://localhost:3000 'SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js'",
     "test:e2e:ci": "start-server-and-test 'npm run start:server' http-get://localhost:3000 'SYNPRESS_LOCAL_TEST=true node synpress.js run --group smoke-tests --record'"
   },
   "dependencies": {

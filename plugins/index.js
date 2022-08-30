@@ -265,7 +265,8 @@ module.exports = (on, config) => {
   });
 
   if (process.env.BASE_URL) {
-    config.baseUrl = process.env.BASE_URL;
+    config.e2e.baseUrl = process.env.BASE_URL;
+    config.component.baseUrl = process.env.BASE_URL;
   }
 
   if (process.env.CI) {
