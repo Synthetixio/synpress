@@ -420,7 +420,10 @@ module.exports = {
   },
   rejectDataSignatureRequest: async () => {
     const notificationPage = await puppeteer.switchToMetamaskNotification();
-    notificationPage.click('.btn-default');
+    await puppeteer.waitAndClick(
+      dataSignaturePageElements.rejectDataSignatureRequestButton,
+      notificationPage,
+    );
     await puppeteer.metamaskWindow().waitForTimeout(3000);
     return true;
   },
