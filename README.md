@@ -90,7 +90,7 @@ module.exports = {
 ```js
 import '@synthetixio/synpress/support/index';
 ```
-*hint: you can also use this file to extend synpress, add custom commands, and more..*
+*hint: you can also use this file to extend synpress - add custom commands, and more..*
 
 3. Create `tsconfig.json` inside your tests folder (`/project_dir/tests/e2e`):
 
@@ -258,3 +258,8 @@ Above actions will lead to:
 - New npm node module release
 - New GitHub packages node module release
 - New GitHub release (tagged) created with changelog from commit messages
+
+## 📃 More resources
+- https://medium.com/andamp/how-to-setup-synpress-for-wen3-dapp-frontend-test-automation-with-metamask-73396896684a
+- https://medium.com/andamp/extending-synpress-with-additional-metamask-commands-fdc6b35a2ffc
+- https://medium.com/coinmonks/test-e2e-login-to-dapp-with-metamask-with-synpress-5248dd1f17c1
