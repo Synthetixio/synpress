@@ -28,18 +28,15 @@ const otherFormatter = cli.getFormatter(
 
 console.log('Saving sarif report..');
 
-fs.writeFile(
-  'lint-results.sarif',
-  otherFormatter(report.results),
-  'utf8',
-  () => {
-    console.log('Sarif report saved');
-    if (report.errorCount > 0) {
-      console.log('Errors found, exiting..');
-      process.exit(1);
-    } else {
-      console.log('No errors found');
-      process.exit(0);
-    }
-  },
-);
+const filePath = argv[4] ? argv[4] : 'lint-results.sarif';
+
+fs.writeFile(filePath, otherFormatter(report.results), 'utf8', () => {
+  console.log('Sarif report saved');
+  if (report.errorCount > 0) {
+    console.log('Errors found, exiting..');
+    process.exit(1);
+  } else {
+    console.log('No errors found');
+    process.exit(0);
+  }
+});
