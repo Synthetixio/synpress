@@ -29,9 +29,8 @@ jobs:
 
       - name: Lockfile lint
         run:
-          lockfile-lint -p package-lock.json --type npm --allowed-hosts npm
-          github.com --allowed-schemes "https:" "git+ssh:" --empty-hostname
-          false
+          lockfile-lint -p package-lock.json --type npm --allowed-schemes
+          "https:" "git+ssh:" "npm:" --empty-hostname false
 
   build:
     needs: audit
