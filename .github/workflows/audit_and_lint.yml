@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: synthetixio/docker-sec-tools:16.14-alpine
+      image: synthetixio/docker-sec-tools:16.17-alpine
 
     steps:
       - name: Checkout
@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: synthetixio/docker-node:16.14-alpine
+      image: synthetixio/docker-node:16.17-alpine
 
     steps:
       - name: Checkout
@@ -57,9 +57,10 @@ jobs:
           path: |
             .npm-cache
             node_modules
-          key: ${{ runner.os }}-node-16-${{ hashFiles('**/package-lock.json') }}
+          key:
+            ${{ runner.os }}-node-16-17-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-16-
+            ${{ runner.os }}-node-16-17-
         continue-on-error: true
 
       # fix: permission issues on ghactions+docker+npm@7
