@@ -105,6 +105,7 @@ module.exports = {
   },
   waitAndClick: async (selector, page = metamaskWindow, numberOfClicks) => {
     await module.exports.waitFor(selector, page);
+    await page.focus(selector);
     if (numberOfClicks) {
       let i = 0;
       while (i < numberOfClicks) {
