@@ -90,7 +90,7 @@ module.exports = {
 ```js
 import '@synthetixio/synpress/support/index';
 ```
-*hint: you can also use this file to extend synpress - add custom commands, and more..*
+*^ hint: you can also use this file to extend synpress - add custom commands, and more..*
 
 3. Create `tsconfig.json` inside your tests folder (`/project_dir/tests/e2e`):
 
