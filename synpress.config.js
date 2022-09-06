@@ -3,7 +3,7 @@ const setupNodeEvents = require('./plugins/index');
 const helpers = require('./helpers');
 
 const fixturesFolder = `${helpers.getSynpressPath()}/fixtures`;
-const supportFile = 'tests/e2e/supportFile.js';
+const supportFile = 'tests/e2e/support.js';
 
 module.exports = defineConfig({
   userAgent: 'synpress',
