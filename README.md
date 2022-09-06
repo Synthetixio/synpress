@@ -90,7 +90,9 @@ module.exports = {
 ```js
 import '@synthetixio/synpress/support/index';
 ```
-*^ hint: you can also use this file to extend synpress - add custom commands, and more..*
+
+_^ hint: you can also use this file to extend synpress - add custom commands,
+and more.._
 
 3. Create `tsconfig.json` inside your tests folder (`/project_dir/tests/e2e`):
 
@@ -114,8 +116,9 @@ import '@synthetixio/synpress/support/index';
 
 4. You're done! 🎉
 
-To change specific values in default config, you can use `--config` flag.
-For example, to change path for `support.js` file, you can use `synpress run --config "supportFile=__tests__/e2e/supportFile.js"`
+To change specific values in default config, you can use `--config` flag. For
+example, to change path for `support.js` file, you can use
+`synpress run --config "supportFile=__tests__/e2e/supportFile.js"`
 
 If you would like to use custom paths for your tests and configs, feel free to
 mirror
@@ -260,6 +263,7 @@ Above actions will lead to:
 - New GitHub release (tagged) created with changelog from commit messages
 
 ## 📃 More resources
+
 - https://medium.com/andamp/how-to-setup-synpress-for-wen3-dapp-frontend-test-automation-with-metamask-73396896684a
 - https://medium.com/andamp/extending-synpress-with-additional-metamask-commands-fdc6b35a2ffc
 - https://medium.com/coinmonks/test-e2e-login-to-dapp-with-metamask-with-synpress-5248dd1f17c1
