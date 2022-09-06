@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: synthetixio/docker-sec-tools:16.14-alpine
+      image: synthetixio/docker-sec-tools:16.17-alpine
 
     steps:
       - name: Checkout
@@ -29,9 +29,8 @@ jobs:
 
       - name: Lockfile lint
         run:
-          lockfile-lint -p package-lock.json --type npm --allowed-hosts npm
-          github.com --allowed-schemes "https:" "git+ssh:" --empty-hostname
-          false
+          lockfile-lint -p package-lock.json --type npm --allowed-schemes
+          "https:" "git+ssh:" "npm:" --empty-hostname false
 
   build:
     needs: audit
@@ -42,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: synthetixio/docker-node:16.14-alpine
+      image: synthetixio/docker-node:16.17-alpine
 
     steps:
       - name: Checkout
@@ -57,9 +56,10 @@ jobs:
           path: |
             .npm-cache
             node_modules
-          key: ${{ runner.os }}-node-16-${{ hashFiles('**/package-lock.json') }}
+          key:
+            ${{ runner.os }}-node-16-17-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-16-
+            ${{ runner.os }}-node-16-17-
         continue-on-error: true
 
       # fix: permission issues on ghactions+docker+npm@7
