@@ -24,13 +24,13 @@ ran.
 It also provides an easy way to use metamask straight from your e2e tests.
 
 For usage examples, feel free to take a look at
-[kwenta](https://github.com/kwenta/kwenta/tree/master/tests/e2e),
-[staking](https://github.com/Synthetixio/staking/tree/master/tests/e2e) or
-[synpress](https://github.com/Synthetixio/synpress/tree/master/tests/e2e)
+[kwenta](https://github.com/kwenta/kwenta/tree/dev/tests/e2e),
+[staking](https://github.com/Synthetixio/staking/tree/dev/tests/e2e) or
+[synpress](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e)
 repository.
 
 For additional custom commands and their examples,
-[check here](https://github.com/synthetixio/synpress/blob/master/support/index.d.ts).
+[check here](https://github.com/synthetixio/synpress/blob/dev/support/index.d.ts).
 
 To see in which direction Synpress is headed to, take a look at this
 [planning board](https://github.com/orgs/Synthetixio/projects/14).
@@ -63,6 +63,7 @@ project_dir
 └── tests
     └── e2e
         └── .eslintrc.js
+        └── support.js
         └── tsconfig.json
         └── specs
             └── example-spec.js
@@ -84,7 +85,14 @@ module.exports = {
 };
 ```
 
-2. Create `tsconfig.json` inside your tests folder (`/project_dir/tests/e2e`):
+2. Create `support.js` inside your tests folder (`/project_dir/tests/e2e`):
+
+```js
+import '@synthetixio/synpress/support/index';
+```
+*hint: you can also use this file to extend synpress, add custom commands, and more..*
+
+3. Create `tsconfig.json` inside your tests folder (`/project_dir/tests/e2e`):
 
 ```json
 {
@@ -104,11 +112,14 @@ module.exports = {
 }
 ```
 
-3. You're done! 🎉
+4. You're done! 🎉
+
+To change specific values in default config, you can use `--config` flag.
+For example, to change path for `support.js` file, you can use `synpress run --config "supportFile=__tests__/e2e/supportFile.js"`
 
 If you would like to use custom paths for your tests and configs, feel free to
 mirror
-[default synpress config](https://github.com/Synthetixio/synpress/blob/dev/synpress.json)
+[default synpress config](https://github.com/Synthetixio/synpress/blob/dev/synpress.config.js)
 and modify it for your needs. Then you can direct synpress to use it with
 `--configFile` flag.
 
@@ -126,7 +137,7 @@ mode in [puppeteer](https://github.com/puppeteer/puppeteer/issues/659) and
 It's intended to be used in conjunction with `xvfb` on CI.
 
 There is a global
-[`before()`](https://github.com/synthetixio/synpress/blob/master/support/index.js#L25)
+[`before()`](https://github.com/synthetixio/synpress/blob/dev/support/index.js#L27)
 which runs metamask setup before all tests:
 
 - passes welcome page
@@ -161,7 +172,7 @@ override metamask with `METAMASK_VERSION` environmental variable, for example:
 `METAMASK_VERSION=9.3.0` or `METAMASK_VERSION=latest`.
 
 If you don't want to use environmental variables, you can modify
-[`setupMetamask()`](https://github.com/synthetixio/synpress/blob/master/support/index.js#L26)
+[`setupMetamask()`](https://github.com/synthetixio/synpress/blob/dev/support/index.js#L29)
 to following:
 
 `setupMetamask(secretWordsOrPrivateKey, network, password)`, for example:
@@ -201,7 +212,7 @@ launch tests
 Options:
   -b, --browser <name>               run on specified browser (default: "chrome")
   -c, --config <config>              set configuration values, separate multiple values with a comma
-  -cf, --configFile <path>          specify a path to a JSON file where configuration values are set
+  -cf, --configFile <path>          specify a path to *.js file where configuration values are set
   -e, --env <env=val>                set environment variables, separate multiple values with comma
   -s, --spec <path or glob>          run only provided spec files
   -ne, --noExit                     keep runner open after tests finish
@@ -223,7 +234,7 @@ Usage: synpress open [options]
 launch test runner UI
 
 Options:
-  -cf, --configFile <path>  specify a path to a JSON file where configuration values are set
+  -cf, --configFile <path>  specify a path to *.js file where configuration values are set
   -h, --help                display help for command
 ```
 
