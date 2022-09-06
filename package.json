@@ -46,12 +46,12 @@
   },
   "dependencies": {
     "@cypress/code-coverage": "^3.10.0",
-    "@cypress/react": "^6.1.1",
-    "@cypress/webpack-dev-server": "^2.2.0",
+    "@cypress/react": "^6.2.0",
+    "@cypress/webpack-dev-server": "^2.3.0",
     "@drptbl/gremlins.js": "^2.2.1",
     "@synthetixio/js": "^2.41.0",
     "@testing-library/cypress": "^8.0.3",
-    "@testing-library/react": "^13.3.0",
+    "@testing-library/react": "^13.4.0",
     "@types/puppeteer-core": "^5.4.0",
     "@types/testing-library__cypress": "^5.0.9",
     "axios": "^0.27.2",
@@ -75,21 +75,21 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.0.1",
     "eslint-plugin-standard": "^4.1.0",
-    "eslint-plugin-testing-library": "^5.6.0",
+    "eslint-plugin-testing-library": "^5.6.1",
     "eslint-plugin-ui-testing": "^2.0.1",
     "eslint-plugin-unicorn": "^43.0.2",
     "etherscan-api": "^10.2.0",
     "node-fetch": "^2.6.1",
     "prettier": "^2.7.1",
-    "puppeteer-core": "^17.0.0",
+    "puppeteer-core": "^17.1.1",
     "serve": "^14.0.1",
     "start-server-and-test": "^1.14.0",
     "synthetix-js": "^2.74.1"
   },
   "devDependencies": {
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
-    "npm-check-updates": "^16.0.6",
-    "release-it": "^15.4.0"
+    "npm-check-updates": "^16.1.0",
+    "release-it": "^15.4.1"
   },
   "engines": {
     "node": ">=10"
