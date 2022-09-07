@@ -16,7 +16,7 @@ jobs:
     name: release
 
     container:
-      image: ghcr.io/synthetixio/docker-node/ubuntu:16.14
+      image: ghcr.io/synthetixio/docker-node/ubuntu:16.17
       credentials:
         username: synthetixio
         password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
@@ -28,20 +28,18 @@ jobs:
           fetch-depth: 0
           ref: master
 
-      - name: Set npm cache directory
-        run: npm config set cache .npm-cache --global
+      - name: Set yarn cache directory
+        run: yarn config set cache-folder .yarn-cache
         continue-on-error: true
 
       - uses: actions/cache@fd5de65bc895cf536527842281bea11763fefd77 # pin@v2
         with:
           path: |
-            .npm-cache
+            .yarn-cache
             node_modules
-          key:
-            ${{ runner.os }}-ubuntu-node-16-${{
-            hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-ubuntu-node-16-
+            ${{ runner.os }}-yarn-
         continue-on-error: true
 
       # fixes permission issues on docker+npm@7
@@ -49,7 +47,7 @@ jobs:
         run: chown -R $(whoami) .
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps --prefer-offline --no-audit
+        run: yarn --prefer-offline --no-audit
 
       - name: git config
         run: |
@@ -66,12 +64,12 @@ jobs:
           GPG_KEY: ${{ secrets.GPG_KEY }}
           GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
 
-      - name: npm config
+      - name: yarn config
         run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Set current npm package version
+      - name: Set current yarn package version
         id: extract-version
         run: |
           PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
@@ -81,7 +79,7 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         run: |
           git reset --hard
-          npm run release:${{ github.event.inputs.version }} -- --ci
+          yarn release:${{ github.event.inputs.version }} -- --ci
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -97,9 +95,9 @@ jobs:
 
           echo ${{ steps.extract-version.outputs.current-version }}
           if echo ${{ steps.extract-version.outputs.current-version }} | grep -q "beta"; then
-            npm run release -- --ci --preRelease
+            yarn release -- --ci --preRelease
           else
-            npm run release:patch -- --ci --preRelease=beta
+            yarn release:patch -- --ci --preRelease=beta
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
