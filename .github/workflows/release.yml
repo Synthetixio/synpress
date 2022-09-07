@@ -37,14 +37,10 @@ jobs:
           path: |
             .yarn-cache
             node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-yarn-v1-
         continue-on-error: true
-
-      # fixes permission issues on docker+npm@7
-      - name: Chown workspace
-        run: chown -R $(whoami) .
 
       - name: Install dependencies
         run: yarn --prefer-offline --no-audit
