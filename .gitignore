@@ -3,6 +3,8 @@ downloads
 lint-results.sarif
 .npm-cache
 .npmrc
+.yarnrc
+yarn-error.log
 
 tests/e2e/videos
 tests/e2e/screenshots

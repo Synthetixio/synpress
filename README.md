@@ -253,7 +253,7 @@ Alternatively, instead of running GitHub Action for release, you can move on
 with manual release process:
 
 1. Switch to `master` branch and pull latest changes
-2. Run `npm run release:patch/minor/major` command
+2. Run `yarn release:patch/minor/major` command
 3. Keep `dev` branch up to date with `master`
 
 Above actions will lead to:
