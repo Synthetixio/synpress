@@ -80,6 +80,7 @@ jobs:
         run: |
           git reset --hard
           yarn release:${{ github.event.inputs.version }} --ci
+          yarn publish --non-interactive
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -96,8 +97,10 @@ jobs:
           echo ${{ steps.extract-version.outputs.current-version }}
           if echo ${{ steps.extract-version.outputs.current-version }} | grep -q "beta"; then
             yarn release --ci --preRelease
+            yarn publish --non-interactive
           else
             yarn release:patch --ci --preRelease=beta
+            yarn publish --non-interactive
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
