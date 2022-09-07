@@ -2,6 +2,7 @@ node_modules
 downloads
 lint-results.sarif
 .npm-cache
+.yarn-cache
 .npmrc
 .yarnrc
 yarn-error.log
