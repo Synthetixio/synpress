@@ -42,6 +42,10 @@ jobs:
             ${{ runner.os }}-yarn-v1-
         continue-on-error: true
 
+      # fixes permission issues on docker
+      - name: Chown workspace
+        run: chown -R $(whoami) .
+
       - name: Install dependencies
         run: yarn --prefer-offline --no-audit
 
