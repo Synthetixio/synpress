@@ -2,7 +2,10 @@ node_modules
 downloads
 lint-results.sarif
 .npm-cache
+.yarn-cache
 .npmrc
+.yarnrc
+yarn-error.log
 
 tests/e2e/videos
 tests/e2e/screenshots

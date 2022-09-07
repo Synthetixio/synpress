@@ -1,10 +1,15 @@
 version: 0.1
+plugins:
+  sources:
+    - id: trunk
+      ref: v0.0.3
+      uri: https://github.com/trunk-io/plugins
 cli:
-  version: 0.16.1-beta
+  version: 0.17.0-beta
   sha256:
-    darwin_arm64: 3fb733a9907ec366d86d06313d1b0c956a0f9e86cdbaeaaa72ecf29fb9de17a7
-    darwin_x86_64: d15589aaf2128d4a732f96f101ccfad433532d2027a9b809c74169371c7e270e
-    linux_x86_64: 87245d043c5f0c9bf5b21ff66a43df715f459068bd2e47964c7d517cca074007
+    darwin_arm64: d0f10cede5ce6f2e9cf93c13b7422a87994c57912c2f1ec3b2b6273d965d3726
+    darwin_x86_64: de8cc96736b5888925523631926c1f5a0735bb086569ccdc3e2b62c2de2f4867
+    linux_x86_64: ddba5eb37e6885210b43f2466f8240fbeae5327506876705ef3935627d771d70
 lint:
   enabled:
     - actionlint@1.6.17
