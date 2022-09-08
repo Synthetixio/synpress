@@ -136,7 +136,11 @@ module.exports = {
     await element.waitFor();
     await element.focus();
     if (process.env.STABLE_MODE) {
-      await page.waitForTimeout(300);
+      if (!isNaN(process.env.STABLE_MODE)) {
+        await page.waitForTimeout(Number(process.env.STABLE_MODE));
+      } else {
+        await page.waitForTimeout(300);
+      }
     }
     return element;
   },
