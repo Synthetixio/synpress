@@ -126,17 +126,25 @@ module.exports = {
     await page.waitForTimeout(300);
     return element;
   },
-  waitAndClick: async (
-    selector,
-    page = metamaskWindow,
-    numberOfClicks,
-    force = false,
-  ) => {
+  waitAndClick: async (selector, page = metamaskWindow, args = {}) => {
     const element = await module.exports.waitFor(selector, page);
-    if (numberOfClicks) {
-      await element.click({ clickCount: numberOfClicks, force });
+    if (args.numberOfClicks && !args.waitForEvent) {
+      await element.click({
+        clickCount: args.numberOfClicks,
+        force: args.force,
+      });
+    } else if (args.numberOfClicks && args.waitForEvent) {
+      await Promise.all([
+        page.waitForEvent(args.waitForEvent),
+        element.click({ clickCount: args.numberOfClicks, force: args.force }),
+      ]);
+    } else if (args.waitForEvent) {
+      await Promise.all([
+        page.waitForEvent(args.waitForEvent),
+        element.click({ force: args.force }),
+      ]);
     } else {
-      await element.click({ force });
+      await element.click({ force: args.force });
     }
     return element;
   },
@@ -168,7 +176,9 @@ module.exports = {
     }
   },
   waitClearAndType: async (text, selector, page = metamaskWindow) => {
-    const element = await module.exports.waitAndClick(selector, page, 3);
+    const element = await module.exports.waitAndClick(selector, page, {
+      numberOfClicks: 3,
+    });
     await element.type(text);
   },
   waitForText: async (selector, text, page = metamaskWindow) => {

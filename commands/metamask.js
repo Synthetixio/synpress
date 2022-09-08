@@ -402,11 +402,12 @@ module.exports = {
   },
   confirmSignatureRequest: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
-    await playwright.waitAndClick(
+
+    playwright.waitAndClick(
       signaturePageElements.confirmSignatureRequestButton,
       notificationPage,
+      { waitForEvent: 'close' },
     );
-    await playwright.metamaskWindow().waitForTimeout(3000);
     return true;
   },
   confirmDataSignatureRequest: async () => {
@@ -414,8 +415,8 @@ module.exports = {
     await playwright.waitAndClick(
       dataSignaturePageElements.confirmDataSignatureRequestButton,
       notificationPage,
+      { waitForEvent: 'close' },
     );
-    await playwright.metamaskWindow().waitForTimeout(3000);
     return true;
   },
   rejectSignatureRequest: async () => {
@@ -423,8 +424,8 @@ module.exports = {
     await playwright.waitAndClick(
       signaturePageElements.rejectSignatureRequestButton,
       notificationPage,
+      { waitForEvent: 'close' },
     );
-    await playwright.metamaskWindow().waitForTimeout(1000);
     return true;
   },
   rejectDataSignatureRequest: async () => {
@@ -432,8 +433,8 @@ module.exports = {
     await playwright.waitAndClick(
       dataSignaturePageElements.rejectDataSignatureRequestButton,
       notificationPage,
+      { waitForEvent: 'close' },
     );
-    await playwright.metamaskWindow().waitForTimeout(3000);
     return true;
   },
   confirmPermissionToSpend: async () => {
@@ -441,8 +442,8 @@ module.exports = {
     await playwright.waitAndClick(
       notificationPageElements.allowToSpendButton,
       notificationPage,
+      { waitForEvent: 'close' },
     );
-    await playwright.metamaskWindow().waitForTimeout(3000);
     return true;
   },
   rejectPermissionToSpend: async () => {
@@ -450,8 +451,8 @@ module.exports = {
     await playwright.waitAndClick(
       notificationPageElements.rejectToSpendButton,
       notificationPage,
+      { waitForEvent: 'close' },
     );
-    await playwright.metamaskWindow().waitForTimeout(1000);
     return true;
   },
   acceptAccess: async allAccounts => {
@@ -523,8 +524,8 @@ module.exports = {
     await playwright.waitAndClick(
       confirmPageElements.rejectButton,
       notificationPage,
+      { waitForEvent: 'close' },
     );
-    await playwright.metamaskWindow().waitForTimeout(1000);
     return true;
   },
   confirmEncryptionPublicKeyRequest: async () => {
@@ -532,8 +533,8 @@ module.exports = {
     await playwright.waitAndClick(
       encryptionPublicKeyPageElements.confirmEncryptionPublicKeyButton,
       notificationPage,
+      { waitForEvent: 'close' },
     );
-    await playwright.metamaskWindow().waitForTimeout(3000);
     return true;
   },
 
@@ -542,8 +543,8 @@ module.exports = {
     await playwright.waitAndClick(
       encryptionPublicKeyPageElements.rejectEncryptionPublicKeyButton,
       notificationPage,
+      { waitForEvent: 'close' },
     );
-    await playwright.metamaskWindow().waitForTimeout(3000);
     return true;
   },
   confirmDecryptionRequest: async () => {
@@ -551,8 +552,8 @@ module.exports = {
     await playwright.waitAndClick(
       decryptPageElements.confirmDecryptionRequestButton,
       notificationPage,
+      { waitForEvent: 'close' },
     );
-    await playwright.metamaskWindow().waitForTimeout(3000);
     return true;
   },
   rejectDecryptionRequest: async () => {
@@ -560,8 +561,8 @@ module.exports = {
     await playwright.waitAndClick(
       decryptPageElements.rejectDecryptionRequestButton,
       notificationPage,
+      { waitForEvent: 'close' },
     );
-    await playwright.metamaskWindow().waitForTimeout(3000);
     return true;
   },
   allowToAddNetwork: async () => {
@@ -569,6 +570,7 @@ module.exports = {
     await playwright.waitAndClick(
       confirmationPageElements.footer.approveButton,
       notificationPage,
+      { waitForEvent: 'close' },
     );
     return true;
   },
@@ -577,6 +579,7 @@ module.exports = {
     await playwright.waitAndClick(
       confirmationPageElements.footer.cancelButton,
       notificationPage,
+      { waitForEvent: 'close' },
     );
     return true;
   },
@@ -585,8 +588,8 @@ module.exports = {
     await playwright.waitAndClick(
       confirmationPageElements.footer.approveButton,
       notificationPage,
+      { waitForEvent: 'close' },
     );
-    await playwright.metamaskWindow().waitForTimeout(3000);
     return true;
   },
   rejectToSwitchNetwork: async () => {
@@ -594,6 +597,7 @@ module.exports = {
     await playwright.waitAndClick(
       confirmationPageElements.footer.cancelButton,
       notificationPage,
+      { waitForEvent: 'close' },
     );
     return true;
   },
