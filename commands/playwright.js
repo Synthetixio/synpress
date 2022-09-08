@@ -112,16 +112,10 @@ module.exports = {
   },
   waitAndClickByText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
-    const elements = await page.$$(selector);
-    if (elements) {
-      for (let el of elements) {
-        const elText = await page.evaluate(el => el.textContent, el);
-        if (elText.toLowerCase().includes(text.toLowerCase())) {
-          await el.click();
-          break;
-        }
-      }
-    }
+    // const element = await page.locator(`"${text}"`);
+    const element = await page.locator(`text=${text}`);
+    console.log(element);
+    await element.click();
   },
   waitAndType: async (selector, value, page = metamaskWindow) => {
     const element = await module.exports.waitFor(selector, page);
