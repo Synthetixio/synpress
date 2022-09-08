@@ -55,7 +55,13 @@ module.exports = {
   },
   confirmWelcomePage: async () => {
     await module.exports.fixBlankPage();
-    await playwright.waitAndClick(welcomePageElements.confirmButton);
+    await playwright.waitAndClick(
+      welcomePageElements.confirmButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'framenavigated',
+      },
+    );
     return true;
   },
   closePopup: async () => {
@@ -71,15 +77,31 @@ module.exports = {
   unlock: async password => {
     await module.exports.fixBlankPage();
     await playwright.waitAndType(unlockPageElements.passwordInput, password);
-    await playwright.waitAndClick(unlockPageElements.unlockButton);
-    await playwright.waitFor(mainPageElements.walletOverview);
+    await playwright.waitAndClick(
+      unlockPageElements.unlockButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'framenavigated',
+      },
+    );
+    // await playwright.waitFor(mainPageElements.walletOverview);
     await module.exports.closePopup();
     return true;
   },
   importWallet: async (secretWords, password) => {
-    await playwright.waitAndClick(firstTimeFlowPageElements.importWalletButton);
+    await playwright.waitAndClick(
+      firstTimeFlowPageElements.importWalletButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'framenavigated',
+      },
+    );
     await playwright.waitAndClick(
       metametricsPageElements.optOutAnalyticsButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'framenavigated',
+      },
     );
     await playwright.waitAndType(
       firstTimeFlowFormPageElements.secretWordsInput,
@@ -94,16 +116,38 @@ module.exports = {
       password,
     );
     await playwright.waitAndClick(firstTimeFlowFormPageElements.termsCheckbox);
-    await playwright.waitAndClick(firstTimeFlowFormPageElements.importButton);
-    await playwright.waitAndClick(endOfFlowPageElements.allDoneButton);
-    await playwright.waitFor(mainPageElements.walletOverview);
+    await playwright.waitAndClick(
+      firstTimeFlowFormPageElements.importButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'framenavigated',
+      },
+    );
+    await playwright.waitAndClick(
+      endOfFlowPageElements.allDoneButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'framenavigated',
+      },
+    );
+    // await playwright.waitFor(mainPageElements.walletOverview);
     await module.exports.closePopup();
     return true;
   },
   createWallet: async password => {
-    await playwright.waitAndClick(firstTimeFlowPageElements.createWalletButton);
+    await playwright.waitAndClick(
+      firstTimeFlowPageElements.createWalletButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'framenavigated',
+      },
+    );
     await playwright.waitAndClick(
       metametricsPageElements.optOutAnalyticsButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'framenavigated',
+      },
     );
     await playwright.waitAndType(
       firstTimeFlowFormPageElements.newPasswordInput,
@@ -116,10 +160,28 @@ module.exports = {
     await playwright.waitAndClick(
       firstTimeFlowFormPageElements.newSignupCheckbox,
     );
-    await playwright.waitAndClick(firstTimeFlowFormPageElements.importButton);
-    await playwright.waitAndClick(secureYourWalletPageElements.nextButton);
-    await playwright.waitAndClick(revealSeedPageElements.remindLaterButton);
-    await playwright.waitFor(mainPageElements.walletOverview);
+    await playwright.waitAndClick(
+      firstTimeFlowFormPageElements.importButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'framenavigated',
+      },
+    );
+    await playwright.waitAndClick(
+      secureYourWalletPageElements.nextButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'framenavigated',
+      },
+    );
+    await playwright.waitAndClick(
+      revealSeedPageElements.remindLaterButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'framenavigated',
+      },
+    );
+    // await playwright.waitFor(mainPageElements.walletOverview);
     await module.exports.closePopup();
     return true;
   },
