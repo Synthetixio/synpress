@@ -135,12 +135,9 @@ module.exports = {
     return value;
   },
   waitAndSetValue: async (text, selector, page = metamaskWindow) => {
-    await module.exports.waitFor(selector, page);
-    await page.evaluate(
-      selector => (document.querySelector(selector).value = ''),
-      selector,
-    );
-    await page.keyboard.type(text);
+    const element = await module.exports.waitFor(selector, page);
+    await element.fill('');
+    await element.fill(text);
   },
   waitAndClearWithBackspace: async (selector, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
