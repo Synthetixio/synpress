@@ -93,6 +93,9 @@ jobs:
       image: synthetixio/docker-e2e:16.17-ubuntu
 
     steps:
+      - name: Chown workspace
+        run: chown -R $(whoami) .
+
       - name: Checkout
         uses: actions/checkout@1e204e9a9253d643386038d443f96446fa156a97 # pin@v2
 
