@@ -30,7 +30,19 @@ module.exports = {
     const debuggerDetails = await fetch('http://127.0.0.1:9222/json/version'); //DevSkim: ignore DS137138
     const debuggerDetailsConfig = await debuggerDetails.json();
     const webSocketDebuggerUrl = debuggerDetailsConfig.webSocketDebuggerUrl;
-    browser = await chromium.connectOverCDP(webSocketDebuggerUrl);
+    if (process.env.SLOW_MODE) {
+      if (!isNaN(process.env.SLOW_MODE)) {
+        browser = await chromium.connectOverCDP(webSocketDebuggerUrl, {
+          slowMo: Number(process.env.SLOW_MODE),
+        });
+      } else {
+        browser = await chromium.connectOverCDP(webSocketDebuggerUrl, {
+          slowMo: 50,
+        });
+      }
+    } else {
+      browser = await chromium.connectOverCDP(webSocketDebuggerUrl);
+    }
     return browser.isConnected();
   },
   clear: async () => {
@@ -123,7 +135,9 @@ module.exports = {
     const element = await page.locator(selector).first();
     await element.waitFor();
     await element.focus();
-    await page.waitForTimeout(300);
+    if (process.env.STABLE_MODE) {
+      await page.waitForTimeout(300);
+    }
     return element;
   },
   waitAndClick: async (selector, page = metamaskWindow, args = {}) => {
@@ -139,13 +153,25 @@ module.exports = {
         element.click({ clickCount: args.numberOfClicks, force: args.force }),
       ]);
     } else if (args.waitForEvent) {
-      await Promise.all([
-        page.waitForEvent(args.waitForEvent),
-        element.click({ force: args.force }),
-      ]);
+      if (args.waitForEvent.includes('navi')) {
+        await Promise.all([
+          page.waitForNavigation(),
+          element.click({ force: args.force }),
+        ]);
+      } else {
+        await Promise.all([
+          page.waitForEvent(args.waitForEvent),
+          element.click({ force: args.force }),
+        ]);
+      }
     } else {
       await element.click({ force: args.force });
     }
+
+    await page.waitForLoadState();
+    await mainWindow.waitForLoadState();
+    await metamaskWindow.waitForLoadState();
+
     return element;
   },
   waitAndClickByText: async (selector, text, page = metamaskWindow) => {
@@ -167,6 +193,10 @@ module.exports = {
     const element = await module.exports.waitFor(selector, page);
     await element.fill('');
     await element.fill(text);
+
+    await page.waitForLoadState();
+    await mainWindow.waitForLoadState();
+    await metamaskWindow.waitForLoadState();
   },
   waitAndClearWithBackspace: async (selector, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
