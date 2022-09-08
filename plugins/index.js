@@ -1,5 +1,5 @@
 const helpers = require('../helpers');
-const puppeteer = require('../commands/puppeteer');
+const playwright = require('../commands/playwright');
 const metamask = require('../commands/metamask');
 const synthetix = require('../commands/synthetix');
 const etherscan = require('../commands/etherscan');
@@ -53,45 +53,45 @@ module.exports = (on, config) => {
       console.warn('\u001B[33m', 'WARNING:', message, '\u001B[0m');
       return true;
     },
-    // puppeteer commands
-    initPuppeteer: async () => {
-      const connected = await puppeteer.init();
+    // playwright commands
+    initPlaywright: async () => {
+      const connected = await playwright.init();
       return connected;
     },
-    clearPuppeteer: async () => {
-      const cleared = await puppeteer.clear();
+    clearPlaywright: async () => {
+      const cleared = await playwright.clear();
       return cleared;
     },
     assignWindows: async () => {
-      const assigned = await puppeteer.assignWindows();
+      const assigned = await playwright.assignWindows();
       return assigned;
     },
     clearWindows: async () => {
-      const cleared = await puppeteer.clearWindows();
+      const cleared = await playwright.clearWindows();
       return cleared;
     },
     assignActiveTabName: async tabName => {
-      const assigned = await puppeteer.assignActiveTabName(tabName);
+      const assigned = await playwright.assignActiveTabName(tabName);
       return assigned;
     },
     isMetamaskWindowActive: async () => {
-      const isMetamaskActive = await puppeteer.isMetamaskWindowActive();
+      const isMetamaskActive = await playwright.isMetamaskWindowActive();
       return isMetamaskActive;
     },
     isCypressWindowActive: async () => {
-      const isCypressActive = await puppeteer.isCypressWindowActive();
+      const isCypressActive = await playwright.isCypressWindowActive();
       return isCypressActive;
     },
     switchToCypressWindow: async () => {
-      const switched = await puppeteer.switchToCypressWindow();
+      const switched = await playwright.switchToCypressWindow();
       return switched;
     },
     switchToMetamaskWindow: async () => {
-      const switched = await puppeteer.switchToMetamaskWindow();
+      const switched = await playwright.switchToMetamaskWindow();
       return switched;
     },
     switchToMetamaskNotification: async () => {
-      const notificationPage = await puppeteer.switchToMetamaskNotification();
+      const notificationPage = await playwright.switchToMetamaskNotification();
       return notificationPage;
     },
     unlockMetamask: async password => {

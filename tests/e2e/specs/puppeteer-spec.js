@@ -1,7 +1,7 @@
-describe('Puppeteer', () => {
+describe('Playwright', () => {
   context('Test commands', () => {
-    it(`initPuppeteer should connect with cypress browser`, () => {
-      cy.initPuppeteer().then(isConnected => {
+    it(`initPlaywright should connect with cypress browser`, () => {
+      cy.initPlaywright().then(isConnected => {
         expect(isConnected).to.be.true;
       });
     });

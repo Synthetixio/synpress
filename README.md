@@ -16,7 +16,7 @@
 [Synpress](https://github.com/Synthetixio/synpress) is a wrapper around
 [Cypress.io](https://github.com/cypress-io/cypress) with
 [metamask](https://metamask.io/) support thanks to
-[puppeteer](https://github.com/puppeteer/puppeteer).
+[playwright](https://playwright.dev/).
 
 Synpress makes sure to always use latest version of metamask before tests are
 ran.
@@ -103,7 +103,6 @@ and more.._
     "baseUrl": "../../node_modules",
     "types": [
       "cypress",
-      "@types/puppeteer-core",
       "@synthetixio/synpress/support",
       "cypress-wait-until",
       "@testing-library/cypress"
@@ -134,10 +133,10 @@ Synpress doesn't seem to communicate with metamask properly if
 `"chromeWebSecurity": false` flag is set. More about it
 [here](https://github.com/Synthetixio/synpress/issues/17).
 
-Tests work only in headed mode because extensions are not supported in headless
-mode in [puppeteer](https://github.com/puppeteer/puppeteer/issues/659) and
+Tests work only in non-headless mode because extensions are not supported in headless
+mode in [playwright](https://playwright.dev/docs/chrome-extensions) and
 [Cypress](https://docs.cypress.io/api/plugins/browser-launch-api.html#Add-browser-extensions).
-It's intended to be used in conjunction with `xvfb` on CI.
+It's intended to be used in conjunction with `xvfb` on CI (and docker containers).
 
 There is a global
 [`before()`](https://github.com/synthetixio/synpress/blob/dev/support/index.js#L27)
