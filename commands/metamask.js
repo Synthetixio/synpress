@@ -59,7 +59,7 @@ module.exports = {
       welcomePageElements.confirmButton,
       await playwright.metamaskWindow(),
       {
-        waitForEvent: 'framenavigated',
+        waitForEvent: 'navi',
       },
     );
     return true;
@@ -81,7 +81,7 @@ module.exports = {
       unlockPageElements.unlockButton,
       await playwright.metamaskWindow(),
       {
-        waitForEvent: 'framenavigated',
+        waitForEvent: 'navi',
       },
     );
     // await playwright.waitFor(mainPageElements.walletOverview);
@@ -93,14 +93,14 @@ module.exports = {
       firstTimeFlowPageElements.importWalletButton,
       await playwright.metamaskWindow(),
       {
-        waitForEvent: 'framenavigated',
+        waitForEvent: 'navi',
       },
     );
     await playwright.waitAndClick(
       metametricsPageElements.optOutAnalyticsButton,
       await playwright.metamaskWindow(),
       {
-        waitForEvent: 'framenavigated',
+        waitForEvent: 'navi',
       },
     );
     await playwright.waitAndType(
@@ -120,14 +120,14 @@ module.exports = {
       firstTimeFlowFormPageElements.importButton,
       await playwright.metamaskWindow(),
       {
-        waitForEvent: 'framenavigated',
+        waitForEvent: 'navi',
       },
     );
     await playwright.waitAndClick(
       endOfFlowPageElements.allDoneButton,
       await playwright.metamaskWindow(),
       {
-        waitForEvent: 'framenavigated',
+        waitForEvent: 'navi',
       },
     );
     // await playwright.waitFor(mainPageElements.walletOverview);
@@ -139,14 +139,14 @@ module.exports = {
       firstTimeFlowPageElements.createWalletButton,
       await playwright.metamaskWindow(),
       {
-        waitForEvent: 'framenavigated',
+        waitForEvent: 'navi',
       },
     );
     await playwright.waitAndClick(
       metametricsPageElements.optOutAnalyticsButton,
       await playwright.metamaskWindow(),
       {
-        waitForEvent: 'framenavigated',
+        waitForEvent: 'navi',
       },
     );
     await playwright.waitAndType(
@@ -164,21 +164,21 @@ module.exports = {
       firstTimeFlowFormPageElements.importButton,
       await playwright.metamaskWindow(),
       {
-        waitForEvent: 'framenavigated',
+        waitForEvent: 'navi',
       },
     );
     await playwright.waitAndClick(
       secureYourWalletPageElements.nextButton,
       await playwright.metamaskWindow(),
       {
-        waitForEvent: 'framenavigated',
+        waitForEvent: 'navi',
       },
     );
     await playwright.waitAndClick(
       revealSeedPageElements.remindLaterButton,
       await playwright.metamaskWindow(),
       {
-        waitForEvent: 'framenavigated',
+        waitForEvent: 'navi',
       },
     );
     // await playwright.waitFor(mainPageElements.walletOverview);
@@ -191,6 +191,10 @@ module.exports = {
     await playwright.waitAndClick(mainPageElements.accountMenu.button);
     await playwright.waitAndClick(
       mainPageElements.accountMenu.importAccountButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
     );
 
     await playwright.waitAndType(
@@ -212,6 +216,10 @@ module.exports = {
     await playwright.waitAndClick(mainPageElements.accountMenu.button);
     await playwright.waitAndClick(
       mainPageElements.accountMenu.createAccountButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
     );
 
     if (accountName) {
@@ -337,8 +345,20 @@ module.exports = {
     }
 
     await playwright.waitAndClick(mainPageElements.accountMenu.button);
-    await playwright.waitAndClick(mainPageElements.accountMenu.settingsButton);
-    await playwright.waitAndClick(settingsPageElements.networksButton);
+    await playwright.waitAndClick(
+      mainPageElements.accountMenu.settingsButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
+    await playwright.waitAndClick(
+      settingsPageElements.networksButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
     await playwright.waitAndClick(networksPageElements.addNetworkButton);
     await playwright.waitAndType(
       addNetworkPageElements.networkNameInput,
@@ -368,7 +388,13 @@ module.exports = {
     }
 
     await playwright.waitAndClick(addNetworkPageElements.saveButton);
-    await playwright.waitAndClick(settingsPageElements.closeButton);
+    await playwright.waitAndClick(
+      settingsPageElements.closeButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
 
     setNetwork(network);
 
@@ -433,8 +459,20 @@ module.exports = {
     await switchToMetamaskIfNotActive();
 
     await playwright.waitAndClick(mainPageElements.accountMenu.button);
-    await playwright.waitAndClick(mainPageElements.accountMenu.settingsButton);
-    await playwright.waitAndClick(settingsPageElements.advancedButton);
+    await playwright.waitAndClick(
+      mainPageElements.accountMenu.settingsButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
+    await playwright.waitAndClick(
+      settingsPageElements.advancedButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
     if (
       (await playwright
         .metamaskWindow()
@@ -442,8 +480,14 @@ module.exports = {
     ) {
       await playwright.waitAndClick(advancedPageElements.customNonceToggleOff);
     }
-    await playwright.waitAndClick(settingsPageElements.closeButton);
-    await playwright.waitFor(mainPageElements.walletOverview);
+    await playwright.waitAndClick(
+      settingsPageElements.closeButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
+    // await playwright.waitFor(mainPageElements.walletOverview);
 
     await switchToCypressIfNotActive();
     return true;
@@ -452,11 +496,29 @@ module.exports = {
     await switchToMetamaskIfNotActive();
 
     await playwright.waitAndClick(mainPageElements.accountMenu.button);
-    await playwright.waitAndClick(mainPageElements.accountMenu.settingsButton);
-    await playwright.waitAndClick(settingsPageElements.advancedButton);
+    await playwright.waitAndClick(
+      mainPageElements.accountMenu.settingsButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
+    await playwright.waitAndClick(
+      settingsPageElements.advancedButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
     await playwright.waitAndClick(advancedPageElements.resetAccountButton);
     await playwright.waitAndClick(resetAccountModalElements.resetButton);
-    await playwright.waitAndClick(settingsPageElements.closeButton);
+    await playwright.waitAndClick(
+      settingsPageElements.closeButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
     await playwright.waitFor(mainPageElements.walletOverview);
 
     await switchToCypressIfNotActive();
@@ -519,6 +581,7 @@ module.exports = {
   },
   acceptAccess: async allAccounts => {
     const notificationPage = await playwright.switchToMetamaskNotification();
+    // todo: allAccounts doesn't work? - waitAndClick has .first()
     if (allAccounts === true) {
       await playwright.waitAndClick(
         notificationPageElements.selectAllCheck,
@@ -528,17 +591,16 @@ module.exports = {
     await playwright.waitAndClick(
       notificationPageElements.nextButton,
       notificationPage,
+      { waitForEvent: 'navi' },
     );
     await playwright.waitAndClick(
       permissionsPageElements.connectButton,
       notificationPage,
+      { waitForEvent: 'close' },
     );
-    await playwright.metamaskWindow().waitForTimeout(3000);
     return true;
   },
   confirmTransaction: async gasConfig => {
-    // todo: remove waitForTimeout below after improving switchToMetamaskNotification
-    await playwright.metamaskWindow().waitForTimeout(1000);
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (gasConfig && gasConfig.gasFee) {
       await playwright.waitAndSetValue(
@@ -547,10 +609,10 @@ module.exports = {
         notificationPage,
       );
     } else if (getNetwork().isTestnet) {
-      await playwright.waitAndSetValue(
-        '1',
-        confirmPageElements.gasFeeInput,
+      await playwright.waitAndClick(
+        confirmPageElements.gasFeeArrowUpButton,
         notificationPage,
+        1,
       );
     } else {
       await playwright.waitAndClick(
@@ -567,18 +629,18 @@ module.exports = {
         notificationPage,
       );
     }
-    // metamask reloads popup after changing a fee, you have to wait for this event otherwise transaction will fail
-    await playwright.metamaskWindow().waitForTimeout(3000);
+
     const gasLimitInput = confirmPageElements.gasLimitInput;
     await notificationPage.waitForFunction(
       gasLimitInput => document.querySelector(gasLimitInput).value != '0',
       gasLimitInput,
     );
+
     await playwright.waitAndClick(
       confirmPageElements.confirmButton,
       notificationPage,
+      { waitForEvent: 'close' },
     );
-    await playwright.metamaskWindow().waitForTimeout(3000);
     return true;
   },
   rejectTransaction: async () => {
@@ -694,7 +756,6 @@ module.exports = {
     await playwright.init();
     await playwright.assignWindows();
     await playwright.assignActiveTabName('metamask');
-    await playwright.metamaskWindow().waitForTimeout(1000);
     if (
       (await playwright.metamaskWindow().$(unlockPageElements.unlockPage)) ===
       null
