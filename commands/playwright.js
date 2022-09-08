@@ -112,7 +112,6 @@ module.exports = {
   },
   waitAndClickByText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
-    // const element = await page.locator(`"${text}"`);
     const element = await page.locator(`text=${text}`);
     console.log(element);
     await element.click();
