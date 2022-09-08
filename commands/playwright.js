@@ -90,7 +90,7 @@ module.exports = {
   },
   waitFor: async (selector, page = metamaskWindow) => {
     await page.waitForSelector(selector, { strict: false });
-    const element = page.locator(selector).first();
+    const element = await page.locator(selector).first();
     await element.waitFor();
     await element.focus();
     await page.waitForTimeout(300);
