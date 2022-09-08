@@ -1,10 +1,14 @@
 const fetch = require('node-fetch');
 const { chromium } = require('@playwright/test');
+const sleep = require('util').promisify(setTimeout);
 
 let browser;
 let mainWindow;
 let metamaskWindow;
+let metamaskNotificationWindow;
 let activeTabName;
+
+let retries = 0;
 
 module.exports = {
   browser: () => {
@@ -15,6 +19,9 @@ module.exports = {
   },
   metamaskWindow: () => {
     return metamaskWindow;
+  },
+  metamaskNotificationWindow: () => {
+    return metamaskNotificationWindow;
   },
   activeTabName: () => {
     return activeTabName;
@@ -37,6 +44,8 @@ module.exports = {
         mainWindow = page;
       } else if (page.url().includes('extension')) {
         metamaskWindow = page;
+      } else if (page.url().includes('notification')) {
+        metamaskNotificationWindow = page;
       }
     }
     return true;
@@ -48,7 +57,15 @@ module.exports = {
   clearWindows: async () => {
     mainWindow = null;
     metamaskWindow = null;
+    metamaskNotificationWindow = null;
     return true;
+  },
+  isCypressWindowActive: async () => {
+    if (activeTabName === 'cypress') {
+      return true;
+    } else {
+      return false;
+    }
   },
   isMetamaskWindowActive: async () => {
     if (activeTabName === 'metamask') {
@@ -57,8 +74,8 @@ module.exports = {
       return false;
     }
   },
-  isCypressWindowActive: async () => {
-    if (activeTabName === 'cypress') {
+  isMetamaskNotificationWindowActive: async () => {
+    if (activeTabName === 'metamask-notif') {
       return true;
     } else {
       return false;
@@ -74,18 +91,31 @@ module.exports = {
     await module.exports.assignActiveTabName('metamask');
     return true;
   },
+  switchToMetamaskNotificationWindow: async () => {
+    await metamaskNotificationWindow.bringToFront();
+    await module.exports.assignActiveTabName('metamask-notif');
+    return true;
+  },
   switchToMetamaskNotification: async () => {
-    // todo: wait for page to be initialized before triggering waitFor
-    // todo: wait for spinning loader to be gone before triggering waitFor
-    // todo: get rid of waitForTimeout after fixing above
-    // todo: all of the above are issues related to metamask notification of tx confirmation
-    await module.exports.metamaskWindow().waitForTimeout(3000);
     let pages = await browser.contexts()[0].pages();
     for (const page of pages) {
       if (page.url().includes('notification')) {
         await page.bringToFront();
+        await page.waitForLoadState('networkidle');
+        metamaskNotificationWindow = page;
+        retries = 0;
         return page;
       }
+    }
+    await sleep(500);
+    if (retries < 20) {
+      retries++;
+      return await module.exports.switchToMetamaskNotification();
+    } else if (retries >= 20) {
+      retries = 0;
+      throw new Error(
+        '[switchToMetamaskNotification] Max amount of retries to switch to metamask notification window has been reached.',
+      );
     }
   },
   waitFor: async (selector, page = metamaskWindow) => {
