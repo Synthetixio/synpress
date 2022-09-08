@@ -198,6 +198,10 @@ If you want to skip metamask extension installation or metamask setup, you can
 use `SKIP_METAMASK_INSTALL` and `SKIP_METAMASK_SETUP` separately. Both variables
 accept `1` or `true`.
 
+Synpress is blazingly-fast ⚡ by default! If you want to change that, you can use `STABLE_MODE=true` (which will introduce delays only between main actions, 300ms by default) / `STABLE_MODE=<value>` or `SLOW_MODE=true` (which will introduce delay between every action, 50ms by default) / `SLOW_MODE=<value>`.
+
+`SYNDEBUG=1` is useful while debugging your tests. Give it a go.
+
 ## 🧪 Usage
 
 - `synpress run` to run tests
