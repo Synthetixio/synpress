@@ -133,10 +133,11 @@ Synpress doesn't seem to communicate with metamask properly if
 `"chromeWebSecurity": false` flag is set. More about it
 [here](https://github.com/Synthetixio/synpress/issues/17).
 
-Tests work only in non-headless mode because extensions are not supported in headless
-mode in [playwright](https://playwright.dev/docs/chrome-extensions) and
+Tests work only in non-headless mode because extensions are not supported in
+headless mode in [playwright](https://playwright.dev/docs/chrome-extensions) and
 [Cypress](https://docs.cypress.io/api/plugins/browser-launch-api.html#Add-browser-extensions).
-It's intended to be used in conjunction with `xvfb` on CI (and docker containers).
+It's intended to be used in conjunction with `xvfb` on CI (and docker
+containers).
 
 There is a global
 [`before()`](https://github.com/synthetixio/synpress/blob/dev/support/index.js#L27)
@@ -198,7 +199,10 @@ If you want to skip metamask extension installation or metamask setup, you can
 use `SKIP_METAMASK_INSTALL` and `SKIP_METAMASK_SETUP` separately. Both variables
 accept `1` or `true`.
 
-Synpress is blazingly-fast ⚡ by default! If you want to change that, you can use `STABLE_MODE=true` (which will introduce delays only between main actions, 300ms by default) / `STABLE_MODE=<value>` or `SLOW_MODE=true` (which will introduce delay between every action, 50ms by default) / `SLOW_MODE=<value>`.
+Synpress is blazingly-fast ⚡ by default! If you want to change that, you can
+use `STABLE_MODE=true` (which will introduce delays only between main actions,
+300ms by default) / `STABLE_MODE=<value>` or `SLOW_MODE=true` (which will
+introduce delay between every action, 50ms by default) / `SLOW_MODE=<value>`.
 
 `SYNDEBUG=1` is useful while debugging your tests. Give it a go.
 
