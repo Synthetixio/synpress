@@ -2,8 +2,8 @@
 ![Synpress CI](https://github.com/Synthetixio/synpress/workflows/Synpress%20CI/badge.svg?branch=master)
 [![CodeQL](https://github.com/Synthetixio/synpress/actions/workflows/codeql.yml/badge.svg?branch=master)](https://github.com/Synthetixio/synpress/actions/workflows/codeql.yml)
 [![Release CI](https://github.com/Synthetixio/synpress/actions/workflows/release.yml/badge.svg?branch=master)](https://github.com/Synthetixio/synpress/actions/workflows/release.yml)
-[![Discord](https://img.shields.io/discord/961408653502599171.svg?color=768AD4&label=discord&logo=https%3A%2F%2Fdiscordapp.com%2Fassets%2F8c9701b98ad4372b58f13fd9f65f966e.svg)](https://discordapp.com/channels/961408653502599171/)
-[![Twitter Follow](https://img.shields.io/twitter/follow/synpress_.svg?label=Synpress_&style=social)](https://twitter.com/Synpress_)
+[![Discord](https://img.shields.io/discord/413890591840272394.svg?color=768AD4&label=discord&logo=https%3A%2F%2Fdiscordapp.com%2Fassets%2F8c9701b98ad4372b58f13fd9f65f966e.svg)](https://discordapp.com/channels/413890591840272394/)
+[![Twitter Follow](https://img.shields.io/twitter/follow/synthetix_io.svg?label=synthetix_io&style=social)](https://twitter.com/synthetix_io)
 
 #
 
@@ -16,7 +16,7 @@
 [Synpress](https://github.com/Synthetixio/synpress) is a wrapper around
 [Cypress.io](https://github.com/cypress-io/cypress) with
 [metamask](https://metamask.io/) support thanks to
-[puppeteer](https://github.com/puppeteer/puppeteer).
+[playwright](https://playwright.dev/).
 
 Synpress makes sure to always use latest version of metamask before tests are
 ran.
@@ -103,7 +103,6 @@ and more.._
     "baseUrl": "../../node_modules",
     "types": [
       "cypress",
-      "@types/puppeteer-core",
       "@synthetixio/synpress/support",
       "cypress-wait-until",
       "@testing-library/cypress"
@@ -134,10 +133,10 @@ Synpress doesn't seem to communicate with metamask properly if
 `"chromeWebSecurity": false` flag is set. More about it
 [here](https://github.com/Synthetixio/synpress/issues/17).
 
-Tests work only in headed mode because extensions are not supported in headless
-mode in [puppeteer](https://github.com/puppeteer/puppeteer/issues/659) and
+Tests work only in non-headless mode because extensions are not supported in headless
+mode in [playwright](https://playwright.dev/docs/chrome-extensions) and
 [Cypress](https://docs.cypress.io/api/plugins/browser-launch-api.html#Add-browser-extensions).
-It's intended to be used in conjunction with `xvfb` on CI.
+It's intended to be used in conjunction with `xvfb` on CI (and docker containers).
 
 There is a global
 [`before()`](https://github.com/synthetixio/synpress/blob/dev/support/index.js#L27)
@@ -198,6 +197,10 @@ off with `CYPRESS_SKIP_RESOURCES_WAIT` environmental variable, set it to `1` or
 If you want to skip metamask extension installation or metamask setup, you can
 use `SKIP_METAMASK_INSTALL` and `SKIP_METAMASK_SETUP` separately. Both variables
 accept `1` or `true`.
+
+Synpress is blazingly-fast ⚡ by default! If you want to change that, you can use `STABLE_MODE=true` (which will introduce delays only between main actions, 300ms by default) / `STABLE_MODE=<value>` or `SLOW_MODE=true` (which will introduce delay between every action, 50ms by default) / `SLOW_MODE=<value>`.
+
+`SYNDEBUG=1` is useful while debugging your tests. Give it a go.
 
 ## 🧪 Usage
 

@@ -4,6 +4,14 @@ const program = require('commander');
 const { run, open } = require('./launcher');
 const { version } = require('./package.json');
 
+if (process.env.SYNDEBUG) {
+  process.env.PWDEBUG = 1;
+  // process.env.DEBUG = 'cypress:*';
+  if (!process.env.STABLE_MODE) {
+    process.env.STABLE_MODE = true;
+  }
+}
+
 if (
   !process.env.SECRET_WORDS &&
   !process.env.PRIVATE_KEY &&

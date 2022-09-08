@@ -41,3 +41,30 @@ header {
 #encryptMessageInput {
   margin-bottom: 1rem;
 }
+
+.error-div {
+  margin-bottom: 12px;
+}
+
+.error-message {
+  min-height: 32px;
+  border: 1px solid #e88f97;
+  color: #24292e;
+  background: #fcf2f3;
+  border-radius: 8px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 8px 10px;
+}
+.error-message-icon {
+  margin-right: 8px;
+  flex: 0 0 auto;
+}
+.error-message-text {
+  overflow: auto;
+}
+
+.warning-invisible {
+  display: none;
+}
