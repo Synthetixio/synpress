@@ -1,5 +1,5 @@
-const puppeteer = require('puppeteer-core');
 const fetch = require('node-fetch');
+const { chromium } = require('@playwright/test');
 
 let puppeteerBrowser;
 let mainWindow;
@@ -23,12 +23,7 @@ module.exports = {
     const debuggerDetails = await fetch('http://127.0.0.1:9222/json/version'); //DevSkim: ignore DS137138
     const debuggerDetailsConfig = await debuggerDetails.json();
     const webSocketDebuggerUrl = debuggerDetailsConfig.webSocketDebuggerUrl;
-
-    puppeteerBrowser = await puppeteer.connect({
-      browserWSEndpoint: webSocketDebuggerUrl,
-      ignoreHTTPSErrors: true,
-      defaultViewport: null,
-    });
+    puppeteerBrowser = await chromium.connectOverCDP(webSocketDebuggerUrl);
     return puppeteerBrowser.isConnected();
   },
   clear: async () => {
@@ -36,11 +31,13 @@ module.exports = {
     return true;
   },
   assignWindows: async () => {
-    let pages = await puppeteerBrowser.pages();
+    let pages = await puppeteerBrowser.contexts()[0].pages();
     for (const page of pages) {
       if (page.url().includes('integration')) {
         mainWindow = page;
       } else if (page.url().includes('tests')) {
+        mainWindow = page;
+      } else if (page.url().includes('runner')) {
         mainWindow = page;
       } else if (page.url().includes('extension')) {
         metamaskWindow = page;
@@ -87,7 +84,7 @@ module.exports = {
     // todo: get rid of waitForTimeout after fixing above
     // todo: all of the above are issues related to metamask notification of tx confirmation
     await module.exports.metamaskWindow().waitForTimeout(3000);
-    let pages = await puppeteerBrowser.pages();
+    let pages = await puppeteerBrowser.contexts()[0].pages();
     for (const page of pages) {
       if (page.url().includes('notification')) {
         await page.bringToFront();
@@ -96,31 +93,26 @@ module.exports = {
     }
   },
   waitFor: async (selector, page = metamaskWindow) => {
-    await page.waitForFunction(
-      `document.querySelector('${selector}') && document.querySelector('${selector}').clientHeight != 0`,
-      { visible: true },
-    );
-    // puppeteer going too fast breaks metamask in corner cases
+    await page.waitForSelector(selector, { strict: false });
+    const element = page.locator(selector).first();
+    await element.waitFor();
+    await element.focus();
     await page.waitForTimeout(300);
+    return element;
   },
-  waitAndClick: async (selector, page = metamaskWindow, numberOfClicks) => {
-    await module.exports.waitFor(selector, page);
-    await page.focus(selector);
+  waitAndClick: async (
+    selector,
+    page = metamaskWindow,
+    numberOfClicks,
+    force = false,
+  ) => {
+    const element = await module.exports.waitFor(selector, page);
     if (numberOfClicks) {
-      let i = 0;
-      while (i < numberOfClicks) {
-        i++;
-        await page.evaluate(
-          selector => document.querySelector(selector).click(),
-          selector,
-        );
-      }
+      await element.click({ clickCount: numberOfClicks, force });
     } else {
-      await page.evaluate(
-        selector => document.querySelector(selector).click(),
-        selector,
-      );
+      await element.click({ force });
     }
+    return element;
   },
   waitAndClickByText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
@@ -136,8 +128,7 @@ module.exports = {
     }
   },
   waitAndType: async (selector, value, page = metamaskWindow) => {
-    await module.exports.waitFor(selector, page);
-    const element = await page.$(selector);
+    const element = await module.exports.waitFor(selector, page);
     await element.type(value);
   },
   waitAndGetValue: async (selector, page = metamaskWindow) => {
@@ -153,7 +144,6 @@ module.exports = {
       selector => (document.querySelector(selector).value = ''),
       selector,
     );
-    await page.focus(selector);
     await page.keyboard.type(text);
   },
   waitAndClearWithBackspace: async (selector, page = metamaskWindow) => {
@@ -164,15 +154,11 @@ module.exports = {
     }
   },
   waitClearAndType: async (text, selector, page = metamaskWindow) => {
-    await module.exports.waitFor(selector, page);
-    const input = await page.$(selector);
-    await input.click({ clickCount: 3 });
-    await input.type(text);
+    const element = await module.exports.waitAndClick(selector, page, 3);
+    await element.type(text);
   },
   waitForText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
-    await page.waitForFunction(
-      `document.querySelector('${selector}').innerText.toLowerCase().includes('${text.toLowerCase()}')`,
-    );
+    await page.locator(selector, { hasText: text }).waitFor();
   },
 };
