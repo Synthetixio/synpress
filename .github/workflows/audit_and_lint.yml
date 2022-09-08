@@ -120,7 +120,7 @@ jobs:
             ${{ github.workspace }}/node_modules/.cache/Cypress
 
       - name: Run e2e tests
-        run: yarn test:e2e:ci
+        run: yarn test:e2e
         env:
           CYPRESS_PRIVATE_KEY_WITH_FUNDS:
             ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
