@@ -47,7 +47,7 @@ jobs:
         run: chown -R $(whoami) .
 
       - name: Install dependencies
-        run: yarn --prefer-offline --no-audit
+        run: yarn --frozen-lockfile --prefer-offline --no-audit
 
       - name: git config
         run: |
