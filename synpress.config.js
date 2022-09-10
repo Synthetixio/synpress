@@ -8,15 +8,15 @@ const supportFile = 'tests/e2e/support.js';
 module.exports = defineConfig({
   userAgent: 'synpress',
   retries: {
-    runMode: 0,
+    runMode: process.env.CI ? 1 : 0,
     openMode: 0,
   },
   fixturesFolder,
   screenshotsFolder: 'tests/e2e/screenshots',
   videosFolder: 'tests/e2e/videos',
   chromeWebSecurity: true,
-  viewportWidth: 1366,
-  viewportHeight: 768,
+  viewportWidth: 1920,
+  viewportHeight: 1080,
   env: {
     coverage: false,
   },
