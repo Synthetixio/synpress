@@ -7,5 +7,12 @@ lint-results.sarif
 .yarnrc
 yarn-error.log
 
+docker
+
+docker/videos
+docker/videos-ci
+docker/screenshots
+
 tests/e2e/videos
+tests/e2e/videos-ci
 tests/e2e/screenshots
