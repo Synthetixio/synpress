@@ -10,4 +10,3 @@ COPY yarn.lock ./
 FROM base as test
 RUN yarn --frozen-lockfile --prefer-offline --no-audit
 COPY . .
-RUN yarn test:e2e
