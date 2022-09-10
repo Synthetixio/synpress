@@ -89,10 +89,6 @@ jobs:
       github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
-    container:
-      image: synthetixio/docker-e2e:16.17-ubuntu
-      options: --shm-size=7gb
-
     steps:
       - name: Chown workspace
         run: chown -R $(whoami) .
@@ -100,36 +96,32 @@ jobs:
       - name: Checkout
         uses: actions/checkout@1e204e9a9253d643386038d443f96446fa156a97 # pin@v2
 
-      - name: Set yarn cache directory
-        run: yarn config set cache-folder .yarn-cache
-        continue-on-error: true
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@8b122486cedac8393e77aa9734c3528886e4a1a8 # pin@v1
 
-      - uses: actions/cache@fd5de65bc895cf536527842281bea11763fefd77 # pin@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@dc7b9719a96d48369863986a06765841d7ea23f6 # pin@v1
+
+      - name: Cache Docker layers
+        uses: actions/cache@515d10b4fd9bb4858066bd5769f55bd498dcdd27 # pin@v2
         with:
-          path: |
-            .yarn-cache
-            node_modules
-          key: ${{ runner.os }}-yarn-v1-e2e-${{ hashFiles('**/yarn.lock') }}
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-yarn-v1-e2e-
-        continue-on-error: true
-
-      - name: Install dependencies
-        run: yarn --prefer-offline --no-audit
-        env:
-          CYPRESS_CACHE_FOLDER:
-            ${{ github.workspace }}/node_modules/.cache/Cypress
+            ${{ runner.os }}-buildx-
 
       - name: Run e2e tests
-        run: yarn test:e2e
+        run: docker-compose up --build --exit-code-from synpress
         env:
+          COMPOSE_DOCKER_CLI_BUILD: 1
+          DOCKER_BUILDKIT: 1
+          DOCKER_DEFAULT_PLATFORM: linux/amd64
+          NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
           CYPRESS_PRIVATE_KEY_WITH_FUNDS:
             ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
-          # CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
-          # CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CYPRESS_CACHE_FOLDER:
-            ${{ github.workspace }}/node_modules/.cache/Cypress
 
       - name: Archive e2e artifacts
         uses: actions/upload-artifact@27121b0bdffd731efa15d66772be8dc71245d074 # pin@v2
@@ -137,6 +129,7 @@ jobs:
         with:
           name: e2e-artifacts
           path: |
-            tests/e2e/videos
-            tests/e2e/screenshots
+            docker/videos
+            docker/videos-ci
+            docker/screenshots
         continue-on-error: true
