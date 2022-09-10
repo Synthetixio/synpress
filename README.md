@@ -18,11 +18,14 @@
 [metamask](https://metamask.io/) support thanks to
 [playwright](https://playwright.dev/).
 
-Synpress makes sure to always use latest version of metamask and puts a lot of effort to make sure that tests are stable and trustful.
+Synpress makes sure to always use latest version of metamask and puts a lot of
+effort to make sure that tests are stable and trustful.
 
-It also provides an easy way to use and access metamask straight from your e2e tests with all features of cypress and playwright.
+It also provides an easy way to use and access metamask straight from your e2e
+tests with all features of cypress and playwright.
 
 Usage examples:
+
 - [synpress](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e)
 - [kwenta](https://github.com/kwenta/kwenta/tree/dev/tests/e2e)
 - [staking](https://github.com/Synthetixio/staking/tree/dev/tests/e2e)
@@ -43,12 +46,14 @@ To see in which direction Synpress is headed to, take a look at
   - exposes noVNC with [ngrok](https://ngrok.com/) (optional)
 - easy to debug 🐛
   - improved error handling
-  - supports [cypress](https://docs.cypress.io/guides/guides/debugging) and [playwright](https://playwright.dev/docs/debug) debuggers
+  - supports [cypress](https://docs.cypress.io/guides/guides/debugging) and
+    [playwright](https://playwright.dev/docs/debug) debuggers
   - noVNC allows for interactions through browser 🌐
   - debug remote machines on CI with ngrok
 - blazingly-fast ⚡
 - extensible ⚙️ (add own custom commands and plugins)
-- can be used in existing [cypress setup](https://github.com/Synthetixio/synpress/issues/346#issuecomment-1060506096)
+- can be used in existing
+  [cypress setup](https://github.com/Synthetixio/synpress/issues/346#issuecomment-1060506096)
 - ability to use latest metamask or lock it's version to avoid unexpected
   failures related to metamask updates
 - supports multi-lang of metamask, it doesn't depend on any labels
@@ -61,8 +66,7 @@ To see in which direction Synpress is headed to, take a look at
 - etherscan API helpers in place which for ex. allows to compare your
   transaction results with etherscan and check tx status
 - synthetix helpers in place which allows to interact with synthetix protocol
-  programatically
-...
+  programatically ...
 
 ## 👷 Example setup for eslint and tsconfig
 
@@ -214,8 +218,9 @@ use `STABLE_MODE=true` (which will introduce delays only between main actions,
 300ms by default) / `STABLE_MODE=<value>` or `SLOW_MODE=true` (which will
 introduce delay between every action, 50ms by default) / `SLOW_MODE=<value>`.
 
-`SYNDEBUG=1` is very useful while debugging your tests.
-It enables following features:
+`SYNDEBUG=1` is very useful while debugging your tests. It enables following
+features:
+
 - improved logging
 - [cypress debugger](https://docs.cypress.io/guides/guides/debugging)
 - [playwright debugger](https://playwright.dev/docs/debug)
@@ -228,26 +233,38 @@ Dreaming about "headless" mode? Here comes a rescue 🚑!
 Docker is awesome for CI and local development. Give it a try.
 
 ### Requirements
+
 - [docker](https://www.docker.com/)
 - [docker-compose](https://docs.docker.com/compose/install/)
 
 ### Some neat features
+
 - based on [docker-e2e](https://github.com/Synthetixio/docker-e2e) ❤
 - full screen video recording 🎥 (together with metamask extension)
 - VNC & noVNC support 🖥️ (very easy to debug with browser)
   - local: http://localhost:8080/vnc.html?autoconnect=true
 - ngrok 🔌 integration (exposes noVNC for everyone)
-  - remote: https://<random>.ngrok.io/vnc.html?autoconnect=true (check logs for url)
+  - remote: https://<random>.ngrok.io/vnc.html?autoconnect=true (check logs for
+    url)
 
 ### How to use
 
 1. `git clone git@github.com:Synthetixio/synpress.git`
 2. `cd synpress`
 3. (optional) Fill env vars inside `.env` file
-4. `docker-compose up --build --exit-code-from synpress` (starts e2e tests without ngrok)
-   1. `docker-compose --profile ngrok up --build --exit-code-from synpress` or `./start-tests.sh` (with ngrok)
+4. `docker-compose up --build --exit-code-from synpress` (starts e2e tests
+   without ngrok)
+   1. `docker-compose --profile ngrok up --build --exit-code-from synpress` or
+      `./start-tests.sh` (with ngrok)
 
 All examples of setup are present in this repository. Just take a look around.
+
+## CI tips & tricks
+
+- use [docker-e2e](https://github.com/Synthetixio/docker-e2e) ❤
+- stick to bigger resolutions (to make sure that whole extension is visible on screen when opened)
+  - synpress is tested on 1920x1080
+- follow example config here
 
 ## 🧪 Usage
 
@@ -314,6 +331,7 @@ Above actions will lead to:
 
 ## 📃 More resources
 
+- https://gitcoin.co/grants/5699/synpress-web3-enabled-e2e-testing-tool
 - https://medium.com/andamp/how-to-setup-synpress-for-wen3-dapp-frontend-test-automation-with-metamask-73396896684a
 - https://medium.com/andamp/extending-synpress-with-additional-metamask-commands-fdc6b35a2ffc
 - https://medium.com/coinmonks/test-e2e-login-to-dapp-with-metamask-with-synpress-5248dd1f17c1
