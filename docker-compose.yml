@@ -12,7 +12,6 @@ services:
       - GITHUB_TOKEN=${GITHUB_TOKEN}
     depends_on:
       - novnc
-      - ngrok
       - video
     entrypoint: []
     working_dir: /app
@@ -21,7 +20,6 @@ services:
       - ./docker/screenshots:/app/tests/e2e/screenshots
     command: >
         bash -c 'npx wait-on http://novnc:8080
-        && npx wait-on http://ngrok:4040
         && echo -n "======> noVNC URL: "
         && curl -s ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url
         && yarn test:e2e'
@@ -41,6 +39,8 @@ services:
       - x11
 
   ngrok:
+    profiles:
+      - ngrok
     container_name: ngrok
     image: wernight/ngrok@sha256:f334773a21fdb8c88b320d74ed11f6a2f936840aa85b45e8ddb329823f8e1635
     environment:
