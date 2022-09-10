@@ -19,10 +19,9 @@ services:
       - ./docker/videos:/app/tests/e2e/videos
       - ./docker/screenshots:/app/tests/e2e/screenshots
     command: >
-        bash -c 'npx wait-on http://novnc:8080
-        && echo -n "======> noVNC URL: "
-        && curl -s ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url
-        && yarn test:e2e'
+      bash -c 'npx wait-on http://novnc:8080 && echo -n "======> noVNC URL: " &&
+      curl -s ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && yarn
+      test:e2e:ci'
     networks:
       - x11
 
@@ -34,7 +33,7 @@ services:
       - DISPLAY_HEIGHT=1080
       - RUN_XTERM=no
     ports:
-      - "8080:8080"
+      - '8080:8080'
     networks:
       - x11
 
@@ -46,8 +45,8 @@ services:
     environment:
       - NGROK_DEBUG=1
     ports:
-      - "4040:4040"
-    command: ["ngrok", "http", "novnc:8080", "--authtoken", "${NGROK_AUTH}"]
+      - '4040:4040'
+    command: ['ngrok', 'http', 'novnc:8080', '--authtoken', '${NGROK_AUTH}']
     depends_on:
       - novnc
     networks:
