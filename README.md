@@ -36,7 +36,7 @@ For additional custom commands and their examples,
 To see in which direction Synpress is headed to, take a look at
 [planning board](https://github.com/orgs/Synthetixio/projects/14).
 
-**Features:**
+## Features
 
 - added support for metamask 🦊
 - supports headless mode thanks to docker 🐳
@@ -57,8 +57,7 @@ To see in which direction Synpress is headed to, take a look at
 - ability to use latest metamask or lock it's version to avoid unexpected
   failures related to metamask updates
 - supports multi-lang of metamask, it doesn't depend on any labels
-- synpress is fully
-  [tested by synpress :)](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e/specs)
+- synpress is [fully tested](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e/specs)
 - waits for XHR requests, navigations and animations automatically
 - ability to fail test run if there are any browser console errors found
 - types support for all additional custom commands
