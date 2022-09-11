@@ -7,6 +7,8 @@ services:
     environment:
       - DISPLAY=novnc:0.0
       - CYPRESS_PRIVATE_KEY_WITH_FUNDS=${CYPRESS_PRIVATE_KEY_WITH_FUNDS}
+      - CYPRESS_PROJECT_ID=${CYPRESS_PROJECT_ID}
+      - CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}
       - GITHUB_TOKEN=${GITHUB_TOKEN}
     depends_on:
       - novnc
@@ -20,7 +22,7 @@ services:
       bash -c 'echo -n "======> local noVNC URL:
       http://localhost:8080/vnc.html?autoconnect=true " && npx wait-on
       http://novnc:8080 && echo -n "======> remote noVNC URL: " && curl -s
-      ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && yarn test:e2e'
+      ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && yarn test:e2e:ci'
     networks:
       - x11
 
