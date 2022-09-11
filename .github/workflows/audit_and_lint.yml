@@ -111,7 +111,7 @@ jobs:
             ${{ runner.os }}-buildx-
 
       - name: Run e2e tests
-        run: docker-compose up --build --exit-code-from synpress
+        run: ./start-tests.sh
         env:
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1

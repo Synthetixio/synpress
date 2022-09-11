@@ -22,7 +22,7 @@ services:
       bash -c 'echo -n "======> local noVNC URL:
       http://localhost:8080/vnc.html?autoconnect=true " && npx wait-on
       http://novnc:8080 && echo -n "======> remote noVNC URL: " && curl -s
-      ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && ./start-tests.sh'
+      ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && yarn test:e2e'
     networks:
       - x11
 
