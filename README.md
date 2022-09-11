@@ -13,45 +13,60 @@
 
 #
 
-[Synpress](https://github.com/Synthetixio/synpress) is a wrapper around
-[Cypress.io](https://github.com/cypress-io/cypress) with
-[metamask](https://metamask.io/) support thanks to
-[playwright](https://playwright.dev/).
+[Synpress](https://github.com/Synthetixio/synpress) is an web3 e2e testing
+framework based on [Cypress.io](https://github.com/cypress-io/cypress) and
+[playwright](https://playwright.dev/) which enable support for
+[metamask](https://metamask.io/). Test your dapps with ease.
 
-Synpress makes sure to always use latest version of metamask before tests are
-ran.
+Synpress makes sure to always use latest version of metamask and puts a lot of
+effort to make sure that tests are stable and trustful.
 
-It also provides an easy way to use metamask straight from your e2e tests.
+It also provides an easy way to use and access metamask straight from your e2e
+tests with all features of cypress and playwright.
 
-For usage examples, feel free to take a look at
-[kwenta](https://github.com/kwenta/kwenta/tree/dev/tests/e2e),
-[staking](https://github.com/Synthetixio/staking/tree/dev/tests/e2e) or
-[synpress](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e)
-repository.
+Usage examples:
+
+- [synpress](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e)
+- [kwenta](https://github.com/kwenta/kwenta/tree/dev/tests/e2e)
+- [staking](https://github.com/Synthetixio/staking/tree/dev/tests/e2e)
 
 For additional custom commands and their examples,
 [check here](https://github.com/synthetixio/synpress/blob/dev/support/index.d.ts).
 
-To see in which direction Synpress is headed to, take a look at this
+To see in which direction Synpress is headed to, take a look at
 [planning board](https://github.com/orgs/Synthetixio/projects/14).
 
 **Features:**
 
-- metamask support
+- added support for metamask 🦊
+- supports headless mode thanks to docker 🐳
+  - recommended for local development and CI
+  - includes VNC and [noVNC](https://novnc.com/info.html)
+  - integrated video recoding 🎥 (full screen)
+  - exposes noVNC with [ngrok](https://ngrok.com/) (optional)
+- easy to debug 🐛
+  - improved error handling
+  - supports [cypress](https://docs.cypress.io/guides/guides/debugging) and
+    [playwright](https://playwright.dev/docs/debug) debuggers
+  - noVNC allows for interactions through browser 🌐
+  - debug remote machines on CI with ngrok
+- blazingly-fast ⚡
+- extensible ⚙️ (add own custom commands and plugins)
+- can be used in existing
+  [cypress setup](https://github.com/Synthetixio/synpress/issues/346#issuecomment-1060506096)
 - ability to use latest metamask or lock it's version to avoid unexpected
-  failures related to metamask update
+  failures related to metamask updates
 - supports multi-lang of metamask, it doesn't depend on any labels
 - synpress is fully
-  [tested](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e/specs)
-- automatically waits for all XHR requests to be finished before tests are run
-- ability to fail e2e tests if there are any browser console error found during
-  test run
+  [tested by synpress :)](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e/specs)
+- waits for XHR requests, navigations and animations automatically
+- ability to fail test run if there are any browser console errors found
 - types support for all additional custom commands
 - the best possible options set up in place to avoid flakiness
 - etherscan API helpers in place which for ex. allows to compare your
   transaction results with etherscan and check tx status
 - synthetix helpers in place which allows to interact with synthetix protocol
-  programatically
+  programatically ...
 
 ## 👷 Example setup for eslint and tsconfig
 
@@ -133,10 +148,10 @@ Synpress doesn't seem to communicate with metamask properly if
 `"chromeWebSecurity": false` flag is set. More about it
 [here](https://github.com/Synthetixio/synpress/issues/17).
 
-Tests work only in non-headless mode because extensions are not supported in headless
-mode in [playwright](https://playwright.dev/docs/chrome-extensions) and
+Tests work only in non-headless mode because extensions are not supported in
+headless mode in [playwright](https://playwright.dev/docs/chrome-extensions) and
 [Cypress](https://docs.cypress.io/api/plugins/browser-launch-api.html#Add-browser-extensions).
-It's intended to be used in conjunction with `xvfb` on CI (and docker containers).
+As a workaround, use provided docker 🐳 containers. They solve this issue.
 
 There is a global
 [`before()`](https://github.com/synthetixio/synpress/blob/dev/support/index.js#L27)
@@ -198,9 +213,61 @@ If you want to skip metamask extension installation or metamask setup, you can
 use `SKIP_METAMASK_INSTALL` and `SKIP_METAMASK_SETUP` separately. Both variables
 accept `1` or `true`.
 
-Synpress is blazingly-fast ⚡ by default! If you want to change that, you can use `STABLE_MODE=true` (which will introduce delays only between main actions, 300ms by default) / `STABLE_MODE=<value>` or `SLOW_MODE=true` (which will introduce delay between every action, 50ms by default) / `SLOW_MODE=<value>`.
+Synpress is blazingly-fast ⚡ by default! If you want to change that, you can
+use `STABLE_MODE=true` (which will introduce delays only between main actions,
+300ms by default) / `STABLE_MODE=<value>` or `SLOW_MODE=true` (which will
+introduce delay between every action, 50ms by default) / `SLOW_MODE=<value>`.
 
-`SYNDEBUG=1` is useful while debugging your tests. Give it a go.
+`SYNDEBUG=1` is very useful while debugging your tests. It enables following
+features:
+
+- improved logging
+- [cypress debugger](https://docs.cypress.io/guides/guides/debugging)
+- [playwright debugger](https://playwright.dev/docs/debug)
+- slow down tests
+
+## 🐳 Using with Docker
+
+Dreaming about "headless" mode? Here comes a rescue 🚑!
+
+Docker is awesome for CI and local development. Give it a try.
+
+### Requirements
+
+- [docker](https://www.docker.com/)
+- [docker-compose](https://docs.docker.com/compose/install/)
+
+### Some neat features
+
+- based on [docker-e2e](https://github.com/Synthetixio/docker-e2e) ❤
+- full screen video recording 🎥 (together with metamask extension)
+- VNC & noVNC support 🖥️ (very easy to debug with browser)
+  - local: http://localhost:8080/vnc.html?autoconnect=true
+- ngrok 🔌 integration (exposes noVNC for everyone)
+  - remote: https://<random>.ngrok.io/vnc.html?autoconnect=true (check logs for
+    url)
+
+### How to use
+
+1. `git clone git@github.com:Synthetixio/synpress.git`
+2. `cd synpress`
+3. (optional) Fill env vars inside `.env` file
+4. `docker-compose up --build --exit-code-from synpress` (starts e2e tests
+   without ngrok)
+   1. `docker-compose --profile ngrok up --build --exit-code-from synpress` or
+      `./start-tests.sh` (with ngrok)
+
+All examples of setup are present in this repository. Just take a look around.
+
+Warning: M2 is not supported with docker.
+
+## CI tips & tricks
+
+- use [docker-e2e](https://github.com/Synthetixio/docker-e2e) ❤
+- stick to bigger resolutions (to make sure that whole extension is visible on
+  screen when opened)
+  - synpress is tested on 1920x1080
+- follow example config here
 
 ## 🧪 Usage
 
@@ -267,6 +334,7 @@ Above actions will lead to:
 
 ## 📃 More resources
 
+- https://gitcoin.co/grants/5699/synpress-web3-enabled-e2e-testing-tool
 - https://medium.com/andamp/how-to-setup-synpress-for-wen3-dapp-frontend-test-automation-with-metamask-73396896684a
 - https://medium.com/andamp/extending-synpress-with-additional-metamask-commands-fdc6b35a2ffc
 - https://medium.com/coinmonks/test-e2e-login-to-dapp-with-metamask-with-synpress-5248dd1f17c1
