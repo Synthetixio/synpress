@@ -1,2 +1,2 @@
 #!/bin/bash
-docker-compose --profile ngrok up --build --exit-code-from synpress
+docker-compose up --build --exit-code-from synpress

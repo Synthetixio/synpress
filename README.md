@@ -259,6 +259,8 @@ Docker is awesome for CI and local development. Give it a try.
 
 All examples of setup are present in this repository. Just take a look around.
 
+Warning: M2 is not supported with docker.
+
 ## CI tips & tricks
 
 - use [docker-e2e](https://github.com/Synthetixio/docker-e2e) ❤
