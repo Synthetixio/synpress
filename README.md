@@ -13,13 +13,13 @@
 
 #
 
-[Synpress](https://github.com/Synthetixio/synpress) is an web3 e2e testing
+[Synpress](https://github.com/Synthetixio/synpress) is e2e testing
 framework based on [Cypress.io](https://github.com/cypress-io/cypress) and
-[playwright](https://playwright.dev/) which enable support for
-[metamask](https://metamask.io/). Test your dapps with ease.
+[playwright](https://playwright.dev/) which adds support for
+[metamask](https://metamask.io/).
 
 Synpress makes sure to always use latest version of metamask and puts a lot of
-effort to make sure that tests are stable and trustful.
+effort to make sure that dapp tests are stable and trustful.
 
 It also provides an easy way to use and access metamask straight from your e2e
 tests with all features of cypress and playwright.
