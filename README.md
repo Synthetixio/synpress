@@ -13,10 +13,10 @@
 
 #
 
-[Synpress](https://github.com/Synthetixio/synpress) is a wrapper around
-[Cypress.io](https://github.com/cypress-io/cypress) with included
-[metamask](https://metamask.io/) support thanks to
-[playwright](https://playwright.dev/).
+[Synpress](https://github.com/Synthetixio/synpress) is an web3 e2e testing
+framework based on [Cypress.io](https://github.com/cypress-io/cypress) and
+[playwright](https://playwright.dev/) which enable support for
+[metamask](https://metamask.io/). Test your dapps with ease.
 
 Synpress makes sure to always use latest version of metamask and puts a lot of
 effort to make sure that tests are stable and trustful.
@@ -262,7 +262,8 @@ All examples of setup are present in this repository. Just take a look around.
 ## CI tips & tricks
 
 - use [docker-e2e](https://github.com/Synthetixio/docker-e2e) ❤
-- stick to bigger resolutions (to make sure that whole extension is visible on screen when opened)
+- stick to bigger resolutions (to make sure that whole extension is visible on
+  screen when opened)
   - synpress is tested on 1920x1080
 - follow example config here
 
