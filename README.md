@@ -39,8 +39,8 @@ To see in which direction Synpress is headed to, take a look at
 ## Features
 
 - added support for metamask 🦊
-- supports headless mode thanks to docker 🐳
-  - recommended for local development and CI
+- supports headless mode thanks to [docker 🐳](https://github.com/Synthetixio/synpress#-using-with-docker)
+  - recommended for local development and [CI](https://github.com/Synthetixio/synpress#ci-tips--tricks)
   - includes VNC and [noVNC](https://novnc.com/info.html)
   - integrated video recoding 🎥 (full screen)
   - exposes noVNC with [ngrok](https://ngrok.com/) (optional)
@@ -266,7 +266,7 @@ Warning: M2 is not supported with docker.
 - stick to bigger resolutions (to make sure that whole extension is visible on
   screen when opened)
   - synpress is tested on 1920x1080
-- follow example config here
+- take a look at this [example config](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/audit_and_lint.yml#L84)
 
 ## 🧪 Usage
 
