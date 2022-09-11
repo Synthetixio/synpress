@@ -258,7 +258,7 @@ All examples of setup are present in this repository. Just take a look around.
 
 ## CI tips & tricks
 
-- use [docker-e2e](https://github.com/Synthetixio/docker-e2e) ❤
+- use [docker-e2e](https://github.com/Synthetixio/docker-e2e)
 - stick to bigger resolutions (to make sure that whole extension is visible on
   screen when opened)
   - synpress is tested on 1920x1080
