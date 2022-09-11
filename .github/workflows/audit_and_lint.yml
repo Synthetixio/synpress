@@ -111,7 +111,7 @@ jobs:
             ${{ runner.os }}-buildx-
 
       - name: Run e2e tests
-        run: ./start-tests-ci.sh
+        run: ./start-tests.sh
         env:
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1
