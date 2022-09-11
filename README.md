@@ -12,11 +12,9 @@
 </p>
 
 #
-
 [Synpress](https://github.com/Synthetixio/synpress) is e2e testing
 framework based on [Cypress.io](https://github.com/cypress-io/cypress) and
-[playwright](https://playwright.dev/) which adds support for
-[metamask](https://metamask.io/).
+[playwright](https://playwright.dev/) with support for [metamask](https://metamask.io/).
 
 Synpress makes sure to always use latest version of metamask and puts a lot of
 effort to make sure that dapp tests are stable and trustful.
