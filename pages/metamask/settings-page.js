@@ -10,9 +10,9 @@ module.exports.settingsPageElements = {
 };
 
 const customNonceToggleOn =
-  '[data-testid="advanced-setting-custom-nonce"] .toggle-button--on input';
+  '[data-testid="advanced-setting-custom-nonce"] .toggle-button--on';
 const customNonceToggleOff =
-  '[data-testid="advanced-setting-custom-nonce"] .toggle-button--off input';
+  '[data-testid="advanced-setting-custom-nonce"] .toggle-button--off';
 const resetAccountButton =
   '[data-testid="advanced-setting-reset-account"] button';
 module.exports.advancedPageElements = {

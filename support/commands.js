@@ -1,10 +1,10 @@
 import '@testing-library/cypress/add-commands';
 import 'cypress-wait-until';
 
-// puppeteer commands
+// playwright commands
 
-Cypress.Commands.add('initPuppeteer', () => {
-  return cy.task('initPuppeteer');
+Cypress.Commands.add('initPlaywright', () => {
+  return cy.task('initPlaywright');
 });
 
 Cypress.Commands.add('assignWindows', () => {

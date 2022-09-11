@@ -33,7 +33,17 @@
         <h3 class="card-title">
           Status
         </h3>
-
+        <div id="warning" class="row justify-content-center error-div">
+          <div class="error-message justify-content-center col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+            <img
+              src="alert-red.svg"
+              alt=""
+              class="error-message-icon
+              "
+            />
+            <div class="error-message-text">You are on the Ethereum Mainnet.</div>
+          </div>
+        </div>
         <div class="row">
           <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
             <p class="info-text alert alert-primary">
@@ -149,7 +159,7 @@
                 </button>
                 <hr />
                 <h4 class="card-title">
-                  Contract
+                  Piggy bank contract
                 </h4>
 
                 <button
@@ -178,6 +188,31 @@
 
                 <p class="info-text alert alert-secondary">
                   Contract Status: <span id="contractStatus">Not clicked</span>
+                </p>
+                <hr />
+                <h4 class="card-title">
+                  Failing contract
+                </h4>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="deployFailingButton"
+                  disabled
+                  
+                >
+                  Deploy Failing Contract
+                </button>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="sendFailingButton"
+                  disabled
+                >
+                  Send Failing Transaction
+                </button>
+
+                <p class="info-text alert alert-secondary">
+                  Failing Contract Status: <span id="failingContractStatus">Not clicked</span>
                 </p>
               </div>
             </div>
@@ -250,6 +285,102 @@
             class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 d-flex align-items-stretch"
           >
             <div class="card full-width">
+              <div class="card-body">
+                <h4 class="card-title">
+                  Collectibles
+                </h4>
+
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="deployCollectiblesButton"
+                  disabled
+                >
+                  Deploy
+                </button>
+
+                <div class="form-group">
+                  <label>Amount</label>
+                  <input
+                    class="form-control"
+                    type="number"
+                    id="mintAmountInput"
+                    value="1"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <button
+                    class="btn btn-primary btn-lg btn-block mb-3"
+                    id="mintButton"
+                    disabled
+                  >
+                    Mint
+                  </button>
+                </div>
+
+                <div class="form-group">
+                  <label>Approve Token</label>
+                  <input
+                    class="form-control"
+                    type="number"
+                    id="approveTokenInput"
+                    value="1"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <button
+                    class="btn btn-primary btn-lg btn-block mb-3"
+                    id="approveButton"
+                    disabled
+                  >
+                    Approve
+                  </button>
+                </div>
+                
+                <div class="form-group">
+                  <button
+                    class="btn btn-primary btn-lg btn-block mb-3"
+                    id="setApprovalForAllButton"
+                    disabled
+                  >
+                    Set Approval For All
+                  </button>
+                </div>
+
+                <div class="form-group">
+                  <label>Transfer Token</label>
+                  <input
+                    class="form-control"
+                    type="number"
+                    id="transferTokenInput"
+                    value="1"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <button
+                    class="btn btn-primary btn-lg btn-block mb-3"
+                    id="transferFromButton"
+                    disabled
+                  >
+                    Transfer From
+                  </button>
+                </div>
+
+                <p class="info-text alert alert-secondary">
+                  Collectibles: <span id="collectiblesStatus"></span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="row d-flex justify-content-center">
+          <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="card">
               <div class="card-body">
                 <h4 class="card-title">
                   Encrypt / Decrypt
@@ -499,14 +630,96 @@
                   id="addEthereumChain"
                   disabled
                 >
-                  Add xDAI Chain
+                  Add Localhost 8546
                 </button>
                 <button
                   class="btn btn-primary btn-lg btn-block mb-3"
                   id="switchEthereumChain"
                   disabled
                 >
-                  Switch to xDAI Chain
+                  Switch to Localhost 8546
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="row d-flex justify-content-center">
+          <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">
+                  Send form
+                </h4>
+                <div class="form-group">
+                  <label>From</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="fromInput"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>To</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="toInput"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Amount</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="amountInput"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Type</label>
+                  <select class="browser-default custom-select" id="typeInput">
+                    <option value="0x0">0x0</option>
+                    <option value="0x2">0x2</option>
+                  </select>
+                </div>
+                <div class="form-group" id="gasPriceDiv">
+                  <label>Gas Price</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="gasInput"
+                  />
+                </div>
+                <div class="form-group" id="maxFeeDiv">
+                  <label>Max Fee</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="maxFeeInput"
+                  />
+                </div>
+                <div class="form-group" id="maxPriorityDiv">
+                  <label>Max Priority Fee</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="maxPriorityFeeInput"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Data</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="dataInput"
+                  />
+                </div>
+                <button
+                  class="btn btn-primary btn-lg btn-block mb-3"
+                  id="submitForm"
+                >
+                  Submit
                 </button>
               </div>
             </div>

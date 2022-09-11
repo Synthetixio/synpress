@@ -1,0 +1,73 @@
+version: '3.9'
+
+services:
+  synpress:
+    container_name: synpress
+    build: .
+    environment:
+      - DISPLAY=novnc:0.0
+      - CYPRESS_PRIVATE_KEY_WITH_FUNDS=${CYPRESS_PRIVATE_KEY_WITH_FUNDS}
+      - CYPRESS_PROJECT_ID=${CYPRESS_PROJECT_ID}
+      - CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+    depends_on:
+      - novnc
+      - video
+    entrypoint: []
+    working_dir: /app
+    volumes:
+      - ./docker/videos:/app/tests/e2e/videos
+      - ./docker/screenshots:/app/tests/e2e/screenshots
+    command: >
+      bash -c 'echo -n "======> local noVNC URL:
+      http://localhost:8080/vnc.html?autoconnect=true " && npx wait-on
+      http://novnc:8080 && echo -n "======> remote noVNC URL: " && curl -s
+      ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && yarn test:e2e:ci'
+    networks:
+      - x11
+
+  novnc:
+    container_name: novnc
+    image: theasp/novnc@sha256:cd5210a86611bc2dc3ea6eb96a2bfe91237983f8fbc1ab02175142e63e461c40
+    environment:
+      - DISPLAY_WIDTH=1920
+      - DISPLAY_HEIGHT=1080
+      - RUN_XTERM=no
+    ports:
+      - '8080:8080'
+    networks:
+      - x11
+
+  ngrok:
+    profiles:
+      - ngrok
+    container_name: ngrok
+    image: wernight/ngrok@sha256:f334773a21fdb8c88b320d74ed11f6a2f936840aa85b45e8ddb329823f8e1635
+    environment:
+      - NGROK_DEBUG=1
+    ports:
+      - '4040:4040'
+    command: ['ngrok', 'http', 'novnc:8080', '--authtoken', '${NGROK_AUTH}']
+    depends_on:
+      - novnc
+    networks:
+      - x11
+
+  video:
+    container_name: video
+    image: selenium/video@sha256:bf3948fd78e160b21726293488e108de25d26d515ce02fbba6790f2a1a2acde6
+    volumes:
+      - ./docker/videos-ci:/videos
+    environment:
+      - SE_SCREEN_WIDTH=1920
+      - SE_SCREEN_HEIGHT=1080
+      - DISPLAY_CONTAINER_NAME=novnc
+      - DISPLAY_NUM=0
+      - FILE_NAME=CI-full-video.mp4
+    depends_on:
+      - novnc
+    networks:
+      - x11
+
+networks:
+  x11:

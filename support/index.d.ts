@@ -2,13 +2,13 @@
 declare namespace Cypress {
   interface Chainable<Subject> {
     /**
-     * Connect puppeteer with Cypress instance
+     * Connect playwright with Cypress instance
      * @example
-     * cy.initPuppeteer()
+     * cy.initPlaywright()
      */
-    initPuppeteer(): Chainable<Subject>;
+    initPlaywright(): Chainable<Subject>;
     /**
-     * Assign currently open tabs with puppeteer
+     * Assign currently open tabs with playwright
      * @example
      * cy.assignWindows()
      */
