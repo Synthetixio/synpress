@@ -251,14 +251,12 @@ Docker is awesome for CI and local development. Give it a try.
 1. `git clone git@github.com:Synthetixio/synpress.git`
 2. `cd synpress`
 3. (optional) Fill env vars inside `.env` file
-4. `docker-compose up --build --exit-code-from synpress` (starts e2e tests
-   without ngrok)
-   1. `docker-compose --profile ngrok up --build --exit-code-from synpress` or
-      `./start-tests.sh` (with ngrok)
+4. (without ngrok) `docker-compose up --build --exit-code-from synpress`
+    - (with ngrok) `docker-compose --profile ngrok up --build --exit-code-from synpress` or `./start-tests.sh`
 
 All examples of setup are present in this repository. Just take a look around.
 
-Warning: M2 is not supported with docker.
+**Warning: M2 is not supported with docker.**
 
 ## CI tips & tricks
 
