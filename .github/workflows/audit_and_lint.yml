@@ -124,7 +124,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Archive e2e artifacts
-        uses: actions/upload-artifact@27121b0bdffd731efa15d66772be8dc71245d074 # pin@v2
+        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # pin@v2
         if: always()
         with:
           name: e2e-artifacts
