@@ -63,7 +63,12 @@ To see in which direction Synpress is headed to, take a look at
 - etherscan API helpers in place which for ex. allows to compare your
   transaction results with etherscan and check tx status
 - synthetix helpers in place which allows to interact with synthetix protocol
-  programatically ...
+  programatically
+- supports codespaces
+  - run your tests in docker
+  - get your feedback remotely thanks to ngrok
+  - use mpeg-4 preview plugin to watch videos from inside codespaces :)
+...
 
 ## 👷 Example setup for eslint and tsconfig
 
@@ -255,6 +260,7 @@ Docker is awesome for CI and local development. Give it a try.
 All examples of setup are present in this repository. Just take a look around.
 
 **Warning: M2 is not supported with docker.**
+As a workaround - you can use codespaces, they're fully supported! :)
 
 ## CI tips & tricks
 
