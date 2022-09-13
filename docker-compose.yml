@@ -28,8 +28,6 @@ services:
     container_name: display
     image: synthetixio/display:d8c172f2b38c1a51a89f4ccf37b9bff9e987f8ad-base
     environment:
-      - DISPLAY_WIDTH=1920
-      - DISPLAY_HEIGHT=1080
       - RUN_XTERM=no
     ports:
       - '8080:8080'
@@ -57,10 +55,6 @@ services:
     volumes:
       - ./docker/videos-ci:/videos
     environment:
-      - SE_SCREEN_WIDTH=1920
-      - SE_SCREEN_HEIGHT=1080
-      - DISPLAY_CONTAINER_NAME=display
-      - DISPLAY_NUM=0
       - FILE_NAME=CI-full-video.mp4
     depends_on:
       - display
