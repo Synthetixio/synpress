@@ -1,5 +1,5 @@
 const cypress = require('cypress');
-const cy2 = require('cy2');
+const patch = require('cy2');
 const helpers = require('./helpers');
 const synpressConfigPath = `${helpers.getSynpressPath()}/synpress.config.js`;
 
@@ -16,13 +16,16 @@ const defaultArguments = [
 const launcher = {
   async open(arguments_) {
     await (arguments_.configFile
-      ? cy2.open({ configFile: arguments_.configFile })
-      : cy2.open({
+      ? cypress.open({ configFile: arguments_.configFile })
+      : cypress.open({
           configFile: synpressConfigPath,
           config: defaultConfig,
         }));
   },
   async run(arguments_) {
+
+    await patch('https://cy.currents.dev');
+
     if (arguments_.configFile) {
       defaultArguments.push(`--config-file=${arguments_.configFile}`);
     } else {
