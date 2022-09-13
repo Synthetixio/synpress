@@ -26,7 +26,7 @@ services:
 
   display:
     container_name: display
-    image: synthetixio/display:d8c172f2b38c1a51a89f4ccf37b9bff9e987f8ad-base
+    image: synthetixio/display:8c262e845add19dd78dfb446dddfb695858f1906-base
     environment:
       - RUN_XTERM=no
     ports:
@@ -51,7 +51,7 @@ services:
 
   video:
     container_name: video
-    image: synthetixio/video:1644f2cef54eb225fb706e0b0f4ab3fd16e25e09-base
+    image: synthetixio/video:8c262e845add19dd78dfb446dddfb695858f1906-base
     volumes:
       - ./docker/videos-ci:/videos
     environment:

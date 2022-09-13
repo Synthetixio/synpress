@@ -256,7 +256,7 @@ describe('Metamask', () => {
     });
     it.skip(`allowMetamaskToAddNetwork should approve permission to add network`, () => {
       cy.get('#addEthereumChain').click();
-      cy.allowMetamaskToAddNetwork().then(approved => {
+      cy.allowMetamaskToAddNetwork('close').then(approved => {
         expect(approved).to.be.true;
       });
     });
