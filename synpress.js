@@ -4,6 +4,12 @@ const program = require('commander');
 const { run, open } = require('./launcher');
 const { version } = require('./package.json');
 
+if (process.env.SYNPRESS_LOCAL_TEST) {
+  require('dotenv').config();
+} else {
+  require('dotenv').config({ path: require('find-config')('.env') });
+}
+
 if (process.env.SYNDEBUG) {
   process.env.PWDEBUG = 1;
   // process.env.DEBUG = 'cypress:*';
