@@ -694,7 +694,6 @@ module.exports = {
     await playwright.waitAndClick(
       confirmationPageElements.footer.approveButton,
       notificationPage,
-      { waitForEvent: 'close' },
     );
     return true;
   },
