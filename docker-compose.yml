@@ -53,7 +53,7 @@ services:
 
   video:
     container_name: video
-    image: selenium/video@sha256:bf3948fd78e160b21726293488e108de25d26d515ce02fbba6790f2a1a2acde6
+    image: synthetixio/video:1644f2cef54eb225fb706e0b0f4ab3fd16e25e09-base
     volumes:
       - ./docker/videos-ci:/videos
     environment:
