@@ -12,9 +12,11 @@
 </p>
 
 #
-[Synpress](https://github.com/Synthetixio/synpress) is e2e testing
-framework based on [Cypress.io](https://github.com/cypress-io/cypress) and
-[playwright](https://playwright.dev/) with support for [metamask](https://metamask.io/).
+
+[Synpress](https://github.com/Synthetixio/synpress) is e2e testing framework
+based on [Cypress.io](https://github.com/cypress-io/cypress) and
+[playwright](https://playwright.dev/) with support for
+[metamask](https://metamask.io/).
 
 Synpress makes sure to always use latest version of metamask and puts a lot of
 effort to make sure that dapp tests are stable and trustful.
@@ -37,8 +39,10 @@ To see in which direction Synpress is headed to, take a look at
 ## Features
 
 - added support for metamask 🦊
-- supports headless mode thanks to [docker 🐳](https://github.com/Synthetixio/synpress#-using-with-docker)
-  - recommended for local development and [CI](https://github.com/Synthetixio/synpress#ci-tips--tricks)
+- supports headless mode thanks to
+  [docker 🐳](https://github.com/Synthetixio/synpress#-using-with-docker)
+  - recommended for local development and
+    [CI](https://github.com/Synthetixio/synpress#ci-tips--tricks)
   - includes VNC and [noVNC](https://novnc.com/info.html)
   - integrated video recoding 🎥 (full screen)
   - exposes noVNC with [ngrok](https://ngrok.com/) (optional)
@@ -52,10 +56,13 @@ To see in which direction Synpress is headed to, take a look at
 - extensible ⚙️ (add own custom commands and plugins)
 - can be used in existing
   [cypress setup](https://github.com/Synthetixio/synpress/issues/346#issuecomment-1060506096)
+- supports dotenv
+  - loads all env vars from your `.env` file automatically (from project root folder)
 - ability to use latest metamask or lock it's version to avoid unexpected
   failures related to metamask updates
 - supports multi-lang of metamask, it doesn't depend on any labels
-- synpress is [fully tested](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e/specs)
+- synpress is
+  [fully tested](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e/specs)
 - waits for XHR requests, navigations and animations automatically
 - ability to fail test run if there are any browser console errors found
 - types support for all additional custom commands
@@ -67,8 +74,7 @@ To see in which direction Synpress is headed to, take a look at
 - supports codespaces
   - run your tests in docker
   - get your feedback remotely thanks to ngrok
-  - use mpeg-4 preview plugin to watch videos from inside codespaces :)
-...
+  - use mpeg-4 preview plugin to watch videos from inside codespaces :) ...
 
 ## 👷 Example setup for eslint and tsconfig
 
@@ -136,10 +142,9 @@ To change specific values in default config, you can use `--config` flag. For
 example, to change path for `support.js` file, you can use
 `synpress run --config "supportFile=__tests__/e2e/supportFile.js"`
 
-If you would like to use custom paths for your tests and configs, feel free to
-mirror
-[default synpress config](https://github.com/Synthetixio/synpress/blob/dev/synpress.config.js)
-and modify it for your needs. Then you can direct synpress to use it with
+If you would like to use custom paths for your tests and configs, you should
+[mirror (full) default synpress config](https://github.com/Synthetixio/synpress/blob/dev/synpress.config.js)
+and then modify it for your needs. Then you can direct synpress to use it with
 `--configFile` flag.
 
 For example: `synpress run --configFile __tests__/e2e/customConfig.config.js`
@@ -207,9 +212,8 @@ key using `ETHERSCAN_KEY` enironmental variable.
 To fail a test if there are any browser console errors, set `FAIL_ON_ERROR` to
 `1` or `true`.
 
-Automatic waiting for XHR requests to finish before tests start can be turned
-on with `CYPRESS_RESOURCES_WAIT` environmental variable, set it to `1` or
-`true`.
+Automatic waiting for XHR requests to finish before tests start can be turned on
+with `CYPRESS_RESOURCES_WAIT` environmental variable, set it to `1` or `true`.
 
 If you want to skip metamask extension installation or metamask setup, you can
 use `SKIP_METAMASK_INSTALL` and `SKIP_METAMASK_SETUP` separately. Both variables
@@ -255,12 +259,14 @@ Docker is awesome for CI and local development. Give it a try.
 2. `cd synpress`
 3. (optional) Fill env vars inside `.env` file
 4. (without ngrok) `docker-compose up --build --exit-code-from synpress`
-    - (with ngrok) `docker-compose --profile ngrok up --build --exit-code-from synpress` or `./start-tests.sh`
+   - (with ngrok)
+     `docker-compose --profile ngrok up --build --exit-code-from synpress` or
+     `./start-tests.sh`
 
 All examples of setup are present in this repository. Just take a look around.
 
-**Warning: M2 is not supported with docker.**
-As a workaround - you can use codespaces, they're fully supported! :)
+**Warning: M2 is not supported with docker.** As a workaround - you can use
+codespaces, they're fully supported! :)
 
 ## CI tips & tricks
 
@@ -268,7 +274,8 @@ As a workaround - you can use codespaces, they're fully supported! :)
 - stick to bigger resolutions (to make sure that whole extension is visible on
   screen when opened)
   - synpress is tested on 1920x1080
-- take a look at this [example config](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/audit_and_lint.yml#L84)
+- take a look at this
+  [example config](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/audit_and_lint.yml#L84)
 
 ## 🧪 Usage
 

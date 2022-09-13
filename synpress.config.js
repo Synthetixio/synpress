@@ -1,8 +1,8 @@
+const path = require('path');
+const packageJson = require('./package.json');
 const { defineConfig } = require('cypress');
-const setupNodeEvents = require('./plugins/index');
-const helpers = require('./helpers');
-
-const fixturesFolder = `${helpers.getSynpressPath()}/fixtures`;
+const setupNodeEvents = require(`${getSynpressPath()}/plugins/index`);
+const fixturesFolder = `${getSynpressPath()}/fixtures`;
 const supportFile = 'tests/e2e/support.js';
 
 module.exports = defineConfig({
@@ -35,3 +35,11 @@ module.exports = defineConfig({
     supportFile,
   },
 });
+
+function getSynpressPath() {
+  if (process.env.SYNPRESS_LOCAL_TEST) {
+    return '.';
+  } else {
+    return path.dirname(require.resolve(packageJson.name));
+  }
+}

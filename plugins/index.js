@@ -191,8 +191,8 @@ module.exports = (on, config) => {
       const rejected = await metamask.rejectTransaction();
       return rejected;
     },
-    allowMetamaskToAddNetwork: async () => {
-      const allowed = await metamask.allowToAddNetwork();
+    allowMetamaskToAddNetwork: async ({ waitForEvent }) => {
+      const allowed = await metamask.allowToAddNetwork({ waitForEvent });
       return allowed;
     },
     rejectMetamaskToAddNetwork: async () => {
