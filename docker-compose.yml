@@ -5,11 +5,11 @@ services:
     container_name: synpress
     build: .
     environment:
-      - DISPLAY=novnc:0.0
+      - DISPLAY=display:0.0
       - CYPRESS_PRIVATE_KEY_WITH_FUNDS=${CYPRESS_PRIVATE_KEY_WITH_FUNDS}
       - GITHUB_TOKEN=${GITHUB_TOKEN}
     depends_on:
-      - novnc
+      - display
       - video
     entrypoint: []
     working_dir: /app
@@ -19,14 +19,14 @@ services:
     command: >
       bash -c 'echo -n "======> local noVNC URL:
       http://localhost:8080/vnc.html?autoconnect=true " && npx wait-on
-      http://novnc:8080 && echo -n "======> remote noVNC URL: " && curl -s
+      http://display:8080 && echo -n "======> remote noVNC URL: " && curl -s
       ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && yarn test:e2e'
     networks:
       - x11
 
-  novnc:
-    container_name: novnc
-    image: theasp/novnc@sha256:cd5210a86611bc2dc3ea6eb96a2bfe91237983f8fbc1ab02175142e63e461c40
+  display:
+    container_name: display
+    image: synthetixio/display:d8c172f2b38c1a51a89f4ccf37b9bff9e987f8ad-base
     environment:
       - DISPLAY_WIDTH=1920
       - DISPLAY_HEIGHT=1080
@@ -45,9 +45,9 @@ services:
       - NGROK_DEBUG=1
     ports:
       - '4040:4040'
-    command: ['ngrok', 'http', 'novnc:8080', '--authtoken', '${NGROK_AUTH}']
+    command: ['ngrok', 'http', 'display:8080', '--authtoken', '${NGROK_AUTH}']
     depends_on:
-      - novnc
+      - display
     networks:
       - x11
 
@@ -59,11 +59,11 @@ services:
     environment:
       - SE_SCREEN_WIDTH=1920
       - SE_SCREEN_HEIGHT=1080
-      - DISPLAY_CONTAINER_NAME=novnc
+      - DISPLAY_CONTAINER_NAME=display
       - DISPLAY_NUM=0
       - FILE_NAME=CI-full-video.mp4
     depends_on:
-      - novnc
+      - display
     networks:
       - x11
 
