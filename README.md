@@ -136,10 +136,9 @@ To change specific values in default config, you can use `--config` flag. For
 example, to change path for `support.js` file, you can use
 `synpress run --config "supportFile=__tests__/e2e/supportFile.js"`
 
-If you would like to use custom paths for your tests and configs, feel free to
-mirror
-[default synpress config](https://github.com/Synthetixio/synpress/blob/dev/synpress.config.js)
-and modify it for your needs. Then you can direct synpress to use it with
+If you would like to use custom paths for your tests and configs, you should
+[mirror (full) default synpress config](https://github.com/Synthetixio/synpress/blob/dev/synpress.config.js)
+and then modify it for your needs. Then you can direct synpress to use it with
 `--configFile` flag.
 
 For example: `synpress run --configFile __tests__/e2e/customConfig.config.js`
