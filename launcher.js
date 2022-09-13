@@ -1,4 +1,5 @@
-const cypress = require('cy2');
+const cypress = require('cypress');
+const cy2 = require('cy2');
 const helpers = require('./helpers');
 const synpressConfigPath = `${helpers.getSynpressPath()}/synpress.config.js`;
 
@@ -15,8 +16,8 @@ const defaultArguments = [
 const launcher = {
   async open(arguments_) {
     await (arguments_.configFile
-      ? cypress.open({ configFile: arguments_.configFile })
-      : cypress.open({
+      ? cy2.open({ configFile: arguments_.configFile })
+      : cy2.open({
           configFile: synpressConfigPath,
           config: defaultConfig,
         }));
@@ -71,7 +72,7 @@ const launcher = {
     }
 
     const runOptions = await cypress.cli.parseRunArguments(defaultArguments);
-    const results = await cypress.run(runOptions);
+    const results = await cy2.run(runOptions);
     if (results.failures) {
       console.error('Failed to run Cypress');
       console.error(results.message);
