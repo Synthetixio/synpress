@@ -62,6 +62,7 @@
     "bytes32": "^0.0.3",
     "commander": "^9.4.0",
     "cross-zip": "^4.0.0",
+    "cy2": "^2.0.1",
     "cypress": "^10.7.0",
     "cypress-wait-until": "^1.7.2",
     "eslint": "^7.32.0",
@@ -85,6 +86,7 @@
     "synthetix-js": "^2.74.1"
   },
   "devDependencies": {
+    "@currents/cli": "^2.1.1",
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
     "npm-check-updates": "^16.1.0",
     "release-it": "^15.4.1"
