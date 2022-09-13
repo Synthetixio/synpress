@@ -131,8 +131,8 @@ Cypress.Commands.add('rejectMetamaskTransaction', () => {
   return cy.task('rejectMetamaskTransaction');
 });
 
-Cypress.Commands.add('allowMetamaskToAddNetwork', () => {
-  return cy.task('allowMetamaskToAddNetwork');
+Cypress.Commands.add('allowMetamaskToAddNetwork', waitForEvent => {
+  return cy.task('allowMetamaskToAddNetwork', { waitForEvent });
 });
 
 Cypress.Commands.add('rejectMetamaskToAddNetwork', () => {

@@ -689,12 +689,20 @@ module.exports = {
     );
     return true;
   },
-  allowToAddNetwork: async () => {
+  allowToAddNetwork: async ({ waitForEvent }) => {
     const notificationPage = await playwright.switchToMetamaskNotification();
-    await playwright.waitAndClick(
-      confirmationPageElements.footer.approveButton,
-      notificationPage,
-    );
+    if (waitForEvent) {
+      await playwright.waitAndClick(
+        confirmationPageElements.footer.approveButton,
+        notificationPage,
+        { waitForEvent },
+      );
+    } else {
+      await playwright.waitAndClick(
+        confirmationPageElements.footer.approveButton,
+        notificationPage,
+      );
+    }
     return true;
   },
   rejectToAddNetwork: async () => {
