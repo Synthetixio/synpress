@@ -62,7 +62,7 @@
     "bytes32": "^0.0.3",
     "commander": "^9.4.0",
     "cross-zip": "^4.0.0",
-    "cypress": "^10.7.0",
+    "cypress": "^10.8.0",
     "cypress-wait-until": "^1.7.2",
     "dotenv-parse-variables": "^2.0.0",
     "eslint": "^7.32.0",
@@ -75,7 +75,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.0.1",
     "eslint-plugin-standard": "^4.1.0",
-    "eslint-plugin-testing-library": "^5.6.1",
+    "eslint-plugin-testing-library": "^5.6.4",
     "eslint-plugin-ui-testing": "^2.0.1",
     "eslint-plugin-unicorn": "^43.0.2",
     "etherscan-api": "^10.2.0",
@@ -87,7 +87,7 @@
   },
   "devDependencies": {
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
-    "npm-check-updates": "^16.1.0",
+    "npm-check-updates": "^16.1.2",
     "release-it": "^15.4.1"
   },
   "engines": {
