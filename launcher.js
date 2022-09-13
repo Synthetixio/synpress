@@ -1,4 +1,4 @@
-const cy2 = require('cy2');
+const cypress = require('cy2');
 const helpers = require('./helpers');
 const synpressConfigPath = `${helpers.getSynpressPath()}/synpress.config.js`;
 
@@ -7,7 +7,7 @@ process.env.CYPRESS_REMOTE_DEBUGGING_PORT = 9222;
 const defaultConfig = ``;
 
 const defaultArguments = [
-  'cy2',
+  'cypress',
   'run',
   '--headed', // needed for extensions like metamask to work
 ];
@@ -15,8 +15,8 @@ const defaultArguments = [
 const launcher = {
   async open(arguments_) {
     await (arguments_.configFile
-      ? cy2.open({ configFile: arguments_.configFile })
-      : cy2.open({
+      ? cypress.open({ configFile: arguments_.configFile })
+      : cypress.open({
           configFile: synpressConfigPath,
           config: defaultConfig,
         }));
@@ -70,8 +70,8 @@ const launcher = {
       defaultArguments.push(`--tag=${arguments_.tag}`);
     }
 
-    const runOptions = await cy2.cli.parseRunArguments(defaultArguments);
-    const results = await cy2.run(runOptions);
+    const runOptions = await cypress.cli.parseRunArguments(defaultArguments);
+    const results = await cypress.run(runOptions);
     if (results.failures) {
       console.error('Failed to run Cypress');
       console.error(results.message);
