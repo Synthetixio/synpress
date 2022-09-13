@@ -26,7 +26,7 @@ services:
 
   display:
     container_name: display
-    image: synthetixio/display:8c262e845add19dd78dfb446dddfb695858f1906-base
+    image: synthetixio/display:b2643097e891906524e52e7ee956260b20fa01fb-base
     environment:
       - RUN_XTERM=no
     ports:
@@ -38,9 +38,7 @@ services:
     profiles:
       - ngrok
     container_name: ngrok
-    image: wernight/ngrok@sha256:f334773a21fdb8c88b320d74ed11f6a2f936840aa85b45e8ddb329823f8e1635
-    environment:
-      - NGROK_DEBUG=1
+    image: synthetixio/ngrok:b2643097e891906524e52e7ee956260b20fa01fb-base
     ports:
       - '4040:4040'
     command: ['ngrok', 'http', 'display:8080', '--authtoken', '${NGROK_AUTH}']
@@ -51,7 +49,7 @@ services:
 
   video:
     container_name: video
-    image: synthetixio/video:8c262e845add19dd78dfb446dddfb695858f1906-base
+    image: synthetixio/video:b2643097e891906524e52e7ee956260b20fa01fb-base
     volumes:
       - ./docker/videos-ci:/videos
     environment:
