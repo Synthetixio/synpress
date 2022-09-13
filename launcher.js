@@ -72,7 +72,7 @@ const launcher = {
     }
 
     const runOptions = await cypress.cli.parseRunArguments(defaultArguments);
-    const results = await cy2.run(runOptions);
+    const results = await cypress.run(runOptions);
     if (results.failures) {
       console.error('Failed to run Cypress');
       console.error(results.message);
