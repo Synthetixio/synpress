@@ -519,7 +519,7 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
-    await playwright.waitFor(mainPageElements.walletOverview);
+    // await playwright.waitFor(mainPageElements.walletOverview);
 
     await switchToCypressIfNotActive();
     return true;
@@ -756,9 +756,11 @@ module.exports = {
     await playwright.init();
     await playwright.assignWindows();
     await playwright.assignActiveTabName('metamask');
+    await module.exports.fixBlankPage();
     if (
-      (await playwright.metamaskWindow().$(unlockPageElements.unlockPage)) ===
-      null
+      (await playwright
+        .metamaskWindow()
+        .$(welcomePageElements.confirmButton)) !== null
     ) {
       await module.exports.confirmWelcomePage();
       if (secretWordsOrPrivateKey.includes(' ')) {
@@ -777,11 +779,29 @@ module.exports = {
       walletAddress = await module.exports.getWalletAddress();
       await playwright.switchToCypressWindow();
       return true;
-    } else {
+    } else if (
+      (await playwright
+        .metamaskWindow()
+        .$(unlockPageElements.passwordInput)) !== null
+    ) {
       await module.exports.unlock(password);
       walletAddress = await module.exports.getWalletAddress();
       await playwright.switchToCypressWindow();
       return true;
+    } else {
+      if (
+        (await playwright
+          .metamaskWindow()
+          .$(mainPageElements.walletOverview)) !== null &&
+        !process.env.RESET_METAMASK
+      ) {
+        await playwright.switchToMetamaskWindow();
+        walletAddress = await module.exports.getWalletAddress();
+        await playwright.switchToCypressWindow();
+        return true;
+      } else {
+        // todo: reset metamask state
+      }
     }
   },
 };
