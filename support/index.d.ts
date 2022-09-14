@@ -81,7 +81,7 @@ declare namespace Cypress {
      * cy.createMetamaskAccount()
      * cy.createMetamaskAccount('accountName')
      */
-    createMetamaskAccount(accountName: string | undefined): Chainable<Subject>;
+    createMetamaskAccount(accountName?: string): Chainable<Subject>;
     /**
      * Switch metamask account
      * @example
@@ -187,7 +187,7 @@ declare namespace Cypress {
      * cy.acceptMetamaskAccess()
      * cy.acceptMetamaskAccess(true)
      */
-    acceptMetamaskAccess(allAccounts: boolean | undefined): Chainable<Subject>;
+    acceptMetamaskAccess(allAccounts?: boolean): Chainable<Subject>;
     /**
      * Confirm metamask atransaction
      * @example
@@ -195,7 +195,7 @@ declare namespace Cypress {
      * cy.confirmMetamaskTransaction({gasFee: 10, gasLimit: 1000000})
      */
     confirmMetamaskTransaction(
-      gasConfig: object | undefined,
+      gasConfig?: object,
     ): Chainable<Subject>;
     /**
      * Reject metamask transaction
@@ -210,7 +210,7 @@ declare namespace Cypress {
      * cy.allowMetamaskToAddNetwork('close') // (waitForEvent)
      */
     allowMetamaskToAddNetwork(
-      waitForEvent: string | undefined,
+      waitForEvent?: string,
     ): Chainable<Subject>;
     /**
      * Reject site to add new network in metamask
@@ -300,7 +300,7 @@ declare namespace Cypress {
      * cy.waitForResources([{name:"fonts.gstatic.com/s/worksans",number:2}])
      */
     waitForResources(
-      resources: Array<{ name: string; number?: number }> | undefined,
+      resources?: Array<{ name: string; number?: number }>,
     ): Chainable<Subject>;
     /**
      * Assert that element top is within viewport
