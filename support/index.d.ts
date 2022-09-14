@@ -207,8 +207,11 @@ declare namespace Cypress {
      * Allow site to add new network in metamask
      * @example
      * cy.allowMetamaskToAddNetwork()
+     * cy.allowMetamaskToAddNetwork('close') // (waitForEvent)
      */
-    allowMetamaskToAddNetwork(): Chainable<Subject>;
+    allowMetamaskToAddNetwork(
+      waitForEvent: string | undefined,
+    ): Chainable<Subject>;
     /**
      * Reject site to add new network in metamask
      * @example
