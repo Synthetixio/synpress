@@ -194,9 +194,7 @@ declare namespace Cypress {
      * cy.confirmMetamaskTransaction()
      * cy.confirmMetamaskTransaction({gasFee: 10, gasLimit: 1000000})
      */
-    confirmMetamaskTransaction(
-      gasConfig?: object,
-    ): Chainable<Subject>;
+    confirmMetamaskTransaction(gasConfig?: object): Chainable<Subject>;
     /**
      * Reject metamask transaction
      * @example
@@ -209,9 +207,7 @@ declare namespace Cypress {
      * cy.allowMetamaskToAddNetwork()
      * cy.allowMetamaskToAddNetwork('close') // (waitForEvent)
      */
-    allowMetamaskToAddNetwork(
-      waitForEvent?: string,
-    ): Chainable<Subject>;
+    allowMetamaskToAddNetwork(waitForEvent?: string): Chainable<Subject>;
     /**
      * Reject site to add new network in metamask
      * @example
