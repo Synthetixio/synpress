@@ -56,6 +56,8 @@ To see in which direction Synpress is headed to, take a look at
 - extensible ⚙️ (add own custom commands and plugins)
 - can be used in existing
   [cypress setup](https://github.com/Synthetixio/synpress/issues/346#issuecomment-1060506096)
+- supports dotenv
+  - loads all env vars from your `.env` file automatically (from project root folder)
 - ability to use latest metamask or lock it's version to avoid unexpected
   failures related to metamask updates
 - supports multi-lang of metamask, it doesn't depend on any labels
