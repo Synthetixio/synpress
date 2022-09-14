@@ -689,7 +689,7 @@ module.exports = {
     );
     return true;
   },
-  allowToAddNetwork: async ({ waitForEvent }) => {
+  allowToAddNetwork: async ({ waitForEvent } = {}) => {
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (waitForEvent) {
       await playwright.waitAndClick(
