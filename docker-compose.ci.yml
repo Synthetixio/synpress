@@ -25,7 +25,7 @@ services:
       ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && yarn test:e2e'
     networks:
       - x11
-  
+
   display:
     container_name: display
     image: synthetixio/display:b2643097e891906524e52e7ee956260b20fa01fb-base
