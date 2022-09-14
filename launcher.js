@@ -1,7 +1,7 @@
 const cypress = require('cypress');
 const helpers = require('./helpers');
 const synpressConfigPath = `${helpers.getSynpressPath()}/synpress.config.js`;
-const { patch } = require("cy2");
+const { patch } = require('cy2');
 
 process.env.CYPRESS_REMOTE_DEBUGGING_PORT = 9222;
 
@@ -23,6 +23,14 @@ const launcher = {
         }));
   },
   async run(arguments_) {
+    if ('CYPRESS_API_URL' in process.env && 'CYPRESS_PATH' in process.env) {
+      await patch(process.env.CYPRESS_API_URL, process.env.CYPRESS_PATH);
+    } else if ('CYPRESS_API_URL' in process.env) {
+      await patch(process.env.CYPRESS_API_URL);
+    } else {
+      await patch('https://api.cypress.io/');
+    }
+
     if (arguments_.configFile) {
       defaultArguments.push(`--config-file=${arguments_.configFile}`);
     } else {
@@ -69,10 +77,6 @@ const launcher = {
     }
     if (arguments_.tag) {
       defaultArguments.push(`--tag=${arguments_.tag}`);
-    }
-
-    if("CYPRESS_API_URL" in process.env) {
-      await patch(process.env.CYPRESS_API_URL);
     }
 
     const runOptions = await cypress.cli.parseRunArguments(defaultArguments);

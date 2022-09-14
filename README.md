@@ -227,6 +227,9 @@ introduce delay between every action, 50ms by default) / `SLOW_MODE=<value>`.
 `SYNDEBUG=1` is very useful while debugging your tests. It enables following
 features:
 
+If you want to use sorry cypress just pass your url to `CYPRESS_API_URL`. You can
+manually set path to cypress by setting `CYPRESS_PATH` environmental variable.
+
 - improved logging
 - [cypress debugger](https://docs.cypress.io/guides/guides/debugging)
 - [playwright debugger](https://playwright.dev/docs/debug)
