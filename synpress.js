@@ -98,6 +98,10 @@ program
     '[dashboard] group recorded tests together under a single run',
   )
   .option('-t, --tag <name>', '[dashboard] add tags to dashboard for test run')
+  .option(
+    '-cid, --ciBuildId <name>',
+    '[dashboard] add custom ci build id to dashboard for test run',
+  )
   .description('launch tests')
   .action(options => {
     run({
@@ -116,6 +120,7 @@ program
       parallel: options.parallel,
       group: options.group,
       tag: options.tag,
+      ciBuildId: options.ciBuildId,
     });
   });
 

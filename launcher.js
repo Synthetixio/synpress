@@ -78,6 +78,9 @@ const launcher = {
     if (arguments_.tag) {
       defaultArguments.push(`--tag=${arguments_.tag}`);
     }
+    if (arguments_.ciBuildId) {
+      defaultArguments.push(`--ci-build-id=${arguments_.ciBuildId}`);
+    }
 
     const runOptions = await cypress.cli.parseRunArguments(defaultArguments);
     const results = await cypress.run(runOptions);
