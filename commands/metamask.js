@@ -452,6 +452,17 @@ module.exports = {
       );
     }
 
+    // close popup if present
+    if (
+      (await playwright
+        .metamaskWindow()
+        .$(mainPageElements.connectedSites.modal)) !== null
+    ) {
+      await playwright.waitAndClick(
+        mainPageElements.connectedSites.closeButton,
+      );
+    }
+
     await switchToCypressIfNotActive();
     return true;
   },
