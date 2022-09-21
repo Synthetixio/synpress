@@ -1,6 +1,6 @@
 const axios = require('axios');
-const fs = require('fs');
 const zip = require('cross-zip');
+const fs = require('fs').promises;
 const path = require('path');
 const packageJson = require('./package.json');
 const { pipeline } = require('stream/promises');
@@ -46,6 +46,19 @@ module.exports = {
       return '.';
     } else {
       return path.dirname(require.resolve(packageJson.name));
+    }
+  },
+  checkDirExist: async path => {
+    try {
+      await fs.access(path);
+    } catch (e) {
+      if (e.code === 'ENOENT') {
+        await fs.mkdir(path);
+      } else {
+        throw new Error(
+          `[prepareMetamask] Unhandled error from fs.access() with following error:\n${e}`,
+        );
+      }
     }
   },
   getMetamaskReleases: async version => {
