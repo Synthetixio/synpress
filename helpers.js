@@ -3,6 +3,7 @@ const fs = require('fs');
 const zip = require('cross-zip');
 const path = require('path');
 const packageJson = require('./package.json');
+const { pipeline } = require('stream/promises');
 
 let networkName = 'mainnet';
 let networkId = 1;
@@ -51,36 +52,55 @@ module.exports = {
     let filename;
     let downloadUrl;
 
-    const response = await axios.get(
-      'https://api.github.com/repos/metamask/metamask-extension/releases',
-    );
-
-    if (version === 'latest' || !version) {
-      filename = response.data[0].assets[0].name;
-      downloadUrl = response.data[0].assets[0].browser_download_url;
-    } else if (version) {
-      filename = `metamask-chrome-${version}.zip`;
-      downloadUrl = `https://github.com/MetaMask/metamask-extension/releases/download/v${version}/metamask-chrome-${version}.zip`;
+    try {
+      const response = await axios.get(
+        'https://api.github.com/repos/metamask/metamask-extension/releases',
+      );
+      if (version === 'latest' || !version) {
+        filename = response.data[0].assets[0].name;
+        downloadUrl = response.data[0].assets[0].browser_download_url;
+      } else if (version) {
+        filename = `metamask-chrome-${version}.zip`;
+        downloadUrl = `https://github.com/MetaMask/metamask-extension/releases/download/v${version}/metamask-chrome-${version}.zip`;
+      }
+      return {
+        filename,
+        downloadUrl,
+      };
+    } catch (e) {
+      throw new Error(
+        `[getMetamaskReleases] Unable to fetch metamask releases from: ${downloadUrl}`,
+        e,
+      );
     }
-
-    return {
-      filename,
-      downloadUrl,
-    };
   },
   download: async (url, destination) => {
-    const writer = fs.createWriteStream(destination);
-    const result = await axios({
-      url,
-      method: 'GET',
-      responseType: 'stream',
-    });
-    await new Promise(resolve =>
-      result.data.pipe(writer).on('finish', resolve),
-    );
+    try {
+      const writer = await pipeline(fs.createWriteStream(destination));
+      const result = await axios({
+        url,
+        method: 'GET',
+        responseType: 'stream',
+      });
+      await new Promise(resolve =>
+        result.data.pipe(writer).on('finish', resolve),
+      );
+    } catch (e) {
+      throw new Error(
+        `[download] Unable to download metamask release from: ${url} to: ${destination}`,
+        e,
+      );
+    }
   },
   extract: async (file, destination) => {
-    await zip.unzip(file, destination);
+    try {
+      await zip.unzip(file, destination);
+    } catch (e) {
+      throw new Error(
+        `[extract] Unable to extract file: ${file} at following destination: ${destination}`,
+        e,
+      );
+    }
   },
   prepareMetamask: async version => {
     const release = await module.exports.getMetamaskReleases(version);
