@@ -1,9 +1,8 @@
 const axios = require('axios');
-const zip = require('cross-zip');
 const fs = require('fs').promises;
 const path = require('path');
+const download = require('download');
 const packageJson = require('./package.json');
-const { pipeline } = require('stream/promises');
 
 let networkName = 'mainnet';
 let networkId = 1;
@@ -92,25 +91,9 @@ module.exports = {
   },
   download: async (url, destination) => {
     try {
-      const writer = await pipeline(fs.createWriteStream(destination));
-      const result = await axios({
-        url,
-        method: 'GET',
-        responseType: 'stream',
-      });
-      await new Promise(resolve =>
-        result.data.pipe(writer).on('finish', resolve),
-      );
-    } catch (e) {
-      throw new Error(
-        `[download] Unable to download metamask release from: ${url} to: ${destination}`,
-        e,
-      );
-    }
-  },
-  extract: async (file, destination) => {
-    try {
-      await zip.unzip(file, destination);
+      // todo: check if zip file exists, if yes then remove it before
+      // todo: if directory exists, dont overwrite
+      await download(url, destination, { extract: true });
     } catch (e) {
       throw new Error(
         `[download] Unable to download metamask release from: ${url} to: ${destination} with following error:\n${e}`,
@@ -120,13 +103,9 @@ module.exports = {
   prepareMetamask: async version => {
     const release = await module.exports.getMetamaskReleases(version);
     const downloadsDirectory = path.resolve(__dirname, 'downloads');
-    if (!fs.existsSync(downloadsDirectory)) {
-      fs.mkdirSync(downloadsDirectory);
-    }
-    const downloadDestination = path.join(downloadsDirectory, release.filename);
-    await module.exports.download(release.downloadUrl, downloadDestination);
-    const metamaskDirectory = path.join(downloadsDirectory, 'metamask');
-    await module.exports.extract(downloadDestination, metamaskDirectory);
+    await module.exports.dirExists(downloadsDirectory);
+    const metamaskDirectory = path.join(downloadsDirectory, release.tagName);
+    await module.exports.download(release.downloadUrl, metamaskDirectory);
     return metamaskDirectory;
   },
 };
