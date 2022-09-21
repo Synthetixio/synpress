@@ -82,8 +82,7 @@ module.exports = {
       };
     } catch (e) {
       throw new Error(
-        `[getMetamaskReleases] Unable to fetch metamask releases from: ${downloadUrl}`,
-        e,
+        `[getMetamaskReleases] Unable to fetch metamask releases from: ${downloadUrl} with following error:\n${e}`,
       );
     }
   },
@@ -110,8 +109,7 @@ module.exports = {
       await zip.unzip(file, destination);
     } catch (e) {
       throw new Error(
-        `[extract] Unable to extract file: ${file} at following destination: ${destination}`,
-        e,
+        `[download] Unable to download metamask release from: ${url} to: ${destination} with following error:\n${e}`,
       );
     }
   },
