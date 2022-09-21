@@ -47,7 +47,7 @@ module.exports = {
       return path.dirname(require.resolve(packageJson.name));
     }
   },
-  checkDirExist: async path => {
+  createDirIfNotExist: async path => {
     try {
       await fs.access(path);
     } catch (e) {
@@ -56,6 +56,20 @@ module.exports = {
       } else {
         throw new Error(
           `[prepareMetamask] Unhandled error from fs.access() with following error:\n${e}`,
+        );
+      }
+    }
+  },
+  checkDirOrFileExist: async path => {
+    try {
+      await fs.access(path);
+      return true;
+    } catch (e) {
+      if (e.code === 'ENOENT') {
+        return false;
+      } else {
+        throw new Error(
+          `[checkDirOrFileExist] Unhandled error from fs.access() with following error:\n${e}`,
         );
       }
     }
@@ -91,8 +105,6 @@ module.exports = {
   },
   download: async (url, destination) => {
     try {
-      // todo: check if zip file exists, if yes then remove it before
-      // todo: if directory exists, dont overwrite
       await download(url, destination, { extract: true });
     } catch (e) {
       throw new Error(
@@ -103,9 +115,22 @@ module.exports = {
   prepareMetamask: async version => {
     const release = await module.exports.getMetamaskReleases(version);
     const downloadsDirectory = path.resolve(__dirname, 'downloads');
-    await module.exports.dirExists(downloadsDirectory);
+    await module.exports.createDirIfNotExist(downloadsDirectory);
     const metamaskDirectory = path.join(downloadsDirectory, release.tagName);
-    await module.exports.download(release.downloadUrl, metamaskDirectory);
+    const metamaskDirectoryExists = await module.exports.checkDirOrFileExist(
+      metamaskDirectory,
+    );
+    const metamaskManifestFilePath = path.join(
+      downloadsDirectory,
+      release.tagName,
+      'manifest.json',
+    );
+    const metamaskManifestFileExists = await module.exports.checkDirOrFileExist(
+      metamaskManifestFilePath,
+    );
+    if (!metamaskDirectoryExists && !metamaskManifestFileExists) {
+      await module.exports.download(release.downloadUrl, metamaskDirectory);
+    }
     return metamaskDirectory;
   },
 };
