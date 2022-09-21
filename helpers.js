@@ -64,6 +64,7 @@ module.exports = {
   getMetamaskReleases: async version => {
     let filename;
     let downloadUrl;
+    let tagName;
 
     try {
       const response = await axios.get(
@@ -72,13 +73,16 @@ module.exports = {
       if (version === 'latest' || !version) {
         filename = response.data[0].assets[0].name;
         downloadUrl = response.data[0].assets[0].browser_download_url;
+        tagName = response.data[0].tag_name;
       } else if (version) {
         filename = `metamask-chrome-${version}.zip`;
         downloadUrl = `https://github.com/MetaMask/metamask-extension/releases/download/v${version}/metamask-chrome-${version}.zip`;
+        tagName = `metamask-chrome-${version}`;
       }
       return {
         filename,
         downloadUrl,
+        tagName,
       };
     } catch (e) {
       throw new Error(
