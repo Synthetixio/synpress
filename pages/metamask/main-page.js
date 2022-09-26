@@ -9,6 +9,7 @@ const walletOverview = '.wallet-overview';
 const popup = {
   container: '.popover-container',
   closeButton: '.popover-header__button',
+  background: '.popover-bg',
 };
 
 const accountMenu = {
