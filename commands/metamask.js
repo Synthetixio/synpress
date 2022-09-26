@@ -70,7 +70,13 @@ module.exports = {
         .metamaskWindow()
         .$(mainPageElements.popup.container)) !== null
     ) {
-      await playwright.waitAndClick(mainPageElements.popup.closeButton);
+      const popupBackground = playwright
+        .metamaskWindow()
+        .locator(mainPageElements.popup.background);
+      const popupBackgroundBox = await popupBackground.boundingBox();
+      await playwright
+        .metamaskWindow()
+        .mouse.click(popupBackgroundBox.x + 1, popupBackgroundBox.y + 1);
     }
     return true;
   },
