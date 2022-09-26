@@ -476,6 +476,7 @@ module.exports = {
     await switchToMetamaskIfNotActive();
 
     await playwright.waitAndClick(mainPageElements.accountMenu.button);
+    // todo: can't click on settings button, go to url directly?
     await playwright.waitAndClick(
       mainPageElements.accountMenu.settingsButton,
       await playwright.metamaskWindow(),
