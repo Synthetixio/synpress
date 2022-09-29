@@ -56,7 +56,7 @@ declare namespace Cypress {
      */
     getNetwork(): Chainable<Subject>;
     /**
-     * Add network in metamask
+     * Add network in metamask (and also switch to the newly added network)
      * @example
      * cy.addMetamaskNetwork({networkName: 'name', rpcUrl: 'https://url', chainId: '1', symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true})
      */
