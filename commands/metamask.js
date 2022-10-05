@@ -36,6 +36,7 @@ let extensionInitialUrl;
 let extensionId;
 let extensionHomeUrl;
 let extensionSettingsUrl;
+let extensionAdvancedSettingsUrl;
 let walletAddress;
 let switchBackToCypressWindow;
 
@@ -44,7 +45,12 @@ module.exports = {
     return extensionId;
   },
   extensionUrls: () => {
-    return { extensionInitialUrl, extensionHomeUrl, extensionSettingsUrl };
+    return {
+      extensionInitialUrl,
+      extensionHomeUrl,
+      extensionSettingsUrl,
+      extensionAdvancedSettingsUrl,
+    };
   },
   walletAddress: () => {
     return walletAddress;
@@ -55,11 +61,19 @@ module.exports = {
       playwright.metamaskWindow().goto(extensionSettingsUrl),
     ]);
   },
+  goToAdvancedSettings: async () => {
+    await Promise.all([
+      playwright.metamaskWindow().waitForNavigation(),
+      playwright.metamaskWindow().goto(extensionAdvancedSettingsUrl),
+    ]);
+  },
   getExtensionDetails: async () => {
     extensionInitialUrl = await playwright.metamaskWindow().url();
     extensionId = extensionInitialUrl.match('//(.*?)/')[1];
     extensionHomeUrl = `chrome-extension://${extensionId}/home.html`;
     extensionSettingsUrl = `${extensionHomeUrl}#settings`;
+    extensionAdvancedSettingsUrl = `${extensionSettingsUrl}/advanced`;
+
     return { extensionInitialUrl, extensionId, extensionSettingsUrl };
   },
   // workaround for metamask random blank page on first run
@@ -490,15 +504,7 @@ module.exports = {
   },
   activateCustomNonce: async () => {
     await switchToMetamaskIfNotActive();
-
-    await module.exports.goToSettings();
-    await playwright.waitAndClick(
-      settingsPageElements.advancedButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
+    await module.exports.goToAdvancedSettings();
     if (
       (await playwright
         .metamaskWindow()
@@ -513,22 +519,12 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
-    // await playwright.waitFor(mainPageElements.walletOverview);
-
     await switchToCypressIfNotActive();
     return true;
   },
   resetAccount: async () => {
     await switchToMetamaskIfNotActive();
-
-    await module.exports.goToSettings();
-    await playwright.waitAndClick(
-      settingsPageElements.advancedButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
+    await module.exports.goToAdvancedSettings();
     await playwright.waitAndClick(advancedPageElements.resetAccountButton);
     await playwright.waitAndClick(resetAccountModalElements.resetButton);
     await playwright.waitAndClick(
@@ -538,8 +534,6 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
-    // await playwright.waitFor(mainPageElements.walletOverview);
-
     await switchToCypressIfNotActive();
     return true;
   },
