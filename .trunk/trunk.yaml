@@ -1,21 +1,33 @@
 version: 0.1
+runtimes:
+  enabled:
+    - go@1.18.3
+    - node@16.14.2
+actions:
+  enabled:
+    - trunk-cache-prune
+    - trunk-upgrade-available
 plugins:
   sources:
     - id: trunk
-      ref: v0.0.3
+      ref: v0.0.5
       uri: https://github.com/trunk-io/plugins
 cli:
-  version: 0.17.0-beta
+  version: 0.18.1-beta
   sha256:
-    darwin_arm64: d0f10cede5ce6f2e9cf93c13b7422a87994c57912c2f1ec3b2b6273d965d3726
-    darwin_x86_64: de8cc96736b5888925523631926c1f5a0735bb086569ccdc3e2b62c2de2f4867
-    linux_x86_64: ddba5eb37e6885210b43f2466f8240fbeae5327506876705ef3935627d771d70
+    darwin_arm64: c25df7ef6d68a2bd8648d93830659d1675043db03d9f49182534f28e417dfda6
+    darwin_x86_64: 6a7a4f9c5d0ad7d3d5ea45e6a1cf11a668ea68c36f01ebe31ef95f99560a6824
+    linux_x86_64: d875fe70c221d6449a9cd09598ab278133c5513f52dbf6af0fca3161d7a39d46
 lint:
   enabled:
-    - actionlint@1.6.17
-    - eslint@8.23.0
+    - dotenv-linter@3.2.0
+    - hadolint@2.10.0
+    - shellcheck@0.8.0
+    - shfmt@3.5.0
+    - actionlint@1.6.20
+    - eslint@8.24.0
     - git-diff-check@SYSTEM
-    - gitleaks@8.11.2
+    - gitleaks@8.13.0
     - markdownlint@0.32.2
     - prettier@2.7.1
   ignore:

@@ -48,22 +48,22 @@
     "@cypress/react": "^6.2.0",
     "@cypress/webpack-dev-server": "^2.3.0",
     "@drptbl/gremlins.js": "^2.2.1",
-    "@playwright/test": "^1.25.2",
+    "@playwright/test": "^1.26.1",
     "@synthetixio/js": "^2.41.0",
     "@testing-library/cypress": "^8.0.3",
     "@testing-library/react": "^13.4.0",
     "@types/testing-library__cypress": "^5.0.9",
-    "axios": "^0.27.2",
+    "axios": "^1.0.0",
     "babel-plugin-istanbul": "^6.1.1",
     "babel-plugin-react-generate-property": "^1.1.2",
     "babel-plugin-react-remove-properties": "^0.3.0",
     "babel-plugin-transform-react-qa-classes": "^1.6.0",
     "babel-plugin-transform-react-styled-components-qa": "^2.1.0",
     "bytes32": "^0.0.3",
-    "commander": "^9.4.0",
-    "cypress": "^10.8.0",
+    "commander": "^9.4.1",
+    "cypress": "^10.9.0",
     "cypress-wait-until": "^1.7.2",
-    "dotenv": "^16.0.2",
+    "dotenv": "^16.0.3",
     "dotenv-parse-variables": "^2.0.0",
     "download": "^8.0.0",
     "eslint": "^7.32.0",
@@ -76,9 +76,9 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.0.1",
     "eslint-plugin-standard": "^4.1.0",
-    "eslint-plugin-testing-library": "^5.6.4",
+    "eslint-plugin-testing-library": "^5.7.2",
     "eslint-plugin-ui-testing": "^2.0.1",
-    "eslint-plugin-unicorn": "^43.0.2",
+    "eslint-plugin-unicorn": "^44.0.1",
     "etherscan-api": "^10.2.0",
     "find-config": "^1.0.0",
     "node-fetch": "^2.6.1",
@@ -89,8 +89,11 @@
   },
   "devDependencies": {
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
-    "npm-check-updates": "^16.1.2",
-    "release-it": "^15.4.1"
+    "npm-check-updates": "^16.3.8",
+    "release-it": "^15.5.0"
+  },
+  "resolutions": {
+    "@synthetixio/js/**/underscore": "^1.13.6"
   },
   "engines": {
     "node": ">=10"
