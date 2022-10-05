@@ -139,9 +139,6 @@ jobs:
             docker/screenshots
         continue-on-error: true
 
-      - name: Cleanup
-        run: rm -rf docker
-
       - name: Run e2e tests (high res)
         run: |
           docker-compose --env-file ./high-res.env up --build --exit-code-from synpress
