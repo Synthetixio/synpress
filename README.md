@@ -272,9 +272,7 @@ codespaces, they're fully supported! :)
 ## CI tips & tricks
 
 - use [docker-e2e](https://github.com/Synthetixio/docker-e2e)
-- stick to bigger resolutions (to make sure that whole extension is visible on
-  screen when opened)
-  - synpress is tested on 1920x1080
+- synpress is tested and should work on all resolutions, starting from 800x600
 - take a look at this
   [example config](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/audit_and_lint.yml#L84)
 
