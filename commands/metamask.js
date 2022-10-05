@@ -139,7 +139,7 @@ module.exports = {
   closePopup: async () => {
     // note: this is required for fast execution of e2e tests to avoid flakiness
     // otherwise popup may not be detected properly and not closed
-    await playwright.metamaskWindow().waitForTimeout(500);
+    await playwright.metamaskWindow().waitForTimeout(1000);
     if (
       (await playwright
         .metamaskWindow()
