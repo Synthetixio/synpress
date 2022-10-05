@@ -92,6 +92,9 @@
     "npm-check-updates": "^16.3.8",
     "release-it": "^15.5.0"
   },
+  "resolutions": {
+    "@synthetixio/js/**/underscore": "^1.13.6"
+  },
   "engines": {
     "node": ">=10"
   },
