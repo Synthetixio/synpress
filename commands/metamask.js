@@ -137,6 +137,9 @@ module.exports = {
     return true;
   },
   closePopup: async () => {
+    // note: this is required for fast execution of e2e tests
+    // otherwise popup may not be detected properly and not closed
+    await playwright.metamaskWindow().waitForTimeout(500);
     if (
       (await playwright
         .metamaskWindow()
@@ -278,7 +281,6 @@ module.exports = {
 
     await switchToMetamaskIfNotActive();
     await module.exports.goToNewAccount();
-
     if (accountName) {
       await playwright.waitAndType(
         mainPageElements.createAccount.input,
@@ -286,7 +288,6 @@ module.exports = {
       );
     }
     await playwright.waitAndClick(mainPageElements.createAccount.createButton);
-
     await switchToCypressIfNotActive();
     return true;
   },
@@ -296,7 +297,9 @@ module.exports = {
     }
 
     await switchToMetamaskIfNotActive();
-
+    // note: closePopup() is required after changing createAccount() to use direct urls (popup started appearing)
+    // ^ this change also introduced 500ms delay for closePopup() function
+    await module.exports.closePopup();
     await playwright.waitAndClick(mainPageElements.accountMenu.button);
 
     if (typeof accountNameOrAccountNumber === 'number') {
