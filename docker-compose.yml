@@ -8,6 +8,7 @@ services:
       - DISPLAY=display:0.0
       - CYPRESS_PRIVATE_KEY_WITH_FUNDS=${CYPRESS_PRIVATE_KEY_WITH_FUNDS}
       - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - SYNDEBUG=${SYNDEBUG}
     depends_on:
       - display
       - video
