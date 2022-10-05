@@ -24,6 +24,7 @@ const {
   settingsPageElements,
   advancedPageElements,
   resetAccountModalElements,
+  networksPageElements,
   addNetworkPageElements,
 } = require('../pages/metamask/settings-page');
 const {
@@ -401,6 +402,7 @@ module.exports = {
     }
 
     await module.exports.goToAddNetwork();
+    await playwright.waitAndClick(networksPageElements.addNetworkButton);
     await playwright.waitAndType(
       addNetworkPageElements.networkNameInput,
       network.networkName,
