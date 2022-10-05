@@ -88,6 +88,9 @@ jobs:
       github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' ||
       github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        resolution: ['low', 'medium', 'high']
 
     steps:
       - name: Chown workspace
@@ -111,7 +114,8 @@ jobs:
             ${{ runner.os }}-buildx-
 
       - name: Run e2e tests
-        run: ./start-tests.sh
+        run: |
+          docker-compose --env-file ./${{ matrix.resolution }}-res.env up --build --exit-code-from synpress
         env:
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1
