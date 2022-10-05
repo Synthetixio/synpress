@@ -37,6 +37,7 @@ let extensionHomeUrl;
 let extensionSettingsUrl;
 let extensionAdvancedSettingsUrl;
 let extensionAddNetworkUrl;
+let extensionNewAccountUrl;
 let extensionImportAccountUrl;
 let walletAddress;
 let switchBackToCypressWindow;
@@ -52,6 +53,7 @@ module.exports = {
       extensionSettingsUrl,
       extensionAdvancedSettingsUrl,
       extensionAddNetworkUrl,
+      extensionNewAccountUrl,
       extensionImportAccountUrl,
     };
   },
@@ -76,6 +78,12 @@ module.exports = {
       playwright.metamaskWindow().goto(extensionAddNetworkUrl),
     ]);
   },
+  goToNewAccount: async () => {
+    await Promise.all([
+      playwright.metamaskWindow().waitForNavigation(),
+      playwright.metamaskWindow().goto(extensionNewAccountUrl),
+    ]);
+  },
   goToImportAccount: async () => {
     await Promise.all([
       playwright.metamaskWindow().waitForNavigation(),
@@ -89,7 +97,8 @@ module.exports = {
     extensionSettingsUrl = `${extensionHomeUrl}#settings`;
     extensionAdvancedSettingsUrl = `${extensionSettingsUrl}/advanced`;
     extensionAddNetworkUrl = `${extensionSettingsUrl}/networks/add-network`;
-    extensionImportAccountUrl = `${extensionHomeUrl}#new-account/import`;
+    extensionNewAccountUrl = `${extensionHomeUrl}#new-account`;
+    extensionImportAccountUrl = `${extensionNewAccountUrl}/import`;
 
     return {
       extensionInitialUrl,
@@ -97,6 +106,7 @@ module.exports = {
       extensionSettingsUrl,
       extensionAdvancedSettingsUrl,
       extensionAddNetworkUrl,
+      extensionNewAccountUrl,
       extensionImportAccountUrl,
     };
   },
@@ -266,15 +276,7 @@ module.exports = {
     }
 
     await switchToMetamaskIfNotActive();
-
-    await playwright.waitAndClick(mainPageElements.accountMenu.button);
-    await playwright.waitAndClick(
-      mainPageElements.accountMenu.createAccountButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
+    await module.exports.goToNewAccount();
 
     if (accountName) {
       await playwright.waitAndType(
