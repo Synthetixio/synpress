@@ -37,6 +37,7 @@ let extensionHomeUrl;
 let extensionSettingsUrl;
 let extensionAdvancedSettingsUrl;
 let extensionAddNetworkUrl;
+let extensionImportAccountUrl;
 let walletAddress;
 let switchBackToCypressWindow;
 
@@ -51,6 +52,7 @@ module.exports = {
       extensionSettingsUrl,
       extensionAdvancedSettingsUrl,
       extensionAddNetworkUrl,
+      extensionImportAccountUrl,
     };
   },
   walletAddress: () => {
@@ -74,6 +76,12 @@ module.exports = {
       playwright.metamaskWindow().goto(extensionAddNetworkUrl),
     ]);
   },
+  goToImportAccount: async () => {
+    await Promise.all([
+      playwright.metamaskWindow().waitForNavigation(),
+      playwright.metamaskWindow().goto(extensionImportAccountUrl),
+    ]);
+  },
   getExtensionDetails: async () => {
     extensionInitialUrl = await playwright.metamaskWindow().url();
     extensionId = extensionInitialUrl.match('//(.*?)/')[1];
@@ -81,6 +89,7 @@ module.exports = {
     extensionSettingsUrl = `${extensionHomeUrl}#settings`;
     extensionAdvancedSettingsUrl = `${extensionSettingsUrl}/advanced`;
     extensionAddNetworkUrl = `${extensionSettingsUrl}/networks/add-network`;
+    extensionImportAccountUrl = `${extensionHomeUrl}#new-account/import`;
 
     return {
       extensionInitialUrl,
@@ -88,6 +97,7 @@ module.exports = {
       extensionSettingsUrl,
       extensionAdvancedSettingsUrl,
       extensionAddNetworkUrl,
+      extensionImportAccountUrl,
     };
   },
   // workaround for metamask random blank page on first run
@@ -141,7 +151,6 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
-    // await playwright.waitFor(mainPageElements.walletOverview);
     await module.exports.closePopup();
     return true;
   },
@@ -187,7 +196,6 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
-    // await playwright.waitFor(mainPageElements.walletOverview);
     await module.exports.closePopup();
     return true;
   },
@@ -238,28 +246,17 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
-    // await playwright.waitFor(mainPageElements.walletOverview);
     await module.exports.closePopup();
     return true;
   },
   importAccount: async privateKey => {
     await switchToMetamaskIfNotActive();
-
-    await playwright.waitAndClick(mainPageElements.accountMenu.button);
-    await playwright.waitAndClick(
-      mainPageElements.accountMenu.importAccountButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
-
+    await module.exports.goToImportAccount();
     await playwright.waitAndType(
       mainPageElements.importAccount.input,
       privateKey,
     );
     await playwright.waitAndClick(mainPageElements.importAccount.importButton);
-
     await switchToCypressIfNotActive();
     return true;
   },
