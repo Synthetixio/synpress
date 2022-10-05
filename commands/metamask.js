@@ -32,12 +32,29 @@ const {
 } = require('../pages/metamask/confirmation-page');
 const { setNetwork, getNetwork } = require('../helpers');
 
+let extensionInitialUrl;
+let extensionId;
+let extensionHomeUrl;
+let extensionSettingsUrl;
 let walletAddress;
 let switchBackToCypressWindow;
 
 module.exports = {
+  extensionId: () => {
+    return extensionId;
+  },
+  extensionUrls: () => {
+    return { extensionInitialUrl, extensionHomeUrl, extensionSettingsUrl };
+  },
   walletAddress: () => {
     return walletAddress;
+  },
+  getExtensionDetails: async () => {
+    extensionInitialUrl = await playwright.metamaskWindow().url();
+    extensionId = extensionInitialUrl.match('//(.*?)/')[1];
+    extensionHomeUrl = `chrome-extension://${extensionId}/home.html`;
+    extensionSettingsUrl = `${extensionHomeUrl}#settings`;
+    return { extensionInitialUrl, extensionId, extensionSettingsUrl };
   },
   // workaround for metamask random blank page on first run
   fixBlankPage: async () => {
