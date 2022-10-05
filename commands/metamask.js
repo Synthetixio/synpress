@@ -24,7 +24,6 @@ const {
   settingsPageElements,
   advancedPageElements,
   resetAccountModalElements,
-  networksPageElements,
   addNetworkPageElements,
 } = require('../pages/metamask/settings-page');
 const {
@@ -37,6 +36,7 @@ let extensionId;
 let extensionHomeUrl;
 let extensionSettingsUrl;
 let extensionAdvancedSettingsUrl;
+let extensionAddNetworkUrl;
 let walletAddress;
 let switchBackToCypressWindow;
 
@@ -50,6 +50,7 @@ module.exports = {
       extensionHomeUrl,
       extensionSettingsUrl,
       extensionAdvancedSettingsUrl,
+      extensionAddNetworkUrl,
     };
   },
   walletAddress: () => {
@@ -67,14 +68,27 @@ module.exports = {
       playwright.metamaskWindow().goto(extensionAdvancedSettingsUrl),
     ]);
   },
+  goToAddNetwork: async () => {
+    await Promise.all([
+      playwright.metamaskWindow().waitForNavigation(),
+      playwright.metamaskWindow().goto(extensionAddNetworkUrl),
+    ]);
+  },
   getExtensionDetails: async () => {
     extensionInitialUrl = await playwright.metamaskWindow().url();
     extensionId = extensionInitialUrl.match('//(.*?)/')[1];
     extensionHomeUrl = `chrome-extension://${extensionId}/home.html`;
     extensionSettingsUrl = `${extensionHomeUrl}#settings`;
     extensionAdvancedSettingsUrl = `${extensionSettingsUrl}/advanced`;
+    extensionAddNetworkUrl = `${extensionSettingsUrl}/networks/add-network`;
 
-    return { extensionInitialUrl, extensionId, extensionSettingsUrl };
+    return {
+      extensionInitialUrl,
+      extensionId,
+      extensionSettingsUrl,
+      extensionAdvancedSettingsUrl,
+      extensionAddNetworkUrl,
+    };
   },
   // workaround for metamask random blank page on first run
   fixBlankPage: async () => {
@@ -387,15 +401,7 @@ module.exports = {
       network.networkName = network.networkName.toLowerCase();
     }
 
-    await module.exports.goToSettings();
-    await playwright.waitAndClick(
-      settingsPageElements.networksButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
-    await playwright.waitAndClick(networksPageElements.addNetworkButton);
+    await module.exports.goToAddNetwork();
     await playwright.waitAndType(
       addNetworkPageElements.networkNameInput,
       network.networkName,
