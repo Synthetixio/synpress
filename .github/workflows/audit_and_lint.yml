@@ -88,9 +88,10 @@ jobs:
       github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' ||
       github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        resolution: ['low', 'medium', 'high']
+    # todo: to enable matrix strategy we need to have different wallets on each resolution because of transactions
+    # strategy:
+    #   matrix:
+    #     resolution: ['low', 'medium', 'high']
 
     steps:
       - name: Chown workspace
@@ -113,9 +114,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      - name: Run e2e tests
+      - name: Run e2e tests (low res)
         run: |
-          docker-compose --env-file ./${{ matrix.resolution }}-res.env up --build --exit-code-from synpress
+          docker-compose --env-file ./low-res.env up --build --exit-code-from synpress
         env:
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1
@@ -127,11 +128,39 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Archive e2e artifacts
+      - name: Archive e2e artifacts (low res)
         uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # pin@v2
         if: always()
         with:
-          name: e2e-artifacts
+          name: e2e-artifacts-low-res
+          path: |
+            docker/videos
+            docker/videos-ci
+            docker/screenshots
+        continue-on-error: true
+
+      - name: Cleanup
+        run: rm -rf docker
+
+      - name: Run e2e tests (high res)
+        run: |
+          docker-compose --env-file ./high-res.env up --build --exit-code-from synpress
+        env:
+          COMPOSE_DOCKER_CLI_BUILD: 1
+          DOCKER_BUILDKIT: 1
+          DOCKER_DEFAULT_PLATFORM: linux/amd64
+          NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
+          CYPRESS_PRIVATE_KEY_WITH_FUNDS:
+            ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
+          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Archive e2e artifacts (high res)
+        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # pin@v2
+        if: always()
+        with:
+          name: e2e-artifacts-high-res
           path: |
             docker/videos
             docker/videos-ci
