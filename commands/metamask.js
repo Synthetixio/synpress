@@ -49,6 +49,12 @@ module.exports = {
   walletAddress: () => {
     return walletAddress;
   },
+  goToSettings: async () => {
+    await Promise.all([
+      playwright.metamaskWindow().waitForNavigation(),
+      playwright.metamaskWindow().goto(extensionSettingsUrl),
+    ]);
+  },
   getExtensionDetails: async () => {
     extensionInitialUrl = await playwright.metamaskWindow().url();
     extensionId = extensionInitialUrl.match('//(.*?)/')[1];
@@ -367,14 +373,7 @@ module.exports = {
       network.networkName = network.networkName.toLowerCase();
     }
 
-    await playwright.waitAndClick(mainPageElements.accountMenu.button);
-    await playwright.waitAndClick(
-      mainPageElements.accountMenu.settingsButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
+    await module.exports.goToSettings();
     await playwright.waitAndClick(
       settingsPageElements.networksButton,
       await playwright.metamaskWindow(),
@@ -492,15 +491,7 @@ module.exports = {
   activateCustomNonce: async () => {
     await switchToMetamaskIfNotActive();
 
-    await playwright.waitAndClick(mainPageElements.accountMenu.button);
-    // todo: can't click on settings button, go to url directly?
-    await playwright.waitAndClick(
-      mainPageElements.accountMenu.settingsButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
+    await module.exports.goToSettings();
     await playwright.waitAndClick(
       settingsPageElements.advancedButton,
       await playwright.metamaskWindow(),
@@ -530,14 +521,7 @@ module.exports = {
   resetAccount: async () => {
     await switchToMetamaskIfNotActive();
 
-    await playwright.waitAndClick(mainPageElements.accountMenu.button);
-    await playwright.waitAndClick(
-      mainPageElements.accountMenu.settingsButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
+    await module.exports.goToSettings();
     await playwright.waitAndClick(
       settingsPageElements.advancedButton,
       await playwright.metamaskWindow(),
@@ -798,6 +782,7 @@ module.exports = {
     await playwright.init();
     await playwright.assignWindows();
     await playwright.assignActiveTabName('metamask');
+    await module.exports.getExtensionDetails();
     await module.exports.fixBlankPage();
     if (
       (await playwright
