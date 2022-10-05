@@ -20,10 +20,7 @@ jobs:
     name: release
 
     container:
-      image: ghcr.io/synthetixio/docker-node/ubuntu:16.17
-      credentials:
-        username: synthetixio
-        password: ${{ secrets.GH_PACKAGES_READ_ONLY }}
+      image: synthetixio/docker-node:16.17-ubuntu
 
     steps:
       - name: Checkout
