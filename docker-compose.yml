@@ -30,8 +30,6 @@ services:
     image: synthetixio/display:b2643097e891906524e52e7ee956260b20fa01fb-base
     environment:
       - RUN_XTERM=no
-      - DISPLAY_WIDTH=800
-      - DISPLAY_HEIGHT=600
     ports:
       - '8080:8080'
     networks:
@@ -56,8 +54,6 @@ services:
     volumes:
       - ./docker/videos-ci:/videos
     environment:
-      - SE_SCREEN_WIDTH=800
-      - SE_SCREEN_HEIGHT=600
       - FILE_NAME=CI-full-video.mp4
     depends_on:
       - display
