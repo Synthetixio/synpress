@@ -51,7 +51,7 @@ describe('Metamask', () => {
       }).then(networkAdded => {
         expect(networkAdded).to.be.true;
       });
-      cy.get('#network').contains('137');
+      cy.get('#network').contains('0x89');
       cy.get('#chainId').contains('0x89');
     });
     it(`getNetwork should return valid network after adding a new network`, () => {
@@ -79,7 +79,7 @@ describe('Metamask', () => {
       cy.changeMetamaskNetwork('polygon network').then(networkChanged => {
         expect(networkChanged).to.be.true;
       });
-      cy.get('#network').contains('137');
+      cy.get('#network').contains('0x89');
       cy.get('#chainId').contains('0x89');
       cy.changeMetamaskNetwork('goerli');
     });
