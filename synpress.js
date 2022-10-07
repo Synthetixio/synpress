@@ -82,6 +82,7 @@ program
   )
   .option('-s, --spec <path or glob>', 'run only provided spec files')
   .option('-ne, --noExit', 'keep runner open after tests finish')
+  .option('-pt, --port <value>', 'override default port')
   .option('-pr, --project <path>', 'run with specific project path')
   .option('-q, --quiet', 'only test runner output in console')
   .option('-r, --reporter <reporter>', 'specify mocha reporter')
@@ -116,6 +117,7 @@ program
       env: options.env,
       spec: options.spec,
       noExit: options.noExit,
+      port: options.port,
       project: options.project,
       quiet: options.quiet,
       reporter: options.reporter,

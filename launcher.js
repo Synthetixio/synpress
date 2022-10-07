@@ -60,6 +60,10 @@ const launcher = {
       log(`noExit arg enabled`);
       defaultArguments.push('--no-exit');
     }
+    if (arguments_.port) {
+      log(`Custom port arg detected: ${arguments_.port}`);
+      defaultArguments.push(`--port=${arguments_.port}`);
+    }
     if (arguments_.project) {
       log(`Custom project arg detected: ${arguments_.project}`);
       defaultArguments.push(`--project=${arguments_.project}`);
