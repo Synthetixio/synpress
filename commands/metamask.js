@@ -469,27 +469,22 @@ module.exports = {
   },
   async disconnectWalletFromDapp() {
     await switchToMetamaskIfNotActive();
-
     await playwright.waitAndClick(mainPageElements.optionsMenu.button);
     await playwright.waitAndClick(
       mainPageElements.optionsMenu.connectedSitesButton,
     );
-    await playwright.waitAndClick(mainPageElements.connectedSites.trashButton);
-    await playwright.waitAndClick(
-      mainPageElements.connectedSites.disconnectButton,
-    );
-
-    // close popup if present
-    if (
-      (await playwright
-        .metamaskWindow()
-        .$(mainPageElements.connectedSites.modal)) !== null
-    ) {
+    const trashButton = await playwright
+      .metamaskWindow()
+      .$(mainPageElements.connectedSites.trashButton);
+    if (trashButton) {
       await playwright.waitAndClick(
-        mainPageElements.connectedSites.closeButton,
+        mainPageElements.connectedSites.trashButton,
+      );
+      await playwright.waitAndClick(
+        mainPageElements.connectedSites.disconnectButton,
       );
     }
-
+    await module.exports.closeModal();
     await switchToCypressIfNotActive();
     return true;
   },
