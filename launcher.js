@@ -44,6 +44,10 @@ const launcher = {
       log(`Using default config: ${defaultConfig}`);
       defaultArguments.push(`--config=${defaultConfig}`);
     }
+    if (arguments_.e2e) {
+      log(`e2e arg enabled`);
+      defaultArguments.push('--e2e');
+    }
     if (arguments_.env) {
       log(`Custom env arg detected: ${arguments_.env}`);
       defaultArguments.push(`--env=${arguments_.env}`);

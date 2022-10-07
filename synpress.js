@@ -75,6 +75,7 @@ program
     '-cf, --configFile <path>',
     'specify a path to a JSON file where configuration values are set',
   )
+  .option('--e2e', 'run e2e tests (already set as default)')
   .option(
     '-e, --env <env=val>',
     'set environment variables, separate multiple values with comma',
@@ -111,6 +112,7 @@ program
       component: options.component,
       config: options.config,
       configFile: options.configFile,
+      e2e: options.e2e,
       env: options.env,
       spec: options.spec,
       noExit: options.noExit,
