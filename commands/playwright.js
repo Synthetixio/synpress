@@ -218,4 +218,14 @@ module.exports = {
     await module.exports.waitFor(selector, page);
     await page.locator(selector, { hasText: text }).waitFor();
   },
+  async isNotificationOpen() {
+    await sleep(200);
+    let pages = browser.contexts()[0].pages();
+    for (const page of pages) {
+      if (page.url().includes('notification')) {
+        return true;
+      }
+    }
+    return false;
+  },
 };
