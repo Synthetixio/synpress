@@ -32,12 +32,84 @@ const {
 } = require('../pages/metamask/confirmation-page');
 const { setNetwork, getNetwork } = require('../helpers');
 
+let extensionInitialUrl;
+let extensionId;
+let extensionHomeUrl;
+let extensionSettingsUrl;
+let extensionAdvancedSettingsUrl;
+let extensionAddNetworkUrl;
+let extensionNewAccountUrl;
+let extensionImportAccountUrl;
 let walletAddress;
 let switchBackToCypressWindow;
 
 module.exports = {
+  extensionId: () => {
+    return extensionId;
+  },
+  extensionUrls: () => {
+    return {
+      extensionInitialUrl,
+      extensionHomeUrl,
+      extensionSettingsUrl,
+      extensionAdvancedSettingsUrl,
+      extensionAddNetworkUrl,
+      extensionNewAccountUrl,
+      extensionImportAccountUrl,
+    };
+  },
   walletAddress: () => {
     return walletAddress;
+  },
+  goToSettings: async () => {
+    await Promise.all([
+      playwright.metamaskWindow().waitForNavigation(),
+      playwright.metamaskWindow().goto(extensionSettingsUrl),
+    ]);
+  },
+  goToAdvancedSettings: async () => {
+    await Promise.all([
+      playwright.metamaskWindow().waitForNavigation(),
+      playwright.metamaskWindow().goto(extensionAdvancedSettingsUrl),
+    ]);
+  },
+  goToAddNetwork: async () => {
+    await Promise.all([
+      playwright.metamaskWindow().waitForNavigation(),
+      playwright.metamaskWindow().goto(extensionAddNetworkUrl),
+    ]);
+  },
+  goToNewAccount: async () => {
+    await Promise.all([
+      playwright.metamaskWindow().waitForNavigation(),
+      playwright.metamaskWindow().goto(extensionNewAccountUrl),
+    ]);
+  },
+  goToImportAccount: async () => {
+    await Promise.all([
+      playwright.metamaskWindow().waitForNavigation(),
+      playwright.metamaskWindow().goto(extensionImportAccountUrl),
+    ]);
+  },
+  getExtensionDetails: async () => {
+    extensionInitialUrl = await playwright.metamaskWindow().url();
+    extensionId = extensionInitialUrl.match('//(.*?)/')[1];
+    extensionHomeUrl = `chrome-extension://${extensionId}/home.html`;
+    extensionSettingsUrl = `${extensionHomeUrl}#settings`;
+    extensionAdvancedSettingsUrl = `${extensionSettingsUrl}/advanced`;
+    extensionAddNetworkUrl = `${extensionSettingsUrl}/networks/add-network`;
+    extensionNewAccountUrl = `${extensionHomeUrl}#new-account`;
+    extensionImportAccountUrl = `${extensionNewAccountUrl}/import`;
+
+    return {
+      extensionInitialUrl,
+      extensionId,
+      extensionSettingsUrl,
+      extensionAdvancedSettingsUrl,
+      extensionAddNetworkUrl,
+      extensionNewAccountUrl,
+      extensionImportAccountUrl,
+    };
   },
   // workaround for metamask random blank page on first run
   fixBlankPage: async () => {
@@ -65,12 +137,36 @@ module.exports = {
     return true;
   },
   closePopup: async () => {
+    // note: this is required for fast execution of e2e tests to avoid flakiness
+    // otherwise popup may not be detected properly and not closed
+    await playwright.metamaskWindow().waitForTimeout(1000);
     if (
       (await playwright
         .metamaskWindow()
         .$(mainPageElements.popup.container)) !== null
     ) {
-      await playwright.waitAndClick(mainPageElements.popup.closeButton);
+      const popupBackground = playwright
+        .metamaskWindow()
+        .locator(mainPageElements.popup.background);
+      const popupBackgroundBox = await popupBackground.boundingBox();
+      await playwright
+        .metamaskWindow()
+        .mouse.click(popupBackgroundBox.x + 1, popupBackgroundBox.y + 1);
+    }
+    return true;
+  },
+  closeModal: async () => {
+    // note: this is required for fast execution of e2e tests to avoid flakiness
+    // otherwise modal may not be detected properly and not closed
+    await playwright.metamaskWindow().waitForTimeout(1000);
+    if (
+      (await playwright
+        .metamaskWindow()
+        .$(mainPageElements.connectedSites.modal)) !== null
+    ) {
+      await playwright.waitAndClick(
+        mainPageElements.connectedSites.closeButton,
+      );
     }
     return true;
   },
@@ -84,7 +180,6 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
-    // await playwright.waitFor(mainPageElements.walletOverview);
     await module.exports.closePopup();
     return true;
   },
@@ -130,7 +225,6 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
-    // await playwright.waitFor(mainPageElements.walletOverview);
     await module.exports.closePopup();
     return true;
   },
@@ -181,28 +275,17 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
-    // await playwright.waitFor(mainPageElements.walletOverview);
     await module.exports.closePopup();
     return true;
   },
   importAccount: async privateKey => {
     await switchToMetamaskIfNotActive();
-
-    await playwright.waitAndClick(mainPageElements.accountMenu.button);
-    await playwright.waitAndClick(
-      mainPageElements.accountMenu.importAccountButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
-
+    await module.exports.goToImportAccount();
     await playwright.waitAndType(
       mainPageElements.importAccount.input,
       privateKey,
     );
     await playwright.waitAndClick(mainPageElements.importAccount.importButton);
-
     await switchToCypressIfNotActive();
     return true;
   },
@@ -212,16 +295,7 @@ module.exports = {
     }
 
     await switchToMetamaskIfNotActive();
-
-    await playwright.waitAndClick(mainPageElements.accountMenu.button);
-    await playwright.waitAndClick(
-      mainPageElements.accountMenu.createAccountButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
-
+    await module.exports.goToNewAccount();
     if (accountName) {
       await playwright.waitAndType(
         mainPageElements.createAccount.input,
@@ -229,7 +303,6 @@ module.exports = {
       );
     }
     await playwright.waitAndClick(mainPageElements.createAccount.createButton);
-
     await switchToCypressIfNotActive();
     return true;
   },
@@ -239,7 +312,9 @@ module.exports = {
     }
 
     await switchToMetamaskIfNotActive();
-
+    // note: closePopup() is required after changing createAccount() to use direct urls (popup started appearing)
+    // ^ this change also introduced 500ms delay for closePopup() function
+    await module.exports.closePopup();
     await playwright.waitAndClick(mainPageElements.accountMenu.button);
 
     if (typeof accountNameOrAccountNumber === 'number') {
@@ -344,21 +419,7 @@ module.exports = {
       network.networkName = network.networkName.toLowerCase();
     }
 
-    await playwright.waitAndClick(mainPageElements.accountMenu.button);
-    await playwright.waitAndClick(
-      mainPageElements.accountMenu.settingsButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
-    await playwright.waitAndClick(
-      settingsPageElements.networksButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
+    await module.exports.goToAddNetwork();
     await playwright.waitAndClick(networksPageElements.addNetworkButton);
     await playwright.waitAndType(
       addNetworkPageElements.networkNameInput,
@@ -408,33 +469,34 @@ module.exports = {
   },
   async disconnectWalletFromDapp() {
     await switchToMetamaskIfNotActive();
-
     await playwright.waitAndClick(mainPageElements.optionsMenu.button);
     await playwright.waitAndClick(
       mainPageElements.optionsMenu.connectedSitesButton,
     );
-    await playwright.waitAndClick(mainPageElements.connectedSites.trashButton);
-    await playwright.waitAndClick(
-      mainPageElements.connectedSites.disconnectButton,
-    );
-
-    // close popup if present
-    if (
-      (await playwright
-        .metamaskWindow()
-        .$(mainPageElements.connectedSites.modal)) !== null
-    ) {
+    const trashButton = await playwright
+      .metamaskWindow()
+      .$(mainPageElements.connectedSites.trashButton);
+    if (trashButton) {
+      console.log(
+        '[disconnectWalletFromDapp] Wallet is connected to a dapp, disconnecting..',
+      );
       await playwright.waitAndClick(
-        mainPageElements.connectedSites.closeButton,
+        mainPageElements.connectedSites.trashButton,
+      );
+      await playwright.waitAndClick(
+        mainPageElements.connectedSites.disconnectButton,
+      );
+    } else {
+      console.log(
+        '[disconnectWalletFromDapp] Wallet is not connected to a dapp, skipping..',
       );
     }
-
+    await module.exports.closeModal();
     await switchToCypressIfNotActive();
     return true;
   },
   async disconnectWalletFromAllDapps() {
     await switchToMetamaskIfNotActive();
-
     await playwright.waitAndClick(mainPageElements.optionsMenu.button);
     await playwright.waitAndClick(
       mainPageElements.optionsMenu.connectedSitesButton,
@@ -442,37 +504,31 @@ module.exports = {
     const trashButtons = await playwright
       .metamaskWindow()
       .$$(mainPageElements.connectedSites.trashButton);
-    // eslint-disable-next-line no-unused-vars
-    for (const trashButton of trashButtons) {
-      await playwright.waitAndClick(
-        mainPageElements.connectedSites.trashButton,
+    if (trashButtons.length) {
+      console.log(
+        '[disconnectWalletFromAllDapps] Wallet is connected to dapps, disconnecting..',
       );
-      await playwright.waitAndClick(
-        mainPageElements.connectedSites.disconnectButton,
+      // eslint-disable-next-line no-unused-vars
+      for (const trashButton of trashButtons) {
+        await playwright.waitAndClick(
+          mainPageElements.connectedSites.trashButton,
+        );
+        await playwright.waitAndClick(
+          mainPageElements.connectedSites.disconnectButton,
+        );
+      }
+    } else {
+      console.log(
+        '[disconnectWalletFromAllDapps] Wallet is not connected to any dapps, skipping..',
       );
     }
-
+    await module.exports.closeModal();
     await switchToCypressIfNotActive();
     return true;
   },
   activateCustomNonce: async () => {
     await switchToMetamaskIfNotActive();
-
-    await playwright.waitAndClick(mainPageElements.accountMenu.button);
-    await playwright.waitAndClick(
-      mainPageElements.accountMenu.settingsButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
-    await playwright.waitAndClick(
-      settingsPageElements.advancedButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
+    await module.exports.goToAdvancedSettings();
     if (
       (await playwright
         .metamaskWindow()
@@ -487,29 +543,12 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
-    // await playwright.waitFor(mainPageElements.walletOverview);
-
     await switchToCypressIfNotActive();
     return true;
   },
   resetAccount: async () => {
     await switchToMetamaskIfNotActive();
-
-    await playwright.waitAndClick(mainPageElements.accountMenu.button);
-    await playwright.waitAndClick(
-      mainPageElements.accountMenu.settingsButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
-    await playwright.waitAndClick(
-      settingsPageElements.advancedButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
+    await module.exports.goToAdvancedSettings();
     await playwright.waitAndClick(advancedPageElements.resetAccountButton);
     await playwright.waitAndClick(resetAccountModalElements.resetButton);
     await playwright.waitAndClick(
@@ -519,8 +558,6 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
-    // await playwright.waitFor(mainPageElements.walletOverview);
-
     await switchToCypressIfNotActive();
     return true;
   },
@@ -763,6 +800,7 @@ module.exports = {
     await playwright.init();
     await playwright.assignWindows();
     await playwright.assignActiveTabName('metamask');
+    await module.exports.getExtensionDetails();
     await module.exports.fixBlankPage();
     if (
       (await playwright

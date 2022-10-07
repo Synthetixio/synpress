@@ -57,7 +57,8 @@ To see in which direction Synpress is headed to, take a look at
 - can be used in existing
   [cypress setup](https://github.com/Synthetixio/synpress/issues/346#issuecomment-1060506096)
 - supports dotenv
-  - loads all env vars from your `.env` file automatically (from project root folder)
+  - loads all env vars from your `.env` file automatically (from project root
+    folder)
 - ability to use latest metamask or lock it's version to avoid unexpected
   failures related to metamask updates
 - supports multi-lang of metamask, it doesn't depend on any labels
@@ -274,9 +275,7 @@ codespaces, they're fully supported! :)
 ## CI tips & tricks
 
 - use [docker-e2e](https://github.com/Synthetixio/docker-e2e)
-- stick to bigger resolutions (to make sure that whole extension is visible on
-  screen when opened)
-  - synpress is tested on 1920x1080
+- synpress is tested and should work on all resolutions, starting from 800x600
 - take a look at this
   [example config](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/audit_and_lint.yml#L84)
 

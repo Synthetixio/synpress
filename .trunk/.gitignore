@@ -1,7 +1,7 @@
 *out
 *logs
-actions
-notifications
+*actions
+*notifications
 plugins
 user_trunk.yaml
 user.yaml

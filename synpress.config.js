@@ -20,9 +20,9 @@ module.exports = defineConfig({
   env: {
     coverage: false,
   },
-  defaultCommandTimeout: process.env.SYNDEBUG ? 0 : 30000,
-  pageLoadTimeout: process.env.SYNDEBUG ? 0 : 30000,
-  requestTimeout: process.env.SYNDEBUG ? 0 : 30000,
+  defaultCommandTimeout: process.env.SYNDEBUG ? 9999999 : 30000,
+  pageLoadTimeout: process.env.SYNDEBUG ? 9999999 : 30000,
+  requestTimeout: process.env.SYNDEBUG ? 9999999 : 30000,
   e2e: {
     setupNodeEvents,
     baseUrl: 'http://localhost:3000',

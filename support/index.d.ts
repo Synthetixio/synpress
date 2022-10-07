@@ -56,7 +56,7 @@ declare namespace Cypress {
      */
     getNetwork(): Chainable<Subject>;
     /**
-     * Add network in metamask
+     * Add network in metamask (and also switch to the newly added network)
      * @example
      * cy.addMetamaskNetwork({networkName: 'name', rpcUrl: 'https://url', chainId: '1', symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true})
      */
@@ -81,7 +81,7 @@ declare namespace Cypress {
      * cy.createMetamaskAccount()
      * cy.createMetamaskAccount('accountName')
      */
-    createMetamaskAccount(accountName: string | undefined): Chainable<Subject>;
+    createMetamaskAccount(accountName?: string): Chainable<Subject>;
     /**
      * Switch metamask account
      * @example
@@ -187,16 +187,14 @@ declare namespace Cypress {
      * cy.acceptMetamaskAccess()
      * cy.acceptMetamaskAccess(true)
      */
-    acceptMetamaskAccess(allAccounts: boolean | undefined): Chainable<Subject>;
+    acceptMetamaskAccess(allAccounts?: boolean): Chainable<Subject>;
     /**
      * Confirm metamask atransaction
      * @example
      * cy.confirmMetamaskTransaction()
      * cy.confirmMetamaskTransaction({gasFee: 10, gasLimit: 1000000})
      */
-    confirmMetamaskTransaction(
-      gasConfig: object | undefined,
-    ): Chainable<Subject>;
+    confirmMetamaskTransaction(gasConfig?: object): Chainable<Subject>;
     /**
      * Reject metamask transaction
      * @example
@@ -209,9 +207,7 @@ declare namespace Cypress {
      * cy.allowMetamaskToAddNetwork()
      * cy.allowMetamaskToAddNetwork('close') // (waitForEvent)
      */
-    allowMetamaskToAddNetwork(
-      waitForEvent: string | undefined,
-    ): Chainable<Subject>;
+    allowMetamaskToAddNetwork(waitForEvent?: string): Chainable<Subject>;
     /**
      * Reject site to add new network in metamask
      * @example
@@ -300,7 +296,7 @@ declare namespace Cypress {
      * cy.waitForResources([{name:"fonts.gstatic.com/s/worksans",number:2}])
      */
     waitForResources(
-      resources: Array<{ name: string; number?: number }> | undefined,
+      resources?: Array<{ name: string; number?: number }>,
     ): Chainable<Subject>;
     /**
      * Assert that element top is within viewport

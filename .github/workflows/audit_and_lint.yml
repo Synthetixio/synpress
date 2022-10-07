@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # pin@v2
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # pin@v2
 
       - name: Audit dependencies
         run: audit-ci --critical --report-type full
@@ -45,13 +45,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # pin@v2
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # pin@v2
 
       - name: Set yarn cache directory
         run: yarn config set cache-folder .yarn-cache
         continue-on-error: true
 
-      - uses: actions/cache@fd5de65bc895cf536527842281bea11763fefd77 # pin@v2
+      - uses: actions/cache@56461b9eb0f8438fd15c7a9968e3c9ebb18ceff1 # pin@v2
         with:
           path: |
             .yarn-cache
@@ -76,7 +76,7 @@ jobs:
         if:
           always() && (github.ref == 'refs/heads/master' || github.ref ==
           'refs/heads/dev' || github.event_name == 'pull_request')
-        uses: github/codeql-action/upload-sarif@b398f525a5587552e573b247ac661067fafa920b # pin@codeql-bundle-20210517
+        uses: github/codeql-action/upload-sarif@e0e5ded33cabb451ae0a9768fc7b0410bad9ad44 # pin@codeql-bundle-20210517
         with:
           sarif_file: lint-results.sarif
         continue-on-error: true
@@ -88,13 +88,17 @@ jobs:
       github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' ||
       github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    # todo: to enable matrix strategy we need to have different wallets on each resolution because of transactions
+    # strategy:
+    #   matrix:
+    #     resolution: ['low', 'medium', 'high']
 
     steps:
       - name: Chown workspace
         run: chown -R $(whoami) .
 
       - name: Checkout
-        uses: actions/checkout@1e204e9a9253d643386038d443f96446fa156a97 # pin@v2
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # pin@v2
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@8b122486cedac8393e77aa9734c3528886e4a1a8 # pin@v1
@@ -103,15 +107,16 @@ jobs:
         uses: docker/setup-buildx-action@dc7b9719a96d48369863986a06765841d7ea23f6 # pin@v1
 
       - name: Cache Docker layers
-        uses: actions/cache@515d10b4fd9bb4858066bd5769f55bd498dcdd27 # pin@v2
+        uses: actions/cache@56461b9eb0f8438fd15c7a9968e3c9ebb18ceff1 # pin@v2
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      - name: Run e2e tests
-        run: ./start-tests.sh
+      - name: Run e2e tests (low res)
+        run: |
+          docker-compose -f docker-compose.ci.yml --env-file low-res.env up --build --exit-code-from synpress
         env:
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1
@@ -122,12 +127,39 @@ jobs:
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
 
-      - name: Archive e2e artifacts
+      - name: Archive e2e artifacts (low res)
         uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # pin@v2
         if: always()
         with:
-          name: e2e-artifacts
+          name: e2e-artifacts-low-res
+          path: |
+            docker/videos
+            docker/videos-ci
+            docker/screenshots
+        continue-on-error: true
+
+      - name: Run e2e tests (high res)
+        run: |
+          docker-compose -f docker-compose.ci.yml --env-file high-res.env up --build --exit-code-from synpress
+        env:
+          COMPOSE_DOCKER_CLI_BUILD: 1
+          DOCKER_BUILDKIT: 1
+          DOCKER_DEFAULT_PLATFORM: linux/amd64
+          NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
+          CYPRESS_PRIVATE_KEY_WITH_FUNDS:
+            ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
+          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: Archive e2e artifacts (high res)
+        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # pin@v2
+        if: always()
+        with:
+          name: e2e-artifacts-high-res
           path: |
             docker/videos
             docker/videos-ci

@@ -11,6 +11,16 @@ describe('Metamask', () => {
         expect(setupFinished).to.be.true;
       });
     });
+    it(`disconnectMetamaskWalletFromDapp shouldn't fail if there are no dapps connected`, () => {
+      cy.disconnectMetamaskWalletFromDapp().then(disconnected => {
+        expect(disconnected).to.be.true;
+      });
+    });
+    it(`disconnectMetamaskWalletFromAllDapps shouldn't fail if there are no dapps connected`, () => {
+      cy.disconnectMetamaskWalletFromAllDapps().then(disconnected => {
+        expect(disconnected).to.be.true;
+      });
+    });
     it(`acceptMetamaskAccess should accept connection request to metamask`, () => {
       cy.visit('/');
       cy.get('#connectButton').click();
@@ -129,14 +139,14 @@ describe('Metamask', () => {
         expect(resetted).to.be.true;
       });
     });
-    it(`disconnectMetamaskWalletFromDapp should disconnect current account from current dapp`, () => {
+    it(`disconnectMetamaskWalletFromDapp should disconnect current account from current dapp (when already connected)`, () => {
       cy.get('#requestPermissions').click();
       cy.acceptMetamaskAccess();
       cy.disconnectMetamaskWalletFromDapp().then(disconnected => {
         expect(disconnected).to.be.true;
       });
     });
-    it(`disconnectMetamaskWalletFromAllDapps should disconnect current account from all dapps`, () => {
+    it(`disconnectMetamaskWalletFromAllDapps should disconnect current account from all dapps (when already connected)`, () => {
       cy.get('#requestPermissions').click();
       cy.acceptMetamaskAccess();
       cy.disconnectMetamaskWalletFromAllDapps().then(disconnected => {
