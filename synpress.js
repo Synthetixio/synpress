@@ -84,6 +84,7 @@ program
     'specify mocha reporter options, separate multiple values with comma',
   )
   // dashboard
+  .option('-cid, --ciBuildId', '[dashboard] add custom ci build id to the run')
   .option(
     '-r, --record',
     '[dashboard] record video of tests running after setting up your project to record',
@@ -111,6 +112,7 @@ program
       quiet: options.quiet,
       reporter: options.reporter,
       reporterOptions: options.reporterOptions,
+      ciBuildId: options.ciBuildId,
       record: options.record,
       key: options.key,
       parallel: options.parallel,

@@ -54,6 +54,10 @@ const launcher = {
     if (arguments_.reporterOptions) {
       defaultArguments.push(`--reporter-options=${arguments_.reporterOptions}`);
     }
+    if (arguments_.ciBuildId) {
+      log(`Custom ciBuildId arg detected: ${arguments_.ciBuildId}`);
+      defaultArguments.push(`--ci-build-id=${arguments_.ciBuildId}`);
+    }
     if (arguments_.record) {
       defaultArguments.push('--record');
     }
