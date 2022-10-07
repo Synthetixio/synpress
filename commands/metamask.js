@@ -477,11 +477,18 @@ module.exports = {
       .metamaskWindow()
       .$(mainPageElements.connectedSites.trashButton);
     if (trashButton) {
+      console.log(
+        '[disconnectWalletFromDapp] Wallet is connected to a dapp, disconnecting..',
+      );
       await playwright.waitAndClick(
         mainPageElements.connectedSites.trashButton,
       );
       await playwright.waitAndClick(
         mainPageElements.connectedSites.disconnectButton,
+      );
+    } else {
+      console.log(
+        '[disconnectWalletFromDapp] Wallet is not connected to a dapp, skipping..',
       );
     }
     await module.exports.closeModal();
@@ -490,7 +497,6 @@ module.exports = {
   },
   async disconnectWalletFromAllDapps() {
     await switchToMetamaskIfNotActive();
-
     await playwright.waitAndClick(mainPageElements.optionsMenu.button);
     await playwright.waitAndClick(
       mainPageElements.optionsMenu.connectedSitesButton,
@@ -498,13 +504,22 @@ module.exports = {
     const trashButtons = await playwright
       .metamaskWindow()
       .$$(mainPageElements.connectedSites.trashButton);
-    // eslint-disable-next-line no-unused-vars
-    for (const trashButton of trashButtons) {
-      await playwright.waitAndClick(
-        mainPageElements.connectedSites.trashButton,
+    if (trashButtons.length) {
+      console.log(
+        '[disconnectWalletFromAllDapps] Wallet is connected to dapps, disconnecting..',
       );
-      await playwright.waitAndClick(
-        mainPageElements.connectedSites.disconnectButton,
+      // eslint-disable-next-line no-unused-vars
+      for (const trashButton of trashButtons) {
+        await playwright.waitAndClick(
+          mainPageElements.connectedSites.trashButton,
+        );
+        await playwright.waitAndClick(
+          mainPageElements.connectedSites.disconnectButton,
+        );
+      }
+    } else {
+      console.log(
+        '[disconnectWalletFromAllDapps] Wallet is not connected to any dapps, skipping..',
       );
     }
     await module.exports.closeModal();
