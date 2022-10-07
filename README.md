@@ -54,6 +54,7 @@ To see in which direction Synpress is headed to, take a look at
   - debug remote machines on CI with ngrok
 - blazingly-fast ⚡
 - extensible ⚙️ (add own custom commands and plugins)
+- supports parallelisation and is integrated with [sorry-cypress](https://sorry-cypress.dev/) (optional)
 - can be used in existing
   [cypress setup](https://github.com/Synthetixio/synpress/issues/346#issuecomment-1060506096)
 - supports dotenv
@@ -225,12 +226,10 @@ use `STABLE_MODE=true` (which will introduce delays only between main actions,
 300ms by default) / `STABLE_MODE=<value>` or `SLOW_MODE=true` (which will
 introduce delay between every action, 50ms by default) / `SLOW_MODE=<value>`.
 
+If you would like to use [sorry-cypress](https://sorry-cypress.dev/) instead of official dashboard, just pass your url of `sorry-cypress-director` (or [currents.dev](https://currents.dev/)) to `CYPRESS_API_URL` environmental variable. In case your cypress path is not detected properly, you will also have to specify `CYPRESS_PACKAGE_CONFIG_PATH`.
+
 `SYNDEBUG=1` is very useful while debugging your tests. It enables following
 features:
-
-If you want to use sorry cypress just pass your url to `CYPRESS_API_URL`. You can
-manually set path to cypress by setting `CYPRESS_PATH` environmental variable.
-
 - improved logging
 - [cypress debugger](https://docs.cypress.io/guides/guides/debugging)
 - [playwright debugger](https://playwright.dev/docs/debug)
