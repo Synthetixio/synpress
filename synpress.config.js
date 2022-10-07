@@ -1,8 +1,14 @@
+const log = require('debug')('synpress:config');
 const path = require('path');
 const packageJson = require('./package.json');
 const { defineConfig } = require('cypress');
-const setupNodeEvents = require(`${getSynpressPath()}/plugins/index`);
-const fixturesFolder = `${getSynpressPath()}/fixtures`;
+const synpressPath = getSynpressPath();
+log(`Detected synpress root path is: ${synpressPath}`);
+const pluginsPath = `${synpressPath}/plugins/index`;
+log(`Detected synpress plugin path is: ${pluginsPath}`);
+const setupNodeEvents = require(pluginsPath);
+const fixturesFolder = `${synpressPath}/fixtures`;
+log(`Detected synpress fixtures path is: ${fixturesFolder}`);
 const supportFile = 'tests/e2e/support.js';
 
 module.exports = defineConfig({

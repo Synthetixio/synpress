@@ -1,21 +1,26 @@
 #!/usr/bin/env node
-
+const log = require('debug')('synpress:cli');
 const program = require('commander');
 const { run, open } = require('./launcher');
 const { version } = require('./package.json');
 
-if (process.env.SYNPRESS_LOCAL_TEST) {
-  require('dotenv').config();
-} else {
-  require('dotenv').config({ path: require('find-config')('.env') });
-}
-
-if (process.env.SYNDEBUG) {
+if (process.env.DEBUG && process.env.DEBUG.includes('synpress')) {
+  log('SYNDEBUG mode is enabled');
   process.env.PWDEBUG = 1;
-  // process.env.DEBUG = 'cypress:*';
   if (!process.env.STABLE_MODE) {
+    log('Enabling stable mode');
     process.env.STABLE_MODE = true;
   }
+}
+
+if (process.env.SYNPRESS_LOCAL_TEST) {
+  log('Loading .env config file from root folder');
+  require('dotenv').config();
+} else {
+  log(
+    'Loading .env config file from first matching config file - root dir, ancestor or home dir',
+  );
+  require('dotenv').config({ path: require('find-config')('.env') });
 }
 
 if (
@@ -45,15 +50,14 @@ if (process.env.RPC_URL || process.env.CHAIN_ID) {
     );
   }
 
-  if (process.env.BLOCK_EXPLORER) {
-    if (
-      !process.env.BLOCK_EXPLORER.startsWith('http://') && //DevSkim: ignore DS137138
-      !process.env.BLOCK_EXPLORER.startsWith('https://')
-    ) {
-      throw new Error(
-        'BLOCK_EXPLORER environment variable should start with "http://" or "https://"', //DevSkim: ignore DS137138
-      );
-    }
+  if (
+    process.env.BLOCK_EXPLORER &&
+    !process.env.BLOCK_EXPLORER.startsWith('http://') && //DevSkim: ignore DS137138
+    !process.env.BLOCK_EXPLORER.startsWith('https://')
+  ) {
+    throw new Error(
+      'BLOCK_EXPLORER environment variable should start with "http://" or "https://"', //DevSkim: ignore DS137138
+    );
   }
 }
 
@@ -62,6 +66,7 @@ program.version(version, '-v, --version');
 program
   .command('run')
   .requiredOption('-b, --browser <name>', 'run on specified browser', 'chrome')
+  .option('-cmp, --component', 'run component tests')
   .option(
     '-c, --config <config>',
     'set configuration values, separate multiple values with a comma',
@@ -70,12 +75,14 @@ program
     '-cf, --configFile <path>',
     'specify a path to a JSON file where configuration values are set',
   )
+  .option('--e2e', 'run e2e tests (already set as default)')
   .option(
     '-e, --env <env=val>',
     'set environment variables, separate multiple values with comma',
   )
   .option('-s, --spec <path or glob>', 'run only provided spec files')
   .option('-ne, --noExit', 'keep runner open after tests finish')
+  .option('-pt, --port <value>', 'override default port')
   .option('-pr, --project <path>', 'run with specific project path')
   .option('-q, --quiet', 'only test runner output in console')
   .option('-r, --reporter <reporter>', 'specify mocha reporter')
@@ -84,6 +91,7 @@ program
     'specify mocha reporter options, separate multiple values with comma',
   )
   // dashboard
+  .option('-cid, --ciBuildId', '[dashboard] add custom ci build id to the run')
   .option(
     '-r, --record',
     '[dashboard] record video of tests running after setting up your project to record',
@@ -102,15 +110,19 @@ program
   .action(options => {
     run({
       browser: options.browser,
+      component: options.component,
       config: options.config,
       configFile: options.configFile,
+      e2e: options.e2e,
       env: options.env,
       spec: options.spec,
       noExit: options.noExit,
+      port: options.port,
       project: options.project,
       quiet: options.quiet,
       reporter: options.reporter,
       reporterOptions: options.reporterOptions,
+      ciBuildId: options.ciBuildId,
       record: options.record,
       key: options.key,
       parallel: options.parallel,
