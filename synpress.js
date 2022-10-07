@@ -1,21 +1,26 @@
 #!/usr/bin/env node
-
+const log = require('debug')('synpress:cli');
 const program = require('commander');
 const { run, open } = require('./launcher');
 const { version } = require('./package.json');
 
-if (process.env.SYNPRESS_LOCAL_TEST) {
-  require('dotenv').config();
-} else {
-  require('dotenv').config({ path: require('find-config')('.env') });
-}
-
-if (process.env.SYNDEBUG) {
+if (process.env.DEBUG && process.env.DEBUG.includes('synpress')) {
+  log('SYNDEBUG mode is enabled');
   process.env.PWDEBUG = 1;
-  // process.env.DEBUG = 'cypress:*';
   if (!process.env.STABLE_MODE) {
+    log('Enabling stable mode');
     process.env.STABLE_MODE = true;
   }
+}
+
+if (process.env.SYNPRESS_LOCAL_TEST) {
+  log('Loading .env config file from root folder');
+  require('dotenv').config();
+} else {
+  log(
+    'Loading .env config file from first matching config file - root dir, ancestor or home dir',
+  );
+  require('dotenv').config({ path: require('find-config')('.env') });
 }
 
 if (
