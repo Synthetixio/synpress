@@ -85,8 +85,7 @@
     "prettier": "^2.7.1",
     "serve": "^14.0.1",
     "start-server-and-test": "^1.14.0",
-    "synthetix-js": "^2.74.1",
-    "cy2": "^2.0.1"
+    "synthetix-js": "^2.74.1"
   },
   "devDependencies": {
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
