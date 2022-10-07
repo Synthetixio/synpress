@@ -155,6 +155,21 @@ module.exports = {
     }
     return true;
   },
+  closeModal: async () => {
+    // note: this is required for fast execution of e2e tests to avoid flakiness
+    // otherwise modal may not be detected properly and not closed
+    await playwright.metamaskWindow().waitForTimeout(1000);
+    if (
+      (await playwright
+        .metamaskWindow()
+        .$(mainPageElements.connectedSites.modal)) !== null
+    ) {
+      await playwright.waitAndClick(
+        mainPageElements.connectedSites.closeButton,
+      );
+    }
+    return true;
+  },
   unlock: async password => {
     await module.exports.fixBlankPage();
     await playwright.waitAndType(unlockPageElements.passwordInput, password);
@@ -497,18 +512,7 @@ module.exports = {
         mainPageElements.connectedSites.disconnectButton,
       );
     }
-
-    // close popup if present
-    if (
-      (await playwright
-        .metamaskWindow()
-        .$(mainPageElements.connectedSites.modal)) !== null
-    ) {
-      await playwright.waitAndClick(
-        mainPageElements.connectedSites.closeButton,
-      );
-    }
-
+    await module.exports.closeModal();
     await switchToCypressIfNotActive();
     return true;
   },
