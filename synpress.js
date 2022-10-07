@@ -85,6 +85,10 @@ program
   )
   // dashboard
   .option(
+    '-cid, --ciBuildId <value>',
+    '[dashboard] add custom ci build id for a test run',
+  )
+  .option(
     '-r, --record',
     '[dashboard] record video of tests running after setting up your project to record',
   )
@@ -98,14 +102,11 @@ program
     '[dashboard] group recorded tests together under a single run',
   )
   .option('-t, --tag <name>', '[dashboard] add tags to dashboard for test run')
-  .option(
-    '-cid, --ciBuildId <name>',
-    '[dashboard] add custom ci build id to dashboard for test run',
-  )
   .description('launch tests')
   .action(options => {
     run({
       browser: options.browser,
+      ciBuildId: options.ciBuildId,
       config: options.config,
       configFile: options.configFile,
       env: options.env,
@@ -120,7 +121,6 @@ program
       parallel: options.parallel,
       group: options.group,
       tag: options.tag,
-      ciBuildId: options.ciBuildId,
     });
   });
 
