@@ -63,6 +63,7 @@
     "commander": "^9.4.1",
     "cypress": "^10.9.0",
     "cypress-wait-until": "^1.7.2",
+    "debug": "^4.3.4",
     "dotenv": "^16.0.3",
     "dotenv-parse-variables": "^2.0.0",
     "download": "^8.0.0",
