@@ -155,6 +155,21 @@ module.exports = {
     }
     return true;
   },
+  closeModal: async () => {
+    // note: this is required for fast execution of e2e tests to avoid flakiness
+    // otherwise modal may not be detected properly and not closed
+    await playwright.metamaskWindow().waitForTimeout(1000);
+    if (
+      (await playwright
+        .metamaskWindow()
+        .$(mainPageElements.connectedSites.modal)) !== null
+    ) {
+      await playwright.waitAndClick(
+        mainPageElements.connectedSites.closeButton,
+      );
+    }
+    return true;
+  },
   unlock: async password => {
     await module.exports.fixBlankPage();
     await playwright.waitAndType(unlockPageElements.passwordInput, password);
@@ -454,33 +469,34 @@ module.exports = {
   },
   async disconnectWalletFromDapp() {
     await switchToMetamaskIfNotActive();
-
     await playwright.waitAndClick(mainPageElements.optionsMenu.button);
     await playwright.waitAndClick(
       mainPageElements.optionsMenu.connectedSitesButton,
     );
-    await playwright.waitAndClick(mainPageElements.connectedSites.trashButton);
-    await playwright.waitAndClick(
-      mainPageElements.connectedSites.disconnectButton,
-    );
-
-    // close popup if present
-    if (
-      (await playwright
-        .metamaskWindow()
-        .$(mainPageElements.connectedSites.modal)) !== null
-    ) {
+    const trashButton = await playwright
+      .metamaskWindow()
+      .$(mainPageElements.connectedSites.trashButton);
+    if (trashButton) {
+      console.log(
+        '[disconnectWalletFromDapp] Wallet is connected to a dapp, disconnecting..',
+      );
       await playwright.waitAndClick(
-        mainPageElements.connectedSites.closeButton,
+        mainPageElements.connectedSites.trashButton,
+      );
+      await playwright.waitAndClick(
+        mainPageElements.connectedSites.disconnectButton,
+      );
+    } else {
+      console.log(
+        '[disconnectWalletFromDapp] Wallet is not connected to a dapp, skipping..',
       );
     }
-
+    await module.exports.closeModal();
     await switchToCypressIfNotActive();
     return true;
   },
   async disconnectWalletFromAllDapps() {
     await switchToMetamaskIfNotActive();
-
     await playwright.waitAndClick(mainPageElements.optionsMenu.button);
     await playwright.waitAndClick(
       mainPageElements.optionsMenu.connectedSitesButton,
@@ -488,27 +504,25 @@ module.exports = {
     const trashButtons = await playwright
       .metamaskWindow()
       .$$(mainPageElements.connectedSites.trashButton);
-    // eslint-disable-next-line no-unused-vars
-    for (const trashButton of trashButtons) {
-      await playwright.waitAndClick(
-        mainPageElements.connectedSites.trashButton,
+    if (trashButtons.length) {
+      console.log(
+        '[disconnectWalletFromAllDapps] Wallet is connected to dapps, disconnecting..',
       );
-      await playwright.waitAndClick(
-        mainPageElements.connectedSites.disconnectButton,
-      );
-    }
-
-    // close popup if present
-    if (
-      (await playwright
-        .metamaskWindow()
-        .$(mainPageElements.connectedSites.modal)) !== null
-    ) {
-      await playwright.waitAndClick(
-        mainPageElements.connectedSites.closeButton,
+      // eslint-disable-next-line no-unused-vars
+      for (const trashButton of trashButtons) {
+        await playwright.waitAndClick(
+          mainPageElements.connectedSites.trashButton,
+        );
+        await playwright.waitAndClick(
+          mainPageElements.connectedSites.disconnectButton,
+        );
+      }
+    } else {
+      console.log(
+        '[disconnectWalletFromAllDapps] Wallet is not connected to any dapps, skipping..',
       );
     }
-
+    await module.exports.closeModal();
     await switchToCypressIfNotActive();
     return true;
   },
