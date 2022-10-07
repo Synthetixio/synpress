@@ -66,6 +66,7 @@ program.version(version, '-v, --version');
 program
   .command('run')
   .requiredOption('-b, --browser <name>', 'run on specified browser', 'chrome')
+  .option('-cmp, --component', 'run component tests')
   .option(
     '-c, --config <config>',
     'set configuration values, separate multiple values with a comma',
@@ -107,6 +108,7 @@ program
   .action(options => {
     run({
       browser: options.browser,
+      component: options.component,
       config: options.config,
       configFile: options.configFile,
       env: options.env,

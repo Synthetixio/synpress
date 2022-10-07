@@ -33,6 +33,10 @@ const launcher = {
     }
     log(`Tests will run on ${arguments_.browser} browser`);
     defaultArguments.push(`--browser=${arguments_.browser}`);
+    if (arguments_.component) {
+      log(`component arg enabled`);
+      defaultArguments.push('--component');
+    }
     if (arguments_.config) {
       log(`Custom config arg detected: ${defaultConfig},${arguments_.config}`);
       defaultArguments.push(`--config=${defaultConfig},${arguments_.config}`);
