@@ -225,7 +225,7 @@ use `STABLE_MODE=true` (which will introduce delays only between main actions,
 300ms by default) / `STABLE_MODE=<value>` or `SLOW_MODE=true` (which will
 introduce delay between every action, 50ms by default) / `SLOW_MODE=<value>`.
 
-`SYNDEBUG=1` is very useful while debugging your tests. It enables following
+`DEBUG=synpress:*` is very useful while debugging your tests. It enables following
 features:
 
 - improved logging
