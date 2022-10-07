@@ -39,7 +39,7 @@
     "release:minor": "release-it minor --disable-metrics",
     "release:patch": "release-it patch --disable-metrics",
     "update:deps": "ncu -u -x 'node-fetch eslint' && yarn",
-    "start:server": "serve tests/test-dapp -p 3000",
+    "start:server": "serve node_modules/@metamask/test-dapp/dist -p 3000",
     "test:e2e": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js'",
     "test:e2e:ci": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --group smoke-tests --record'"
   },
@@ -89,6 +89,7 @@
     "synthetix-js": "^2.74.1"
   },
   "devDependencies": {
+    "@metamask/test-dapp": "^5.2.1",
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
     "npm-check-updates": "^16.3.8",
     "release-it": "^15.5.0"
