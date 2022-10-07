@@ -32,5 +32,6 @@ module.exports = {
   rules: {
     'no-debugger': 0,
     'no-console': 0,
+    'testing-library/no-debugging-utils': 0,
   },
 };
