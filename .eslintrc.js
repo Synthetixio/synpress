@@ -33,5 +33,6 @@ module.exports = {
     'no-debugger': 0,
     'no-console': 0,
     'testing-library/no-debugging-utils': 0,
+    'testing-library/prefer-screen-queries': 0,
   },
 };
