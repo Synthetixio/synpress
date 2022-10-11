@@ -34,7 +34,6 @@ lint:
     - linters: [ALL]
       paths:
         - node_modules/**
-        - tests/test-dapp
         - downloads
         - tests/e2e/videos
         - tests/e2e/screenshots
