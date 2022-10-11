@@ -26,6 +26,7 @@ tests with all features of cypress and playwright.
 
 Usage examples:
 
+- [synpress-setup-example](https://github.com/drptbl/synpress-setup-example/)
 - [synpress](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e)
 - [kwenta](https://github.com/kwenta/kwenta/tree/dev/tests/e2e)
 - [staking](https://github.com/Synthetixio/staking/tree/dev/tests/e2e)
