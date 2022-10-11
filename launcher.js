@@ -6,8 +6,6 @@ log(`Detected synpress config path is: ${synpressConfigPath}`);
 
 process.env.CYPRESS_REMOTE_DEBUGGING_PORT = 9222;
 
-const defaultConfig = ``;
-
 const defaultArguments = [
   'cypress',
   'run',
@@ -20,7 +18,6 @@ const launcher = {
       ? cypress.open({ configFile: arguments_.configFile })
       : cypress.open({
           configFile: synpressConfigPath,
-          config: defaultConfig,
         }));
   },
   async run(arguments_) {
@@ -38,11 +35,8 @@ const launcher = {
       defaultArguments.push('--component');
     }
     if (arguments_.config) {
-      log(`Custom config arg detected: ${defaultConfig},${arguments_.config}`);
-      defaultArguments.push(`--config=${defaultConfig},${arguments_.config}`);
-    } else {
-      log(`Using default config: ${defaultConfig}`);
-      defaultArguments.push(`--config=${defaultConfig}`);
+      log(`Custom config arg detected: ${arguments_.config}`);
+      defaultArguments.push(`--config=${arguments_.config}`);
     }
     if (arguments_.e2e) {
       log(`e2e arg enabled`);
