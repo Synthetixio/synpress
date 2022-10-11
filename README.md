@@ -44,7 +44,7 @@ To see in which direction Synpress is headed to, take a look at
   - recommended for local development and
     [CI](https://github.com/Synthetixio/synpress#ci-tips--tricks)
   - includes VNC and [noVNC](https://novnc.com/info.html)
-  - integrated video recoding 🎥 (full screen)
+  - integrated video recording 🎥 (full screen)
   - exposes noVNC with [ngrok](https://ngrok.com/) (optional)
 - easy to debug 🐛
   - improved error handling
@@ -71,7 +71,7 @@ To see in which direction Synpress is headed to, take a look at
 - etherscan API helpers in place which for ex. allows to compare your
   transaction results with etherscan and check tx status
 - synthetix helpers in place which allows to interact with synthetix protocol
-  programatically
+  programmatically
 - supports codespaces
   - run your tests in docker
   - get your feedback remotely thanks to ngrok
@@ -208,7 +208,7 @@ You can also add and switch to custom network by passing an `object` instead of
 function for `network` parameter.
 
 If you want to use Etherscan API helpers, you will have to provide Etherscan API
-key using `ETHERSCAN_KEY` enironmental variable.
+key using `ETHERSCAN_KEY` environmental variable.
 
 To fail a test if there are any browser console errors, set `FAIL_ON_ERROR` to
 `1` or `true`.
