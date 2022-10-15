@@ -21,6 +21,10 @@ if (process.env.SYNPRESS_LOCAL_TEST) {
     'Loading .env config file from first matching config file - root dir, ancestor or home dir',
   );
   require('dotenv').config({ path: require('find-config')('.env') });
+  log(
+    'Loading .env.e2e config file from first matching config file - root dir, ancestor or home dir',
+  );
+  require('dotenv').config({ path: require('find-config')('.env.e2e') });
 }
 
 if (
