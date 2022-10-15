@@ -45,7 +45,6 @@
   },
   "dependencies": {
     "@cypress/code-coverage": "^3.10.0",
-    "@cypress/react": "^6.2.0",
     "@cypress/webpack-dev-server": "^2.3.0",
     "@drptbl/gremlins.js": "^2.2.1",
     "@playwright/test": "^1.27.1",
