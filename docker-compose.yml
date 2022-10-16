@@ -12,6 +12,7 @@ services:
     depends_on:
       - display
       - video
+      - foundry
     entrypoint: []
     working_dir: /app
     volumes:
@@ -21,13 +22,13 @@ services:
       bash -c 'echo -n "======> local noVNC URL:
       http://localhost:8080/vnc.html?autoconnect=true " && npx wait-on
       http://display:8080 && echo -n "======> remote noVNC URL: " && curl -s
-      ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && yarn test:e2e'
+      ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && yarn test:e2e:anvil'
     networks:
       - x11
 
   display:
     container_name: display
-    image: synthetixio/display:b2643097e891906524e52e7ee956260b20fa01fb-base
+    image: synthetixio/display:016121eafdfff448414894d0ca5a50b1d72b62eb-base
     environment:
       - RUN_XTERM=no
     ports:
@@ -39,7 +40,7 @@ services:
     profiles:
       - ngrok
     container_name: ngrok
-    image: synthetixio/ngrok:b2643097e891906524e52e7ee956260b20fa01fb-base
+    image: synthetixio/ngrok:016121eafdfff448414894d0ca5a50b1d72b62eb-base
     ports:
       - '4040:4040'
     command: ['ngrok', 'http', 'display:8080', '--authtoken', '${NGROK_AUTH}']
@@ -50,13 +51,22 @@ services:
 
   video:
     container_name: video
-    image: synthetixio/video:b2643097e891906524e52e7ee956260b20fa01fb-base
+    image: synthetixio/video:016121eafdfff448414894d0ca5a50b1d72b62eb-base
     volumes:
       - ./docker/videos-ci:/videos
     environment:
       - FILE_NAME=CI-full-video.mp4
     depends_on:
       - display
+    networks:
+      - x11
+
+  foundry:
+    container_name: foundry
+    image: synthetixio/foundry:016121eafdfff448414894d0ca5a50b1d72b62eb-base
+    command: ['anvil', '--fork-url', '${ANVIL_FORK_URL}']
+    ports:
+      - '8545:8545'
     networks:
       - x11
 
