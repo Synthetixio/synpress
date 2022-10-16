@@ -4,7 +4,7 @@ const {
   welcomePageElements,
   firstTimeFlowPageElements,
   metametricsPageElements,
-  firstTimeFlowFormPageElements,
+  firstTimeFlowImportPageElements,
   secureYourWalletPageElements,
   revealSeedPageElements,
   endOfFlowPageElements,
@@ -136,7 +136,7 @@ module.exports = {
     );
     return true;
   },
-  closePopup: async () => {
+  closePopupAndTooltips: async () => {
     // note: this is required for fast execution of e2e tests to avoid flakiness
     // otherwise popup may not be detected properly and not closed
     await playwright.metamaskWindow().waitForTimeout(1000);
@@ -152,6 +152,13 @@ module.exports = {
       await playwright
         .metamaskWindow()
         .mouse.click(popupBackgroundBox.x + 1, popupBackgroundBox.y + 1);
+    }
+    if (
+      (await playwright
+        .metamaskWindow()
+        .$(mainPageElements.tippyTooltip.container)) !== null
+    ) {
+      await playwright.waitAndClick(mainPageElements.tippyTooltip.closeButton);
     }
     return true;
   },
@@ -180,17 +187,10 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.closePopup();
+    await module.exports.closePopupAndTooltips();
     return true;
   },
-  importWallet: async (secretWords, password) => {
-    await playwright.waitAndClick(
-      firstTimeFlowPageElements.importWalletButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
+  optOutAnalytics: async () => {
     await playwright.waitAndClick(
       metametricsPageElements.optOutAnalyticsButton,
       await playwright.metamaskWindow(),
@@ -198,21 +198,37 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
-    await playwright.waitAndType(
-      firstTimeFlowFormPageElements.secretWordsInput,
-      secretWords,
-    );
-    await playwright.waitAndType(
-      firstTimeFlowFormPageElements.passwordInput,
-      password,
-    );
-    await playwright.waitAndType(
-      firstTimeFlowFormPageElements.confirmPasswordInput,
-      password,
-    );
-    await playwright.waitAndClick(firstTimeFlowFormPageElements.termsCheckbox);
+    return true;
+  },
+  importWallet: async (secretWords, password) => {
+    module.exports.optOutAnalytics();
     await playwright.waitAndClick(
-      firstTimeFlowFormPageElements.importButton,
+      firstTimeFlowPageElements.importWalletButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
+    // todo: add support for more secret words (15/18/21/24)
+    for (const [index, word] of secretWords.split(' ').entries()) {
+      await playwright.waitAndType(
+        firstTimeFlowImportPageElements.secretWordsInput(index),
+        word,
+      );
+    }
+    await playwright.waitAndType(
+      firstTimeFlowImportPageElements.passwordInput,
+      password,
+    );
+    await playwright.waitAndType(
+      firstTimeFlowImportPageElements.confirmPasswordInput,
+      password,
+    );
+    await playwright.waitAndClick(
+      firstTimeFlowImportPageElements.termsCheckbox,
+    );
+    await playwright.waitAndClick(
+      firstTimeFlowImportPageElements.importButton,
       await playwright.metamaskWindow(),
       {
         waitForEvent: 'navi',
@@ -225,10 +241,11 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.closePopup();
+    await module.exports.closePopupAndTooltips();
     return true;
   },
   createWallet: async password => {
+    module.exports.optOutAnalytics();
     await playwright.waitAndClick(
       firstTimeFlowPageElements.createWalletButton,
       await playwright.metamaskWindow(),
@@ -236,26 +253,19 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
-    await playwright.waitAndClick(
-      metametricsPageElements.optOutAnalyticsButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
     await playwright.waitAndType(
-      firstTimeFlowFormPageElements.newPasswordInput,
+      firstTimeFlowImportPageElements.newPasswordInput,
       password,
     );
     await playwright.waitAndType(
-      firstTimeFlowFormPageElements.confirmPasswordInput,
+      firstTimeFlowImportPageElements.confirmPasswordInput,
       password,
     );
     await playwright.waitAndClick(
-      firstTimeFlowFormPageElements.newSignupCheckbox,
+      firstTimeFlowImportPageElements.newSignupCheckbox,
     );
     await playwright.waitAndClick(
-      firstTimeFlowFormPageElements.importButton,
+      firstTimeFlowImportPageElements.importButton,
       await playwright.metamaskWindow(),
       {
         waitForEvent: 'navi',
@@ -275,7 +285,7 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.closePopup();
+    await module.exports.closePopupAndTooltips();
     return true;
   },
   importAccount: async privateKey => {
@@ -312,9 +322,9 @@ module.exports = {
     }
 
     await switchToMetamaskIfNotActive();
-    // note: closePopup() is required after changing createAccount() to use direct urls (popup started appearing)
-    // ^ this change also introduced 500ms delay for closePopup() function
-    await module.exports.closePopup();
+    // note: closePopupAndTooltips() is required after changing createAccount() to use direct urls (popup started appearing)
+    // ^ this change also introduced 500ms delay for closePopupAndTooltips() function
+    await module.exports.closePopupAndTooltips();
     await playwright.waitAndClick(mainPageElements.accountMenu.button);
 
     if (typeof accountNameOrAccountNumber === 'number') {
