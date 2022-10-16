@@ -126,6 +126,7 @@ jobs:
             ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
 
@@ -152,6 +153,7 @@ jobs:
             ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
 
