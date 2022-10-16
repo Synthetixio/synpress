@@ -12,6 +12,12 @@ const popup = {
   background: '.popover-bg',
 };
 
+const tippyTooltipSelector = '.tippy-popper';
+const tippyTooltip = {
+  container: tippyTooltipSelector,
+  closeButton: `${tippyTooltipSelector} button`,
+};
+
 const accountMenu = {
   button: '.account-menu__icon',
   accountButton: number => `.account-menu__account:nth-child(${number})`,
@@ -60,6 +66,7 @@ module.exports.mainPageElements = {
   networkSwitcher,
   walletOverview,
   popup,
+  tippyTooltip,
   accountMenu,
   optionsMenu,
   connectedSites,
