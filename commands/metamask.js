@@ -343,66 +343,30 @@ module.exports = {
   },
   changeNetwork: async network => {
     await switchToMetamaskIfNotActive();
-
+    await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
     if (typeof network === 'string') {
       network = network.toLowerCase();
+      await playwright.waitAndClickByText(
+        mainPageElements.networkSwitcher.dropdownMenuItem,
+        network,
+      );
+      await playwright.waitForText(
+        mainPageElements.networkSwitcher.networkName,
+        network,
+      );
     } else if (typeof network === 'object') {
       network.networkName = network.networkName.toLowerCase();
-    }
-
-    await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
-    if (network === 'main' || network === 'mainnet') {
-      await playwright.waitAndClick(
-        mainPageElements.networkSwitcher.networkButton(0),
-      );
-    } else if (network === 'ropsten') {
-      await playwright.waitAndClick(
-        mainPageElements.networkSwitcher.networkButton(1),
-      );
-    } else if (network === 'kovan') {
-      await playwright.waitAndClick(
-        mainPageElements.networkSwitcher.networkButton(2),
-      );
-    } else if (network === 'rinkeby') {
-      await playwright.waitAndClick(
-        mainPageElements.networkSwitcher.networkButton(3),
-      );
-    } else if (network === 'goerli') {
-      await playwright.waitAndClick(
-        mainPageElements.networkSwitcher.networkButton(4),
-      );
-    } else if (network === 'localhost') {
-      await playwright.waitAndClick(
-        mainPageElements.networkSwitcher.networkButton(5),
-      );
-    } else if (typeof network === 'object') {
       await playwright.waitAndClickByText(
         mainPageElements.networkSwitcher.dropdownMenuItem,
         network.networkName,
       );
-    } else {
-      await playwright.waitAndClickByText(
-        mainPageElements.networkSwitcher.dropdownMenuItem,
-        network,
+      await playwright.waitForText(
+        mainPageElements.networkSwitcher.networkName,
+        network.networkName,
       );
     }
-
     setNetwork(network);
-
-    if (typeof network === 'object') {
-      await playwright.waitForText(
-        mainPageElements.networkSwitcher.networkName,
-        network.networkName,
-      );
-    } else {
-      await playwright.waitForText(
-        mainPageElements.networkSwitcher.networkName,
-        network,
-      );
-    }
-
     await switchToCypressIfNotActive();
-
     return true;
   },
   addNetwork: async network => {
