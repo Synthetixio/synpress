@@ -5,6 +5,7 @@ const {
   firstTimeFlowPageElements,
   metametricsPageElements,
   firstTimeFlowImportPageElements,
+  firstTimeFlowCreatePagePageElements,
   secureYourWalletPageElements,
   revealSeedPageElements,
   endOfFlowPageElements,
@@ -254,18 +255,18 @@ module.exports = {
       },
     );
     await playwright.waitAndType(
-      firstTimeFlowImportPageElements.newPasswordInput,
+      firstTimeFlowCreatePagePageElements.newPasswordInput,
       password,
     );
     await playwright.waitAndType(
-      firstTimeFlowImportPageElements.confirmPasswordInput,
+      firstTimeFlowCreatePagePageElements.confirmNewPasswordInput,
       password,
     );
     await playwright.waitAndClick(
-      firstTimeFlowImportPageElements.newSignupCheckbox,
+      firstTimeFlowCreatePagePageElements.newSignupCheckbox,
     );
     await playwright.waitAndClick(
-      firstTimeFlowImportPageElements.importButton,
+      firstTimeFlowCreatePagePageElements.createButton,
       await playwright.metamaskWindow(),
       {
         waitForEvent: 'navi',
