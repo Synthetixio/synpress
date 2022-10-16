@@ -31,8 +31,6 @@ const passwordInput = `${newVaultForm} #password`;
 const confirmPasswordInput = `${newVaultForm} #confirm-password`;
 const termsCheckbox = `${newVaultForm} [data-testid="create-new-vault__terms-checkbox"]`;
 const importButton = `${newVaultForm} .create-new-vault__submit-button`;
-const newPasswordInput = `${newVaultForm} #create-password`;
-const newSignupCheckbox = `${newVaultForm} .first-time-flow__checkbox`;
 
 module.exports.firstTimeFlowImportPageElements = {
   firstTimeFlowImportPage,
@@ -42,15 +40,33 @@ module.exports.firstTimeFlowImportPageElements = {
   confirmPasswordInput,
   termsCheckbox,
   importButton,
-  newPasswordInput,
-  newSignupCheckbox,
 };
 
-const secureYourWalletPage = '.seed-phrase-intro';
+const firstTimeFlowCreatePage = '.first-time-flow';
+const newPasswordInput = `${firstTimeFlowCreatePage} [data-testid="create-password"]`;
+const confirmNewPasswordInput = `${firstTimeFlowCreatePage} [data-testid="confirm-password"]`;
+const newSignupCheckbox = `${firstTimeFlowCreatePage} .first-time-flow__checkbox`;
+const createButton = `${firstTimeFlowCreatePage} .first-time-flow__button`;
+module.exports.firstTimeFlowCreatePagePageElements = {
+  firstTimeFlowCreatePage,
+  newPasswordInput,
+  confirmNewPasswordInput,
+  newSignupCheckbox,
+  createButton,
+};
+
+const secureYourWalletPage = '[data-testid="seed-phrase-intro"]';
 const nextButton = `${secureYourWalletPage} button`;
 module.exports.secureYourWalletPageElements = {
   secureYourWalletPage,
   nextButton,
+};
+
+const revealSeedPage = '[data-testid="reveal-seed-phrase"]';
+const remindLaterButton = `${revealSeedPage} .first-time-flow__button`;
+module.exports.revealSeedPageElements = {
+  revealSeedPage,
+  remindLaterButton,
 };
 
 const endOfFlowPage = '[data-testid="end-of-flow"]';
@@ -58,11 +74,4 @@ const allDoneButton = `${endOfFlowPage} [data-testid="EOF-complete-button"]`;
 module.exports.endOfFlowPageElements = {
   endOfFlowPage,
   allDoneButton,
-};
-
-const revealSeedPage = '.reveal-seed-phrase';
-const remindLaterButton = `${revealSeedPage} .first-time-flow__button`;
-module.exports.revealSeedPageElements = {
-  revealSeedPage,
-  remindLaterButton,
 };
