@@ -7,15 +7,6 @@ module.exports.welcomePageElements = {
   confirmButton,
 };
 
-const firstTimeFlowPage = '.first-time-flow';
-const importWalletButton = `${firstTimeFlowPage} .select-action__select-button:nth-child(1) .first-time-flow__button`;
-const createWalletButton = `${firstTimeFlowPage} .select-action__select-button:nth-child(2) .first-time-flow__button`;
-module.exports.firstTimeFlowPageElements = {
-  firstTimeFlowPage,
-  importWalletButton,
-  createWalletButton,
-};
-
 const metametricsPage = '.metametrics-opt-in';
 const optOutAnalyticsButton = `${metametricsPage} [data-testid="page-container-footer-cancel"]`;
 module.exports.metametricsPageElements = {
@@ -23,17 +14,29 @@ module.exports.metametricsPageElements = {
   optOutAnalyticsButton,
 };
 
-const firstTimeFlowFormPage = '.first-time-flow__form';
-const secretWordsInput = `${firstTimeFlowFormPage} .first-time-flow__seedphrase input`;
-const passwordInput = `${firstTimeFlowFormPage} #password`;
-const confirmPasswordInput = `${firstTimeFlowFormPage} #confirm-password`;
-const termsCheckbox = `${firstTimeFlowFormPage} .first-time-flow__terms`;
-const importButton = `${firstTimeFlowFormPage} .first-time-flow__button`;
-const newPasswordInput = `${firstTimeFlowFormPage} #create-password`;
-const newSignupCheckbox = `${firstTimeFlowFormPage} .first-time-flow__checkbox`;
+const firstTimeFlowPage = '.first-time-flow';
+const importWalletButton = `${firstTimeFlowPage} [data-testid="import-wallet-button"]`;
+const createWalletButton = `${firstTimeFlowPage} [data-testid="create-wallet-button"]`;
+module.exports.firstTimeFlowPageElements = {
+  firstTimeFlowPage,
+  importWalletButton,
+  createWalletButton,
+};
 
-module.exports.firstTimeFlowFormPageElements = {
-  firstTimeFlowFormPage,
+const firstTimeFlowImportPage = '.first-time-flow__import';
+const newVaultForm = `${firstTimeFlowImportPage} .create-new-vault__form`;
+const secretWordsInput = number =>
+  `${newVaultForm} [data-testid="import-srp__srp-word-${number}"]`;
+const passwordInput = `${newVaultForm} #password`;
+const confirmPasswordInput = `${newVaultForm} #confirm-password`;
+const termsCheckbox = `${newVaultForm} [data-testid="create-new-vault__terms-checkbox"]`;
+const importButton = `${newVaultForm} .create-new-vault__submit-button`;
+const newPasswordInput = `${newVaultForm} #create-password`;
+const newSignupCheckbox = `${newVaultForm} .first-time-flow__checkbox`;
+
+module.exports.firstTimeFlowImportPageElements = {
+  firstTimeFlowImportPage,
+  newVaultForm,
   secretWordsInput,
   passwordInput,
   confirmPasswordInput,
@@ -50,8 +53,8 @@ module.exports.secureYourWalletPageElements = {
   nextButton,
 };
 
-const endOfFlowPage = '.end-of-flow';
-const allDoneButton = `${endOfFlowPage} .first-time-flow__button`;
+const endOfFlowPage = '[data-testid="end-of-flow"]';
+const allDoneButton = `${endOfFlowPage} [data-testid="EOF-complete-button"]`;
 module.exports.endOfFlowPageElements = {
   endOfFlowPage,
   allDoneButton,
