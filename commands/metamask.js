@@ -285,7 +285,13 @@ module.exports = {
       mainPageElements.importAccount.input,
       privateKey,
     );
-    await playwright.waitAndClick(mainPageElements.importAccount.importButton);
+    await playwright.waitAndClick(
+      mainPageElements.importAccount.importButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
     await switchToCypressIfNotActive();
     return true;
   },
