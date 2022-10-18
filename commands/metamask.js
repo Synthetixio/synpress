@@ -454,15 +454,15 @@ module.exports = {
     await playwright.waitAndClick(
       mainPageElements.optionsMenu.connectedSitesButton,
     );
-    const trashButton = await playwright
+    const disconnectLabel = await playwright
       .metamaskWindow()
-      .$(mainPageElements.connectedSites.trashButton);
-    if (trashButton) {
+      .$(mainPageElements.connectedSites.disconnectLabel);
+    if (disconnectLabel) {
       console.log(
         '[disconnectWalletFromDapp] Wallet is connected to a dapp, disconnecting..',
       );
       await playwright.waitAndClick(
-        mainPageElements.connectedSites.trashButton,
+        mainPageElements.connectedSites.disconnectLabel,
       );
       await playwright.waitAndClick(
         mainPageElements.connectedSites.disconnectButton,
@@ -482,17 +482,17 @@ module.exports = {
     await playwright.waitAndClick(
       mainPageElements.optionsMenu.connectedSitesButton,
     );
-    const trashButtons = await playwright
+    const disconnectLabels = await playwright
       .metamaskWindow()
-      .$$(mainPageElements.connectedSites.trashButton);
-    if (trashButtons.length) {
+      .$$(mainPageElements.connectedSites.disconnectLabel);
+    if (disconnectLabels.length) {
       console.log(
         '[disconnectWalletFromAllDapps] Wallet is connected to dapps, disconnecting..',
       );
       // eslint-disable-next-line no-unused-vars
-      for (const trashButton of trashButtons) {
+      for (const disconnectLabel of disconnectLabels) {
         await playwright.waitAndClick(
-          mainPageElements.connectedSites.trashButton,
+          mainPageElements.connectedSites.disconnectLabel,
         );
         await playwright.waitAndClick(
           mainPageElements.connectedSites.disconnectButton,
