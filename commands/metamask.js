@@ -574,6 +574,14 @@ module.exports = {
   },
   confirmSignatureRequest: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
+    const scrollDownButton = await playwright
+      .metamaskWindow()
+      .$(signaturePageElements.signatureRequestScrollDownButton);
+    if (scrollDownButton) {
+      await playwright.waitAndClick(
+        signaturePageElements.signatureRequestScrollDownButton,
+      );
+    }
     playwright.waitAndClick(
       signaturePageElements.confirmSignatureRequestButton,
       notificationPage,
@@ -583,6 +591,14 @@ module.exports = {
   },
   confirmDataSignatureRequest: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
+    const scrollDownButton = await playwright
+      .metamaskWindow()
+      .$(signaturePageElements.signatureRequestScrollDownButton);
+    if (scrollDownButton) {
+      await playwright.waitAndClick(
+        signaturePageElements.signatureRequestScrollDownButton,
+      );
+    }
     await playwright.waitAndClick(
       dataSignaturePageElements.confirmDataSignatureRequestButton,
       notificationPage,
@@ -628,10 +644,9 @@ module.exports = {
   },
   acceptAccess: async allAccounts => {
     const notificationPage = await playwright.switchToMetamaskNotification();
-    // todo: allAccounts doesn't work? - waitAndClick has .first()
     if (allAccounts === true) {
       await playwright.waitAndClick(
-        notificationPageElements.selectAllCheck,
+        notificationPageElements.selectAllCheckbox,
         notificationPage,
       );
     }

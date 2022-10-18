@@ -1,32 +1,35 @@
 const notificationPage = '.notification';
-const nextButton = `${notificationPage} .permissions-connect-choose-account__bottom-buttons button:nth-child(2)`;
+const nextButton = `${notificationPage} .permissions-connect-choose-account__bottom-buttons .btn-primary`;
 const allowToSpendButton = `${notificationPage} [data-testid="page-container-footer-next"]`;
 const rejectToSpendButton = `${notificationPage} [data-testid="page-container-footer-cancel"]`;
-const selectAllCheck = `${notificationPage} .permissions-connect-choose-account__header-check-box`;
+const selectAllCheckbox = `${notificationPage} .choose-account-list__header-check-box`;
 module.exports.notificationPageElements = {
   notificationPage,
   nextButton,
   allowToSpendButton,
   rejectToSpendButton,
-  selectAllCheck,
+  selectAllCheckbox,
 };
 
 const confirmSignatureRequestButton = `${notificationPage} .request-signature__footer__sign-button`;
 const rejectSignatureRequestButton = `${notificationPage} .request-signature__footer__cancel-button`;
+const signatureRequestScrollDownButton = `${notificationPage} [data-testid="signature-request-scroll-button"]`;
 module.exports.signaturePageElements = {
   confirmSignatureRequestButton,
   rejectSignatureRequestButton,
+  signatureRequestScrollDownButton,
 };
 
-const confirmDataSignatureRequestButton = `.btn-primary`;
-const rejectDataSignatureRequestButton = `.btn-default`;
+const confirmDataSignatureRequestButton = `${notificationPage} [data-testid="signature-sign-button"]`;
+const rejectDataSignatureRequestButton = `${notificationPage} [data-testid="signature-cancel-button"]`;
 module.exports.dataSignaturePageElements = {
   confirmDataSignatureRequestButton,
   rejectDataSignatureRequestButton,
+  signatureRequestScrollDownButton,
 };
 
 const permissionsPage = '.permissions-connect';
-const connectButton = `${permissionsPage} .permission-approval-container__footers button:nth-child(2)`;
+const connectButton = `${permissionsPage} .permission-approval-container__footers .btn-primary`;
 module.exports.permissionsPageElements = {
   permissionsPage,
   connectButton,
