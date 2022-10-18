@@ -57,6 +57,21 @@ module.exports.advancedPageElements = {
   customNonceToggleOff,
 };
 
+const enhancedGasFeeUIToggleOn =
+  '.settings-page__content-row:nth-child(1) .toggle-button--on';
+const enhancedGasFeeUIToggleOff =
+  '.settings-page__content-row:nth-child(1) .toggle-button--off';
+const showCustomNetworkListToggleOn =
+  'settings-page__content-row:nth-child(3) .toggle-button--on';
+const showCustomNetworkListToggleOff =
+  'settings-page__content-row:nth-child(3) .toggle-button--off';
+module.exports.experimentalSettingsPageElements = {
+  enhancedGasFeeUIToggleOn,
+  enhancedGasFeeUIToggleOff,
+  showCustomNetworkListToggleOn,
+  showCustomNetworkListToggleOff,
+};
+
 const nevermindButton = '.modal-container .btn-secondary';
 const resetButton = '.modal-container .btn-danger-primary';
 module.exports.resetAccountModalElements = {
