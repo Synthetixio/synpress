@@ -37,6 +37,7 @@ let extensionId;
 let extensionHomeUrl;
 let extensionSettingsUrl;
 let extensionAdvancedSettingsUrl;
+let extensionExperimentalSettingsUrl;
 let extensionAddNetworkUrl;
 let extensionNewAccountUrl;
 let extensionImportAccountUrl;
@@ -53,6 +54,7 @@ module.exports = {
       extensionHomeUrl,
       extensionSettingsUrl,
       extensionAdvancedSettingsUrl,
+      extensionExperimentalSettingsUrl,
       extensionAddNetworkUrl,
       extensionNewAccountUrl,
       extensionImportAccountUrl,
@@ -71,6 +73,12 @@ module.exports = {
     await Promise.all([
       playwright.metamaskWindow().waitForNavigation(),
       playwright.metamaskWindow().goto(extensionAdvancedSettingsUrl),
+    ]);
+  },
+  goToExperimentalSettings: async () => {
+    await Promise.all([
+      playwright.metamaskWindow().waitForNavigation(),
+      playwright.metamaskWindow().goto(extensionExperimentalSettingsUrl),
     ]);
   },
   goToAddNetwork: async () => {
@@ -97,6 +105,7 @@ module.exports = {
     extensionHomeUrl = `chrome-extension://${extensionId}/home.html`;
     extensionSettingsUrl = `${extensionHomeUrl}#settings`;
     extensionAdvancedSettingsUrl = `${extensionSettingsUrl}/advanced`;
+    extensionExperimentalSettingsUrl = `${extensionSettingsUrl}/experimental`;
     extensionAddNetworkUrl = `${extensionSettingsUrl}/networks/add-network`;
     extensionNewAccountUrl = `${extensionHomeUrl}#new-account`;
     extensionImportAccountUrl = `${extensionNewAccountUrl}/import`;
@@ -106,6 +115,7 @@ module.exports = {
       extensionId,
       extensionSettingsUrl,
       extensionAdvancedSettingsUrl,
+      extensionExperimentalSettingsUrl,
       extensionAddNetworkUrl,
       extensionNewAccountUrl,
       extensionImportAccountUrl,
