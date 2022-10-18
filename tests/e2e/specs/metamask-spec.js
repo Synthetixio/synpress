@@ -26,7 +26,7 @@ describe('Metamask', () => {
       cy.get('#network').contains('5');
       cy.get('#chainId').contains('0x5');
       cy.get('#accounts').contains(
-        '0x352e559b06e9c6c72edbf5af2bf52c61f088db71',
+        '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
       );
     });
     it(`getNetwork should return network by default`, () => {
@@ -81,14 +81,14 @@ describe('Metamask', () => {
     });
     it(`importMetamaskAccount should import new account using private key`, () => {
       cy.importMetamaskAccount(
-        '69270203c33d9d54ffd9cfcd9be01a12259a6efe968db9f1d5728717a9ab9a17',
+        '0x2a871d0798f97d79848a013d4936a73bf4cc922c825d33c1cf7073dff6d409c6',
       ).then(imported => {
         expect(imported).to.be.true;
       });
       cy.get('#requestPermissions').click();
       cy.acceptMetamaskAccess();
       cy.get('#accounts').contains(
-        '0x210b7af5962af8ab4ac55d5800ef42e0b0c09e62',
+        '0xa0ee7a142d267c1f36714e4a8f75612f20a79720',
       );
     });
     it(`createMetamaskAccount should create new account with default name`, () => {
@@ -109,7 +109,7 @@ describe('Metamask', () => {
     it(`getMetamaskWalletAddress should return wallet address of current metamask account`, () => {
       cy.getMetamaskWalletAddress().then(address => {
         expect(address).to.be.equal(
-          '0x210B7af5962af8Ab4ac55D5800Ef42e0B0c09e62',
+          '0xa0ee7a142d267c1f36714e4a8f75612f20a79720',
         );
       });
     });
@@ -121,7 +121,7 @@ describe('Metamask', () => {
     it(`getMetamaskWalletAddress should return valid wallet address of metamask account after changing an account`, () => {
       cy.getMetamaskWalletAddress().then(address => {
         expect(address).to.be.equal(
-          '0x352e559B06e9C6c72edbF5af2bF52C61F088Db71',
+          '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
         );
       });
     });
@@ -159,7 +159,7 @@ describe('Metamask', () => {
       });
       cy.get('#personalSignVerify').click();
       cy.get('#personalSignVerifySigUtilResult').contains(
-        '0x352e559b06e9c6c72edbf5af2bf52c61f088db71',
+        '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
       );
     });
     it(`confirmMetamaskSignatureRequest should confirm data signature request`, () => {
