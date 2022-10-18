@@ -25,7 +25,6 @@ const {
   settingsPageElements,
   advancedPageElements,
   resetAccountModalElements,
-  networksPageElements,
   addNetworkPageElements,
 } = require('../pages/metamask/settings-page');
 const {
@@ -161,6 +160,15 @@ module.exports = {
     ) {
       await playwright.waitAndClick(mainPageElements.tippyTooltip.closeButton);
     }
+    if (
+      (await playwright
+        .metamaskWindow()
+        .$(mainPageElements.actionableMessage.container)) !== null
+    ) {
+      await playwright.waitAndClick(
+        mainPageElements.actionableMessage.closeButton,
+      );
+    }
     return true;
   },
   closeModal: async () => {
@@ -202,7 +210,7 @@ module.exports = {
     return true;
   },
   importWallet: async (secretWords, password) => {
-    module.exports.optOutAnalytics();
+    await module.exports.optOutAnalytics();
     await playwright.waitAndClick(
       firstTimeFlowPageElements.importWalletButton,
       await playwright.metamaskWindow(),
@@ -246,7 +254,7 @@ module.exports = {
     return true;
   },
   createWallet: async password => {
-    module.exports.optOutAnalytics();
+    await module.exports.optOutAnalytics();
     await playwright.waitAndClick(
       firstTimeFlowPageElements.createWalletButton,
       await playwright.metamaskWindow(),
@@ -310,7 +318,6 @@ module.exports = {
     if (accountName) {
       accountName = accountName.toLowerCase();
     }
-
     await switchToMetamaskIfNotActive();
     await module.exports.goToNewAccount();
     if (accountName) {
@@ -327,13 +334,11 @@ module.exports = {
     if (typeof accountNameOrAccountNumber === 'string') {
       accountNameOrAccountNumber = accountNameOrAccountNumber.toLowerCase();
     }
-
     await switchToMetamaskIfNotActive();
     // note: closePopupAndTooltips() is required after changing createAccount() to use direct urls (popup started appearing)
     // ^ this change also introduced 500ms delay for closePopupAndTooltips() function
     await module.exports.closePopupAndTooltips();
     await playwright.waitAndClick(mainPageElements.accountMenu.button);
-
     if (typeof accountNameOrAccountNumber === 'number') {
       await playwright.waitAndClick(
         mainPageElements.accountMenu.accountButton(accountNameOrAccountNumber),
@@ -344,7 +349,6 @@ module.exports = {
         accountNameOrAccountNumber,
       );
     }
-
     await switchToCypressIfNotActive();
     return true;
   },
@@ -378,7 +382,6 @@ module.exports = {
   },
   addNetwork: async network => {
     await switchToMetamaskIfNotActive();
-
     if (
       process.env.NETWORK_NAME &&
       process.env.RPC_URL &&
@@ -393,15 +396,12 @@ module.exports = {
         isTestnet: process.env.IS_TESTNET,
       };
     }
-
     if (typeof network === 'string') {
       network = network.toLowerCase();
     } else if (typeof network === 'object') {
       network.networkName = network.networkName.toLowerCase();
     }
-
     await module.exports.goToAddNetwork();
-    await playwright.waitAndClick(networksPageElements.addNetworkButton);
     await playwright.waitAndType(
       addNetworkPageElements.networkNameInput,
       network.networkName,
@@ -414,37 +414,31 @@ module.exports = {
       addNetworkPageElements.chainIdInput,
       network.chainId,
     );
-
     if (network.symbol) {
       await playwright.waitAndType(
         addNetworkPageElements.symbolInput,
         network.symbol,
       );
     }
-
     if (network.blockExplorer) {
       await playwright.waitAndType(
         addNetworkPageElements.blockExplorerInput,
         network.blockExplorer,
       );
     }
-
-    await playwright.waitAndClick(addNetworkPageElements.saveButton);
     await playwright.waitAndClick(
-      settingsPageElements.closeButton,
+      addNetworkPageElements.saveButton,
       await playwright.metamaskWindow(),
       {
         waitForEvent: 'navi',
       },
     );
-
+    await module.exports.closePopupAndTooltips();
     setNetwork(network);
-
     await playwright.waitForText(
       mainPageElements.networkSwitcher.networkName,
       network.networkName,
     );
-
     await switchToCypressIfNotActive();
     return true;
   },
@@ -580,7 +574,6 @@ module.exports = {
   },
   confirmSignatureRequest: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
-
     playwright.waitAndClick(
       signaturePageElements.confirmSignatureRequestButton,
       notificationPage,
