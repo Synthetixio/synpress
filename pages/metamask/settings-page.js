@@ -1,7 +1,7 @@
 const settingsPage = '.settings-page';
 const advancedButton = `${settingsPage} button:nth-child(2)`;
 const networksButton = `${settingsPage} button:nth-child(6)`;
-const closeButton = `${settingsPage} .settings-page__close-button`;
+const closeButton = `${settingsPage} .settings-page__header__title-container__close-button`;
 module.exports.settingsPageElements = {
   settingsPage,
   advancedButton,
@@ -24,13 +24,13 @@ const showHexDataToggleOn =
 const showHexDataToggleOff =
   '[data-testid="advanced-setting-hex-data"] .toggle-button--off';
 const showTestnetConversionOn =
-  '[data-testid="advanced-setting-show-testnet-conversion"]:nth-child(8) .toggle-button--on';
+  '[data-testid="advanced-setting-show-testnet-conversion"]:nth-child(7) .toggle-button--on';
 const showTestnetConversionOff =
-  '[data-testid="advanced-setting-show-testnet-conversion"]:nth-child(8) .toggle-button--off';
+  '[data-testid="advanced-setting-show-testnet-conversion"]:nth-child(7) .toggle-button--off';
 const showTestnetNetworksOn =
-  '[data-testid="advanced-setting-show-testnet-conversion"]:nth-child(9) .toggle-button--on';
+  '[data-testid="advanced-setting-show-testnet-conversion"]:nth-child(8) .toggle-button--on';
 const showTestnetNetworksOff =
-  '[data-testid="advanced-setting-show-testnet-conversion"]:nth-child(9) .toggle-button--off';
+  '[data-testid="advanced-setting-show-testnet-conversion"]:nth-child(8) .toggle-button--off';
 const customNonceToggleOn =
   '[data-testid="advanced-setting-custom-nonce"] .toggle-button--on';
 const customNonceToggleOff =
