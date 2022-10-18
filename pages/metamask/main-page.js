@@ -23,6 +23,12 @@ const tippyTooltip = {
   closeButton: `${tippyTooltipSelector} button`,
 };
 
+const actionableMessageSelector = '.actionable-message';
+const actionableMessage = {
+  container: actionableMessageSelector,
+  closeButton: `${actionableMessageSelector} button`,
+};
+
 const accountMenu = {
   button: '.account-menu__icon',
   accountButton: number => `.account-menu__account:nth-child(${number})`,
@@ -72,6 +78,7 @@ module.exports.mainPageElements = {
   walletOverview,
   popup,
   tippyTooltip,
+  actionableMessage,
   accountMenu,
   optionsMenu,
   connectedSites,
