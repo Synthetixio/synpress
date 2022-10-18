@@ -63,33 +63,62 @@ Cypress.Commands.add('getMetamaskWalletAddress', () => {
   });
 });
 
-Cypress.Commands.add('activateAdvancedGasControlInMetamask', () => {
-  return cy.task('activateAdvancedGasControlInMetamask');
+Cypress.Commands.add(
+  'activateAdvancedGasControlInMetamask',
+  (skipSetup = false) => {
+    return cy.task('activateAdvancedGasControlInMetamask', skipSetup);
+  },
+);
+
+Cypress.Commands.add(
+  'activateEnhancedTokenDetectionInMetamask',
+  (skipSetup = false) => {
+    return cy.task('activateEnhancedTokenDetectionInMetamask', skipSetup);
+  },
+);
+
+Cypress.Commands.add('activateShowHexDataInMetamask', (skipSetup = false) => {
+  return cy.task('activateShowHexDataInMetamask', skipSetup);
 });
 
-Cypress.Commands.add('activateEnhancedTokenDetectionInMetamask', () => {
-  return cy.task('activateEnhancedTokenDetectionInMetamask');
+Cypress.Commands.add(
+  'activateTestnetConversionInMetamask',
+  (skipSetup = false) => {
+    return cy.task('activateTestnetConversionInMetamask', skipSetup);
+  },
+);
+
+Cypress.Commands.add(
+  'activateShowTestnetNetworksInMetamask',
+  (skipSetup = false) => {
+    return cy.task('activateShowTestnetNetworksInMetamask', skipSetup);
+  },
+);
+
+Cypress.Commands.add('activateCustomNonceInMetamask', (skipSetup = false) => {
+  return cy.task('activateCustomNonceInMetamask', skipSetup);
 });
 
-Cypress.Commands.add('activateShowHexDataInMetamask', () => {
-  return cy.task('activateShowHexDataInMetamask');
-});
+Cypress.Commands.add(
+  'activateDismissBackupReminderInMetamask',
+  (skipSetup = false) => {
+    return cy.task('activateDismissBackupReminderInMetamask', skipSetup);
+  },
+);
 
-Cypress.Commands.add('activateTestnetConversionInMetamask', () => {
-  return cy.task('activateTestnetConversionInMetamask');
-});
+Cypress.Commands.add(
+  'activateEnhancedGasFeeUIInMetamask',
+  (skipSetup = false) => {
+    return cy.task('activateEnhancedGasFeeUIInMetamask', skipSetup);
+  },
+);
 
-Cypress.Commands.add('activateShowTestnetNetworksInMetamask', () => {
-  return cy.task('activateShowTestnetNetworksInMetamask');
-});
-
-Cypress.Commands.add('activateCustomNonceInMetamask', () => {
-  return cy.task('activateCustomNonceInMetamask');
-});
-
-Cypress.Commands.add('activateDismissBackupReminderInMetamask', () => {
-  return cy.task('activateDismissBackupReminderInMetamask');
-});
+Cypress.Commands.add(
+  'activateShowCustomNetworkListInMetamask',
+  (skipSetup = false) => {
+    return cy.task('activateShowCustomNetworkListInMetamask', skipSetup);
+  },
+);
 
 Cypress.Commands.add('resetMetamaskAccount', () => {
   return cy.task('resetMetamaskAccount');

@@ -24,6 +24,7 @@ const {
 const {
   settingsPageElements,
   advancedPageElements,
+  experimentalSettingsPageElements,
   resetAccountModalElements,
   addNetworkPageElements,
 } = require('../pages/metamask/settings-page');
@@ -511,7 +512,7 @@ module.exports = {
     await switchToCypressIfNotActive();
     return true;
   },
-  activateAdvancedGasControl: async (skipSetup = false) => {
+  activateAdvancedGasControl: async skipSetup => {
     await activateAdvancedSetting(
       advancedPageElements.advancedGasControlToggleOn,
       advancedPageElements.advancedGasControlToggleOff,
@@ -519,7 +520,7 @@ module.exports = {
     );
     return;
   },
-  activateEnhancedTokenDetection: async (skipSetup = false) => {
+  activateEnhancedTokenDetection: async skipSetup => {
     await activateAdvancedSetting(
       advancedPageElements.enhancedTokenDetectionToggleOn,
       advancedPageElements.enhancedTokenDetectionToggleOff,
@@ -527,7 +528,7 @@ module.exports = {
     );
     return;
   },
-  activateShowHexData: async (skipSetup = false) => {
+  activateShowHexData: async skipSetup => {
     await activateAdvancedSetting(
       advancedPageElements.showHexDataToggleOn,
       advancedPageElements.showHexDataToggleOff,
@@ -535,7 +536,7 @@ module.exports = {
     );
     return;
   },
-  activateTestnetConversion: async (skipSetup = false) => {
+  activateTestnetConversion: async skipSetup => {
     await activateAdvancedSetting(
       advancedPageElements.showTestnetConversionOn,
       advancedPageElements.showTestnetConversionOff,
@@ -543,7 +544,7 @@ module.exports = {
     );
     return;
   },
-  activateShowTestnetNetworks: async (skipSetup = false) => {
+  activateShowTestnetNetworks: async skipSetup => {
     await activateAdvancedSetting(
       advancedPageElements.showTestnetNetworksOn,
       advancedPageElements.showTestnetNetworksOff,
@@ -551,7 +552,7 @@ module.exports = {
     );
     return;
   },
-  activateCustomNonce: async (skipSetup = false) => {
+  activateCustomNonce: async skipSetup => {
     await activateAdvancedSetting(
       advancedPageElements.customNonceToggleOn,
       advancedPageElements.customNonceToggleOff,
@@ -559,11 +560,29 @@ module.exports = {
     );
     return;
   },
-  activateDismissBackupReminder: async (skipSetup = false) => {
+  activateDismissBackupReminder: async skipSetup => {
     await activateAdvancedSetting(
       advancedPageElements.dismissBackupReminderOn,
       advancedPageElements.dismissBackupReminderOff,
       skipSetup,
+    );
+    return;
+  },
+  activateEnhancedGasFeeUI: async skipSetup => {
+    await activateAdvancedSetting(
+      experimentalSettingsPageElements.enhancedGasFeeUIToggleOn,
+      experimentalSettingsPageElements.enhancedGasFeeUIToggleOff,
+      skipSetup,
+      true,
+    );
+    return;
+  },
+  activateShowCustomNetworkList: async skipSetup => {
+    await activateAdvancedSetting(
+      experimentalSettingsPageElements.showCustomNetworkListToggleOn,
+      experimentalSettingsPageElements.showCustomNetworkListToggleOff,
+      skipSetup,
+      true,
     );
     return;
   },
@@ -907,10 +926,19 @@ async function switchToCypressIfNotActive() {
   return switchBackToCypressWindow;
 }
 
-async function activateAdvancedSetting(toggleOn, toggleOff, skipSetup) {
+async function activateAdvancedSetting(
+  toggleOn,
+  toggleOff,
+  skipSetup,
+  experimental,
+) {
   if (!skipSetup) {
     await switchToMetamaskIfNotActive();
-    await module.exports.goToAdvancedSettings();
+    if (experimental) {
+      await module.exports.goToExperimentalSettings();
+    } else {
+      await module.exports.goToAdvancedSettings();
+    }
   }
   if ((await playwright.metamaskWindow().$(toggleOn)) === null) {
     await playwright.waitAndClick(toggleOff);
@@ -940,6 +968,9 @@ async function setupSettings(enableAdvancedSettings) {
     await module.exports.activateEnhancedTokenDetection(true);
     await module.exports.activateTestnetConversion(true);
   }
+  await module.exports.goToExperimentalSettings();
+  await module.exports.activateEnhancedGasFeeUI(true);
+  await module.exports.activateShowCustomNetworkList(true);
   await playwright.waitAndClick(
     settingsPageElements.closeButton,
     await playwright.metamaskWindow(),

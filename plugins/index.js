@@ -123,32 +123,42 @@ module.exports = (on, config) => {
       const networkChanged = await metamask.changeNetwork(network);
       return networkChanged;
     },
-    activateAdvancedGasControlInMetamask: async () => {
-      const activated = await metamask.activateAdvancedGasControl();
+    activateAdvancedGasControlInMetamask: async skipSetup => {
+      const activated = await metamask.activateAdvancedGasControl(skipSetup);
       return activated;
     },
-    activateEnhancedTokenDetectionInMetamask: async () => {
-      const activated = await metamask.activateEnhancedTokenDetection();
+    activateEnhancedTokenDetectionInMetamask: async skipSetup => {
+      const activated = await metamask.activateEnhancedTokenDetection(
+        skipSetup,
+      );
       return activated;
     },
-    activateShowHexDataInMetamask: async () => {
-      const activated = await metamask.activateShowHexData();
+    activateShowHexDataInMetamask: async skipSetup => {
+      const activated = await metamask.activateShowHexData(skipSetup);
       return activated;
     },
-    activateTestnetConversionInMetamask: async () => {
-      const activated = await metamask.activateTestnetConversion();
+    activateTestnetConversionInMetamask: async skipSetup => {
+      const activated = await metamask.activateTestnetConversion(skipSetup);
       return activated;
     },
-    activateShowTestnetNetworksInMetamask: async () => {
-      const activated = await metamask.activateShowTestnetNetworks();
+    activateShowTestnetNetworksInMetamask: async skipSetup => {
+      const activated = await metamask.activateShowTestnetNetworks(skipSetup);
       return activated;
     },
-    activateCustomNonceInMetamask: async () => {
-      const activated = await metamask.activateCustomNonce();
+    activateCustomNonceInMetamask: async skipSetup => {
+      const activated = await metamask.activateCustomNonce(skipSetup);
       return activated;
     },
-    activateDismissBackupReminderInMetamask: async () => {
-      const activated = await metamask.activateDismissBackupReminder();
+    activateDismissBackupReminderInMetamask: async skipSetup => {
+      const activated = await metamask.activateDismissBackupReminder(skipSetup);
+      return activated;
+    },
+    activateEnhancedGasFeeUIInMetamask: async skipSetup => {
+      const activated = await metamask.activateEnhancedGasFeeUI(skipSetup);
+      return activated;
+    },
+    activateShowCustomNetworkListInMetamask: async skipSetup => {
+      const activated = await metamask.activateShowCustomNetworkList(skipSetup);
       return activated;
     },
     resetMetamaskAccount: async () => {

@@ -150,6 +150,20 @@ declare namespace Cypress {
       skipSetup?: boolean,
     ): Chainable<Subject>;
     /**
+     * Activate enhanced gas fee UI in metamask settings
+     * @example
+     * cy.activateEnhancedGasFeeUIInMetamask()
+     */
+    activateEnhancedGasFeeUIInMetamask(skipSetup?: boolean): Chainable<Subject>;
+    /**
+     * Activate showing of custom network list in metamask settings
+     * @example
+     * cy.activateShowCustomNetworkListInMetamask()
+     */
+    activateShowCustomNetworkListInMetamask(
+      skipSetup?: boolean,
+    ): Chainable<Subject>;
+    /**
      * Reset metamask account state in settings
      * @example
      * cy.resetMetamaskAccount()
