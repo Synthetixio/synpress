@@ -103,7 +103,7 @@ declare namespace Cypress {
      * cy.activateAdvancedGasControlInMetamask()
      */
     activateAdvancedGasControlInMetamask(
-      skipPrePostSetup?: boolean,
+      skipSetup?: boolean,
     ): Chainable<Subject>;
     /**
      * Activate ability (in metamask settings) to detect custom tokens using ConsenSys API in metamask
@@ -111,23 +111,21 @@ declare namespace Cypress {
      * cy.activateEnhancedTokenDetectionInMetamask()
      */
     activateEnhancedTokenDetectionInMetamask(
-      skipPrePostSetup?: boolean,
+      skipSetup?: boolean,
     ): Chainable<Subject>;
     /**
      * Activate ability (in metamask settings) to show hex data while doing transaction in metamask
      * @example
      * cy.activateShowHexDataInMetamask()
      */
-    activateShowHexDataInMetamask(
-      skipPrePostSetup?: boolean,
-    ): Chainable<Subject>;
+    activateShowHexDataInMetamask(skipSetup?: boolean): Chainable<Subject>;
     /**
      * Activate ability (in metamask settings) to show fiat conversions on testnets in metamask
      * @example
      * cy.activateTestnetConversionInMetamask()
      */
     activateTestnetConversionInMetamask(
-      skipPrePostSetup?: boolean,
+      skipSetup?: boolean,
     ): Chainable<Subject>;
     /**
      * Activate ability (in metamask settings) to show testnet networks in metamask
@@ -135,23 +133,21 @@ declare namespace Cypress {
      * cy.activateShowTestnetNetworksInMetamask()
      */
     activateShowTestnetNetworksInMetamask(
-      skipPrePostSetup?: boolean,
+      skipSetup?: boolean,
     ): Chainable<Subject>;
     /**
      * Activate ability (in metamask settings) to specify custom nonce while doing transactions in metamask
      * @example
      * cy.activateCustomNonceInMetamask()
      */
-    activateCustomNonceInMetamask(
-      skipPrePostSetup?: boolean,
-    ): Chainable<Subject>;
+    activateCustomNonceInMetamask(skipSetup?: boolean): Chainable<Subject>;
     /**
      * Activate ability (in metamask settings) to dismiss secret recovery phrase reminder in metamask
      * @example
      * cy.activateDismissBackupReminderInMetamask()
      */
     activateDismissBackupReminderInMetamask(
-      skipPrePostSetup?: boolean,
+      skipSetup?: boolean,
     ): Chainable<Subject>;
     /**
      * Reset metamask account state in settings
@@ -297,6 +293,7 @@ declare namespace Cypress {
     /**
      * Run the flow for metamask setup
      * @example
+     * cy.setupMetamask() // will use defaults
      * cy.setupMetamask('secret, words, ...', 'goerli', 'password for metamask')
      * cy.setupMetamask('secret, words, ...', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for metamask')
      * cy.setupMetamask('private_key', 'goerli', 'password for metamask')

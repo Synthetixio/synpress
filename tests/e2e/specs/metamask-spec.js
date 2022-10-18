@@ -3,12 +3,7 @@ describe('Metamask', () => {
   context('Test commands', () => {
     // todo: clear the state of extension and test different combinations of setupMetamask with private key & custom network
     it(`setupMetamask should finish metamask setup using secret words`, () => {
-      cy.setupMetamask(
-        'shuffle stay hair student wagon senior problem drama parrot creek enact pluck',
-        'goerli',
-        'Tester@1234',
-        false,
-      ).then(setupFinished => {
+      cy.setupMetamask().then(setupFinished => {
         expect(setupFinished).to.be.true;
       });
     });
