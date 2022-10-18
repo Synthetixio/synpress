@@ -58,8 +58,8 @@ const importAccount = {
 const createAccount = {
   page: importAccountSelector,
   input: `${importAccountSelector} .new-account-create-form__input`,
-  cancelButton: `${importAccountSelector} .btn-default`,
-  createButton: `${importAccountSelector} .btn-secondary`,
+  cancelButton: `${importAccountSelector} .new-account-create-form__button:nth-child(1)`,
+  createButton: `${importAccountSelector} .new-account-create-form__button:nth-child(2)`,
 };
 
 module.exports.mainPageElements = {
