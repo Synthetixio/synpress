@@ -57,8 +57,8 @@ module.exports.advancedPageElements = {
   customNonceToggleOff,
 };
 
-const nevermindButton = '.modal-container button:nth-child(1)';
-const resetButton = '.modal-container button:nth-child(2)';
+const nevermindButton = '.modal-container .btn-secondary';
+const resetButton = '.modal-container .btn-danger-primary';
 module.exports.resetAccountModalElements = {
   nevermindButton,
   resetButton,
@@ -67,13 +67,15 @@ module.exports.resetAccountModalElements = {
 const addNetworkButton = '.networks-tab__body button';
 module.exports.networksPageElements = { addNetworkButton };
 
-const networkNameInput = '#network-name';
-const rpcUrlInput = '#rpc-url';
-const chainIdInput = '#chainId';
-const symbolInput = '#network-ticker';
-const blockExplorerInput = '#block-explorer-url';
-const saveButton = '.network-form__footer button:nth-child(2)';
+const addNetworkForm = '.networks-tab__add-network-form-body';
+const networkNameInput = `${addNetworkForm} .form-field:nth-child(1)`;
+const rpcUrlInput = `${addNetworkForm} .form-field:nth-child(2)`;
+const chainIdInput = `${addNetworkForm} .form-field:nth-child(3)`;
+const symbolInput = `${addNetworkForm} .form-field:nth-child(4)`;
+const blockExplorerInput = `${addNetworkForm} .form-field:nth-child(5)`;
+const saveButton = '.networks-tab__add-network-form-footer .btn-primary';
 module.exports.addNetworkPageElements = {
+  addNetworkForm,
   networkNameInput,
   rpcUrlInput,
   chainIdInput,
