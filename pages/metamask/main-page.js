@@ -43,7 +43,7 @@ const connectedSites = {
 };
 
 const accountModal = {
-  walletAddressInput: '.account-modal input',
+  walletAddressInput: '.account-modal .qr-code__address',
   closeButton: '.account-modal__close',
 };
 
@@ -51,8 +51,8 @@ const importAccountSelector = '.new-account';
 const importAccount = {
   page: importAccountSelector,
   input: `${importAccountSelector} #private-key-box`,
-  cancelButton: `${importAccountSelector} .btn-default`,
-  importButton: `${importAccountSelector} .btn-secondary`,
+  cancelButton: `${importAccountSelector} .new-account-create-form__button:nth-child(1)`,
+  importButton: `${importAccountSelector} .new-account-create-form__button:nth-child(2)`,
 };
 
 const createAccount = {
