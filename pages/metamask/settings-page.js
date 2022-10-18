@@ -9,16 +9,52 @@ module.exports.settingsPageElements = {
   closeButton,
 };
 
+const resetAccountButton =
+  '[data-testid="advanced-setting-reset-account"] button';
+const advancedGasControlToggleOn =
+  '[data-testid="advanced-setting-advanced-gas-inline"] .toggle-button--on';
+const advancedGasControlToggleOff =
+  '[data-testid="advanced-setting-advanced-gas-inline"] .toggle-button--off';
+const enhancedTokenDetectionToggleOn =
+  '[data-testid="advanced-setting-token-detection"] .toggle-button--on';
+const enhancedTokenDetectionToggleOff =
+  '[data-testid="advanced-setting-token-detection"] .toggle-button--off';
+const showHexDataToggleOn =
+  '[data-testid="advanced-setting-hex-data"] .toggle-button--on';
+const showHexDataToggleOff =
+  '[data-testid="advanced-setting-hex-data"] .toggle-button--off';
+const showTestnetConversionOn =
+  '[data-testid="advanced-setting-show-testnet-conversion"]:nth-child(8) .toggle-button--on';
+const showTestnetConversionOff =
+  '[data-testid="advanced-setting-show-testnet-conversion"]:nth-child(8) .toggle-button--off';
+const showTestnetNetworksOn =
+  '[data-testid="advanced-setting-show-testnet-conversion"]:nth-child(9) .toggle-button--on';
+const showTestnetNetworksOff =
+  '[data-testid="advanced-setting-show-testnet-conversion"]:nth-child(9) .toggle-button--off';
 const customNonceToggleOn =
   '[data-testid="advanced-setting-custom-nonce"] .toggle-button--on';
 const customNonceToggleOff =
   '[data-testid="advanced-setting-custom-nonce"] .toggle-button--off';
-const resetAccountButton =
-  '[data-testid="advanced-setting-reset-account"] button';
+const dismissBackupReminderOn =
+  '[data-testid="advanced-setting-dismiss-reminder"] .toggle-button--on';
+const dismissBackupReminderOff =
+  '[data-testid="advanced-setting-dismiss-reminder"] .toggle-button--off';
 module.exports.advancedPageElements = {
+  resetAccountButton,
+  advancedGasControlToggleOn,
+  advancedGasControlToggleOff,
+  enhancedTokenDetectionToggleOn,
+  enhancedTokenDetectionToggleOff,
+  showHexDataToggleOn,
+  showHexDataToggleOff,
+  showTestnetConversionOn,
+  showTestnetConversionOff,
+  showTestnetNetworksOn,
+  showTestnetNetworksOff,
+  dismissBackupReminderOn,
+  dismissBackupReminderOff,
   customNonceToggleOn,
   customNonceToggleOff,
-  resetAccountButton,
 };
 
 const nevermindButton = '.modal-container button:nth-child(1)';
