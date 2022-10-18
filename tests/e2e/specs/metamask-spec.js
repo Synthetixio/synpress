@@ -134,6 +134,7 @@ describe('Metamask', () => {
         expect(activated).to.be.true;
       });
     });
+    // todo: add tests for advanced settings
     it(`resetMetamaskAccount should reset current account`, () => {
       cy.resetMetamaskAccount().then(resetted => {
         expect(resetted).to.be.true;

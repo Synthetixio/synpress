@@ -63,8 +63,32 @@ Cypress.Commands.add('getMetamaskWalletAddress', () => {
   });
 });
 
+Cypress.Commands.add('activateAdvancedGasControlInMetamask', () => {
+  return cy.task('activateAdvancedGasControlInMetamask');
+});
+
+Cypress.Commands.add('activateEnhancedTokenDetectionInMetamask', () => {
+  return cy.task('activateEnhancedTokenDetectionInMetamask');
+});
+
+Cypress.Commands.add('activateShowHexDataInMetamask', () => {
+  return cy.task('activateShowHexDataInMetamask');
+});
+
+Cypress.Commands.add('activateTestnetConversionInMetamask', () => {
+  return cy.task('activateTestnetConversionInMetamask');
+});
+
+Cypress.Commands.add('activateShowTestnetNetworksInMetamask', () => {
+  return cy.task('activateShowTestnetNetworksInMetamask');
+});
+
 Cypress.Commands.add('activateCustomNonceInMetamask', () => {
   return cy.task('activateCustomNonceInMetamask');
+});
+
+Cypress.Commands.add('activateDismissBackupReminderInMetamask', () => {
+  return cy.task('activateDismissBackupReminderInMetamask');
 });
 
 Cypress.Commands.add('resetMetamaskAccount', () => {

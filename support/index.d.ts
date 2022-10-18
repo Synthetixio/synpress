@@ -98,11 +98,47 @@ declare namespace Cypress {
      */
     getMetamaskWalletAddress(): Chainable<Subject>;
     /**
+     * Activate ability (in metamask settings) to specify custom gas price and limit while doing transactions in metamask
+     * @example
+     * cy.activateAdvancedGasControlInMetamask()
+     */
+    activateAdvancedGasControlInMetamask(): Chainable<Subject>;
+    /**
+     * Activate ability (in metamask settings) to detect custom tokens using ConsenSys API in metamask
+     * @example
+     * cy.activateEnhancedTokenDetectionInMetamask()
+     */
+    activateEnhancedTokenDetectionInMetamask(): Chainable<Subject>;
+    /**
+     * Activate ability (in metamask settings) to show hex data while doing transaction in metamask
+     * @example
+     * cy.activateShowHexDataInMetamask()
+     */
+    activateShowHexDataInMetamask(): Chainable<Subject>;
+    /**
+     * Activate ability (in metamask settings) to show fiat conversions on testnets in metamask
+     * @example
+     * cy.activateTestnetConversionInMetamask()
+     */
+    activateTestnetConversionInMetamask(): Chainable<Subject>;
+    /**
+     * Activate ability (in metamask settings) to show testnet networks in metamask
+     * @example
+     * cy.activateShowTestnetNetworksInMetamask()
+     */
+    activateShowTestnetNetworksInMetamask(): Chainable<Subject>;
+    /**
      * Activate ability (in metamask settings) to specify custom nonce while doing transactions in metamask
      * @example
      * cy.activateCustomNonceInMetamask()
      */
     activateCustomNonceInMetamask(): Chainable<Subject>;
+    /**
+     * Activate ability (in metamask settings) to dismiss secret recovery phrase reminder in metamask
+     * @example
+     * cy.activateDismissBackupReminderInMetamask()
+     */
+    activateDismissBackupReminderInMetamask(): Chainable<Subject>;
     /**
      * Reset metamask account state in settings
      * @example

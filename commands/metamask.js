@@ -501,12 +501,54 @@ module.exports = {
     await switchToCypressIfNotActive();
     return true;
   },
+  activateAdvancedGasControl: async () => {
+    await activateAdvancedSetting(
+      advancedPageElements.advancedGasControlToggleOn,
+      advancedPageElements.advancedGasControlToggleOff,
+    );
+    return;
+  },
+  activateEnhancedTokenDetection: async () => {
+    await activateAdvancedSetting(
+      advancedPageElements.enhancedTokenDetectionToggleOn,
+      advancedPageElements.enhancedTokenDetectionToggleOff,
+    );
+    return;
+  },
+  activateShowHexData: async () => {
+    await activateAdvancedSetting(
+      advancedPageElements.showHexDataToggleOn,
+      advancedPageElements.showHexDataToggleOff,
+    );
+    return;
+  },
+  activateTestnetConversion: async () => {
+    await activateAdvancedSetting(
+      advancedPageElements.showTestnetConversionOn,
+      advancedPageElements.showTestnetConversionOff,
+    );
+    return;
+  },
+  activateShowTestnetNetworks: async () => {
+    await activateAdvancedSetting(
+      advancedPageElements.showTestnetNetworksOn,
+      advancedPageElements.showTestnetNetworksOff,
+    );
+    return;
+  },
   activateCustomNonce: async () => {
-    const activated = await activateAdvancedSetting(
+    await activateAdvancedSetting(
       advancedPageElements.customNonceToggleOn,
       advancedPageElements.customNonceToggleOff,
     );
-    return activated;
+    return;
+  },
+  activateDismissBackupReminder: async () => {
+    await activateAdvancedSetting(
+      advancedPageElements.dismissBackupReminderOn,
+      advancedPageElements.dismissBackupReminderOff,
+    );
+    return;
   },
   resetAccount: async () => {
     await switchToMetamaskIfNotActive();

@@ -123,8 +123,32 @@ module.exports = (on, config) => {
       const networkChanged = await metamask.changeNetwork(network);
       return networkChanged;
     },
+    activateAdvancedGasControlInMetamask: async () => {
+      const activated = await metamask.activateAdvancedGasControl();
+      return activated;
+    },
+    activateEnhancedTokenDetectionInMetamask: async () => {
+      const activated = await metamask.activateEnhancedTokenDetection();
+      return activated;
+    },
+    activateShowHexDataInMetamask: async () => {
+      const activated = await metamask.activateShowHexData();
+      return activated;
+    },
+    activateTestnetConversionInMetamask: async () => {
+      const activated = await metamask.activateTestnetConversion();
+      return activated;
+    },
+    activateShowTestnetNetworksInMetamask: async () => {
+      const activated = await metamask.activateShowTestnetNetworks();
+      return activated;
+    },
     activateCustomNonceInMetamask: async () => {
       const activated = await metamask.activateCustomNonce();
+      return activated;
+    },
+    activateDismissBackupReminderInMetamask: async () => {
+      const activated = await metamask.activateDismissBackupReminder();
       return activated;
     },
     resetMetamaskAccount: async () => {
