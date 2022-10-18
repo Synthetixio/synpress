@@ -191,7 +191,7 @@ Cypress.Commands.add(
     secretWordsOrPrivateKey = 'test test test test test test test test test test test junk',
     network = 'goerli',
     password = 'Tester@1234',
-    enableAdvancedSettings = true,
+    enableAdvancedSettings = false,
   ) => {
     return cy.task('setupMetamask', {
       secretWordsOrPrivateKey,
