@@ -298,15 +298,14 @@ declare namespace Cypress {
      * Run the flow for metamask setup
      * @example
      * cy.setupMetamask('secret, words, ...', 'goerli', 'password for metamask')
-     * cy.setupMetamask('secret, words, ...', 'goerli', 'password for metamask', true) // enables advanced settings
      * cy.setupMetamask('secret, words, ...', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for metamask')
      * cy.setupMetamask('private_key', 'goerli', 'password for metamask')
      * cy.setupMetamask('private_key', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for metamask')
      */
     setupMetamask(
-      secretWordsOrPrivateKey: string,
-      network: string | object,
-      password: string,
+      secretWordsOrPrivateKey?: string,
+      network?: string | object,
+      password?: string,
       enableAdvancedSettings?: boolean,
     ): Chainable<Subject>;
     /**

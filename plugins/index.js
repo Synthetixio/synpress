@@ -244,9 +244,9 @@ module.exports = (on, config) => {
     },
     setupMetamask: async ({
       secretWordsOrPrivateKey,
-      network = 'goerli',
+      network,
       password,
-      enableAdvancedSettings = true,
+      enableAdvancedSettings,
     }) => {
       if (process.env.NETWORK_NAME) {
         network = process.env.NETWORK_NAME;
