@@ -296,7 +296,13 @@ module.exports = {
       mainPageElements.importAccount.input,
       privateKey,
     );
-    await playwright.waitAndClick(mainPageElements.importAccount.importButton);
+    await playwright.waitAndClick(
+      mainPageElements.importAccount.importButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
     await switchToCypressIfNotActive();
     return true;
   },
@@ -787,7 +793,6 @@ module.exports = {
   },
   getWalletAddress: async () => {
     await switchToMetamaskIfNotActive();
-
     await playwright.waitAndClick(mainPageElements.optionsMenu.button);
     await playwright.waitAndClick(
       mainPageElements.optionsMenu.accountDetailsButton,
@@ -796,9 +801,7 @@ module.exports = {
       mainPageElements.accountModal.walletAddressInput,
     );
     await playwright.waitAndClick(mainPageElements.accountModal.closeButton);
-
     await switchToCypressIfNotActive();
-
     return walletAddress;
   },
   initialSetup: async ({
@@ -896,14 +899,14 @@ async function activateAdvancedSetting(toggleOn, toggleOff, skipPrePostSetup) {
   if ((await playwright.metamaskWindow().$(toggleOn)) === null) {
     await playwright.waitAndClick(toggleOff);
   }
-  await playwright.waitAndClick(
-    settingsPageElements.closeButton,
-    await playwright.metamaskWindow(),
-    {
-      waitForEvent: 'navi',
-    },
-  );
   if (!skipPrePostSetup) {
+    await playwright.waitAndClick(
+      settingsPageElements.closeButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
     await switchToCypressIfNotActive();
   }
   return true;
@@ -912,13 +915,20 @@ async function activateAdvancedSetting(toggleOn, toggleOff, skipPrePostSetup) {
 async function setupAdvancedSettings() {
   await switchToMetamaskIfNotActive();
   await module.exports.goToAdvancedSettings();
-  module.exports.activateAdvancedGasControl(true);
-  module.exports.activateEnhancedTokenDetection(true);
-  module.exports.activateShowHexData(true);
-  module.exports.activateTestnetConversion(true);
-  module.exports.activateShowTestnetNetworks(true);
-  module.exports.activateCustomNonce(true);
-  module.exports.activateDismissBackupReminder(true);
+  await module.exports.activateAdvancedGasControl(true);
+  await module.exports.activateEnhancedTokenDetection(true);
+  await module.exports.activateShowHexData(true);
+  await module.exports.activateTestnetConversion(true);
+  await module.exports.activateShowTestnetNetworks(true);
+  await module.exports.activateCustomNonce(true);
+  await module.exports.activateDismissBackupReminder(true);
+  await playwright.waitAndClick(
+    settingsPageElements.closeButton,
+    await playwright.metamaskWindow(),
+    {
+      waitForEvent: 'navi',
+    },
+  );
   await switchToCypressIfNotActive();
   return true;
 }
