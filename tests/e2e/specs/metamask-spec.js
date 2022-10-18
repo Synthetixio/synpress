@@ -7,6 +7,7 @@ describe('Metamask', () => {
         'shuffle stay hair student wagon senior problem drama parrot creek enact pluck',
         'goerli',
         'Tester@1234',
+        false,
       ).then(setupFinished => {
         expect(setupFinished).to.be.true;
       });
