@@ -1,8 +1,13 @@
+const networkSwitcherButtonSelector = '.network-display';
 const networkSwitcher = {
-  button: '.network-display',
-  networkName: '.typography',
-  dropdownMenuItem: '.dropdown-menu-item',
-  networkButton: number => `.dropdown-menu-item:nth-child(${3 + number})`,
+  button: networkSwitcherButtonSelector,
+  networkName: `${networkSwitcherButtonSelector} .typography`,
+  dropdownMenu: '[data-testid="network-droppo"]',
+  dropdownMenuItem: `[data-testid="network-droppo"] .dropdown-menu-item`,
+  networkButton: number =>
+    `[data-testid="network-droppo"] .dropdown-menu-item:nth-child(${
+      3 + number
+    })`,
 };
 
 const walletOverview = '.wallet-overview';
@@ -36,7 +41,7 @@ const optionsMenu = {
 const connectedSitesSelector = '.connected-sites';
 const connectedSites = {
   modal: connectedSitesSelector,
-  trashButton: `${connectedSitesSelector} .connected-sites-list__trash`,
+  disconnectLabel: `${connectedSitesSelector} .connected-sites-list__content-row-link-button`,
   cancelButton: `${connectedSitesSelector} .btn-secondary`,
   disconnectButton: `${connectedSitesSelector} .btn-primary`,
   closeButton: `${connectedSitesSelector} [data-testid="popover-close"]`,
