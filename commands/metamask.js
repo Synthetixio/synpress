@@ -502,24 +502,11 @@ module.exports = {
     return true;
   },
   activateCustomNonce: async () => {
-    await switchToMetamaskIfNotActive();
-    await module.exports.goToAdvancedSettings();
-    if (
-      (await playwright
-        .metamaskWindow()
-        .$(advancedPageElements.customNonceToggleOn)) === null
-    ) {
-      await playwright.waitAndClick(advancedPageElements.customNonceToggleOff);
-    }
-    await playwright.waitAndClick(
-      settingsPageElements.closeButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
+    const activated = await activateAdvancedSetting(
+      advancedPageElements.customNonceToggleOn,
+      advancedPageElements.customNonceToggleOff,
     );
-    await switchToCypressIfNotActive();
-    return true;
+    return activated;
   },
   resetAccount: async () => {
     await switchToMetamaskIfNotActive();
@@ -791,6 +778,9 @@ module.exports = {
         await module.exports.createWallet(password);
         await module.exports.importAccount(secretWordsOrPrivateKey);
       }
+
+      // todo: pre-setup!!!
+
       if (isCustomNetwork) {
         await module.exports.addNetwork(network);
       } else {
@@ -840,4 +830,21 @@ async function switchToCypressIfNotActive() {
     switchBackToCypressWindow = false;
   }
   return switchBackToCypressWindow;
+}
+
+async function activateAdvancedSetting(toggleOn, toggleOff) {
+  await switchToMetamaskIfNotActive();
+  await module.exports.goToAdvancedSettings();
+  if ((await playwright.metamaskWindow().$(toggleOn)) === null) {
+    await playwright.waitAndClick(toggleOff);
+  }
+  await playwright.waitAndClick(
+    settingsPageElements.closeButton,
+    await playwright.metamaskWindow(),
+    {
+      waitForEvent: 'navi',
+    },
+  );
+  await switchToCypressIfNotActive();
+  return true;
 }
