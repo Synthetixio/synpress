@@ -118,7 +118,7 @@ module.exports = (on, config) => {
       if (process.env.NETWORK_NAME && !network) {
         network = process.env.NETWORK_NAME;
       } else if (!network) {
-        network = 'kovan';
+        network = 'goerli';
       }
       const networkChanged = await metamask.changeNetwork(network);
       return networkChanged;
@@ -244,8 +244,9 @@ module.exports = (on, config) => {
     },
     setupMetamask: async ({
       secretWordsOrPrivateKey,
-      network = 'kovan',
+      network = 'goerli',
       password,
+      enableAdvancedSettings = true,
     }) => {
       if (process.env.NETWORK_NAME) {
         network = process.env.NETWORK_NAME;
@@ -260,6 +261,7 @@ module.exports = (on, config) => {
         secretWordsOrPrivateKey,
         network,
         password,
+        enableAdvancedSettings,
       });
       return true;
     },

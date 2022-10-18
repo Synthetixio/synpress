@@ -501,52 +501,59 @@ module.exports = {
     await switchToCypressIfNotActive();
     return true;
   },
-  activateAdvancedGasControl: async () => {
+  activateAdvancedGasControl: async (skipPrePostSetup = false) => {
     await activateAdvancedSetting(
       advancedPageElements.advancedGasControlToggleOn,
       advancedPageElements.advancedGasControlToggleOff,
+      skipPrePostSetup,
     );
     return;
   },
-  activateEnhancedTokenDetection: async () => {
+  activateEnhancedTokenDetection: async (skipPrePostSetup = false) => {
     await activateAdvancedSetting(
       advancedPageElements.enhancedTokenDetectionToggleOn,
       advancedPageElements.enhancedTokenDetectionToggleOff,
+      skipPrePostSetup,
     );
     return;
   },
-  activateShowHexData: async () => {
+  activateShowHexData: async (skipPrePostSetup = false) => {
     await activateAdvancedSetting(
       advancedPageElements.showHexDataToggleOn,
       advancedPageElements.showHexDataToggleOff,
+      skipPrePostSetup,
     );
     return;
   },
-  activateTestnetConversion: async () => {
+  activateTestnetConversion: async (skipPrePostSetup = false) => {
     await activateAdvancedSetting(
       advancedPageElements.showTestnetConversionOn,
       advancedPageElements.showTestnetConversionOff,
+      skipPrePostSetup,
     );
     return;
   },
-  activateShowTestnetNetworks: async () => {
+  activateShowTestnetNetworks: async (skipPrePostSetup = false) => {
     await activateAdvancedSetting(
       advancedPageElements.showTestnetNetworksOn,
       advancedPageElements.showTestnetNetworksOff,
+      skipPrePostSetup,
     );
     return;
   },
-  activateCustomNonce: async () => {
+  activateCustomNonce: async (skipPrePostSetup = false) => {
     await activateAdvancedSetting(
       advancedPageElements.customNonceToggleOn,
       advancedPageElements.customNonceToggleOff,
+      skipPrePostSetup,
     );
     return;
   },
-  activateDismissBackupReminder: async () => {
+  activateDismissBackupReminder: async (skipPrePostSetup = false) => {
     await activateAdvancedSetting(
       advancedPageElements.dismissBackupReminderOn,
       advancedPageElements.dismissBackupReminderOff,
+      skipPrePostSetup,
     );
     return;
   },
@@ -794,7 +801,12 @@ module.exports = {
 
     return walletAddress;
   },
-  initialSetup: async ({ secretWordsOrPrivateKey, network, password }) => {
+  initialSetup: async ({
+    secretWordsOrPrivateKey,
+    network,
+    password,
+    enableAdvancedSettings,
+  }) => {
     const isCustomNetwork =
       (process.env.NETWORK_NAME &&
         process.env.RPC_URL &&
@@ -821,7 +833,9 @@ module.exports = {
         await module.exports.importAccount(secretWordsOrPrivateKey);
       }
 
-      // todo: pre-setup!!!
+      if (enableAdvancedSettings) {
+        await setupAdvancedSettings();
+      }
 
       if (isCustomNetwork) {
         await module.exports.addNetwork(network);
@@ -874,9 +888,11 @@ async function switchToCypressIfNotActive() {
   return switchBackToCypressWindow;
 }
 
-async function activateAdvancedSetting(toggleOn, toggleOff) {
-  await switchToMetamaskIfNotActive();
-  await module.exports.goToAdvancedSettings();
+async function activateAdvancedSetting(toggleOn, toggleOff, skipPrePostSetup) {
+  if (!skipPrePostSetup) {
+    await switchToMetamaskIfNotActive();
+    await module.exports.goToAdvancedSettings();
+  }
   if ((await playwright.metamaskWindow().$(toggleOn)) === null) {
     await playwright.waitAndClick(toggleOff);
   }
@@ -887,6 +903,22 @@ async function activateAdvancedSetting(toggleOn, toggleOff) {
       waitForEvent: 'navi',
     },
   );
+  if (!skipPrePostSetup) {
+    await switchToCypressIfNotActive();
+  }
+  return true;
+}
+
+async function setupAdvancedSettings() {
+  await switchToMetamaskIfNotActive();
+  await module.exports.goToAdvancedSettings();
+  module.exports.activateAdvancedGasControl(true);
+  module.exports.activateEnhancedTokenDetection(true);
+  module.exports.activateShowHexData(true);
+  module.exports.activateTestnetConversion(true);
+  module.exports.activateShowTestnetNetworks(true);
+  module.exports.activateCustomNonce(true);
+  module.exports.activateDismissBackupReminder(true);
   await switchToCypressIfNotActive();
   return true;
 }
