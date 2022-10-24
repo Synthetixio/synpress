@@ -130,7 +130,7 @@ jobs:
         continue-on-error: true
 
       - name: Archive e2e artifacts (low res)
-        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # pin@v2
+        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # pin@v2
         if: always()
         with:
           name: e2e-artifacts-low-res
@@ -156,7 +156,7 @@ jobs:
         continue-on-error: true
 
       - name: Archive e2e artifacts (high res)
-        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # pin@v2
+        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # pin@v2
         if: always()
         with:
           name: e2e-artifacts-high-res
