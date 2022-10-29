@@ -991,7 +991,6 @@ async function setupSettings(enableAdvancedSettings) {
   }
   await module.exports.goToExperimentalSettings();
   await module.exports.activateEnhancedGasFeeUI(true);
-  await module.exports.activateShowCustomNetworkList(true);
   await playwright.waitAndClick(
     settingsPageElements.closeButton,
     await playwright.metamaskWindow(),
