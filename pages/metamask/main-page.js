@@ -4,6 +4,10 @@ const networkSwitcher = {
   networkName: `${networkSwitcherButtonSelector} .typography`,
   dropdownMenu: '[data-testid="network-droppo"]',
   dropdownMenuItem: `[data-testid="network-droppo"] .dropdown-menu-item`,
+  mainnetNetworkItem: `[data-testid="network-droppo"] [data-testid="mainnet-network-item"]`,
+  goerliNetworkItem: `[data-testid="network-droppo"] [data-testid="goerli-network-item"]`,
+  sepoliaNetworkItem: `[data-testid="network-droppo"] [data-testid="sepolia-network-item"]`,
+  localhostNetworkItem: `[data-testid="network-droppo"] [data-testid="Localhost 8545-network-item"]`,
   networkButton: number =>
     `[data-testid="network-droppo"] .dropdown-menu-item:nth-child(${
       3 + number
