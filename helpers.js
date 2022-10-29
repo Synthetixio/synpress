@@ -2,6 +2,7 @@ const log = require('debug')('synpress:helpers');
 const axios = require('axios');
 const fs = require('fs').promises;
 const path = require('path');
+const { ethers } = require('ethers');
 const download = require('download');
 const packageJson = require('./package.json');
 
@@ -10,7 +11,7 @@ let networkId = 1;
 let isTestnet = false;
 
 module.exports = {
-  setNetwork: network => {
+  setNetwork: async network => {
     typeof network === 'object'
       ? log(`Setting network to ${JSON.stringify(network)}`)
       : log(`Setting network to ${network}`);
@@ -19,21 +20,21 @@ module.exports = {
       networkName = 'mainnet';
       networkId = 1;
       isTestnet = false;
-    } else if (network === 'ropsten') {
-      networkName = 'ropsten';
-      networkId = 3;
-      isTestnet = true;
-    } else if (network === 'kovan') {
-      networkName = 'kovan';
-      networkId = 42;
-      isTestnet = true;
-    } else if (network === 'rinkeby') {
-      networkName = 'rinkeby';
-      networkId = 4;
-      isTestnet = true;
     } else if (network === 'goerli') {
       networkName = 'goerli';
       networkId = 5;
+      isTestnet = true;
+    } else if (network === 'sepolia') {
+      networkName = 'sepolia';
+      networkId = 11155111;
+      isTestnet = true;
+    } else if (network === 'localhost') {
+      const provider = new ethers.providers.JsonRpcProvider(
+        'http://127.0.0.1:8545',
+      );
+      const { chainId, name } = await provider.getNetwork();
+      networkName = name;
+      networkId = chainId;
       isTestnet = true;
     } else if (typeof network === 'object') {
       networkName = network.networkName;

@@ -368,10 +368,28 @@ module.exports = {
     await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
     if (typeof network === 'string') {
       network = network.toLowerCase();
-      await playwright.waitAndClickByText(
-        mainPageElements.networkSwitcher.dropdownMenuItem,
-        network,
-      );
+      if (network === 'mainnet') {
+        await playwright.waitAndClick(
+          mainPageElements.networkSwitcher.mainnetNetworkItem,
+        );
+      } else if (network === 'goerli') {
+        await playwright.waitAndClick(
+          mainPageElements.networkSwitcher.goerliNetworkItem,
+        );
+      } else if (network === 'sepolia') {
+        await playwright.waitAndClick(
+          mainPageElements.networkSwitcher.sepoliaNetworkItem,
+        );
+      } else if (network === 'localhost') {
+        await playwright.waitAndClick(
+          mainPageElements.networkSwitcher.localhostNetworkItem,
+        );
+      } else {
+        await playwright.waitAndClickByText(
+          mainPageElements.networkSwitcher.dropdownMenuItem,
+          network,
+        );
+      }
       await playwright.waitForText(
         mainPageElements.networkSwitcher.networkName,
         network,
@@ -387,7 +405,7 @@ module.exports = {
         network.networkName,
       );
     }
-    setNetwork(network);
+    await setNetwork(network);
     await switchToCypressIfNotActive();
     return true;
   },
@@ -445,7 +463,7 @@ module.exports = {
       },
     );
     await module.exports.closePopupAndTooltips();
-    setNetwork(network);
+    await setNetwork(network);
     await playwright.waitForText(
       mainPageElements.networkSwitcher.networkName,
       network.networkName,
