@@ -122,8 +122,7 @@ module.exports = {
     await sleep(200);
     if (retries < 50) {
       retries++;
-      await module.exports.switchToMetamaskNotification();
-      return;
+      return await module.exports.switchToMetamaskNotification();
     } else if (retries >= 50) {
       retries = 0;
       throw new Error(

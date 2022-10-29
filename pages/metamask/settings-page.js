@@ -62,9 +62,9 @@ const enhancedGasFeeUIToggleOn =
 const enhancedGasFeeUIToggleOff =
   '.settings-page__content-row:nth-child(1) .toggle-button--off';
 const showCustomNetworkListToggleOn =
-  'settings-page__content-row:nth-child(3) .toggle-button--on';
+  '.settings-page__content-row:nth-child(3) .toggle-button--on';
 const showCustomNetworkListToggleOff =
-  'settings-page__content-row:nth-child(3) .toggle-button--off';
+  '.settings-page__content-row:nth-child(3) .toggle-button--off';
 module.exports.experimentalSettingsPageElements = {
   enhancedGasFeeUIToggleOn,
   enhancedGasFeeUIToggleOff,
@@ -83,11 +83,11 @@ const addNetworkButton = '.networks-tab__body button';
 module.exports.networksPageElements = { addNetworkButton };
 
 const addNetworkForm = '.networks-tab__add-network-form-body';
-const networkNameInput = `${addNetworkForm} .form-field:nth-child(1)`;
-const rpcUrlInput = `${addNetworkForm} .form-field:nth-child(2)`;
-const chainIdInput = `${addNetworkForm} .form-field:nth-child(3)`;
-const symbolInput = `${addNetworkForm} .form-field:nth-child(4)`;
-const blockExplorerInput = `${addNetworkForm} .form-field:nth-child(5)`;
+const networkNameInput = `${addNetworkForm} .form-field:nth-child(1) input`;
+const rpcUrlInput = `${addNetworkForm} .form-field:nth-child(2) input`;
+const chainIdInput = `${addNetworkForm} .form-field:nth-child(3) input`;
+const symbolInput = `${addNetworkForm} .form-field:nth-child(4) input`;
+const blockExplorerInput = `${addNetworkForm} .form-field:nth-child(5) input`;
 const saveButton = '.networks-tab__add-network-form-footer .btn-primary';
 module.exports.addNetworkPageElements = {
   addNetworkForm,

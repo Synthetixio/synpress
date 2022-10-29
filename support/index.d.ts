@@ -252,7 +252,7 @@ declare namespace Cypress {
      * Confirm metamask atransaction
      * @example
      * cy.confirmMetamaskTransaction()
-     * cy.confirmMetamaskTransaction({gasFee: 10, gasLimit: 1000000})
+     * cy.confirmMetamaskTransaction({gasLimit: 1000000, baseFee: 20, priorityFee: 20})
      */
     confirmMetamaskTransaction(gasConfig?: object): Chainable<Subject>;
     /**

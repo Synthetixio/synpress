@@ -31,7 +31,7 @@ const {
 const {
   confirmationPageElements,
 } = require('../pages/metamask/confirmation-page');
-const { setNetwork, getNetwork } = require('../helpers');
+const { setNetwork } = require('../helpers');
 
 let extensionInitialUrl;
 let extensionId;
@@ -513,78 +513,69 @@ module.exports = {
     return true;
   },
   activateAdvancedGasControl: async skipSetup => {
-    await activateAdvancedSetting(
+    return await activateAdvancedSetting(
       advancedPageElements.advancedGasControlToggleOn,
       advancedPageElements.advancedGasControlToggleOff,
       skipSetup,
     );
-    return;
   },
   activateEnhancedTokenDetection: async skipSetup => {
-    await activateAdvancedSetting(
+    return await activateAdvancedSetting(
       advancedPageElements.enhancedTokenDetectionToggleOn,
       advancedPageElements.enhancedTokenDetectionToggleOff,
       skipSetup,
     );
-    return;
   },
   activateShowHexData: async skipSetup => {
-    await activateAdvancedSetting(
+    return await activateAdvancedSetting(
       advancedPageElements.showHexDataToggleOn,
       advancedPageElements.showHexDataToggleOff,
       skipSetup,
     );
-    return;
   },
   activateTestnetConversion: async skipSetup => {
-    await activateAdvancedSetting(
+    return await activateAdvancedSetting(
       advancedPageElements.showTestnetConversionOn,
       advancedPageElements.showTestnetConversionOff,
       skipSetup,
     );
-    return;
   },
   activateShowTestnetNetworks: async skipSetup => {
-    await activateAdvancedSetting(
+    return await activateAdvancedSetting(
       advancedPageElements.showTestnetNetworksOn,
       advancedPageElements.showTestnetNetworksOff,
       skipSetup,
     );
-    return;
   },
   activateCustomNonce: async skipSetup => {
-    await activateAdvancedSetting(
+    return await activateAdvancedSetting(
       advancedPageElements.customNonceToggleOn,
       advancedPageElements.customNonceToggleOff,
       skipSetup,
     );
-    return;
   },
   activateDismissBackupReminder: async skipSetup => {
-    await activateAdvancedSetting(
+    return await activateAdvancedSetting(
       advancedPageElements.dismissBackupReminderOn,
       advancedPageElements.dismissBackupReminderOff,
       skipSetup,
     );
-    return;
   },
   activateEnhancedGasFeeUI: async skipSetup => {
-    await activateAdvancedSetting(
+    return await activateAdvancedSetting(
       experimentalSettingsPageElements.enhancedGasFeeUIToggleOn,
       experimentalSettingsPageElements.enhancedGasFeeUIToggleOff,
       skipSetup,
       true,
     );
-    return;
   },
   activateShowCustomNetworkList: async skipSetup => {
-    await activateAdvancedSetting(
+    return await activateAdvancedSetting(
       experimentalSettingsPageElements.showCustomNetworkListToggleOn,
       experimentalSettingsPageElements.showCustomNetworkListToggleOff,
       skipSetup,
       true,
     );
-    return;
   },
   resetAccount: async () => {
     await switchToMetamaskIfNotActive();
@@ -693,39 +684,34 @@ module.exports = {
   },
   confirmTransaction: async gasConfig => {
     const notificationPage = await playwright.switchToMetamaskNotification();
-    if (gasConfig && gasConfig.gasFee) {
-      await playwright.waitAndSetValue(
-        gasConfig.gasFee.toString(),
-        confirmPageElements.gasFeeInput,
-        notificationPage,
-      );
-    } else if (getNetwork().isTestnet) {
-      await playwright.waitAndClick(
-        confirmPageElements.gasFeeArrowUpButton,
-        notificationPage,
-        1,
-      );
-    } else {
-      await playwright.waitAndClick(
-        confirmPageElements.gasFeeArrowUpButton,
-        notificationPage,
-        10,
-      );
-    }
 
-    if (gasConfig && gasConfig.gasLimit) {
-      await playwright.waitAndSetValue(
-        gasConfig.gasLimit.toString(),
-        confirmPageElements.gasLimitInput,
-        notificationPage,
-      );
+    if (gasConfig) {
+      await playwright.waitAndClick(confirmPageElements.editGasFeeButton);
+      await playwright.waitAndClick(confirmPageElements.gasOptionCustomButton);
+      if (gasConfig.gasLimit) {
+        await playwright.waitAndClick(confirmPageElements.editGasLimitButton);
+        await playwright.waitAndSetValue(
+          gasConfig.gasLimit.toString(),
+          confirmPageElements.gasLimitInput,
+          notificationPage,
+        );
+      }
+      if (gasConfig.baseFee) {
+        await playwright.waitAndSetValue(
+          gasConfig.baseFee.toString(),
+          confirmPageElements.baseFeeInput,
+          notificationPage,
+        );
+      }
+      if (gasConfig.priorityFee) {
+        await playwright.waitAndSetValue(
+          gasConfig.priorityFee.toString(),
+          confirmPageElements.priorityFeeInput,
+          notificationPage,
+        );
+      }
+      await playwright.waitAndClick(confirmPageElements.saveCustomGasFeeButton);
     }
-
-    const gasLimitInput = confirmPageElements.gasLimitInput;
-    await notificationPage.waitForFunction(
-      gasLimitInput => document.querySelector(gasLimitInput).value != '0',
-      gasLimitInput,
-    );
 
     await playwright.waitAndClick(
       confirmPageElements.confirmButton,
@@ -752,8 +738,8 @@ module.exports = {
     );
     return true;
   },
-
   rejectEncryptionPublicKeyRequest: async () => {
+    // todo: continue here
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       encryptionPublicKeyPageElements.rejectEncryptionPublicKeyButton,
