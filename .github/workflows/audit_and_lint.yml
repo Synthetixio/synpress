@@ -76,7 +76,7 @@ jobs:
         if:
           always() && (github.ref == 'refs/heads/master' || github.ref ==
           'refs/heads/dev' || github.event_name == 'pull_request')
-        uses: github/codeql-action/upload-sarif@807578363a7869ca324a79039e6db9c843e0e100 # pin@codeql-bundle-20210517
+        uses: github/codeql-action/upload-sarif@ec3cf9c605b848da5f1e41e8452719eb1ccfb9a6 # pin@codeql-bundle-20210517
         with:
           sarif_file: lint-results.sarif
         continue-on-error: true
@@ -104,7 +104,7 @@ jobs:
         uses: docker/setup-qemu-action@e81a89b1732b9c48d79cd809d8d81d79c4647a18 # pin@v1
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@95cb08cb2672c73d4ffd2f422e6d11953d2a9c70 # pin@v1
+        uses: docker/setup-buildx-action@8c0edbc76e98fa90f69d9a2c020dcb50019dc325 # pin@v1
 
       - name: Cache Docker layers
         uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # pin@v2
@@ -130,7 +130,7 @@ jobs:
         continue-on-error: true
 
       - name: Archive e2e artifacts (low res)
-        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # pin@v2
+        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # pin@v2
         if: always()
         with:
           name: e2e-artifacts-low-res
@@ -156,7 +156,7 @@ jobs:
         continue-on-error: true
 
       - name: Archive e2e artifacts (high res)
-        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # pin@v2
+        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # pin@v2
         if: always()
         with:
           name: e2e-artifacts-high-res
