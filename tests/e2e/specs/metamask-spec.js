@@ -230,11 +230,18 @@ describe('Metamask', () => {
     it(`rejectMetamaskTransaction should reject transaction`, () => {
       if (Cypress.env('USE_ANVIL')) {
         cy.importMetamaskAccount(
-          // don't worry my friend, this is just first private key from:
+          // don't worry my friend, this is just fourth private key from:
           // 'test test test test test test test test test test test junk'
-          '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80',
+          '0xdbda1821b80551c9d65939329250298aa3472ba22feea921c0cf5d620ea67b97',
+          //0x23618e81E3f5cdF7f54C3d65f7FBc0aBf5B21E8f
         );
-        cy.changeMetamaskNetwork('localhost');
+        cy.addMetamaskNetwork({
+          networkName: 'anvil',
+          rpcUrl: 'http://127.0.0.1:8545',
+          chainId: '5',
+          symbol: 'GETH',
+          isTestnet: true,
+        });
       } else {
         cy.importMetamaskAccount(Cypress.env('PRIVATE_KEY_WITH_FUNDS'));
       }
