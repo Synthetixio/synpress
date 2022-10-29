@@ -81,6 +81,7 @@
     "eslint-plugin-testing-library": "^5.7.2",
     "eslint-plugin-ui-testing": "^2.0.1",
     "eslint-plugin-unicorn": "^44.0.2",
+    "ethers": "^5.7.2",
     "etherscan-api": "^10.2.0",
     "find-config": "^1.0.0",
     "node-fetch": "^2.6.1",

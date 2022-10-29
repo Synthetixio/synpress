@@ -64,7 +64,7 @@ declare namespace Cypress {
     /**
      * Change network in metamask
      * @example
-     * cy.changeMetamaskNetwork('kovan')
+     * cy.changeMetamaskNetwork('goerli')
      * cy.changeMetamaskNetwork('custom network')
      * cy.changeMetamaskNetwork({networkName: 'name'})
      */
@@ -98,11 +98,71 @@ declare namespace Cypress {
      */
     getMetamaskWalletAddress(): Chainable<Subject>;
     /**
+     * Activate ability (in metamask settings) to specify custom gas price and limit while doing transactions in metamask
+     * @example
+     * cy.activateAdvancedGasControlInMetamask()
+     */
+    activateAdvancedGasControlInMetamask(
+      skipSetup?: boolean,
+    ): Chainable<Subject>;
+    /**
+     * Activate ability (in metamask settings) to detect custom tokens using ConsenSys API in metamask
+     * @example
+     * cy.activateEnhancedTokenDetectionInMetamask()
+     */
+    activateEnhancedTokenDetectionInMetamask(
+      skipSetup?: boolean,
+    ): Chainable<Subject>;
+    /**
+     * Activate ability (in metamask settings) to show hex data while doing transaction in metamask
+     * @example
+     * cy.activateShowHexDataInMetamask()
+     */
+    activateShowHexDataInMetamask(skipSetup?: boolean): Chainable<Subject>;
+    /**
+     * Activate ability (in metamask settings) to show fiat conversions on testnets in metamask
+     * @example
+     * cy.activateTestnetConversionInMetamask()
+     */
+    activateTestnetConversionInMetamask(
+      skipSetup?: boolean,
+    ): Chainable<Subject>;
+    /**
+     * Activate ability (in metamask settings) to show testnet networks in metamask
+     * @example
+     * cy.activateShowTestnetNetworksInMetamask()
+     */
+    activateShowTestnetNetworksInMetamask(
+      skipSetup?: boolean,
+    ): Chainable<Subject>;
+    /**
      * Activate ability (in metamask settings) to specify custom nonce while doing transactions in metamask
      * @example
      * cy.activateCustomNonceInMetamask()
      */
-    activateCustomNonceInMetamask(): Chainable<Subject>;
+    activateCustomNonceInMetamask(skipSetup?: boolean): Chainable<Subject>;
+    /**
+     * Activate ability (in metamask settings) to dismiss secret recovery phrase reminder in metamask
+     * @example
+     * cy.activateDismissBackupReminderInMetamask()
+     */
+    activateDismissBackupReminderInMetamask(
+      skipSetup?: boolean,
+    ): Chainable<Subject>;
+    /**
+     * Activate enhanced gas fee UI in metamask settings
+     * @example
+     * cy.activateEnhancedGasFeeUIInMetamask()
+     */
+    activateEnhancedGasFeeUIInMetamask(skipSetup?: boolean): Chainable<Subject>;
+    /**
+     * Activate showing of custom network list in metamask settings
+     * @example
+     * cy.activateShowCustomNetworkListInMetamask()
+     */
+    activateShowCustomNetworkListInMetamask(
+      skipSetup?: boolean,
+    ): Chainable<Subject>;
     /**
      * Reset metamask account state in settings
      * @example
@@ -192,7 +252,7 @@ declare namespace Cypress {
      * Confirm metamask atransaction
      * @example
      * cy.confirmMetamaskTransaction()
-     * cy.confirmMetamaskTransaction({gasFee: 10, gasLimit: 1000000})
+     * cy.confirmMetamaskTransaction({gasLimit: 1000000, baseFee: 20, priorityFee: 20})
      */
     confirmMetamaskTransaction(gasConfig?: object): Chainable<Subject>;
     /**
@@ -247,15 +307,17 @@ declare namespace Cypress {
     /**
      * Run the flow for metamask setup
      * @example
-     * cy.setupMetamask('secret, words, ...', 'kovan', 'password for metamask')
+     * cy.setupMetamask() // will use defaults
+     * cy.setupMetamask('secret, words, ...', 'goerli', 'password for metamask')
      * cy.setupMetamask('secret, words, ...', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for metamask')
-     * cy.setupMetamask('private_key', 'kovan', 'password for metamask')
+     * cy.setupMetamask('private_key', 'goerli', 'password for metamask')
      * cy.setupMetamask('private_key', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for metamask')
      */
     setupMetamask(
-      secretWordsOrPrivateKey: string,
-      network: string | object,
-      password: string,
+      secretWordsOrPrivateKey?: string,
+      network?: string | object,
+      password?: string,
+      enableAdvancedSettings?: boolean,
     ): Chainable<Subject>;
     /**
      * Execute settle on Exchanger contract

@@ -36,7 +36,7 @@ module.exports = (on, config) => {
     if (!process.env.SKIP_METAMASK_INSTALL) {
       // NOTE: extensions cannot be loaded in headless Chrome
       const metamaskPath = await helpers.prepareMetamask(
-        process.env.METAMASK_VERSION || '9.7.1',
+        process.env.METAMASK_VERSION || '10.21.0',
       );
       arguments_.extensions.push(metamaskPath);
     }
@@ -118,13 +118,47 @@ module.exports = (on, config) => {
       if (process.env.NETWORK_NAME && !network) {
         network = process.env.NETWORK_NAME;
       } else if (!network) {
-        network = 'kovan';
+        network = 'goerli';
       }
       const networkChanged = await metamask.changeNetwork(network);
       return networkChanged;
     },
-    activateCustomNonceInMetamask: async () => {
-      const activated = await metamask.activateCustomNonce();
+    activateAdvancedGasControlInMetamask: async skipSetup => {
+      const activated = await metamask.activateAdvancedGasControl(skipSetup);
+      return activated;
+    },
+    activateEnhancedTokenDetectionInMetamask: async skipSetup => {
+      const activated = await metamask.activateEnhancedTokenDetection(
+        skipSetup,
+      );
+      return activated;
+    },
+    activateShowHexDataInMetamask: async skipSetup => {
+      const activated = await metamask.activateShowHexData(skipSetup);
+      return activated;
+    },
+    activateTestnetConversionInMetamask: async skipSetup => {
+      const activated = await metamask.activateTestnetConversion(skipSetup);
+      return activated;
+    },
+    activateShowTestnetNetworksInMetamask: async skipSetup => {
+      const activated = await metamask.activateShowTestnetNetworks(skipSetup);
+      return activated;
+    },
+    activateCustomNonceInMetamask: async skipSetup => {
+      const activated = await metamask.activateCustomNonce(skipSetup);
+      return activated;
+    },
+    activateDismissBackupReminderInMetamask: async skipSetup => {
+      const activated = await metamask.activateDismissBackupReminder(skipSetup);
+      return activated;
+    },
+    activateEnhancedGasFeeUIInMetamask: async skipSetup => {
+      const activated = await metamask.activateEnhancedGasFeeUI(skipSetup);
+      return activated;
+    },
+    activateShowCustomNetworkListInMetamask: async skipSetup => {
+      const activated = await metamask.activateShowCustomNetworkList(skipSetup);
       return activated;
     },
     resetMetamaskAccount: async () => {
@@ -220,8 +254,9 @@ module.exports = (on, config) => {
     },
     setupMetamask: async ({
       secretWordsOrPrivateKey,
-      network = 'kovan',
+      network,
       password,
+      enableAdvancedSettings,
     }) => {
       if (process.env.NETWORK_NAME) {
         network = process.env.NETWORK_NAME;
@@ -236,6 +271,7 @@ module.exports = (on, config) => {
         secretWordsOrPrivateKey,
         network,
         password,
+        enableAdvancedSettings,
       });
       return true;
     },
