@@ -775,7 +775,6 @@ module.exports = {
     return true;
   },
   rejectEncryptionPublicKeyRequest: async () => {
-    // todo: continue here
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       encryptionPublicKeyPageElements.rejectEncryptionPublicKeyButton,

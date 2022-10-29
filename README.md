@@ -226,8 +226,8 @@ use `STABLE_MODE=true` (which will introduce delays only between main actions,
 300ms by default) / `STABLE_MODE=<value>` or `SLOW_MODE=true` (which will
 introduce delay between every action, 50ms by default) / `SLOW_MODE=<value>`.
 
-`DEBUG=synpress:*` is very useful while debugging your tests. It enables following
-features:
+`DEBUG=synpress:*` is very useful while debugging your tests. It enables
+following features:
 
 - improved logging
 - [cypress debugger](https://docs.cypress.io/guides/guides/debugging)
