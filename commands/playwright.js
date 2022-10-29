@@ -189,6 +189,11 @@ module.exports = {
   },
   waitAndGetValue: async (selector, page = metamaskWindow) => {
     const element = await module.exports.waitFor(selector, page);
+    const value = await element.innerText();
+    return value;
+  },
+  waitAndGetInputValue: async (selector, page = metamaskWindow) => {
+    const element = await module.exports.waitFor(selector, page);
     const value = await element.inputValue();
     return value;
   },
