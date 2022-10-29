@@ -167,14 +167,14 @@ module.exports = {
     if (
       (await playwright
         .metamaskWindow()
-        .$(mainPageElements.tippyTooltip.container)) !== null
+        .$(mainPageElements.tippyTooltip.closeButton)) !== null
     ) {
       await playwright.waitAndClick(mainPageElements.tippyTooltip.closeButton);
     }
     if (
       (await playwright
         .metamaskWindow()
-        .$(mainPageElements.actionableMessage.container)) !== null
+        .$(mainPageElements.actionableMessage.closeButton)) !== null
     ) {
       await playwright.waitAndClick(
         mainPageElements.actionableMessage.closeButton,
@@ -322,6 +322,7 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
+    await module.exports.closePopupAndTooltips();
     await switchToCypressIfNotActive();
     return true;
   },
@@ -338,6 +339,7 @@ module.exports = {
       );
     }
     await playwright.waitAndClick(mainPageElements.createAccount.createButton);
+    await module.exports.closePopupAndTooltips();
     await switchToCypressIfNotActive();
     return true;
   },
@@ -360,6 +362,7 @@ module.exports = {
         accountNameOrAccountNumber,
       );
     }
+    await module.exports.closePopupAndTooltips();
     await switchToCypressIfNotActive();
     return true;
   },
@@ -405,6 +408,7 @@ module.exports = {
         network.networkName,
       );
     }
+    await module.exports.closePopupAndTooltips();
     await setNetwork(network);
     await switchToCypressIfNotActive();
     return true;
@@ -613,11 +617,12 @@ module.exports = {
   confirmSignatureRequest: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
     const scrollDownButton = await playwright
-      .metamaskWindow()
+      .metamaskNotificationWindow()
       .$(signaturePageElements.signatureRequestScrollDownButton);
     if (scrollDownButton) {
       await playwright.waitAndClick(
         signaturePageElements.signatureRequestScrollDownButton,
+        notificationPage,
       );
     }
     playwright.waitAndClick(
@@ -630,11 +635,12 @@ module.exports = {
   confirmDataSignatureRequest: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
     const scrollDownButton = await playwright
-      .metamaskWindow()
+      .metamaskNotificationWindow()
       .$(signaturePageElements.signatureRequestScrollDownButton);
     if (scrollDownButton) {
       await playwright.waitAndClick(
         signaturePageElements.signatureRequestScrollDownButton,
+        notificationPage,
       );
     }
     await playwright.waitAndClick(
@@ -704,10 +710,19 @@ module.exports = {
     const notificationPage = await playwright.switchToMetamaskNotification();
 
     if (gasConfig) {
-      await playwright.waitAndClick(confirmPageElements.editGasFeeButton);
-      await playwright.waitAndClick(confirmPageElements.gasOptionCustomButton);
+      await playwright.waitAndClick(
+        confirmPageElements.editGasFeeButton,
+        notificationPage,
+      );
+      await playwright.waitAndClick(
+        confirmPageElements.gasOptionCustomButton,
+        notificationPage,
+      );
       if (gasConfig.gasLimit) {
-        await playwright.waitAndClick(confirmPageElements.editGasLimitButton);
+        await playwright.waitAndClick(
+          confirmPageElements.editGasLimitButton,
+          notificationPage,
+        );
         await playwright.waitAndSetValue(
           gasConfig.gasLimit.toString(),
           confirmPageElements.gasLimitInput,
@@ -728,7 +743,10 @@ module.exports = {
           notificationPage,
         );
       }
-      await playwright.waitAndClick(confirmPageElements.saveCustomGasFeeButton);
+      await playwright.waitAndClick(
+        confirmPageElements.saveCustomGasFeeButton,
+        notificationPage,
+      );
     }
 
     await playwright.waitAndClick(
