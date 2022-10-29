@@ -30,7 +30,7 @@ describe('Metamask', () => {
       cy.get('#network').contains('5');
       cy.get('#chainId').contains('0x5');
       cy.get('#accounts').contains(
-        '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+        '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
       );
     });
     it(`getNetwork should return network by default`, () => {
@@ -163,7 +163,7 @@ describe('Metamask', () => {
       });
       cy.get('#personalSignVerify').click();
       cy.get('#personalSignVerifySigUtilResult').contains(
-        '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+        '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
       );
     });
     it(`confirmMetamaskSignatureRequest should confirm data signature request`, () => {
@@ -189,7 +189,7 @@ describe('Metamask', () => {
         expect(confirmed).to.be.true;
       });
       cy.get('#encryptionKeyDisplay').contains(
-        'PF4wuX6QqcIKdCzructa1JlY/LninxRWFdMThIDIJEU=',
+        'mtrHp1WHZM9rxF2Ilot9Hie5XmQcKCf7oDQ1DpGkTSI=',
       );
     });
     it(`confirmMetamaskDecryptionRequest should confirm request to decrypt message with private key`, () => {
