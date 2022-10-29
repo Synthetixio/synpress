@@ -30,7 +30,7 @@ describe('Metamask', () => {
       cy.get('#network').contains('5');
       cy.get('#chainId').contains('0x5');
       cy.get('#accounts').contains(
-        '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+        '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
       );
     });
     it(`getNetwork should return network by default`, () => {
@@ -113,7 +113,7 @@ describe('Metamask', () => {
     it(`getMetamaskWalletAddress should return wallet address of current metamask account`, () => {
       cy.getMetamaskWalletAddress().then(address => {
         expect(address).to.be.equal(
-          '0xa0ee7a142d267c1f36714e4a8f75612f20a79720',
+          '0x70997970C51812dc3A010C7d01b50e0d17dc79C8',
         );
       });
     });
@@ -125,7 +125,7 @@ describe('Metamask', () => {
     it(`getMetamaskWalletAddress should return valid wallet address of metamask account after changing an account`, () => {
       cy.getMetamaskWalletAddress().then(address => {
         expect(address).to.be.equal(
-          '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+          '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
         );
       });
     });
@@ -163,7 +163,7 @@ describe('Metamask', () => {
       });
       cy.get('#personalSignVerify').click();
       cy.get('#personalSignVerifySigUtilResult').contains(
-        '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+        '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
       );
     });
     it(`confirmMetamaskSignatureRequest should confirm data signature request`, () => {
