@@ -240,16 +240,18 @@ module.exports = {
     }
   },
   waitUntilStable: async page => {
-    await page.waitForLoadState('load');
-    await page.waitForLoadState('domcontentloaded');
-    await page.waitForLoadState('networkidle');
+    if (page) {
+      await page.waitForLoadState('load');
+      await page.waitForLoadState('domcontentloaded');
+      await page.waitForLoadState('networkidle');
+    }
+    await metamaskWindow.waitForLoadState('load');
+    await metamaskWindow.waitForLoadState('domcontentloaded');
+    await metamaskWindow.waitForLoadState('networkidle');
     await mainWindow.waitForLoadState('load');
     await mainWindow.waitForLoadState('domcontentloaded');
     // todo: this may slow down tests and not be necessary but could improve stability
     // await mainWindow.waitForLoadState('networkidle');
-    await metamaskWindow.waitForLoadState('load');
-    await metamaskWindow.waitForLoadState('domcontentloaded');
-    await metamaskWindow.waitForLoadState('networkidle');
   },
   // todo: not meant to be used until waitToBeHidden is fixed
   waitUntilNotificationWindowIsStable: async (
