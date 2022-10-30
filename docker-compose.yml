@@ -10,6 +10,7 @@ services:
       - GITHUB_TOKEN=${GITHUB_TOKEN}
       - DEBUG=${DEBUG}
       - CI=${CI}
+      - DOCKER_RUN=true
     depends_on:
       - display
       - video
