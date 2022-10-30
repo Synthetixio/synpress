@@ -1,10 +1,14 @@
 const notificationPage = '.notification';
+const loadingLogo = `${notificationPage} #loading__logo`;
+const loadingSpinner = `${notificationPage} #loading__spinner`;
 const nextButton = `${notificationPage} .permissions-connect-choose-account__bottom-buttons .btn-primary`;
 const allowToSpendButton = `${notificationPage} [data-testid="page-container-footer-next"]`;
 const rejectToSpendButton = `${notificationPage} [data-testid="page-container-footer-cancel"]`;
 const selectAllCheckbox = `${notificationPage} .choose-account-list__header-check-box`;
 module.exports.notificationPageElements = {
   notificationPage,
+  loadingLogo,
+  loadingSpinner,
   nextButton,
   allowToSpendButton,
   rejectToSpendButton,
