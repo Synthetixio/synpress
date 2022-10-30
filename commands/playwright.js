@@ -1,8 +1,5 @@
 const fetch = require('node-fetch');
 const { chromium } = require('@playwright/test');
-const {
-  notificationPageElements,
-} = require('../pages/metamask/notification-page');
 const sleep = require('util').promisify(setTimeout);
 
 let browser;
@@ -115,18 +112,11 @@ module.exports = {
     let pages = await browser.contexts()[0].pages();
     for (const page of pages) {
       if (page.url().includes('notification')) {
-        await page.bringToFront();
-        await module.exports.waitToBeStable(page);
-        const loadingSpinner = await page.$(
-          notificationPageElements.loadingSpinner,
-        );
-        if (loadingSpinner) {
-          await page.waitForSelector(notificationPageElements.loadingSpinner, {
-            hidden: true,
-          });
-        }
         metamaskNotificationWindow = page;
         retries = 0;
+        await page.bringToFront();
+        await module.exports.waitUntilNotificationWindowIsStable(page);
+        await module.exports.assignActiveTabName('metamask-notif');
         return page;
       }
     }
@@ -142,7 +132,7 @@ module.exports = {
     }
   },
   waitFor: async (selector, page = metamaskWindow) => {
-    await module.exports.waitToBeStable(page);
+    await module.exports.waitUntilMetamaskWindowIsStable();
     await page.waitForSelector(selector, { strict: false });
     const element = await page.locator(selector).first();
     await element.waitFor();
@@ -183,19 +173,19 @@ module.exports = {
     } else {
       await element.click({ force: args.force });
     }
-    await module.exports.waitToBeStable(page);
+    await module.exports.waitUntilMetamaskWindowIsStable();
     return element;
   },
   waitAndClickByText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
     const element = await page.locator(`text=${text}`);
     await element.click();
-    await module.exports.waitToBeStable(page);
+    await module.exports.waitUntilMetamaskWindowIsStable();
   },
   waitAndType: async (selector, value, page = metamaskWindow) => {
     const element = await module.exports.waitFor(selector, page);
     await element.type(value);
-    await module.exports.waitToBeStable(page);
+    await module.exports.waitUntilMetamaskWindowIsStable();
   },
   waitAndGetValue: async (selector, page = metamaskWindow) => {
     const element = await module.exports.waitFor(selector, page);
@@ -211,7 +201,7 @@ module.exports = {
     const element = await module.exports.waitFor(selector, page);
     await element.fill('');
     await element.fill(text);
-    await module.exports.waitToBeStable(page);
+    await module.exports.waitUntilMetamaskWindowIsStable();
   },
   waitAndClearWithBackspace: async (selector, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
@@ -219,14 +209,14 @@ module.exports = {
     for (let i = 0; i < inputValue.length; i++) {
       await page.keyboard.press('Backspace');
     }
-    await module.exports.waitToBeStable(page);
+    await module.exports.waitUntilMetamaskWindowIsStable();
   },
   waitClearAndType: async (text, selector, page = metamaskWindow) => {
     const element = await module.exports.waitAndClick(selector, page, {
       numberOfClicks: 3,
     });
     await element.type(text);
-    await module.exports.waitToBeStable(page);
+    await module.exports.waitUntilMetamaskWindowIsStable();
   },
   waitForText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
@@ -240,18 +230,37 @@ module.exports = {
       });
     }
   },
-  waitToBeStable: async page => {
+  waitUntilNotificationWindowIsStable: async (
+    page = metamaskNotificationWindow,
+  ) => {
     await page.waitForLoadState('load');
     await page.waitForLoadState('domcontentloaded');
     await page.waitForLoadState('networkidle');
-    await mainWindow.waitForLoadState('load');
-    await mainWindow.waitForLoadState('domcontentloaded');
-    await metamaskWindow.waitForLoadState('load');
-    await metamaskWindow.waitForLoadState('domcontentloaded');
-    await metamaskWindow.waitForLoadState('networkidle');
     await module.exports.waitToBeHidden('#loading__logo', page);
     await module.exports.waitToBeHidden('#loading__spinner', page);
-    await module.exports.waitToBeHidden('#loading__logo', metamaskWindow);
-    await module.exports.waitToBeHidden('#loading__spinner', metamaskWindow);
+  },
+  waitUntilMainWindowIsStable: async (page = mainWindow) => {
+    await page.waitForLoadState('load');
+    await page.waitForLoadState('domcontentloaded');
+    await page.waitForLoadState('networkidle');
+  },
+  waitUntilMetamaskWindowIsStable: async (page = metamaskWindow) => {
+    await page.waitForLoadState('load');
+    await page.waitForLoadState('domcontentloaded');
+    await page.waitForLoadState('networkidle');
+    await module.exports.waitToBeHidden('.loading-logo', page); // on reload
+    await module.exports.waitToBeHidden('.loading-spinner', page); // on reload
+    await module.exports.waitToBeHidden('.loading-overlay', page); // on change network
+    await module.exports.waitToBeHidden('.loading-overlay__spinner', page); // on balance load
+
+    // network error handler
+    const networkError = await page.$('.loading-overlay__error-buttons');
+    if (networkError) {
+      await module.exports.waitAndClick(
+        '.loading-overlay__error-buttons .btn-primary',
+        page,
+      );
+      await module.exports.waitToBeHidden('.loading-overlay', page);
+    }
   },
 };
