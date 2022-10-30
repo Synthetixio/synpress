@@ -116,9 +116,7 @@ module.exports = {
     for (const page of pages) {
       if (page.url().includes('notification')) {
         await page.bringToFront();
-        await page.waitForLoadState('load');
-        await page.waitForLoadState('domcontentloaded');
-        await page.waitForLoadState('networkidle');
+        await module.exports.waitToBeStable(page);
         const loadingSpinner = await page.$(
           notificationPageElements.loadingSpinner,
         );
@@ -144,6 +142,7 @@ module.exports = {
     }
   },
   waitFor: async (selector, page = metamaskWindow) => {
+    await module.exports.waitToBeStable(page);
     await page.waitForSelector(selector, { strict: false });
     const element = await page.locator(selector).first();
     await element.waitFor();
@@ -184,21 +183,19 @@ module.exports = {
     } else {
       await element.click({ force: args.force });
     }
-
-    await page.waitForLoadState();
-    await mainWindow.waitForLoadState();
-    await metamaskWindow.waitForLoadState();
-
+    await module.exports.waitToBeStable(page);
     return element;
   },
   waitAndClickByText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
     const element = await page.locator(`text=${text}`);
     await element.click();
+    await module.exports.waitToBeStable(page);
   },
   waitAndType: async (selector, value, page = metamaskWindow) => {
     const element = await module.exports.waitFor(selector, page);
     await element.type(value);
+    await module.exports.waitToBeStable(page);
   },
   waitAndGetValue: async (selector, page = metamaskWindow) => {
     const element = await module.exports.waitFor(selector, page);
@@ -214,10 +211,7 @@ module.exports = {
     const element = await module.exports.waitFor(selector, page);
     await element.fill('');
     await element.fill(text);
-
-    await page.waitForLoadState();
-    await mainWindow.waitForLoadState();
-    await metamaskWindow.waitForLoadState();
+    await module.exports.waitToBeStable(page);
   },
   waitAndClearWithBackspace: async (selector, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
@@ -225,12 +219,14 @@ module.exports = {
     for (let i = 0; i < inputValue.length; i++) {
       await page.keyboard.press('Backspace');
     }
+    await module.exports.waitToBeStable(page);
   },
   waitClearAndType: async (text, selector, page = metamaskWindow) => {
     const element = await module.exports.waitAndClick(selector, page, {
       numberOfClicks: 3,
     });
     await element.type(text);
+    await module.exports.waitToBeStable(page);
   },
   waitForText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
