@@ -118,6 +118,7 @@ jobs:
         run: |
           docker-compose -f docker-compose.ci.yml --env-file low-res.env up --build --exit-code-from synpress
         env:
+          CI: true
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1
           DOCKER_DEFAULT_PLATFORM: linux/amd64
@@ -145,6 +146,7 @@ jobs:
         run: |
           docker-compose -f docker-compose.ci.yml --env-file high-res.env up --build --exit-code-from synpress
         env:
+          CI: true
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1
           DOCKER_DEFAULT_PLATFORM: linux/amd64
