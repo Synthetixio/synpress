@@ -237,7 +237,9 @@ describe('Metamask', () => {
         );
         cy.addMetamaskNetwork({
           networkName: 'anvil',
-          rpcUrl: 'http://127.0.0.1:8545',
+          rpcUrl: Cypress.env('CI')
+            ? 'http://foundry:8545'
+            : 'http://127.0.0.1:8545',
           chainId: '5',
           symbol: 'GETH',
           isTestnet: true,
