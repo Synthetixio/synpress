@@ -64,41 +64,30 @@ module.exports = {
   walletAddress: () => {
     return walletAddress;
   },
-  goToSettings: async () => {
+  goTo: async url => {
     await Promise.all([
       playwright.metamaskWindow().waitForNavigation(),
-      playwright.metamaskWindow().goto(extensionSettingsUrl),
+      playwright.metamaskWindow().goto(url),
     ]);
+    await playwright.waitUntilStable();
+  },
+  goToSettings: async () => {
+    await module.exports.goTo(extensionSettingsUrl);
   },
   goToAdvancedSettings: async () => {
-    await Promise.all([
-      playwright.metamaskWindow().waitForNavigation(),
-      playwright.metamaskWindow().goto(extensionAdvancedSettingsUrl),
-    ]);
+    await module.exports.goTo(extensionAdvancedSettingsUrl);
   },
   goToExperimentalSettings: async () => {
-    await Promise.all([
-      playwright.metamaskWindow().waitForNavigation(),
-      playwright.metamaskWindow().goto(extensionExperimentalSettingsUrl),
-    ]);
+    await module.exports.goTo(extensionExperimentalSettingsUrl);
   },
   goToAddNetwork: async () => {
-    await Promise.all([
-      playwright.metamaskWindow().waitForNavigation(),
-      playwright.metamaskWindow().goto(extensionAddNetworkUrl),
-    ]);
+    await module.exports.goTo(extensionAddNetworkUrl);
   },
   goToNewAccount: async () => {
-    await Promise.all([
-      playwright.metamaskWindow().waitForNavigation(),
-      playwright.metamaskWindow().goto(extensionNewAccountUrl),
-    ]);
+    await module.exports.goTo(extensionNewAccountUrl);
   },
   goToImportAccount: async () => {
-    await Promise.all([
-      playwright.metamaskWindow().waitForNavigation(),
-      playwright.metamaskWindow().goto(extensionImportAccountUrl),
-    ]);
+    await module.exports.goTo(extensionImportAccountUrl);
   },
   getExtensionDetails: async () => {
     extensionInitialUrl = await playwright.metamaskWindow().url();
@@ -625,7 +614,7 @@ module.exports = {
         notificationPage,
       );
     }
-    playwright.waitAndClick(
+    await playwright.waitAndClick(
       signaturePageElements.confirmSignatureRequestButton,
       notificationPage,
       { waitForEvent: 'close' },
