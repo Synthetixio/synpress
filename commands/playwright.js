@@ -1,5 +1,9 @@
 const fetch = require('node-fetch');
 const { chromium } = require('@playwright/test');
+const {
+  notificationPageElements,
+} = require('../pages/metamask/notification-page');
+const { pageElements } = require('../pages/metamask/page');
 const sleep = require('util').promisify(setTimeout);
 
 let browser;
@@ -236,8 +240,14 @@ module.exports = {
     await page.waitForLoadState('load');
     await page.waitForLoadState('domcontentloaded');
     await page.waitForLoadState('networkidle');
-    await module.exports.waitToBeHidden('#loading__logo', page);
-    await module.exports.waitToBeHidden('#loading__spinner', page);
+    await module.exports.waitToBeHidden(
+      notificationPageElements.loadingLogo,
+      page,
+    );
+    await module.exports.waitToBeHidden(
+      notificationPageElements.loadingSpinner,
+      page,
+    );
   },
   waitUntilMainWindowIsStable: async (page = mainWindow) => {
     await page.waitForLoadState('load');
@@ -248,19 +258,21 @@ module.exports = {
     await page.waitForLoadState('load');
     await page.waitForLoadState('domcontentloaded');
     await page.waitForLoadState('networkidle');
-    await module.exports.waitToBeHidden('.loading-logo', page); // on reload
-    await module.exports.waitToBeHidden('.loading-spinner', page); // on reload
-    await module.exports.waitToBeHidden('.loading-overlay', page); // on change network
-    await module.exports.waitToBeHidden('.loading-overlay__spinner', page); // on balance load
-
+    await module.exports.waitToBeHidden(pageElements.loadingLogo, page); // shown on reload
+    await module.exports.waitToBeHidden(pageElements.loadingSpinner, page); // shown on reload
+    await module.exports.waitToBeHidden(pageElements.loadingOverlay, page); // shown on change network
+    await module.exports.waitToBeHidden(
+      pageElements.loadingOverlaySpinner,
+      page,
+    ); // shown on balance load
     // network error handler
-    const networkError = await page.$('.loading-overlay__error-buttons');
+    const networkError = await page.$(pageElements.loadingOverlayErrorButtons);
     if (networkError) {
       await module.exports.waitAndClick(
-        '.loading-overlay__error-buttons .btn-primary',
+        pageElements.loadingOverlayErrorButtonsRetryButton,
         page,
       );
-      await module.exports.waitToBeHidden('.loading-overlay', page);
+      await module.exports.waitToBeHidden(pageElements.loadingOverlay, page);
     }
   },
 };
