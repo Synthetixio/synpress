@@ -29,7 +29,7 @@ services:
 
   display:
     container_name: display
-    image: synthetixio/display:016121eafdfff448414894d0ca5a50b1d72b62eb-base
+    image: synthetixio/display:457bb48776c3b14de232d9dda620ba9188dc40ac-base
     environment:
       - RUN_XTERM=no
     ports:
@@ -41,7 +41,7 @@ services:
     profiles:
       - ngrok
     container_name: ngrok
-    image: synthetixio/ngrok:016121eafdfff448414894d0ca5a50b1d72b62eb-base
+    image: synthetixio/ngrok:457bb48776c3b14de232d9dda620ba9188dc40ac-base
     ports:
       - '4040:4040'
     command: ['ngrok', 'http', 'display:8080', '--authtoken', '${NGROK_AUTH}']
@@ -52,7 +52,7 @@ services:
 
   video:
     container_name: video
-    image: synthetixio/video:016121eafdfff448414894d0ca5a50b1d72b62eb-base
+    image: synthetixio/video:457bb48776c3b14de232d9dda620ba9188dc40ac-base
     volumes:
       - ./docker/videos-ci:/videos
     environment:
@@ -64,7 +64,7 @@ services:
 
   foundry:
     container_name: foundry
-    image: synthetixio/foundry:016121eafdfff448414894d0ca5a50b1d72b62eb-base
+    image: synthetixio/foundry:457bb48776c3b14de232d9dda620ba9188dc40ac-base
     command: ['anvil --fork-url ${ANVIL_FORK_URL}']
     ports:
       - '127.0.0.1:8545:8545'
