@@ -244,4 +244,18 @@ module.exports = {
       });
     }
   },
+  waitToBeStable: async page => {
+    await page.waitForLoadState('load');
+    await page.waitForLoadState('domcontentloaded');
+    await page.waitForLoadState('networkidle');
+    await mainWindow.waitForLoadState('load');
+    await mainWindow.waitForLoadState('domcontentloaded');
+    await metamaskWindow.waitForLoadState('load');
+    await metamaskWindow.waitForLoadState('domcontentloaded');
+    await metamaskWindow.waitForLoadState('networkidle');
+    await module.exports.waitToBeHidden('#loading__logo', page);
+    await module.exports.waitToBeHidden('#loading__spinner', page);
+    await module.exports.waitToBeHidden('#loading__logo', metamaskWindow);
+    await module.exports.waitToBeHidden('#loading__spinner', metamaskWindow);
+  },
 };
