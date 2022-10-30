@@ -1,5 +1,8 @@
 const fetch = require('node-fetch');
 const { chromium } = require('@playwright/test');
+const {
+  notificationPageElements,
+} = require('../pages/metamask/notification-page');
 const sleep = require('util').promisify(setTimeout);
 
 let browser;
@@ -113,7 +116,17 @@ module.exports = {
     for (const page of pages) {
       if (page.url().includes('notification')) {
         await page.bringToFront();
+        await page.waitForLoadState('load');
+        await page.waitForLoadState('domcontentloaded');
         await page.waitForLoadState('networkidle');
+        const loadingSpinner = await page.$(
+          notificationPageElements.loadingSpinner,
+        );
+        if (loadingSpinner) {
+          await page.waitForSelector(notificationPageElements.loadingSpinner, {
+            hidden: true,
+          });
+        }
         metamaskNotificationWindow = page;
         retries = 0;
         return page;
