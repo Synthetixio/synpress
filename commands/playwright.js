@@ -236,4 +236,12 @@ module.exports = {
     await module.exports.waitFor(selector, page);
     await page.locator(selector, { hasText: text }).waitFor();
   },
+  waitToBeHidden: async (selector, page = metamaskWindow) => {
+    const element = await page.$(selector);
+    if (element) {
+      await page.waitForSelector(selector, {
+        hidden: true,
+      });
+    }
+  },
 };
