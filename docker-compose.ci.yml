@@ -70,9 +70,11 @@ services:
   foundry:
     container_name: foundry
     image: synthetixio/foundry:457bb48776c3b14de232d9dda620ba9188dc40ac-base
-    command: ['anvil --fork-url ${ANVIL_FORK_URL}']
+    command: ['anvil --no-cors --fork-url ${ANVIL_FORK_URL}']
+    environment:
+      - ANVIL_IP_ADDR=0.0.0.0
     ports:
-      - '127.0.0.1:8545:8545'
+      - '8545:8545'
     networks:
       - x11
 
