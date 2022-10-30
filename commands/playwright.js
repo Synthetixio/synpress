@@ -119,7 +119,7 @@ module.exports = {
         metamaskNotificationWindow = page;
         retries = 0;
         await page.bringToFront();
-        await module.exports.waitUntilNotificationWindowIsStable(page);
+        await module.exports.waitUntilStable(page);
         return page;
       }
     }
@@ -135,7 +135,7 @@ module.exports = {
     }
   },
   waitFor: async (selector, page = metamaskWindow) => {
-    await module.exports.waitUntilMetamaskWindowIsStable();
+    await module.exports.waitUntilStable(page);
     await page.waitForSelector(selector, { strict: false });
     const element = await page.locator(selector).first();
     await element.waitFor();
@@ -176,19 +176,19 @@ module.exports = {
     } else {
       await element.click({ force: args.force });
     }
-    await module.exports.waitUntilMetamaskWindowIsStable();
+    await module.exports.waitUntilStable(page);
     return element;
   },
   waitAndClickByText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
     const element = await page.locator(`text=${text}`);
     await element.click();
-    await module.exports.waitUntilMetamaskWindowIsStable();
+    await module.exports.waitUntilStable(page);
   },
   waitAndType: async (selector, value, page = metamaskWindow) => {
     const element = await module.exports.waitFor(selector, page);
     await element.type(value);
-    await module.exports.waitUntilMetamaskWindowIsStable();
+    await module.exports.waitUntilStable(page);
   },
   waitAndGetValue: async (selector, page = metamaskWindow) => {
     const element = await module.exports.waitFor(selector, page);
@@ -203,23 +203,25 @@ module.exports = {
   waitAndSetValue: async (text, selector, page = metamaskWindow) => {
     const element = await module.exports.waitFor(selector, page);
     await element.fill('');
+    await module.exports.waitUntilStable(page);
     await element.fill(text);
-    await module.exports.waitUntilMetamaskWindowIsStable();
+    await module.exports.waitUntilStable(page);
   },
   waitAndClearWithBackspace: async (selector, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
     const inputValue = await page.evaluate(selector, el => el.value);
     for (let i = 0; i < inputValue.length; i++) {
       await page.keyboard.press('Backspace');
+      await module.exports.waitUntilStable(page);
     }
-    await module.exports.waitUntilMetamaskWindowIsStable();
   },
   waitClearAndType: async (text, selector, page = metamaskWindow) => {
     const element = await module.exports.waitAndClick(selector, page, {
       numberOfClicks: 3,
     });
+    await module.exports.waitUntilStable(page);
     await element.type(text);
-    await module.exports.waitUntilMetamaskWindowIsStable();
+    await module.exports.waitUntilStable(page);
   },
   waitForText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
@@ -228,11 +230,28 @@ module.exports = {
   waitToBeHidden: async (selector, page = metamaskWindow) => {
     const element = await page.$(selector);
     if (element) {
+      // todo: sadly this doesn't work well in case element disappears before it's triggered
+      // because it checks if element is visible first! which causes race conditions to happen
+      // waitForFunction could be used instead with document.query, however it can't be used
+      // without creating new context with bypassCSP enabled which sounds like a lot of work
       await page.waitForSelector(selector, {
         hidden: true,
       });
     }
   },
+  waitUntilStable: async page => {
+    await page.waitForLoadState('load');
+    await page.waitForLoadState('domcontentloaded');
+    await page.waitForLoadState('networkidle');
+    await mainWindow.waitForLoadState('load');
+    await mainWindow.waitForLoadState('domcontentloaded');
+    // todo: this may slow down tests and not be necessary but could improve stability
+    // await mainWindow.waitForLoadState('networkidle');
+    await metamaskWindow.waitForLoadState('load');
+    await metamaskWindow.waitForLoadState('domcontentloaded');
+    await metamaskWindow.waitForLoadState('networkidle');
+  },
+  // todo: not meant to be used until waitToBeHidden is fixed
   waitUntilNotificationWindowIsStable: async (
     page = metamaskNotificationWindow,
   ) => {
@@ -248,11 +267,13 @@ module.exports = {
       page,
     );
   },
+  // todo: not meant to be used until waitToBeHidden is fixed
   waitUntilMainWindowIsStable: async (page = mainWindow) => {
     await page.waitForLoadState('load');
     await page.waitForLoadState('domcontentloaded');
     await page.waitForLoadState('networkidle');
   },
+  // todo: not meant to be used until waitToBeHidden is fixed
   waitUntilMetamaskWindowIsStable: async (page = metamaskWindow) => {
     await page.waitForLoadState('load');
     await page.waitForLoadState('domcontentloaded');
