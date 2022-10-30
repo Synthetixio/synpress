@@ -72,7 +72,7 @@ services:
     image: synthetixio/foundry:016121eafdfff448414894d0ca5a50b1d72b62eb-base
     command: ['anvil --fork-url ${ANVIL_FORK_URL}']
     ports:
-      - '8545:8545'
+      - '127.0.0.1:8545:8545'
     networks:
       - x11
 
