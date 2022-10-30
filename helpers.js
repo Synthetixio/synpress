@@ -97,13 +97,13 @@ module.exports = {
 
     try {
       if (version === 'latest' || !version) {
-        if (process.env.GITHUB_USERNAME && process.env.GITHUB_PAT) {
+        if (process.env.GH_USERNAME && process.env.GH_PAT) {
           response = await axios.get(
             'https://api.github.com/repos/metamask/metamask-extension/releases',
             {
               auth: {
-                username: process.env.GITHUB_USERNAME,
-                password: process.env.GITHUB_PAT,
+                username: process.env.GH_USERNAME,
+                password: process.env.GH_PAT,
               },
             },
           );
