@@ -233,7 +233,7 @@ following features:
 - [playwright debugger](https://playwright.dev/docs/debug)
 - slow down tests
 
-You may encounter 403 errors (on shared IPs & CI) related to rate limiting while fetching metamask releases from GitHub REST API. To avoid that, you should create new private access token on GitHub (without any additional access) and specify `GITHUB_USERNAME` & `GITHUB_PAT` environmental variables.
+You may encounter 403 errors (on shared IPs & CI) related to rate limiting while fetching metamask releases from GitHub REST API. This should never happen at all, but it's good to mention. To prevent it from happening, you can create new private access token on GitHub (without any additional access) and specify `GITHUB_USERNAME` & `GITHUB_PAT` environmental variables.
 
 ## 🐳 Using with Docker
 
