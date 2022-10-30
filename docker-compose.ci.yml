@@ -11,6 +11,7 @@ services:
       # - CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}
       - GITHUB_TOKEN=${GITHUB_TOKEN}
       - DEBUG=${DEBUG}
+      - CI=${CI}
     depends_on:
       - display
       - video

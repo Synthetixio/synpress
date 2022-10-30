@@ -9,6 +9,7 @@ services:
       - CYPRESS_PRIVATE_KEY_WITH_FUNDS=${CYPRESS_PRIVATE_KEY_WITH_FUNDS}
       - GITHUB_TOKEN=${GITHUB_TOKEN}
       - DEBUG=${DEBUG}
+      - CI=${CI}
     depends_on:
       - display
       - video
