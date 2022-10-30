@@ -10,7 +10,7 @@ services:
       # - CYPRESS_PROJECT_ID=${CYPRESS_PROJECT_ID}
       # - CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}
       - GITHUB_TOKEN=${GITHUB_TOKEN}
-      - SYNDEBUG=${SYNDEBUG}
+      - DEBUG=${DEBUG}
     depends_on:
       - display
       - video
@@ -30,7 +30,7 @@ services:
 
   display:
     container_name: display
-    image: synthetixio/display:457bb48776c3b14de232d9dda620ba9188dc40ac-base
+    image: synthetixio/display:016121eafdfff448414894d0ca5a50b1d72b62eb-base
     environment:
       - RUN_XTERM=no
       - DISPLAY_WIDTH=${DISPLAY_WIDTH}
@@ -44,7 +44,7 @@ services:
     profiles:
       - ngrok
     container_name: ngrok
-    image: synthetixio/ngrok:457bb48776c3b14de232d9dda620ba9188dc40ac-base
+    image: synthetixio/ngrok:016121eafdfff448414894d0ca5a50b1d72b62eb-base
     ports:
       - '4040:4040'
     command: ['ngrok', 'http', 'display:8080', '--authtoken', '${NGROK_AUTH}']
