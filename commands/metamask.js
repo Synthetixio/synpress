@@ -625,7 +625,7 @@ module.exports = {
         notificationPage,
       );
     }
-    playwright.waitAndClick(
+    await playwright.waitAndClick(
       signaturePageElements.confirmSignatureRequestButton,
       notificationPage,
       { waitForEvent: 'close' },
