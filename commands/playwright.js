@@ -120,7 +120,6 @@ module.exports = {
         retries = 0;
         await page.bringToFront();
         await module.exports.waitUntilNotificationWindowIsStable(page);
-        await module.exports.assignActiveTabName('metamask-notif');
         return page;
       }
     }
