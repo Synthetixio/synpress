@@ -23,7 +23,8 @@ services:
       bash -c 'echo -n "======> local noVNC URL:
       http://localhost:8080/vnc.html?autoconnect=true " && npx wait-on
       http://display:8080 && echo -n "======> remote noVNC URL: " && curl -s
-      ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && yarn test:e2e:anvil'
+      ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && yarn
+      test:e2e:anvil'
     networks:
       - x11
 
@@ -69,7 +70,7 @@ services:
   foundry:
     container_name: foundry
     image: synthetixio/foundry:016121eafdfff448414894d0ca5a50b1d72b62eb-base
-    command: [ 'anvil --fork-url ${ANVIL_FORK_URL}' ]
+    command: ['anvil --fork-url ${ANVIL_FORK_URL}']
     ports:
       - '8545:8545'
     networks:

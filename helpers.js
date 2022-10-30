@@ -93,12 +93,25 @@ module.exports = {
     let filename;
     let downloadUrl;
     let tagName;
+    let response;
 
     try {
-      const response = await axios.get(
-        'https://api.github.com/repos/metamask/metamask-extension/releases',
-      );
       if (version === 'latest' || !version) {
+        if (process.env.GH_USERNAME && process.env.GH_PAT) {
+          response = await axios.get(
+            'https://api.github.com/repos/metamask/metamask-extension/releases',
+            {
+              auth: {
+                username: process.env.GH_USERNAME,
+                password: process.env.GH_PAT,
+              },
+            },
+          );
+        } else {
+          response = await axios.get(
+            'https://api.github.com/repos/metamask/metamask-extension/releases',
+          );
+        }
         filename = response.data[0].assets[0].name;
         downloadUrl = response.data[0].assets[0].browser_download_url;
         tagName = response.data[0].tag_name;
