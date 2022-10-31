@@ -132,9 +132,15 @@ module.exports = {
         tagName,
       };
     } catch (e) {
-      throw new Error(
-        `[getMetamaskReleases] Unable to fetch metamask releases from: ${downloadUrl} with following error:\n${e}`,
-      );
+      if (e.response && e.response.status === 403) {
+        throw new Error(
+          `[getMetamaskReleases] Unable to fetch metamask releases from GitHub because you've been rate limited! Please set GH_USERNAME and GH_PAT environment variables to avoid this issue or retry again.`,
+        );
+      } else {
+        throw new Error(
+          `[getMetamaskReleases] Unable to fetch metamask releases from GitHub with following error:\n${e}`,
+        );
+      }
     }
   },
   download: async (url, destination) => {
