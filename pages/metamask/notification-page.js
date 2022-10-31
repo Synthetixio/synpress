@@ -41,6 +41,11 @@ module.exports.permissionsPageElements = {
 
 const confirmPageHeader = `${notificationPage} .confirm-page-container-header`;
 const confirmPageContent = `${notificationPage} .confirm-page-container-content`;
+const editGasFeeLegacyButton = `${notificationPage} .transaction-detail-edit button`;
+const editGasFeeLegacyOverrideAckButton = `${notificationPage} .edit-gas-display .edit-gas-display__dapp-acknowledgement-button`;
+const gasLimitLegacyInput = `${notificationPage} .edit-gas-popover__wrapper .edit-gas-display .advanced-gas-controls .form-field:nth-child(1) input`;
+const gasPriceLegacyInput = `${notificationPage} .edit-gas-popover__wrapper .edit-gas-display .advanced-gas-controls .form-field:nth-child(2) input`;
+const saveLegacyButton = `${notificationPage} .edit-gas-popover__wrapper .popover-footer .btn-primary`;
 const editGasFeeButton = `${notificationPage} [data-testid="edit-gas-fee-button"]`;
 const gasOptionLowButton = `${notificationPage} [data-testid="edit-gas-fee-item-low"]`;
 const gasOptionMediumButton = `${notificationPage} [data-testid="edit-gas-fee-item-medium"]`;
@@ -59,6 +64,11 @@ module.exports.confirmPageElements = {
   notificationPage,
   confirmPageHeader,
   confirmPageContent,
+  editGasFeeLegacyButton,
+  editGasFeeLegacyOverrideAckButton,
+  gasLimitLegacyInput,
+  gasPriceLegacyInput,
+  saveLegacyButton,
   editGasFeeButton,
   gasOptionLowButton,
   gasOptionMediumButton,
