@@ -265,10 +265,9 @@ Docker is awesome for CI and local development. Give it a try.
 1. `git clone git@github.com:Synthetixio/synpress.git`
 2. `cd synpress`
 3. (optional) Fill env vars inside `.env` file
-4. (without ngrok) `docker-compose up --build --exit-code-from synpress`
-   - (with ngrok)
-     `docker-compose --profile ngrok up --build --exit-code-from synpress` or
-     `./start-tests.sh`
+4. (with foundry; preferred) `docker-compose --profile foundry up --build --exit-code-from synpress` or `./start-tests.sh`
+   - (without foundry) `docker-compose up --build --exit-code-from synpress`
+5. (with foundry and ngrok) ``docker-compose --profile foundry --profile ngrok up --build --exit-code-from synpress`
 
 All examples of setup are present in this repository. Just take a look around.
 
