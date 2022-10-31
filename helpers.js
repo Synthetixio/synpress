@@ -148,7 +148,16 @@ module.exports = {
       log(
         `Trying to download and extract file from: ${url} to following path: ${destination}`,
       );
-      await download(url, destination, { extract: true });
+      if (process.env.GH_USERNAME && process.env.GH_PAT) {
+        await download(url, destination, {
+          extract: true,
+          auth: `${process.env.GH_USERNAME}:${process.env.GH_PAT}`,
+        });
+      } else {
+        await download(url, destination, {
+          extract: true,
+        });
+      }
     } catch (e) {
       throw new Error(
         `[download] Unable to download metamask release from: ${url} to: ${destination} with following error:\n${e}`,
