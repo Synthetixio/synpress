@@ -69,6 +69,8 @@ services:
       - x11
 
   foundry:
+    profiles:
+      - foundry
     container_name: foundry
     image: synthetixio/foundry:457bb48776c3b14de232d9dda620ba9188dc40ac-base
     command: ['anvil --no-cors --fork-url ${ANVIL_FORK_URL}']
