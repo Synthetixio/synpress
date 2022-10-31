@@ -1,32 +1,39 @@
 const notificationPage = '.notification';
-const nextButton = `${notificationPage} .permissions-connect-choose-account__bottom-buttons button:nth-child(2)`;
+const loadingLogo = `${notificationPage} #loading__logo`;
+const loadingSpinner = `${notificationPage} #loading__spinner`;
+const nextButton = `${notificationPage} .permissions-connect-choose-account__bottom-buttons .btn-primary`;
 const allowToSpendButton = `${notificationPage} [data-testid="page-container-footer-next"]`;
 const rejectToSpendButton = `${notificationPage} [data-testid="page-container-footer-cancel"]`;
-const selectAllCheck = `${notificationPage} .permissions-connect-choose-account__header-check-box`;
+const selectAllCheckbox = `${notificationPage} .choose-account-list__header-check-box`;
 module.exports.notificationPageElements = {
   notificationPage,
+  loadingLogo,
+  loadingSpinner,
   nextButton,
   allowToSpendButton,
   rejectToSpendButton,
-  selectAllCheck,
+  selectAllCheckbox,
 };
 
 const confirmSignatureRequestButton = `${notificationPage} .request-signature__footer__sign-button`;
 const rejectSignatureRequestButton = `${notificationPage} .request-signature__footer__cancel-button`;
+const signatureRequestScrollDownButton = `${notificationPage} [data-testid="signature-request-scroll-button"]`;
 module.exports.signaturePageElements = {
   confirmSignatureRequestButton,
   rejectSignatureRequestButton,
+  signatureRequestScrollDownButton,
 };
 
-const confirmDataSignatureRequestButton = `.btn-primary`;
-const rejectDataSignatureRequestButton = `.btn-default`;
+const confirmDataSignatureRequestButton = `${notificationPage} [data-testid="signature-sign-button"]`;
+const rejectDataSignatureRequestButton = `${notificationPage} [data-testid="signature-cancel-button"]`;
 module.exports.dataSignaturePageElements = {
   confirmDataSignatureRequestButton,
   rejectDataSignatureRequestButton,
+  signatureRequestScrollDownButton,
 };
 
 const permissionsPage = '.permissions-connect';
-const connectButton = `${permissionsPage} .permission-approval-container__footers button:nth-child(2)`;
+const connectButton = `${permissionsPage} .permission-approval-container__footers .btn-primary`;
 module.exports.permissionsPageElements = {
   permissionsPage,
   connectButton,
@@ -34,29 +41,35 @@ module.exports.permissionsPageElements = {
 
 const confirmPageHeader = `${notificationPage} .confirm-page-container-header`;
 const confirmPageContent = `${notificationPage} .confirm-page-container-content`;
-const confirmPageGasFeeSection = `${confirmPageContent} .confirm-page-container-content__gas-fee`;
-const gasFeeLabel = `${confirmPageGasFeeSection} .currency-display-component__text`;
-const gasFeeInput = `${confirmPageGasFeeSection} .advanced-gas-inputs__gas-edit-row:nth-child(1) .advanced-gas-inputs__gas-edit-row__input`;
-const gasFeeArrowUpButton = `${confirmPageGasFeeSection} .advanced-gas-inputs__gas-edit-row:nth-child(1) .advanced-gas-inputs__gas-edit-row__input-arrows__i-wrap:nth-child(1)`;
-const gasFeeArrowDownButton = `${confirmPageGasFeeSection} .advanced-gas-inputs__gas-edit-row:nth-child(1) .advanced-gas-inputs__gas-edit-row__input-arrows__i-wrap:nth-child(2)`;
-const gasLimitInput = `${confirmPageGasFeeSection} .advanced-gas-inputs__gas-edit-row:nth-child(2) .advanced-gas-inputs__gas-edit-row__input`;
-const gasLimitArrowUpButton = `${confirmPageGasFeeSection} .advanced-gas-inputs__gas-edit-row:nth-child(2) .advanced-gas-inputs__gas-edit-row__input-arrows__i-wrap:nth-child(1)`;
-const gasLimitArrowDownButton = `${confirmPageGasFeeSection} .advanced-gas-inputs__gas-edit-row:nth-child(2) .advanced-gas-inputs__gas-edit-row__input-arrows__i-wrap:nth-child(2)`;
-const totalLabel = `${confirmPageContent} div:nth-child(2) > .confirm-detail-row .currency-display-component__text`;
+const editGasFeeButton = `${notificationPage} [data-testid="edit-gas-fee-button"]`;
+const gasOptionLowButton = `${notificationPage} [data-testid="edit-gas-fee-item-low"]`;
+const gasOptionMediumButton = `${notificationPage} [data-testid="edit-gas-fee-item-medium"]`;
+const gasOptionHighButton = `${notificationPage} [data-testid="edit-gas-fee-item-high"]`;
+const gasOptionDappSuggestedButton = `${notificationPage} [data-testid="edit-gas-fee-item-dapp-suggested"]`;
+const gasOptionCustomButton = `${notificationPage} [data-testid="edit-gas-fee-item-custom"]`;
+const baseFeeInput = `${notificationPage} [data-testid="base-fee-input"]`;
+const priorityFeeInput = `${notificationPage} [data-testid="priority-fee-input"]`;
+const editGasLimitButton = `${notificationPage} [data-testid="advanced-gas-fee-edit"]`;
+const gasLimitInput = `${notificationPage} [data-testid="gas-limit-input"]`;
+const saveCustomGasFeeButton = `${notificationPage} .popover-container .btn-primary`;
+const totalLabel = `${confirmPageContent} .transaction-detail-item:nth-child(2) .transaction-detail-item__detail-values h6:nth-child(2)`; // todo: fix
 const rejectButton = `${confirmPageContent} [data-testid="page-container-footer-cancel"]`;
 const confirmButton = `${confirmPageContent} [data-testid="page-container-footer-next"]`;
 module.exports.confirmPageElements = {
   notificationPage,
   confirmPageHeader,
   confirmPageContent,
-  confirmPageGasFeeSection,
-  gasFeeLabel,
-  gasFeeInput,
-  gasFeeArrowUpButton,
-  gasFeeArrowDownButton,
+  editGasFeeButton,
+  gasOptionLowButton,
+  gasOptionMediumButton,
+  gasOptionHighButton,
+  gasOptionDappSuggestedButton,
+  gasOptionCustomButton,
+  baseFeeInput,
+  priorityFeeInput,
+  editGasLimitButton,
   gasLimitInput,
-  gasLimitArrowUpButton,
-  gasLimitArrowDownButton,
+  saveCustomGasFeeButton,
   totalLabel,
   rejectButton,
   confirmButton,

@@ -1,2 +1,2 @@
 #!/bin/bash
-docker-compose up --build --exit-code-from synpress
+docker-compose --profile foundry up --build --exit-code-from synpress

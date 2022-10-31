@@ -10,7 +10,8 @@ services:
       # - CYPRESS_PROJECT_ID=${CYPRESS_PROJECT_ID}
       # - CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}
       - GITHUB_TOKEN=${GITHUB_TOKEN}
-      - SYNDEBUG=${SYNDEBUG}
+      - DEBUG=${DEBUG}
+      - CYPRESS_DOCKER_RUN=true
     depends_on:
       - display
       - video
@@ -23,13 +24,14 @@ services:
       bash -c 'echo -n "======> local noVNC URL:
       http://localhost:8080/vnc.html?autoconnect=true " && npx wait-on
       http://display:8080 && echo -n "======> remote noVNC URL: " && curl -s
-      ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && yarn test:e2e'
+      ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && yarn
+      test:e2e:anvil'
     networks:
       - x11
 
   display:
     container_name: display
-    image: synthetixio/display:b2643097e891906524e52e7ee956260b20fa01fb-base
+    image: synthetixio/display:016121eafdfff448414894d0ca5a50b1d72b62eb-base
     environment:
       - RUN_XTERM=no
       - DISPLAY_WIDTH=${DISPLAY_WIDTH}
@@ -43,7 +45,7 @@ services:
     profiles:
       - ngrok
     container_name: ngrok
-    image: synthetixio/ngrok:b2643097e891906524e52e7ee956260b20fa01fb-base
+    image: synthetixio/ngrok:016121eafdfff448414894d0ca5a50b1d72b62eb-base
     ports:
       - '4040:4040'
     command: ['ngrok', 'http', 'display:8080', '--authtoken', '${NGROK_AUTH}']
@@ -54,7 +56,7 @@ services:
 
   video:
     container_name: video
-    image: synthetixio/video:b2643097e891906524e52e7ee956260b20fa01fb-base
+    image: synthetixio/video:457bb48776c3b14de232d9dda620ba9188dc40ac-base
     volumes:
       - ./docker/videos-ci:/videos
     environment:
@@ -63,6 +65,19 @@ services:
       - SE_SCREEN_HEIGHT=${SE_SCREEN_HEIGHT}
     depends_on:
       - display
+    networks:
+      - x11
+
+  foundry:
+    profiles:
+      - foundry
+    container_name: foundry
+    image: synthetixio/foundry:457bb48776c3b14de232d9dda620ba9188dc40ac-base
+    command: ['anvil --no-cors --fork-url ${ANVIL_FORK_URL}']
+    environment:
+      - ANVIL_IP_ADDR=0.0.0.0
+    ports:
+      - '8545:8545'
     networks:
       - x11
 

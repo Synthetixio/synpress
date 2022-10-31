@@ -63,9 +63,62 @@ Cypress.Commands.add('getMetamaskWalletAddress', () => {
   });
 });
 
-Cypress.Commands.add('activateCustomNonceInMetamask', () => {
-  return cy.task('activateCustomNonceInMetamask');
+Cypress.Commands.add(
+  'activateAdvancedGasControlInMetamask',
+  (skipSetup = false) => {
+    return cy.task('activateAdvancedGasControlInMetamask', skipSetup);
+  },
+);
+
+Cypress.Commands.add(
+  'activateEnhancedTokenDetectionInMetamask',
+  (skipSetup = false) => {
+    return cy.task('activateEnhancedTokenDetectionInMetamask', skipSetup);
+  },
+);
+
+Cypress.Commands.add('activateShowHexDataInMetamask', (skipSetup = false) => {
+  return cy.task('activateShowHexDataInMetamask', skipSetup);
 });
+
+Cypress.Commands.add(
+  'activateTestnetConversionInMetamask',
+  (skipSetup = false) => {
+    return cy.task('activateTestnetConversionInMetamask', skipSetup);
+  },
+);
+
+Cypress.Commands.add(
+  'activateShowTestnetNetworksInMetamask',
+  (skipSetup = false) => {
+    return cy.task('activateShowTestnetNetworksInMetamask', skipSetup);
+  },
+);
+
+Cypress.Commands.add('activateCustomNonceInMetamask', (skipSetup = false) => {
+  return cy.task('activateCustomNonceInMetamask', skipSetup);
+});
+
+Cypress.Commands.add(
+  'activateDismissBackupReminderInMetamask',
+  (skipSetup = false) => {
+    return cy.task('activateDismissBackupReminderInMetamask', skipSetup);
+  },
+);
+
+Cypress.Commands.add(
+  'activateEnhancedGasFeeUIInMetamask',
+  (skipSetup = false) => {
+    return cy.task('activateEnhancedGasFeeUIInMetamask', skipSetup);
+  },
+);
+
+Cypress.Commands.add(
+  'activateShowCustomNetworkListInMetamask',
+  (skipSetup = false) => {
+    return cy.task('activateShowCustomNetworkListInMetamask', skipSetup);
+  },
+);
 
 Cypress.Commands.add('resetMetamaskAccount', () => {
   return cy.task('resetMetamaskAccount');
@@ -163,11 +216,17 @@ Cypress.Commands.add('fetchMetamaskWalletAddress', () => {
 
 Cypress.Commands.add(
   'setupMetamask',
-  (secretWordsOrPrivateKey, network, password = 'Tester@1234') => {
+  (
+    secretWordsOrPrivateKey = 'test test test test test test test test test test test junk',
+    network = 'goerli',
+    password = 'Tester@1234',
+    enableAdvancedSettings = false,
+  ) => {
     return cy.task('setupMetamask', {
       secretWordsOrPrivateKey,
       network,
       password,
+      enableAdvancedSettings,
     });
   },
 );

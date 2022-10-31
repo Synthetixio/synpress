@@ -168,19 +168,18 @@ which runs metamask setup before all tests:
 
 - passes welcome page
 - imports wallet
-- changes network (defaults to `kovan`) or creates custom network and changes to
-  it (depending on your setup)
+- changes network (defaults to `goerli`) or creates custom network and changes
+  to it (depending on your setup)
 - switches back to Cypress window and starts testing
 
 It requires environmental variable called `SECRET_WORDS` to be present in
 following format => `'word1, word2, etc..'` or private key in an environmental
 variable called `PRIVATE_KEY`.
 
-To change default network (`kovan`), you can use `NETWORK_NAME` environmental
-variable, for example: `NETWORK_NAME=rinkeby`.
+To change default network (`goerli`), you can use `NETWORK_NAME` environmental
+variable, for example: `NETWORK_NAME=sepolia`.
 
-Available choices are: `mainnet`, `ropsten`, `kovan`, `rinkeby`, `goerli` and
-`localhost`.
+Available choices are: `mainnet`, `goerli`, `sepolia` and `localhost`.
 
 To create and switch to custom network at metamask setup phase, use these:
 
@@ -195,7 +194,7 @@ Metamask version is hardcoded and frequently updated under supervision to avoid
 a case when e2e tests break because of CSS classes changes in new version, so
 all you need is to keep synpress updated in your project. However, you can still
 override metamask with `METAMASK_VERSION` environmental variable, for example:
-`METAMASK_VERSION=9.3.0` or `METAMASK_VERSION=latest`.
+`METAMASK_VERSION=10.21.0` or `METAMASK_VERSION=latest`.
 
 If you don't want to use environmental variables, you can modify
 [`setupMetamask()`](https://github.com/synthetixio/synpress/blob/dev/support/index.js#L29)
@@ -226,13 +225,19 @@ use `STABLE_MODE=true` (which will introduce delays only between main actions,
 300ms by default) / `STABLE_MODE=<value>` or `SLOW_MODE=true` (which will
 introduce delay between every action, 50ms by default) / `SLOW_MODE=<value>`.
 
-`DEBUG=synpress:*` is very useful while debugging your tests. It enables following
-features:
+`DEBUG=synpress:*` is very useful while debugging your tests. It enables
+following features:
 
 - improved logging
 - [cypress debugger](https://docs.cypress.io/guides/guides/debugging)
 - [playwright debugger](https://playwright.dev/docs/debug)
 - slow down tests
+
+You may encounter 403 errors (on shared IPs & CI) related to rate limiting while
+fetching metamask releases from GitHub REST API. This should never happen at
+all, but it's good to mention. To prevent it from happening, you can create new
+private access token on GitHub (without any additional access) and specify
+`GH_USERNAME` & `GH_PAT` environmental variables.
 
 ## 🐳 Using with Docker
 
@@ -260,10 +265,9 @@ Docker is awesome for CI and local development. Give it a try.
 1. `git clone git@github.com:Synthetixio/synpress.git`
 2. `cd synpress`
 3. (optional) Fill env vars inside `.env` file
-4. (without ngrok) `docker-compose up --build --exit-code-from synpress`
-   - (with ngrok)
-     `docker-compose --profile ngrok up --build --exit-code-from synpress` or
-     `./start-tests.sh`
+4. (with foundry; preferred) `docker-compose --profile foundry up --build --exit-code-from synpress` or `./start-tests.sh`
+   - (without foundry) `docker-compose up --build --exit-code-from synpress`
+5. (with foundry and ngrok) ``docker-compose --profile foundry --profile ngrok up --build --exit-code-from synpress`
 
 All examples of setup are present in this repository. Just take a look around.
 

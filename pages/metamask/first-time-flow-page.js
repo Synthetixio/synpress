@@ -7,15 +7,6 @@ module.exports.welcomePageElements = {
   confirmButton,
 };
 
-const firstTimeFlowPage = '.first-time-flow';
-const importWalletButton = `${firstTimeFlowPage} .select-action__select-button:nth-child(1) .first-time-flow__button`;
-const createWalletButton = `${firstTimeFlowPage} .select-action__select-button:nth-child(2) .first-time-flow__button`;
-module.exports.firstTimeFlowPageElements = {
-  firstTimeFlowPage,
-  importWalletButton,
-  createWalletButton,
-};
-
 const metametricsPage = '.metametrics-opt-in';
 const optOutAnalyticsButton = `${metametricsPage} [data-testid="page-container-footer-cancel"]`;
 module.exports.metametricsPageElements = {
@@ -23,43 +14,64 @@ module.exports.metametricsPageElements = {
   optOutAnalyticsButton,
 };
 
-const firstTimeFlowFormPage = '.first-time-flow__form';
-const secretWordsInput = `${firstTimeFlowFormPage} .first-time-flow__seedphrase input`;
-const passwordInput = `${firstTimeFlowFormPage} #password`;
-const confirmPasswordInput = `${firstTimeFlowFormPage} #confirm-password`;
-const termsCheckbox = `${firstTimeFlowFormPage} .first-time-flow__terms`;
-const importButton = `${firstTimeFlowFormPage} .first-time-flow__button`;
-const newPasswordInput = `${firstTimeFlowFormPage} #create-password`;
-const newSignupCheckbox = `${firstTimeFlowFormPage} .first-time-flow__checkbox`;
+const firstTimeFlowPage = '.first-time-flow';
+const importWalletButton = `${firstTimeFlowPage} [data-testid="import-wallet-button"]`;
+const createWalletButton = `${firstTimeFlowPage} [data-testid="create-wallet-button"]`;
+module.exports.firstTimeFlowPageElements = {
+  firstTimeFlowPage,
+  importWalletButton,
+  createWalletButton,
+};
 
-module.exports.firstTimeFlowFormPageElements = {
-  firstTimeFlowFormPage,
+const firstTimeFlowImportPage = '.first-time-flow__import';
+const newVaultForm = `${firstTimeFlowImportPage} .create-new-vault__form`;
+const secretWordsInput = number =>
+  `${newVaultForm} [data-testid="import-srp__srp-word-${number}"]`;
+const passwordInput = `${newVaultForm} #password`;
+const confirmPasswordInput = `${newVaultForm} #confirm-password`;
+const termsCheckbox = `${newVaultForm} [data-testid="create-new-vault__terms-checkbox"]`;
+const importButton = `${newVaultForm} .create-new-vault__submit-button`;
+
+module.exports.firstTimeFlowImportPageElements = {
+  firstTimeFlowImportPage,
+  newVaultForm,
   secretWordsInput,
   passwordInput,
   confirmPasswordInput,
   termsCheckbox,
   importButton,
-  newPasswordInput,
-  newSignupCheckbox,
 };
 
-const secureYourWalletPage = '.seed-phrase-intro';
+const firstTimeFlowCreatePage = '.first-time-flow';
+const newPasswordInput = `${firstTimeFlowCreatePage} [data-testid="create-password"]`;
+const confirmNewPasswordInput = `${firstTimeFlowCreatePage} [data-testid="confirm-password"]`;
+const newSignupCheckbox = `${firstTimeFlowCreatePage} .first-time-flow__checkbox`;
+const createButton = `${firstTimeFlowCreatePage} .first-time-flow__button`;
+module.exports.firstTimeFlowCreatePagePageElements = {
+  firstTimeFlowCreatePage,
+  newPasswordInput,
+  confirmNewPasswordInput,
+  newSignupCheckbox,
+  createButton,
+};
+
+const secureYourWalletPage = '[data-testid="seed-phrase-intro"]';
 const nextButton = `${secureYourWalletPage} button`;
 module.exports.secureYourWalletPageElements = {
   secureYourWalletPage,
   nextButton,
 };
 
-const endOfFlowPage = '.end-of-flow';
-const allDoneButton = `${endOfFlowPage} .first-time-flow__button`;
-module.exports.endOfFlowPageElements = {
-  endOfFlowPage,
-  allDoneButton,
-};
-
-const revealSeedPage = '.reveal-seed-phrase';
+const revealSeedPage = '[data-testid="reveal-seed-phrase"]';
 const remindLaterButton = `${revealSeedPage} .first-time-flow__button`;
 module.exports.revealSeedPageElements = {
   revealSeedPage,
   remindLaterButton,
+};
+
+const endOfFlowPage = '[data-testid="end-of-flow"]';
+const allDoneButton = `${endOfFlowPage} [data-testid="EOF-complete-button"]`;
+module.exports.endOfFlowPageElements = {
+  endOfFlowPage,
+  allDoneButton,
 };
