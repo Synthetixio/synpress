@@ -1,3 +1,4 @@
+const log = require('debug')('synpress:metamask');
 const playwright = require('./playwright');
 
 const {
@@ -697,52 +698,138 @@ module.exports = {
   },
   confirmTransaction: async gasConfig => {
     const notificationPage = await playwright.switchToMetamaskNotification();
-
     if (gasConfig) {
-      await playwright.waitAndClick(
-        confirmPageElements.editGasFeeButton,
-        notificationPage,
+      log(
+        '[confirmTransaction] gasConfig is present, determining transaction type..',
       );
-      await playwright.waitAndClick(
-        confirmPageElements.gasOptionCustomButton,
-        notificationPage,
-      );
-      if (gasConfig.gasLimit) {
+      const editGasFeeLegacyButton = await playwright
+        .metamaskNotificationWindow()
+        .$(confirmPageElements.editGasFeeLegacyButton);
+      if (editGasFeeLegacyButton) {
+        log('[confirmTransaction] Looks like legacy tx');
+        if (typeof gasConfig === 'object') {
+          log('[confirmTransaction] Editing legacy tx..');
+          await playwright.waitAndClick(
+            confirmPageElements.editGasFeeLegacyButton,
+            notificationPage,
+          );
+          const editGasFeeLegacyOverrideAckButton = await playwright
+            .metamaskNotificationWindow()
+            .$(confirmPageElements.editGasFeeLegacyOverrideAckButton);
+          if (editGasFeeLegacyOverrideAckButton) {
+            log(
+              '[confirmTransaction] Override acknowledgement modal is present, closing..',
+            );
+            await playwright.waitAndClick(
+              confirmPageElements.editGasFeeLegacyOverrideAckButton,
+              notificationPage,
+            );
+          }
+          if (gasConfig.gasLimit) {
+            log('[confirmTransaction] Changing gas limit..');
+            await playwright.waitAndSetValue(
+              gasConfig.gasLimit.toString(),
+              confirmPageElements.gasLimitLegacyInput,
+              notificationPage,
+            );
+          }
+          if (gasConfig.gasPrice) {
+            log('[confirmTransaction] Changing gas price..');
+            await playwright.waitAndSetValue(
+              gasConfig.gasPrice.toString(),
+              confirmPageElements.gasPriceLegacyInput,
+              notificationPage,
+            );
+          }
+          await playwright.waitAndClick(
+            confirmPageElements.saveCustomGasFeeButton,
+            notificationPage,
+          );
+        } else {
+          log(
+            "[confirmTransaction] Legacy tx doesn't support eip-1559 fees (low, market, aggressive, site), using default values..",
+          );
+        }
+      } else {
+        log('[confirmTransaction] Looks like eip-1559 tx');
         await playwright.waitAndClick(
-          confirmPageElements.editGasLimitButton,
+          confirmPageElements.editGasFeeButton,
           notificationPage,
         );
-        await playwright.waitAndSetValue(
-          gasConfig.gasLimit.toString(),
-          confirmPageElements.gasLimitInput,
-          notificationPage,
-        );
+        if (typeof gasConfig === 'string') {
+          if (gasConfig === 'low') {
+            log('[confirmTransaction] Changing gas fee to low..');
+            await playwright.waitAndClick(
+              confirmPageElements.gasOptionLowButton,
+              notificationPage,
+            );
+          } else if (gasConfig === 'market') {
+            log('[confirmTransaction] Changing gas fee to market..');
+            await playwright.waitAndClick(
+              confirmPageElements.gasOptionMediumButton,
+              notificationPage,
+            );
+          } else if (gasConfig === 'aggressive') {
+            log('[confirmTransaction] Changing gas fee to aggressive..');
+            await playwright.waitAndClick(
+              confirmPageElements.gasOptionHighButton,
+              notificationPage,
+            );
+          } else if (gasConfig === 'site') {
+            log('[confirmTransaction] Changing gas fee to site suggested..');
+            await playwright.waitAndClick(
+              confirmPageElements.gasOptionDappSuggestedButton,
+              notificationPage,
+            );
+          }
+        } else {
+          log('[confirmTransaction] Editing eip-1559 tx..');
+          await playwright.waitAndClick(
+            confirmPageElements.gasOptionCustomButton,
+            notificationPage,
+          );
+          if (gasConfig.gasLimit) {
+            log('[confirmTransaction] Changing gas limit..');
+            await playwright.waitAndClick(
+              confirmPageElements.editGasLimitButton,
+              notificationPage,
+            );
+            await playwright.waitAndSetValue(
+              gasConfig.gasLimit.toString(),
+              confirmPageElements.gasLimitInput,
+              notificationPage,
+            );
+          }
+          if (gasConfig.baseFee) {
+            log('[confirmTransaction] Changing base fee..');
+            await playwright.waitAndSetValue(
+              gasConfig.baseFee.toString(),
+              confirmPageElements.baseFeeInput,
+              notificationPage,
+            );
+          }
+          if (gasConfig.priorityFee) {
+            log('[confirmTransaction] Changing priority fee..');
+            await playwright.waitAndSetValue(
+              gasConfig.priorityFee.toString(),
+              confirmPageElements.priorityFeeInput,
+              notificationPage,
+            );
+          }
+          await playwright.waitAndClick(
+            confirmPageElements.saveCustomGasFeeButton,
+            notificationPage,
+          );
+        }
       }
-      if (gasConfig.baseFee) {
-        await playwright.waitAndSetValue(
-          gasConfig.baseFee.toString(),
-          confirmPageElements.baseFeeInput,
-          notificationPage,
-        );
-      }
-      if (gasConfig.priorityFee) {
-        await playwright.waitAndSetValue(
-          gasConfig.priorityFee.toString(),
-          confirmPageElements.priorityFeeInput,
-          notificationPage,
-        );
-      }
-      await playwright.waitAndClick(
-        confirmPageElements.saveCustomGasFeeButton,
-        notificationPage,
-      );
     }
-
+    log('[confirmTransaction] Confirming transaction..');
     await playwright.waitAndClick(
       confirmPageElements.confirmButton,
       notificationPage,
       { waitForEvent: 'close' },
     );
+    log('[confirmTransaction] Transaction confirmed!');
     return true;
   },
   rejectTransaction: async () => {
