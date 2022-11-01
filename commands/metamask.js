@@ -826,8 +826,9 @@ module.exports = {
     }
     // todo: handle setting of custom nonce here
     log('[confirmTransaction] Getting transaction nonce..');
-    const customNonce = await playwright.waitAndGetInputValue(
+    const customNonce = await playwright.waitAndGetAttributeValue(
       confirmPageElements.customNonceInput,
+      'placeholder',
       notificationPage,
     );
     txData.customNonce = customNonce;
@@ -870,6 +871,7 @@ module.exports = {
       notificationPage,
       { waitForEvent: 'close' },
     );
+    txData.confirmed = true;
     log('[confirmTransaction] Transaction confirmed!');
     if (txData) {
       return txData;
