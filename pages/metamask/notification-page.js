@@ -52,7 +52,7 @@ const editGasFeeButton = `${notificationPage} [data-testid="edit-gas-fee-button"
 const gasOptionLowButton = `${notificationPage} [data-testid="edit-gas-fee-item-low"]`;
 const gasOptionMediumButton = `${notificationPage} [data-testid="edit-gas-fee-item-medium"]`;
 const gasOptionHighButton = `${notificationPage} [data-testid="edit-gas-fee-item-high"]`;
-const gasOptionDappSuggestedButton = `${notificationPage} [data-testid="edit-gas-fee-item-dapp-suggested"]`;
+const gasOptionDappSuggestedButton = `${notificationPage} [data-testid="edit-gas-fee-item-dappSuggested"]`;
 const gasOptionCustomButton = `${notificationPage} [data-testid="edit-gas-fee-item-custom"]`;
 const baseFeeInput = `${notificationPage} [data-testid="base-fee-input"]`;
 const priorityFeeInput = `${notificationPage} [data-testid="priority-fee-input"]`;
