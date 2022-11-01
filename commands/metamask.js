@@ -697,6 +697,7 @@ module.exports = {
     return true;
   },
   confirmTransaction: async gasConfig => {
+    let txData = {};
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (gasConfig) {
       log(
@@ -823,6 +824,46 @@ module.exports = {
         }
       }
     }
+    // todo: handle setting of custom nonce here
+    log('[confirmTransaction] Getting transaction nonce..');
+    const customNonce = await playwright.waitAndGetInputValue(
+      confirmPageElements.customNonceInput,
+      notificationPage,
+    );
+    txData.customNonce = customNonce;
+    log('[confirmTransaction] Checking if tx data is present..');
+    const dataButton = await playwright
+      .metamaskNotificationWindow()
+      .$(confirmPageElements.dataButton);
+    if (dataButton) {
+      log('[confirmTransaction] Fetching tx data..');
+      await playwright.waitAndClick(
+        confirmPageElements.dataButton,
+        notificationPage,
+      );
+      log('[confirmTransaction] Getting origin value..');
+      const originValue = await playwright.waitAndGetValue(
+        confirmPageElements.originValue,
+        notificationPage,
+      );
+      log('[confirmTransaction] Getting bytes value..');
+      const bytesValue = await playwright.waitAndGetValue(
+        confirmPageElements.bytesValue,
+        notificationPage,
+      );
+      log('[confirmTransaction] Getting hex data value..');
+      const hexDataValue = await playwright.waitAndGetValue(
+        confirmPageElements.hexDataValue,
+        notificationPage,
+      );
+      txData.origin = originValue;
+      txData.bytes = bytesValue;
+      txData.hexData = hexDataValue;
+      await playwright.waitAndClick(
+        confirmPageElements.detailsButton,
+        notificationPage,
+      );
+    }
     log('[confirmTransaction] Confirming transaction..');
     await playwright.waitAndClick(
       confirmPageElements.confirmButton,
@@ -830,7 +871,11 @@ module.exports = {
       { waitForEvent: 'close' },
     );
     log('[confirmTransaction] Transaction confirmed!');
-    return true;
+    if (txData) {
+      return txData;
+    } else {
+      return true;
+    }
   },
   rejectTransaction: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
