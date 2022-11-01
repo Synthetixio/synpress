@@ -72,6 +72,9 @@ module.exports = {
     ]);
     await playwright.waitUntilStable();
   },
+  goToHome: async () => {
+    await module.exports.goTo(extensionHomeUrl);
+  },
   goToSettings: async () => {
     await module.exports.goTo(extensionSettingsUrl);
   },
@@ -601,6 +604,7 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
+    await module.exports.closePopupAndTooltips();
     await switchToCypressIfNotActive();
     return true;
   },
@@ -1095,6 +1099,7 @@ async function activateAdvancedSetting(
         waitForEvent: 'navi',
       },
     );
+    await module.exports.closePopupAndTooltips();
     await switchToCypressIfNotActive();
   }
   return true;
@@ -1121,6 +1126,7 @@ async function setupSettings(enableAdvancedSettings) {
       waitForEvent: 'navi',
     },
   );
+  await module.exports.closePopupAndTooltips();
   await switchToCypressIfNotActive();
   return true;
 }
