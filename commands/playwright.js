@@ -200,6 +200,15 @@ module.exports = {
     const value = await element.inputValue();
     return value;
   },
+  waitAndGetAttributeValue: async (
+    selector,
+    attribute,
+    page = metamaskWindow,
+  ) => {
+    const element = await module.exports.waitFor(selector, page);
+    const attrValue = await element.getAttribute(attribute);
+    return attrValue;
+  },
   waitAndSetValue: async (text, selector, page = metamaskWindow) => {
     const element = await module.exports.waitFor(selector, page);
     await element.fill('');
