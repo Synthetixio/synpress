@@ -29,7 +29,15 @@ describe('Metamask', () => {
       });
       cy.get('#network').contains('5');
       cy.get('#chainId').contains('0x5');
-      cy.get('#accounts').contains(
+      cy.get('#accounts').should(
+        'have.text',
+        '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+      );
+    });
+    it(`eth_accounts should return valid wallet address`, () => {
+      cy.get('#getAccounts').click();
+      cy.get('#getAccountsResult').should(
+        'have.text',
         '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
       );
     });
@@ -255,10 +263,63 @@ describe('Metamask', () => {
       });
       cy.contains('#tokenAddress', 'Creation Failed', { timeout: 60000 });
     });
-    it(`confirmMetamaskTransaction should confirm transaction`, () => {
+    it(`confirmMetamaskTransaction should confirm legacy transaction using default settings`, () => {
+      cy.get('#sendButton').click();
+      cy.confirmMetamaskTransaction().then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+    });
+    it(`confirmMetamaskTransaction should confirm legacy transaction using advanced gas settings`, () => {
+      cy.get('#sendButton').click();
+      cy.confirmMetamaskTransaction({
+        gasLimit: 210000,
+        gasPrice: 100,
+      }).then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+    });
+    it(`confirmMetamaskTransaction should confirm eip-1559 transaction using default settings`, () => {
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransaction().then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+    });
+    it(`confirmMetamaskTransaction should confirm eip-1559 transaction using pre-defined (low, market, aggressive, site) gas settings`, () => {
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransaction('low').then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransaction('market').then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransaction('aggressive').then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransaction('site').then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+    });
+    it(`confirmMetamaskTransaction should confirm eip-1559 transaction using advanced gas settings`, () => {
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransaction({
+        gasLimit: 210000,
+        baseFee: 100,
+        priorityFee: 10,
+      }).then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+    });
+    it(`confirmMetamaskTransaction should confirm transaction for token creation (contract deployment) and check tx data`, () => {
       cy.get('#createToken').click();
-      cy.confirmMetamaskTransaction().then(confirmed => {
-        expect(confirmed).to.be.true;
+      cy.confirmMetamaskTransaction().then(txData => {
+        expect(txData.origin).to.be.not.empty;
+        expect(txData.bytes).to.be.not.empty;
+        expect(txData.hexData).to.be.not.empty;
+        expect(txData.customNonce).to.be.not.empty;
+        expect(txData.confirmed).to.be.true;
       });
       cy.contains('#tokenAddress', /0x.*/, { timeout: 60000 })
         .invoke('text')
