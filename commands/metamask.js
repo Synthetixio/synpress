@@ -1043,7 +1043,7 @@ module.exports = {
           .$(mainPageElements.walletOverview)) !== null &&
         !process.env.RESET_METAMASK
       ) {
-        await playwright.switchToMetamaskWindow();
+        await switchToMetamaskIfNotActive();
         walletAddress = await module.exports.getWalletAddress();
         await playwright.switchToCypressWindow();
         return true;
