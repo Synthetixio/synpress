@@ -899,11 +899,7 @@ module.exports = {
     txData.confirmed = true;
     // feat: get txdata from unconfirmed window
     log('[confirmTransaction] Transaction confirmed!');
-    if (txData) {
-      return txData;
-    } else {
-      return true;
-    }
+    return txData;
   },
   rejectTransaction: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
