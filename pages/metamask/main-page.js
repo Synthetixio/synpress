@@ -15,10 +15,37 @@ const networkSwitcher = {
 };
 
 const walletOverview = '.wallet-overview';
+
+const tabs = {
+  assetsButton: '[data-testid="home__asset-tab"] button',
+  activityButton: '[data-testid="home__activity-tab"] button',
+};
+
+const transactionList = '.transaction-list__transactions';
+const pendingTransactionsList = `${transactionList} .transaction-list__pending-transactions`;
+const completedTransactionsList = `${transactionList} .transaction-list__completed-transactions`;
+const activityTab = {
+  transactionList,
+  pendingTransactionsList,
+  completedTransactionsList,
+  unconfirmedTransaction: `${pendingTransactionsList} .transaction-list-item--unconfirmed`,
+  confirmedTransaction: `${completedTransactionsList} .transaction-list-item`,
+};
+
+const popupSelector = '.popover-container';
+const sendPopupSelector = `${popupSelector} .transaction-list-item-details`;
 const popup = {
-  container: '.popover-container',
+  container: popupSelector,
   closeButton: '.popover-header__button',
   background: '.popover-bg',
+  sendPopup: {
+    container: sendPopupSelector,
+    speedUpButton: `${sendPopupSelector} .btn-primary`,
+    cancelButton: `${sendPopupSelector} .btn-secondary`,
+    transactionStatus: `${sendPopupSelector} .transaction-status`,
+    copyTxIdButton: `${sendPopupSelector} .transaction-list-item-details__tx-hash .transaction-list-item-details__header-button a`,
+    // todo:
+  },
 };
 
 const tippyTooltipSelector = '.tippy-popper';
@@ -80,6 +107,8 @@ const createAccount = {
 module.exports.mainPageElements = {
   networkSwitcher,
   walletOverview,
+  tabs,
+  activityTab,
   popup,
   tippyTooltip,
   actionableMessage,
