@@ -39,8 +39,22 @@ module.exports.permissionsPageElements = {
   connectButton,
 };
 
+const popupContainer = '.popover-container';
+const popupCloseButton = `${popupContainer} .popover-header__button`;
+const popupCopyRecipientPublicAddressButton = `${popupContainer} .nickname-popover__public-address button`;
+const recipientPublicAddress = `${popupContainer} .nickname-popover__public-address__constant`;
+module.exports.recipientPopupElements = {
+  popupContainer,
+  popupCloseButton,
+  popupCopyRecipientPublicAddressButton,
+  recipientPublicAddress,
+};
+
 const confirmPageHeader = `${notificationPage} .confirm-page-container-header`;
 const confirmPageContent = `${notificationPage} .confirm-page-container-content`;
+const networkLabel = `${confirmPageHeader} .network-display`;
+const senderButton = `${confirmPageHeader} .sender-to-recipient__party--sender`;
+const recipientButton = `${confirmPageHeader} .sender-to-recipient__party--recipient`;
 const editGasFeeLegacyButton = `${notificationPage} .transaction-detail-edit button`;
 const editGasFeeLegacyOverrideAckButton = `${notificationPage} .edit-gas-display .edit-gas-display__dapp-acknowledgement-button`;
 const editGasLegacyPopup = `${notificationPage} .edit-gas-popover__wrapper`;
@@ -74,6 +88,9 @@ module.exports.confirmPageElements = {
   notificationPage,
   confirmPageHeader,
   confirmPageContent,
+  networkLabel,
+  senderButton,
+  recipientButton,
   editGasFeeLegacyButton,
   editGasFeeLegacyOverrideAckButton,
   editGasLegacyPopup,
