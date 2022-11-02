@@ -266,6 +266,7 @@ describe('Metamask', () => {
     it(`confirmMetamaskTransaction should confirm legacy transaction using default settings`, () => {
       cy.get('#sendButton').click();
       cy.confirmMetamaskTransaction().then(txData => {
+        expect(txData.recipientPublicAddress).to.be.not.empty;
         expect(txData.confirmed).to.be.true;
       });
     });
@@ -281,6 +282,7 @@ describe('Metamask', () => {
     it(`confirmMetamaskTransaction should confirm eip-1559 transaction using default settings`, () => {
       cy.get('#sendEIP1559Button').click();
       cy.confirmMetamaskTransaction().then(txData => {
+        expect(txData.recipientPublicAddress).to.be.not.empty;
         expect(txData.confirmed).to.be.true;
       });
     });
@@ -315,7 +317,7 @@ describe('Metamask', () => {
     it(`confirmMetamaskTransaction should confirm transaction for token creation (contract deployment) and check tx data`, () => {
       cy.get('#createToken').click();
       cy.confirmMetamaskTransaction().then(txData => {
-        expect(txData.recipientPublicAddress).to.be.not.empty;
+        expect(txData.recipientPublicAddress).to.not.exist;
         expect(txData.networkName).to.be.not.empty;
         expect(txData.customNonce).to.be.not.empty;
         expect(txData.origin).to.be.not.empty;
