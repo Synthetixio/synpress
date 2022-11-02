@@ -829,20 +829,25 @@ module.exports = {
         }
       }
     }
-    log('[confirmTransaction] Getting recipient address..');
-    await playwright.waitAndClick(
-      confirmPageElements.recipientButton,
-      notificationPage,
-    );
-    const recipientPublicAddress = await playwright.waitAndGetValue(
-      recipientPopupElements.recipientPublicAddress,
-      notificationPage,
-    );
-    txData.recipientPublicAddress = recipientPublicAddress;
-    await playwright.waitAndClick(
-      recipientPopupElements.popupCloseButton,
-      notificationPage,
-    );
+    const recipientButton = await playwright
+      .metamaskNotificationWindow()
+      .$(confirmPageElements.recipientButton);
+    if (recipientButton) {
+      log('[confirmTransaction] Getting recipient address..');
+      await playwright.waitAndClick(
+        confirmPageElements.recipientButton,
+        notificationPage,
+      );
+      const recipientPublicAddress = await playwright.waitAndGetValue(
+        recipientPopupElements.recipientPublicAddress,
+        notificationPage,
+      );
+      txData.recipientPublicAddress = recipientPublicAddress;
+      await playwright.waitAndClick(
+        recipientPopupElements.popupCloseButton,
+        notificationPage,
+      );
+    }
     log('[confirmTransaction] Getting network name..');
     const networkName = await playwright.waitAndGetValue(
       confirmPageElements.networkLabel,
