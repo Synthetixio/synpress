@@ -21,6 +21,7 @@ const {
   encryptionPublicKeyPageElements,
   decryptPageElements,
   dataSignaturePageElements,
+  recipientPopupElements,
 } = require('../pages/metamask/notification-page');
 const {
   settingsPageElements,
@@ -828,7 +829,27 @@ module.exports = {
         }
       }
     }
-    // todo: handle setting of custom nonce here
+    log('[confirmTransaction] Getting recipient address..');
+    await playwright.waitAndClick(
+      confirmPageElements.recipientButton,
+      notificationPage,
+    );
+    const recipientPublicAddress = await playwright.waitAndGetValue(
+      recipientPopupElements.recipientPublicAddress,
+      notificationPage,
+    );
+    txData.recipientPublicAddress = recipientPublicAddress;
+    await playwright.waitAndClick(
+      recipientPopupElements.popupCloseButton,
+      notificationPage,
+    );
+    log('[confirmTransaction] Getting network name..');
+    const networkName = await playwright.waitAndGetValue(
+      confirmPageElements.networkLabel,
+      notificationPage,
+    );
+    txData.networkName = networkName;
+    // feat: handle setting of custom nonce here
     log('[confirmTransaction] Getting transaction nonce..');
     const customNonce = await playwright.waitAndGetAttributeValue(
       confirmPageElements.customNonceInput,
@@ -876,6 +897,7 @@ module.exports = {
       { waitForEvent: 'close' },
     );
     txData.confirmed = true;
+    // feat: get txdata from unconfirmed window
     log('[confirmTransaction] Transaction confirmed!');
     if (txData) {
       return txData;
