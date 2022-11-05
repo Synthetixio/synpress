@@ -1,4 +1,5 @@
 const notificationPage = '.notification';
+const anyButton = `${notificationPage} button`;
 const loadingLogo = `${notificationPage} #loading__logo`;
 const loadingSpinner = `${notificationPage} #loading__spinner`;
 const nextButton = `${notificationPage} .permissions-connect-choose-account__bottom-buttons .btn-primary`;
@@ -7,6 +8,7 @@ const rejectToSpendButton = `${notificationPage} [data-testid="page-container-fo
 const selectAllCheckbox = `${notificationPage} .choose-account-list__header-check-box`;
 module.exports.notificationPageElements = {
   notificationPage,
+  anyButton,
   loadingLogo,
   loadingSpinner,
   nextButton,
