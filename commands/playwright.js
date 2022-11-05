@@ -137,7 +137,7 @@ module.exports = {
   waitFor: async (selector, page = metamaskWindow) => {
     await module.exports.waitUntilStable(page);
     await page.waitForSelector(selector, { strict: false });
-    const element = await page.locator(selector).first();
+    const element = page.locator(selector).first();
     await element.waitFor();
     await element.focus();
     if (process.env.STABLE_MODE) {
@@ -181,7 +181,7 @@ module.exports = {
   },
   waitAndClickByText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
-    const element = await page.locator(`text=${text}`);
+    const element = page.locator(`text=${text}`);
     await element.click();
     await module.exports.waitUntilStable(page);
   },
@@ -234,7 +234,8 @@ module.exports = {
   },
   waitForText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
-    await page.locator(selector, { hasText: text }).waitFor();
+    const element = page.locator(selector, { hasText: text });
+    await element.waitFor();
   },
   waitToBeHidden: async (selector, page = metamaskWindow) => {
     const element = await page.$(selector);
