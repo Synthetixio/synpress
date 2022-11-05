@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@cypress/code-coverage": "^3.10.0",
-    "@cypress/webpack-dev-server": "^2.4.1",
+    "@cypress/webpack-dev-server": "^2.5.0",
     "@drptbl/gremlins.js": "^2.2.1",
     "@playwright/test": "^1.27.1",
     "@synthetixio/js": "^2.41.0",
@@ -97,7 +97,8 @@
     "release-it": "^15.5.0"
   },
   "resolutions": {
-    "@synthetixio/js/**/underscore": "^1.13.6"
+    "@synthetixio/js/**/underscore": "^1.13.6",
+    "@cypress/webpack-dev-server/**/loader-utils": "^3.2.0"
   },
   "engines": {
     "node": ">=10"
