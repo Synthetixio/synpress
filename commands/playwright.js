@@ -120,6 +120,7 @@ module.exports = {
         retries = 0;
         await page.bringToFront();
         await module.exports.waitUntilStable(page);
+        await module.exports.waitFor(notificationPageElements.anyButton, page);
         return page;
       }
     }
@@ -254,7 +255,6 @@ module.exports = {
       await page.waitForLoadState('load');
       await page.waitForLoadState('domcontentloaded');
       await page.waitForLoadState('networkidle');
-      await module.exports.waitFor(notificationPageElements.anyButton, page);
     }
     await metamaskWindow.waitForLoadState('load');
     await metamaskWindow.waitForLoadState('domcontentloaded');
