@@ -11,6 +11,7 @@ services:
       - CYPRESS_DOCKER_RUN=true
       - GH_PAT=${GH_PAT}
       - GH_USERNAME=${GH_USERNAME}
+      - CI=${CI}
       # cypress dashboard
       - GITHUB_TOKEN=${GITHUB_TOKEN}
       - CYPRESS_PROJECT_ID=${CYPRESS_PROJECT_ID}
