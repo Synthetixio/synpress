@@ -243,8 +243,7 @@ module.exports = {
     await element.waitFor();
   },
   waitToBeHidden: async (selector, page = metamaskWindow) => {
-    const element = await page.$(selector);
-    if (element) {
+    if (await page.locator(selector).isVisible()) {
       // todo: sadly this doesn't work well in case element disappears before it's triggered
       // because it checks if element is visible first! which causes race conditions to happen
       // waitForFunction could be used instead with document.query, however it can't be used
@@ -255,7 +254,7 @@ module.exports = {
     }
   },
   waitUntilStable: async page => {
-    if (page) {
+    if (page && page.url().includes('notification')) {
       await page.waitForLoadState('load');
       await page.waitForLoadState('domcontentloaded');
       await page.waitForLoadState('networkidle');
@@ -303,8 +302,9 @@ module.exports = {
       page,
     ); // shown on balance load
     // network error handler
-    const networkError = await page.$(pageElements.loadingOverlayErrorButtons);
-    if (networkError) {
+    if (
+      await page.locator(pageElements.loadingOverlayErrorButtons).isVisible()
+    ) {
       await module.exports.waitAndClick(
         pageElements.loadingOverlayErrorButtonsRetryButton,
         page,
