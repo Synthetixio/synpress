@@ -41,7 +41,7 @@ services:
       bash -c 'echo -n "======> local noVNC URL:
       http://localhost:8080/vnc.html?autoconnect=true " && npx wait-on
       http://display:8080 && echo -n "======> remote noVNC URL: " && curl -s
-      ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && yarn
+      ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && echo $GITHUB_ACTION && echo $GITHUB_BASE_REF && yarn
       test:e2e:ci:anvil'
     networks:
       - x11
