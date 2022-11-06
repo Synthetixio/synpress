@@ -2,7 +2,6 @@ const fetch = require('node-fetch');
 const { chromium } = require('@playwright/test');
 const {
   notificationPageElements,
-  confirmPageElements,
 } = require('../pages/metamask/notification-page');
 const { pageElements } = require('../pages/metamask/page');
 const sleep = require('util').promisify(setTimeout);
