@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 const { chromium } = require('@playwright/test');
 const {
   notificationPageElements,
+  confirmPageElements,
 } = require('../pages/metamask/notification-page');
 const { pageElements } = require('../pages/metamask/page');
 const sleep = require('util').promisify(setTimeout);
@@ -120,7 +121,10 @@ module.exports = {
         retries = 0;
         await page.bringToFront();
         await module.exports.waitUntilStable(page);
-        await module.exports.waitFor(notificationPageElements.anyButton, page);
+        await module.exports.waitFor(
+          notificationPageElements.notificationAppContent,
+          page,
+        );
         return page;
       }
     }
