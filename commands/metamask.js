@@ -120,7 +120,10 @@ module.exports = {
     await playwright.metamaskWindow().waitForTimeout(1000);
     for (let times = 0; times < 5; times++) {
       if (
-        (await playwright.metamaskWindow().$(welcomePageElements.app)) === null
+        !(await playwright
+          .metamaskWindow()
+          .locator(welcomePageElements.app)
+          .isVisible())
       ) {
         await playwright.metamaskWindow().reload();
         await playwright.metamaskWindow().waitForTimeout(2000);
@@ -145,9 +148,10 @@ module.exports = {
     // otherwise popup may not be detected properly and not closed
     await playwright.metamaskWindow().waitForTimeout(1000);
     if (
-      (await playwright
+      await playwright
         .metamaskWindow()
-        .$(mainPageElements.popup.container)) !== null
+        .locator(mainPageElements.popup.container)
+        .isVisible()
     ) {
       const popupBackground = playwright
         .metamaskWindow()
@@ -158,16 +162,18 @@ module.exports = {
         .mouse.click(popupBackgroundBox.x + 1, popupBackgroundBox.y + 1);
     }
     if (
-      (await playwright
+      await playwright
         .metamaskWindow()
-        .$(mainPageElements.tippyTooltip.closeButton)) !== null
+        .locator(mainPageElements.tippyTooltip.closeButton)
+        .isVisible()
     ) {
       await playwright.waitAndClick(mainPageElements.tippyTooltip.closeButton);
     }
     if (
-      (await playwright
+      await playwright
         .metamaskWindow()
-        .$(mainPageElements.actionableMessage.closeButton)) !== null
+        .locator(mainPageElements.actionableMessage.closeButton)
+        .isVisible()
     ) {
       await playwright.waitAndClick(
         mainPageElements.actionableMessage.closeButton,
@@ -180,9 +186,10 @@ module.exports = {
     // otherwise modal may not be detected properly and not closed
     await playwright.metamaskWindow().waitForTimeout(1000);
     if (
-      (await playwright
+      await playwright
         .metamaskWindow()
-        .$(mainPageElements.connectedSites.modal)) !== null
+        .locator(mainPageElements.connectedSites.modal)
+        .isVisible()
     ) {
       await playwright.waitAndClick(
         mainPageElements.connectedSites.closeButton,
@@ -474,10 +481,12 @@ module.exports = {
     await playwright.waitAndClick(
       mainPageElements.optionsMenu.connectedSitesButton,
     );
-    const disconnectLabel = await playwright
-      .metamaskWindow()
-      .$(mainPageElements.connectedSites.disconnectLabel);
-    if (disconnectLabel) {
+    if (
+      await playwright
+        .metamaskWindow()
+        .locator(mainPageElements.connectedSites.disconnectLabel)
+        .isVisible()
+    ) {
       console.log(
         '[disconnectWalletFromDapp] Wallet is connected to a dapp, disconnecting..',
       );
@@ -610,10 +619,12 @@ module.exports = {
   },
   confirmSignatureRequest: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
-    const scrollDownButton = await playwright
-      .metamaskNotificationWindow()
-      .$(signaturePageElements.signatureRequestScrollDownButton);
-    if (scrollDownButton) {
+    if (
+      await playwright
+        .metamaskNotificationWindow()
+        .locator(signaturePageElements.signatureRequestScrollDownButton)
+        .isVisible()
+    ) {
       await playwright.waitAndClick(
         signaturePageElements.signatureRequestScrollDownButton,
         notificationPage,
@@ -628,10 +639,12 @@ module.exports = {
   },
   confirmDataSignatureRequest: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
-    const scrollDownButton = await playwright
-      .metamaskNotificationWindow()
-      .$(signaturePageElements.signatureRequestScrollDownButton);
-    if (scrollDownButton) {
+    if (
+      await playwright
+        .metamaskNotificationWindow()
+        .locator(signaturePageElements.signatureRequestScrollDownButton)
+        .isVisible()
+    ) {
       await playwright.waitAndClick(
         signaturePageElements.signatureRequestScrollDownButton,
         notificationPage,
@@ -707,10 +720,12 @@ module.exports = {
       log(
         '[confirmTransaction] gasConfig is present, determining transaction type..',
       );
-      const editGasFeeLegacyButton = await playwright
-        .metamaskNotificationWindow()
-        .$(confirmPageElements.editGasFeeLegacyButton);
-      if (editGasFeeLegacyButton) {
+      if (
+        await playwright
+          .metamaskNotificationWindow()
+          .locator(confirmPageElements.editGasFeeLegacyButton)
+          .isVisible()
+      ) {
         log('[confirmTransaction] Looks like legacy tx');
         if (typeof gasConfig === 'object') {
           log('[confirmTransaction] Editing legacy tx..');
@@ -718,10 +733,12 @@ module.exports = {
             confirmPageElements.editGasFeeLegacyButton,
             notificationPage,
           );
-          const editGasFeeLegacyOverrideAckButton = await playwright
-            .metamaskNotificationWindow()
-            .$(confirmPageElements.editGasFeeLegacyOverrideAckButton);
-          if (editGasFeeLegacyOverrideAckButton) {
+          if (
+            await playwright
+              .metamaskNotificationWindow()
+              .locator(confirmPageElements.editGasFeeLegacyOverrideAckButton)
+              .isVisible()
+          ) {
             log(
               '[confirmTransaction] Override acknowledgement modal is present, closing..',
             );
@@ -837,10 +854,12 @@ module.exports = {
     );
     txData.customNonce = customNonce;
     log('[confirmTransaction] Checking if tx data is present..');
-    const dataButton = await playwright
-      .metamaskNotificationWindow()
-      .$(confirmPageElements.dataButton);
-    if (dataButton) {
+    if (
+      await playwright
+        .metamaskNotificationWindow()
+        .locator(confirmPageElements.dataButton)
+        .isVisible()
+    ) {
       log('[confirmTransaction] Fetching tx data..');
       await playwright.waitAndClick(
         confirmPageElements.dataButton,
@@ -1007,9 +1026,10 @@ module.exports = {
     await module.exports.getExtensionDetails();
     await module.exports.fixBlankPage();
     if (
-      (await playwright
+      await playwright
         .metamaskWindow()
-        .$(welcomePageElements.confirmButton)) !== null
+        .locator(welcomePageElements.confirmButton)
+        .isVisible()
     ) {
       await module.exports.confirmWelcomePage();
       if (secretWordsOrPrivateKey.includes(' ')) {
@@ -1032,9 +1052,10 @@ module.exports = {
       await playwright.switchToCypressWindow();
       return true;
     } else if (
-      (await playwright
+      await playwright
         .metamaskWindow()
-        .$(unlockPageElements.passwordInput)) !== null
+        .locator(unlockPageElements.passwordInput)
+        .isVisible()
     ) {
       await module.exports.unlock(password);
       walletAddress = await module.exports.getWalletAddress();
@@ -1044,7 +1065,8 @@ module.exports = {
       if (
         (await playwright
           .metamaskWindow()
-          .$(mainPageElements.walletOverview)) !== null &&
+          .locator(mainPageElements.walletOverview)
+          .isVisible()) &&
         !process.env.RESET_METAMASK
       ) {
         await switchToMetamaskIfNotActive();
@@ -1088,7 +1110,7 @@ async function activateAdvancedSetting(
       await module.exports.goToAdvancedSettings();
     }
   }
-  if ((await playwright.metamaskWindow().$(toggleOn)) === null) {
+  if (!(await playwright.metamaskWindow().locator(toggleOn).isVisible())) {
     await playwright.waitAndClick(toggleOff);
   }
   if (!skipSetup) {
