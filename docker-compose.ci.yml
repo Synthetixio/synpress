@@ -7,11 +7,16 @@ services:
     environment:
       - DISPLAY=display:0.0
       - CYPRESS_PRIVATE_KEY_WITH_FUNDS=${CYPRESS_PRIVATE_KEY_WITH_FUNDS}
-      # - CYPRESS_PROJECT_ID=${CYPRESS_PROJECT_ID}
-      # - CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}
-      - GITHUB_TOKEN=${GITHUB_TOKEN}
       - DEBUG=${DEBUG}
       - CYPRESS_DOCKER_RUN=true
+      - GH_PAT=${GH_PAT}
+      - GH_USERNAME=${GH_USERNAME}
+      # cypress dashboard
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - CYPRESS_PROJECT_ID=${CYPRESS_PROJECT_ID}
+      - CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}
+      - COMMIT_INFO_MESSAGE=${COMMIT_INFO_MESSAGE}
+      - COMMIT_INFO_SHA=${COMMIT_INFO_SHA}
     depends_on:
       - display
       - video
