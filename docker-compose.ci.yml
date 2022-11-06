@@ -18,14 +18,15 @@ services:
       - COMMIT_INFO_MESSAGE=${COMMIT_INFO_MESSAGE}
       - COMMIT_INFO_SHA=${COMMIT_INFO_SHA}
       # passing required CI variables
+      - GITHUB_ACTIONS=${GITHUB_ACTIONS}
       - GITHUB_WORKFLOW=${GITHUB_WORKFLOW}
       - GITHUB_ACTION=${GITHUB_ACTION}
       - GITHUB_EVENT_NAME=${GITHUB_EVENT_NAME}
       - GITHUB_RUN_ID=${GITHUB_RUN_ID}
       - GITHUB_RUN_ATTEMPT=${GITHUB_RUN_ATTEMPT}
       - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
-      - GITHUB_SHA=${GITHUB_SHA}
       - GH_BRANCH=${GH_BRANCH}
+      - GITHUB_SHA=${GITHUB_SHA}
       - GITHUB_REF=${GITHUB_REF}
       - GITHUB_BASE_REF=${GITHUB_BASE_REF}
       - GITHUB_HEAD_REF=${GITHUB_HEAD_REF}
@@ -41,7 +42,7 @@ services:
       bash -c 'echo -n "======> local noVNC URL:
       http://localhost:8080/vnc.html?autoconnect=true " && npx wait-on
       http://display:8080 && echo -n "======> remote noVNC URL: " && curl -s
-      ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && echo $GITHUB_ACTION && echo $GITHUB_BASE_REF && yarn
+      ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && yarn
       test:e2e:ci:anvil'
     networks:
       - x11
