@@ -845,6 +845,20 @@ module.exports = {
         }
       }
     }
+    log('[confirmTransaction] Checking if network name is present..');
+    if (
+      await playwright
+        .metamaskNotificationWindow()
+        .locator(confirmPageElements.networkLabel)
+        .isVisible()
+    ) {
+      log('[confirmTransaction] Getting network name..');
+      const networkName = await playwright.waitAndGetValue(
+        confirmPageElements.networkLabel,
+        notificationPage,
+      );
+      txData.networkName = networkName;
+    }
     // todo: handle setting of custom nonce here
     log('[confirmTransaction] Getting transaction nonce..');
     const customNonce = await playwright.waitAndGetAttributeValue(
@@ -896,11 +910,7 @@ module.exports = {
     );
     txData.confirmed = true;
     log('[confirmTransaction] Transaction confirmed!');
-    if (txData) {
-      return txData;
-    } else {
-      return true;
-    }
+    return txData;
   },
   rejectTransaction: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
