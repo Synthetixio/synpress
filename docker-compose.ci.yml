@@ -13,6 +13,7 @@ services:
       - GH_USERNAME=${GH_USERNAME}
       - CI=${CI}
       # cypress dashboard
+      - CYPRESS_GROUP=${CYPRESS_GROUP}
       - GITHUB_TOKEN=${GITHUB_TOKEN}
       - CYPRESS_PROJECT_ID=${CYPRESS_PROJECT_ID}
       - CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}
