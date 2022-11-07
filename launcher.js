@@ -92,7 +92,16 @@ const launcher = {
     }
     if (arguments_.group) {
       log(`Custom group arg detected: ${arguments_.group}`);
-      defaultArguments.push(`--group=${arguments_.group}`);
+      if (process.env.CYPRESS_GROUP) {
+        log(
+          `Custom group arg detected (from env var): ${process.env.CYPRESS_GROUP}`,
+        );
+        defaultArguments.push(`--group=${process.env.CYPRESS_GROUP}`);
+      } else if (arguments_.group === true) {
+        throw new Error('Please provide CYPRESS_GROUP environment variable');
+      } else {
+        defaultArguments.push(`--group=${arguments_.group}`);
+      }
     }
     if (arguments_.tag) {
       log(`Custom tag arg detected: ${arguments_.tag}`);

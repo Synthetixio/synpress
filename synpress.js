@@ -109,7 +109,7 @@ program
     '[dashboard] run recorded specs in parallel across multiple machines',
   )
   .option(
-    '-g, --group <name>',
+    '-g, --group [name]',
     '[dashboard] group recorded tests together under a single run',
   )
   .option('-t, --tag <name>', '[dashboard] add tags to dashboard for test run')
