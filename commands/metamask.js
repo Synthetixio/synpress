@@ -21,6 +21,7 @@ const {
   encryptionPublicKeyPageElements,
   decryptPageElements,
   dataSignaturePageElements,
+  recipientPopupElements,
 } = require('../pages/metamask/notification-page');
 const {
   settingsPageElements,
@@ -844,6 +845,28 @@ module.exports = {
           );
         }
       }
+    }
+    log('[confirmTransaction] Checking if recipient address is present..');
+    if (
+      await playwright
+        .metamaskNotificationWindow()
+        .locator(confirmPageElements.recipientButton)
+        .isVisible()
+    ) {
+      log('[confirmTransaction] Getting recipient address..');
+      await playwright.waitAndClick(
+        confirmPageElements.recipientButton,
+        notificationPage,
+      );
+      const recipientPublicAddress = await playwright.waitAndGetValue(
+        recipientPopupElements.recipientPublicAddress,
+        notificationPage,
+      );
+      txData.recipientPublicAddress = recipientPublicAddress;
+      await playwright.waitAndClick(
+        recipientPopupElements.popupCloseButton,
+        notificationPage,
+      );
     }
     log('[confirmTransaction] Checking if network name is present..');
     if (
