@@ -120,6 +120,10 @@ module.exports = {
         retries = 0;
         await page.bringToFront();
         await module.exports.waitUntilStable(page);
+        await module.exports.waitFor(
+          notificationPageElements.notificationAppContent,
+          page,
+        );
         return page;
       }
     }
@@ -137,7 +141,7 @@ module.exports = {
   waitFor: async (selector, page = metamaskWindow) => {
     await module.exports.waitUntilStable(page);
     await page.waitForSelector(selector, { strict: false });
-    const element = await page.locator(selector).first();
+    const element = page.locator(selector).first();
     await element.waitFor();
     await element.focus();
     if (process.env.STABLE_MODE) {
@@ -181,7 +185,7 @@ module.exports = {
   },
   waitAndClickByText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
-    const element = await page.locator(`text=${text}`);
+    const element = page.locator(`text=${text}`);
     await element.click();
     await module.exports.waitUntilStable(page);
   },
@@ -199,6 +203,15 @@ module.exports = {
     const element = await module.exports.waitFor(selector, page);
     const value = await element.inputValue();
     return value;
+  },
+  waitAndGetAttributeValue: async (
+    selector,
+    attribute,
+    page = metamaskWindow,
+  ) => {
+    const element = await module.exports.waitFor(selector, page);
+    const attrValue = await element.getAttribute(attribute);
+    return attrValue;
   },
   waitAndSetValue: async (text, selector, page = metamaskWindow) => {
     const element = await module.exports.waitFor(selector, page);
@@ -225,11 +238,11 @@ module.exports = {
   },
   waitForText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
-    await page.locator(selector, { hasText: text }).waitFor();
+    const element = page.locator(selector, { hasText: text });
+    await element.waitFor();
   },
   waitToBeHidden: async (selector, page = metamaskWindow) => {
-    const element = await page.$(selector);
-    if (element) {
+    if (await page.locator(selector).isVisible()) {
       // todo: sadly this doesn't work well in case element disappears before it's triggered
       // because it checks if element is visible first! which causes race conditions to happen
       // waitForFunction could be used instead with document.query, however it can't be used
@@ -240,7 +253,7 @@ module.exports = {
     }
   },
   waitUntilStable: async page => {
-    if (page) {
+    if (page && page.url().includes('notification')) {
       await page.waitForLoadState('load');
       await page.waitForLoadState('domcontentloaded');
       await page.waitForLoadState('networkidle');
@@ -288,8 +301,9 @@ module.exports = {
       page,
     ); // shown on balance load
     // network error handler
-    const networkError = await page.$(pageElements.loadingOverlayErrorButtons);
-    if (networkError) {
+    if (
+      await page.locator(pageElements.loadingOverlayErrorButtons).isVisible()
+    ) {
       await module.exports.waitAndClick(
         pageElements.loadingOverlayErrorButtonsRetryButton,
         page,

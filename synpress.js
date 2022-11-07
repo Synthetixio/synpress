@@ -5,7 +5,7 @@ const { run, open } = require('./launcher');
 const { version } = require('./package.json');
 
 if (process.env.DEBUG && process.env.DEBUG.includes('synpress')) {
-  log('SYNDEBUG mode is enabled');
+  log('DEBUG mode is enabled');
   process.env.PWDEBUG = 1;
   if (!process.env.STABLE_MODE) {
     log('Enabling stable mode');
@@ -27,14 +27,17 @@ if (process.env.SYNPRESS_LOCAL_TEST) {
   require('dotenv').config({ path: require('find-config')('.env.e2e') });
 }
 
-if (
-  !process.env.SECRET_WORDS &&
-  !process.env.PRIVATE_KEY &&
-  !process.env.SKIP_METAMASK_SETUP &&
-  !process.env.SKIP_METAMASK_INSTALL
-) {
-  throw new Error(
-    'Please provide SECRET_WORDS or PRIVATE_KEY environment variable',
+// if user skips metamask install or setup
+if (!process.env.SKIP_METAMASK_INSTALL && !process.env.SKIP_METAMASK_SETUP) {
+  // we don't want to check for presence of SECRET_WORDS or PRIVATE_KEY
+  if (!process.env.SECRET_WORDS && !process.env.PRIVATE_KEY) {
+    throw new Error(
+      'Please provide SECRET_WORDS or PRIVATE_KEY environment variable',
+    );
+  }
+} else {
+  log(
+    'Skipping check for SECRET_WORDS and PRIVATE_KEY as SKIP_METAMASK_INSTALL or SKIP_METAMASK_SETUP is set',
   );
 }
 
@@ -106,7 +109,7 @@ program
     '[dashboard] run recorded specs in parallel across multiple machines',
   )
   .option(
-    '-g, --group <name>',
+    '-g, --group [name]',
     '[dashboard] group recorded tests together under a single run',
   )
   .option('-t, --tag <name>', '[dashboard] add tags to dashboard for test run')

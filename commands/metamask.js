@@ -1,3 +1,4 @@
+const log = require('debug')('synpress:metamask');
 const playwright = require('./playwright');
 
 const {
@@ -20,6 +21,7 @@ const {
   encryptionPublicKeyPageElements,
   decryptPageElements,
   dataSignaturePageElements,
+  recipientPopupElements,
 } = require('../pages/metamask/notification-page');
 const {
   settingsPageElements,
@@ -71,6 +73,9 @@ module.exports = {
     ]);
     await playwright.waitUntilStable();
   },
+  goToHome: async () => {
+    await module.exports.goTo(extensionHomeUrl);
+  },
   goToSettings: async () => {
     await module.exports.goTo(extensionSettingsUrl);
   },
@@ -116,7 +121,10 @@ module.exports = {
     await playwright.metamaskWindow().waitForTimeout(1000);
     for (let times = 0; times < 5; times++) {
       if (
-        (await playwright.metamaskWindow().$(welcomePageElements.app)) === null
+        !(await playwright
+          .metamaskWindow()
+          .locator(welcomePageElements.app)
+          .isVisible())
       ) {
         await playwright.metamaskWindow().reload();
         await playwright.metamaskWindow().waitForTimeout(2000);
@@ -141,9 +149,10 @@ module.exports = {
     // otherwise popup may not be detected properly and not closed
     await playwright.metamaskWindow().waitForTimeout(1000);
     if (
-      (await playwright
+      await playwright
         .metamaskWindow()
-        .$(mainPageElements.popup.container)) !== null
+        .locator(mainPageElements.popup.container)
+        .isVisible()
     ) {
       const popupBackground = playwright
         .metamaskWindow()
@@ -154,16 +163,18 @@ module.exports = {
         .mouse.click(popupBackgroundBox.x + 1, popupBackgroundBox.y + 1);
     }
     if (
-      (await playwright
+      await playwright
         .metamaskWindow()
-        .$(mainPageElements.tippyTooltip.closeButton)) !== null
+        .locator(mainPageElements.tippyTooltip.closeButton)
+        .isVisible()
     ) {
       await playwright.waitAndClick(mainPageElements.tippyTooltip.closeButton);
     }
     if (
-      (await playwright
+      await playwright
         .metamaskWindow()
-        .$(mainPageElements.actionableMessage.closeButton)) !== null
+        .locator(mainPageElements.actionableMessage.closeButton)
+        .isVisible()
     ) {
       await playwright.waitAndClick(
         mainPageElements.actionableMessage.closeButton,
@@ -176,9 +187,10 @@ module.exports = {
     // otherwise modal may not be detected properly and not closed
     await playwright.metamaskWindow().waitForTimeout(1000);
     if (
-      (await playwright
+      await playwright
         .metamaskWindow()
-        .$(mainPageElements.connectedSites.modal)) !== null
+        .locator(mainPageElements.connectedSites.modal)
+        .isVisible()
     ) {
       await playwright.waitAndClick(
         mainPageElements.connectedSites.closeButton,
@@ -470,10 +482,12 @@ module.exports = {
     await playwright.waitAndClick(
       mainPageElements.optionsMenu.connectedSitesButton,
     );
-    const disconnectLabel = await playwright
-      .metamaskWindow()
-      .$(mainPageElements.connectedSites.disconnectLabel);
-    if (disconnectLabel) {
+    if (
+      await playwright
+        .metamaskWindow()
+        .locator(mainPageElements.connectedSites.disconnectLabel)
+        .isVisible()
+    ) {
       console.log(
         '[disconnectWalletFromDapp] Wallet is connected to a dapp, disconnecting..',
       );
@@ -600,15 +614,18 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
+    await module.exports.closePopupAndTooltips();
     await switchToCypressIfNotActive();
     return true;
   },
   confirmSignatureRequest: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
-    const scrollDownButton = await playwright
-      .metamaskNotificationWindow()
-      .$(signaturePageElements.signatureRequestScrollDownButton);
-    if (scrollDownButton) {
+    if (
+      await playwright
+        .metamaskNotificationWindow()
+        .locator(signaturePageElements.signatureRequestScrollDownButton)
+        .isVisible()
+    ) {
       await playwright.waitAndClick(
         signaturePageElements.signatureRequestScrollDownButton,
         notificationPage,
@@ -623,10 +640,12 @@ module.exports = {
   },
   confirmDataSignatureRequest: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
-    const scrollDownButton = await playwright
-      .metamaskNotificationWindow()
-      .$(signaturePageElements.signatureRequestScrollDownButton);
-    if (scrollDownButton) {
+    if (
+      await playwright
+        .metamaskNotificationWindow()
+        .locator(signaturePageElements.signatureRequestScrollDownButton)
+        .isVisible()
+    ) {
       await playwright.waitAndClick(
         signaturePageElements.signatureRequestScrollDownButton,
         notificationPage,
@@ -696,54 +715,225 @@ module.exports = {
     return true;
   },
   confirmTransaction: async gasConfig => {
+    let txData = {};
     const notificationPage = await playwright.switchToMetamaskNotification();
-
     if (gasConfig) {
-      await playwright.waitAndClick(
-        confirmPageElements.editGasFeeButton,
-        notificationPage,
+      log(
+        '[confirmTransaction] gasConfig is present, determining transaction type..',
       );
-      await playwright.waitAndClick(
-        confirmPageElements.gasOptionCustomButton,
-        notificationPage,
-      );
-      if (gasConfig.gasLimit) {
+      if (
+        await playwright
+          .metamaskNotificationWindow()
+          .locator(confirmPageElements.editGasFeeLegacyButton)
+          .isVisible()
+      ) {
+        log('[confirmTransaction] Looks like legacy tx');
+        if (typeof gasConfig === 'object') {
+          log('[confirmTransaction] Editing legacy tx..');
+          await playwright.waitAndClick(
+            confirmPageElements.editGasFeeLegacyButton,
+            notificationPage,
+          );
+          if (
+            await playwright
+              .metamaskNotificationWindow()
+              .locator(confirmPageElements.editGasFeeLegacyOverrideAckButton)
+              .isVisible()
+          ) {
+            log(
+              '[confirmTransaction] Override acknowledgement modal is present, closing..',
+            );
+            await playwright.waitAndClick(
+              confirmPageElements.editGasFeeLegacyOverrideAckButton,
+              notificationPage,
+            );
+          }
+          if (gasConfig.gasLimit) {
+            log('[confirmTransaction] Changing gas limit..');
+            await playwright.waitAndSetValue(
+              gasConfig.gasLimit.toString(),
+              confirmPageElements.gasLimitLegacyInput,
+              notificationPage,
+            );
+          }
+          if (gasConfig.gasPrice) {
+            log('[confirmTransaction] Changing gas price..');
+            await playwright.waitAndSetValue(
+              gasConfig.gasPrice.toString(),
+              confirmPageElements.gasPriceLegacyInput,
+              notificationPage,
+            );
+          }
+          await playwright.waitAndClick(
+            confirmPageElements.saveCustomGasFeeButton,
+            notificationPage,
+          );
+        } else {
+          log(
+            "[confirmTransaction] Legacy tx doesn't support eip-1559 fees (low, market, aggressive, site), using default values..",
+          );
+        }
+      } else {
+        log('[confirmTransaction] Looks like eip-1559 tx');
         await playwright.waitAndClick(
-          confirmPageElements.editGasLimitButton,
+          confirmPageElements.editGasFeeButton,
           notificationPage,
         );
-        await playwright.waitAndSetValue(
-          gasConfig.gasLimit.toString(),
-          confirmPageElements.gasLimitInput,
-          notificationPage,
-        );
+        if (typeof gasConfig === 'string') {
+          if (gasConfig === 'low') {
+            log('[confirmTransaction] Changing gas fee to low..');
+            await playwright.waitAndClick(
+              confirmPageElements.gasOptionLowButton,
+              notificationPage,
+            );
+          } else if (gasConfig === 'market') {
+            log('[confirmTransaction] Changing gas fee to market..');
+            await playwright.waitAndClick(
+              confirmPageElements.gasOptionMediumButton,
+              notificationPage,
+            );
+          } else if (gasConfig === 'aggressive') {
+            log('[confirmTransaction] Changing gas fee to aggressive..');
+            await playwright.waitAndClick(
+              confirmPageElements.gasOptionHighButton,
+              notificationPage,
+            );
+          } else if (gasConfig === 'site') {
+            log('[confirmTransaction] Changing gas fee to site suggested..');
+            await playwright.waitAndClick(
+              confirmPageElements.gasOptionDappSuggestedButton,
+              notificationPage,
+            );
+          }
+        } else {
+          log('[confirmTransaction] Editing eip-1559 tx..');
+          await playwright.waitAndClick(
+            confirmPageElements.gasOptionCustomButton,
+            notificationPage,
+          );
+          if (gasConfig.gasLimit) {
+            log('[confirmTransaction] Changing gas limit..');
+            await playwright.waitAndClick(
+              confirmPageElements.editGasLimitButton,
+              notificationPage,
+            );
+            await playwright.waitAndSetValue(
+              gasConfig.gasLimit.toString(),
+              confirmPageElements.gasLimitInput,
+              notificationPage,
+            );
+          }
+          if (gasConfig.baseFee) {
+            log('[confirmTransaction] Changing base fee..');
+            await playwright.waitAndSetValue(
+              gasConfig.baseFee.toString(),
+              confirmPageElements.baseFeeInput,
+              notificationPage,
+            );
+          }
+          if (gasConfig.priorityFee) {
+            log('[confirmTransaction] Changing priority fee..');
+            await playwright.waitAndSetValue(
+              gasConfig.priorityFee.toString(),
+              confirmPageElements.priorityFeeInput,
+              notificationPage,
+            );
+          }
+          await playwright.waitAndClick(
+            confirmPageElements.saveCustomGasFeeButton,
+            notificationPage,
+          );
+        }
       }
-      if (gasConfig.baseFee) {
-        await playwright.waitAndSetValue(
-          gasConfig.baseFee.toString(),
-          confirmPageElements.baseFeeInput,
-          notificationPage,
-        );
-      }
-      if (gasConfig.priorityFee) {
-        await playwright.waitAndSetValue(
-          gasConfig.priorityFee.toString(),
-          confirmPageElements.priorityFeeInput,
-          notificationPage,
-        );
-      }
+    }
+    log('[confirmTransaction] Checking if recipient address is present..');
+    if (
+      await playwright
+        .metamaskNotificationWindow()
+        .locator(confirmPageElements.recipientButton)
+        .isVisible()
+    ) {
+      log('[confirmTransaction] Getting recipient address..');
       await playwright.waitAndClick(
-        confirmPageElements.saveCustomGasFeeButton,
+        confirmPageElements.recipientButton,
+        notificationPage,
+      );
+      const recipientPublicAddress = await playwright.waitAndGetValue(
+        recipientPopupElements.recipientPublicAddress,
+        notificationPage,
+      );
+      txData.recipientPublicAddress = recipientPublicAddress;
+      await playwright.waitAndClick(
+        recipientPopupElements.popupCloseButton,
         notificationPage,
       );
     }
-
+    log('[confirmTransaction] Checking if network name is present..');
+    if (
+      await playwright
+        .metamaskNotificationWindow()
+        .locator(confirmPageElements.networkLabel)
+        .isVisible()
+    ) {
+      log('[confirmTransaction] Getting network name..');
+      const networkName = await playwright.waitAndGetValue(
+        confirmPageElements.networkLabel,
+        notificationPage,
+      );
+      txData.networkName = networkName;
+    }
+    // todo: handle setting of custom nonce here
+    log('[confirmTransaction] Getting transaction nonce..');
+    const customNonce = await playwright.waitAndGetAttributeValue(
+      confirmPageElements.customNonceInput,
+      'placeholder',
+      notificationPage,
+    );
+    txData.customNonce = customNonce;
+    log('[confirmTransaction] Checking if tx data is present..');
+    if (
+      await playwright
+        .metamaskNotificationWindow()
+        .locator(confirmPageElements.dataButton)
+        .isVisible()
+    ) {
+      log('[confirmTransaction] Fetching tx data..');
+      await playwright.waitAndClick(
+        confirmPageElements.dataButton,
+        notificationPage,
+      );
+      log('[confirmTransaction] Getting origin value..');
+      const originValue = await playwright.waitAndGetValue(
+        confirmPageElements.originValue,
+        notificationPage,
+      );
+      log('[confirmTransaction] Getting bytes value..');
+      const bytesValue = await playwright.waitAndGetValue(
+        confirmPageElements.bytesValue,
+        notificationPage,
+      );
+      log('[confirmTransaction] Getting hex data value..');
+      const hexDataValue = await playwright.waitAndGetValue(
+        confirmPageElements.hexDataValue,
+        notificationPage,
+      );
+      txData.origin = originValue;
+      txData.bytes = bytesValue;
+      txData.hexData = hexDataValue;
+      await playwright.waitAndClick(
+        confirmPageElements.detailsButton,
+        notificationPage,
+      );
+    }
+    log('[confirmTransaction] Confirming transaction..');
     await playwright.waitAndClick(
       confirmPageElements.confirmButton,
       notificationPage,
       { waitForEvent: 'close' },
     );
-    return true;
+    txData.confirmed = true;
+    log('[confirmTransaction] Transaction confirmed!');
+    return txData;
   },
   rejectTransaction: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
@@ -869,9 +1059,10 @@ module.exports = {
     await module.exports.getExtensionDetails();
     await module.exports.fixBlankPage();
     if (
-      (await playwright
+      await playwright
         .metamaskWindow()
-        .$(welcomePageElements.confirmButton)) !== null
+        .locator(welcomePageElements.confirmButton)
+        .isVisible()
     ) {
       await module.exports.confirmWelcomePage();
       if (secretWordsOrPrivateKey.includes(' ')) {
@@ -894,9 +1085,10 @@ module.exports = {
       await playwright.switchToCypressWindow();
       return true;
     } else if (
-      (await playwright
+      await playwright
         .metamaskWindow()
-        .$(unlockPageElements.passwordInput)) !== null
+        .locator(unlockPageElements.passwordInput)
+        .isVisible()
     ) {
       await module.exports.unlock(password);
       walletAddress = await module.exports.getWalletAddress();
@@ -906,10 +1098,11 @@ module.exports = {
       if (
         (await playwright
           .metamaskWindow()
-          .$(mainPageElements.walletOverview)) !== null &&
+          .locator(mainPageElements.walletOverview)
+          .isVisible()) &&
         !process.env.RESET_METAMASK
       ) {
-        await playwright.switchToMetamaskWindow();
+        await switchToMetamaskIfNotActive();
         walletAddress = await module.exports.getWalletAddress();
         await playwright.switchToCypressWindow();
         return true;
@@ -950,7 +1143,7 @@ async function activateAdvancedSetting(
       await module.exports.goToAdvancedSettings();
     }
   }
-  if ((await playwright.metamaskWindow().$(toggleOn)) === null) {
+  if (!(await playwright.metamaskWindow().locator(toggleOn).isVisible())) {
     await playwright.waitAndClick(toggleOff);
   }
   if (!skipSetup) {
@@ -961,6 +1154,7 @@ async function activateAdvancedSetting(
         waitForEvent: 'navi',
       },
     );
+    await module.exports.closePopupAndTooltips();
     await switchToCypressIfNotActive();
   }
   return true;
@@ -987,6 +1181,7 @@ async function setupSettings(enableAdvancedSettings) {
       waitForEvent: 'navi',
     },
   );
+  await module.exports.closePopupAndTooltips();
   await switchToCypressIfNotActive();
   return true;
 }

@@ -249,12 +249,14 @@ declare namespace Cypress {
      */
     acceptMetamaskAccess(allAccounts?: boolean): Chainable<Subject>;
     /**
-     * Confirm metamask atransaction
+     * Confirm metamask transaction (auto-detects eip-1559 and legacy transactions)
      * @example
      * cy.confirmMetamaskTransaction()
-     * cy.confirmMetamaskTransaction({gasLimit: 1000000, baseFee: 20, priorityFee: 20})
+     * cy.confirmMetamaskTransaction({ gasLimit: 1000000, baseFee: 20, priorityFee: 20 }) // eip-1559
+     * cy.confirmMetamaskTransaction({ gasLimit: 1000000, gasPrice: 20 }) // legacy
+     * cy.confirmMetamaskTransaction('aggressive') // eip-1559 only! => available options: 'low', 'market', 'aggressive', 'site' (site is usually by default)
      */
-    confirmMetamaskTransaction(gasConfig?: object): Chainable<Subject>;
+    confirmMetamaskTransaction(gasConfig?: object | string): Chainable<Subject>;
     /**
      * Reject metamask transaction
      * @example

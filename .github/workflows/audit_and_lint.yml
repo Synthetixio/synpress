@@ -25,7 +25,9 @@ jobs:
         uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # pin@v2
 
       - name: Audit dependencies
-        run: audit-ci --critical --report-type full
+        run:
+          audit-ci --critical --report-type full --allowlist loader-utils
+          underscore
 
       - name: Lockfile lint
         run:
@@ -76,7 +78,7 @@ jobs:
         if:
           always() && (github.ref == 'refs/heads/master' || github.ref ==
           'refs/heads/dev' || github.event_name == 'pull_request')
-        uses: github/codeql-action/upload-sarif@ec3cf9c605b848da5f1e41e8452719eb1ccfb9a6 # pin@codeql-bundle-20210517
+        uses: github/codeql-action/upload-sarif@18fe527fa8b29f134bb91f32f1a5dc5abb15ed7f # pin@codeql-bundle-20210517
         with:
           sarif_file: lint-results.sarif
         continue-on-error: true
@@ -88,10 +90,9 @@ jobs:
       github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' ||
       github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    # todo: to enable matrix strategy we need to have different wallets on each resolution because of transactions
-    # strategy:
-    #   matrix:
-    #     resolution: ['low', 'medium', 'high']
+    strategy:
+      matrix:
+        resolution: ['low', 'medium', 'high']
 
     steps:
       - name: Chown workspace
@@ -114,9 +115,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      - name: Run e2e tests (low res)
+      - name: Run e2e tests (${{ matrix.resolution }} res)
         run: |
-          docker-compose -f docker-compose.ci.yml --env-file low-res.env --profile foundry up --build --exit-code-from synpress
+          docker-compose -f docker-compose.ci.yml --env-file ${{ matrix.resolution }}-res.env --profile foundry up --build --exit-code-from synpress
         env:
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1
@@ -124,44 +125,21 @@ jobs:
           NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
           CYPRESS_PRIVATE_KEY_WITH_FUNDS:
             ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
+          ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}
+          # cypress dashboard
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
+          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
+          COMMIT_INFO_SHA: ${{ github.event.pull_request.head.sha }}
 
-      - name: Archive e2e artifacts (low res)
+      - name: Archive e2e artifacts (${{ matrix.resolution }} res)
         uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # pin@v2
         if: always()
         with:
-          name: e2e-artifacts-low-res
-          path: |
-            docker/videos
-            docker/videos-ci
-            docker/screenshots
-        continue-on-error: true
-
-      - name: Run e2e tests (high res)
-        run: |
-          docker-compose -f docker-compose.ci.yml --env-file high-res.env --profile foundry up --build --exit-code-from synpress
-        env:
-          COMPOSE_DOCKER_CLI_BUILD: 1
-          DOCKER_BUILDKIT: 1
-          DOCKER_DEFAULT_PLATFORM: linux/amd64
-          NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
-          CYPRESS_PRIVATE_KEY_WITH_FUNDS:
-            ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
-          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
-
-      - name: Archive e2e artifacts (high res)
-        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # pin@v2
-        if: always()
-        with:
-          name: e2e-artifacts-high-res
+          name: e2e-artifacts-${{ matrix.resolution }}-res
           path: |
             docker/videos
             docker/videos-ci
