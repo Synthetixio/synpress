@@ -324,7 +324,6 @@ describe('Metamask', () => {
         expect(txData.origin).to.be.not.empty;
         expect(txData.bytes).to.be.not.empty;
         expect(txData.hexData).to.be.not.empty;
-        expect(txData.recipientPublicAddress).to.be.not.empty;
         expect(txData.networkName).to.be.not.empty;
         expect(txData.customNonce).to.be.not.empty;
         expect(txData.confirmed).to.be.true;
