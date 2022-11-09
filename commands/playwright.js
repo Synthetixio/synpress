@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const { chromium } = require('@playwright/test');
+const { chromium, expect } = require('@playwright/test');
 const {
   notificationPageElements,
 } = require('../pages/metamask/notification-page');
@@ -210,6 +210,7 @@ module.exports = {
     page = metamaskWindow,
   ) => {
     const element = await module.exports.waitFor(selector, page);
+    await expect(element).toHaveAttribute(attribute, /[a-zA-Z0-9]*/);
     const attrValue = await element.getAttribute(attribute);
     return attrValue;
   },
