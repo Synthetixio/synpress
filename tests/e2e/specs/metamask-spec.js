@@ -332,6 +332,18 @@ describe('Metamask', () => {
         .invoke('text')
         .then(text => cy.log('Token hash: ' + text));
     });
+    it(`rejectMetamaskAddToken should cancel importing a token`, () => {
+      cy.get('#watchAsset').click();
+      cy.rejectMetamaskAddToken().then(rejected => {
+        expect(rejected).to.be.true;
+      });
+    });
+    it(`confirmMetamaskAddToken should confirm importing a token`, () => {
+      cy.get('#watchAsset').click();
+      cy.confirmMetamaskAddToken().then(confirmed => {
+        expect(confirmed).to.be.true;
+      });
+    });
     it(`rejectMetamaskPermissionToSpend should reject permission to spend token`, () => {
       cy.get('#approveTokens').click();
       cy.rejectMetamaskPermissionToSpend().then(rejected => {

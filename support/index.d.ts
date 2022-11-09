@@ -230,6 +230,18 @@ declare namespace Cypress {
      */
     rejectMetamaskDataSignatureRequest(): Chainable<Subject>;
     /**
+     * Confirm metamask request to add token
+     * @example
+     * cy.confirmMetamaskAddToken()
+     */
+    confirmMetamaskAddToken(): Chainable<Subject>;
+    /**
+     * Reject metamask request to add token
+     * @example
+     * cy.rejectMetamaskAddToken()
+     */
+    rejectMetamaskAddToken(): Chainable<Subject>;
+    /**
      * Confirm metamask permission to spend asset
      * @example
      * cy.confirmMetamaskPermissionToSpend()

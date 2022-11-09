@@ -164,6 +164,14 @@ Cypress.Commands.add('confirmMetamaskDataSignatureRequest', () => {
   return cy.task('confirmMetamaskDataSignatureRequest');
 });
 
+Cypress.Commands.add('confirmMetamaskAddToken', () => {
+  return cy.task('confirmMetamaskAddToken');
+});
+
+Cypress.Commands.add('rejectMetamaskAddToken', () => {
+  return cy.task('rejectMetamaskAddToken');
+});
+
 Cypress.Commands.add('confirmMetamaskPermissionToSpend', () => {
   return cy.task('confirmMetamaskPermissionToSpend');
 });

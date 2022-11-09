@@ -22,6 +22,7 @@ const {
   decryptPageElements,
   dataSignaturePageElements,
   recipientPopupElements,
+  addTokenPageElements,
 } = require('../pages/metamask/notification-page');
 const {
   settingsPageElements,
@@ -638,6 +639,15 @@ module.exports = {
     );
     return true;
   },
+  rejectSignatureRequest: async () => {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      signaturePageElements.rejectSignatureRequestButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
   confirmDataSignatureRequest: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (
@@ -658,19 +668,28 @@ module.exports = {
     );
     return true;
   },
-  rejectSignatureRequest: async () => {
+  rejectDataSignatureRequest: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
-      signaturePageElements.rejectSignatureRequestButton,
+      dataSignaturePageElements.rejectDataSignatureRequestButton,
       notificationPage,
       { waitForEvent: 'close' },
     );
     return true;
   },
-  rejectDataSignatureRequest: async () => {
+  confirmAddToken: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
-      dataSignaturePageElements.rejectDataSignatureRequestButton,
+      addTokenPageElements.confirmAddTokenButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
+  rejectAddToken: async () => {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      addTokenPageElements.rejectAddTokenButton,
       notificationPage,
       { waitForEvent: 'close' },
     );
