@@ -137,3 +137,10 @@ module.exports.decryptPageElements = {
   confirmDecryptionRequestButton,
   rejectDecryptionRequestButton,
 };
+
+const confirmAddTokenButton = `${notificationPage} .btn-primary`;
+const rejectAddTokenButton = `${notificationPage} .btn-secondary`;
+module.exports.addTokenPageElements = {
+  confirmAddTokenButton,
+  rejectAddTokenButton,
+};

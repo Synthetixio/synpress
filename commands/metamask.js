@@ -22,6 +22,7 @@ const {
   decryptPageElements,
   dataSignaturePageElements,
   recipientPopupElements,
+  addTokenPageElements,
 } = require('../pages/metamask/notification-page');
 const {
   settingsPageElements,
@@ -44,6 +45,7 @@ let extensionExperimentalSettingsUrl;
 let extensionAddNetworkUrl;
 let extensionNewAccountUrl;
 let extensionImportAccountUrl;
+let extensionImportTokenUrl;
 let walletAddress;
 let switchBackToCypressWindow;
 
@@ -61,6 +63,7 @@ module.exports = {
       extensionAddNetworkUrl,
       extensionNewAccountUrl,
       extensionImportAccountUrl,
+      extensionImportTokenUrl,
     };
   },
   walletAddress: () => {
@@ -94,6 +97,9 @@ module.exports = {
   goToImportAccount: async () => {
     await module.exports.goTo(extensionImportAccountUrl);
   },
+  goToImportToken: async () => {
+    await module.exports.goTo(extensionImportTokenUrl);
+  },
   getExtensionDetails: async () => {
     extensionInitialUrl = await playwright.metamaskWindow().url();
     extensionId = extensionInitialUrl.match('//(.*?)/')[1];
@@ -104,6 +110,7 @@ module.exports = {
     extensionAddNetworkUrl = `${extensionSettingsUrl}/networks/add-network`;
     extensionNewAccountUrl = `${extensionHomeUrl}#new-account`;
     extensionImportAccountUrl = `${extensionNewAccountUrl}/import`;
+    extensionImportTokenUrl = `${extensionHomeUrl}#import-token`;
 
     return {
       extensionInitialUrl,
@@ -114,6 +121,7 @@ module.exports = {
       extensionAddNetworkUrl,
       extensionNewAccountUrl,
       extensionImportAccountUrl,
+      extensionImportTokenUrl,
     };
   },
   // workaround for metamask random blank page on first run
@@ -638,6 +646,15 @@ module.exports = {
     );
     return true;
   },
+  rejectSignatureRequest: async () => {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      signaturePageElements.rejectSignatureRequestButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
   confirmDataSignatureRequest: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (
@@ -658,19 +675,89 @@ module.exports = {
     );
     return true;
   },
-  rejectSignatureRequest: async () => {
+  rejectDataSignatureRequest: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
-      signaturePageElements.rejectSignatureRequestButton,
+      dataSignaturePageElements.rejectDataSignatureRequestButton,
       notificationPage,
       { waitForEvent: 'close' },
     );
     return true;
   },
-  rejectDataSignatureRequest: async () => {
+  importToken: async tokenConfig => {
+    let tokenData = {};
+    await switchToMetamaskIfNotActive();
+    await module.exports.goToImportToken();
+    if (typeof tokenConfig === 'string') {
+      await playwright.waitAndType(
+        mainPageElements.importToken.tokenContractAddressInput,
+        tokenConfig,
+      );
+      tokenData.tokenContractAddress = tokenConfig;
+      tokenData.tokenSymbol = await playwright.waitAndGetInputValue(
+        mainPageElements.importToken.tokenSymbolInput,
+      );
+    } else {
+      await playwright.waitAndType(
+        mainPageElements.importToken.tokenContractAddressInput,
+        tokenConfig.address,
+      );
+      tokenData.tokenContractAddress = tokenConfig.address;
+      await playwright.waitAndClick(
+        mainPageElements.importToken.tokenEditButton,
+        await playwright.metamaskWindow(),
+        {
+          force: true,
+        },
+      );
+      await playwright.waitClearAndType(
+        tokenConfig.symbol,
+        mainPageElements.importToken.tokenSymbolInput,
+      );
+      tokenData.tokenSymbol = tokenConfig.symbol;
+    }
+    tokenData.tokenDecimals = await playwright.waitAndGetInputValue(
+      mainPageElements.importToken.tokenDecimalInput,
+    );
+    await playwright.waitAndClick(
+      mainPageElements.importToken.addCustomTokenButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
+    await playwright.waitAndClick(
+      mainPageElements.importToken.importTokensButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
+    await playwright.waitAndClick(
+      mainPageElements.asset.backButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
+    await module.exports.closePopupAndTooltips();
+    await switchToCypressIfNotActive();
+    tokenData.imported = true;
+    return tokenData;
+  },
+  confirmAddToken: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
-      dataSignaturePageElements.rejectDataSignatureRequestButton,
+      addTokenPageElements.confirmAddTokenButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
+  rejectAddToken: async () => {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      addTokenPageElements.rejectAddTokenButton,
       notificationPage,
       { waitForEvent: 'close' },
     );
@@ -858,11 +945,10 @@ module.exports = {
         confirmPageElements.recipientButton,
         notificationPage,
       );
-      const recipientPublicAddress = await playwright.waitAndGetValue(
+      txData.recipientPublicAddress = await playwright.waitAndGetValue(
         recipientPopupElements.recipientPublicAddress,
         notificationPage,
       );
-      txData.recipientPublicAddress = recipientPublicAddress;
       await playwright.waitAndClick(
         recipientPopupElements.popupCloseButton,
         notificationPage,
@@ -876,20 +962,18 @@ module.exports = {
         .isVisible()
     ) {
       log('[confirmTransaction] Getting network name..');
-      const networkName = await playwright.waitAndGetValue(
+      txData.networkName = await playwright.waitAndGetValue(
         confirmPageElements.networkLabel,
         notificationPage,
       );
-      txData.networkName = networkName;
     }
     // todo: handle setting of custom nonce here
     log('[confirmTransaction] Getting transaction nonce..');
-    const customNonce = await playwright.waitAndGetAttributeValue(
+    txData.customNonce = await playwright.waitAndGetAttributeValue(
       confirmPageElements.customNonceInput,
       'placeholder',
       notificationPage,
     );
-    txData.customNonce = customNonce;
     log('[confirmTransaction] Checking if tx data is present..');
     if (
       await playwright
@@ -903,23 +987,20 @@ module.exports = {
         notificationPage,
       );
       log('[confirmTransaction] Getting origin value..');
-      const originValue = await playwright.waitAndGetValue(
+      txData.origin = await playwright.waitAndGetValue(
         confirmPageElements.originValue,
         notificationPage,
       );
       log('[confirmTransaction] Getting bytes value..');
-      const bytesValue = await playwright.waitAndGetValue(
+      txData.bytes = await playwright.waitAndGetValue(
         confirmPageElements.bytesValue,
         notificationPage,
       );
       log('[confirmTransaction] Getting hex data value..');
-      const hexDataValue = await playwright.waitAndGetValue(
+      txData.hexData = await playwright.waitAndGetValue(
         confirmPageElements.hexDataValue,
         notificationPage,
       );
-      txData.origin = originValue;
-      txData.bytes = bytesValue;
-      txData.hexData = hexDataValue;
       await playwright.waitAndClick(
         confirmPageElements.detailsButton,
         notificationPage,

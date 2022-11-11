@@ -196,11 +196,16 @@ module.exports = {
   },
   waitAndGetValue: async (selector, page = metamaskWindow) => {
     const element = await module.exports.waitFor(selector, page);
+    await expect(element).toHaveText(/[a-zA-Z0-9]/, {
+      ignoreCase: true,
+      useInnerText: true,
+    });
     const value = await element.innerText();
     return value;
   },
   waitAndGetInputValue: async (selector, page = metamaskWindow) => {
     const element = await module.exports.waitFor(selector, page);
+    await expect(element).toHaveValue(/[a-zA-Z1-9]/);
     const value = await element.inputValue();
     return value;
   },
@@ -210,7 +215,7 @@ module.exports = {
     page = metamaskWindow,
   ) => {
     const element = await module.exports.waitFor(selector, page);
-    await expect(element).toHaveAttribute(attribute, /[a-zA-Z0-9]*/);
+    await expect(element).toHaveAttribute(attribute, /[a-zA-Z0-9]/);
     const attrValue = await element.getAttribute(attribute);
     return attrValue;
   },

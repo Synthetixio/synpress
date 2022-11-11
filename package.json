@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@cypress/code-coverage": "^3.10.0",
-    "@cypress/webpack-dev-server": "^3.0.1",
+    "@cypress/webpack-dev-server": "^3.1.0",
     "@drptbl/gremlins.js": "^2.2.1",
     "@playwright/test": "^1.27.1",
     "@synthetixio/js": "^2.41.0",
@@ -62,7 +62,7 @@
     "babel-plugin-transform-react-styled-components-qa": "^2.1.0",
     "bytes32": "^0.0.3",
     "commander": "^9.4.1",
-    "cypress": "^11.0.0",
+    "cypress": "^11.0.1",
     "cypress-wait-until": "^1.7.2",
     "debug": "^4.3.4",
     "dotenv": "^16.0.3",
@@ -93,7 +93,7 @@
   "devDependencies": {
     "@metamask/test-dapp": "^5.2.1",
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
-    "npm-check-updates": "^16.3.18",
+    "npm-check-updates": "^16.3.22",
     "release-it": "^15.5.0"
   },
   "engines": {

@@ -230,6 +230,25 @@ declare namespace Cypress {
      */
     rejectMetamaskDataSignatureRequest(): Chainable<Subject>;
     /**
+     * Add custom token to metamask
+     * @example
+     * cy.importMetamaskToken('0x509ee0d083ddf8ac028f2a56731412edd63223b9')
+     * cy.importMetamaskToken({ address: '0x509ee0d083ddf8ac028f2a56731412edd63223b9', symbol: 'USDT'})
+     */
+    importMetamaskToken(tokenConfig?: object | string): Chainable<Subject>;
+    /**
+     * Confirm metamask request to add token
+     * @example
+     * cy.confirmMetamaskAddToken()
+     */
+    confirmMetamaskAddToken(): Chainable<Subject>;
+    /**
+     * Reject metamask request to add token
+     * @example
+     * cy.rejectMetamaskAddToken()
+     */
+    rejectMetamaskAddToken(): Chainable<Subject>;
+    /**
      * Confirm metamask permission to spend asset
      * @example
      * cy.confirmMetamaskPermissionToSpend()

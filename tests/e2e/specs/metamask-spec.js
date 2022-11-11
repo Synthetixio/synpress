@@ -332,6 +332,45 @@ describe('Metamask', () => {
         .invoke('text')
         .then(text => cy.log('Token hash: ' + text));
     });
+    it(`rejectMetamaskAddToken should cancel importing a token`, () => {
+      cy.get('#watchAsset').click();
+      cy.rejectMetamaskAddToken().then(rejected => {
+        expect(rejected).to.be.true;
+      });
+    });
+    it(`confirmMetamaskAddToken should confirm importing a token`, () => {
+      cy.get('#watchAsset').click();
+      cy.confirmMetamaskAddToken().then(confirmed => {
+        expect(confirmed).to.be.true;
+      });
+    });
+    it(`importMetamaskToken should import token to metamask`, () => {
+      const USDCContractAddressOnGoerli =
+        '0x2f3a40a3db8a7e3d09b0adfefbce4f6f81927557';
+      cy.importMetamaskToken(USDCContractAddressOnGoerli).then(tokenData => {
+        expect(tokenData.tokenContractAddress).to.be.equal(
+          USDCContractAddressOnGoerli,
+        );
+        expect(tokenData.tokenSymbol).to.be.equal('USDC');
+        expect(tokenData.tokenDecimals).to.be.equal('6');
+        expect(tokenData.imported).to.be.true;
+      });
+    });
+    it(`importMetamaskToken should import token to metamask using advanced token settings`, () => {
+      const USDTContractAddressOnGoerli =
+        '0x509ee0d083ddf8ac028f2a56731412edd63223b9';
+      cy.importMetamaskToken({
+        address: USDTContractAddressOnGoerli,
+        symbol: 'TDSU',
+      }).then(tokenData => {
+        expect(tokenData.tokenContractAddress).to.be.equal(
+          USDTContractAddressOnGoerli,
+        );
+        expect(tokenData.tokenSymbol).to.be.equal('TDSU');
+        expect(tokenData.tokenDecimals).to.be.equal('6');
+        expect(tokenData.imported).to.be.true;
+      });
+    });
     it(`rejectMetamaskPermissionToSpend should reject permission to spend token`, () => {
       cy.get('#approveTokens').click();
       cy.rejectMetamaskPermissionToSpend().then(rejected => {
