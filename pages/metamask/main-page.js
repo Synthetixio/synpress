@@ -104,6 +104,24 @@ const createAccount = {
   createButton: `${importAccountSelector} .new-account-create-form__button:nth-child(2)`,
 };
 
+const importTokenFormSelector = '.import-token__custom-token-form';
+const importToken = {
+  form: importTokenFormSelector,
+  tokenContractAddressInput: `${importTokenFormSelector} #custom-address`,
+  tokenSymbolInput: `${importTokenFormSelector} #custom-symbol`,
+  tokenEditButton: `${importTokenFormSelector} .import-token__custom-symbol__edit`,
+  tokenDecimalInput: `${importTokenFormSelector} #custom-decimals`,
+  addCustomTokenButton: `[data-testid="page-container-footer-next"]`,
+  confirmImportTokenContent: '.confirm-import-token',
+  importTokensButton: `.btn-primary`,
+};
+
+const assetNavigationSelector = '.asset-navigation';
+const asset = {
+  navigation: assetNavigationSelector,
+  backButton: `${assetNavigationSelector} [data-testid="asset__back"]`,
+};
+
 module.exports.mainPageElements = {
   networkSwitcher,
   walletOverview,
@@ -118,4 +136,6 @@ module.exports.mainPageElements = {
   accountModal,
   importAccount,
   createAccount,
+  importToken,
+  asset,
 };
