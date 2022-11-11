@@ -205,6 +205,10 @@ module.exports = (on, config) => {
       const rejected = await metamask.rejectDecryptionRequest();
       return rejected;
     },
+    importMetamaskToken: async tokenConfig => {
+      const imported = await metamask.importToken(tokenConfig);
+      return imported;
+    },
     confirmMetamaskAddToken: async () => {
       const confirmed = await metamask.confirmAddToken();
       return confirmed;

@@ -684,6 +684,67 @@ module.exports = {
     );
     return true;
   },
+  importToken: async tokenConfig => {
+    let tokenData = {};
+    await switchToMetamaskIfNotActive();
+    await module.exports.goToImportToken();
+    if (typeof tokenConfig === 'string') {
+      await playwright.waitAndType(
+        mainPageElements.importToken.tokenContractAddressInput,
+        tokenConfig,
+      );
+      tokenData.tokenContractAddress = tokenConfig;
+      tokenData.tokenSymbol = await playwright.waitAndGetInputValue(
+        mainPageElements.importToken.tokenSymbolInput,
+      );
+    } else {
+      await playwright.waitAndType(
+        mainPageElements.importToken.tokenContractAddressInput,
+        tokenConfig.address,
+      );
+      tokenData.tokenContractAddress = tokenConfig.address;
+      await playwright.waitAndClick(
+        mainPageElements.importToken.tokenEditButton,
+        await playwright.metamaskWindow(),
+        {
+          force: true,
+        },
+      );
+      await playwright.waitClearAndType(
+        tokenConfig.symbol,
+        mainPageElements.importToken.tokenSymbolInput,
+      );
+      tokenData.tokenSymbol = tokenConfig.symbol;
+    }
+    tokenData.tokenDecimals = await playwright.waitAndGetInputValue(
+      mainPageElements.importToken.tokenDecimalInput,
+    );
+    await playwright.waitAndClick(
+      mainPageElements.importToken.addCustomTokenButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
+    await playwright.waitAndClick(
+      mainPageElements.importToken.importTokensButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
+    await playwright.waitAndClick(
+      mainPageElements.asset.backButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
+    await module.exports.closePopupAndTooltips();
+    await switchToCypressIfNotActive();
+    tokenData.imported = true;
+    return tokenData;
+  },
   confirmAddToken: async () => {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
