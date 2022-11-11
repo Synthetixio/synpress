@@ -205,6 +205,7 @@ module.exports = {
   },
   waitAndGetInputValue: async (selector, page = metamaskWindow) => {
     const element = await module.exports.waitFor(selector, page);
+    await expect(element).toHaveValue(/[a-zA-Z1-9]/);
     const value = await element.inputValue();
     return value;
   },
