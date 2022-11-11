@@ -196,6 +196,10 @@ module.exports = {
   },
   waitAndGetValue: async (selector, page = metamaskWindow) => {
     const element = await module.exports.waitFor(selector, page);
+    await expect(element).toHaveText(/[a-zA-Z0-9]/, {
+      ignoreCase: true,
+      useInnerText: true,
+    });
     const value = await element.innerText();
     return value;
   },
