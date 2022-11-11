@@ -45,6 +45,7 @@ let extensionExperimentalSettingsUrl;
 let extensionAddNetworkUrl;
 let extensionNewAccountUrl;
 let extensionImportAccountUrl;
+let extensionImportTokenUrl;
 let walletAddress;
 let switchBackToCypressWindow;
 
@@ -62,6 +63,7 @@ module.exports = {
       extensionAddNetworkUrl,
       extensionNewAccountUrl,
       extensionImportAccountUrl,
+      extensionImportTokenUrl,
     };
   },
   walletAddress: () => {
@@ -95,6 +97,9 @@ module.exports = {
   goToImportAccount: async () => {
     await module.exports.goTo(extensionImportAccountUrl);
   },
+  goToImportToken: async () => {
+    await module.exports.goTo(extensionImportTokenUrl);
+  },
   getExtensionDetails: async () => {
     extensionInitialUrl = await playwright.metamaskWindow().url();
     extensionId = extensionInitialUrl.match('//(.*?)/')[1];
@@ -105,6 +110,7 @@ module.exports = {
     extensionAddNetworkUrl = `${extensionSettingsUrl}/networks/add-network`;
     extensionNewAccountUrl = `${extensionHomeUrl}#new-account`;
     extensionImportAccountUrl = `${extensionNewAccountUrl}/import`;
+    extensionImportTokenUrl = `${extensionHomeUrl}#import-token`;
 
     return {
       extensionInitialUrl,
@@ -115,6 +121,7 @@ module.exports = {
       extensionAddNetworkUrl,
       extensionNewAccountUrl,
       extensionImportAccountUrl,
+      extensionImportTokenUrl,
     };
   },
   // workaround for metamask random blank page on first run
