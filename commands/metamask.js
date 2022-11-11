@@ -877,11 +877,10 @@ module.exports = {
         confirmPageElements.recipientButton,
         notificationPage,
       );
-      const recipientPublicAddress = await playwright.waitAndGetValue(
+      txData.recipientPublicAddress = await playwright.waitAndGetValue(
         recipientPopupElements.recipientPublicAddress,
         notificationPage,
       );
-      txData.recipientPublicAddress = recipientPublicAddress;
       await playwright.waitAndClick(
         recipientPopupElements.popupCloseButton,
         notificationPage,
@@ -895,20 +894,18 @@ module.exports = {
         .isVisible()
     ) {
       log('[confirmTransaction] Getting network name..');
-      const networkName = await playwright.waitAndGetValue(
+      txData.networkName = await playwright.waitAndGetValue(
         confirmPageElements.networkLabel,
         notificationPage,
       );
-      txData.networkName = networkName;
     }
     // todo: handle setting of custom nonce here
     log('[confirmTransaction] Getting transaction nonce..');
-    const customNonce = await playwright.waitAndGetAttributeValue(
+    txData.customNonce = await playwright.waitAndGetAttributeValue(
       confirmPageElements.customNonceInput,
       'placeholder',
       notificationPage,
     );
-    txData.customNonce = customNonce;
     log('[confirmTransaction] Checking if tx data is present..');
     if (
       await playwright
@@ -922,23 +919,20 @@ module.exports = {
         notificationPage,
       );
       log('[confirmTransaction] Getting origin value..');
-      const originValue = await playwright.waitAndGetValue(
+      txData.origin = await playwright.waitAndGetValue(
         confirmPageElements.originValue,
         notificationPage,
       );
       log('[confirmTransaction] Getting bytes value..');
-      const bytesValue = await playwright.waitAndGetValue(
+      txData.bytes = await playwright.waitAndGetValue(
         confirmPageElements.bytesValue,
         notificationPage,
       );
       log('[confirmTransaction] Getting hex data value..');
-      const hexDataValue = await playwright.waitAndGetValue(
+      txData.hexData = await playwright.waitAndGetValue(
         confirmPageElements.hexDataValue,
         notificationPage,
       );
-      txData.origin = originValue;
-      txData.bytes = bytesValue;
-      txData.hexData = hexDataValue;
       await playwright.waitAndClick(
         confirmPageElements.detailsButton,
         notificationPage,
