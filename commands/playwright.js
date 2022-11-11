@@ -210,7 +210,7 @@ module.exports = {
     page = metamaskWindow,
   ) => {
     const element = await module.exports.waitFor(selector, page);
-    await expect(element).toHaveAttribute(attribute, /[a-zA-Z0-9]*/);
+    await expect(element).toHaveAttribute(attribute, /[a-zA-Z0-9]/);
     const attrValue = await element.getAttribute(attribute);
     return attrValue;
   },
