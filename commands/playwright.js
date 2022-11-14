@@ -53,6 +53,16 @@ module.exports = {
     browser = null;
     return true;
   },
+  openNewPage: async url => {
+    const page = await browser.newPage();
+    if (url) {
+      await page.goto(url);
+      if (url.includes('chrome-extension://')) {
+        metamaskWindow = page;
+      }
+    }
+    return page;
+  },
   assignWindows: async () => {
     let pages = await browser.contexts()[0].pages();
     for (const page of pages) {
