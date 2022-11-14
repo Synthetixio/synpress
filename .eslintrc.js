@@ -35,4 +35,7 @@ module.exports = {
     'testing-library/no-debugging-utils': 0,
     'testing-library/prefer-screen-queries': 0,
   },
+  globals: {
+    chrome: true,
+  },
 };
