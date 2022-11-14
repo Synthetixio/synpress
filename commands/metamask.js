@@ -39,6 +39,7 @@ const { setNetwork } = require('../helpers');
 let extensionInitialUrl;
 let extensionId;
 let extensionHomeUrl;
+let extensionWelcomeUrl;
 let extensionSettingsUrl;
 let extensionAdvancedSettingsUrl;
 let extensionExperimentalSettingsUrl;
@@ -57,6 +58,7 @@ module.exports = {
     return {
       extensionInitialUrl,
       extensionHomeUrl,
+      extensionWelcomeUrl,
       extensionSettingsUrl,
       extensionAdvancedSettingsUrl,
       extensionExperimentalSettingsUrl,
@@ -78,6 +80,9 @@ module.exports = {
   },
   goToHome: async () => {
     await module.exports.goTo(extensionHomeUrl);
+  },
+  goToWelcome: async () => {
+    await module.exports.goTo(extensionWelcomeUrl);
   },
   goToSettings: async () => {
     await module.exports.goTo(extensionSettingsUrl);
@@ -104,6 +109,7 @@ module.exports = {
     extensionInitialUrl = await playwright.metamaskWindow().url();
     extensionId = extensionInitialUrl.match('//(.*?)/')[1];
     extensionHomeUrl = `chrome-extension://${extensionId}/home.html`;
+    extensionWelcomeUrl = `${extensionHomeUrl}#initialize/welcome`;
     extensionSettingsUrl = `${extensionHomeUrl}#settings`;
     extensionAdvancedSettingsUrl = `${extensionSettingsUrl}/advanced`;
     extensionExperimentalSettingsUrl = `${extensionSettingsUrl}/experimental`;
@@ -115,6 +121,8 @@ module.exports = {
     return {
       extensionInitialUrl,
       extensionId,
+      extensionHomeUrl,
+      extensionWelcomeUrl,
       extensionSettingsUrl,
       extensionAdvancedSettingsUrl,
       extensionExperimentalSettingsUrl,
@@ -123,6 +131,18 @@ module.exports = {
       extensionImportAccountUrl,
       extensionImportTokenUrl,
     };
+  },
+  resetExtension: async setupMetamask => {
+    // await playwright.init();
+    // await playwright.assignWindows();
+    // await module.exports.getExtensionDetails();
+    await switchToMetamaskIfNotActive();
+    await playwright.clearExtensionData(extensionWelcomeUrl);
+    if (setupMetamask) {
+      await module.exports.initialSetup();
+    }
+    await switchToCypressIfNotActive();
+    return true;
   },
   // workaround for metamask random blank page on first run
   fixBlankPage: async () => {
