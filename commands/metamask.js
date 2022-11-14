@@ -1143,11 +1143,21 @@ module.exports = {
     return walletAddress;
   },
   initialSetup: async ({
-    secretWordsOrPrivateKey,
-    network,
-    password,
-    enableAdvancedSettings,
+    secretWordsOrPrivateKey = 'test test test test test test test test test test test junk',
+    network = 'goerli',
+    password = 'Tester@1234',
+    enableAdvancedSettings = false,
   }) => {
+    if (process.env.PRIVATE_KEY) {
+      secretWordsOrPrivateKey = process.env.PRIVATE_KEY;
+    }
+    if (process.env.SECRET_WORDS) {
+      secretWordsOrPrivateKey = process.env.SECRET_WORDS;
+    }
+    if (process.env.NETWORK_NAME) {
+      network = process.env.NETWORK_NAME;
+    }
+
     const isCustomNetwork =
       (process.env.NETWORK_NAME &&
         process.env.RPC_URL &&
