@@ -14,6 +14,7 @@ const defaultArguments = [
 
 const launcher = {
   async open(arguments_) {
+    process.env.SYNPRESS_OPEN = true;
     await (arguments_.configFile
       ? cypress.open({ configFile: arguments_.configFile })
       : cypress.open({
@@ -21,6 +22,7 @@ const launcher = {
         }));
   },
   async run(arguments_) {
+    process.env.SYNPRESS_RUN = true;
     if (arguments_.configFile) {
       log(`Custom config file arg detected: ${arguments_.configFile}`);
       defaultArguments.push(`--config-file=${arguments_.configFile}`);
