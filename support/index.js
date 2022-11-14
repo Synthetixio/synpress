@@ -25,13 +25,15 @@ Cypress.on('window:before:load', win => {
 });
 
 before(() => {
-  if (!Cypress.env('SKIP_METAMASK_SETUP')) {
-    if (Cypress.config('isInteractive')) {
-      cy.resetMetamask(true);
+  if (!Cypress.env('SKIP_METAMASK_INSTALL')) {
+    if (!Cypress.env('SKIP_METAMASK_SETUP')) {
+      if (Cypress.config('isInteractive')) {
+        cy.resetMetamask(true);
+      } else {
+        cy.setupMetamask();
+      }
     } else {
-      cy.setupMetamask();
+      cy.resetMetamask();
     }
-  } else {
-    cy.resetMetamask();
   }
 });
