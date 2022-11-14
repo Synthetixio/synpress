@@ -94,6 +94,10 @@ module.exports = (on, config) => {
       const notificationPage = await playwright.switchToMetamaskNotification();
       return notificationPage;
     },
+    resetMetamask: async setupExtension => {
+      const resetted = await metamask.resetExtension(setupExtension);
+      return resetted;
+    },
     unlockMetamask: async password => {
       const unlocked = await metamask.unlock(password);
       return unlocked;

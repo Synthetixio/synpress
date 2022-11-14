@@ -37,6 +37,10 @@ Cypress.Commands.add('switchToMetamaskNotification', () => {
 
 // metamask commands
 
+Cypress.Commands.add('resetMetamask', setupExtension => {
+  return cy.task('resetMetamask', setupExtension);
+});
+
 Cypress.Commands.add('addMetamaskNetwork', network => {
   return cy.task('addMetamaskNetwork', network);
 });
