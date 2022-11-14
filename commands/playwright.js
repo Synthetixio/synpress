@@ -53,6 +53,25 @@ module.exports = {
     browser = null;
     return true;
   },
+  clearExtensionData: async extensionWelcomeUrl => {
+    await metamaskWindow.evaluate(async () => {
+      chrome.storage.local.clear();
+      chrome.storage.sync.clear();
+      chrome.runtime.reload();
+    });
+    await mainWindow.waitForTimeout(1000);
+    const newPagePromise = new Promise(resolve =>
+      browser.contexts()[0].once('page', resolve),
+    );
+    await mainWindow.evaluate(async extensionWelcomeUrl => {
+      window.open(extensionWelcomeUrl, '_blank').focus();
+    }, extensionWelcomeUrl);
+    metamaskWindow = await newPagePromise;
+    await module.exports.assignActiveTabName('metamask');
+    await metamaskWindow.reload();
+    await module.exports.waitUntilStable();
+    return metamaskWindow;
+  },
   openNewPage: async url => {
     const page = await browser.newPage();
     if (url) {
