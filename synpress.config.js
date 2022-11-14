@@ -29,6 +29,7 @@ module.exports = defineConfig({
   defaultCommandTimeout: process.env.SYNDEBUG ? 9999999 : 30000,
   pageLoadTimeout: process.env.SYNDEBUG ? 9999999 : 30000,
   requestTimeout: process.env.SYNDEBUG ? 9999999 : 30000,
+  experimentalInteractiveRunEvents: true,
   e2e: {
     setupNodeEvents,
     baseUrl: 'http://localhost:3000',
