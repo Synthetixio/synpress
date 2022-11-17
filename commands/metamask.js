@@ -781,9 +781,9 @@ module.exports = {
     );
     return true;
   },
-  acceptAccess: async allAccounts => {
+  acceptAccess: async options => {
     const notificationPage = await playwright.switchToMetamaskNotification();
-    if (allAccounts === true) {
+    if (options && options.allAccounts) {
       await playwright.waitAndClick(
         notificationPageElements.selectAllCheckbox,
         notificationPage,
@@ -794,11 +794,20 @@ module.exports = {
       notificationPage,
       { waitForEvent: 'navi' },
     );
-    await playwright.waitAndClick(
-      permissionsPageElements.connectButton,
-      notificationPage,
-      { waitForEvent: 'close' },
-    );
+    if (options && options.signInSignature) {
+      await playwright.waitAndClick(
+        permissionsPageElements.connectButton,
+        notificationPage,
+        { waitForEvent: 'navi' },
+      );
+      await module.exports.confirmSignatureRequest();
+    } else {
+      await playwright.waitAndClick(
+        permissionsPageElements.connectButton,
+        notificationPage,
+        { waitForEvent: 'close' },
+      );
+    }
     return true;
   },
   confirmTransaction: async gasConfig => {
