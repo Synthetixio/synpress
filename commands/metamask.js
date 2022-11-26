@@ -983,38 +983,39 @@ module.exports = {
       'placeholder',
       notificationPage,
     );
-    log('[confirmTransaction] Checking if tx data is present..');
-    if (
-      await playwright
-        .metamaskNotificationWindow()
-        .locator(confirmPageElements.dataButton)
-        .isVisible()
-    ) {
-      log('[confirmTransaction] Fetching tx data..');
-      await playwright.waitAndClick(
-        confirmPageElements.dataButton,
-        notificationPage,
-      );
-      log('[confirmTransaction] Getting origin value..');
-      txData.origin = await playwright.waitAndGetValue(
-        confirmPageElements.originValue,
-        notificationPage,
-      );
-      log('[confirmTransaction] Getting bytes value..');
-      txData.bytes = await playwright.waitAndGetValue(
-        confirmPageElements.bytesValue,
-        notificationPage,
-      );
-      log('[confirmTransaction] Getting hex data value..');
-      txData.hexData = await playwright.waitAndGetValue(
-        confirmPageElements.hexDataValue,
-        notificationPage,
-      );
-      await playwright.waitAndClick(
-        confirmPageElements.detailsButton,
-        notificationPage,
-      );
-    }
+    // todo: fix getting tx data on function multicall
+    // log('[confirmTransaction] Checking if tx data is present..');
+    // if (
+    //   await playwright
+    //     .metamaskNotificationWindow()
+    //     .locator(confirmPageElements.dataButton)
+    //     .isVisible()
+    // ) {
+    //   log('[confirmTransaction] Fetching tx data..');
+    //   await playwright.waitAndClick(
+    //     confirmPageElements.dataButton,
+    //     notificationPage,
+    //   );
+    //   log('[confirmTransaction] Getting origin value..');
+    //   txData.origin = await playwright.waitAndGetValue(
+    //     confirmPageElements.originValue,
+    //     notificationPage,
+    //   );
+    //   log('[confirmTransaction] Getting bytes value..');
+    //   txData.bytes = await playwright.waitAndGetValue(
+    //     confirmPageElements.bytesValue,
+    //     notificationPage,
+    //   );
+    //   log('[confirmTransaction] Getting hex data value..');
+    //   txData.hexData = await playwright.waitAndGetValue(
+    //     confirmPageElements.hexDataValue,
+    //     notificationPage,
+    //   );
+    //   await playwright.waitAndClick(
+    //     confirmPageElements.detailsButton,
+    //     notificationPage,
+    //   );
+    // }
     log('[confirmTransaction] Confirming transaction..');
     await playwright.waitAndClick(
       confirmPageElements.confirmButton,
