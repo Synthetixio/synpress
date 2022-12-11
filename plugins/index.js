@@ -225,8 +225,8 @@ module.exports = (on, config) => {
       const rejected = await metamask.rejectPermissionToSpend();
       return rejected;
     },
-    acceptMetamaskAccess: async allAccounts => {
-      const accepted = await metamask.acceptAccess(allAccounts);
+    acceptMetamaskAccess: async options => {
+      const accepted = await metamask.acceptAccess(options);
       return accepted;
     },
     confirmMetamaskTransaction: async gasConfig => {

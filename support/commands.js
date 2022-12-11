@@ -184,8 +184,8 @@ Cypress.Commands.add('rejectMetamaskPermissionToSpend', () => {
   return cy.task('rejectMetamaskPermissionToSpend');
 });
 
-Cypress.Commands.add('acceptMetamaskAccess', allAccounts => {
-  return cy.task('acceptMetamaskAccess', allAccounts);
+Cypress.Commands.add('acceptMetamaskAccess', options => {
+  return cy.task('acceptMetamaskAccess', options);
 });
 
 Cypress.Commands.add('confirmMetamaskTransaction', gasConfig => {
