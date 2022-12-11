@@ -37,8 +37,8 @@ Cypress.Commands.add('switchToMetamaskNotification', () => {
 
 // metamask commands
 
-Cypress.Commands.add('resetMetamask', setupExtension => {
-  return cy.task('resetMetamask', setupExtension);
+Cypress.Commands.add('resetMetamask', options => {
+  return cy.task('resetMetamask', options);
 });
 
 Cypress.Commands.add('addMetamaskNetwork', network => {
@@ -230,17 +230,9 @@ Cypress.Commands.add('fetchMetamaskWalletAddress', () => {
   });
 });
 
-Cypress.Commands.add(
-  'setupMetamask',
-  (secretWordsOrPrivateKey, network, password, enableAdvancedSettings) => {
-    return cy.task('setupMetamask', {
-      secretWordsOrPrivateKey,
-      network,
-      password,
-      enableAdvancedSettings,
-    });
-  },
-);
+Cypress.Commands.add('setupMetamask', options => {
+  return cy.task('setupMetamask', options);
+});
 
 Cypress.Commands.add('getNetwork', () => {
   return cy.task('getNetwork');

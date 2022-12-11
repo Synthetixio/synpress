@@ -94,8 +94,8 @@ module.exports = (on, config) => {
       const notificationPage = await playwright.switchToMetamaskNotification();
       return notificationPage;
     },
-    resetMetamask: async setupExtension => {
-      const resetted = await metamask.resetExtension(setupExtension);
+    resetMetamask: async options => {
+      const resetted = await metamask.resetExtension(options);
       return resetted;
     },
     unlockMetamask: async password => {
@@ -268,18 +268,8 @@ module.exports = (on, config) => {
     fetchMetamaskWalletAddress: async () => {
       return metamask.walletAddress();
     },
-    setupMetamask: async ({
-      secretWordsOrPrivateKey,
-      network,
-      password,
-      enableAdvancedSettings,
-    }) => {
-      await metamask.initialSetup({
-        secretWordsOrPrivateKey,
-        network,
-        password,
-        enableAdvancedSettings,
-      });
+    setupMetamask: async options => {
+      await metamask.initialSetup(options);
       return true;
     },
     snxExchangerSettle: async ({ asset, walletAddress, privateKey }) => {

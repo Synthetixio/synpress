@@ -19,23 +19,23 @@ describe('Playwright', () => {
         expect(assigned).to.be.true;
       });
     });
-    it(`switchToCypressWindow should properly switch active tab to cypress window`, () => {
-      cy.switchToCypressWindow();
-      cy.isCypressWindowActive().then(isActive => {
-        expect(isActive).to.be.true;
-      });
-      cy.isMetamaskWindowActive().then(isActive => {
-        expect(isActive).to.be.false;
-      });
-    });
-    it(`switchToMetamaskWindow should properly switch active tab to metamask window`, () => {
-      cy.switchToMetamaskWindow();
-      cy.isMetamaskWindowActive().then(isActive => {
-        expect(isActive).to.be.true;
-      });
-      cy.isCypressWindowActive().then(isActive => {
-        expect(isActive).to.be.false;
-      });
-    });
+    // it(`switchToCypressWindow should properly switch active tab to cypress window`, () => {
+    //   cy.switchToCypressWindow();
+    //   cy.isCypressWindowActive().then(isActive => {
+    //     expect(isActive).to.be.true;
+    //   });
+    //   cy.isMetamaskWindowActive().then(isActive => {
+    //     expect(isActive).to.be.false;
+    //   });
+    // });
+    // it(`switchToMetamaskWindow should properly switch active tab to metamask window`, () => {
+    //   cy.switchToMetamaskWindow();
+    //   cy.isMetamaskWindowActive().then(isActive => {
+    //     expect(isActive).to.be.true;
+    //   });
+    //   cy.isCypressWindowActive().then(isActive => {
+    //     expect(isActive).to.be.false;
+    //   });
+    // });
   });
 });

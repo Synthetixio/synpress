@@ -27,8 +27,9 @@ Cypress.on('window:before:load', win => {
 before(() => {
   if (!Cypress.env('SKIP_METAMASK_INSTALL')) {
     if (!Cypress.env('SKIP_METAMASK_SETUP')) {
+      // todo: make sure metamask window is open (inside setup and reset)
       if (Cypress.config('isInteractive')) {
-        cy.resetMetamask(true);
+        cy.resetMetamask({ setupExtensionAfterReset: true });
       } else {
         cy.setupMetamask();
       }
@@ -37,3 +38,11 @@ before(() => {
     }
   }
 });
+
+// todo: na czym skonczylem?
+// tutaj w before cos jest zjebane chyba
+// motalem cos z synpress run/open w package.json
+// aaa dodatkowo byl jakis problem, ze nie otwieral sie metamask domyslnie w synpress open
+// moze trzeba to sprawdzac i otwierac go samemu w takiej sytuacji
+// nie wiem czy domyslny reset to dobra opcja
+// jest jeszcze before run is before spec obczaj to dla synpress open

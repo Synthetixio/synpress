@@ -11,6 +11,7 @@ let mainWindow;
 let metamaskWindow;
 let metamaskNotificationWindow;
 let activeTabName;
+let metamaskExtensionId;
 
 let retries = 0;
 
@@ -55,33 +56,80 @@ module.exports = {
   },
   clearExtensionData: async extensionWelcomeUrl => {
     await metamaskWindow.evaluate(async () => {
-      chrome.storage.local.clear();
-      chrome.storage.sync.clear();
-      chrome.runtime.reload();
+      await chrome.storage.local.clear();
+      await chrome.storage.sync.clear();
+      await chrome.runtime.reload();
     });
     await mainWindow.waitForTimeout(1000);
-    const newPagePromise = new Promise(resolve =>
-      browser.contexts()[0].once('page', resolve),
-    );
-    await mainWindow.evaluate(async extensionWelcomeUrl => {
-      window.open(extensionWelcomeUrl, '_blank').focus();
-    }, extensionWelcomeUrl);
-    metamaskWindow = await newPagePromise;
+    metamaskWindow = await module.exports.openNewTab(extensionWelcomeUrl);
     await module.exports.assignActiveTabName('metamask');
     await metamaskWindow.reload();
     await module.exports.waitUntilStable();
     return metamaskWindow;
   },
+  getExtensionId: async () => {
+    if (metamaskExtensionId) {
+      return metamaskExtensionId;
+    }
+    const extensionsPage = await module.exports.openNewPage(
+      'chrome://extensions',
+    );
+    const element = extensionsPage.locator(
+      'extensions-manager extensions-item:has-text("MetaMask")',
+    );
+    await element.waitFor();
+    await expect(element).toHaveAttribute('id', /[a-zA-Z0-9]/);
+    metamaskExtensionId = await element.getAttribute('id');
+    return metamaskExtensionId;
+  },
+  openMetamaskWindow: async extensionId => {
+    const extensionUrl = `chrome-extension://${extensionId}/home.html`;
+    metamaskWindow = await module.exports.openNewTab(extensionUrl);
+    await module.exports.assignActiveTabName('metamask');
+    await metamaskWindow.reload();
+    await module.exports.waitUntilStable();
+    return metamaskWindow;
+  },
+  openNewTab: async url => {
+    const newTabPromise = new Promise(resolve =>
+      browser.contexts()[0].once('page', resolve),
+    );
+    await mainWindow.evaluate(async url => {
+      window.open(url, '_blank').focus();
+    }, url);
+    const tab = await newTabPromise;
+    return tab;
+  },
   openNewPage: async url => {
     const page = await browser.newPage();
     if (url) {
       await page.goto(url);
+      await page.waitForLoadState('load');
+      await page.waitForLoadState('domcontentloaded');
+      await page.waitForLoadState('networkidle');
       if (url.includes('chrome-extension://')) {
         metamaskWindow = page;
       }
     }
     return page;
   },
+  getWindows: async () => {
+    let runnerPage;
+    let extensionPage;
+    let notificationPage;
+    let pages = await browser.contexts()[0].pages();
+    for (const page of pages) {
+      if (page.url().includes('runner')) {
+        runnerPage = page;
+      } else if (page.url().includes('extension')) {
+        extensionPage = page;
+      } else if (page.url().includes('notification')) {
+        notificationPage = page;
+      }
+    }
+    return { runnerPage, extensionPage, notificationPage };
+  },
+  // todo: musi byc clear jesli strona nie istnieje
   assignWindows: async () => {
     let pages = await browser.contexts()[0].pages();
     for (const page of pages) {

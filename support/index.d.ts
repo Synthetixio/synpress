@@ -60,7 +60,15 @@ declare namespace Cypress {
      * @example
      * cy.resetMetamask()
      */
-    resetMetamask(setupExtension: boolean): Chainable<Subject>;
+    resetMetamask(options?: {
+      setupExtensionAfterReset?: boolean;
+      setupMetamaskOptions?: {
+        secretWordsOrPrivateKey?: string;
+        password?: string;
+        network?: string | object;
+        enableAdvancedSettings?: boolean;
+      };
+    }): Chainable<Subject>;
     /**
      * Add network in metamask (and also switch to the newly added network)
      * @example
@@ -340,12 +348,12 @@ declare namespace Cypress {
      * cy.setupMetamask('private_key', 'goerli', 'password for metamask')
      * cy.setupMetamask('private_key', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for metamask')
      */
-    setupMetamask(
-      secretWordsOrPrivateKey?: string,
-      network?: string | object,
-      password?: string,
-      enableAdvancedSettings?: boolean,
-    ): Chainable<Subject>;
+    setupMetamask(options?: {
+      secretWordsOrPrivateKey?: string;
+      password?: string;
+      network?: string | object;
+      enableAdvancedSettings?: boolean;
+    }): Chainable<Subject>;
     /**
      * Execute settle on Exchanger contract
      * @example

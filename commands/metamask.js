@@ -132,14 +132,32 @@ module.exports = {
       extensionImportTokenUrl,
     };
   },
-  resetExtension: async setupMetamask => {
-    // await playwright.init();
-    // await playwright.assignWindows();
-    // await module.exports.getExtensionDetails();
+  resetExtension: async (
+    options = {
+      setupExtensionAfterReset: false,
+      setupMetamaskOptions: {
+        secretWordsOrPrivateKey:
+          'test test test test test test test test test test test junk',
+        password: 'Tester@1234',
+        network: 'goerli',
+        enableAdvancedSettings: false,
+      },
+    },
+  ) => {
+    await playwright.init();
+    await playwright.assignWindows();
+    const pages = await playwright.getWindows();
+    if (!pages.extensionPage) {
+      const extensionId = await playwright.getExtensionId();
+      await playwright.openMetamaskWindow(extensionId);
+    }
+    await module.exports.getExtensionDetails();
+
     await switchToMetamaskIfNotActive();
     await playwright.clearExtensionData(extensionWelcomeUrl);
-    if (setupMetamask) {
-      await module.exports.initialSetup();
+
+    if (options.setupExtensionAfterReset) {
+      await module.exports.initialSetup(options.setupMetamaskOptions);
     }
     await switchToCypressIfNotActive();
     return true;
@@ -1142,20 +1160,23 @@ module.exports = {
     await switchToCypressIfNotActive();
     return walletAddress;
   },
-  initialSetup: async ({
-    secretWordsOrPrivateKey = 'test test test test test test test test test test test junk',
-    network = 'goerli',
-    password = 'Tester@1234',
-    enableAdvancedSettings = false,
-  }) => {
+  initialSetup: async (
+    options = {
+      secretWordsOrPrivateKey:
+        'test test test test test test test test test test test junk',
+      password: 'Tester@1234',
+      network: 'goerli',
+      enableAdvancedSettings: false,
+    },
+  ) => {
     if (process.env.PRIVATE_KEY) {
-      secretWordsOrPrivateKey = process.env.PRIVATE_KEY;
+      options.secretWordsOrPrivateKey = process.env.PRIVATE_KEY;
     }
     if (process.env.SECRET_WORDS) {
-      secretWordsOrPrivateKey = process.env.SECRET_WORDS;
+      options.secretWordsOrPrivateKey = process.env.SECRET_WORDS;
     }
     if (process.env.NETWORK_NAME) {
-      network = process.env.NETWORK_NAME;
+      options.network = process.env.NETWORK_NAME;
     }
 
     const isCustomNetwork =
@@ -1169,6 +1190,7 @@ module.exports = {
     await playwright.assignActiveTabName('metamask');
     await module.exports.getExtensionDetails();
     await module.exports.fixBlankPage();
+    // await module.exports.resetExtension();
     if (
       await playwright
         .metamaskWindow()
@@ -1176,21 +1198,24 @@ module.exports = {
         .isVisible()
     ) {
       await module.exports.confirmWelcomePage();
-      if (secretWordsOrPrivateKey.includes(' ')) {
+      if (options.secretWordsOrPrivateKey.includes(' ')) {
         // secret words
-        await module.exports.importWallet(secretWordsOrPrivateKey, password);
+        await module.exports.importWallet(
+          options.secretWordsOrPrivateKey,
+          options.password,
+        );
       } else {
         // private key
-        await module.exports.createWallet(password);
-        await module.exports.importAccount(secretWordsOrPrivateKey);
+        await module.exports.createWallet(options.password);
+        await module.exports.importAccount(options.secretWordsOrPrivateKey);
       }
 
-      await setupSettings(enableAdvancedSettings);
+      await setupSettings(options.enableAdvancedSettings);
 
       if (isCustomNetwork) {
-        await module.exports.addNetwork(network);
+        await module.exports.addNetwork(options.network);
       } else {
-        await module.exports.changeNetwork(network);
+        await module.exports.changeNetwork(options.network);
       }
       walletAddress = await module.exports.getWalletAddress();
       await playwright.switchToCypressWindow();
@@ -1201,7 +1226,7 @@ module.exports = {
         .locator(unlockPageElements.passwordInput)
         .isVisible()
     ) {
-      await module.exports.unlock(password);
+      await module.exports.unlock(options.password);
       walletAddress = await module.exports.getWalletAddress();
       await playwright.switchToCypressWindow();
       return true;
