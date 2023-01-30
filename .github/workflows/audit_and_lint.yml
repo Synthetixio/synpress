@@ -53,7 +53,7 @@ jobs:
         run: yarn config set cache-folder .yarn-cache
         continue-on-error: true
 
-      - uses: actions/cache@58c146cc91c5b9e778e71775dfe9bf1442ad9a12 # pin@v2
+      - uses: actions/cache@627f0f41f6904a5b1efbaed9f96d9eb58e92e920 # pin@v2
         with:
           path: |
             .yarn-cache
@@ -108,7 +108,7 @@ jobs:
         uses: docker/setup-buildx-action@8c0edbc76e98fa90f69d9a2c020dcb50019dc325 # pin@v1
 
       - name: Cache Docker layers
-        uses: actions/cache@58c146cc91c5b9e778e71775dfe9bf1442ad9a12 # pin@v2
+        uses: actions/cache@627f0f41f6904a5b1efbaed9f96d9eb58e92e920 # pin@v2
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
