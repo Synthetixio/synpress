@@ -97,7 +97,7 @@
     "release-it": "^15.6.0"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
   },
   "publishConfig": {
     "access": "public"
