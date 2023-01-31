@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: synthetixio/docker-sec-tools:16.17-alpine
+      image: synthetixio/docker-sec-tools:18.13-alpine
 
     steps:
       - name: Checkout
@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: synthetixio/docker-node:16.17-alpine
+      image: synthetixio/docker-node:18.13-alpine
 
     steps:
       - name: Checkout

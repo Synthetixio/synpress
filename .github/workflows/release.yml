@@ -20,7 +20,7 @@ jobs:
     name: release
 
     container:
-      image: synthetixio/docker-node:16.17-ubuntu
+      image: synthetixio/docker-node:18.13-ubuntu
 
     steps:
       - name: Checkout
