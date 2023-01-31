@@ -271,7 +271,7 @@ Docker is awesome for CI and local development. Give it a try.
    `./start-tests.sh`
    - (without foundry) `docker-compose up --build --exit-code-from synpress`
 5. (with foundry and ngrok)
-   ``docker-compose --profile foundry --profile ngrok up --build --exit-code-from synpress`
+   `docker-compose --profile foundry --profile ngrok up --build --exit-code-from synpress`
 
 All examples of setup are present in this repository. Just take a look around.
 
