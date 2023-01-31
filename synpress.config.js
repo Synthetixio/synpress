@@ -30,6 +30,7 @@ module.exports = defineConfig({
   pageLoadTimeout: process.env.SYNDEBUG ? 9999999 : 30000,
   requestTimeout: process.env.SYNDEBUG ? 9999999 : 30000,
   e2e: {
+    testIsolation: true,
     setupNodeEvents,
     baseUrl: 'http://localhost:3000',
     specPattern: 'tests/e2e/specs/**/*.{js,jsx,ts,tsx}',
