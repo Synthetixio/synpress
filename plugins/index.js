@@ -28,6 +28,20 @@ module.exports = (on, config) => {
       if (browser.isHeadless) {
         arguments_.args.push('--window-size=1920,1080');
       }
+      arguments_.preferences.default.profile = {
+        content_settings: {
+          exceptions: {
+            clipboard: {
+              '*': {
+                expiration: '0',
+                last_modified: '13248200230459161',
+                model: 0,
+                setting: 1,
+              },
+            },
+          },
+        },
+      };
     }
 
     if (!process.env.SKIP_METAMASK_INSTALL) {
