@@ -176,18 +176,15 @@ module.exports = {
       firstTimeFlowImportPageElements.continueAfterPasswordButton,
     );
     // shortcut confirmation
-    await new Promise(resolve => setTimeout(resolve, 1000)); // the transitioning is too fast
+    await new Promise(resolve => setTimeout(resolve, 500)); // the transitioning is too fast
     await playwright.waitAndClick(
       firstTimeFlowImportPageElements.continueOnShortcutConfirm,
     );
     // finish
-    await new Promise(resolve => setTimeout(resolve, 1000)); // the transitioning is too fast
+    await new Promise(resolve => setTimeout(resolve, 500)); // the transitioning is too fast
     await playwright.waitAndClick(
       firstTimeFlowImportPageElements.continueOnShortcutConfirm,
     );
-
-    await new Promise(resolve => setTimeout(resolve, 1000)); // the transitioning is too fast
-    // await module.exports.closePopupAndTooltips();
     return true;
   },
   closePopupAndTooltips: async () => {
@@ -231,7 +228,7 @@ module.exports = {
   getWalletAddress: async () => {
     await switchToPhantomIfNotActive();
     await playwright.metamaskWindow().hover(mainPageElements.accountBar.title);
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 100));
     await playwright.waitAndClick(mainPageElements.accountBar.ethRow);
     walletAddress = await playwright
       .metamaskWindow()
