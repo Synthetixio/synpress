@@ -1,9 +1,4 @@
-const unlockPage = '[data-testid="unlock-page"]';
-const passwordInput = `${unlockPage} #password`;
-const unlockButton = `${unlockPage} .btn-default`;
-
 module.exports.unlockPageElements = {
-  unlockPage,
-  passwordInput,
-  unlockButton,
+  passwordInput: '[data-testid="unlock-form-password-input"]',
+  unlockButton: '[data-testid="unlock-form-submit-button"]',
 };

@@ -144,3 +144,48 @@ module.exports.addTokenPageElements = {
   confirmAddTokenButton,
   rejectAddTokenButton,
 };
+
+/**
+ * ADJUSTED
+ */
+const root = '#root';
+module.exports.app = {
+  root,
+};
+
+const primaryButton = '[data-testid="primary-button"]';
+module.exports.buttons = {
+  primaryButton,
+};
+
+/**
+ * NEW
+ */
+module.exports.signaturePageElements = {
+  buttons: {
+    confirmSign: '[data-testid="primary-button"]',
+    rejectSign: '[data-testid="secondary-button"]',
+  },
+};
+
+module.exports.transactionPageElements = {
+  buttons: {
+    confirmSign: '[data-testid="primary-button"]',
+    rejectSign: '[data-testid="secondary-button"]',
+  },
+};
+
+module.exports.menu = {
+  buttons: {
+    settings: '[data-testid="settings-menu-open-button"]',
+    sidebar: {
+      settings: '[data-testid="sidebar_menu-button-settings"]',
+    },
+  },
+};
+
+module.exports.incorrectModePageElements = {
+  buttons: {
+    close: '[data-testid="incorrect-mode"] button',
+  },
+};

@@ -8,6 +8,7 @@ const {
   onboardingWelcomePageElements,
 } = require('../pages/metamask/first-time-flow-page');
 // const metamask = require('./metamask');
+const { app } = require('../pages/phantom/notification-page');
 const sleep = require('util').promisify(setTimeout);
 
 let browser;
@@ -15,7 +16,6 @@ let mainWindow;
 let metamaskWindow;
 let metamaskNotificationWindow;
 let activeTabName;
-
 let retries = 0;
 
 module.exports = {
@@ -102,13 +102,21 @@ module.exports = {
   switchToMetamaskWindow: async () => {
     if (metamaskWindow.isClosed()) {
       const newPage = await browser.contexts()[0].newPage();
-      await Promise.all([
-        newPage.waitForNavigation(),
-        newPage.goto(
-          metamaskWindow.url().replace('onboarding.html', 'popup.html'),
-        ),
-      ]);
-      // await newPage.waitUntilStable();
+      if (process.env.PROVIDER === 'phantom') {
+        await Promise.all([
+          newPage.waitForNavigation(),
+          newPage.goto(
+            metamaskWindow.url().replace('onboarding.html', 'popup.html'),
+          ),
+        ]);
+      } else {
+        await Promise.all([
+          newPage.waitForNavigation(),
+          newPage.goto(metamaskWindow.url()),
+        ]);
+        await newPage.waitUntilStable();
+      }
+
       metamaskWindow = newPage;
     }
 
@@ -123,16 +131,24 @@ module.exports = {
   },
   async switchToMetamaskNotification() {
     let pages = await browser.contexts()[0].pages();
-    for (const page of pages) {
+
+    // loop reverse, chance is very high that it's the last window
+    for (let i = pages.length - 1; i >= 0; i--) {
+      const page = pages[i];
       if (page.url().includes('notification')) {
         metamaskNotificationWindow = page;
         retries = 0;
         await page.bringToFront();
         await module.exports.waitUntilStable(page);
-        await module.exports.waitFor(
-          notificationPageElements.notificationAppContent,
-          page,
-        );
+        if (process.env.PROVIDER === 'phantom') {
+          await module.exports.waitFor(app.root, page);
+        } else {
+          await module.exports.waitFor(
+            notificationPageElements.notificationAppContent,
+            page,
+          );
+        }
+
         return page;
       }
     }
