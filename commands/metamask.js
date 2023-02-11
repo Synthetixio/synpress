@@ -287,32 +287,42 @@ module.exports = {
     );
     await module.exports.optOutAnalytics();
     await playwright.waitAndType(
-      firstTimeFlowCreatePagePageElements.newPasswordInput,
+      firstTimeFlowImportPageElements.passwordInput,
       password,
     );
     await playwright.waitAndType(
-      firstTimeFlowCreatePagePageElements.confirmNewPasswordInput,
+      firstTimeFlowImportPageElements.confirmPasswordInput,
       password,
     );
     await playwright.waitAndClick(
-      firstTimeFlowCreatePagePageElements.newSignupCheckbox,
+      firstTimeFlowImportPageElements.termsCheckbox,
     );
     await playwright.waitAndClick(
-      firstTimeFlowCreatePagePageElements.createButton,
+      firstTimeFlowImportPageElements.createButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
+    await playwright.waitAndClick(revealSeedPageElements.remindLaterButton);
+    await playwright.waitAndClick(revealSeedPageElements.skipBackupCheckbox);
+    await playwright.waitAndClick(
+      revealSeedPageElements.confirmSkipBackupButton,
       await playwright.metamaskWindow(),
       {
         waitForEvent: 'navi',
       },
     );
     await playwright.waitAndClick(
-      secureYourWalletPageElements.nextButton,
+      endOfFlowPageElements.allDoneButton,
       await playwright.metamaskWindow(),
       {
         waitForEvent: 'navi',
       },
     );
+    await playwright.waitAndClick(pinExtensionPageElements.nextTabButton);
     await playwright.waitAndClick(
-      revealSeedPageElements.remindLaterButton,
+      pinExtensionPageElements.doneButton,
       await playwright.metamaskWindow(),
       {
         waitForEvent: 'navi',

@@ -27,6 +27,7 @@ const passwordInput = `${createPasswordPage} [data-testid="create-password-new"]
 const confirmPasswordInput = `${createPasswordPage} [data-testid="create-password-confirm"]`;
 const termsCheckbox = `${createPasswordPage} [data-testid="create-password-terms"]`;
 const importButton = `${createPasswordPage} [data-testid="create-password-import"]`;
+const createButton = `${createPasswordPage} [data-testid="create-password-wallet"]`;
 module.exports.firstTimeFlowImportPageElements = {
   firstTimeFlowImportPage,
   secretWordsInput,
@@ -36,20 +37,21 @@ module.exports.firstTimeFlowImportPageElements = {
   confirmPasswordInput,
   termsCheckbox,
   importButton,
-};
-
-const firstTimeFlowCreatePage = '.first-time-flow';
-const newPasswordInput = `${firstTimeFlowCreatePage} [data-testid="create-password"]`;
-const confirmNewPasswordInput = `${firstTimeFlowCreatePage} [data-testid="confirm-password"]`;
-const newSignupCheckbox = `${firstTimeFlowCreatePage} .first-time-flow__checkbox`;
-const createButton = `${firstTimeFlowCreatePage} .first-time-flow__button`;
-module.exports.firstTimeFlowCreatePagePageElements = {
-  firstTimeFlowCreatePage,
-  newPasswordInput,
-  confirmNewPasswordInput,
-  newSignupCheckbox,
   createButton,
 };
+
+// const firstTimeFlowCreatePage = '.first-time-flow';
+// const newPasswordInput = `${firstTimeFlowCreatePage} [data-testid="create-password"]`;
+// const confirmNewPasswordInput = `${firstTimeFlowCreatePage} [data-testid="confirm-password"]`;
+// const newSignupCheckbox = `${firstTimeFlowCreatePage} .first-time-flow__checkbox`;
+// const createButton = `${firstTimeFlowCreatePage} .first-time-flow__button`;
+// module.exports.firstTimeFlowCreatePagePageElements = {
+//   firstTimeFlowCreatePage,
+//   newPasswordInput,
+//   confirmNewPasswordInput,
+//   newSignupCheckbox,
+//   createButton,
+// };
 
 const secureYourWalletPage = '[data-testid="seed-phrase-intro"]';
 const nextButton = `${secureYourWalletPage} button`;
@@ -58,11 +60,15 @@ module.exports.secureYourWalletPageElements = {
   nextButton,
 };
 
-const revealSeedPage = '[data-testid="reveal-seed-phrase"]';
-const remindLaterButton = `${revealSeedPage} .first-time-flow__button`;
+const revealSeedPage = '[data-testid="secure-your-wallet"]';
+const remindLaterButton = `${revealSeedPage} [data-testid="secure-wallet-later"]`;
+const skipBackupCheckbox = `[data-testid="skip-srp-backup-popover-checkbox"]`;
+const confirmSkipBackupButton = `[data-testid="skip-srp-backup"]`;
 module.exports.revealSeedPageElements = {
   revealSeedPage,
   remindLaterButton,
+  skipBackupCheckbox,
+  confirmSkipBackupButton,
 };
 
 const endOfFlowPage = `${onboardingFlow} [data-testid="creation-successful"]`;
