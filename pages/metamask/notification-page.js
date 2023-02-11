@@ -3,6 +3,7 @@ const notificationAppContent = `${notificationPage} #app-content .app`;
 const loadingLogo = `${notificationPage} #loading__logo`;
 const loadingSpinner = `${notificationPage} #loading__spinner`;
 const nextButton = `${notificationPage} .permissions-connect-choose-account__bottom-buttons .btn-primary`;
+const customSpendingLimitInput = `${notificationPage} [data-testid="custom-spending-cap-input"]`;
 const allowToSpendButton = `${notificationPage} [data-testid="page-container-footer-next"]`;
 const rejectToSpendButton = `${notificationPage} [data-testid="page-container-footer-cancel"]`;
 const selectAllCheckbox = `${notificationPage} .choose-account-list__header-check-box`;
@@ -12,6 +13,7 @@ module.exports.notificationPageElements = {
   loadingLogo,
   loadingSpinner,
   nextButton,
+  customSpendingLimitInput,
   allowToSpendButton,
   rejectToSpendButton,
   selectAllCheckbox,
