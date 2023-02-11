@@ -5,8 +5,6 @@ const {
   onboardingWelcomePageElements,
   metametricsPageElements,
   firstTimeFlowImportPageElements,
-  firstTimeFlowCreatePagePageElements,
-  secureYourWalletPageElements,
   revealSeedPageElements,
   endOfFlowPageElements,
   pinExtensionPageElements,
@@ -431,6 +429,7 @@ module.exports = {
         network.networkName,
       );
     }
+    await playwright.waitUntilMetamaskWindowIsStable();
     await module.exports.closePopupAndTooltips();
     await setNetwork(network);
     await switchToCypressIfNotActive();
