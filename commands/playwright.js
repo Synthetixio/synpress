@@ -248,15 +248,17 @@ module.exports = {
     await element.waitFor();
   },
   waitToBeHidden: async (selector, page = metamaskWindow) => {
-    if (await page.locator(selector).isVisible()) {
-      // todo: sadly this doesn't work well in case element disappears before it's triggered
-      // because it checks if element is visible first! which causes race conditions to happen
-      // waitForFunction could be used instead with document.query, however it can't be used
-      // without creating new context with bypassCSP enabled which sounds like a lot of work
-      await page.waitForSelector(selector, {
-        hidden: true,
-      });
+    if ((await page.locator(selector).isVisible()) && retries < 150) {
+      retries++;
+      await page.waitForTimeout(200);
+      await module.exports.waitToBeHidden(selector, page);
+    } else if (retries >= 150) {
+      retries = 0;
+      throw new Error(
+        `[waitToBeHidden] Max amount of retries reached while waiting for ${selector} to disappear.`,
+      );
     }
+    retries = 0;
   },
   waitUntilStable: async page => {
     if (page && page.url().includes('notification')) {
@@ -272,7 +274,6 @@ module.exports = {
     // todo: this may slow down tests and not be necessary but could improve stability
     // await mainWindow.waitForLoadState('networkidle');
   },
-  // todo: not meant to be used until waitToBeHidden is fixed
   waitUntilNotificationWindowIsStable: async (
     page = metamaskNotificationWindow,
   ) => {
@@ -288,13 +289,11 @@ module.exports = {
       page,
     );
   },
-  // todo: not meant to be used until waitToBeHidden is fixed
   waitUntilMainWindowIsStable: async (page = mainWindow) => {
     await page.waitForLoadState('load');
     await page.waitForLoadState('domcontentloaded');
     await page.waitForLoadState('networkidle');
   },
-  // todo: not meant to be used until waitToBeHidden is fixed
   waitUntilMetamaskWindowIsStable: async (page = metamaskWindow) => {
     await page.waitForLoadState('load');
     await page.waitForLoadState('domcontentloaded');
