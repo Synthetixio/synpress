@@ -248,11 +248,12 @@ module.exports = {
     await element.waitFor();
   },
   waitToBeHidden: async (selector, page = metamaskWindow) => {
-    if ((await page.locator(selector).isVisible()) && retries < 150) {
+    // info: waits for 60 seconds
+    if ((await page.locator(selector).isVisible()) && retries < 300) {
       retries++;
       await page.waitForTimeout(200);
       await module.exports.waitToBeHidden(selector, page);
-    } else if (retries >= 150) {
+    } else if (retries >= 300) {
       retries = 0;
       throw new Error(
         `[waitToBeHidden] Max amount of retries reached while waiting for ${selector} to disappear.`,
@@ -265,10 +266,12 @@ module.exports = {
       await page.waitForLoadState('load');
       await page.waitForLoadState('domcontentloaded');
       await page.waitForLoadState('networkidle');
+      await module.exports.waitUntilNotificationWindowIsStable();
     }
     await metamaskWindow.waitForLoadState('load');
     await metamaskWindow.waitForLoadState('domcontentloaded');
     await metamaskWindow.waitForLoadState('networkidle');
+    await module.exports.waitUntilMetamaskWindowIsStable();
     await mainWindow.waitForLoadState('load');
     await mainWindow.waitForLoadState('domcontentloaded');
     // todo: this may slow down tests and not be necessary but could improve stability
@@ -277,9 +280,6 @@ module.exports = {
   waitUntilNotificationWindowIsStable: async (
     page = metamaskNotificationWindow,
   ) => {
-    await page.waitForLoadState('load');
-    await page.waitForLoadState('domcontentloaded');
-    await page.waitForLoadState('networkidle');
     await module.exports.waitToBeHidden(
       notificationPageElements.loadingLogo,
       page,
@@ -289,15 +289,7 @@ module.exports = {
       page,
     );
   },
-  waitUntilMainWindowIsStable: async (page = mainWindow) => {
-    await page.waitForLoadState('load');
-    await page.waitForLoadState('domcontentloaded');
-    await page.waitForLoadState('networkidle');
-  },
   waitUntilMetamaskWindowIsStable: async (page = metamaskWindow) => {
-    await page.waitForLoadState('load');
-    await page.waitForLoadState('domcontentloaded');
-    await page.waitForLoadState('networkidle');
     await module.exports.waitToBeHidden(pageElements.loadingLogo, page); // shown on reload
     await module.exports.waitToBeHidden(pageElements.loadingSpinner, page); // shown on reload
     await module.exports.waitToBeHidden(pageElements.loadingOverlay, page); // shown on change network
