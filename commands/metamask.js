@@ -2,14 +2,14 @@ const log = require('debug')('synpress:metamask');
 const playwright = require('./playwright');
 
 const {
-  welcomePageElements,
-  firstTimeFlowPageElements,
+  onboardingWelcomePageElements,
   metametricsPageElements,
   firstTimeFlowImportPageElements,
   firstTimeFlowCreatePagePageElements,
   secureYourWalletPageElements,
   revealSeedPageElements,
   endOfFlowPageElements,
+  pinExtensionPageElements,
 } = require('../pages/metamask/first-time-flow-page');
 const { mainPageElements } = require('../pages/metamask/main-page');
 const { unlockPageElements } = require('../pages/metamask/unlock-page');
@@ -131,7 +131,7 @@ module.exports = {
       if (
         !(await playwright
           .metamaskWindow()
-          .locator(welcomePageElements.app)
+          .locator(onboardingWelcomePageElements.app)
           .isVisible())
       ) {
         await playwright.metamaskWindow().reload();
@@ -140,17 +140,6 @@ module.exports = {
         break;
       }
     }
-  },
-  confirmWelcomePage: async () => {
-    await module.exports.fixBlankPage();
-    await playwright.waitAndClick(
-      welcomePageElements.confirmButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
-    return true;
   },
   closePopupAndTooltips: async () => {
     // note: this is required for fast execution of e2e tests to avoid flakiness
@@ -230,14 +219,14 @@ module.exports = {
     return true;
   },
   importWallet: async (secretWords, password) => {
-    await module.exports.optOutAnalytics();
     await playwright.waitAndClick(
-      firstTimeFlowPageElements.importWalletButton,
+      onboardingWelcomePageElements.importWalletButton,
       await playwright.metamaskWindow(),
       {
         waitForEvent: 'navi',
       },
     );
+    await module.exports.optOutAnalytics();
     // todo: add support for more secret words (15/18/21/24)
     for (const [index, word] of secretWords.split(' ').entries()) {
       await playwright.waitAndType(
@@ -245,6 +234,13 @@ module.exports = {
         word,
       );
     }
+    await playwright.waitAndClick(
+      firstTimeFlowImportPageElements.confirmSecretRecoverPhraseButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
     await playwright.waitAndType(
       firstTimeFlowImportPageElements.passwordInput,
       password,
@@ -270,18 +266,26 @@ module.exports = {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.closePopupAndTooltips();
-    return true;
-  },
-  createWallet: async password => {
-    await module.exports.optOutAnalytics();
+    await playwright.waitAndClick(pinExtensionPageElements.nextTabButton);
     await playwright.waitAndClick(
-      firstTimeFlowPageElements.createWalletButton,
+      pinExtensionPageElements.doneButton,
       await playwright.metamaskWindow(),
       {
         waitForEvent: 'navi',
       },
     );
+    await module.exports.closePopupAndTooltips();
+    return true;
+  },
+  createWallet: async password => {
+    await playwright.waitAndClick(
+      onboardingWelcomePageElements.createWalletButton,
+      await playwright.metamaskWindow(),
+      {
+        waitForEvent: 'navi',
+      },
+    );
+    await module.exports.optOutAnalytics();
     await playwright.waitAndType(
       firstTimeFlowCreatePagePageElements.newPasswordInput,
       password,
@@ -1152,10 +1156,9 @@ module.exports = {
     if (
       await playwright
         .metamaskWindow()
-        .locator(welcomePageElements.confirmButton)
+        .locator(onboardingWelcomePageElements.onboardingWelcomePage)
         .isVisible()
     ) {
-      await module.exports.confirmWelcomePage();
       if (secretWordsOrPrivateKey.includes(' ')) {
         // secret words
         await module.exports.importWallet(secretWordsOrPrivateKey, password);
