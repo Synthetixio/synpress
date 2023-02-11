@@ -180,14 +180,14 @@ module.exports = {
     } else {
       await element.click({ force: args.force });
     }
-    await module.exports.waitUntilStable(page);
+    await module.exports.waitUntilStable();
     return element;
   },
   waitAndClickByText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
     const element = page.locator(`text=${text}`);
     await element.click();
-    await module.exports.waitUntilStable(page);
+    await module.exports.waitUntilStable();
   },
   waitAndType: async (selector, value, page = metamaskWindow) => {
     const element = await module.exports.waitFor(selector, page);
@@ -249,17 +249,21 @@ module.exports = {
   },
   waitToBeHidden: async (selector, page = metamaskWindow) => {
     // info: waits for 60 seconds
-    if ((await page.locator(selector).isVisible()) && retries < 300) {
-      retries++;
-      await page.waitForTimeout(200);
-      await module.exports.waitToBeHidden(selector, page);
-    } else if (retries >= 300) {
+    const element = page.locator(selector);
+    const count = await element.count();
+    for (let i = 0; i < count; i++) {
+      if ((await element.isVisible()) && retries < 300) {
+        retries++;
+        await page.waitForTimeout(200);
+        await module.exports.waitToBeHidden(selector, page);
+      } else if (retries >= 300) {
+        retries = 0;
+        throw new Error(
+          `[waitToBeHidden] Max amount of retries reached while waiting for ${selector} to disappear.`,
+        );
+      }
       retries = 0;
-      throw new Error(
-        `[waitToBeHidden] Max amount of retries reached while waiting for ${selector} to disappear.`,
-      );
     }
-    retries = 0;
   },
   waitUntilStable: async page => {
     if (page && page.url().includes('notification')) {

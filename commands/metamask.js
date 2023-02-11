@@ -429,7 +429,7 @@ module.exports = {
         network.networkName,
       );
     }
-    await playwright.waitUntilMetamaskWindowIsStable();
+    await playwright.waitUntilStable();
     await module.exports.closePopupAndTooltips();
     await setNetwork(network);
     await switchToCypressIfNotActive();
