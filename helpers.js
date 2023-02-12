@@ -29,9 +29,7 @@ module.exports = {
       networkId = 11155111;
       isTestnet = true;
     } else if (network === 'localhost') {
-      const provider = new ethers.providers.JsonRpcProvider(
-        'http://127.0.0.1:8545',
-      );
+      const provider = new ethers.JsonRpcProvider('http://127.0.0.1:8545');
       const { chainId, name } = await provider.getNetwork();
       networkName = name;
       networkId = chainId;
