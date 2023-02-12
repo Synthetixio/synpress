@@ -78,22 +78,22 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-standard": "^4.1.0",
-    "eslint-plugin-testing-library": "^5.10.0",
+    "eslint-plugin-testing-library": "^5.10.1",
     "eslint-plugin-ui-testing": "^2.0.1",
     "eslint-plugin-unicorn": "^45.0.2",
     "ethers": "^6.0.2",
     "etherscan-api": "^10.3.0",
     "find-config": "^1.0.0",
     "node-fetch": "^2.6.1",
-    "prettier": "^2.8.3",
+    "prettier": "^2.8.4",
     "serve": "^14.2.0",
     "start-server-and-test": "^1.15.3",
     "synthetix-js": "^2.74.1"
   },
   "devDependencies": {
-    "@metamask/test-dapp": "^5.3.0",
+    "@metamask/test-dapp": "^5.4.0",
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
-    "npm-check-updates": "^16.6.3",
+    "npm-check-updates": "^16.7.4",
     "release-it": "^15.6.0"
   },
   "engines": {
