@@ -174,8 +174,8 @@ which runs metamask setup before all tests:
 - switches back to Cypress window and starts testing
 
 It requires environmental variable called `SECRET_WORDS` to be present in
-following format => `'word1, word2, etc..'` or private key in an environmental
-variable called `PRIVATE_KEY`.
+following format => `'word1 word2 word3 ..'` (delimited with spaces) or private
+key in an environmental variable called `PRIVATE_KEY`.
 
 To change default network (`goerli`), you can use `NETWORK_NAME` environmental
 variable, for example: `NETWORK_NAME=sepolia`.
@@ -187,7 +187,7 @@ To create and switch to custom network at metamask setup phase, use these:
 1. `NETWORK_NAME` => ex: `synthetix`
 2. `RPC_URL` => ex: `https://synthetix-node.io`
 3. `CHAIN_ID` => ex: `123`
-4. `SYMBOL` (optional) => ex: `SNX`
+4. `SYMBOL` => ex: `SNX`
 5. `BLOCK_EXPLORER` (optional) => ex: `https://synthetix-explorer.io`
 6. `IS_TESTNET` (optional) => ex: `false`
 
@@ -202,7 +202,8 @@ If you don't want to use environmental variables, you can modify
 to following:
 
 `setupMetamask(secretWordsOrPrivateKey, network, password)`, for example:
-`setupMetamask('word1, word2, etc..', 'mainnet', 'password')`.
+`setupMetamask('word1 word2 word3 ..', 'mainnet', 'password')` (delimited with
+spaces).
 
 You can also add and switch to custom network by passing an `object` instead of
 `string` inside `setupMetamask(secretWordsOrPrivateKey, network, password)`
