@@ -249,9 +249,8 @@ module.exports = {
   },
   waitToBeHidden: async (selector, page = metamaskWindow) => {
     // info: waits for 60 seconds
-    const element = page.locator(selector);
-    const count = await element.count();
-    for (let i = 0; i < count; i++) {
+    const locator = page.locator(selector);
+    for (const element of await locator.all()) {
       if ((await element.isVisible()) && retries < 300) {
         retries++;
         await page.waitForTimeout(200);
