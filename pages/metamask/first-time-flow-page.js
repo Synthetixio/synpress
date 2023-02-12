@@ -42,19 +42,6 @@ module.exports.firstTimeFlowImportPageElements = {
   createButton,
 };
 
-// const firstTimeFlowCreatePage = '.first-time-flow';
-// const newPasswordInput = `${firstTimeFlowCreatePage} [data-testid="create-password"]`;
-// const confirmNewPasswordInput = `${firstTimeFlowCreatePage} [data-testid="confirm-password"]`;
-// const newSignupCheckbox = `${firstTimeFlowCreatePage} .first-time-flow__checkbox`;
-// const createButton = `${firstTimeFlowCreatePage} .first-time-flow__button`;
-// module.exports.firstTimeFlowCreatePagePageElements = {
-//   firstTimeFlowCreatePage,
-//   newPasswordInput,
-//   confirmNewPasswordInput,
-//   newSignupCheckbox,
-//   createButton,
-// };
-
 const secureYourWalletPage = '[data-testid="seed-phrase-intro"]';
 const nextButton = `${secureYourWalletPage} button`;
 module.exports.secureYourWalletPageElements = {
