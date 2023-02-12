@@ -1516,6 +1516,11 @@
     strip-ansi "^4.0.0"
     strip-indent "^2.0.0"
 
+"@trunkio/launcher@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@trunkio/launcher/-/launcher-1.2.3.tgz#a5e7e3c945da98280550f2a4f307ea7cc48eec49"
+  integrity sha512-eq0mhRr4ZlJxzcOJO5/scfQUZ+/kk9iwM8dHXQ6GPMWUq4qz40vW4EMMcYEwjSopJKLNxCVldZrXI02pq9Gx2Q==
+
 "@types/aria-query@^4.2.0":
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@types/aria-query/-/aria-query-4.2.2.tgz#ed4e0ad92306a704f9fb132a0cfcf77486dbe2bc"
