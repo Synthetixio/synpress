@@ -13,23 +13,23 @@ plugins:
       ref: v0.0.5
       uri: https://github.com/trunk-io/plugins
 cli:
-  version: 1.0.1
+  version: 1.4.1
   sha256:
-    darwin_arm64: 364c5c1bca52644369f3a415c67d22db6bbf5c3b036f155ed871e0735c4fb40d
-    darwin_x86_64: 5c36d503c13dd165f172f48f98405c40872d4c001ad675ad26f052c0e04b28c4
-    linux_x86_64: f8e27a2f7650757180457c51db27d35f9c8b99b1098c0d41eaee4cfbbbe2b3d0
+    darwin_arm64: bc00586469ed95260bbb539c39fc35fdae8b9ae8a58990be240b82ae10f09949
+    darwin_x86_64: e4f5a9072c8150b12e2ced5599902c843ffba532e0256f3f94805d5568c438d8
+    linux_x86_64: 0b5d9e906be9abba9938c191449b6277e8c669ffbbc9d814f34f947784a75670
 lint:
   enabled:
-    - dotenv-linter@3.2.0
-    - hadolint@2.10.0
-    - shellcheck@0.8.0
+    - dotenv-linter@3.3.0
+    - hadolint@2.12.0
+    - shellcheck@0.9.0
     - shfmt@3.5.0
-    - actionlint@1.6.21
-    - eslint@8.26.0
+    - actionlint@1.6.23
+    - eslint@8.34.0
     - git-diff-check@SYSTEM
-    - gitleaks@8.15.0
-    - markdownlint@0.32.2
-    - prettier@2.7.1
+    - gitleaks@8.15.3
+    - markdownlint@0.33.0
+    - prettier@2.8.4
   ignore:
     - linters: [ALL]
       paths:
