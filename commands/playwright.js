@@ -180,14 +180,14 @@ module.exports = {
     } else {
       await element.click({ force: args.force });
     }
-    await module.exports.waitUntilStable(page);
+    await module.exports.waitUntilStable();
     return element;
   },
   waitAndClickByText: async (selector, text, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
     const element = page.locator(`text=${text}`);
     await element.click();
-    await module.exports.waitUntilStable(page);
+    await module.exports.waitUntilStable();
   },
   waitAndType: async (selector, value, page = metamaskWindow) => {
     const element = await module.exports.waitFor(selector, page);
@@ -248,14 +248,20 @@ module.exports = {
     await element.waitFor();
   },
   waitToBeHidden: async (selector, page = metamaskWindow) => {
-    if (await page.locator(selector).isVisible()) {
-      // todo: sadly this doesn't work well in case element disappears before it's triggered
-      // because it checks if element is visible first! which causes race conditions to happen
-      // waitForFunction could be used instead with document.query, however it can't be used
-      // without creating new context with bypassCSP enabled which sounds like a lot of work
-      await page.waitForSelector(selector, {
-        hidden: true,
-      });
+    // info: waits for 60 seconds
+    const locator = page.locator(selector);
+    for (const element of await locator.all()) {
+      if ((await element.isVisible()) && retries < 300) {
+        retries++;
+        await page.waitForTimeout(200);
+        await module.exports.waitToBeHidden(selector, page);
+      } else if (retries >= 300) {
+        retries = 0;
+        throw new Error(
+          `[waitToBeHidden] Max amount of retries reached while waiting for ${selector} to disappear.`,
+        );
+      }
+      retries = 0;
     }
   },
   waitUntilStable: async page => {
@@ -263,22 +269,20 @@ module.exports = {
       await page.waitForLoadState('load');
       await page.waitForLoadState('domcontentloaded');
       await page.waitForLoadState('networkidle');
+      await module.exports.waitUntilNotificationWindowIsStable();
     }
     await metamaskWindow.waitForLoadState('load');
     await metamaskWindow.waitForLoadState('domcontentloaded');
     await metamaskWindow.waitForLoadState('networkidle');
+    await module.exports.waitUntilMetamaskWindowIsStable();
     await mainWindow.waitForLoadState('load');
     await mainWindow.waitForLoadState('domcontentloaded');
     // todo: this may slow down tests and not be necessary but could improve stability
     // await mainWindow.waitForLoadState('networkidle');
   },
-  // todo: not meant to be used until waitToBeHidden is fixed
   waitUntilNotificationWindowIsStable: async (
     page = metamaskNotificationWindow,
   ) => {
-    await page.waitForLoadState('load');
-    await page.waitForLoadState('domcontentloaded');
-    await page.waitForLoadState('networkidle');
     await module.exports.waitToBeHidden(
       notificationPageElements.loadingLogo,
       page,
@@ -288,17 +292,7 @@ module.exports = {
       page,
     );
   },
-  // todo: not meant to be used until waitToBeHidden is fixed
-  waitUntilMainWindowIsStable: async (page = mainWindow) => {
-    await page.waitForLoadState('load');
-    await page.waitForLoadState('domcontentloaded');
-    await page.waitForLoadState('networkidle');
-  },
-  // todo: not meant to be used until waitToBeHidden is fixed
   waitUntilMetamaskWindowIsStable: async (page = metamaskWindow) => {
-    await page.waitForLoadState('load');
-    await page.waitForLoadState('domcontentloaded');
-    await page.waitForLoadState('networkidle');
     await module.exports.waitToBeHidden(pageElements.loadingLogo, page); // shown on reload
     await module.exports.waitToBeHidden(pageElements.loadingSpinner, page); // shown on reload
     await module.exports.waitToBeHidden(pageElements.loadingOverlay, page); // shown on change network

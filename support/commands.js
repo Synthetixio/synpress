@@ -176,9 +176,12 @@ Cypress.Commands.add('rejectMetamaskAddToken', () => {
   return cy.task('rejectMetamaskAddToken');
 });
 
-Cypress.Commands.add('confirmMetamaskPermissionToSpend', () => {
-  return cy.task('confirmMetamaskPermissionToSpend');
-});
+Cypress.Commands.add(
+  'confirmMetamaskPermissionToSpend',
+  (spendLimit = '999999999999999999') => {
+    return cy.task('confirmMetamaskPermissionToSpend', spendLimit);
+  },
+);
 
 Cypress.Commands.add('rejectMetamaskPermissionToSpend', () => {
   return cy.task('rejectMetamaskPermissionToSpend');
