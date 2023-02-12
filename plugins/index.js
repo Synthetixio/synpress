@@ -217,8 +217,8 @@ module.exports = (on, config) => {
       const rejected = await metamask.rejectAddToken();
       return rejected;
     },
-    confirmMetamaskPermissionToSpend: async () => {
-      const confirmed = await metamask.confirmPermissionToSpend();
+    confirmMetamaskPermissionToSpend: async spendLimit => {
+      const confirmed = await metamask.confirmPermissionToSpend(spendLimit);
       return confirmed;
     },
     rejectMetamaskPermissionToSpend: async () => {

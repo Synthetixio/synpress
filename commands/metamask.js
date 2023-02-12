@@ -784,10 +784,10 @@ module.exports = {
     );
     return true;
   },
-  confirmPermissionToSpend: async () => {
+  confirmPermissionToSpend: async spendLimit => {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndSetValue(
-      '999999999999999999',
+      spendLimit,
       notificationPageElements.customSpendingLimitInput,
       notificationPage,
     );
