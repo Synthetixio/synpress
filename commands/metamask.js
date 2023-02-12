@@ -134,6 +134,14 @@ module.exports = {
       ) {
         await playwright.metamaskWindow().reload();
         await playwright.metamaskWindow().waitForTimeout(2000);
+      } else if (
+        await playwright
+          .metamaskWindow()
+          .locator(onboardingWelcomePageElements.criticalError)
+          .isVisible()
+      ) {
+        await playwright.metamaskWindow().reload();
+        await playwright.metamaskWindow().waitForTimeout(2000);
       } else {
         break;
       }
