@@ -127,10 +127,10 @@ module.exports = {
     await playwright.metamaskWindow().waitForTimeout(1000);
     for (let times = 0; times < 5; times++) {
       if (
-        !(await playwright
+        await playwright
           .metamaskWindow()
           .locator(onboardingWelcomePageElements.app)
-          .isVisible())
+          .count() === 0
       ) {
         await playwright.metamaskWindow().reload();
         await playwright.metamaskWindow().waitForTimeout(2000);
@@ -138,7 +138,7 @@ module.exports = {
         await playwright
           .metamaskWindow()
           .locator(onboardingWelcomePageElements.criticalError)
-          .isVisible()
+          .count() > 0
       ) {
         await playwright.metamaskWindow().reload();
         await playwright.metamaskWindow().waitForTimeout(2000);
