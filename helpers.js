@@ -200,7 +200,62 @@ module.exports = {
       );
     }
   },
-  async download(url, destination) {
+  getPhantomReleases: async version => {
+    log(`Trying to find phantom version ${version} in GitHub releases..`);
+    let filename;
+    let downloadUrl;
+    let tagName;
+    let response;
+
+    try {
+      if (version === 'latest' || !version) {
+        if (process.env.GH_USERNAME && process.env.GH_PAT) {
+          response = await axios.get(
+            'https://api.github.com/repos/phantom-labs/phantom-wallet/releases',
+            {
+              auth: {
+                username: process.env.GH_USERNAME,
+                password: process.env.GH_PAT,
+              },
+            },
+          );
+        } else {
+          response = await axios.get(
+            'https://api.github.com/repos/phantom-labs/phantom-wallet/releases',
+          );
+        }
+        filename = response.data[0].assets[0].name;
+        downloadUrl = response.data[0].assets[0].url;
+        tagName = 'phantom-chrome-latest';
+        log(
+          `Phantom version found! Filename: ${filename}; Download url: ${downloadUrl}; Tag name: ${tagName}`,
+        );
+      } else if (version) {
+        filename = `chrome-dist.zip`;
+        downloadUrl = `https://github.com/phantom-labs/phantom-wallet/releases/download/v${version}/chrome-dist.zip`;
+        tagName = `phantom-chrome-${version}`;
+        log(
+          `Phantom version found! Filename: ${filename}; Download url: ${downloadUrl}; Tag name: ${tagName}`,
+        );
+      }
+      return {
+        filename,
+        downloadUrl,
+        tagName,
+      };
+    } catch (e) {
+      if (e.response && e.response.status === 403) {
+        throw new Error(
+          `[getPhantomReleases] Unable to fetch phantom releases from GitHub because you've been rate limited! Please set GH_USERNAME and GH_PAT environment variables to avoid this issue or retry again.`,
+        );
+      } else {
+        throw new Error(
+          `[getPhantomReleases] Unable to fetch phantom releases from GitHub with following error:\n${e}`,
+        );
+      }
+    }
+  },
+  download: async (url, destination) => {
     try {
       log(
         `Trying to download and extract file from: ${url} to following path: ${destination}`,
@@ -209,7 +264,15 @@ module.exports = {
         await download(url, destination, {
           extract: true,
           auth: `${process.env.GH_USERNAME}:${process.env.GH_PAT}`,
+          headers: {
+            Accept: 'application/octet-stream',
+          },
         });
+
+        /**
+         * Some extensions will zip their dist folder
+         */
+        await moveFiles(`${destination}/dist`, destination);
       } else {
         await download(url, destination, {
           extract: true,
@@ -217,38 +280,50 @@ module.exports = {
       }
     } catch (e) {
       throw new Error(
-        `[download] Unable to download metamask release from: ${url} to: ${destination} with following error:\n${e}`,
+        `[download] Unable to download provider release from: ${url} to: ${destination} with following error:\n${e}`,
       );
     }
   },
-  async prepareMetamask(version) {
-    const release = await module.exports.getMetamaskReleases(version);
-
+  prepareProvider: async version => {
+    const release =
+      process.env.PROVIDER === 'phantom'
+        ? await module.exports.getPhantomReleases(version)
+        : await module.exports.getMetamaskReleases(version);
     let downloadsDirectory;
     if (os.platform() === 'win32') {
       downloadsDirectory = appRoot.resolve('/node_modules');
     } else {
       downloadsDirectory = path.resolve(__dirname, 'downloads');
     }
-
     await module.exports.createDirIfNotExist(downloadsDirectory);
-    const metamaskDirectory = path.join(downloadsDirectory, release.tagName);
-    const metamaskDirectoryExists = await module.exports.checkDirOrFileExist(
-      metamaskDirectory,
+    const providerDirectory = path.join(downloadsDirectory, release.tagName);
+    const providerkDirectoryExists = await module.exports.checkDirOrFileExist(
+      providerDirectory,
     );
-    const metamaskManifestFilePath = path.join(
+    const providerManifestFilePath = path.join(
       downloadsDirectory,
       release.tagName,
       'manifest.json',
     );
-    const metamaskManifestFileExists = await module.exports.checkDirOrFileExist(
-      metamaskManifestFilePath,
+    const providerManifestFileExists = await module.exports.checkDirOrFileExist(
+      providerManifestFilePath,
     );
-    if (!metamaskDirectoryExists && !metamaskManifestFileExists) {
-      await module.exports.download(release.downloadUrl, metamaskDirectory);
+    if (!providerkDirectoryExists && !providerManifestFileExists) {
+      await module.exports.download(release.downloadUrl, providerDirectory);
     } else {
-      log('Metamask is already downloaded');
+      log('provider is already downloaded');
     }
-    return metamaskDirectory;
+    return providerDirectory;
   },
 };
+
+async function moveFiles(srcDir, destDir) {
+  const files = await fs.readdir(srcDir);
+
+  return Promise.all(
+    files.map(function (file) {
+      var destFile = path.join(destDir, file);
+      return fs.rename(path.join(srcDir, file), destFile);
+    }),
+  );
+}

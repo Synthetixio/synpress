@@ -49,16 +49,11 @@ module.exports = (on, config) => {
 
     if (!process.env.SKIP_METAMASK_INSTALL) {
       // NOTE: extensions cannot be loaded in headless Chrome
-      const metamaskPath = await helpers.prepareMetamask(
-        process.env.METAMASK_VERSION || '10.25.0',
+      const providerPath = await helpers.prepareProvider(
+        process.env.PROVIDER_VERSION || '10.25.0',
       );
-      if (process.env.PROVIDER === 'phantom') {
-        arguments_.extensions.push(
-          metamaskPath.replace('metamask-chrome-10.21.0', 'phantom'),
-        );
-      } else {
-        arguments_.extensions.push(metamaskPath);
-      }
+
+      arguments_.extensions.push(providerPath);
     }
 
     return arguments_;
