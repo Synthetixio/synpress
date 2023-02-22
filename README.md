@@ -351,7 +351,7 @@ Above actions will lead to:
 
 ## 📃 More resources
 
-- https://gitcoin.co/grants/5699/synpress-web3-enabled-e2e-testing-tool
-- https://medium.com/andamp/how-to-setup-synpress-for-wen3-dapp-frontend-test-automation-with-metamask-73396896684a
-- https://medium.com/andamp/extending-synpress-with-additional-metamask-commands-fdc6b35a2ffc
-- https://medium.com/coinmonks/test-e2e-login-to-dapp-with-metamask-with-synpress-5248dd1f17c1
+- [Synpress - web3-enabled e2e testing tool](https://gitcoin.co/grants/5699/synpress-web3-enabled-e2e-testing-tool)
+- [How to set up Synpress for Web3 dApp Frontend Test Automation with MetaMask](https://medium.com/andamp/how-to-setup-synpress-for-wen3-dapp-frontend-test-automation-with-metamask-73396896684a)
+- [Extending Synpress with additional MetaMask commands](https://medium.com/andamp/extending-synpress-with-additional-metamask-commands-fdc6b35a2ffc)
+- [Test e2e login to dApp with Metamask with Synpress](https://medium.com/coinmonks/test-e2e-login-to-dapp-with-metamask-with-synpress-5248dd1f17c1)
