@@ -9,7 +9,7 @@
 
 const fs = require('node:fs');
 const TYPES_FILE = 'support/index.d.ts';
-const OUTPUT_FILE = 'docs/synpress-commands.test.md';
+const OUTPUT_FILE = 'docs/synpress-commands.md';
 /**
  * A regex to extract comment + function signature for every command.
  * Live Demo: https://regex101.com/r/KkO2II/1
