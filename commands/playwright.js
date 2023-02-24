@@ -15,22 +15,22 @@ let activeTabName;
 let retries = 0;
 
 module.exports = {
-  browser: () => {
+  browser() {
     return browser;
   },
-  mainWindow: () => {
+  mainWindow() {
     return mainWindow;
   },
-  metamaskWindow: () => {
+  metamaskWindow() {
     return metamaskWindow;
   },
-  metamaskNotificationWindow: () => {
+  metamaskNotificationWindow() {
     return metamaskNotificationWindow;
   },
-  activeTabName: () => {
+  activeTabName() {
     return activeTabName;
   },
-  init: async () => {
+  async init() {
     const debuggerDetails = await fetch('http://127.0.0.1:9222/json/version'); //DevSkim: ignore DS137138
     const debuggerDetailsConfig = await debuggerDetails.json();
     const webSocketDebuggerUrl = debuggerDetailsConfig.webSocketDebuggerUrl;
@@ -49,11 +49,11 @@ module.exports = {
     }
     return browser.isConnected();
   },
-  clear: async () => {
+  async clear() {
     browser = null;
     return true;
   },
-  assignWindows: async () => {
+  async assignWindows() {
     let pages = await browser.contexts()[0].pages();
     for (const page of pages) {
       if (page.url().includes('runner')) {
@@ -66,61 +66,49 @@ module.exports = {
     }
     return true;
   },
-  assignActiveTabName: async tabName => {
+  async assignActiveTabName(tabName) {
     activeTabName = tabName;
     return true;
   },
-  clearWindows: async () => {
+  async clearWindows() {
     mainWindow = null;
     metamaskWindow = null;
     metamaskNotificationWindow = null;
     return true;
   },
-  isCypressWindowActive: async () => {
-    if (activeTabName === 'cypress') {
-      return true;
-    } else {
-      return false;
-    }
+  async isCypressWindowActive() {
+    return activeTabName === 'cypress';
   },
-  isMetamaskWindowActive: async () => {
-    if (activeTabName === 'metamask') {
-      return true;
-    } else {
-      return false;
-    }
+  async isMetamaskWindowActive() {
+    return activeTabName === 'metamask';
   },
-  isMetamaskNotificationWindowActive: async () => {
-    if (activeTabName === 'metamask-notif') {
-      return true;
-    } else {
-      return false;
-    }
+  async isMetamaskNotificationWindowActive() {
+    return activeTabName === 'metamask-notif';
   },
-  switchToCypressWindow: async () => {
+  async switchToCypressWindow() {
     await mainWindow.bringToFront();
-    await module.exports.assignActiveTabName('cypress');
+    await this.assignActiveTabName('cypress');
     return true;
   },
-  switchToMetamaskWindow: async () => {
+  async switchToMetamaskWindow() {
     await metamaskWindow.bringToFront();
-    await module.exports.assignActiveTabName('metamask');
+    await this.assignActiveTabName('metamask');
     return true;
   },
-  switchToMetamaskNotificationWindow: async () => {
+  async switchToMetamaskNotificationWindow() {
     await metamaskNotificationWindow.bringToFront();
-    await module.exports.assignActiveTabName('metamask-notif');
+    await this.assignActiveTabName('metamask-notif');
     return true;
   },
-  switchToMetamaskNotification: async () => {
+  async switchToMetamaskNotification() {
     let pages = await browser.contexts()[0].pages();
     for (const page of pages) {
       if (page.url().includes('notification')) {
         metamaskNotificationWindow = page;
         retries = 0;
         await page.bringToFront();
-        await module.exports.waitUntilStable(page);
-        await module.exports.waitFor(
+        await this.waitUntilStable(page);
+        await this.waitFor(
           notificationPageElements.notificationAppContent,
           page,
         );
@@ -130,7 +118,7 @@ module.exports = {
     await sleep(200);
     if (retries < 50) {
       retries++;
-      return await module.exports.switchToMetamaskNotification();
+      return await this.switchToMetamaskNotification();
     } else if (retries >= 50) {
       retries = 0;
       throw new Error(
@@ -138,8 +126,8 @@ module.exports = {
       );
     }
   },
-  waitFor: async (selector, page = metamaskWindow) => {
-    await module.exports.waitUntilStable(page);
+  async waitFor(selector, page = metamaskWindow) {
+    await this.waitUntilStable(page);
     await page.waitForSelector(selector, { strict: false });
     const element = page.locator(selector).first();
     await element.waitFor();
@@ -153,8 +141,8 @@ module.exports = {
     }
     return element;
   },
-  waitAndClick: async (selector, page = metamaskWindow, args = {}) => {
-    const element = await module.exports.waitFor(selector, page);
+  async waitAndClick(selector, page = metamaskWindow, args = {}) {
+    const element = await this.waitFor(selector, page);
     if (args.numberOfClicks && !args.waitForEvent) {
       await element.click({
         clickCount: args.numberOfClicks,
@@ -180,22 +168,22 @@ module.exports = {
     } else {
       await element.click({ force: args.force });
     }
-    await module.exports.waitUntilStable();
+    await this.waitUntilStable();
     return element;
   },
-  waitAndClickByText: async (selector, text, page = metamaskWindow) => {
-    await module.exports.waitFor(selector, page);
+  async waitAndClickByText(selector, text, page = metamaskWindow) {
+    await this.waitFor(selector, page);
     const element = page.locator(`text=${text}`);
     await element.click();
-    await module.exports.waitUntilStable();
+    await this.waitUntilStable();
   },
-  waitAndType: async (selector, value, page = metamaskWindow) => {
-    const element = await module.exports.waitFor(selector, page);
+  async waitAndType(selector, value, page = metamaskWindow) {
+    const element = await this.waitFor(selector, page);
     await element.type(value);
-    await module.exports.waitUntilStable(page);
+    await this.waitUntilStable(page);
   },
-  waitAndGetValue: async (selector, page = metamaskWindow) => {
-    const element = await module.exports.waitFor(selector, page);
+  async waitAndGetValue(selector, page = metamaskWindow) {
+    const element = await this.waitFor(selector, page);
     await expect(element).toHaveText(/[a-zA-Z0-9]/, {
       ignoreCase: true,
       useInnerText: true,
@@ -203,58 +191,54 @@ module.exports = {
     const value = await element.innerText();
     return value;
   },
-  waitAndGetInputValue: async (selector, page = metamaskWindow) => {
-    const element = await module.exports.waitFor(selector, page);
+  async waitAndGetInputValue(selector, page = metamaskWindow) {
+    const element = await this.waitFor(selector, page);
     await expect(element).toHaveValue(/[a-zA-Z1-9]/);
     const value = await element.inputValue();
     return value;
   },
-  waitAndGetAttributeValue: async (
-    selector,
-    attribute,
-    page = metamaskWindow,
-  ) => {
-    const element = await module.exports.waitFor(selector, page);
+  async waitAndGetAttributeValue(selector, attribute, page = metamaskWindow) {
+    const element = await this.waitFor(selector, page);
     await expect(element).toHaveAttribute(attribute, /[a-zA-Z0-9]/);
     const attrValue = await element.getAttribute(attribute);
     return attrValue;
   },
-  waitAndSetValue: async (text, selector, page = metamaskWindow) => {
-    const element = await module.exports.waitFor(selector, page);
+  async waitAndSetValue(text, selector, page = metamaskWindow) {
+    const element = await this.waitFor(selector, page);
     await element.fill('');
-    await module.exports.waitUntilStable(page);
+    await this.waitUntilStable(page);
     await element.fill(text);
-    await module.exports.waitUntilStable(page);
+    await this.waitUntilStable(page);
   },
-  waitAndClearWithBackspace: async (selector, page = metamaskWindow) => {
-    await module.exports.waitFor(selector, page);
+  async waitAndClearWithBackspace(selector, page = metamaskWindow) {
+    await this.waitFor(selector, page);
     const inputValue = await page.evaluate(selector, el => el.value);
     for (let i = 0; i < inputValue.length; i++) {
       await page.keyboard.press('Backspace');
-      await module.exports.waitUntilStable(page);
+      await this.waitUntilStable(page);
     }
   },
-  waitClearAndType: async (text, selector, page = metamaskWindow) => {
-    const element = await module.exports.waitAndClick(selector, page, {
+  async waitClearAndType(text, selector, page = metamaskWindow) {
+    const element = await this.waitAndClick(selector, page, {
       numberOfClicks: 3,
     });
-    await module.exports.waitUntilStable(page);
+    await this.waitUntilStable(page);
     await element.type(text);
-    await module.exports.waitUntilStable(page);
+    await this.waitUntilStable(page);
   },
-  waitForText: async (selector, text, page = metamaskWindow) => {
-    await module.exports.waitFor(selector, page);
+  async waitForText(selector, text, page = metamaskWindow) {
+    await this.waitFor(selector, page);
     const element = page.locator(selector, { hasText: text });
     await element.waitFor();
   },
-  waitToBeHidden: async (selector, page = metamaskWindow) => {
+  async waitToBeHidden(selector, page = metamaskWindow) {
     // info: waits for 60 seconds
     const locator = page.locator(selector);
     for (const element of await locator.all()) {
       if ((await element.isVisible()) && retries < 300) {
         retries++;
         await page.waitForTimeout(200);
-        await module.exports.waitToBeHidden(selector, page);
+        await this.waitToBeHidden(selector, page);
       } else if (retries >= 300) {
         retries = 0;
         throw new Error(
@@ -264,17 +248,17 @@ module.exports = {
       retries = 0;
     }
   },
-  waitUntilStable: async page => {
+  async waitUntilStable(page) {
     if (page && page.url().includes('notification')) {
       await page.waitForLoadState('load');
       await page.waitForLoadState('domcontentloaded');
       await page.waitForLoadState('networkidle');
-      await module.exports.waitUntilNotificationWindowIsStable();
+      await this.waitUntilNotificationWindowIsStable();
     }
     await metamaskWindow.waitForLoadState('load');
     await metamaskWindow.waitForLoadState('domcontentloaded');
     await metamaskWindow.waitForLoadState('networkidle');
-    await module.exports.waitUntilMetamaskWindowIsStable();
+    await this.waitUntilMetamaskWindowIsStable();
     await mainWindow.waitForLoadState('load');
     await mainWindow.waitForLoadState('domcontentloaded');
     // todo: this may slow down tests and not be necessary but could improve stability
@@ -283,32 +267,23 @@ module.exports = {
   waitUntilNotificationWindowIsStable: async (
     page = metamaskNotificationWindow,
   ) => {
-    await module.exports.waitToBeHidden(
-      notificationPageElements.loadingLogo,
-      page,
-    );
-    await module.exports.waitToBeHidden(
-      notificationPageElements.loadingSpinner,
-      page,
-    );
+    await this.waitToBeHidden(notificationPageElements.loadingLogo, page);
+    await this.waitToBeHidden(notificationPageElements.loadingSpinner, page);
   },
   waitUntilMetamaskWindowIsStable: async (page = metamaskWindow) => {
-    await module.exports.waitToBeHidden(pageElements.loadingLogo, page); // shown on reload
-    await module.exports.waitToBeHidden(pageElements.loadingSpinner, page); // shown on reload
-    await module.exports.waitToBeHidden(pageElements.loadingOverlay, page); // shown on change network
-    await module.exports.waitToBeHidden(
-      pageElements.loadingOverlaySpinner,
-      page,
-    ); // shown on balance load
+    await this.waitToBeHidden(pageElements.loadingLogo, page); // shown on reload
+    await this.waitToBeHidden(pageElements.loadingSpinner, page); // shown on reload
+    await this.waitToBeHidden(pageElements.loadingOverlay, page); // shown on change network
+    await this.waitToBeHidden(pageElements.loadingOverlaySpinner, page); // shown on balance load
     // network error handler
     if (
       await page.locator(pageElements.loadingOverlayErrorButtons).isVisible()
     ) {
-      await module.exports.waitAndClick(
+      await this.waitAndClick(
         pageElements.loadingOverlayErrorButtonsRetryButton,
         page,
       );
-      await module.exports.waitToBeHidden(pageElements.loadingOverlay, page);
+      await this.waitToBeHidden(pageElements.loadingOverlay, page);
     }
   },
 };
