@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM synthetixio/docker-e2e:18.13-ubuntu as base
+FROM --platform=linux/amd64 synthetixio/docker-e2e:18.13-ubuntu as base
 
 RUN mkdir /app
 WORKDIR /app
