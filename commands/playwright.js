@@ -264,13 +264,11 @@ module.exports = {
     // todo: this may slow down tests and not be necessary but could improve stability
     // await mainWindow.waitForLoadState('networkidle');
   },
-  waitUntilNotificationWindowIsStable: async (
-    page = metamaskNotificationWindow,
-  ) => {
+  async waitUntilNotificationWindowIsStable(page = metamaskNotificationWindow) {
     await this.waitToBeHidden(notificationPageElements.loadingLogo, page);
     await this.waitToBeHidden(notificationPageElements.loadingSpinner, page);
   },
-  waitUntilMetamaskWindowIsStable: async (page = metamaskWindow) => {
+  async waitUntilMetamaskWindowIsStable(page = metamaskWindow) {
     await this.waitToBeHidden(pageElements.loadingLogo, page); // shown on reload
     await this.waitToBeHidden(pageElements.loadingSpinner, page); // shown on reload
     await this.waitToBeHidden(pageElements.loadingOverlay, page); // shown on change network
