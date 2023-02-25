@@ -30,6 +30,10 @@ const launcher = {
     }
     log(`Tests will run on ${arguments_.browser} browser`);
     defaultArguments.push(`--browser=${arguments_.browser}`);
+    if (arguments_.headless) {
+      log(`headless arg enabled`);
+      process.env.HEADLESS_MODE = true;
+    }
     if (arguments_.component) {
       log(`component arg enabled`);
       defaultArguments.push('--component');
