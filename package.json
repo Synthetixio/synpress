@@ -41,7 +41,7 @@
     "update:deps": "ncu -u -x 'node-fetch eslint' && yarn",
     "start:server": "serve node_modules/@metamask/test-dapp/dist -p 3000",
     "test:e2e": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js'",
-    "test:e2e:headless": "HEADLESS_MODE=true yarn test:e2e",
+    "test:e2e:headless": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js --headless'",
     "test:e2e:ci": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js --record --group'",
     "test:e2e:anvil": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true CYPRESS_USE_ANVIL=true node synpress.js run --configFile=synpress.config.js'",
     "test:e2e:ci:anvil": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true CYPRESS_USE_ANVIL=true node synpress.js run --configFile=synpress.config.js --record --group'"
