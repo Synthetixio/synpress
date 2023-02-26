@@ -34,52 +34,52 @@ Usage examples:
 - [kwenta](https://github.com/kwenta/kwenta/tree/dev/tests/e2e)
 - [staking](https://github.com/Synthetixio/staking/tree/dev/tests/e2e)
 
-For additional custom commands and their examples,
-[check here](https://github.com/synthetixio/synpress/blob/dev/support/index.d.ts).
+For full Synpress commands and their examples,
+[check here](https://github.com/Synthetixio/synpress/blob/dev/docs/synpress-commands.md).
 
 To see in which direction Synpress is headed to, take a look at
 [planning board](https://github.com/orgs/Synthetixio/projects/14).
 
 ## Features
 
-- added support for metamask 🦊
-- supports headless mode thanks to
+- Added support for metamask 🦊
+- Supports headless mode thanks to
   [docker 🐳](https://github.com/Synthetixio/synpress#-using-with-docker)
-  - recommended for local development and
+  - Recommended for local development and
     [CI](https://github.com/Synthetixio/synpress#ci-tips--tricks)
-  - includes VNC and [noVNC](https://novnc.com/info.html)
-  - integrated video recording 🎥 (full screen)
-  - exposes noVNC with [ngrok](https://ngrok.com/) (optional)
-- easy to debug 🐛
-  - improved error handling
-  - supports [cypress](https://docs.cypress.io/guides/guides/debugging) and
+  - Includes VNC and [noVNC](https://novnc.com/info.html)
+  - Integrated video recording 🎥 (full screen)
+  - Exposes noVNC with [ngrok](https://ngrok.com/) (optional)
+- Easy to debug 🐛
+  - Improved error handling
+  - Supports [cypress](https://docs.cypress.io/guides/guides/debugging) and
     [playwright](https://playwright.dev/docs/debug) debuggers
   - noVNC allows for interactions through browser 🌐
-  - debug remote machines on CI with ngrok
-- blazingly-fast ⚡
-- extensible ⚙️ (add own custom commands and plugins)
-- can be used in existing
+  - Debug remote machines on CI with ngrok
+- Blazingly-fast ⚡
+- Extensible ⚙️ (add own custom commands and plugins)
+- Can be used in existing
   [cypress setup](https://github.com/Synthetixio/synpress/issues/346#issuecomment-1060506096)
-- supports dotenv
-  - loads all env vars from your `.env` file automatically (from project root
+- Supports dotenv
+  - Loads all env vars from your `.env` file automatically (from project root
     folder)
-- ability to use latest metamask or lock it's version to avoid unexpected
+- Ability to use latest metamask or lock it's version to avoid unexpected
   failures related to metamask updates
-- supports multi-lang of metamask, it doesn't depend on any labels
-- synpress is
+- Supports multi-lang of metamask, it doesn't depend on any labels
+- Synpress is
   [fully tested](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e/specs)
-- waits for XHR requests, navigations and animations automatically
-- ability to fail test run if there are any browser console errors found
-- types support for all additional custom commands
-- the best possible options set up in place to avoid flakiness
-- etherscan API helpers in place which for ex. allows to compare your
+- Waits for XHR requests, navigations and animations automatically
+- Ability to fail test run if there are any browser console errors found
+- Types support for all additional custom commands
+- The best possible options set up in place to avoid flakiness
+- Etherscan API helpers in place which for ex. allows to compare your
   transaction results with etherscan and check tx status
-- synthetix helpers in place which allows to interact with synthetix protocol
+- Synthetix helpers in place which allows to interact with synthetix protocol
   programmatically
-- supports codespaces
-  - run your tests in docker
-  - get your feedback remotely thanks to ngrok
-  - use mpeg-4 preview plugin to watch videos from inside codespaces :) ...
+- Supports codespaces
+  - Run your tests in docker
+  - Get your feedback remotely thanks to ngrok
+  - Use mpeg-4 preview plugin to watch videos from inside codespaces :) ...
 
 ## 👷 Example setup for eslint and tsconfig
 
@@ -329,6 +329,35 @@ Options:
   -cf, --configFile <path>  specify a path to *.js file where configuration values are set
   -h, --help                display help for command
 ```
+
+## Environment Variables
+
+| Variable                | Description |
+| ----------------------- | ----------- |
+| `SYNPRESS_LOCAL_TEST`   | TODO        |
+| `GH_USERNAME`           | TODO        |
+| `GH_PAT`                | TODO        |
+| `CYPRESS_GROUP`         | TODO        |
+| `CI`                    | TODO        |
+| `SYNDEBUG`              | TODO        |
+| `DEBUG`                 | TODO        |
+| `STABLE_MODE`           | TODO        |
+| `SKIP_METAMASK_INSTALL` | TODO        |
+| `SKIP_METAMASK_SETUP`   | TODO        |
+| `SECRET_WORDS`          | TODO        |
+| `PRIVATE_KEY`           | TODO        |
+| `RPC_URL`               | TODO        |
+| `CHAIN_ID`              | TODO        |
+| `BLOCK_EXPLORER`        | TODO        |
+| `ETHERSCAN_KEY`         | TODO        |
+| `NETWORK_NAME`          | TODO        |
+| `SYMBOL`                | TODO        |
+| `IS_TESTNET`            | TODO        |
+| `RESET_METAMASK`        | TODO        |
+| `SLOW_MODE`             | TODO        |
+| `STABLE_MODE`           | TODO        |
+| `METAMASK_VERSION`      | TODO        |
+| `FAIL_ON_ERROR`         | TODO        |
 
 ## 🚢 Release process
 
