@@ -17,6 +17,8 @@ jobs:
       github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' ||
       github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    container:
+      image: synthetixio/docker-e2e:18.13-ubuntu
 
     steps:
       - name: Checkout
