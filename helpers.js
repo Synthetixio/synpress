@@ -6,54 +6,63 @@ const { ethers } = require('ethers');
 const download = require('download');
 const packageJson = require('./package.json');
 
-let networkName = 'mainnet';
-let networkId = 1;
-let isTestnet = false;
+const PRESET_NETWORKS = Object.freeze({
+  mainnet: {
+    networkName: 'mainnet',
+    networkId: 1,
+    isTestnet: false,
+  },
+  goerli: {
+    networkName: 'goerli',
+    networkId: 5,
+    isTestnet: true,
+  },
+  sepolia: {
+    networkName: 'sepolia',
+    networkId: 11155111,
+    isTestnet: true,
+  },
+});
+
+let selectedNetwork = PRESET_NETWORKS.mainnet;
 
 module.exports = {
-  setNetwork: async network => {
-    typeof network === 'object'
-      ? log(`Setting network to ${JSON.stringify(network)}`)
-      : log(`Setting network to ${network}`);
+  async setNetwork(network) {
+    log(`Setting network to ${JSON.stringify(network)}`);
 
-    if (network === 'mainnet') {
-      networkName = 'mainnet';
-      networkId = 1;
-      isTestnet = false;
-    } else if (network === 'goerli') {
-      networkName = 'goerli';
-      networkId = 5;
-      isTestnet = true;
-    } else if (network === 'sepolia') {
-      networkName = 'sepolia';
-      networkId = 11155111;
-      isTestnet = true;
-    } else if (network === 'localhost') {
+    if (Object.keys(PRESET_NETWORKS).includes(network)) {
+      selectedNetwork = PRESET_NETWORKS[network];
+    }
+
+    if (network === 'localhost') {
       const provider = new ethers.JsonRpcProvider('http://127.0.0.1:8545');
       const { chainId, name } = await provider.getNetwork();
-      networkName = name;
-      networkId = chainId;
-      isTestnet = true;
+      selectedNetwork = {
+        networkName: name,
+        networkId: chainId,
+        isTestnet: true,
+      };
     } else if (typeof network === 'object') {
-      networkName = network.networkName;
-      networkId = Number(network.chainId);
-      isTestnet = network.isTestnet;
+      selectedNetwork = {
+        networkName: network.networkName,
+        networkId: Number(network.chainId),
+        isTestnet: network.isTestnet,
+      };
     }
     // todo: handle a case when setNetwork() is triggered by changeNetwork() with a string of already added custom networks
   },
   getNetwork: () => {
-    const networkData = { networkName, networkId, isTestnet };
-    log(`Current network data: ${networkData}`);
-    return networkData;
+    log(`Current network data: ${selectedNetwork}`);
+    return selectedNetwork;
   },
-  getSynpressPath: () => {
+  getSynpressPath() {
     if (process.env.SYNPRESS_LOCAL_TEST) {
       return '.';
     } else {
       return path.dirname(require.resolve(packageJson.name));
     }
   },
-  createDirIfNotExist: async path => {
+  async createDirIfNotExist(path) {
     try {
       log(`Checking if directory exists on path: ${path}`);
       await fs.access(path);
@@ -63,14 +72,14 @@ module.exports = {
         log(`Creating directory as it doesn't exist..`);
         await fs.mkdir(path);
         return true;
-      } else {
-        throw new Error(
-          `[createDirIfNotExist] Unhandled error from fs.access() with following error:\n${e}`,
-        );
       }
+
+      throw new Error(
+        `[createDirIfNotExist] Unhandled error from fs.access() with following error:\n${e}`,
+      );
     }
   },
-  checkDirOrFileExist: async path => {
+  async checkDirOrFileExist(path) {
     try {
       log(`Checking if directory exists on path: ${path}`);
       await fs.access(path);
@@ -79,14 +88,14 @@ module.exports = {
       if (e.code === 'ENOENT') {
         log(`Directory or file doesn't exist`);
         return false;
-      } else {
-        throw new Error(
-          `[checkDirOrFileExist] Unhandled error from fs.access() with following error:\n${e}`,
-        );
       }
+
+      throw new Error(
+        `[checkDirOrFileExist] Unhandled error from fs.access() with following error:\n${e}`,
+      );
     }
   },
-  getMetamaskReleases: async version => {
+  async getMetamaskReleases(version) {
     log(`Trying to find metamask version ${version} in GitHub releases..`);
     let filename;
     let downloadUrl;
@@ -134,14 +143,14 @@ module.exports = {
         throw new Error(
           `[getMetamaskReleases] Unable to fetch metamask releases from GitHub because you've been rate limited! Please set GH_USERNAME and GH_PAT environment variables to avoid this issue or retry again.`,
         );
-      } else {
-        throw new Error(
-          `[getMetamaskReleases] Unable to fetch metamask releases from GitHub with following error:\n${e}`,
-        );
       }
+
+      throw new Error(
+        `[getMetamaskReleases] Unable to fetch metamask releases from GitHub with following error:\n${e}`,
+      );
     }
   },
-  download: async (url, destination) => {
+  async download(url, destination) {
     try {
       log(
         `Trying to download and extract file from: ${url} to following path: ${destination}`,
@@ -162,12 +171,12 @@ module.exports = {
       );
     }
   },
-  prepareMetamask: async version => {
-    const release = await module.exports.getMetamaskReleases(version);
+  async prepareMetamask(version) {
+    const release = await this.getMetamaskReleases(version);
     const downloadsDirectory = path.resolve(__dirname, 'downloads');
-    await module.exports.createDirIfNotExist(downloadsDirectory);
+    await this.createDirIfNotExist(downloadsDirectory);
     const metamaskDirectory = path.join(downloadsDirectory, release.tagName);
-    const metamaskDirectoryExists = await module.exports.checkDirOrFileExist(
+    const metamaskDirectoryExists = await this.checkDirOrFileExist(
       metamaskDirectory,
     );
     const metamaskManifestFilePath = path.join(
@@ -175,11 +184,11 @@ module.exports = {
       release.tagName,
       'manifest.json',
     );
-    const metamaskManifestFileExists = await module.exports.checkDirOrFileExist(
+    const metamaskManifestFileExists = await this.checkDirOrFileExist(
       metamaskManifestFilePath,
     );
     if (!metamaskDirectoryExists && !metamaskManifestFileExists) {
-      await module.exports.download(release.downloadUrl, metamaskDirectory);
+      await this.download(release.downloadUrl, metamaskDirectory);
     } else {
       log('Metamask is already downloaded');
     }
