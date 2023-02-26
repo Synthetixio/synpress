@@ -49,24 +49,44 @@ describe('Metamask', () => {
       });
     });
     it(`addMetamaskNetwork should add custom network`, () => {
-      cy.addMetamaskNetwork({
-        networkName: 'Polygon Network',
-        rpcUrl: 'https://polygon-rpc.com',
-        chainId: '137',
-        symbol: 'MATIC',
-        blockExplorer: 'https://polygonscan.com',
-        isTestnet: false,
-      }).then(networkAdded => {
-        expect(networkAdded).to.be.true;
-      });
-      cy.get('#network').contains('0x89');
-      cy.get('#chainId').contains('0x89');
+      if (Cypress.env('USE_ANVIL')) {
+        cy.addMetamaskNetwork({
+          networkName: 'anvil',
+          rpcUrl: Cypress.env('DOCKER_RUN')
+            ? 'http://foundry:8545'
+            : 'http://127.0.0.1:8545',
+          chainId: '5',
+          symbol: 'GETH',
+          isTestnet: true,
+        });
+        cy.get('#network').contains('5');
+        cy.get('#chainId').contains('0x5');
+      } else {
+        cy.addMetamaskNetwork({
+          networkName: 'Polygon Network',
+          rpcUrl: 'https://polygon-rpc.com',
+          chainId: '137',
+          symbol: 'MATIC',
+          blockExplorer: 'https://polygonscan.com',
+          isTestnet: false,
+        }).then(networkAdded => {
+          expect(networkAdded).to.be.true;
+        });
+        cy.get('#network').contains('0x89');
+        cy.get('#chainId').contains('0x89');
+      }
     });
     it(`getNetwork should return valid network after adding a new network`, () => {
       cy.getNetwork().then(network => {
-        expect(network.networkName).to.be.equal('polygon network');
-        expect(network.networkId).to.be.equal(137);
-        expect(network.isTestnet).to.be.false;
+        if (Cypress.env('USE_ANVIL')) {
+          expect(network.networkName).to.be.equal('anvil');
+          expect(network.networkId).to.be.equal(5);
+          expect(network.isTestnet).to.be.true;
+        } else {
+          expect(network.networkName).to.be.equal('polygon network');
+          expect(network.networkId).to.be.equal(137);
+          expect(network.isTestnet).to.be.false;
+        }
       });
     });
     it(`changeMetamaskNetwork should change network using pre-defined network`, () => {
@@ -84,11 +104,19 @@ describe('Metamask', () => {
       });
     });
     it(`changeMetamaskNetwork should change network using custom network name`, () => {
-      cy.changeMetamaskNetwork('polygon network').then(networkChanged => {
-        expect(networkChanged).to.be.true;
-      });
-      cy.get('#network').contains('0x89');
-      cy.get('#chainId').contains('0x89');
+      if (Cypress.env('USE_ANVIL')) {
+        cy.changeMetamaskNetwork('anvil').then(networkChanged => {
+          expect(networkChanged).to.be.true;
+        });
+        cy.get('#network').contains('5');
+        cy.get('#chainId').contains('0x5');
+      } else {
+        cy.changeMetamaskNetwork('polygon network').then(networkChanged => {
+          expect(networkChanged).to.be.true;
+        });
+        cy.get('#network').contains('0x89');
+        cy.get('#chainId').contains('0x89');
+      }
       cy.changeMetamaskNetwork('goerli');
     });
     it(`importMetamaskAccount should import new account using private key`, () => {
@@ -237,21 +265,13 @@ describe('Metamask', () => {
     });
     it(`rejectMetamaskTransaction should reject transaction`, () => {
       if (Cypress.env('USE_ANVIL')) {
+        cy.changeMetamaskNetwork('anvil');
         cy.importMetamaskAccount(
           // don't worry my friend, this is just fourth private key from:
           // 'test test test test test test test test test test test junk'
           '0xdbda1821b80551c9d65939329250298aa3472ba22feea921c0cf5d620ea67b97',
           //0x23618e81E3f5cdF7f54C3d65f7FBc0aBf5B21E8f
         );
-        cy.addMetamaskNetwork({
-          networkName: 'anvil',
-          rpcUrl: Cypress.env('DOCKER_RUN')
-            ? 'http://foundry:8545'
-            : 'http://127.0.0.1:8545',
-          chainId: '5',
-          symbol: 'GETH',
-          isTestnet: true,
-        });
       } else {
         cy.importMetamaskAccount(Cypress.env('PRIVATE_KEY_WITH_FUNDS'));
       }
