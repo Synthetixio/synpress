@@ -73,6 +73,7 @@ program.version(version, '-v, --version');
 program
   .command('run')
   .requiredOption('-b, --browser <name>', 'run on specified browser', 'chrome')
+  .option('-h, --headless', 'run tests in headless mode')
   .option('-cmp, --component', 'run component tests')
   .option(
     '-c, --config <config>',
@@ -117,6 +118,7 @@ program
   .action(options => {
     run({
       browser: options.browser,
+      headless: options.headless,
       component: options.component,
       config: options.config,
       configFile: options.configFile,
