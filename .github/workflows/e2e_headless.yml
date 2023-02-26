@@ -22,7 +22,7 @@ jobs:
         image: synthetixio/foundry:457bb48776c3b14de232d9dda620ba9188dc40ac-base
         ports:
           - 8545:8545
-        options: anvil --no-cors --fork-url ${ANVIL_FORK_URL}
+        options: 'anvil --no-cors --fork-url ${ANVIL_FORK_URL}'
         env:
           ANVIL_IP_ADDR: 0.0.0.0
           ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}
