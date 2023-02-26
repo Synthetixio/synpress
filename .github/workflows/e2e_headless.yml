@@ -46,26 +46,13 @@ jobs:
         run: yarn --frozen-lockfile --prefer-offline --no-audit
 
       - name: Run e2e tests (headless)
-        uses: cypress-io/github-action@v5
-        with:
-          command: yarn test:e2e:headless:anvil
-          browser: chrome
-          spec: tests/e2e/specs/*
+        run: yarn test:e2e:headless:anvil
         env:
           NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
           CYPRESS_PRIVATE_KEY_WITH_FUNDS:
             ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
           GH_PAT: ${{ secrets.GH_PAT }}
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
-
-      # - name: Run e2e tests (headless)
-      #   run: yarn test:e2e:headless:anvil
-      #   env:
-      #     NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
-      #     CYPRESS_PRIVATE_KEY_WITH_FUNDS:
-      #       ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
-      #     GH_PAT: ${{ secrets.GH_PAT }}
-      #     GH_USERNAME: ${{ secrets.GH_USERNAME }}
 
       - name: Archive e2e artifacts
         uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # pin@v2
