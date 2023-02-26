@@ -19,14 +19,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Run anvil
-        run: |
-          docker-compose -f docker-compose.ci.yml --profile foundry up --build
-        env:
-          ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}
-
       - name: Checkout
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # pin@v2
+
+      - name: Run anvil
+        run: |
+          docker-compose -f docker-compose.ci.yml --profile foundry up --build --detach
+        env:
+          ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}
 
       - name: Set yarn cache directory
         run: yarn config set cache-folder .yarn-cache
