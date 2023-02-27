@@ -54,6 +54,7 @@ jobs:
           x11vnc \
           xterm \
           xvfb
+          curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list && sudo apt update && sudo apt install ngrok -y
 
       - name: Run e2e tests (headless)
         run: |
@@ -63,6 +64,7 @@ jobs:
           Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
           x11vnc -forever -shared &
           websockify --web /usr/share/novnc 8080 localhost:5900 &
+          ngrok http 8080 --authtoken ${NGROK_AUTH} &
           yarn test:e2e:headless:anvil
         env:
           NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
