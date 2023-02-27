@@ -17,18 +17,16 @@ jobs:
       github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' ||
       github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    container:
-      image: synthetixio/docker-e2e:18.13-ubuntu
 
     steps:
       - name: Checkout
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # pin@v2
 
-      # - name: Run anvil
-      #   run: |
-      #     docker-compose -f docker-compose.ci.yml --profile foundry up --build --detach
-      #   env:
-      #     ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}
+      - name: Run anvil
+        run: |
+          docker-compose -f docker-compose.ci.yml --profile foundry up --build --detach
+        env:
+          ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}
 
       - name: Set yarn cache directory
         run: yarn config set cache-folder .yarn-cache
@@ -48,7 +46,10 @@ jobs:
         run: yarn --frozen-lockfile --prefer-offline --no-audit
 
       - name: Run e2e tests (headless)
-        run: yarn test:e2e:headless:anvil
+        run: |
+          export DISPLAY=:99
+          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+          yarn test:e2e:headless:anvil
         env:
           NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
           CYPRESS_PRIVATE_KEY_WITH_FUNDS:
