@@ -69,7 +69,7 @@ jobs:
           echo -n "======> remote noVNC URL: "
           sleep 5
           curl -s localhost:4040/api/tunnels
-          yarn test:e2e:headless:anvil
+          yarn test:e2e:anvil
         env:
           NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
           CYPRESS_PRIVATE_KEY_WITH_FUNDS:
