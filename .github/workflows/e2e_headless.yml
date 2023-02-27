@@ -45,9 +45,21 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile --prefer-offline --no-audit
 
+      - name: Install linux deps
+        run: |
+          sudo apt-get install --no-install-recommends -y \
+          fluxbox \
+          net-tools \
+          novnc \
+          x11vnc \
+          xterm \
+          xvfb
+
       - name: Run e2e tests (headless)
         run: |
           export DISPLAY=:0.0
+          fluxbox &
+          xterm &
           Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
           yarn test:e2e:headless:anvil
         env:
