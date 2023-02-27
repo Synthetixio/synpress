@@ -47,8 +47,8 @@ jobs:
 
       - name: Run e2e tests (headless)
         run: |
-          Xvfb -screen 0 1024x768x24 :0.0 &
           export DISPLAY=:0.0
+          Xvfb :0 -screen 0 "1024x768x24 -listen tcp -ac &
           yarn test:e2e:headless:anvil
         env:
           NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
