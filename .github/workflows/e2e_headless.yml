@@ -61,6 +61,8 @@ jobs:
           fluxbox &
           xterm &
           Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
+          x11vnc -forever -shared &
+          websockify --web /usr/share/novnc 8080 localhost:5900 &
           yarn test:e2e:headless:anvil
         env:
           NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
