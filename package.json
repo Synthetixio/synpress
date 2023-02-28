@@ -17,16 +17,20 @@
     "type": "git",
     "url": "git+https://github.com/synthetixio/synpress.git"
   },
+  "files": [
+    "lib"
+  ],
   "license": "MIT",
   "author": {
     "name": "Synthetix"
   },
-  "type": "commonjs",
-  "main": "launcher.js",
+  "main": "lib/launcher.js",
+  "types": "support/index.d.ts",
   "bin": {
-    "synpress": "synpress.js"
+    "synpress": "lib/synpress.js"
   },
   "scripts": {
+    "build": "tsc && cp support/index.d.ts lib/index.d.ts",
     "fix": "yarn fix:eslint && yarn fix:prettier",
     "fix:eslint": "eslint --fix **/*.js",
     "fix:prettier": "prettier --write **/*.js",
@@ -96,7 +100,8 @@
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
     "@trunkio/launcher": "^1.2.3",
     "npm-check-updates": "^16.7.9",
-    "release-it": "^15.6.0"
+    "release-it": "^15.6.0",
+    "typescript": "^4.9.5"
   },
   "engines": {
     "node": ">=14"
