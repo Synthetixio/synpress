@@ -33,6 +33,10 @@ module.exports = (on, config) => {
         '--disable-renderer-backgrounding',
       );
     }
+
+    if (browser.name === 'chrome' && process.env.CI)
+      arguments_.args.push('--disable-gpu'); // Avoid: "dri3 extension not supported" error
+
     if (!process.env.SKIP_METAMASK_INSTALL) {
       // NOTE: extensions cannot be loaded in headless Chrome
       const metamaskPath = await helpers.prepareMetamask(
