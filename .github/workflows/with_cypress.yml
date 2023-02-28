@@ -1,0 +1,16 @@
+name: E2E with Cypress Image
+
+on: [push]
+
+jobs:
+  cypress-e2e:
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Synpress run
+        uses: cypress-io/github-action@v5.1.0
+        with:
+          test: yarn test:e2e:headless
+          browser: chrome
