@@ -31,6 +31,7 @@ module.exports = (on, config) => {
         '--disable-background-timer-throttling',
         '--disable-backgrounding-occluded-windows',
         '--disable-renderer-backgrounding',
+        '--disable-gpu', // Avoid: "dri3 extension not supported" error
       );
     }
     if (!process.env.SKIP_METAMASK_INSTALL) {
