@@ -65,6 +65,7 @@ jobs:
           fluxbox &
           yarn test:e2e:headless:anvil
         env:
+          ELECTRON_RUN_AS_NODE: 1
           NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
           CYPRESS_PRIVATE_KEY_WITH_FUNDS:
             ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
