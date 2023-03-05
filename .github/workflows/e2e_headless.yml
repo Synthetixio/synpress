@@ -57,7 +57,7 @@ jobs:
       - name: Update Chrome version
         uses: browser-actions/setup-chrome@cf2b0c420c6c1fa44af1daf4e0e4dd5880d52e18 # pin@1.1.0
         with:
-          chrome-version: canary
+          chrome-version: dev
 
       - name: Run e2e tests (headless)
         run: |
