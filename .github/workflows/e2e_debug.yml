@@ -55,7 +55,6 @@ jobs:
           net-tools \
           novnc \
           x11vnc \
-          xterm \
           xvfb \
           jq \
           ngrok
@@ -64,7 +63,6 @@ jobs:
         run: |
           Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
           fluxbox &
-          xterm &
           x11vnc -forever -shared &
           websockify --web /usr/share/novnc 8080 localhost:5900 &
           ngrok http 8080 --authtoken ${NGROK_AUTH} &
