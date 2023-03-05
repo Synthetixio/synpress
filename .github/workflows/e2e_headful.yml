@@ -48,7 +48,6 @@ jobs:
 
       - name: Install linux deps
         run: |
-          sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
           fluxbox \
           xvfb
@@ -59,7 +58,6 @@ jobs:
           fluxbox &
           yarn test:e2e:anvil
         env:
-          NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
           CYPRESS_PRIVATE_KEY_WITH_FUNDS:
             ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
           GH_PAT: ${{ secrets.GH_PAT }}

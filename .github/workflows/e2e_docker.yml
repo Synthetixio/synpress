@@ -50,6 +50,7 @@ jobs:
           DOCKER_BUILDKIT: 1
           DOCKER_DEFAULT_PLATFORM: linux/amd64
           NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
+          NGROK_BASIC_AUTH: ${{ secrets.NGROK_BASIC_AUTH }}
           CYPRESS_PRIVATE_KEY_WITH_FUNDS:
             ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
           ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}

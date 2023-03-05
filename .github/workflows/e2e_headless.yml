@@ -48,7 +48,6 @@ jobs:
 
       - name: Install linux deps
         run: |
-          sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
           fluxbox \
           xvfb

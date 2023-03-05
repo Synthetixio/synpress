@@ -73,6 +73,9 @@ services:
     ports:
       - '4040:4040'
     command: ['ngrok', 'http', 'display:8080', '--authtoken', '${NGROK_AUTH}']
+    environment:
+      - NGROK_AUTH=${NGROK_AUTH}
+      - NGROK_BASIC_AUTH=${NGROK_BASIC_AUTH}
     depends_on:
       - display
     networks:
