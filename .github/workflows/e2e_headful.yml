@@ -1,4 +1,4 @@
-name: E2E (headless)
+name: E2E (headful)
 
 on:
   push:
@@ -54,12 +54,12 @@ jobs:
           xterm \
           xvfb
 
-      - name: Run e2e tests (headless)
+      - name: Run e2e tests (headful)
         run: |
           Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
           fluxbox &
           xterm &
-          yarn test:e2e:anvil:headless
+          yarn test:e2e:anvil
         env:
           NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
           CYPRESS_PRIVATE_KEY_WITH_FUNDS:
