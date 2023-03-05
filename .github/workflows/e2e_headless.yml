@@ -59,7 +59,7 @@ jobs:
           Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
           fluxbox &
           xterm &
-          yarn test:e2e:anvil:headless
+          yarn test:e2e:headless:anvil
         env:
           NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
           CYPRESS_PRIVATE_KEY_WITH_FUNDS:
