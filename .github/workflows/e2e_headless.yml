@@ -52,11 +52,20 @@ jobs:
           fluxbox \
           xvfb
 
-      - name: Run e2e tests (headless)
+      # headless mode needs chrome v112 to work, currently gh actions comes with chrome v110
+      # after gh actions default chrome is v112, this step may be removed
+      - name: Update Chrome version
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
+      - name: Run xvfb and fluxbox
         run: |
           Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
           fluxbox &
-          yarn test:e2e:headless:anvil
+
+      - name: Run e2e tests (headless)
+        run: yarn test:e2e:headless:anvil
         env:
           NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
           CYPRESS_PRIVATE_KEY_WITH_FUNDS:
