@@ -66,7 +66,7 @@ jobs:
           fluxbox &
           x11vnc -forever -shared &
           websockify --web /usr/share/novnc 8080 localhost:5900 &
-          ngrok http 8080 --authtoken ${NGROK_AUTH} --basic-auth ${NGROK_BASIC_AUTH} &
+          # ngrok http 8080 --authtoken ${NGROK_AUTH} --basic-auth ${NGROK_BASIC_AUTH} &
           echo -n "======> remote noVNC URL: "
           sleep 5
           curl -s localhost:4040/api/tunnels | jq -r .tunnels[0].public_url
