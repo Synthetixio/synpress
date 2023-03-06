@@ -31,8 +31,6 @@ Usage examples:
 
 - [synpress-setup-example](https://github.com/drptbl/synpress-setup-example/)
 - [synpress](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e)
-- [kwenta](https://github.com/kwenta/kwenta/tree/dev/tests/e2e)
-- [staking](https://github.com/Synthetixio/staking/tree/dev/tests/e2e)
 
 For additional custom commands and their examples,
 [check here](https://github.com/synthetixio/synpress/blob/dev/support/index.d.ts).
