@@ -1,3 +1,6 @@
+# https://developer.chrome.com/articles/new-headless/
+# warning: sadly, notification of metamask is blank on UNIX which is a blocker to run headless mode on CI
+
 name: E2E (headless)
 
 on:
