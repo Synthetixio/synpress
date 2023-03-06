@@ -52,8 +52,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
           xfce4 \
-          xfce4-taskmanager \
-          xfce4-terminal \
+          # xfce4-taskmanager \
+          # xfce4-terminal \
           xfce4-goodies \
           dbus-x11 \
           novnc \
@@ -66,7 +66,7 @@ jobs:
       - name: Run e2e tests (headless)
         run: |
           Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
-          startxfce4 &
+          # startxfce4 &
           x11vnc -forever -shared &
           websockify --web /usr/share/novnc 8080 localhost:5900 &
           ngrok http 8080 --authtoken ${NGROK_AUTH} --basic-auth ${NGROK_BASIC_AUTH} &
