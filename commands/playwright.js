@@ -109,12 +109,12 @@ module.exports = {
         await page.bringToFront();
         console.log('1');
         await page.screenshot({
-          path: '1.png',
+          path: 'tests/e2e/screenshots/1.png',
         });
         await this.waitUntilStable(page);
         console.log('2');
         await page.screenshot({
-          path: '2.png',
+          path: 'tests/e2e/screenshots/2.png',
         });
         await this.waitFor(
           notificationPageElements.notificationAppContent,
@@ -122,7 +122,7 @@ module.exports = {
         );
         console.log('3');
         await page.screenshot({
-          path: '3.png',
+          path: 'tests/e2e/screenshots/3.png',
         });
         return page;
       }
@@ -139,23 +139,29 @@ module.exports = {
     }
   },
   async waitFor(selector, page = metamaskWindow) {
+    if (selector === notificationPageElements.notificationAppContent) {
+      console.log('4');
+      await page.screenshot({
+        path: 'tests/e2e/screenshots/4.png',
+      });
+    }
     await this.waitUntilStable(page);
-    console.log('4');
-    await page.screenshot({
-      path: '4.png',
-    });
     await page.waitForSelector(selector, { strict: false });
-    console.log('5');
-
+    if (selector === notificationPageElements.notificationAppContent) {
+      console.log('5');
+    }
     const element = page.locator(selector).first();
-    console.log('6');
-
+    if (selector === notificationPageElements.notificationAppContent) {
+      console.log('6');
+    }
     await element.waitFor();
-    console.log('7');
-
+    if (selector === notificationPageElements.notificationAppContent) {
+      console.log('7');
+    }
     await element.focus();
-    console.log('8');
-
+    if (selector === notificationPageElements.notificationAppContent) {
+      console.log('8');
+    }
     if (process.env.STABLE_MODE) {
       if (!isNaN(process.env.STABLE_MODE)) {
         await page.waitForTimeout(Number(process.env.STABLE_MODE));
