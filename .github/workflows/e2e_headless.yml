@@ -59,6 +59,13 @@ jobs:
           jq \
           ngrok
 
+      - name: Xvfb
+        run: |
+          Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
+          fluxbox &
+        env:
+          DISPLAY: :0.0
+
       - name: Run e2e tests (headless)
         uses: cypress-io/github-action@v5
         with:
