@@ -41,7 +41,9 @@ module.exports = (on, config) => {
       arguments_.extensions.push(metamaskPath);
     }
 
-    if (process.env.HEADLESS_MODE) arguments_.args.push('--headless=new');
+    if (process.env.HEADLESS_MODE) {
+      arguments_.args.push('--headless=new');
+    }
 
     return arguments_;
   });

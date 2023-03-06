@@ -51,17 +51,8 @@ jobs:
           curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
-          libgtk2.0-0 \
-          libgtk-3-0 \
-          libgbm-dev \
-          libnotify-dev \
-          libgconf-2-4 \
-          libnss3 \
-          libxss1 \
-          libasound2 \
-          libxtst6 \
-          xauth \
-          fluxbox \
+          xfce4 \
+          xfce4-goodies \
           novnc \
           x11vnc \
           xvfb \
@@ -69,19 +60,16 @@ jobs:
           jq \
           ngrok
 
-      - name: Xvfb
+      - name: Run e2e tests (headless)
         run: |
           Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
-          fluxbox &
-        env:
-          DISPLAY: :0.0
-
-      - name: Run e2e tests (headless)
-        uses: cypress-io/github-action@v5
-        with:
-          command: yarn test:e2e:headless:anvil
-          browser: chrome
-          spec: tests/e2e/specs/*
+          x11vnc -forever -shared &
+          websockify --web /usr/share/novnc 8080 localhost:5900 &
+          ngrok http 8080 --authtoken ${NGROK_AUTH} --basic-auth ${NGROK_BASIC_AUTH} &
+          echo -n "======> remote noVNC URL: "
+          sleep 5
+          curl -s localhost:4040/api/tunnels | jq -r .tunnels[0].public_url
+          yarn test:e2e:headless:anvil
         env:
           NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
           NGROK_BASIC_AUTH: ${{ secrets.NGROK_BASIC_AUTH }}
@@ -90,26 +78,6 @@ jobs:
           GH_PAT: ${{ secrets.GH_PAT }}
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
           DISPLAY: :0.0
-
-      # - name: Run e2e tests (headless)
-      #   run: |
-      #     Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
-      #     fluxbox &
-      #     x11vnc -forever -shared &
-      #     websockify --web /usr/share/novnc 8080 localhost:5900 &
-      #     ngrok http 8080 --authtoken ${NGROK_AUTH} --basic-auth ${NGROK_BASIC_AUTH} &
-      #     echo -n "======> remote noVNC URL: "
-      #     sleep 5
-      #     curl -s localhost:4040/api/tunnels | jq -r .tunnels[0].public_url
-      #     yarn test:e2e:headless:anvil
-      #   env:
-      #     NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
-      #     NGROK_BASIC_AUTH: ${{ secrets.NGROK_BASIC_AUTH }}
-      #     CYPRESS_PRIVATE_KEY_WITH_FUNDS:
-      #       ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
-      #     GH_PAT: ${{ secrets.GH_PAT }}
-      #     GH_USERNAME: ${{ secrets.GH_USERNAME }}
-      #     DISPLAY: :0.0
 
       - name: Archive e2e artifacts
         uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # pin@v2
