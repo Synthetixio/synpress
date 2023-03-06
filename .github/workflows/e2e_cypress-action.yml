@@ -51,6 +51,9 @@ jobs:
           sudo apt-get install --no-install-recommends -y \
           fluxbox \
           xvfb
+
+      - name: Run xvfb and fluxbox
+        run: |
           Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
           fluxbox &
         env:
