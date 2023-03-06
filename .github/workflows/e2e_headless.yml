@@ -54,6 +54,8 @@ jobs:
           xfce4 \
           xfce4-taskmanager \
           xfce4-terminal \
+          xfce4-goodies \
+          dbus-x11 \
           novnc \
           x11vnc \
           xvfb \
