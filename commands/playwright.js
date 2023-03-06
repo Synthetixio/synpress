@@ -263,13 +263,18 @@ module.exports = {
   },
   async waitToBeHidden(selector, page = metamaskWindow) {
     // info: waits for 60 seconds
+    console.log('here it breaks');
     const locator = page.locator(selector);
+    console.log('or no');
     for (const element of await locator.all()) {
+      console.log('element check visible', retries);
       if ((await element.isVisible()) && retries < 300) {
         retries++;
         await page.waitForTimeout(200);
+        console.log('trigger again', retries);
         await this.waitToBeHidden(selector, page);
       } else if (retries >= 300) {
+        console.log('failed visible check', retries);
         retries = 0;
         throw new Error(
           `[waitToBeHidden] Max amount of retries reached while waiting for ${selector} to disappear.`,
@@ -283,20 +288,27 @@ module.exports = {
       await page.waitForLoadState('load');
       await page.waitForLoadState('domcontentloaded');
       await page.waitForLoadState('networkidle');
+      console.log('11');
       await this.waitUntilNotificationWindowIsStable();
+      console.log('12');
     }
     await metamaskWindow.waitForLoadState('load');
     await metamaskWindow.waitForLoadState('domcontentloaded');
     await metamaskWindow.waitForLoadState('networkidle');
+    console.log('13');
     await this.waitUntilMetamaskWindowIsStable();
+    console.log('14');
     await mainWindow.waitForLoadState('load');
     await mainWindow.waitForLoadState('domcontentloaded');
     // todo: this may slow down tests and not be necessary but could improve stability
     // await mainWindow.waitForLoadState('networkidle');
   },
   async waitUntilNotificationWindowIsStable(page = metamaskNotificationWindow) {
+    console.log('15');
     await this.waitToBeHidden(notificationPageElements.loadingLogo, page);
+    console.log('16');
     await this.waitToBeHidden(notificationPageElements.loadingSpinner, page);
+    console.log('17');
   },
   async waitUntilMetamaskWindowIsStable(page = metamaskWindow) {
     await this.waitToBeHidden(pageElements.loadingLogo, page); // shown on reload
