@@ -65,7 +65,7 @@ jobs:
 
       - name: Run e2e tests (headless)
         run: |
-          # Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
+          Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
           startxfce4 &
           x11vnc -forever -shared &
           websockify --web /usr/share/novnc 8080 localhost:5900 &
