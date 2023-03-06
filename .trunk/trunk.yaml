@@ -10,24 +10,25 @@ actions:
 plugins:
   sources:
     - id: trunk
-      ref: v0.0.5
+      ref: v0.0.11
       uri: https://github.com/trunk-io/plugins
 cli:
-  version: 1.4.1
+  version: 1.5.1
   sha256:
-    darwin_arm64: bc00586469ed95260bbb539c39fc35fdae8b9ae8a58990be240b82ae10f09949
-    darwin_x86_64: e4f5a9072c8150b12e2ced5599902c843ffba532e0256f3f94805d5568c438d8
-    linux_x86_64: 0b5d9e906be9abba9938c191449b6277e8c669ffbbc9d814f34f947784a75670
+    darwin_arm64: d77a07f7d0d05a6eb54c2520add76c00793d8651da41c7bf5170e1e565396a2a
+    darwin_x86_64: 272b914f671af85af5d4498d4e313be6347e9ac418e20282f5b1fd464593fc63
+    linux_x86_64: 40cdfe4a970d1086404e96812b5472a3ebaa4b1aaf865239b6f451fc1947ce6a
 lint:
   enabled:
+    - cspell@6.27.0
     - dotenv-linter@3.3.0
     - hadolint@2.12.0
     - shellcheck@0.9.0
     - shfmt@3.5.0
     - actionlint@1.6.23
-    - eslint@8.34.0
+    - eslint@8.35.0
     - git-diff-check@SYSTEM
-    - gitleaks@8.15.3
+    - gitleaks@8.16.0
     - markdownlint@0.33.0
     - prettier@2.8.4
   ignore:
@@ -37,6 +38,7 @@ lint:
         - downloads
         - tests/e2e/videos
         - tests/e2e/screenshots
+        - docs
   threshold:
     - linters: [ALL]
       level: high

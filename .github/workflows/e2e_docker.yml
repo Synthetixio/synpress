@@ -1,0 +1,75 @@
+name: E2E (docker)
+
+on:
+  push:
+  pull_request:
+    branches: [master, dev]
+
+concurrency:
+  group:
+    '${{ github.workflow }} @ ${{ github.event.pull_request.head.label ||
+    github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    if:
+      github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' ||
+      github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        resolution: ['low', 'medium', 'high']
+
+    steps:
+      - name: Chown workspace
+        run: chown -R $(whoami) .
+
+      - name: Checkout
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # pin@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@e81a89b1732b9c48d79cd809d8d81d79c4647a18 # pin@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f03ac48505955848960e80bbb68046aa35c7b9e7 # pin@v1
+
+      - name: Cache Docker layers
+        uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # pin@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Run e2e tests (${{ matrix.resolution }} res)
+        run: |
+          docker-compose -f docker-compose.ci.yml --env-file ${{ matrix.resolution }}-res.env --profile synpress --profile foundry up --build --exit-code-from synpress
+        env:
+          COMPOSE_DOCKER_CLI_BUILD: 1
+          DOCKER_BUILDKIT: 1
+          DOCKER_DEFAULT_PLATFORM: linux/amd64
+          NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
+          NGROK_BASIC_AUTH: ${{ secrets.NGROK_BASIC_AUTH }}
+          CYPRESS_PRIVATE_KEY_WITH_FUNDS:
+            ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
+          ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}
+          # cypress dashboard
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
+          COMMIT_INFO_SHA: ${{ github.event.pull_request.head.sha }}
+
+      - name: Archive e2e artifacts (${{ matrix.resolution }} res)
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # pin@v2
+        if: always()
+        with:
+          name: e2e-artifacts-${{ matrix.resolution }}-res
+          path: |
+            docker/videos
+            docker/videos-ci
+            docker/screenshots
+        continue-on-error: true

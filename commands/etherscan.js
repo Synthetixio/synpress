@@ -3,7 +3,7 @@ const sleep = require('util').promisify(setTimeout);
 let retries = 0;
 
 module.exports = {
-  getTransactionStatus: async txid => {
+  async getTransactionStatus(txid) {
     const { getNetwork } = require('../helpers');
     const currentNetwork = getNetwork().networkName;
     const etherscanApi = require('etherscan-api').init(
@@ -15,8 +15,8 @@ module.exports = {
     const txReceipt = await etherscanApi.proxy.eth_getTransactionReceipt(txid);
     return { txStatus, txReceipt };
   },
-  waitForTxSuccess: async txid => {
-    const txStatus = await module.exports.getTransactionStatus(txid);
+  async waitForTxSuccess(txid) {
+    const txStatus = await this.getTransactionStatus(txid);
     if (
       // status success
       txStatus.txReceipt.result &&
@@ -38,7 +38,7 @@ module.exports = {
       console.log(`Transaction ${txid} is still pending.. waiting..`);
       retries++;
       await sleep(5000);
-      const result = await module.exports.waitForTxSuccess(txid);
+      const result = await this.waitForTxSuccess(txid);
       return result;
     } else {
       retries = 0;

@@ -1,0 +1,91 @@
+name: E2E (debug)
+
+on:
+  push:
+  pull_request:
+    branches: [master, dev]
+
+concurrency:
+  group:
+    '${{ github.workflow }} @ ${{ github.event.pull_request.head.label ||
+    github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    if:
+      github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' ||
+      github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # pin@v2
+
+      - name: Run anvil
+        run: |
+          docker-compose -f docker-compose.ci.yml --profile foundry up --build --detach
+        env:
+          ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}
+
+      - name: Set yarn cache directory
+        run: yarn config set cache-folder .yarn-cache
+        continue-on-error: true
+
+      - uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # pin@v2
+        with:
+          path: |
+            .yarn-cache
+            node_modules
+            /home/runner/.cache/Cypress
+          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-v1-
+        continue-on-error: true
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile --prefer-offline --no-audit
+
+      # warning: your env vars could be printed out in console by anyone with access to exposed ngrok vnc
+      - name: Install linux deps
+        run: |
+          curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+          fluxbox \
+          novnc \
+          x11vnc \
+          xvfb \
+          net-tools \
+          jq \
+          ngrok
+
+      - name: Run e2e tests (debug)
+        run: |
+          Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
+          fluxbox &
+          x11vnc -forever -shared &
+          websockify --web /usr/share/novnc 8080 localhost:5900 &
+          # ngrok http 8080 --authtoken ${NGROK_AUTH} --basic-auth ${NGROK_BASIC_AUTH} &
+          echo -n "======> remote noVNC URL: "
+          sleep 5
+          curl -s localhost:4040/api/tunnels | jq -r .tunnels[0].public_url
+          yarn test:e2e:anvil
+        env:
+          NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
+          NGROK_BASIC_AUTH: ${{ secrets.NGROK_BASIC_AUTH }}
+          CYPRESS_PRIVATE_KEY_WITH_FUNDS:
+            ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}
+          DISPLAY: :0.0
+
+      - name: Archive e2e artifacts
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # pin@v2
+        if: always()
+        with:
+          name: e2e-artifacts
+          path: |
+            tests/e2e/videos
+            tests/e2e/screenshots
+        continue-on-error: true
