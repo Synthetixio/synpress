@@ -108,9 +108,13 @@ module.exports = {
         retries = 0;
         await page.bringToFront();
         console.log('1');
-        await page.screenshot({
-          path: 'tests/e2e/screenshots/1.png',
-        });
+        try {
+          await page.screenshot({
+            path: 'tests/e2e/screenshots/1.png',
+          });
+        } catch (error) {
+          console.log('err', error);
+        }
         await this.waitUntilStable(page);
         console.log('2');
         await page.screenshot({
@@ -284,9 +288,16 @@ module.exports = {
     }
   },
   async waitUntilStable(page) {
+    console.log('waitstable');
     if (page && page.url().includes('notification')) {
+      console.log('load');
+
       await page.waitForLoadState('load');
+      console.log('dom');
+
       await page.waitForLoadState('domcontentloaded');
+      console.log('network');
+
       await page.waitForLoadState('networkidle');
       console.log('11');
       await this.waitUntilNotificationWindowIsStable();
