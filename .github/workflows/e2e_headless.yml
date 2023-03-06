@@ -48,32 +48,24 @@ jobs:
 
       - name: Install linux deps
         run: |
-          curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
-          sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
-          xfce4 \
-          xfce4-goodies \
-          novnc \
-          x11vnc \
-          xvfb \
-          net-tools \
-          jq \
-          ngrok
+          fluxbox \
+          xvfb
+
+      # headless mode needs chrome v112 to work, currently gh actions comes with chrome v110
+      # after gh actions default chrome is v112, this step may be removed
+      - name: Update Chrome version
+        uses: browser-actions/setup-chrome@cf2b0c420c6c1fa44af1daf4e0e4dd5880d52e18 # pin@1.1.0
+        with:
+          chrome-version: dev
 
       - name: Run e2e tests (headless)
         run: |
-          startxfce4 &
           Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
-          x11vnc -forever -shared &
-          websockify --web /usr/share/novnc 8080 localhost:5900 &
-          ngrok http 8080 --authtoken ${NGROK_AUTH} --basic-auth ${NGROK_BASIC_AUTH} &
-          echo -n "======> remote noVNC URL: "
-          sleep 5
-          curl -s localhost:4040/api/tunnels | jq -r .tunnels[0].public_url
+          fluxbox &
           yarn test:e2e:headless:anvil
         env:
           NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
-          NGROK_BASIC_AUTH: ${{ secrets.NGROK_BASIC_AUTH }}
           CYPRESS_PRIVATE_KEY_WITH_FUNDS:
             ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
           GH_PAT: ${{ secrets.GH_PAT }}

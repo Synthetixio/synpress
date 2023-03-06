@@ -107,15 +107,11 @@ module.exports = {
         metamaskNotificationWindow = page;
         retries = 0;
         await page.bringToFront();
-        console.log('1');
-        await sleep(999999999);
         await this.waitUntilStable(page);
-        console.log('2');
         await this.waitFor(
           notificationPageElements.notificationAppContent,
           page,
         );
-        console.log('3');
         return page;
       }
     }
@@ -131,26 +127,11 @@ module.exports = {
     }
   },
   async waitFor(selector, page = metamaskWindow) {
-    if (selector === notificationPageElements.notificationAppContent) {
-      console.log('4');
-    }
     await this.waitUntilStable(page);
     await page.waitForSelector(selector, { strict: false });
-    if (selector === notificationPageElements.notificationAppContent) {
-      console.log('5');
-    }
     const element = page.locator(selector).first();
-    if (selector === notificationPageElements.notificationAppContent) {
-      console.log('6');
-    }
     await element.waitFor();
-    if (selector === notificationPageElements.notificationAppContent) {
-      console.log('7');
-    }
     await element.focus();
-    if (selector === notificationPageElements.notificationAppContent) {
-      console.log('8');
-    }
     if (process.env.STABLE_MODE) {
       if (!isNaN(process.env.STABLE_MODE)) {
         await page.waitForTimeout(Number(process.env.STABLE_MODE));
@@ -252,18 +233,13 @@ module.exports = {
   },
   async waitToBeHidden(selector, page = metamaskWindow) {
     // info: waits for 60 seconds
-    console.log('here it breaks');
     const locator = page.locator(selector);
-    console.log('or no');
     for (const element of await locator.all()) {
-      console.log('element check visible', retries);
       if ((await element.isVisible()) && retries < 300) {
         retries++;
         await page.waitForTimeout(200);
-        console.log('trigger again', retries);
         await this.waitToBeHidden(selector, page);
       } else if (retries >= 300) {
-        console.log('failed visible check', retries);
         retries = 0;
         throw new Error(
           `[waitToBeHidden] Max amount of retries reached while waiting for ${selector} to disappear.`,
@@ -273,38 +249,24 @@ module.exports = {
     }
   },
   async waitUntilStable(page) {
-    console.log('waitstable');
     if (page && page.url().includes('notification')) {
-      console.log('load');
-
       await page.waitForLoadState('load');
-      console.log('dom');
-
       await page.waitForLoadState('domcontentloaded');
-      console.log('network');
-
       await page.waitForLoadState('networkidle');
-      console.log('11');
       await this.waitUntilNotificationWindowIsStable();
-      console.log('12');
     }
     await metamaskWindow.waitForLoadState('load');
     await metamaskWindow.waitForLoadState('domcontentloaded');
     await metamaskWindow.waitForLoadState('networkidle');
-    console.log('13');
     await this.waitUntilMetamaskWindowIsStable();
-    console.log('14');
     await mainWindow.waitForLoadState('load');
     await mainWindow.waitForLoadState('domcontentloaded');
     // todo: this may slow down tests and not be necessary but could improve stability
     // await mainWindow.waitForLoadState('networkidle');
   },
   async waitUntilNotificationWindowIsStable(page = metamaskNotificationWindow) {
-    console.log('15');
     await this.waitToBeHidden(notificationPageElements.loadingLogo, page);
-    console.log('16');
     await this.waitToBeHidden(notificationPageElements.loadingSpinner, page);
-    console.log('17');
   },
   async waitUntilMetamaskWindowIsStable(page = metamaskWindow) {
     await this.waitToBeHidden(pageElements.loadingLogo, page); // shown on reload
