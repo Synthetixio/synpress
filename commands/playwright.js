@@ -107,11 +107,23 @@ module.exports = {
         metamaskNotificationWindow = page;
         retries = 0;
         await page.bringToFront();
+        console.log('1');
+        await page.screenshot({
+          path: '1.png',
+        });
         await this.waitUntilStable(page);
+        console.log('2');
+        await page.screenshot({
+          path: '2.png',
+        });
         await this.waitFor(
           notificationPageElements.notificationAppContent,
           page,
         );
+        console.log('3');
+        await page.screenshot({
+          path: '3.png',
+        });
         return page;
       }
     }
@@ -128,10 +140,22 @@ module.exports = {
   },
   async waitFor(selector, page = metamaskWindow) {
     await this.waitUntilStable(page);
+    console.log('4');
+    await page.screenshot({
+      path: '4.png',
+    });
     await page.waitForSelector(selector, { strict: false });
+    console.log('5');
+
     const element = page.locator(selector).first();
+    console.log('6');
+
     await element.waitFor();
+    console.log('7');
+
     await element.focus();
+    console.log('8');
+
     if (process.env.STABLE_MODE) {
       if (!isNaN(process.env.STABLE_MODE)) {
         await page.waitForTimeout(Number(process.env.STABLE_MODE));
