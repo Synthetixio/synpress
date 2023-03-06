@@ -108,6 +108,7 @@ module.exports = {
         retries = 0;
         await page.bringToFront();
         console.log('1');
+        await sleep(999999999);
         await this.waitUntilStable(page);
         console.log('2');
         await this.waitFor(
