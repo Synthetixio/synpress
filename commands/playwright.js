@@ -108,26 +108,13 @@ module.exports = {
         retries = 0;
         await page.bringToFront();
         console.log('1');
-        try {
-          await page.screenshot({
-            path: 'tests/e2e/screenshots/1.png',
-          });
-        } catch (error) {
-          console.log('err', error);
-        }
         await this.waitUntilStable(page);
         console.log('2');
-        await page.screenshot({
-          path: 'tests/e2e/screenshots/2.png',
-        });
         await this.waitFor(
           notificationPageElements.notificationAppContent,
           page,
         );
         console.log('3');
-        await page.screenshot({
-          path: 'tests/e2e/screenshots/3.png',
-        });
         return page;
       }
     }
@@ -145,9 +132,6 @@ module.exports = {
   async waitFor(selector, page = metamaskWindow) {
     if (selector === notificationPageElements.notificationAppContent) {
       console.log('4');
-      await page.screenshot({
-        path: 'tests/e2e/screenshots/4.png',
-      });
     }
     await this.waitUntilStable(page);
     await page.waitForSelector(selector, { strict: false });
