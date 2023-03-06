@@ -176,6 +176,11 @@ supported in headless mode by
 As a workaround, we've provided docker 🐳 containers. They solved this issue and
 it's an alternative.
 
+You have to setup `xvfb` and window manager (like `fluxbox` or `xfce4`) to run
+tests without issues on CI (together with `DISPLAY` env var). Take a look at
+[CI tips & tricks](https://github.com/Synthetixio/synpress/tree/dev/.github/workflows)
+for working examples.
+
 There is a global
 [`before()`](https://github.com/synthetixio/synpress/blob/dev/support/index.js#L27)
 which runs metamask setup before all tests:
