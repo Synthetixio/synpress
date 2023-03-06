@@ -1,0 +1,86 @@
+# https://developer.chrome.com/articles/new-headless/
+# warning: sadly, notification of metamask is blank on UNIX which is a blocker to run headless mode on CI
+
+name: E2E (headless)
+
+on:
+  push:
+  pull_request:
+    branches: [master, dev]
+
+concurrency:
+  group:
+    '${{ github.workflow }} @ ${{ github.event.pull_request.head.label ||
+    github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    if:
+      github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' ||
+      github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # pin@v2
+
+      - name: Run anvil
+        run: |
+          docker-compose -f docker-compose.ci.yml --profile foundry up --build --detach
+        env:
+          ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}
+
+      - name: Set yarn cache directory
+        run: yarn config set cache-folder .yarn-cache
+        continue-on-error: true
+
+      - uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # pin@v2
+        with:
+          path: |
+            .yarn-cache
+            node_modules
+            /home/runner/.cache/Cypress
+          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-v1-
+        continue-on-error: true
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile --prefer-offline --no-audit
+
+      - name: Install linux deps
+        run: |
+          sudo apt-get install --no-install-recommends -y \
+          fluxbox \
+          xvfb
+
+      # headless mode needs chrome v112 to work, currently gh actions comes with chrome v110
+      # after gh actions default chrome is v112, this step may be removed
+      - name: Update Chrome version
+        uses: browser-actions/setup-chrome@cf2b0c420c6c1fa44af1daf4e0e4dd5880d52e18 # pin@1.1.0
+        with:
+          chrome-version: dev
+
+      - name: Run e2e tests (headless)
+        run: |
+          Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
+          fluxbox &
+          yarn test:e2e:headless:anvil
+        env:
+          NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
+          CYPRESS_PRIVATE_KEY_WITH_FUNDS:
+            ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}
+          DISPLAY: :0.0
+
+      - name: Archive e2e artifacts
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # pin@v2
+        if: always()
+        with:
+          name: e2e-artifacts
+          path: |
+            tests/e2e/videos
+            tests/e2e/screenshots
+        continue-on-error: true
