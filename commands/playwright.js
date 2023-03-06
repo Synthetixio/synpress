@@ -128,20 +128,9 @@ module.exports = {
   },
   async waitFor(selector, page = metamaskWindow) {
     await this.waitUntilStable(page);
-    if (page === metamaskNotificationWindow) {
-      await page.waitForSelector(selector, {
-        strict: false,
-        state: 'attached',
-      });
-    } else {
-      await page.waitForSelector(selector, { strict: false, state: 'visible' });
-    }
+    await page.waitForSelector(selector, { strict: false });
     const element = page.locator(selector).first();
-    if (page === metamaskNotificationWindow) {
-      await element.waitFor({ state: 'attached' });
-    } else {
-      await element.waitFor({ state: 'visible' });
-    }
+    await element.waitFor();
     await element.focus();
     if (process.env.STABLE_MODE) {
       if (!isNaN(process.env.STABLE_MODE)) {
