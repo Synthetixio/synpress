@@ -1,0 +1,11 @@
+{
+  "name": "playwright",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {},
+  "dependencies": {
+    "@playwright/test": "^1.31.2",
+    "@synthetixio/synpress": "^3.2.0"
+  }
+}
