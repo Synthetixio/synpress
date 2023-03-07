@@ -1,5 +1,9 @@
-// @ts-check
-const { test, expect } = require('@playwright/test');
+import { test, expect } from '../helpers';
+
+// test('popup page', async ({ page, extensionId }) => {
+//   await page.goto(`chrome-extension://${extensionId}/index.html`);
+//   await expect(page.locator('body')).toHaveText('my-extension popup');
+// });
 
 test('has title', async ({ page }) => {
   await page.goto('https://playwright.dev/');

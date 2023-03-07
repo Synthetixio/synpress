@@ -1,0 +1,3 @@
+{
+  "extends": ["plugin:playwright/playwright-test"]
+}
