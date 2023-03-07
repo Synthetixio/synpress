@@ -133,12 +133,6 @@ module.exports = (on, config) => {
       const activated = await metamask.activateAdvancedGasControl(skipSetup);
       return activated;
     },
-    activateEnhancedTokenDetectionInMetamask: async skipSetup => {
-      const activated = await metamask.activateEnhancedTokenDetection(
-        skipSetup,
-      );
-      return activated;
-    },
     activateShowHexDataInMetamask: async skipSetup => {
       const activated = await metamask.activateShowHexData(skipSetup);
       return activated;
@@ -161,10 +155,6 @@ module.exports = (on, config) => {
     },
     activateEnhancedGasFeeUIInMetamask: async skipSetup => {
       const activated = await metamask.activateEnhancedGasFeeUI(skipSetup);
-      return activated;
-    },
-    activateShowCustomNetworkListInMetamask: async skipSetup => {
-      const activated = await metamask.activateShowCustomNetworkList(skipSetup);
       return activated;
     },
     resetMetamaskAccount: async () => {
@@ -285,7 +275,7 @@ module.exports = (on, config) => {
       if (process.env.SECRET_WORDS) {
         secretWordsOrPrivateKey = process.env.SECRET_WORDS;
       }
-      await metamask.initialSetup({
+      await metamask.initialSetup(null, {
         secretWordsOrPrivateKey,
         network,
         password,

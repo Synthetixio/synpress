@@ -172,11 +172,11 @@ module.exports = {
     }
   },
   async prepareMetamask(version) {
-    const release = await this.getMetamaskReleases(version);
+    const release = await module.exports.getMetamaskReleases(version);
     const downloadsDirectory = path.resolve(__dirname, 'downloads');
-    await this.createDirIfNotExist(downloadsDirectory);
+    await module.exports.createDirIfNotExist(downloadsDirectory);
     const metamaskDirectory = path.join(downloadsDirectory, release.tagName);
-    const metamaskDirectoryExists = await this.checkDirOrFileExist(
+    const metamaskDirectoryExists = await module.exports.checkDirOrFileExist(
       metamaskDirectory,
     );
     const metamaskManifestFilePath = path.join(
@@ -184,11 +184,11 @@ module.exports = {
       release.tagName,
       'manifest.json',
     );
-    const metamaskManifestFileExists = await this.checkDirOrFileExist(
+    const metamaskManifestFileExists = await module.exports.checkDirOrFileExist(
       metamaskManifestFilePath,
     );
     if (!metamaskDirectoryExists && !metamaskManifestFileExists) {
-      await this.download(release.downloadUrl, metamaskDirectory);
+      await module.exports.download(release.downloadUrl, metamaskDirectory);
     } else {
       log('Metamask is already downloaded');
     }

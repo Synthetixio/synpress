@@ -106,14 +106,6 @@ declare namespace Cypress {
       skipSetup?: boolean,
     ): Chainable<Subject>;
     /**
-     * Activate ability (in metamask settings) to detect custom tokens using ConsenSys API in metamask
-     * @example
-     * cy.activateEnhancedTokenDetectionInMetamask()
-     */
-    activateEnhancedTokenDetectionInMetamask(
-      skipSetup?: boolean,
-    ): Chainable<Subject>;
-    /**
      * Activate ability (in metamask settings) to show hex data while doing transaction in metamask
      * @example
      * cy.activateShowHexDataInMetamask()
@@ -155,14 +147,6 @@ declare namespace Cypress {
      * cy.activateEnhancedGasFeeUIInMetamask()
      */
     activateEnhancedGasFeeUIInMetamask(skipSetup?: boolean): Chainable<Subject>;
-    /**
-     * Activate showing of custom network list in metamask settings
-     * @example
-     * cy.activateShowCustomNetworkListInMetamask()
-     */
-    activateShowCustomNetworkListInMetamask(
-      skipSetup?: boolean,
-    ): Chainable<Subject>;
     /**
      * Reset metamask account state in settings
      * @example
