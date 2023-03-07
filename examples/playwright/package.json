@@ -7,9 +7,12 @@
     "@playwright/test": "^1.31.2",
     "eslint-plugin-playwright": "^0.12.0"
   },
-  "scripts": {},
+  "scripts": {
+    "start:server": "serve ../../node_modules/@metamask/test-dapp/dist -p 3000",
+    "test:isolated": "playwright test tests/isolated --project=chromium",
+    "test:shared": "SERIAL_MODE=true playwright test tests/shared --project=chromium"
+  },
   "dependencies": {
-    "@synthetixio/synpress": "^3.2.0",
     "wait-for-expect": "^3.0.2"
   }
 }

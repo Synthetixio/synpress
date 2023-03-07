@@ -1,13 +1,11 @@
 // fixtures.ts
 import { test as base, chromium, type BrowserContext } from '@playwright/test';
-import path from 'path';
 import waitForExpect from 'wait-for-expect';
 import { initialSetup } from '../../commands/metamask';
 import { prepareMetamask } from '../../helpers';
 
 export const test = base.extend<{
   context: BrowserContext;
-  extensionId: string;
 }>({
   context: async ({}, use) => {
     global.expect = expect;
@@ -27,16 +25,17 @@ export const test = base.extend<{
       expect(context.backgroundPages().length).toEqual(1);
     });
     await context.backgroundPages()[0].waitForTimeout(2000);
-    // await context.backgroundPages()[0].close();
     await initialSetup(chromium, {
       secretWordsOrPrivateKey:
-        'trick turkey ocean picture talk light dinner peasant funny know window claim',
-      network: 'mainnet',
+        'test test test test test test test test test test test junk',
+      network: 'sepolia',
       password: 'Tester@1234',
       enableAdvancedSettings: true,
     });
     await use(context);
-    await context.close();
+    if (!process.env.SERIAL_MODE) {
+      await context.close();
+    }
   },
 });
 export const expect = test.expect;

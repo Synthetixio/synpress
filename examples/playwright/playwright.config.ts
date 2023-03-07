@@ -41,7 +41,14 @@ export default defineConfig({
     trace: 'on-first-retry',
     headless: false,
   },
-
+  webServer: [
+    {
+      command: 'yarn start:server',
+      url: 'http://localhost:3000',
+      timeout: 5000,
+      reuseExistingServer: true,
+    },
+  ],
   /* Configure projects for major browsers */
   projects: [
     {
