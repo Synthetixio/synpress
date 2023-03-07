@@ -70,13 +70,6 @@ Cypress.Commands.add(
   },
 );
 
-Cypress.Commands.add(
-  'activateEnhancedTokenDetectionInMetamask',
-  (skipSetup = false) => {
-    return cy.task('activateEnhancedTokenDetectionInMetamask', skipSetup);
-  },
-);
-
 Cypress.Commands.add('activateShowHexDataInMetamask', (skipSetup = false) => {
   return cy.task('activateShowHexDataInMetamask', skipSetup);
 });
@@ -110,13 +103,6 @@ Cypress.Commands.add(
   'activateEnhancedGasFeeUIInMetamask',
   (skipSetup = false) => {
     return cy.task('activateEnhancedGasFeeUIInMetamask', skipSetup);
-  },
-);
-
-Cypress.Commands.add(
-  'activateShowCustomNetworkListInMetamask',
-  (skipSetup = false) => {
-    return cy.task('activateShowCustomNetworkListInMetamask', skipSetup);
   },
 );
 

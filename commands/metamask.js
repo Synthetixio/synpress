@@ -573,13 +573,6 @@ const metamask = {
       skipSetup,
     );
   },
-  async activateEnhancedTokenDetection(skipSetup) {
-    return await activateAdvancedSetting(
-      advancedPageElements.enhancedTokenDetectionToggleOn,
-      advancedPageElements.enhancedTokenDetectionToggleOff,
-      skipSetup,
-    );
-  },
   async activateShowHexData(skipSetup) {
     return await activateAdvancedSetting(
       advancedPageElements.showHexDataToggleOn,
@@ -619,14 +612,6 @@ const metamask = {
     return await activateAdvancedSetting(
       experimentalSettingsPageElements.enhancedGasFeeUIToggleOn,
       experimentalSettingsPageElements.enhancedGasFeeUIToggleOff,
-      skipSetup,
-      true,
-    );
-  },
-  async activateShowCustomNetworkList(skipSetup) {
-    return await activateAdvancedSetting(
-      experimentalSettingsPageElements.showCustomNetworkListToggleOn,
-      experimentalSettingsPageElements.showCustomNetworkListToggleOff,
       skipSetup,
       true,
     );
@@ -1290,7 +1275,6 @@ async function setupSettings(enableAdvancedSettings) {
   await metamask.activateCustomNonce(true);
   await metamask.activateDismissBackupReminder(true);
   if (enableAdvancedSettings) {
-    await metamask.activateEnhancedTokenDetection(true);
     await metamask.activateTestnetConversion(true);
   }
   await metamask.goToExperimentalSettings();
