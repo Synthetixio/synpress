@@ -27,7 +27,10 @@ effort to make sure that dapp tests are stable and trustful.
 It also provides an easy way to use and access metamask straight from your e2e
 tests with all features of cypress and playwright.
 
-🔥 Synpress works out-of-the-box with other frameworks! There is no need to use it directly. Check [usage examples](https://github.com/Synthetixio/synpress/edit/dev/README.md#usage-examples) for more details.
+🔥 Synpress works out-of-the-box with other frameworks! There is no need to use
+it directly. Check
+[usage examples](https://github.com/Synthetixio/synpress/edit/dev/README.md#usage-examples)
+for more details.
 
 ## Supported frameworks
 
@@ -44,7 +47,7 @@ tests with all features of cypress and playwright.
 - ⭐ [synpress-examples](https://github.com/drptbl/synpress-examples/)
 - [synpress](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e)
 
--------
+---
 
 For additional custom commands and their examples,
 [check here](https://github.com/synthetixio/synpress/blob/dev/support/index.d.ts).
