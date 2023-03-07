@@ -275,7 +275,7 @@ module.exports = (on, config) => {
       if (process.env.SECRET_WORDS) {
         secretWordsOrPrivateKey = process.env.SECRET_WORDS;
       }
-      await metamask.initialSetup({
+      await metamask.initialSetup(null, {
         secretWordsOrPrivateKey,
         network,
         password,
