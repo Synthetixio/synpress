@@ -88,8 +88,10 @@ module.exports = {
     return activeTabName === 'metamask-notif';
   },
   async switchToCypressWindow() {
-    await mainWindow.bringToFront();
-    await module.exports.assignActiveTabName('cypress');
+    if (mainWindow) {
+      await mainWindow.bringToFront();
+      await module.exports.assignActiveTabName('cypress');
+    }
     return true;
   },
   async switchToMetamaskWindow() {
@@ -185,7 +187,9 @@ module.exports = {
     await module.exports.waitUntilStable(page);
   },
   async waitAndGetValue(selector, page = metamaskWindow) {
-    const { expect } = require('@playwright/test');
+    const expect = global.expect
+      ? global.expect
+      : require('@playwright/test').expect;
     const element = await module.exports.waitFor(selector, page);
     await expect(element).toHaveText(/[a-zA-Z0-9]/, {
       ignoreCase: true,
@@ -195,14 +199,18 @@ module.exports = {
     return value;
   },
   async waitAndGetInputValue(selector, page = metamaskWindow) {
-    const { expect } = require('@playwright/test');
+    const expect = global.expect
+      ? global.expect
+      : require('@playwright/test').expect;
     const element = await module.exports.waitFor(selector, page);
     await expect(element).toHaveValue(/[a-zA-Z1-9]/);
     const value = await element.inputValue();
     return value;
   },
   async waitAndGetAttributeValue(selector, attribute, page = metamaskWindow) {
-    const { expect } = require('@playwright/test');
+    const expect = global.expect
+      ? global.expect
+      : require('@playwright/test').expect;
     const element = await module.exports.waitFor(selector, page);
     await expect(element).toHaveAttribute(attribute, /[a-zA-Z0-9]/);
     const attrValue = await element.getAttribute(attribute);
