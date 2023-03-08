@@ -29,7 +29,7 @@ tests with all features of cypress and playwright.
 
 🔥 Synpress works out-of-the-box with other frameworks! There is no need to use
 it directly. Check
-[usage examples](https://github.com/Synthetixio/synpress/edit/dev/README.md#usage-examples)
+[usage examples](https://github.com/Synthetixio/synpress/#usage-examples)
 for more details.
 
 ## Supported frameworks
