@@ -100,6 +100,16 @@
     "npm-check-updates": "^16.7.9",
     "release-it": "^15.6.0"
   },
+  "resolutions": {
+    "etherscan-api/gh-pages": "5.0.0",
+    "@synthetixio/js/lodash": "4.17.21",
+    "@synthetixio/js/**/axios": "1.3.4",
+    "synthetix-js/**/elliptic": "6.5.4",
+    "synthetix-js/lodash": "4.17.21",
+    "synthetix-js/**/axios": "1.3.4",
+    "download/**/file-type": "16.5.4",
+    "**/ansi-regex": "5.0.1"
+  },
   "engines": {
     "node": ">=14"
   },
