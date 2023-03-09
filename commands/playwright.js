@@ -3,6 +3,7 @@ const {
   notificationPageElements,
 } = require('../pages/metamask/notification-page');
 const { pageElements } = require('../pages/metamask/page');
+const metamask = require('./metamask');
 const sleep = require('util').promisify(setTimeout);
 
 let browser;
@@ -307,5 +308,6 @@ module.exports = {
       );
       await module.exports.waitToBeHidden(pageElements.loadingOverlay, page);
     }
+    await metamask.fixCriticalError();
   },
 };

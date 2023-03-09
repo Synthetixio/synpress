@@ -216,6 +216,7 @@ const metamask = {
   },
   async unlock(password) {
     await module.exports.fixBlankPage();
+    await module.exports.fixCriticalError();
     await playwright.waitAndType(unlockPageElements.passwordInput, password);
     await playwright.waitAndClick(
       unlockPageElements.unlockButton,
@@ -1178,6 +1179,7 @@ const metamask = {
     await playwright.assignActiveTabName('metamask');
     await module.exports.getExtensionDetails();
     await module.exports.fixBlankPage();
+    await module.exports.fixCriticalError();
     if (
       await playwright
         .metamaskWindow()
