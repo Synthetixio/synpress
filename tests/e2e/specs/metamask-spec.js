@@ -21,6 +21,13 @@ describe('Metamask', () => {
         expect(disconnected).to.be.true;
       });
     });
+    it('should be able to cancel Metamask connection request', () => {
+      cy.visit('/');
+      cy.get('#connectButton').click();
+      cy.cancelMetamaskAccess().then(canceled => {
+        expect(canceled).to.be.true;
+      });
+    });
     it(`acceptMetamaskAccess should accept connection request to metamask`, () => {
       cy.visit('/');
       cy.get('#connectButton').click();
