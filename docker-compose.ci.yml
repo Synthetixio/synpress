@@ -2,6 +2,8 @@ version: '3.9'
 
 services:
   synpress:
+    profiles:
+      - synpress
     container_name: synpress
     build: .
     environment:
@@ -50,6 +52,8 @@ services:
       - x11
 
   display:
+    profiles:
+      - synpress
     container_name: display
     image: synthetixio/display:016121eafdfff448414894d0ca5a50b1d72b62eb-base
     environment:
@@ -69,12 +73,17 @@ services:
     ports:
       - '4040:4040'
     command: ['ngrok', 'http', 'display:8080', '--authtoken', '${NGROK_AUTH}']
+    environment:
+      - NGROK_AUTH=${NGROK_AUTH}
+      - NGROK_BASIC_AUTH=${NGROK_BASIC_AUTH}
     depends_on:
       - display
     networks:
       - x11
 
   video:
+    profiles:
+      - synpress
     container_name: video
     image: synthetixio/video:457bb48776c3b14de232d9dda620ba9188dc40ac-base
     volumes:

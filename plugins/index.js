@@ -12,27 +12,25 @@ module.exports = (on, config) => {
   // `config` is the resolved Cypress config
 
   on('before:browser:launch', async (browser = {}, arguments_) => {
-    if (browser.name === 'chrome' && browser.isHeadless) {
-      console.log('TRUE'); // required by cypress ¯\_(ツ)_/¯
-      arguments_.args.push('--window-size=1920,1080');
-      return arguments_;
-    }
-
-    if (browser.name === 'electron') {
-      arguments_['width'] = 1920;
-      arguments_['height'] = 1080;
-      arguments_['resizable'] = false;
-      return arguments_;
-    }
-
-    // metamask welcome screen blocks cypress from loading
     if (browser.name === 'chrome') {
+      // metamask welcome screen blocks cypress from loading
       arguments_.args.push(
         '--disable-background-timer-throttling',
         '--disable-backgrounding-occluded-windows',
         '--disable-renderer-backgrounding',
       );
+      if (process.env.CI) {
+        // Avoid: "dri3 extension not supported" error
+        arguments_.args.push('--disable-gpu');
+      }
+      if (process.env.HEADLESS_MODE) {
+        arguments_.args.push('--headless=new');
+      }
+      if (browser.isHeadless) {
+        arguments_.args.push('--window-size=1920,1080');
+      }
     }
+
     if (!process.env.SKIP_METAMASK_INSTALL) {
       // NOTE: extensions cannot be loaded in headless Chrome
       const metamaskPath = await helpers.prepareMetamask(
@@ -40,8 +38,6 @@ module.exports = (on, config) => {
       );
       arguments_.extensions.push(metamaskPath);
     }
-
-    if (process.env.HEADLESS_MODE) arguments_.args.push('--headless=new');
 
     return arguments_;
   });
@@ -129,12 +125,6 @@ module.exports = (on, config) => {
       const activated = await metamask.activateAdvancedGasControl(skipSetup);
       return activated;
     },
-    activateEnhancedTokenDetectionInMetamask: async skipSetup => {
-      const activated = await metamask.activateEnhancedTokenDetection(
-        skipSetup,
-      );
-      return activated;
-    },
     activateShowHexDataInMetamask: async skipSetup => {
       const activated = await metamask.activateShowHexData(skipSetup);
       return activated;
@@ -157,10 +147,6 @@ module.exports = (on, config) => {
     },
     activateEnhancedGasFeeUIInMetamask: async skipSetup => {
       const activated = await metamask.activateEnhancedGasFeeUI(skipSetup);
-      return activated;
-    },
-    activateShowCustomNetworkListInMetamask: async skipSetup => {
-      const activated = await metamask.activateShowCustomNetworkList(skipSetup);
       return activated;
     },
     resetMetamaskAccount: async () => {
@@ -281,7 +267,7 @@ module.exports = (on, config) => {
       if (process.env.SECRET_WORDS) {
         secretWordsOrPrivateKey = process.env.SECRET_WORDS;
       }
-      await metamask.initialSetup({
+      await metamask.initialSetup(null, {
         secretWordsOrPrivateKey,
         network,
         password,

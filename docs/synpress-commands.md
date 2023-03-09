@@ -132,16 +132,6 @@ activateAdvancedGasControlInMetamask(
 ): Chainable<Subject>;
 ```
 
-#### `cy.activateEnhancedTokenDetectionInMetamask()`
-
-Activate ability (in metamask settings) to detect custom tokens using ConsenSys API in metamask.
-
-```ts
-activateEnhancedTokenDetectionInMetamask(
-  skipSetup?: boolean,
-): Chainable<Subject>;
-```
-
 #### `cy.activateShowHexDataInMetamask()`
 
 Activate ability (in metamask settings) to show hex data while doing transaction in metamask.
@@ -194,16 +184,6 @@ Activate enhanced gas fee UI in metamask settings.
 
 ```ts
 activateEnhancedGasFeeUIInMetamask(skipSetup?: boolean): Chainable<Subject>;
-```
-
-#### `cy.activateShowCustomNetworkListInMetamask()`
-
-Activate showing of custom network list in metamask settings.
-
-```ts
-activateShowCustomNetworkListInMetamask(
-  skipSetup?: boolean,
-): Chainable<Subject>;
 ```
 
 #### `cy.resetMetamaskAccount()`

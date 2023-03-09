@@ -27,59 +27,78 @@ effort to make sure that dapp tests are stable and trustful.
 It also provides an easy way to use and access metamask straight from your e2e
 tests with all features of cypress and playwright.
 
-Usage examples:
+🔥 Synpress works out-of-the-box with other frameworks! There is no need to use
+it directly. Check
+[usage examples](https://github.com/Synthetixio/synpress/#usage-examples) for
+more details.
 
-- [synpress-setup-example](https://github.com/drptbl/synpress-setup-example/)
+## Supported frameworks
+
+- [synpress](https://github.com/Synthetixio/synpress)
+- [Playwright](https://playwright.dev/) (as a plugin)
+- [Cypress](https://github.com/cypress-io/cypress) (as a plugin)
+
+## Supported wallets
+
+- [MetaMask](https://metamask.io/)
+
+## Usage examples:
+
+- ⭐ [synpress-examples](https://github.com/drptbl/synpress-examples/)
 - [synpress](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e)
-- [kwenta](https://github.com/kwenta/kwenta/tree/dev/tests/e2e)
-- [staking](https://github.com/Synthetixio/staking/tree/dev/tests/e2e)
 
-For additional custom commands and their examples,
-[check here](https://github.com/synthetixio/synpress/blob/dev/support/index.d.ts).
+---
+
+For full Synpress commands and their examples,
+[check here](https://github.com/Synthetixio/synpress/blob/dev/docs/synpress-commands.md).
 
 To see in which direction Synpress is headed to, take a look at
 [planning board](https://github.com/orgs/Synthetixio/projects/14).
 
 ## Features
 
-- added support for metamask 🦊
-- supports headless mode thanks to
+- Added support for metamask 🦊
+- Supports headless mode 🤖 (`synpress run --headless`)
+  - Recommended for local development (but
+    [not for CI yet](https://developer.chrome.com/articles/new-headless/) as
+    it's new and experimental)
+- Integrated with
   [docker 🐳](https://github.com/Synthetixio/synpress#-using-with-docker)
-  - recommended for local development and
+  - Recommended for
     [CI](https://github.com/Synthetixio/synpress#ci-tips--tricks)
-  - includes VNC and [noVNC](https://novnc.com/info.html)
-  - integrated video recording 🎥 (full screen)
-  - exposes noVNC with [ngrok](https://ngrok.com/) (optional)
-- easy to debug 🐛
-  - improved error handling
-  - supports [cypress](https://docs.cypress.io/guides/guides/debugging) and
+  - Includes VNC and [noVNC](https://novnc.com/info.html)
+  - Integrated video recording 🎥 (full screen)
+  - Exposes noVNC with [ngrok](https://ngrok.com/) (optional)
+- Easy to debug 🐛
+  - Improved error handling
+  - Supports [cypress](https://docs.cypress.io/guides/guides/debugging) and
     [playwright](https://playwright.dev/docs/debug) debuggers
   - noVNC allows for interactions through browser 🌐
-  - debug remote machines on CI with ngrok
-- blazingly-fast ⚡
-- extensible ⚙️ (add own custom commands and plugins)
-- can be used in existing
+  - Debug remote machines on CI with ngrok
+- Blazingly-fast ⚡
+- Extensible ⚙️ (add own custom commands and plugins)
+- Can be used in existing
   [cypress setup](https://github.com/Synthetixio/synpress/issues/346#issuecomment-1060506096)
-- supports dotenv
-  - loads all env vars from your `.env` file automatically (from project root
+- Supports dotenv
+  - Loads all env vars from your `.env` file automatically (from project root
     folder)
-- ability to use latest metamask or lock it's version to avoid unexpected
+- Ability to use latest metamask or lock it's version to avoid unexpected
   failures related to metamask updates
-- supports multi-lang of metamask, it doesn't depend on any labels
-- synpress is
+- Supports multi-lang of metamask, it doesn't depend on any labels
+- Synpress is
   [fully tested](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e/specs)
-- waits for XHR requests, navigations and animations automatically
-- ability to fail test run if there are any browser console errors found
-- types support for all additional custom commands
-- the best possible options set up in place to avoid flakiness
-- etherscan API helpers in place which for ex. allows to compare your
+- Waits for XHR requests, navigations and animations automatically
+- Ability to fail test run if there are any browser console errors found
+- Types support for all additional custom commands
+- The best possible options set up in place to avoid flakiness
+- Etherscan API helpers in place which for ex. allows to compare your
   transaction results with etherscan and check tx status
-- synthetix helpers in place which allows to interact with synthetix protocol
+- Synthetix helpers in place which allows to interact with synthetix protocol
   programmatically
-- supports codespaces
-  - run your tests in docker
-  - get your feedback remotely thanks to ngrok
-  - use mpeg-4 preview plugin to watch videos from inside codespaces :) ...
+- Supports codespaces
+  - Run your tests in docker
+  - Get your feedback remotely thanks to ngrok
+  - Use mpeg-4 preview plugin to watch videos from inside codespaces :) ...
 
 ## 👷 Example setup for eslint and tsconfig
 
@@ -160,10 +179,24 @@ Synpress doesn't seem to communicate with metamask properly if
 `"chromeWebSecurity": false` flag is set. More about it
 [here](https://github.com/Synthetixio/synpress/issues/17).
 
-Tests work only in non-headless mode because extensions are not supported in
-headless mode in [playwright](https://playwright.dev/docs/chrome-extensions) and
+Thanks to
+[new headless mode in Chrome](https://developer.chrome.com/articles/new-headless/),
+tests are now working in headless mode 🤖 (`synpress run --headless`). However,
+I recommend to use it only for local development as this feature is new and
+experimental and may cause issues on CI (UNIX). So please, stick to non-headless
+mode on CI.
+
+In the past, tests worked only in non-headless mode because extensions were not
+supported in headless mode by
+[playwright](https://playwright.dev/docs/chrome-extensions) and
 [Cypress](https://docs.cypress.io/api/plugins/browser-launch-api.html#Add-browser-extensions).
-As a workaround, use provided docker 🐳 containers. They solve this issue.
+As a workaround, we've provided docker 🐳 containers. They solved this issue and
+it's an alternative.
+
+You have to setup `xvfb` and window manager (like `fluxbox` or `xfce4`) to run
+tests without issues on CI (together with `DISPLAY` env var). Take a look at
+[CI tips & tricks](https://github.com/Synthetixio/synpress/tree/dev/.github/workflows)
+for working examples.
 
 There is a global
 [`before()`](https://github.com/synthetixio/synpress/blob/dev/support/index.js#L27)
@@ -245,9 +278,7 @@ private access token on GitHub (without any additional access) and specify
 
 ## 🐳 Using with Docker
 
-Dreaming about "headless" mode? Here comes a rescue 🚑!
-
-Docker is awesome for CI and local development. Give it a try.
+Docker is awesome for CI. Give it a try.
 
 ### Requirements
 
@@ -270,23 +301,31 @@ Docker is awesome for CI and local development. Give it a try.
 2. `cd synpress`
 3. (optional) Fill env vars inside `.env` file
 4. (with foundry; preferred)
-   `docker-compose --profile foundry up --build --exit-code-from synpress` or
-   `./start-tests.sh`
-   - (without foundry) `docker-compose up --build --exit-code-from synpress`
+   `docker-compose --profile synpress --profile foundry up --build --exit-code-from synpress`
+   or `./start-tests.sh`
+   - (without foundry)
+     `docker-compose up --profile synpress --build --exit-code-from synpress`
 5. (with foundry and ngrok)
-   `docker-compose --profile foundry --profile ngrok up --build --exit-code-from synpress`
+   `docker-compose --profile synpress --profile foundry --profile ngrok up --build --exit-code-from synpress`
 
 All examples of setup are present in this repository. Just take a look around.
 
-**Warning: M2 is not supported with docker.** As a workaround - you can use
-codespaces, they're fully supported! :)
-
 ## CI tips & tricks
 
+- check out many different
+  [examples in this repository](https://github.com/Synthetixio/synpress/tree/dev/.github/workflows):
+  - [e2e_headful.yml](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/e2e_headful.yml)
+    => runs on `ubuntu-latest`.
+  - [e2e_debug.yml](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/e2e_debug.yml)
+    => runs on `ubuntu-latest`, has configured VNC, noVNC and ngrok for easy
+    debugging.
+  - [e2e_docker.yml](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/e2e_docker.yml)
+    => runs on `ubuntu-latest` with `docker compose` stack.
+  - [e2e_cypress-action.yml](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/e2e_cypress-action.yml)
+    => runs on `ubuntu-latest`, using official
+    [cypress-io/github-action](https://github.com/cypress-io/github-action).
 - use [docker-e2e](https://github.com/Synthetixio/docker-e2e)
 - synpress is tested and should work on all resolutions, starting from 800x600
-- take a look at this
-  [example config](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/audit_and_lint.yml#L84)
 
 ## 🧪 Usage
 
@@ -329,6 +368,31 @@ Options:
   -cf, --configFile <path>  specify a path to *.js file where configuration values are set
   -h, --help                display help for command
 ```
+
+## Environmental variables
+
+| Variable                | Description                                                                                                                                     |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SECRET_WORDS`          | Space separated words for the test wallet recovery phrase (mnemonic; 12 words)                                                                 |
+| `PRIVATE_KEY`           | Test wallet private key                                                                                                                         |
+| `NETWORK_NAME`          | Network name (eg `NETWORK_NAME=Optimism`)                                                                                                       |
+| `RPC_URL`               | Network RPC (eg`RPC_URL=https://mainnet.optimism.io`)                                                                                           |
+| `CHAIN_ID`              | Network ID (eg`CHAIN_ID=10`)                                                                                                                   |
+| `SYMBOL`                | Native chain token ticker (eg `SYMBOL=OP`)                                                                                                     |
+| `IS_TESTNET`            | `boolean` indicates that the added network is testnet                                                                                           |
+| `BLOCK_EXPLORER`        | Blockchain explorer (eg `BLOCK_EXPLORER=https://optimistic.etherscan.io/`)                                                                     |
+| `SYNDEBUG`              | Set debugging mode to be on                                                                                                                      |
+| `STABLE_MODE`           | Introduce delay between main actions, 300ms by default (eg `STABLE_MODE=300ms`, `STABLE_MODE=true`)                                              |
+| `SLOW_MODE`             | Introduce delay between every action, 50ms by default (eg `SLOW_MODE=true`, `SLOW_MODE=200ms`)                                                  |
+| `METAMASK_VERSION`      | Metamask version to be installed                                                                                                               |
+| `SKIP_METAMASK_INSTALL` | Will skip MetaMask installation                                                                                                                 |
+| `SKIP_METAMASK_SETUP`   | Will skip MetaMask initial setup                                                                                                               |
+| `GH_USERNAME`           | GitHub username (used to avoid rate-limit issue while downloading metamask)                                                                                                                                  |
+| `GH_PAT`                | GitHub [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) (used to avoid rate-limit issue while downloading metamask) |
+| `ETHERSCAN_KEY`         | [Etherscan key](https://info.etherscan.com/etherscan-developer-api-key/) (used only for etherscan-related commands)                 |
+| `FAIL_ON_ERROR`         | Fail a test if there are any browser console errors                                                                                             |
+| `CYPRESS_GROUP`         | [Group tests](https://docs.cypress.io/guides/guides/command-line#cypress-run-group-lt-name-gt)                                                  |
+| `CI`                    | `boolean` value indicate that tests are runing from CI/CD pipeline                                                                              |
 
 ## 🚢 Release process
 
