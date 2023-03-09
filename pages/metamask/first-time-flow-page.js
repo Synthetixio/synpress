@@ -7,13 +7,11 @@ module.exports.metametricsPageElements = {
 };
 
 const app = '#app-content .app';
-const criticalError = `#app-content .critical-error`;
 const onboardingWelcomePage = `${onboardingFlow} [data-testid="onboarding-welcome"]`;
 const importWalletButton = `${onboardingWelcomePage} [data-testid="onboarding-import-wallet"]`;
 const createWalletButton = `${onboardingWelcomePage} [data-testid="onboarding-create-wallet"]`;
 module.exports.onboardingWelcomePageElements = {
   app,
-  criticalError,
   onboardingWelcomePage,
   importWalletButton,
   createWalletButton,
