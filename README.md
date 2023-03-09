@@ -27,12 +27,27 @@ effort to make sure that dapp tests are stable and trustful.
 It also provides an easy way to use and access metamask straight from your e2e
 tests with all features of cypress and playwright.
 
-Usage examples:
+🔥 Synpress works out-of-the-box with other frameworks! There is no need to use
+it directly. Check
+[usage examples](https://github.com/Synthetixio/synpress/#usage-examples)
+for more details.
 
-- [synpress-setup-example](https://github.com/drptbl/synpress-setup-example/)
+## Supported frameworks
+
+- [synpress](https://github.com/Synthetixio/synpress)
+- [Playwright](https://playwright.dev/) (as a plugin)
+- [Cypress](https://github.com/cypress-io/cypress) (as a plugin)
+
+## Supported wallets
+
+- [MetaMask](https://metamask.io/)
+
+## Usage examples:
+
+- ⭐ [synpress-examples](https://github.com/drptbl/synpress-examples/)
 - [synpress](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e)
-- [kwenta](https://github.com/kwenta/kwenta/tree/dev/tests/e2e)
-- [staking](https://github.com/Synthetixio/staking/tree/dev/tests/e2e)
+
+---
 
 For additional custom commands and their examples,
 [check here](https://github.com/synthetixio/synpress/blob/dev/support/index.d.ts).
@@ -43,9 +58,13 @@ To see in which direction Synpress is headed to, take a look at
 ## Features
 
 - added support for metamask 🦊
-- supports headless mode thanks to
+- supports headless mode 🤖 (`synpress run --headless`)
+  - recommended for local development (but
+    [not for CI yet](https://developer.chrome.com/articles/new-headless/) as
+    it's new and experimental)
+- integrated with
   [docker 🐳](https://github.com/Synthetixio/synpress#-using-with-docker)
-  - recommended for local development and
+  - recommended for
     [CI](https://github.com/Synthetixio/synpress#ci-tips--tricks)
   - includes VNC and [noVNC](https://novnc.com/info.html)
   - integrated video recording 🎥 (full screen)
@@ -160,10 +179,24 @@ Synpress doesn't seem to communicate with metamask properly if
 `"chromeWebSecurity": false` flag is set. More about it
 [here](https://github.com/Synthetixio/synpress/issues/17).
 
-Tests work only in non-headless mode because extensions are not supported in
-headless mode in [playwright](https://playwright.dev/docs/chrome-extensions) and
+Thanks to
+[new headless mode in Chrome](https://developer.chrome.com/articles/new-headless/),
+tests are now working in headless mode 🤖 (`synpress run --headless`). However,
+I recommend to use it only for local development as this feature is new and
+experimental and may cause issues on CI (UNIX). So please, stick to non-headless
+mode on CI.
+
+In the past, tests worked only in non-headless mode because extensions were not
+supported in headless mode by
+[playwright](https://playwright.dev/docs/chrome-extensions) and
 [Cypress](https://docs.cypress.io/api/plugins/browser-launch-api.html#Add-browser-extensions).
-As a workaround, use provided docker 🐳 containers. They solve this issue.
+As a workaround, we've provided docker 🐳 containers. They solved this issue and
+it's an alternative.
+
+You have to setup `xvfb` and window manager (like `fluxbox` or `xfce4`) to run
+tests without issues on CI (together with `DISPLAY` env var). Take a look at
+[CI tips & tricks](https://github.com/Synthetixio/synpress/tree/dev/.github/workflows)
+for working examples.
 
 There is a global
 [`before()`](https://github.com/synthetixio/synpress/blob/dev/support/index.js#L27)
@@ -245,9 +278,7 @@ private access token on GitHub (without any additional access) and specify
 
 ## 🐳 Using with Docker
 
-Dreaming about "headless" mode? Here comes a rescue 🚑!
-
-Docker is awesome for CI and local development. Give it a try.
+Docker is awesome for CI. Give it a try.
 
 ### Requirements
 
@@ -270,23 +301,31 @@ Docker is awesome for CI and local development. Give it a try.
 2. `cd synpress`
 3. (optional) Fill env vars inside `.env` file
 4. (with foundry; preferred)
-   `docker-compose --profile foundry up --build --exit-code-from synpress` or
-   `./start-tests.sh`
-   - (without foundry) `docker-compose up --build --exit-code-from synpress`
+   `docker-compose --profile synpress --profile foundry up --build --exit-code-from synpress`
+   or `./start-tests.sh`
+   - (without foundry)
+     `docker-compose up --profile synpress --build --exit-code-from synpress`
 5. (with foundry and ngrok)
-   `docker-compose --profile foundry --profile ngrok up --build --exit-code-from synpress`
+   `docker-compose --profile synpress --profile foundry --profile ngrok up --build --exit-code-from synpress`
 
 All examples of setup are present in this repository. Just take a look around.
 
-**Warning: M2 is not supported with docker.** As a workaround - you can use
-codespaces, they're fully supported! :)
-
 ## CI tips & tricks
 
+- check out many different
+  [examples in this repository](https://github.com/Synthetixio/synpress/tree/dev/.github/workflows):
+  - [e2e_headful.yml](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/e2e_headful.yml)
+    => runs on `ubuntu-latest`.
+  - [e2e_debug.yml](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/e2e_debug.yml)
+    => runs on `ubuntu-latest`, has configured VNC, noVNC and ngrok for easy
+    debugging.
+  - [e2e_docker.yml](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/e2e_docker.yml)
+    => runs on `ubuntu-latest` with `docker compose` stack.
+  - [e2e_cypress-action.yml](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/e2e_cypress-action.yml)
+    => runs on `ubuntu-latest`, using official
+    [cypress-io/github-action](https://github.com/cypress-io/github-action).
 - use [docker-e2e](https://github.com/Synthetixio/docker-e2e)
 - synpress is tested and should work on all resolutions, starting from 800x600
-- take a look at this
-  [example config](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/audit_and_lint.yml#L84)
 
 ## 🧪 Usage
 
