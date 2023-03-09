@@ -112,7 +112,7 @@
     "synthetix-js/**/node-fetch": "2.6.7",
     "download/**/http-cache-semantics": "4.1.1",
     "**/ansi-regex": "5.0.1",
-    "**/@testing-library/dom": "9.0.1"
+    "**/@testing-library/dom": "8.20.0"
   },
   "engines": {
     "node": ">=14"
