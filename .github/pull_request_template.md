@@ -1,16 +1,18 @@
-## Motivation and Context
+## Motivation and context
 
-<!-- What/Why/How -->
+Clearly and concisely describe the feature added/isses being solved.
 
-Fixes # (issue)
+## Does it fix any issue?
 
-## How Has This Been Tested?
+#(issue)
 
 ## Other useful info
 
-## Quality Checklist
+N/A
 
-- [ ] I have performed a self-review of my code
-- [ ] If it is a core feature, I have added thorough tests.
+## Quality checklist
+
+- [ ] I have performed a self-review of my code.
+- [ ] If it is a core feature, I have added thorough e2e tests.
 
 **⚠️👆 Delete any section you see irrelevant before submitting the pull request 👆⚠️**
