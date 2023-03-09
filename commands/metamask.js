@@ -1,6 +1,7 @@
 const log = require('debug')('synpress:metamask');
 const playwright = require('./playwright');
 
+const { pageElements } = require('../pages/metamask/page');
 const {
   onboardingWelcomePageElements,
   metametricsPageElements,
@@ -138,13 +139,22 @@ const metamask = {
       }
     }
   },
+  async fixCriticalError() {
+    for (let times = 0; times < 5; times++) {
+      if (
         (await playwright
           .metamaskWindow()
-          .locator(onboardingWelcomePageElements.criticalError)
+          .locator(pageElements.criticalError)
           .count()) > 0
       ) {
-        await playwright.metamaskWindow().reload();
-        await playwright.metamaskWindow().waitForTimeout(2000);
+        if (times < 3) {
+          await playwright.metamaskWindow().reload();
+        } else {
+          await playwright.waitAndClick(
+            pageElements.criticalErrorRestartButton,
+          );
+        }
+        await playwright.waitUntilMetamaskWindowIsStable();
       } else {
         break;
       }
