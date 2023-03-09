@@ -145,8 +145,14 @@ module.exports = (on, config) => {
       const activated = await metamask.activateDismissBackupReminder(skipSetup);
       return activated;
     },
-    activateEnhancedGasFeeUIInMetamask: async skipSetup => {
-      const activated = await metamask.activateEnhancedGasFeeUI(skipSetup);
+    activateEthSignRequestsInMetamask: async skipSetup => {
+      const activated = await metamask.activateEthSignRequests(skipSetup);
+      return activated;
+    },
+    activateImprovedTokenAllowanceInMetamask: async skipSetup => {
+      const activated = await metamask.activateImprovedTokenAllowance(
+        skipSetup,
+      );
       return activated;
     },
     resetMetamaskAccount: async () => {
@@ -257,6 +263,7 @@ module.exports = (on, config) => {
       network,
       password,
       enableAdvancedSettings,
+      enableExperimentalSettings,
     }) => {
       if (process.env.NETWORK_NAME) {
         network = process.env.NETWORK_NAME;
@@ -272,6 +279,7 @@ module.exports = (on, config) => {
         network,
         password,
         enableAdvancedSettings,
+        enableExperimentalSettings,
       });
       return true;
     },

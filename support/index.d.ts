@@ -142,11 +142,19 @@ declare namespace Cypress {
       skipSetup?: boolean,
     ): Chainable<Subject>;
     /**
-     * Activate enhanced gas fee UI in metamask settings
+     * Activate eth sign requests in metamask settings
      * @example
-     * cy.activateEnhancedGasFeeUIInMetamask()
+     * cy.activateEthSignRequestsInMetamask()
      */
-    activateEnhancedGasFeeUIInMetamask(skipSetup?: boolean): Chainable<Subject>;
+    activateEthSignRequestsInMetamask(skipSetup?: boolean): Chainable<Subject>;
+    /**
+     * Activate improved token allowance in metamask settings (experimental)
+     * @example
+     * cy.activateImprovedTokenAllowanceInMetamask()
+     */
+    activateImprovedTokenAllowanceInMetamask(
+      skipSetup?: boolean,
+    ): Chainable<Subject>;
     /**
      * Reset metamask account state in settings
      * @example
@@ -327,6 +335,7 @@ declare namespace Cypress {
       network?: string | object,
       password?: string,
       enableAdvancedSettings?: boolean,
+      enableExperimentalSettings?: boolean,
     ): Chainable<Subject>;
     /**
      * Execute settle on Exchanger contract
