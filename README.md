@@ -369,33 +369,30 @@ Options:
   -h, --help                display help for command
 ```
 
-## Environment Variables
+## Environmental variables
 
 | Variable                | Description                                                                                                                                     |
 | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `SYNPRESS_LOCAL_TEST`   | Look for Synpress tests at the current directory                                                                                                |
-| `GH_USERNAME`           | GitHub username                                                                                                                                 |
-| `GH_PAT`                | GitHub [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) |
+| `SECRET_WORDS`          | Space separated words for the test wallet recovery phrase (mnemonic; 12 words)                                                                 |
+| `PRIVATE_KEY`           | Test wallet private key                                                                                                                         |
+| `NETWORK_NAME`          | Network name (eg `NETWORK_NAME=Optimism`)                                                                                                       |
+| `RPC_URL`               | Network RPC (eg`RPC_URL=https://mainnet.optimism.io`)                                                                                           |
+| `CHAIN_ID`              | Network ID (eg`CHAIN_ID=10`)                                                                                                                   |
+| `SYMBOL`                | Native chain token ticker (eg `SYMBOL=OP`)                                                                                                     |
+| `IS_TESTNET`            | `boolean` indicates that the added network is testnet                                                                                           |
+| `BLOCK_EXPLORER`        | Blockchain explorer (eg `BLOCK_EXPLORER=https://optimistic.etherscan.io/`)                                                                     |
+| `SYNDEBUG`              | Set debugging mode to be on                                                                                                                      |
+| `STABLE_MODE`           | Introduce delay between main actions, 300ms by default (eg `STABLE_MODE=300ms`, `STABLE_MODE=true`)                                              |
+| `SLOW_MODE`             | Introduce delay between every action, 50ms by default (eg `SLOW_MODE=true`, `SLOW_MODE=200ms`)                                                  |
+| `METAMASK_VERSION`      | Metamask version to be installed                                                                                                               |
+| `SKIP_METAMASK_INSTALL` | Will skip MetaMask installation                                                                                                                 |
+| `SKIP_METAMASK_SETUP`   | Will skip MetaMask initial setup                                                                                                               |
+| `GH_USERNAME`           | GitHub username (used to avoid rate-limit issue while downloading metamask)                                                                                                                                  |
+| `GH_PAT`                | GitHub [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) (used to avoid rate-limit issue while downloading metamask) |
+| `ETHERSCAN_KEY`         | [Etherscan key](https://info.etherscan.com/etherscan-developer-api-key/) (used only for etherscan-related commands)                 |
+| `FAIL_ON_ERROR`         | Fail a test if there are any browser console errors                                                                                             |
 | `CYPRESS_GROUP`         | [Group tests](https://docs.cypress.io/guides/guides/command-line#cypress-run-group-lt-name-gt)                                                  |
 | `CI`                    | `boolean` value indicate that tests are runing from CI/CD pipeline                                                                              |
-| `SYNDEBUG`              | ??                                                                                                                                              |
-| `DEBUG`                 | Set debugging mode to be on                                                                                                                     |
-| `STABLE_MODE`           | Introduce delay between main actions, 300ms by default (eg `STABLE_MODE=300ms`, `STABLE_MODE=true`)                                             |
-| `SLOW_MODE`             | Introduce delay between every action, 50ms by default (eg `SLOW_MODE=true`, `SLOW_MODE=200ms`)                                                  |
-| `SKIP_METAMASK_INSTALL` | Will skip MetaMask installation.                                                                                                                |
-| `SKIP_METAMASK_SETUP`   | Will skip MetaMask setup                                                                                                                        |
-| `SECRET_WORDS`          | Comma separated words for the test wallet recovery phrase (mnemonic)                                                                            |
-| `PRIVATE_KEY`           | Test wallet private key                                                                                                                         |
-| `RPC_URL`               | Network RPC (eg`RPC_URL=https://polygon.llamarpc.com`)                                                                                          |
-| `CHAIN_ID`              | Network ID (eg`CHAIN_ID=80001`)                                                                                                                 |
-| `SYMBOL`                | Native chain token ticker (eg `SYMBOL=MATIC`)                                                                                                   |
-| `IS_TESTNET`            | `boolean` indicates that the added network is testnet                                                                                           |
-| `NETWORK_NAME`          | Network name (eg `NETWORK_NAME=Mumbai`)                                                                                                         |
-| `BLOCK_EXPLORER`        | Blockchain explorer (eg `BLOCK_EXPLORER=https://etherscan.io/`)                                                                                 |
-| `ETHERSCAN_KEY`         | [Etherscan key](https://info.etherscan.com/etherscan-developer-api-key/)                                                                        |
-| `RESET_METAMASK`        | Reset MetaMask to the default settings/state                                                                                                    |
-| `METAMASK_VERSION`      | Setup MetaMask version will be insalled                                                                                                         |
-| `FAIL_ON_ERROR`         | Fail a test if there are any browser console errors                                                                                             |
 
 ## 🚢 Release process
 
