@@ -3,7 +3,10 @@ const {
   notificationPageElements,
 } = require('../pages/metamask/notification-page');
 const { pageElements } = require('../pages/metamask/page');
-const metamask = require('./metamask');
+const {
+  onboardingWelcomePageElements,
+} = require('../pages/metamask/first-time-flow-page');
+// const metamask = require('./metamask');
 const sleep = require('util').promisify(setTimeout);
 
 let browser;
@@ -308,6 +311,35 @@ module.exports = {
       );
       await module.exports.waitToBeHidden(pageElements.loadingOverlay, page);
     }
-    await metamask.fixCriticalError();
+    await module.exports.fixCriticalError();
+  },
+  // workaround for metamask random blank page on first run
+  async fixBlankPage(page = metamaskWindow) {
+    for (let times = 0; times < 5; times++) {
+      if (
+        (await page.locator(onboardingWelcomePageElements.app).count()) === 0
+      ) {
+        await page.reload();
+        await module.exports.waitUntilMetamaskWindowIsStable();
+      } else {
+        break;
+      }
+    }
+  },
+  async fixCriticalError(page = metamaskWindow) {
+    for (let times = 0; times < 5; times++) {
+      if ((await page.locator(pageElements.criticalError).count()) > 0) {
+        if (times < 3) {
+          await page.reload();
+        } else {
+          await module.exports.waitAndClick(
+            pageElements.criticalErrorRestartButton,
+          );
+        }
+        await module.exports.waitUntilMetamaskWindowIsStable();
+      } else {
+        break;
+      }
+    }
   },
 };

@@ -1,7 +1,6 @@
 const log = require('debug')('synpress:metamask');
 const playwright = require('./playwright');
 
-const { pageElements } = require('../pages/metamask/page');
 const {
   onboardingWelcomePageElements,
   metametricsPageElements,
@@ -123,43 +122,6 @@ const metamask = {
       extensionImportTokenUrl,
     };
   },
-  // workaround for metamask random blank page on first run
-  async fixBlankPage() {
-    for (let times = 0; times < 5; times++) {
-      if (
-        (await playwright
-          .metamaskWindow()
-          .locator(onboardingWelcomePageElements.app)
-          .count()) === 0
-      ) {
-        await playwright.metamaskWindow().reload();
-        await playwright.waitUntilMetamaskWindowIsStable();
-      } else {
-        break;
-      }
-    }
-  },
-  async fixCriticalError() {
-    for (let times = 0; times < 5; times++) {
-      if (
-        (await playwright
-          .metamaskWindow()
-          .locator(pageElements.criticalError)
-          .count()) > 0
-      ) {
-        if (times < 3) {
-          await playwright.metamaskWindow().reload();
-        } else {
-          await playwright.waitAndClick(
-            pageElements.criticalErrorRestartButton,
-          );
-        }
-        await playwright.waitUntilMetamaskWindowIsStable();
-      } else {
-        break;
-      }
-    }
-  },
   async closePopupAndTooltips() {
     // note: this is required for fast execution of e2e tests to avoid flakiness
     // otherwise popup may not be detected properly and not closed
@@ -215,8 +177,8 @@ const metamask = {
     return true;
   },
   async unlock(password) {
-    await module.exports.fixBlankPage();
-    await module.exports.fixCriticalError();
+    await playwright.fixBlankPage();
+    await playwright.fixCriticalError();
     await playwright.waitAndType(unlockPageElements.passwordInput, password);
     await playwright.waitAndClick(
       unlockPageElements.unlockButton,
@@ -1178,8 +1140,8 @@ const metamask = {
     await playwright.assignWindows();
     await playwright.assignActiveTabName('metamask');
     await module.exports.getExtensionDetails();
-    await module.exports.fixBlankPage();
-    await module.exports.fixCriticalError();
+    await playwright.fixBlankPage();
+    await playwright.fixCriticalError();
     if (
       await playwright
         .metamaskWindow()
