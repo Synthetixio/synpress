@@ -38,6 +38,7 @@ lint:
         - downloads
         - tests/e2e/videos
         - tests/e2e/screenshots
+        - docs
   threshold:
     - linters: [ALL]
       level: high

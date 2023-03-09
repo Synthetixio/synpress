@@ -6,7 +6,9 @@ on:
     branches: [master, dev]
 
 concurrency:
-  group: ${{ github.head_ref || github.run_id }}
+  group:
+    '${{ github.workflow }} @ ${{ github.event.pull_request.head.label ||
+    github.head_ref || github.ref }}'
   cancel-in-progress: true
 
 jobs:
@@ -42,12 +44,13 @@ jobs:
 
       - name: Run e2e tests (${{ matrix.resolution }} res)
         run: |
-          docker-compose -f docker-compose.ci.yml --env-file ${{ matrix.resolution }}-res.env --profile foundry up --build --exit-code-from synpress
+          docker-compose -f docker-compose.ci.yml --env-file ${{ matrix.resolution }}-res.env --profile synpress --profile foundry up --build --exit-code-from synpress
         env:
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1
           DOCKER_DEFAULT_PLATFORM: linux/amd64
           NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
+          NGROK_BASIC_AUTH: ${{ secrets.NGROK_BASIC_AUTH }}
           CYPRESS_PRIVATE_KEY_WITH_FUNDS:
             ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
           ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}

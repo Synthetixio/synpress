@@ -33,6 +33,10 @@ module.exports = (on, config) => {
         '--disable-renderer-backgrounding',
       );
     }
+
+    if (browser.name === 'chrome' && process.env.CI)
+      arguments_.args.push('--disable-gpu'); // Avoid: "dri3 extension not supported" error
+
     if (!process.env.SKIP_METAMASK_INSTALL) {
       // NOTE: extensions cannot be loaded in headless Chrome
       const metamaskPath = await helpers.prepareMetamask(
@@ -129,12 +133,6 @@ module.exports = (on, config) => {
       const activated = await metamask.activateAdvancedGasControl(skipSetup);
       return activated;
     },
-    activateEnhancedTokenDetectionInMetamask: async skipSetup => {
-      const activated = await metamask.activateEnhancedTokenDetection(
-        skipSetup,
-      );
-      return activated;
-    },
     activateShowHexDataInMetamask: async skipSetup => {
       const activated = await metamask.activateShowHexData(skipSetup);
       return activated;
@@ -157,10 +155,6 @@ module.exports = (on, config) => {
     },
     activateEnhancedGasFeeUIInMetamask: async skipSetup => {
       const activated = await metamask.activateEnhancedGasFeeUI(skipSetup);
-      return activated;
-    },
-    activateShowCustomNetworkListInMetamask: async skipSetup => {
-      const activated = await metamask.activateShowCustomNetworkList(skipSetup);
       return activated;
     },
     resetMetamaskAccount: async () => {
@@ -281,7 +275,7 @@ module.exports = (on, config) => {
       if (process.env.SECRET_WORDS) {
         secretWordsOrPrivateKey = process.env.SECRET_WORDS;
       }
-      await metamask.initialSetup({
+      await metamask.initialSetup(null, {
         secretWordsOrPrivateKey,
         network,
         password,
