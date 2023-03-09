@@ -116,7 +116,8 @@
     "synthetix-js/**/json5": "1.0.2",
     "synthetix-js/**/node-fetch": "2.6.7",
     "download/**/http-cache-semantics": "4.1.1",
-    "**/ansi-regex": "5.0.1"
+    "**/ansi-regex": "5.0.1",
+    "**/@testing-library/dom": "9.0.1"
   },
   "engines": {
     "node": ">=14"
