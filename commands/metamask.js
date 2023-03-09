@@ -124,7 +124,6 @@ const metamask = {
   },
   // workaround for metamask random blank page on first run
   async fixBlankPage() {
-    await playwright.metamaskWindow().waitForTimeout(1000);
     for (let times = 0; times < 5; times++) {
       if (
         (await playwright
@@ -133,8 +132,12 @@ const metamask = {
           .count()) === 0
       ) {
         await playwright.metamaskWindow().reload();
-        await playwright.metamaskWindow().waitForTimeout(2000);
-      } else if (
+        await playwright.waitUntilMetamaskWindowIsStable();
+      } else {
+        break;
+      }
+    }
+  },
         (await playwright
           .metamaskWindow()
           .locator(onboardingWelcomePageElements.criticalError)
