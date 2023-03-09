@@ -102,7 +102,7 @@
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
     "@trunkio/launcher": "^1.2.3",
     "npm-check-updates": "^16.7.12",
-    "release-it": "^15.8.0"
+    "release-it": "^15.8.0",
     "typescript": "^4.9.5"
   },
   "resolutions": {
