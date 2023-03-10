@@ -584,10 +584,17 @@ const metamask = {
       skipSetup,
     );
   },
-  async activateEnhancedGasFeeUI(skipSetup) {
+  async activateEthSignRequests(skipSetup) {
     return await activateAdvancedSetting(
-      experimentalSettingsPageElements.enhancedGasFeeUIToggleOn,
-      experimentalSettingsPageElements.enhancedGasFeeUIToggleOff,
+      advancedPageElements.ethSignRequestsToggleOn,
+      advancedPageElements.ethSignRequestsToggleOff,
+      skipSetup,
+    );
+  },
+  async activateImprovedTokenAllowance(skipSetup) {
+    return await activateAdvancedSetting(
+      experimentalSettingsPageElements.improvedTokenAllowanceToggleOn,
+      experimentalSettingsPageElements.improvedTokenAllowanceToggleOff,
       skipSetup,
       true,
     );
@@ -747,15 +754,23 @@ const metamask = {
   },
   async confirmPermissionToSpend(spendLimit) {
     const notificationPage = await playwright.switchToMetamaskNotification();
-    await playwright.waitAndSetValue(
-      spendLimit,
-      notificationPageElements.customSpendingLimitInput,
-      notificationPage,
-    );
-    await playwright.waitAndClick(
-      notificationPageElements.allowToSpendButton,
-      notificationPage,
-    );
+    // experimental mode on
+    if (
+      await playwright
+        .metamaskNotificationWindow()
+        .locator(notificationPageElements.customSpendingLimitInput)
+        .isVisible()
+    ) {
+      await playwright.waitAndSetValue(
+        spendLimit,
+        notificationPageElements.customSpendingLimitInput,
+        notificationPage,
+      );
+      await playwright.waitAndClick(
+        notificationPageElements.allowToSpendButton,
+        notificationPage,
+      );
+    }
     await playwright.waitAndClick(
       notificationPageElements.allowToSpendButton,
       notificationPage,
@@ -1125,7 +1140,13 @@ const metamask = {
   },
   async initialSetup(
     playwrightInstance,
-    { secretWordsOrPrivateKey, network, password, enableAdvancedSettings },
+    {
+      secretWordsOrPrivateKey,
+      network,
+      password,
+      enableAdvancedSettings,
+      enableExperimentalSettings,
+    },
   ) {
     const isCustomNetwork =
       (process.env.NETWORK_NAME &&
@@ -1157,7 +1178,7 @@ const metamask = {
         await module.exports.importAccount(secretWordsOrPrivateKey);
       }
 
-      await setupSettings(enableAdvancedSettings);
+      await setupSettings(enableAdvancedSettings, enableExperimentalSettings);
 
       if (isCustomNetwork) {
         await module.exports.addNetwork(network);
@@ -1243,7 +1264,10 @@ async function activateAdvancedSetting(
   return true;
 }
 
-async function setupSettings(enableAdvancedSettings) {
+async function setupSettings(
+  enableAdvancedSettings,
+  enableExperimentalSettings,
+) {
   await switchToMetamaskIfNotActive();
   await metamask.goToAdvancedSettings();
   await metamask.activateAdvancedGasControl(true);
@@ -1255,7 +1279,9 @@ async function setupSettings(enableAdvancedSettings) {
     await metamask.activateTestnetConversion(true);
   }
   await metamask.goToExperimentalSettings();
-  await metamask.activateEnhancedGasFeeUI(true);
+  if (enableExperimentalSettings) {
+    await metamask.activateImprovedTokenAllowance(true);
+  }
   await playwright.waitAndClick(
     settingsPageElements.closeButton,
     await playwright.metamaskWindow(),
