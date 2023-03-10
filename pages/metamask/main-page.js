@@ -69,6 +69,11 @@ const accountMenu = {
   settingsButton: '.account-menu__item--clickable:nth-child(11)',
 };
 
+const listOfAcounts = {
+  form: '.account-menu__accounts',
+  accounts: '[data-testid="account-menu__account"]',
+};
+
 const optionsMenu = {
   button: '[data-testid=account-options-menu-button]',
   accountDetailsButton: '[data-testid="account-options-menu__account-details"]',
@@ -131,6 +136,7 @@ module.exports.mainPageElements = {
   tippyTooltip,
   actionableMessage,
   accountMenu,
+  listOfAcounts,
   optionsMenu,
   connectedSites,
   accountModal,
