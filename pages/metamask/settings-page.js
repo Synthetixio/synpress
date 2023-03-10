@@ -35,6 +35,10 @@ const dismissBackupReminderOn =
   '[data-testid="advanced-setting-dismiss-reminder"] .toggle-button--on';
 const dismissBackupReminderOff =
   '[data-testid="advanced-setting-dismiss-reminder"] .toggle-button--off';
+const ethSignRequestsToggleOn =
+  '[data-testid="advanced-setting-toggle-ethsign"] .toggle-button--on';
+const ethSignRequestsToggleOff =
+  '[data-testid="advanced-setting-toggle-ethsign"] .toggle-button--off';
 module.exports.advancedPageElements = {
   resetAccountButton,
   advancedGasControlToggleOn,
@@ -49,15 +53,17 @@ module.exports.advancedPageElements = {
   dismissBackupReminderOff,
   customNonceToggleOn,
   customNonceToggleOff,
+  ethSignRequestsToggleOn,
+  ethSignRequestsToggleOff,
 };
 
-const enhancedGasFeeUIToggleOn =
+const improvedTokenAllowanceToggleOn =
   '.settings-page__content-row:nth-child(1) .toggle-button--on';
-const enhancedGasFeeUIToggleOff =
+const improvedTokenAllowanceToggleOff =
   '.settings-page__content-row:nth-child(1) .toggle-button--off';
 module.exports.experimentalSettingsPageElements = {
-  enhancedGasFeeUIToggleOn,
-  enhancedGasFeeUIToggleOff,
+  improvedTokenAllowanceToggleOn,
+  improvedTokenAllowanceToggleOff,
 };
 
 const nevermindButton = '.modal-container .btn-secondary';
