@@ -1404,16 +1404,16 @@
     debug "^4.3.1"
 
 "@truffle/contract@^4.2.6":
-  version "4.6.16"
-  resolved "https://registry.yarnpkg.com/@truffle/contract/-/contract-4.6.16.tgz#ee5f3b1bbe145918c11f38e6657193006ac88814"
-  integrity sha512-KEUBE09P05PV5RmkQ9FiRrTR1FJ8Hg7vcSGpCUTDhwpRWTrYnrHpjYDRdn+RzdJNE7JHvRqk++tKbnU4fu3q5w==
+  version "4.6.17"
+  resolved "https://registry.yarnpkg.com/@truffle/contract/-/contract-4.6.17.tgz#d25bb1039c8d4bbbaee19245173e890770444848"
+  integrity sha512-sIMam5Wqr9AEiqHfOcWGJGqTv8Qy+BT765PaNHUUT6JBAY+tpHM3FlQd2nM6zLJ8paR3SLDGIthkhCBH/KNgDA==
   dependencies:
     "@ensdomains/ensjs" "^2.1.0"
     "@truffle/blockchain-utils" "^0.1.6"
     "@truffle/contract-schema" "^3.4.13"
     "@truffle/debug-utils" "^6.0.47"
     "@truffle/error" "^0.2.0"
-    "@truffle/interface-adapter" "^0.5.29"
+    "@truffle/interface-adapter" "^0.5.30"
     bignumber.js "^7.2.1"
     debug "^4.3.1"
     ethers "^4.0.32"
@@ -1440,10 +1440,10 @@
   resolved "https://registry.yarnpkg.com/@truffle/error/-/error-0.2.0.tgz#65de6f03f5c041f883cc87677eecf8231428f1ab"
   integrity sha512-Fe0/z4WWb7IP2gBnv3l6zqP87Y0kSMs7oiSLakKJq17q3GUunrHSdioKuNspdggxkXIBhEQLhi8C+LJdwmHKWQ==
 
-"@truffle/interface-adapter@^0.5.29":
-  version "0.5.29"
-  resolved "https://registry.yarnpkg.com/@truffle/interface-adapter/-/interface-adapter-0.5.29.tgz#e75e5b5dd120e699774bbea6465c6d1d7c75056e"
-  integrity sha512-6UlJ+f87z7y/dWk9UfbIU+4e80iRsp8h03LEiE5B+PvZbr6cuMjLJUBtBBQZMo3+xrIcS/2u3p5hOxW8OJm8tw==
+"@truffle/interface-adapter@^0.5.30":
+  version "0.5.30"
+  resolved "https://registry.yarnpkg.com/@truffle/interface-adapter/-/interface-adapter-0.5.30.tgz#b54d8e1ab4421a6f0347ee418ef1f30aebd6b4f0"
+  integrity sha512-wyCcESeZJBkAfuSGU8GHCusIWDUDyQjJZMcyShv59ZTSAwQR7xx0+a0Q1LlS532G/pGFLYe2VzKSY1pRHRwgug==
   dependencies:
     bn.js "^5.1.3"
     ethers "^4.0.32"
@@ -1598,9 +1598,9 @@
   integrity sha512-Y4XFY5VJAuw0FgAqPNd6NNoV44jbq9Bz2L7Rh/J6jLTiHBSBJa9fxqQIvkIld4GsoDOcCbvzOUAbLPsSKKg+uA==
 
 "@types/node@*":
-  version "18.14.6"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.14.6.tgz#ae1973dd2b1eeb1825695bb11ebfb746d27e3e93"
-  integrity sha512-93+VvleD3mXwlLI/xASjw0FzKcwzl3OdTCzm1LaRfqgS21gfFtK3zDXM5Op9TeeMsJVOaJ2VRDpT9q4Y3d0AvA==
+  version "18.15.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.0.tgz#286a65e3fdffd691e170541e6ecb0410b16a38be"
+  integrity sha512-z6nr0TTEOBGkzLGmbypWOGnpSpSIBorEhC4L+4HeQ2iezKCi4f77kyslRwvHeNitymGQ+oFyIWGP96l/DPSV9w==
 
 "@types/node@^12.12.6":
   version "12.20.55"
@@ -3659,9 +3659,9 @@ camelcase@^7.0.0:
   integrity sha512-xlx1yCK2Oc1APsPXDL2LdlNP6+uu8OCDdhOBSVT279M/S+y75O30C2VuD8T2ogdePBBl7PfPF4504tnLgX3zfw==
 
 caniuse-lite@^1.0.30000844, caniuse-lite@^1.0.30001449:
-  version "1.0.30001462"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001462.tgz#b2e801e37536d453731286857c8520d3dcee15fe"
-  integrity sha512-PDd20WuOBPiasZ7KbFnmQRyuLE7cFXW2PVd7dmALzbkUXEP46upAuCDm9eY9vho8fgNMGmbAX92QBZHzcnWIqw==
+  version "1.0.30001464"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001464.tgz#888922718df48ce5e33dcfe1a2af7d42676c5eb7"
+  integrity sha512-oww27MtUmusatpRpCGSOneQk2/l5czXANDSFvsc7VuOQ86s3ANhZetpwXNf1zY/zdfP63Xvjz325DAdAoES13g==
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -4935,9 +4935,9 @@ ee-first@1.1.1:
   integrity sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==
 
 electron-to-chromium@^1.3.47, electron-to-chromium@^1.4.284:
-  version "1.4.325"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.325.tgz#7b97238a61192d85d055d97f3149832b3617d37b"
-  integrity sha512-K1C03NT4I7BuzsRdCU5RWkgZxtswnKDYM6/eMhkEXqKu4e5T+ck610x3FPzu1y7HVFSiQKZqP16gnJzPpji1TQ==
+  version "1.4.328"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.328.tgz#b4565ffa502542b561cea16086d6d9b916c7095a"
+  integrity sha512-DE9tTy2PNmy1v55AZAO542ui+MLC2cvINMK4P2LXGsJdput/ThVG9t+QGecPuAZZSgC8XoI+Jh9M1OG9IoNSCw==
 
 elliptic@6.5.2, elliptic@6.5.4, elliptic@^6.4.0, elliptic@^6.5.2, elliptic@^6.5.4:
   version "6.5.4"
@@ -10398,9 +10398,9 @@ preact@10.4.1:
   integrity sha512-WKrRpCSwL2t3tpOOGhf2WfTpcmbpxaWtDbdJdKdjd0aEiTkvOmS4NBkG6kzlaAHI9AkQ3iVqbFWM3Ei7mZ4o1Q==
 
 preact@^10.3.3:
-  version "10.13.0"
-  resolved "https://registry.yarnpkg.com/preact/-/preact-10.13.0.tgz#f8bd3cf257a4dbe41da71a52131b79916d4ca89d"
-  integrity sha512-ERdIdUpR6doqdaSIh80hvzebHB7O6JxycOhyzAeLEchqOq/4yueslQbfnPwXaNhAYacFTyCclhwkEbOumT0tHw==
+  version "10.13.1"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.13.1.tgz#d220bd8771b8fa197680d4917f3cefc5eed88720"
+  integrity sha512-KyoXVDU5OqTpG9LXlB3+y639JAGzl8JSBXLn1J9HTSB3gbKcuInga7bZnXLlxmK94ntTs1EFeZp0lrja2AuBYQ==
 
 precond@0.2:
   version "0.2.3"
@@ -10836,9 +10836,9 @@ readable-stream@^2.0.0, readable-stream@^2.0.1, readable-stream@^2.2.2, readable
     util-deprecate "~1.0.1"
 
 readable-stream@^3.0.6, readable-stream@^3.4.0, readable-stream@^3.6.0:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.1.tgz#f9f9b5f536920253b3d26e7660e7da4ccff9bb62"
-  integrity sha512-+rQmrWMYGA90yenhTYsLWAsLsqVC8osOw6PKE1HDYiO0gdPeKe/xDHNzIAIn4C91YQ6oenEhfYqqc1883qHbjQ==
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.2.tgz#56a9b36ea965c00c5a93ef31eb111a0f11056967"
+  integrity sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==
   dependencies:
     inherits "^2.0.3"
     string_decoder "^1.1.1"
@@ -11220,9 +11220,9 @@ rimraf@^3.0.0, rimraf@^3.0.2:
     glob "^7.1.3"
 
 rimraf@^4.1.2:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-4.3.1.tgz#ccb3525e39100478acb334fae6d23029b87912ea"
-  integrity sha512-GfHJHBzFQra23IxDzIdBqhOWfbtdgS1/dCHrDy+yvhpoJY5TdwdT28oWaHWfRpKFDLd3GZnGTx6Mlt4+anbsxQ==
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-4.4.0.tgz#c7a9f45bb2ec058d2e60ef9aca5167974313d605"
+  integrity sha512-X36S+qpCUR0HjXlkDe4NAOhS//aHH0Z+h8Ckf2auGJk3PTnx5rLmrHkwNdbVQuCSUhOyFrlRvFEllZOYE+yZGQ==
   dependencies:
     glob "^9.2.0"
 
@@ -11817,9 +11817,9 @@ spdx-expression-parse@^3.0.0:
     spdx-license-ids "^3.0.0"
 
 spdx-license-ids@^3.0.0:
-  version "3.0.12"
-  resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-3.0.12.tgz#69077835abe2710b65f03969898b6637b505a779"
-  integrity sha512-rr+VVSXtRhO4OHbXUiAF7xW3Bo9DuuF6C5jH+q/x15j2jniycgKbxU09Hr0WqlSLUs4i4ltHGXqTe7VHclYWyA==
+  version "3.0.13"
+  resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-3.0.13.tgz#7189a474c46f8d47c7b0da4b987bb45e908bd2d5"
+  integrity sha512-XkD+zwiqXHikFZm4AX/7JSCXA98U5Db4AFd5XUg/+9UNtnH75+Z9KxtpYiJZx36mUDVOwH83pl7yvCer6ewM3w==
 
 spdy-transport@^3.0.0:
   version "3.0.0"
@@ -12339,9 +12339,9 @@ terser@^4.6.3:
     source-map-support "~0.5.12"
 
 terser@^5.10.0:
-  version "5.16.5"
-  resolved "https://registry.yarnpkg.com/terser/-/terser-5.16.5.tgz#1c285ca0655f467f92af1bbab46ab72d1cb08e5a"
-  integrity sha512-qcwfg4+RZa3YvlFh0qjifnzBHjKGNbtDo9yivMqMFDy9Q6FSaQWSB/j1xKhsoUFJIqDOM3TsN6D5xbrMrFcHbg==
+  version "5.16.6"
+  resolved "https://registry.yarnpkg.com/terser/-/terser-5.16.6.tgz#f6c7a14a378ee0630fbe3ac8d1f41b4681109533"
+  integrity sha512-IBZ+ZQIA9sMaXmRZCUMDjNH0D5AQQfdn4WUjHL0+1lF4TP1IHRJbrhb6fNaXWikrYQTSkb7SLxkeXAiy1p7mbg==
   dependencies:
     "@jridgewell/source-map" "^0.3.2"
     acorn "^8.5.0"
@@ -13541,9 +13541,9 @@ ws@^5.1.1:
     async-limiter "~1.0.0"
 
 ws@^8.4.2:
-  version "8.12.1"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-8.12.1.tgz#c51e583d79140b5e42e39be48c934131942d4a8f"
-  integrity sha512-1qo+M9Ba+xNhPB+YTWUlK6M17brTut5EXbcBaMRN5pH5dFrXz7lzz1ChFSUq3bOUl8yEvSenhHmYUNJxFzdJew==
+  version "8.13.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.13.0.tgz#9a9fb92f93cf41512a0735c8f4dd09b8a1211cd0"
+  integrity sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==
 
 xdg-basedir@^5.0.1, xdg-basedir@^5.1.0:
   version "5.1.0"
