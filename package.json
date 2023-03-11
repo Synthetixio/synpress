@@ -50,10 +50,9 @@
   },
   "dependencies": {
     "@cypress/code-coverage": "^3.10.0",
-    "@cypress/webpack-dev-server": "^3.3.0",
     "@drptbl/gremlins.js": "^2.2.1",
-    "@playwright/test": "^1.31.2",
     "@synthetixio/js": "^2.41.0",
+    "@cypress/webpack-dev-server": "^3.3.0",
     "@testing-library/cypress": "^9.0.0",
     "@testing-library/react": "^14.0.0",
     "@types/testing-library__cypress": "^5.0.9",
@@ -71,6 +70,15 @@
     "dotenv": "^16.0.3",
     "dotenv-parse-variables": "^2.0.0",
     "download": "^8.0.0",
+    "ethers": "^6.1.0",
+    "etherscan-api": "^10.3.0",
+    "find-config": "^1.0.0",
+    "node-fetch": "^2.6.1",
+    "serve": "^14.2.0",
+    "start-server-and-test": "^2.0.0",
+    "synthetix-js": "^2.74.1"
+  },
+  "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.7.0",
     "eslint-config-standard": "^17.0.0",
@@ -84,21 +92,16 @@
     "eslint-plugin-testing-library": "^5.10.2",
     "eslint-plugin-ui-testing": "^2.0.1",
     "eslint-plugin-unicorn": "^46.0.0",
-    "ethers": "^6.1.0",
-    "etherscan-api": "^10.3.0",
-    "find-config": "^1.0.0",
-    "node-fetch": "^2.6.1",
-    "prettier": "^2.8.4",
-    "serve": "^14.2.0",
-    "start-server-and-test": "^2.0.0",
-    "synthetix-js": "^2.74.1"
-  },
-  "devDependencies": {
     "@metamask/test-dapp": "^5.6.0",
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
     "@trunkio/launcher": "^1.2.3",
     "npm-check-updates": "^16.7.12",
+    "@playwright/test": "^1.31.2",
+    "prettier": "^2.8.4",
     "release-it": "^15.8.0"
+  },
+  "peerDependencies": {
+    "@playwright/test": ">1.31.0"
   },
   "resolutions": {
     "etherscan-api/gh-pages": "5.0.0",
