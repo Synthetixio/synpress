@@ -100,9 +100,16 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'activateEnhancedGasFeeUIInMetamask',
+  'activateEthSignRequestsInMetamask',
   (skipSetup = false) => {
-    return cy.task('activateEnhancedGasFeeUIInMetamask', skipSetup);
+    return cy.task('activateEthSignRequestsInMetamask', skipSetup);
+  },
+);
+
+Cypress.Commands.add(
+  'activateImprovedTokenAllowanceInMetamask',
+  (skipSetup = false) => {
+    return cy.task('activateImprovedTokenAllowanceInMetamask', skipSetup);
   },
 );
 
@@ -226,12 +233,14 @@ Cypress.Commands.add(
     network = 'goerli',
     password = 'Tester@1234',
     enableAdvancedSettings = false,
+    enableExperimentalSettings = false,
   ) => {
     return cy.task('setupMetamask', {
       secretWordsOrPrivateKey,
       network,
       password,
       enableAdvancedSettings,
+      enableExperimentalSettings,
     });
   },
 );
