@@ -117,6 +117,7 @@ module.exports = (on, config) => {
       network,
       password,
       enableAdvancedSettings,
+      enableExperimentalSettings,
     }) => {
       if (process.env.NETWORK_NAME) {
         network = process.env.NETWORK_NAME;
@@ -132,6 +133,7 @@ module.exports = (on, config) => {
         network,
         password,
         enableAdvancedSettings,
+        enableExperimentalSettings,
       });
       return true;
     },
