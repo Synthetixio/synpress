@@ -24,7 +24,9 @@ describe('Metamask', () => {
     it(`acceptMetamaskAccess should accept connection request to metamask`, () => {
       cy.visit('/');
       cy.get('#connectButton').click();
-      cy.acceptMetamaskAccess().then(connected => {
+      cy.acceptMetamaskAccess({
+        accountIndexes: [1],
+      }).then(connected => {
         expect(connected).to.be.true;
       });
       cy.get('#network').contains('5');
