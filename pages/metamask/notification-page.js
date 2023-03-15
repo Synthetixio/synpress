@@ -7,6 +7,9 @@ const customSpendingLimitInput = `${notificationPage} [data-testid="custom-spend
 const allowToSpendButton = `${notificationPage} [data-testid="page-container-footer-next"]`;
 const rejectToSpendButton = `${notificationPage} [data-testid="page-container-footer-cancel"]`;
 const selectAllCheckbox = `${notificationPage} .choose-account-list__header-check-box`;
+const getAccountCheckboxSelector = (accountIdx = 1) =>
+  `${notificationPage} .choose-account-list__account:nth-child(${accountIdx}) .check-box`;
+
 module.exports.notificationPageElements = {
   notificationPage,
   notificationAppContent,
@@ -17,6 +20,7 @@ module.exports.notificationPageElements = {
   allowToSpendButton,
   rejectToSpendButton,
   selectAllCheckbox,
+  getAccountCheckboxSelector,
 };
 
 const confirmSignatureRequestButton = `${notificationPage} .request-signature__footer__sign-button`;

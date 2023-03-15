@@ -795,6 +795,32 @@ const metamask = {
         notificationPage,
       );
     }
+
+    if (options && options.accountIndexes) {
+      if (
+        !Array.isArray(options.accountIndexes) ||
+        options.accountIndexes.some(accIdx => Number.isNaN(Number(accIdx)))
+      ) {
+        console.error('`accountIndexes` must be an array of numbers');
+        return false;
+      }
+
+      // Uncheck accounts
+
+      for await (let accountIdx of options.accountIndexes) {
+        const checkboxSelector =
+          notificationPageElements.getAccountCheckboxSelector(accountIdx);
+        const checkbox = await playwright.waitFor(
+          checkboxSelector,
+          notificationPage,
+        );
+        const attrClass = await checkbox.getAttribute('class');
+        if (!attrClass.includes('check-box__checked')) {
+          await playwright.waitAndClick(checkboxSelector, notificationPage);
+        }
+      }
+    }
+
     await playwright.waitAndClick(
       notificationPageElements.nextButton,
       notificationPage,
