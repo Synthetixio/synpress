@@ -789,12 +789,6 @@ const metamask = {
   },
   async acceptAccess(options) {
     const notificationPage = await playwright.switchToMetamaskNotification();
-    if (options && options.allAccounts) {
-      await playwright.waitAndClick(
-        notificationPageElements.selectAllCheckbox,
-        notificationPage,
-      );
-    }
 
     // ========== Account Selection ==========
     if (options && options.accountIndexes) {
@@ -806,7 +800,6 @@ const metamask = {
         return false;
       }
 
-      // Uncheck selected accounts
       const checkboxes = await notificationPage.locator(
         notificationPageElements.selectAccountCheckbox,
       );
@@ -826,6 +819,13 @@ const metamask = {
           await playwright.waitAndClick(checkboxSelector, notificationPage);
         }
       }
+    }
+
+    if (options && options.allAccounts) {
+      await playwright.waitAndClick(
+        notificationPageElements.selectAllCheckbox,
+        notificationPage,
+      );
     }
 
     await playwright.waitAndClick(
