@@ -9,6 +9,7 @@ const rejectToSpendButton = `${notificationPage} [data-testid="page-container-fo
 const selectAllCheckbox = `${notificationPage} .choose-account-list__header-check-box`;
 const getAccountCheckboxSelector = (accountIdx = 1) =>
   `${notificationPage} .choose-account-list__account:nth-child(${accountIdx}) .check-box`;
+const selectAccountCheckbox = `${notificationPage} .choose-account-list__account .check-box`;
 
 module.exports.notificationPageElements = {
   notificationPage,
@@ -21,6 +22,7 @@ module.exports.notificationPageElements = {
   rejectToSpendButton,
   selectAllCheckbox,
   getAccountCheckboxSelector,
+  selectAccountCheckbox,
 };
 
 const confirmSignatureRequestButton = `${notificationPage} .request-signature__footer__sign-button`;

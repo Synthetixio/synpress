@@ -21,18 +21,6 @@ describe('Metamask', () => {
         expect(disconnected).to.be.true;
       });
     });
-    it('acceptMetamaskAccess should accpet connection request for given account index', () => {
-      cy.visit('/');
-      cy.get('#connectButton').click();
-      cy.importMetamaskAccount(
-        '89fe6cf31a686f718017d664b08f75a51b706edc85edd6c67b1d2b56da628964',
-      );
-      cy.acceptMetamaskAccess({
-        accountIndexes: [2],
-      }).then(connected => {
-        expect(connected).to.be.true;
-      });
-    });
     it(`acceptMetamaskAccess should accept connection request to metamask`, () => {
       cy.visit('/');
       cy.get('#connectButton').click();

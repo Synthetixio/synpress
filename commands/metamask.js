@@ -796,6 +796,7 @@ const metamask = {
       );
     }
 
+    // ========== Account Selection ==========
     if (options && options.accountIndexes) {
       if (
         !Array.isArray(options.accountIndexes) ||
@@ -805,9 +806,13 @@ const metamask = {
         return false;
       }
 
-      // Uncheck accounts
-
-      for await (let accountIdx of options.accountIndexes) {
+      // Uncheck selected accounts
+      const checkboxes = await notificationPage.locator(
+        notificationPageElements.selectAccountCheckbox,
+      );
+      const count = await checkboxes.count();
+      for (let i = 0; i < count; ++i) {
+        const accountIdx = i + 1;
         const checkboxSelector =
           notificationPageElements.getAccountCheckboxSelector(accountIdx);
         const checkbox = await playwright.waitFor(
@@ -815,7 +820,9 @@ const metamask = {
           notificationPage,
         );
         const attrClass = await checkbox.getAttribute('class');
-        if (!attrClass.includes('check-box__checked')) {
+        const isChecked = attrClass.includes('check-box__checked');
+        const shouldCheck = options.accountIndexes.includes(accountIdx);
+        if ((!isChecked && shouldCheck) || (isChecked && !shouldCheck)) {
           await playwright.waitAndClick(checkboxSelector, notificationPage);
         }
       }
