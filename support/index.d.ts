@@ -258,9 +258,11 @@ declare namespace Cypress {
      * @example
      * cy.acceptMetamaskAccess()
      * cy.acceptMetamaskAccess({allAccounts: true, signInSignature: true})
+     * cy.acceptMetamaskAccess({ accountIndexes: [1, 2, 3] })
      */
     acceptMetamaskAccess(options?: {
       allAccounts?: boolean;
+      accountIndexes: number[];
       signInSignature?: boolean;
     }): Chainable<Subject>;
     /**
