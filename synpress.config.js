@@ -2,6 +2,7 @@ const log = require('debug')('synpress:config');
 const path = require('path');
 const packageJson = require('./package.json');
 const { defineConfig } = require('cypress');
+const { getEnvVar, ENV_VARS } = require('./utils/env');
 const synpressPath = getSynpressPath();
 log(`Detected synpress root path is: ${synpressPath}`);
 const pluginsPath = `${synpressPath}/plugins/index`;
@@ -11,10 +12,13 @@ const fixturesFolder = `${synpressPath}/fixtures`;
 log(`Detected synpress fixtures path is: ${fixturesFolder}`);
 const supportFile = 'tests/e2e/support.js';
 
+const isCi = getEnvVar(ENV_VARS.CI);
+const isDebug = getEnvVar(ENV_VARS.SYNDEBUG);
+
 module.exports = defineConfig({
   userAgent: 'synpress',
   retries: {
-    runMode: process.env.CI ? 1 : 0,
+    runMode: isCi ? 1 : 0,
     openMode: 0,
   },
   fixturesFolder,
@@ -26,9 +30,9 @@ module.exports = defineConfig({
   env: {
     coverage: false,
   },
-  defaultCommandTimeout: process.env.SYNDEBUG ? 9999999 : 30000,
-  pageLoadTimeout: process.env.SYNDEBUG ? 9999999 : 30000,
-  requestTimeout: process.env.SYNDEBUG ? 9999999 : 30000,
+  defaultCommandTimeout: isDebug ? 9999999 : 30000,
+  pageLoadTimeout: isDebug ? 9999999 : 30000,
+  requestTimeout: isDebug ? 9999999 : 30000,
   e2e: {
     testIsolation: false,
     setupNodeEvents,

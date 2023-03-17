@@ -1,6 +1,7 @@
 const log = require('debug')('synpress:launcher');
 const cypress = require('cypress');
 const helpers = require('./helpers');
+const { getEnvVar, ENV_VARS } = require('./utils/env');
 const synpressConfigPath = `${helpers.getSynpressPath()}/synpress.config.js`;
 log(`Detected synpress config path is: ${synpressConfigPath}`);
 
@@ -96,11 +97,10 @@ const launcher = {
     }
     if (arguments_.group) {
       log(`Custom group arg detected: ${arguments_.group}`);
-      if (process.env.CYPRESS_GROUP) {
-        log(
-          `Custom group arg detected (from env var): ${process.env.CYPRESS_GROUP}`,
-        );
-        defaultArguments.push(`--group=${process.env.CYPRESS_GROUP}`);
+      const cypressGroup = getEnvVar(ENV_VARS.CYPRESS_GROUP);
+      if (cypressGroup) {
+        log(`Custom group arg detected (from env var): ${cypressGroup}`);
+        defaultArguments.push(`--group=${cypressGroup}`);
       } else if (arguments_.group === true) {
         throw new Error('Please provide CYPRESS_GROUP environment variable');
       } else {

@@ -5,6 +5,7 @@ const path = require('path');
 const { ethers } = require('ethers');
 const download = require('download');
 const packageJson = require('./package.json');
+const { getEnvVar, ENV_VARS } = require('./utils/env');
 
 const PRESET_NETWORKS = Object.freeze({
   mainnet: {
@@ -104,13 +105,16 @@ module.exports = {
 
     try {
       if (version === 'latest' || !version) {
-        if (process.env.GH_USERNAME && process.env.GH_PAT) {
+        const gitHubUsername = getEnvVar(ENV_VARS.GH_USERNAME);
+        const gitHubPAT = getEnvVar(ENV_VARS.GH_PAT);
+
+        if (gitHubUsername && gitHubPAT) {
           response = await axios.get(
             'https://api.github.com/repos/metamask/metamask-extension/releases',
             {
               auth: {
-                username: process.env.GH_USERNAME,
-                password: process.env.GH_PAT,
+                username: gitHubUsername,
+                password: gitHubPAT,
               },
             },
           );
@@ -155,10 +159,13 @@ module.exports = {
       log(
         `Trying to download and extract file from: ${url} to following path: ${destination}`,
       );
-      if (process.env.GH_USERNAME && process.env.GH_PAT) {
+      const gitHubUsername = getEnvVar(ENV_VARS.GH_USERNAME);
+      const gitHubPAT = getEnvVar(ENV_VARS.GH_PAT);
+
+      if (gitHubUsername && gitHubPAT) {
         await download(url, destination, {
           extract: true,
-          auth: `${process.env.GH_USERNAME}:${process.env.GH_PAT}`,
+          auth: `${gitHubUsername}:${gitHubPAT}`,
         });
       } else {
         await download(url, destination, {
