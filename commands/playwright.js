@@ -6,7 +6,7 @@ const { pageElements } = require('../pages/metamask/page');
 const {
   onboardingWelcomePageElements,
 } = require('../pages/metamask/first-time-flow-page');
-const { ENV_VARS } = require('../utils/env');
+const { ENV_VARS, getEnvVar } = require('../utils/env');
 // const metamask = require('./metamask');
 const sleep = require('util').promisify(setTimeout);
 
@@ -142,7 +142,7 @@ module.exports = {
     const element = page.locator(selector).first();
     await element.waitFor();
     await element.focus();
-    const stableMode = ENV_VARS.STABLE_MODE;
+    const stableMode = getEnvVar('STABLE_MODE');
     if (stableMode) {
       if (!isNaN(stableMode)) {
         await page.waitForTimeout(Number(stableMode));

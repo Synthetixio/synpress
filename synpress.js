@@ -3,7 +3,7 @@ const log = require('debug')('synpress:cli');
 const program = require('commander');
 const { run, open } = require('./launcher');
 const { version } = require('./package.json');
-const { ENV_VARS } = require('./utils/env');
+const { ENV_VARS, getEnvVar } = require('./utils/env');
 
 const debug = ENV_VARS.DEBUG;
 
@@ -11,7 +11,7 @@ if (debug && debug.includes('synpress')) {
   log('DEBUG mode is enabled');
   ENV_VARS.PWDEBUG = 1;
 
-  if (!ENV_VARS.STABLE_MODE) {
+  if (!getEnvVar('STABLE_MODE')) {
     log('Enabling stable mode');
     process.env.E2E_STABLE_MODE = true;
   }

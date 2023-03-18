@@ -39,4 +39,5 @@ function getEnvVar(envVar, prefix = 'E2E_') {
 
 module.exports = {
   ENV_VARS,
+  getEnvVar,
 };

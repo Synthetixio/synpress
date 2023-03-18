@@ -3,7 +3,7 @@ const playwright = require('../commands/playwright');
 const metamask = require('../commands/metamask');
 const synthetix = require('../commands/synthetix');
 const etherscan = require('../commands/etherscan');
-const { ENV_VARS } = require('../utils/env');
+const { ENV_VARS, getEnvVar } = require('../utils/env');
 
 /**
  * @type {Cypress.PluginConfig}
@@ -24,7 +24,7 @@ module.exports = (on, config) => {
         // Avoid: "dri3 extension not supported" error
         arguments_.args.push('--disable-gpu');
       }
-      if (ENV_VARS.HEADLESS_MODE) {
+      if (getEnvVar('HEADLESS_MODE')) {
         arguments_.args.push('--headless=new');
       }
       if (browser.isHeadless) {
