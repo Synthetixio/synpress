@@ -3,17 +3,17 @@ const log = require('debug')('synpress:cli');
 const program = require('commander');
 const { run, open } = require('./launcher');
 const { version } = require('./package.json');
-const { getEnvVar, ENV_VARS } = require('./utils/env');
+const { ENV_VARS } = require('./utils/env');
 
-const debug = getEnvVar(ENV_VARS.DEBUG);
+const debug = ENV_VARS.DEBUG;
 
 if (debug && debug.includes('synpress')) {
   log('DEBUG mode is enabled');
-  process.env.PWDEBUG = 1;
+  ENV_VARS.PWDEBUG = 1;
 
-  if (!process.env.STABLE_MODE) {
+  if (!ENV_VARS.STABLE_MODE) {
     log('Enabling stable mode');
-    process.env.STABLE_MODE = true;
+    process.env.E2E_STABLE_MODE = true;
   }
 }
 
@@ -32,42 +32,45 @@ if (process.env.SYNPRESS_LOCAL_TEST) {
 }
 
 // if user skips metamask install or setup
-if (!process.env.SKIP_METAMASK_INSTALL && !process.env.SKIP_METAMASK_SETUP) {
+if (!ENV_VARS.SKIP_METAMASK_INSTALL && !ENV_VARS.SKIP_METAMASK_SETUP) {
   // we don't want to check for presence of SECRET_WORDS or PRIVATE_KEY
-  if (!process.env.SECRET_WORDS && !process.env.PRIVATE_KEY) {
+  if (!ENV_VARS.SECRET_WORDS && !ENV_VARS.PRIVATE_KEY) {
     throw new Error(
-      'Please provide SECRET_WORDS or PRIVATE_KEY environment variable',
+      'Please provide E2E_SECRET_WORDS or E2E_PRIVATE_KEY environment variable',
     );
   }
 } else {
   log(
-    'Skipping check for SECRET_WORDS and PRIVATE_KEY as SKIP_METAMASK_INSTALL or SKIP_METAMASK_SETUP is set',
+    'Skipping check for E2E_SECRET_WORDS and E2E_PRIVATE_KEY as E2E_SKIP_METAMASK_INSTALL or E2E_SKIP_METAMASK_SETUP is set',
   );
 }
 
-if (process.env.RPC_URL || process.env.CHAIN_ID) {
-  if (!process.env.RPC_URL) {
-    throw new Error('Please provide RPC_URL environment variable');
-  } else if (!process.env.CHAIN_ID) {
-    throw new Error('Please provide CHAIN_ID environment variable');
-  }
+const rpcUrl = ENV_VARS.RPC_URL;
+const chainId = ENV_VARS.chainId;
+if (rpcUrl || chainId) {
+  if (!rpcUrl)
+    throw new Error('Please provide E2E_RPC_URL environment variable');
+
+  if (!chainId)
+    throw new Error('Please provide E2E_CHAIN_ID environment variable');
 
   if (
-    !process.env.RPC_URL.startsWith('http://') && //DevSkim: ignore DS137138
-    !process.env.RPC_URL.startsWith('https://')
+    !rpcUrl.startsWith('http://') && //DevSkim: ignore DS137138
+    !rpcUrl.startsWith('https://')
   ) {
     throw new Error(
-      'RPC_URL environment variable should start with "http://" or "https://"', //DevSkim: ignore DS137138
+      'E2E_RPC_URL environment variable should start with "http://" or "https://"', //DevSkim: ignore DS137138
     );
   }
 
+  const blockExplorer = ENV_VARS.BLOCK_EXPLORER;
   if (
-    process.env.BLOCK_EXPLORER &&
-    !process.env.BLOCK_EXPLORER.startsWith('http://') && //DevSkim: ignore DS137138
-    !process.env.BLOCK_EXPLORER.startsWith('https://')
+    blockExplorer &&
+    !blockExplorer.startsWith('http://') && //DevSkim: ignore DS137138
+    !blockExplorer.startsWith('https://')
   ) {
     throw new Error(
-      'BLOCK_EXPLORER environment variable should start with "http://" or "https://"', //DevSkim: ignore DS137138
+      'E2E_BLOCK_EXPLORER environment variable should start with "http://" or "https://"', //DevSkim: ignore DS137138
     );
   }
 }

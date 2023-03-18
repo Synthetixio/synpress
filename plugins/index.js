@@ -3,6 +3,7 @@ const playwright = require('../commands/playwright');
 const metamask = require('../commands/metamask');
 const synthetix = require('../commands/synthetix');
 const etherscan = require('../commands/etherscan');
+const { ENV_VARS } = require('../utils/env');
 
 /**
  * @type {Cypress.PluginConfig}
@@ -19,11 +20,11 @@ module.exports = (on, config) => {
         '--disable-backgrounding-occluded-windows',
         '--disable-renderer-backgrounding',
       );
-      if (process.env.CI) {
+      if (ENV_VARS.CI) {
         // Avoid: "dri3 extension not supported" error
         arguments_.args.push('--disable-gpu');
       }
-      if (process.env.HEADLESS_MODE) {
+      if (ENV_VARS.HEADLESS_MODE) {
         arguments_.args.push('--headless=new');
       }
       if (browser.isHeadless) {
@@ -31,10 +32,10 @@ module.exports = (on, config) => {
       }
     }
 
-    if (!process.env.SKIP_METAMASK_INSTALL) {
+    if (!ENV_VARS.SKIP_METAMASK_INSTALL) {
       // NOTE: extensions cannot be loaded in headless Chrome
       const metamaskPath = await helpers.prepareMetamask(
-        process.env.METAMASK_VERSION || '10.25.0',
+        ENV_VARS.METAMASK_VERSION || '10.25.0',
       );
       arguments_.extensions.push(metamaskPath);
     }
@@ -113,8 +114,9 @@ module.exports = (on, config) => {
       return networkAdded;
     },
     changeMetamaskNetwork: async network => {
-      if (process.env.NETWORK_NAME && !network) {
-        network = process.env.NETWORK_NAME;
+      const networkName = ENV_VARS.NETWORK_NAME;
+      if (networkName && !network) {
+        network = networkName;
       } else if (!network) {
         network = 'goerli';
       }
@@ -265,15 +267,14 @@ module.exports = (on, config) => {
       enableAdvancedSettings,
       enableExperimentalSettings,
     }) => {
-      if (process.env.NETWORK_NAME) {
-        network = process.env.NETWORK_NAME;
-      }
-      if (process.env.PRIVATE_KEY) {
-        secretWordsOrPrivateKey = process.env.PRIVATE_KEY;
-      }
-      if (process.env.SECRET_WORDS) {
-        secretWordsOrPrivateKey = process.env.SECRET_WORDS;
-      }
+      const networkName = ENV_VARS.NETWORK_NAME;
+      const privateKey = ENV_VARS.PRIVATE_KEY;
+      const secretWords = ENV_VARS.SECRET_WORDS;
+
+      if (networkName) network = networkName;
+      if (privateKey) secretWordsOrPrivateKey = privateKey;
+      if (secretWords) secretWordsOrPrivateKey = secretWords;
+
       await metamask.initialSetup(null, {
         secretWordsOrPrivateKey,
         network,
@@ -284,9 +285,9 @@ module.exports = (on, config) => {
       return true;
     },
     snxExchangerSettle: async ({ asset, walletAddress, privateKey }) => {
-      if (process.env.PRIVATE_KEY) {
-        privateKey = process.env.PRIVATE_KEY;
-      }
+      const prvKey = ENV_VARS.PRIVATE_KEY;
+      if (prvKey) privateKey = prvKey;
+
       const settled = await synthetix.settle({
         asset,
         walletAddress,
@@ -316,17 +317,18 @@ module.exports = (on, config) => {
     },
   });
 
-  if (process.env.BASE_URL) {
-    config.e2e.baseUrl = process.env.BASE_URL;
-    config.component.baseUrl = process.env.BASE_URL;
+  const baseUrl = ENV_VARS.BASE_URL;
+  if (baseUrl) {
+    config.e2e.baseUrl = baseUrl;
+    config.component.baseUrl = baseUrl;
   }
 
-  if (process.env.CI) {
+  if (ENV_VARS.CI) {
     config.retries.runMode = 1;
     config.retries.openMode = 1;
   }
 
-  if (process.env.SKIP_METAMASK_SETUP) {
+  if (ENV_VARS.SKIP_METAMASK_SETUP) {
     config.env.SKIP_METAMASK_SETUP = true;
   }
 

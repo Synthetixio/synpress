@@ -6,6 +6,7 @@ const { pageElements } = require('../pages/metamask/page');
 const {
   onboardingWelcomePageElements,
 } = require('../pages/metamask/first-time-flow-page');
+const { ENV_VARS } = require('../utils/env');
 // const metamask = require('./metamask');
 const sleep = require('util').promisify(setTimeout);
 
@@ -40,10 +41,11 @@ module.exports = {
     const debuggerDetails = await fetch('http://127.0.0.1:9222/json/version'); //DevSkim: ignore DS137138
     const debuggerDetailsConfig = await debuggerDetails.json();
     const webSocketDebuggerUrl = debuggerDetailsConfig.webSocketDebuggerUrl;
-    if (process.env.SLOW_MODE) {
-      if (!isNaN(process.env.SLOW_MODE)) {
+    const slowMode = ENV_VARS.SLOW_MODE;
+    if (slowMode) {
+      if (!isNaN(slowMode)) {
         browser = await chromium.connectOverCDP(webSocketDebuggerUrl, {
-          slowMo: Number(process.env.SLOW_MODE),
+          slowMo: Number(slowMode),
         });
       } else {
         browser = await chromium.connectOverCDP(webSocketDebuggerUrl, {
@@ -140,9 +142,10 @@ module.exports = {
     const element = page.locator(selector).first();
     await element.waitFor();
     await element.focus();
-    if (process.env.STABLE_MODE) {
-      if (!isNaN(process.env.STABLE_MODE)) {
-        await page.waitForTimeout(Number(process.env.STABLE_MODE));
+    const stableMode = ENV_VARS.STABLE_MODE;
+    if (stableMode) {
+      if (!isNaN(stableMode)) {
+        await page.waitForTimeout(Number(stableMode));
       } else {
         await page.waitForTimeout(300);
       }

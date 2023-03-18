@@ -33,6 +33,7 @@ const {
   confirmationPageElements,
 } = require('../pages/metamask/confirmation-page');
 const { setNetwork } = require('../helpers');
+const { ENV_VARS } = require('../utils/env');
 
 let extensionInitialUrl;
 let extensionId;
@@ -421,18 +422,18 @@ const metamask = {
   },
   async addNetwork(network) {
     await switchToMetamaskIfNotActive();
-    if (
-      process.env.NETWORK_NAME &&
-      process.env.RPC_URL &&
-      process.env.CHAIN_ID
-    ) {
+    const networkName = ENV_VARS.NETWORK_NAME;
+    const rpcUrl = ENV_VARS.rpcUrl;
+    const chainId = ENV_VARS.CHAIN_ID;
+
+    if (networkName && rpcUrl && chainId) {
       network = {
-        networkName: process.env.NETWORK_NAME,
-        rpcUrl: process.env.RPC_URL,
-        chainId: process.env.CHAIN_ID,
-        symbol: process.env.SYMBOL,
-        blockExplorer: process.env.BLOCK_EXPLORER,
-        isTestnet: process.env.IS_TESTNET,
+        networkName,
+        rpcUrl,
+        chainId,
+        symbol: ENV_VARS.SYMBOL,
+        blockExplorer: ENV_VARS.BLOCK_EXPLORER,
+        isTestnet: ENV_VARS.IS_TESTNET,
       };
     }
     if (typeof network === 'string') {
@@ -1149,10 +1150,9 @@ const metamask = {
     },
   ) {
     const isCustomNetwork =
-      (process.env.NETWORK_NAME &&
-        process.env.RPC_URL &&
-        process.env.CHAIN_ID) ||
+      (ENV_VARS.NETWORK_NAME && ENV_VARS.RPC_URL && ENV_VARS.CHAIN_ID) ||
       typeof network == 'object';
+
     if (playwrightInstance) {
       await playwright.init(playwrightInstance);
     } else {
@@ -1204,7 +1204,7 @@ const metamask = {
           .metamaskWindow()
           .locator(mainPageElements.walletOverview)
           .isVisible()) &&
-        !process.env.RESET_METAMASK
+        !ENV_VARS.RESET_METAMASK
       ) {
         await switchToMetamaskIfNotActive();
         walletAddress = await module.exports.getWalletAddress();

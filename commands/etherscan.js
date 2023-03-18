@@ -1,3 +1,5 @@
+const { ENV_VARS } = require('../utils/env');
+
 const sleep = require('util').promisify(setTimeout);
 
 let retries = 0;
@@ -7,7 +9,7 @@ module.exports = {
     const { getNetwork } = require('../helpers');
     const currentNetwork = getNetwork().networkName;
     const etherscanApi = require('etherscan-api').init(
-      process.env.ETHERSCAN_KEY,
+      ENV_VARS.ETHERSCAN_KEY,
       currentNetwork,
       30000,
     );
