@@ -16,7 +16,7 @@ module.exports = {
     return { txStatus, txReceipt };
   },
   async waitForTxSuccess(txid) {
-    const txStatus = await module.exports.getTransactionStatus(txid);
+    const txStatus = await this.getTransactionStatus(txid);
     if (
       // status success
       txStatus.txReceipt.result &&
@@ -38,7 +38,7 @@ module.exports = {
       console.log(`Transaction ${txid} is still pending.. waiting..`);
       retries++;
       await sleep(5000);
-      const result = await module.exports.waitForTxSuccess(txid);
+      const result = await this.waitForTxSuccess(txid);
       return result;
     } else {
       retries = 0;
