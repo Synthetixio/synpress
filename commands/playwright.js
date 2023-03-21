@@ -205,7 +205,9 @@ module.exports = {
     } else {
       await element.click({ force: args.force });
     }
-    await module.exports.waitUntilStable();
+    if (process.env.PROVIDER !== 'phantom') {
+      await module.exports.waitUntilStable();
+    }
     return element;
   },
   async waitAndClickByText(selector, text, page = metamaskWindow) {

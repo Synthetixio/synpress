@@ -2,42 +2,19 @@ const log = require('debug')('synpress:phantom');
 const playwright = require('./playwright');
 
 const {
-  welcomePageElements,
   firstTimeFlowPageElements,
-  metametricsPageElements,
   firstTimeFlowImportPageElements,
-  firstTimeFlowCreatePagePageElements,
-  secureYourWalletPageElements,
-  revealSeedPageElements,
 } = require('../pages/phantom/first-time-flow-page');
 const { mainPageElements } = require('../pages/phantom/main-page');
 const { unlockPageElements } = require('../pages/phantom/unlock-page');
 const {
-  notificationPageElements,
-  permissionsPageElements,
-  confirmPageElements,
   signaturePageElements,
-  encryptionPublicKeyPageElements,
-  decryptPageElements,
-  dataSignaturePageElements,
-  recipientPopupElements,
-  addTokenPageElements,
   buttons,
   transactionPageElements,
   menu,
   incorrectModePageElements,
 } = require('../pages/phantom/notification-page');
-const {
-  settingsPageElements,
-  advancedPageElements,
-  experimentalSettingsPageElements,
-  resetAccountModalElements,
-  addNetworkPageElements,
-} = require('../pages/phantom/settings-page');
-const {
-  confirmationPageElements,
-} = require('../pages/phantom/confirmation-page');
-const { setNetwork } = require('../helpers');
+const { settingsPageElements } = require('../pages/phantom/settings-page');
 
 let extensionInitialUrl;
 let extensionId;
@@ -236,18 +213,7 @@ module.exports = {
     await switchToCypressIfNotActive();
     return walletAddress;
   },
-  initialSetup: async ({
-    secretWordsOrPrivateKey,
-    network,
-    password,
-    enableAdvancedSettings,
-  }) => {
-    const isCustomNetwork =
-      (process.env.NETWORK_NAME &&
-        process.env.RPC_URL &&
-        process.env.CHAIN_ID) ||
-      typeof network == 'object';
-
+  initialSetup: async ({ secretWordsOrPrivateKey, password }) => {
     await playwright.init();
     await playwright.assignWindows();
     await playwright.assignActiveTabName('metamask');
