@@ -20,6 +20,10 @@ const addCommand = (commandName, legacyCommandName, promiseFn) => {
   }
 };
 
+Cypress.Commands.add('selectProvider', providerName => {
+  return cy.task('selectProvider', providerName);
+});
+
 Cypress.Commands.add('initPlaywright', () => {
   return cy.task('initPlaywright');
 });
@@ -241,6 +245,10 @@ Cypress.Commands.add('unlock', (password = 'Tester@1234') => {
   return cy.task('unlock', password);
 });
 
+Cypress.Commands.add('selectWallet', (wallet = 'metamask', mode = 'always') => {
+  return cy.task('selectWallet', wallet, mode);
+});
+
 addCommand('lock');
 
 addCommand('fetchWalletAddress', 'fetchMetamaskWalletAddress', taskPromise =>
@@ -251,14 +259,16 @@ addCommand('confirmIncorrectNetworkStage');
 
 Cypress.Commands.add(
   'setupMetamask',
-  (
+  ({
+    provider = 'metamask',
     secretWordsOrPrivateKey = 'test test test test test test test test test test test junk',
     network = 'goerli',
     password = 'Tester@1234',
     enableAdvancedSettings = false,
     enableExperimentalSettings = false,
-  ) => {
+  }) => {
     return cy.task('setupMetamask', {
+      provider,
       secretWordsOrPrivateKey,
       network,
       password,
@@ -270,13 +280,15 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   'setup',
-  (
+  ({
+    provider = 'metamask',
     secretWordsOrPrivateKey = 'test test test test test test test test test test test junk',
     network = 'goerli',
     password = 'Tester@1234',
     enableAdvancedSettings = false,
-  ) => {
+  }) => {
     return cy.task('setup', {
+      provider,
       secretWordsOrPrivateKey,
       network,
       password,

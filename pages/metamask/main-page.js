@@ -67,6 +67,7 @@ const accountMenu = {
   createAccountButton: '.account-menu__item--clickable:nth-child(6)',
   importAccountButton: '.account-menu__item--clickable:nth-child(7)',
   settingsButton: '.account-menu__item--clickable:nth-child(11)',
+  lockButton: '.account_menu__lock-button',
 };
 
 const optionsMenu = {

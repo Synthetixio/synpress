@@ -13,8 +13,12 @@ const {
   transactionPageElements,
   menu,
   incorrectModePageElements,
+  app,
 } = require('../pages/phantom/notification-page');
 const { settingsPageElements } = require('../pages/phantom/settings-page');
+const { selectWalletElements } = require('../pages/phantom/select-wallet-page');
+
+const PROVIDER = 'phantom';
 
 let extensionInitialUrl;
 let extensionId;
@@ -51,8 +55,8 @@ module.exports = {
   },
   goTo: async url => {
     await Promise.all([
-      playwright.metamaskWindow().waitForNavigation(),
-      playwright.metamaskWindow().goto(url),
+      playwright.windows(PROVIDER).waitForNavigation(),
+      playwright.windows(PROVIDER).goto(url),
     ]);
     await playwright.waitUntilStable();
   },
@@ -81,7 +85,7 @@ module.exports = {
     await module.exports.goTo(extensionImportTokenUrl);
   },
   getExtensionDetails: async () => {
-    extensionInitialUrl = await playwright.metamaskWindow().url();
+    extensionInitialUrl = await playwright.windows(PROVIDER).url();
     extensionId = extensionInitialUrl.match('//(.*?)/')[1];
     extensionHomeUrl = `chrome-extension://${extensionId}/notification.html`;
     extensionSettingsUrl = `${extensionHomeUrl}#settings`;
@@ -104,27 +108,31 @@ module.exports = {
       extensionImportTokenUrl,
     };
   },
-  // Phantom doesn't need this, it's well coded :)
-  fixBlankPage: async () => {
-    return;
-  },
   acceptAccess: async () => {
-    const notificationPage = await playwright.switchToMetamaskNotification();
-    await playwright.waitAndClick(buttons.primaryButton, notificationPage);
+    const notificationPage = await playwright.switchToNotification(PROVIDER);
+    await playwright.waitAndClick(
+      PROVIDER,
+      buttons.primaryButton,
+      notificationPage,
+    );
     return true;
   },
   importWallet: async (secretWords, password) => {
-    await playwright.waitAndClick(firstTimeFlowPageElements.importWalletButton);
-
+    await playwright.waitAndClick(
+      PROVIDER,
+      firstTimeFlowPageElements.importWalletButton,
+    );
     // STEP: Input mnemonic words and click Import
     // todo: add support for more secret words (15/18/21/24)
     for (const [index, word] of secretWords.split(' ').entries()) {
       await playwright.waitAndType(
+        PROVIDER,
         firstTimeFlowImportPageElements.secretWordsInput(index),
         word,
       );
     }
     await playwright.waitAndClick(
+      PROVIDER,
       firstTimeFlowImportPageElements.confirmWordsButton,
     );
 
@@ -132,34 +140,41 @@ module.exports = {
     // shortcut confirmation
     await new Promise(resolve => setTimeout(resolve, 200)); // the transitioning is too fast
     await playwright.waitAndClick(
+      PROVIDER,
       firstTimeFlowImportPageElements.confirmWordsButton,
       // 'button:text("Import Selected Accounts")',
     );
 
     // STEP: Input password, confirm and continue
     await playwright.waitAndType(
+      PROVIDER,
       firstTimeFlowImportPageElements.passwordInput,
       password,
     );
     await playwright.waitAndType(
+      PROVIDER,
       firstTimeFlowImportPageElements.confirmPasswordInput,
       password,
     );
     await playwright.waitAndClick(
+      PROVIDER,
       firstTimeFlowImportPageElements.termsCheckbox,
     );
     // continue to next screen
     await playwright.waitAndClick(
+      PROVIDER,
       firstTimeFlowImportPageElements.continueAfterPasswordButton,
     );
     // shortcut confirmation
     await new Promise(resolve => setTimeout(resolve, 500)); // the transitioning is too fast
     await playwright.waitAndClick(
+      PROVIDER,
       firstTimeFlowImportPageElements.continueOnShortcutConfirm,
     );
     // finish
     await new Promise(resolve => setTimeout(resolve, 500)); // the transitioning is too fast
     await playwright.waitAndClick(
+      PROVIDER,
       firstTimeFlowImportPageElements.continueOnShortcutConfirm,
     );
     return true;
@@ -167,36 +182,40 @@ module.exports = {
   closePopupAndTooltips: async () => {
     // note: this is required for fast execution of e2e tests to avoid flakiness
     // otherwise popup may not be detected properly and not closed
-    await playwright.metamaskWindow().waitForTimeout(1000);
+    await playwright.windows(PROVIDER).waitForTimeout(1000);
     if (
       await playwright
-        .metamaskWindow()
+        .windows(PROVIDER)
         .locator(mainPageElements.popup.container)
         .isVisible()
     ) {
       const popupBackground = playwright
-        .metamaskWindow()
+        .windows(PROVIDER)
         .locator(mainPageElements.popup.background);
       const popupBackgroundBox = await popupBackground.boundingBox();
       await playwright
-        .metamaskWindow()
+        .windows(PROVIDER)
         .mouse.click(popupBackgroundBox.x + 1, popupBackgroundBox.y + 1);
     }
     if (
       await playwright
-        .metamaskWindow()
+        .windows(PROVIDER)
         .locator(mainPageElements.tippyTooltip.closeButton)
         .isVisible()
     ) {
-      await playwright.waitAndClick(mainPageElements.tippyTooltip.closeButton);
+      await playwright.waitAndClick(
+        PROVIDER,
+        mainPageElements.tippyTooltip.closeButton,
+      );
     }
     if (
       await playwright
-        .metamaskWindow()
+        .windows(PROVIDER)
         .locator(mainPageElements.actionableMessage.closeButton)
         .isVisible()
     ) {
       await playwright.waitAndClick(
+        PROVIDER,
         mainPageElements.actionableMessage.closeButton,
       );
     }
@@ -204,25 +223,30 @@ module.exports = {
   },
   getWalletAddress: async () => {
     await switchToPhantomIfNotActive();
-    await playwright.metamaskWindow().hover(mainPageElements.accountBar.title);
+    await playwright.windows(PROVIDER).hover(mainPageElements.accountBar.title);
     await new Promise(resolve => setTimeout(resolve, 100));
-    await playwright.waitAndClick(mainPageElements.accountBar.ethRow);
+    await playwright.waitAndClick(PROVIDER, mainPageElements.accountBar.ethRow);
     walletAddress = await playwright
-      .metamaskWindow()
+      .windows(PROVIDER)
       .evaluate('navigator.clipboard.readText()');
     await switchToCypressIfNotActive();
     return walletAddress;
   },
   initialSetup: async ({ secretWordsOrPrivateKey, password }) => {
     await playwright.init();
-    await playwright.assignWindows();
-    await playwright.assignActiveTabName('metamask');
+    await playwright.assignWindows(PROVIDER);
+    await playwright.assignActiveTabName(PROVIDER);
     await module.exports.getExtensionDetails();
-    await module.exports.fixBlankPage();
+    await playwright.fixBlankPage(
+      PROVIDER,
+      playwright.windows(PROVIDER),
+      app.root,
+    );
+    await playwright.switchToWindow(PROVIDER);
 
     if (
       await playwright
-        .metamaskWindow()
+        .windows(PROVIDER)
         .locator(firstTimeFlowPageElements.importWalletButton)
         .isVisible()
     ) {
@@ -239,11 +263,11 @@ module.exports = {
       // skip what's new header
       if (
         await playwright
-          .metamaskWindow()
+          .windows(PROVIDER)
           .locator(mainPageElements.whatsNew.header)
       ) {
         await playwright
-          .metamaskWindow()
+          .windows(PROVIDER)
           .click(mainPageElements.whatsNew.continueButton);
       }
       walletAddress = await module.exports.getWalletAddress();
@@ -254,7 +278,7 @@ module.exports = {
        * PASSWORD UNLOCK
        */
       await playwright
-        .metamaskWindow()
+        .windows(PROVIDER)
         .locator(unlockPageElements.passwordInput)
         .isVisible()
     ) {
@@ -265,7 +289,7 @@ module.exports = {
     } else {
       if (
         (await playwright
-          .metamaskWindow()
+          .windows(PROVIDER)
           .locator(mainPageElements.walletOverview)
           .isVisible()) &&
         !process.env.RESET_PHANTOM
@@ -280,8 +304,9 @@ module.exports = {
     }
   },
   confirmSignatureRequest: async () => {
-    const notificationPage = await playwright.switchToMetamaskNotification();
+    const notificationPage = await playwright.switchToNotification(PROVIDER);
     await playwright.waitAndClick(
+      PROVIDER,
       signaturePageElements.buttons.confirmSign,
       notificationPage,
       { waitForEvent: 'close' },
@@ -289,8 +314,9 @@ module.exports = {
     return true;
   },
   rejectSignatureRequest: async () => {
-    const notificationPage = await playwright.switchToMetamaskNotification();
+    const notificationPage = await playwright.switchToNotification(PROVIDER);
     await playwright.waitAndClick(
+      PROVIDER,
       signaturePageElements.buttons.rejectSign,
       notificationPage,
       { waitForEvent: 'close' },
@@ -298,8 +324,9 @@ module.exports = {
     return true;
   },
   confirmTransaction: async () => {
-    const notificationPage = await playwright.switchToMetamaskNotification();
+    const notificationPage = await playwright.switchToNotification(PROVIDER);
     await playwright.waitAndClick(
+      PROVIDER,
       transactionPageElements.buttons.rejectSign,
       notificationPage,
       { waitForEvent: 'close' },
@@ -307,8 +334,9 @@ module.exports = {
     return true;
   },
   confirmIncorrectNetworkStage: async () => {
-    const notificationPage = await playwright.switchToMetamaskNotification();
+    const notificationPage = await playwright.switchToNotification(PROVIDER);
     await playwright.waitAndClick(
+      PROVIDER,
       incorrectModePageElements.buttons.close,
       notificationPage,
       { waitForEvent: 'close' },
@@ -316,36 +344,71 @@ module.exports = {
     return true;
   },
   unlock: async password => {
-    await playwright.waitAndType(unlockPageElements.passwordInput, password);
+    await playwright.waitAndType(
+      PROVIDER,
+      unlockPageElements.passwordInput,
+      password,
+    );
     await playwright.waitAndClick(
+      PROVIDER,
       unlockPageElements.unlockButton,
-      await playwright.metamaskWindow(),
+      await playwright.windows(PROVIDER),
     );
     await module.exports.closePopupAndTooltips();
     return true;
   },
   lock: async () => {
     await playwright.waitAndClick(
+      PROVIDER,
       menu.buttons.settings,
-      await playwright.metamaskWindow(),
+      await playwright.windows(PROVIDER),
     );
     await playwright.waitAndClick(
+      PROVIDER,
       menu.buttons.sidebar.settings,
-      await playwright.metamaskWindow(),
+      await playwright.windows(PROVIDER),
     );
     await playwright.waitAndClick(
+      PROVIDER,
       settingsPageElements.buttons.lockWallet,
-      await playwright.metamaskWindow(),
+      await playwright.windows(PROVIDER),
     );
     await module.exports.closePopupAndTooltips();
+    return true;
+  },
+  selectWallet: async (wallet = 'metamask', mode = 'once') => {
+    const notificationPage = await playwright.switchToNotification(PROVIDER);
+    if (wallet === 'metamask') {
+      await playwright.waitAndClick(
+        PROVIDER,
+        selectWalletElements.buttons.continueWithMetamask,
+        notificationPage,
+      );
+      return true;
+    }
+
+    if (mode === 'always') {
+      await playwright.waitAndClick(
+        PROVIDER,
+        selectWalletElements.buttons.alwaysUsePhantom,
+        notificationPage,
+      );
+      return true;
+    }
+
+    await playwright.waitAndClick(
+      PROVIDER,
+      selectWalletElements.buttons.continueWithPhantom,
+      notificationPage,
+    );
     return true;
   },
 };
 
 async function switchToPhantomIfNotActive() {
-  await playwright.switchToMetamaskWindow();
+  await playwright.switchToWindow(PROVIDER);
   if (await playwright.isCypressWindowActive()) {
-    await playwright.switchToMetamaskWindow();
+    await playwright.switchToWindow(PROVIDER);
     switchBackToCypressWindow = true;
   }
   return switchBackToCypressWindow;

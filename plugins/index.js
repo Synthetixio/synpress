@@ -6,12 +6,27 @@ const provider =
     : require('../commands/metamask');
 const etherscan = require('../commands/etherscan');
 
+const metamaskProvider = require('../commands/metamask');
+const phantomProvider = require('../commands/phantom');
+
+const providersHelper = require('../providers');
+
+const providerMap = {
+  metamask: metamaskProvider,
+  phantom: phantomProvider,
+};
+let selectedProvider = 'metamask';
+
 /**
  * @type {Cypress.PluginConfig}
  */
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+
+  function getProvider(providerName = selectedProvider) {
+    return providerMap[providerName];
+  }
 
   on('before:browser:launch', async (browser = {}, arguments_) => {
     if (browser.name === 'chrome') {
@@ -47,14 +62,26 @@ module.exports = (on, config) => {
       };
     }
 
-    if (!process.env.SKIP_METAMASK_INSTALL) {
-      // NOTE: extensions cannot be loaded in headless Chrome
-      const providerPath = await helpers.prepareProvider(
-        process.env.PROVIDER_VERSION || '10.25.0',
-      );
+    if (process.env.PROVIDERS) {
+      process.env.CYPRESS_PROVIDERS = process.env.PROVIDERS;
+      const providers = providersHelper.getProviders(process.env.PROVIDERS);
+      for (const provider of providers) {
+        const providerPath = await helpers.prepareProvider(
+          provider.name,
+          provider.version || 'latest',
+        );
 
-      arguments_.extensions.push(providerPath);
+        arguments_.extensions.push(providerPath);
+      }
     }
+    // if (!process.env.SKIP_METAMASK_INSTALL) {
+    //   // NOTE: extensions cannot be loaded in headless Chrome
+    //   const providerPath = await helpers.prepareProvider(
+    //     process.env.PROVIDER_VERSION || '10.25.0',
+    //   );
+
+    //   arguments_.extensions.push(providerPath);
+    // }
 
     return arguments_;
   });
@@ -68,6 +95,10 @@ module.exports = (on, config) => {
       console.warn('\u001B[33m', 'WARNING:', message, '\u001B[0m');
       return true;
     },
+    selectProvider(providerName) {
+      selectedProvider = providerName;
+      return true;
+    },
     // playwright commands
     initPlaywright: async () => {
       const connected = await playwright.init();
@@ -77,8 +108,8 @@ module.exports = (on, config) => {
       const cleared = await playwright.clear();
       return cleared;
     },
-    assignWindows: async () => {
-      const assigned = await playwright.assignWindows();
+    assignWindows: async provider => {
+      const assigned = await playwright.assignWindows(provider);
       return assigned;
     },
     clearWindows: async () => {
@@ -89,9 +120,9 @@ module.exports = (on, config) => {
       const assigned = await playwright.assignActiveTabName(tabName);
       return assigned;
     },
-    isMetamaskWindowActive: async () => {
-      const isMetamaskActive = await playwright.isMetamaskWindowActive();
-      return isMetamaskActive;
+    isWindowActive: async provider => {
+      const isActive = await playwright.isWindowActive(provider);
+      return isActive;
     },
     isCypressWindowActive: async () => {
       const isCypressActive = await playwright.isCypressWindowActive();
@@ -101,12 +132,12 @@ module.exports = (on, config) => {
       const switched = await playwright.switchToCypressWindow();
       return switched;
     },
-    switchToMetamaskWindow: async () => {
-      const switched = await playwright.switchToMetamaskWindow();
+    switchToWindow: async provider => {
+      const switched = await playwright.switchToWindow(provider);
       return switched;
     },
-    switchToMetamaskNotification: async () => {
-      const notificationPage = await playwright.switchToMetamaskNotification();
+    switchToNotification: async provider => {
+      const notificationPage = await playwright.switchToNotification(provider);
       return notificationPage;
     },
     /**
@@ -116,29 +147,37 @@ module.exports = (on, config) => {
       return module.exports.unlock(password);
     },
     unlock: async password => {
-      const unlocked = await provider.unlock(password);
+      const unlocked = await getProvider(selectedProvider).unlock(password);
       return unlocked;
     },
     lock: () => {
-      return provider.lock();
+      return getProvider(selectedProvider).lock();
     },
     confirmIncorrectNetworkStage: () => {
-      return provider.confirmIncorrectNetworkStage();
+      return getProvider(selectedProvider).confirmIncorrectNetworkStage();
     },
     importMetamaskAccount: async privateKey => {
-      const imported = await provider.importAccount(privateKey);
+      const imported = await getProvider(selectedProvider).importAccount(
+        privateKey,
+      );
       return imported;
     },
     createMetamaskAccount: async accountName => {
-      const created = await provider.createAccount(accountName);
+      const created = await getProvider(selectedProvider).createAccount(
+        accountName,
+      );
       return created;
     },
     switchMetamaskAccount: async accountNameOrAccountNumber => {
-      const switched = await provider.switchAccount(accountNameOrAccountNumber);
+      const switched = await getProvider(selectedProvider).switchAccount(
+        accountNameOrAccountNumber,
+      );
       return switched;
     },
     addMetamaskNetwork: async network => {
-      const networkAdded = await provider.addNetwork(network);
+      const networkAdded = await getProvider(selectedProvider).addNetwork(
+        network,
+      );
       return networkAdded;
     },
     changeMetamaskNetwork: async network => {
@@ -147,57 +186,79 @@ module.exports = (on, config) => {
       } else if (!network) {
         network = 'goerli';
       }
-      const networkChanged = await provider.changeNetwork(network);
+      const networkChanged = await getProvider(selectedProvider).changeNetwork(
+        network,
+      );
       return networkChanged;
     },
     activateAdvancedGasControlInMetamask: async skipSetup => {
-      const activated = await provider.activateAdvancedGasControl(skipSetup);
+      const activated = await getProvider(
+        selectedProvider,
+      ).activateAdvancedGasControl(skipSetup);
       return activated;
     },
     activateEnhancedTokenDetectionInMetamask: async skipSetup => {
-      const activated = await provider.activateEnhancedTokenDetection(
+      const activated = await getProvider(
+        selectedProvider,
+      ).activateEnhancedTokenDetection(skipSetup);
+      return activated;
+    },
+    activateShowHexDataInMetamask: async skipSetup => {
+      const activated = await getProvider(selectedProvider).activateShowHexData(
         skipSetup,
       );
       return activated;
     },
-    activateShowHexDataInMetamask: async skipSetup => {
-      const activated = await provider.activateShowHexData(skipSetup);
-      return activated;
-    },
     activateTestnetConversionInMetamask: async skipSetup => {
-      const activated = await provider.activateTestnetConversion(skipSetup);
+      const activated = await getProvider(
+        selectedProvider,
+      ).activateTestnetConversion(skipSetup);
       return activated;
     },
     activateShowTestnetNetworksInMetamask: async skipSetup => {
-      const activated = await provider.activateShowTestnetNetworks(skipSetup);
+      const activated = await getProvider(
+        selectedProvider,
+      ).activateShowTestnetNetworks(skipSetup);
       return activated;
     },
     activateCustomNonceInMetamask: async skipSetup => {
-      const activated = await provider.activateCustomNonce(skipSetup);
+      const activated = await getProvider(selectedProvider).activateCustomNonce(
+        skipSetup,
+      );
       return activated;
     },
     activateDismissBackupReminderInMetamask: async skipSetup => {
-      const activated = await provider.activateDismissBackupReminder(skipSetup);
+      const activated = await getProvider(
+        selectedProvider,
+      ).activateDismissBackupReminder(skipSetup);
       return activated;
     },
     activateEnhancedGasFeeUIInMetamask: async skipSetup => {
-      const activated = await provider.activateEnhancedGasFeeUI(skipSetup);
+      const activated = await getProvider(
+        selectedProvider,
+      ).activateEnhancedGasFeeUI(skipSetup);
       return activated;
     },
     activateShowCustomNetworkListInMetamask: async skipSetup => {
-      const activated = await provider.activateShowCustomNetworkList(skipSetup);
+      const activated = await getProvider(
+        selectedProvider,
+      ).activateShowCustomNetworkList(skipSetup);
       return activated;
     },
     resetMetamaskAccount: async () => {
-      const resetted = await provider.resetAccount();
+      const resetted = await getProvider(selectedProvider).resetAccount();
       return resetted;
     },
     disconnectMetamaskWalletFromDapp: async () => {
-      const disconnected = await provider.disconnectWalletFromDapp();
+      const disconnected = await getProvider(
+        selectedProvider,
+      ).disconnectWalletFromDapp();
       return disconnected;
     },
     disconnectMetamaskWalletFromAllDapps: async () => {
-      const disconnected = await provider.disconnectWalletFromAllDapps();
+      const disconnected = await getProvider(
+        selectedProvider,
+      ).disconnectWalletFromAllDapps();
       return disconnected;
     },
 
@@ -208,56 +269,85 @@ module.exports = (on, config) => {
       return module.exports.confirmSignatureRequest();
     },
     confirmSignatureRequest: async () => {
-      const confirmed = await provider.confirmSignatureRequest();
+      const confirmed = await getProvider(
+        selectedProvider,
+      ).confirmSignatureRequest();
       return confirmed;
     },
 
     confirmMetamaskDataSignatureRequest: async () => {
-      const confirmed = await provider.confirmDataSignatureRequest();
+      const confirmed = await getProvider(
+        selectedProvider,
+      ).confirmDataSignatureRequest();
       return confirmed;
     },
     rejectMetamaskSignatureRequest: async () => {
-      const rejected = await provider.rejectSignatureRequest();
+      const rejected = await getProvider(
+        selectedProvider,
+      ).rejectSignatureRequest();
       return rejected;
     },
     rejectMetamaskDataSignatureRequest: async () => {
-      const rejected = await provider.rejectDataSignatureRequest();
+      const rejected = await getProvider(
+        selectedProvider,
+      ).rejectDataSignatureRequest();
       return rejected;
     },
     confirmMetamaskEncryptionPublicKeyRequest: async () => {
-      const confirmed = await provider.confirmEncryptionPublicKeyRequest();
+      const confirmed = await getProvider(
+        selectedProvider,
+      ).confirmEncryptionPublicKeyRequest();
       return confirmed;
     },
     rejectMetamaskEncryptionPublicKeyRequest: async () => {
-      const rejected = await provider.rejectEncryptionPublicKeyRequest();
+      const rejected = await getProvider(
+        selectedProvider,
+      ).rejectEncryptionPublicKeyRequest();
       return rejected;
     },
     confirmMetamaskDecryptionRequest: async () => {
-      const confirmed = await provider.confirmDecryptionRequest();
+      const confirmed = await getProvider(
+        selectedProvider,
+      ).confirmDecryptionRequest();
       return confirmed;
     },
     rejectMetamaskDecryptionRequest: async () => {
-      const rejected = await provider.rejectDecryptionRequest();
+      const rejected = await getProvider(
+        selectedProvider,
+      ).rejectDecryptionRequest();
       return rejected;
     },
     importMetamaskToken: async tokenConfig => {
-      const imported = await provider.importToken(tokenConfig);
+      const imported = await getProvider(selectedProvider).importToken(
+        tokenConfig,
+      );
       return imported;
     },
+    selectWallet: async (wallet, mode) => {
+      const result = await getProvider(selectedProvider).selectWallet(
+        wallet,
+        mode,
+      );
+      return result;
+    },
     confirmMetamaskAddToken: async () => {
-      const confirmed = await provider.confirmAddToken();
+      const confirmed = await getProvider(selectedProvider).confirmAddToken();
       return confirmed;
     },
     rejectMetamaskAddToken: async () => {
-      const rejected = await provider.rejectAddToken();
+      const rejected = await getProvider(selectedProvider).rejectAddToken();
       return rejected;
     },
     confirmMetamaskPermissionToSpend: async () => {
-      const confirmed = await provider.confirmPermissionToSpend();
+      const confirmed = await getProvider(
+        selectedProvider,
+      ).confirmPermissionToSpend();
       return confirmed;
     },
     rejectMetamaskPermissionToSpend: async () => {
-      const rejected = await provider.rejectPermissionToSpend();
+      const rejected = await getProvider(
+        selectedProvider,
+      ).rejectPermissionToSpend();
       return rejected;
     },
     confirmMetamaskPermisionToApproveAll: metamask.confirmPermisionToApproveAll,
@@ -270,7 +360,9 @@ module.exports = (on, config) => {
       return module.exports.acceptAccess(options);
     },
     acceptAccess: async options => {
-      const accepted = await provider.acceptAccess(options);
+      const accepted = await getProvider(selectedProvider).acceptAccess(
+        options,
+      );
       return accepted;
     },
     rejectMetamaskAccess: metamask.rejectAccess,
@@ -282,36 +374,48 @@ module.exports = (on, config) => {
       return module.exports.confirmTransaction(gasConfig);
     },
     confirmTransaction: async gasConfig => {
-      const confirmed = await provider.confirmTransaction(gasConfig);
+      const confirmed = await getProvider(selectedProvider).confirmTransaction(
+        gasConfig,
+      );
       return confirmed;
     },
 
     rejectMetamaskTransaction: async () => {
-      const rejected = await provider.rejectTransaction();
+      const rejected = await getProvider(selectedProvider).rejectTransaction();
       return rejected;
     },
     allowMetamaskToAddNetwork: async ({ waitForEvent }) => {
-      const allowed = await provider.allowToAddNetwork({ waitForEvent });
+      const allowed = await getProvider(selectedProvider).allowToAddNetwork({
+        waitForEvent,
+      });
       return allowed;
     },
     rejectMetamaskToAddNetwork: async () => {
-      const rejected = await provider.rejectToAddNetwork();
+      const rejected = await getProvider(selectedProvider).rejectToAddNetwork();
       return rejected;
     },
     allowMetamaskToSwitchNetwork: async () => {
-      const allowed = await provider.allowToSwitchNetwork();
+      const allowed = await getProvider(
+        selectedProvider,
+      ).allowToSwitchNetwork();
       return allowed;
     },
     rejectMetamaskToSwitchNetwork: async () => {
-      const rejected = await provider.rejectToSwitchNetwork();
+      const rejected = await getProvider(
+        selectedProvider,
+      ).rejectToSwitchNetwork();
       return rejected;
     },
     allowMetamaskToAddAndSwitchNetwork: async () => {
-      const allowed = await provider.allowToAddAndSwitchNetwork();
+      const allowed = await getProvider(
+        selectedProvider,
+      ).allowToAddAndSwitchNetwork();
       return allowed;
     },
     getMetamaskWalletAddress: async () => {
-      const walletAddress = await provider.getWalletAddress();
+      const walletAddress = await getProvider(
+        selectedProvider,
+      ).getWalletAddress();
       return walletAddress;
     },
     /**
@@ -320,16 +424,19 @@ module.exports = (on, config) => {
     fetchMetamaskWalletAddress: async () => {
       return module.exports.fetchWalletAddress();
     },
-    fetchWalletAddress: async () => {
-      return provider.walletAddress();
+    fetchWalletAddress: async ({ provider = selectedProvider } = {}) => {
+      return getProvider(provider).walletAddress();
     },
-    setupMetamask: async ({
+    setup: async ({
+      provider = selectedProvider,
       secretWordsOrPrivateKey,
       network,
       password,
       enableAdvancedSettings,
       enableExperimentalSettings,
     }) => {
+      console.log(`Setting up ${provider}...`);
+
       if (process.env.NETWORK_NAME) {
         network = process.env.NETWORK_NAME;
       }
@@ -362,7 +469,7 @@ module.exports = (on, config) => {
       if (process.env.SECRET_WORDS) {
         secretWordsOrPrivateKey = process.env.SECRET_WORDS;
       }
-      await provider.initialSetup({
+      await getProvider(provider).initialSetup({
         secretWordsOrPrivateKey,
         network,
         password,
@@ -397,6 +504,10 @@ module.exports = (on, config) => {
 
   if (process.env.SKIP_METAMASK_SETUP) {
     config.env.SKIP_METAMASK_SETUP = true;
+  }
+
+  if (process.env.PROVIDERS) {
+    config.env.PROVIDERS = process.env.PROVIDERS;
   }
 
   return config;
