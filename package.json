@@ -114,6 +114,9 @@
     "ansi-regex": "5.0.1",
     "@testing-library/dom": "8.20.0"
   },
+  "overrides": {
+    "lodash@<4.17.20": "4.17.20"
+  },
   "engines": {
     "node": ">=14"
   },
