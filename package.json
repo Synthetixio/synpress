@@ -91,7 +91,8 @@
     "prettier": "^2.8.4",
     "serve": "^14.2.0",
     "start-server-and-test": "^2.0.0",
-    "synthetix-js": "^2.74.1"
+    "synthetix-js": "^2.74.1",
+    "wait-for-expect": "^3.0.2"
   },
   "devDependencies": {
     "@metamask/test-dapp": "^5.6.0",
