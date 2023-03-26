@@ -1,8 +1,8 @@
 // fixtures.ts
 import { test as base, chromium, type BrowserContext } from '@playwright/test';
 import waitForExpect from 'wait-for-expect';
-import { initialSetup } from '../../commands/metamask';
-import { prepareMetamask } from '../../helpers';
+import { initialSetup } from '../../src/commands/metamask';
+import { prepareMetamask } from '../../src/helpers';
 
 export const test = base.extend<{
   context: BrowserContext;

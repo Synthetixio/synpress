@@ -4,7 +4,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const { ethers } = require('ethers');
 const download = require('download');
-const packageJson = require('./package.json');
+const packageJson = require('../package.json');
 
 const PRESET_NETWORKS = Object.freeze({
   mainnet: {

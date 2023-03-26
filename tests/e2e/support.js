@@ -1,1 +1,1 @@
-import '../../support/index';
+import '../../lib/support/index';

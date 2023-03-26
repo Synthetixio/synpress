@@ -27,6 +27,7 @@
     "synpress": "synpress.js"
   },
   "scripts": {
+    "build": "tsc",
     "fix": "yarn fix:eslint && yarn fix:prettier",
     "fix:eslint": "eslint --fix **/*.js",
     "fix:prettier": "prettier --write **/*.js",
@@ -40,13 +41,14 @@
     "release:patch": "release-it patch --disable-metrics",
     "update:deps": "ncu -u -x 'node-fetch eslint' && yarn",
     "start:server": "serve node_modules/@metamask/test-dapp/dist -p 3000",
-    "test:e2e": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js'",
-    "test:e2e:anvil": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true CYPRESS_USE_ANVIL=true node synpress.js run --configFile=synpress.config.js'",
-    "test:e2e:headless": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js --headless'",
-    "test:e2e:headless:anvil": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true CYPRESS_USE_ANVIL=true node synpress.js run --configFile=synpress.config.js --headless'",
-    "test:e2e:ci": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js --record --group'",
-    "test:e2e:ci:anvil": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true CYPRESS_USE_ANVIL=true node synpress.js run --configFile=synpress.config.js --record --group'",
-    "test:e2e:ci:cypress-action": "SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true CYPRESS_USE_ANVIL=true node synpress.js run --configFile=synpress.config.js"
+    "synpress:run": "SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node lib/synpress.js run --configFile=lib/synpress.config.js",
+    "test:e2e": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'yarn synpress:run'",
+    "test:e2e:anvil": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'CYPRESS_USE_ANVIL=true yarn synpress:run'",
+    "test:e2e:headless": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'yarn synpress:run --headless'",
+    "test:e2e:headless:anvil": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'CYPRESS_USE_ANVIL=true yarn synpress:run --headless'",
+    "test:e2e:ci": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'yarn synpress:run --record --group'",
+    "test:e2e:ci:anvil": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'CYPRESS_USE_ANVIL=true yarn synpress:run --record --group'",
+    "test:e2e:ci:cypress-action": "CYPRESS_USE_ANVIL=true yarn synpress:run"
   },
   "dependencies": {
     "@cypress/code-coverage": "^3.10.0",
@@ -98,7 +100,8 @@
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
     "@trunkio/launcher": "^1.2.3",
     "npm-check-updates": "^16.7.12",
-    "release-it": "^15.8.0"
+    "release-it": "^15.8.0",
+    "typescript": "^5.0.2"
   },
   "resolutions": {
     "etherscan-api/gh-pages": "5.0.0",

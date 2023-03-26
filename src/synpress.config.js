@@ -1,6 +1,6 @@
 const log = require('debug')('synpress:config');
 const path = require('path');
-const packageJson = require('./package.json');
+const packageJson = require('../package.json');
 const { defineConfig } = require('cypress');
 const synpressPath = getSynpressPath();
 log(`Detected synpress root path is: ${synpressPath}`);

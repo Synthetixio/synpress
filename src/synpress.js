@@ -2,7 +2,7 @@
 const log = require('debug')('synpress:cli');
 const program = require('commander');
 const { run, open } = require('./launcher');
-const { version } = require('./package.json');
+const { version } = require('../package.json');
 
 if (process.env.DEBUG && process.env.DEBUG.includes('synpress')) {
   log('DEBUG mode is enabled');

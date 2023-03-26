@@ -1,5 +1,5 @@
 import { test, expect } from '../../fixtures';
-import * as metamask from '../../../../commands/metamask';
+import * as metamask from '../../../../src/commands/metamask';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://localhost:3000');

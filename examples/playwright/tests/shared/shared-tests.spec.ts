@@ -1,5 +1,5 @@
 import { test, expect } from '../../fixtures';
-import * as metamask from '../../../../commands/metamask';
+import * as metamask from '../../../../src/commands/metamask';
 
 let sharedPage;
 
