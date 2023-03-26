@@ -27,7 +27,7 @@
     "synpress": "synpress.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp src/support/index.d.ts lib/support/index.d.ts",
     "fix": "yarn fix:eslint && yarn fix:prettier",
     "fix:eslint": "eslint --fix **/*.js",
     "fix:prettier": "prettier --write **/*.js",
