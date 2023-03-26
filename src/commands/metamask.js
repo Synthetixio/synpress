@@ -201,7 +201,6 @@ const metamask = {
     return true;
   },
   async importWallet(secretWords, password) {
-    console.log({ secretWords, password });
     await playwright.waitAndClick(
       onboardingWelcomePageElements.importWalletButton,
       await playwright.metamaskWindow(),
@@ -210,12 +209,8 @@ const metamask = {
       },
     );
     await module.exports.optOutAnalytics();
-    console.log('after: optOutAnalytics', {
-      secretWords: secretWords.split(' ').entries(),
-    });
     // todo: add support for more secret words (15/18/21/24)
     for await (const [index, word] of secretWords.split(' ').entries()) {
-      console.log({ index, word });
       await playwright.waitAndType(
         firstTimeFlowImportPageElements.secretWordsInput(index),
         word,
@@ -1169,9 +1164,6 @@ const metamask = {
     await playwright.fixBlankPage();
     await playwright.fixCriticalError();
 
-    console.log({
-      secretWordsOrPrivateKey,
-    });
     if (
       await playwright
         .metamaskWindow()
