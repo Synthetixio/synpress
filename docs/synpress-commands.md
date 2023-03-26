@@ -178,12 +178,22 @@ activateDismissBackupReminderInMetamask(
 ): Chainable<Subject>;
 ```
 
-#### `cy.activateEnhancedGasFeeUIInMetamask()`
+#### `cy.activateEthSignRequestsInMetamask()`
 
-Activate enhanced gas fee UI in metamask settings.
+Activate eth sign requests in metamask settings.
 
 ```ts
-activateEnhancedGasFeeUIInMetamask(skipSetup?: boolean): Chainable<Subject>;
+activateEthSignRequestsInMetamask(skipSetup?: boolean): Chainable<Subject>;
+```
+
+#### `cy.activateImprovedTokenAllowanceInMetamask()`
+
+Activate improved token allowance in metamask settings (experimental).
+
+```ts
+activateImprovedTokenAllowanceInMetamask(
+  skipSetup?: boolean,
+): Chainable<Subject>;
 ```
 
 #### `cy.resetMetamaskAccount()`
@@ -407,6 +417,7 @@ setupMetamask(
   network?: string | object,
   password?: string,
   enableAdvancedSettings?: boolean,
+  enableExperimentalSettings?: boolean,
 ): Chainable<Subject>;
 ```
 
