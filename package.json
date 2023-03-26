@@ -29,12 +29,12 @@
   "scripts": {
     "build": "tsc && cp src/support/index.d.ts lib/support/index.d.ts",
     "fix": "yarn fix:eslint && yarn fix:prettier",
-    "fix:eslint": "eslint --fix **/*.js",
-    "fix:prettier": "prettier --write **/*.js",
+    "fix:eslint": "eslint --fix src/**/*.js",
+    "fix:prettier": "prettier --write src/**/*.js",
     "lint": "yarn lint:eslint && yarn lint:prettier",
-    "lint:eslint": "eslint . --ext js",
-    "lint:prettier": "prettier --check **/*.js",
-    "lint:sarif": "node lint.js . --ext js",
+    "lint:eslint": "eslint src/ --ext js",
+    "lint:prettier": "prettier --check src/**/*.js",
+    "lint:sarif": "ts-node src/lint.js src/ --ext js",
     "release": "release-it --disable-metrics",
     "release:major": "release-it major --disable-metrics",
     "release:minor": "release-it minor --disable-metrics",
@@ -101,6 +101,7 @@
     "@trunkio/launcher": "^1.2.3",
     "npm-check-updates": "^16.7.12",
     "release-it": "^15.8.0",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.2"
   },
   "resolutions": {
