@@ -146,6 +146,7 @@ module.exports = {
     );
 
     // STEP: Input password, confirm and continue
+    await new Promise(resolve => setTimeout(resolve, 1000)); // the transitioning is too fast
     await playwright.waitAndType(
       PROVIDER,
       firstTimeFlowImportPageElements.passwordInput,
@@ -166,13 +167,13 @@ module.exports = {
       firstTimeFlowImportPageElements.continueAfterPasswordButton,
     );
     // shortcut confirmation
-    await new Promise(resolve => setTimeout(resolve, 500)); // the transitioning is too fast
+    await new Promise(resolve => setTimeout(resolve, 1000)); // the transitioning is too fast
     await playwright.waitAndClick(
       PROVIDER,
       firstTimeFlowImportPageElements.continueOnShortcutConfirm,
     );
     // finish
-    await new Promise(resolve => setTimeout(resolve, 500)); // the transitioning is too fast
+    await new Promise(resolve => setTimeout(resolve, 1000)); // the transitioning is too fast
     await playwright.waitAndClick(
       PROVIDER,
       firstTimeFlowImportPageElements.continueOnShortcutConfirm,
@@ -232,8 +233,12 @@ module.exports = {
     await switchToCypressIfNotActive();
     return walletAddress;
   },
-  initialSetup: async ({ secretWordsOrPrivateKey, password }) => {
-    await playwright.init();
+  initialSetup: async ({
+    secretWordsOrPrivateKey,
+    password,
+    playwrightInstance,
+  }) => {
+    await playwright.init(playwrightInstance);
     await playwright.assignWindows(PROVIDER);
     await playwright.assignActiveTabName(PROVIDER);
     await module.exports.getExtensionDetails();
@@ -378,19 +383,19 @@ module.exports = {
   },
   selectWallet: async (wallet = 'metamask', mode = 'once') => {
     const notificationPage = await playwright.switchToNotification(PROVIDER);
-    if (wallet === 'metamask') {
-      await playwright.waitAndClick(
-        PROVIDER,
-        selectWalletElements.buttons.continueWithMetamask,
-        notificationPage,
-      );
-      return true;
-    }
 
     if (mode === 'always') {
       await playwright.waitAndClick(
         PROVIDER,
-        selectWalletElements.buttons.alwaysUsePhantom,
+        selectWalletElements.buttons.alwaysUse,
+        notificationPage,
+      );
+    }
+
+    if (wallet === 'metamask') {
+      await playwright.waitAndClick(
+        PROVIDER,
+        selectWalletElements.buttons.continueWithMetamask,
         notificationPage,
       );
       return true;

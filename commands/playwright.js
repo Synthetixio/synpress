@@ -40,6 +40,7 @@ module.exports = {
     const chromium = playwrightInstance
       ? playwrightInstance
       : require('@playwright/test').chromium;
+
     const debuggerDetails = await fetch('http://127.0.0.1:9222/json/version'); //DevSkim: ignore DS137138
     const debuggerDetailsConfig = await debuggerDetails.json();
     const webSocketDebuggerUrl = debuggerDetailsConfig.webSocketDebuggerUrl;
@@ -128,13 +129,14 @@ module.exports = {
     return true;
   },
   switchToWindow: async provider => {
-    if (pageWindows[provider].isClosed()) {
+    if (module.exports.windows(provider).isClosed()) {
       const newPage = await browser.contexts()[0].newPage();
       if (provider === 'phantom') {
         await Promise.all([
           newPage.waitForNavigation(),
           newPage.goto(
-            pageWindows[provider]
+            module.exports
+              .windows(provider)
               .url()
               .replace('onboarding.html', 'popup.html'),
           ),
@@ -142,7 +144,7 @@ module.exports = {
       } else {
         await Promise.all([
           newPage.waitForNavigation(),
-          newPage.goto(pageWindows[provider].url()),
+          newPage.goto(module.exports.windows(provider).url()),
         ]);
         await newPage.waitUntilStable(provider);
       }
@@ -150,7 +152,7 @@ module.exports = {
       pageWindows[provider] = newPage;
     }
 
-    await pageWindows[provider].bringToFront();
+    await module.exports.windows(provider).bringToFront();
     await module.exports.assignActiveTabName(provider);
     return true;
   },
@@ -169,7 +171,9 @@ module.exports = {
         notificationWindows[provider] = page;
         retries = 0;
         await page.bringToFront();
-        await module.exports.waitUntilStable(provider, page);
+        if (provider == 'metamask') {
+          await module.exports.waitUntilStable(provider, page);
+        }
         if (provider === 'phantom') {
           await module.exports.waitFor(provider, app.root, page);
         } else {
@@ -194,8 +198,10 @@ module.exports = {
       );
     }
   },
-  async waitFor(provider, selector, page = pageWindows[provider]) {
-    await module.exports.waitUntilStable(provider, page);
+  async waitFor(provider, selector, page = module.exports.windows(provider)) {
+    if (provider == 'metamask') {
+      await module.exports.waitUntilStable(provider, page);
+    }
     await page.waitForSelector(selector, { strict: false });
     const element = page.locator(selector).first();
     await element.waitFor();
@@ -212,7 +218,7 @@ module.exports = {
   async waitAndClick(
     provider,
     selector,
-    page = pageWindows[provider],
+    page = module.exports.windows(provider),
     args = {},
   ) {
     const element = await module.exports.waitFor(provider, selector, page);
@@ -241,26 +247,44 @@ module.exports = {
     } else {
       await element.click({ force: args.force });
     }
-    if (process.env.PROVIDER !== 'phantom') {
+    if (provider === 'metamask') {
       await module.exports.waitUntilStable(provider);
     }
     return element;
   },
-  async waitAndClickByText(selector, text, page = metamaskWindow) {
+  async waitAndClickByText(
+    provider,
+    selector,
+    text,
+    page = module.exports.windows(provider),
+  ) {
     await module.exports.waitFor(selector, page);
     const element = `:is(:text-is("${text}"), :text("${text}"))`;
     await page.click(element);
-    await module.exports.waitUntilStable();
+    if (provider === 'metamask') {
+      await module.exports.waitUntilStable(provider);
+    }
   },
-  async waitAndType(selector, value, page = metamaskWindow) {
+  async waitAndType(
+    provider,
+    selector,
+    value,
+    page = module.exports.windows(provider),
+  ) {
     if (typeof value === 'number') {
       value = value.toString();
     }
-    const element = await module.exports.waitFor(selector, page);
+    const element = await module.exports.waitFor(provider, selector, page);
     await element.type(value);
-    await module.exports.waitUntilStable(provider, page);
+    if (provider === 'metamask') {
+      await module.exports.waitUntilStable(provider, page);
+    }
   },
-  async waitAndGetValue(provider, selector, page = pageWindows[provider]) {
+  async waitAndGetValue(
+    provider,
+    selector,
+    page = module.exports.windows(provider),
+  ) {
     const expect = global.expect
       ? global.expect
       : require('@playwright/test').expect;
@@ -272,7 +296,11 @@ module.exports = {
     const value = await element.innerText();
     return value;
   },
-  async waitAndGetInputValue(provider, selector, page = pageWindows[provider]) {
+  async waitAndGetInputValue(
+    provider,
+    selector,
+    page = module.exports.windows(provider),
+  ) {
     const expect = global.expect
       ? global.expect
       : require('@playwright/test').expect;
@@ -285,7 +313,7 @@ module.exports = {
     provider,
     selector,
     attribute,
-    page = pageWindows[provider],
+    page = module.exports.windows(provider),
   ) {
     const expect = global.expect
       ? global.expect
@@ -299,7 +327,7 @@ module.exports = {
     provider,
     text,
     selector,
-    page = pageWindows[provider],
+    page = module.exports.windows(provider),
   ) {
     const element = await module.exports.waitFor(provider, selector, page);
     await element.fill('');
@@ -310,7 +338,7 @@ module.exports = {
   async waitAndClearWithBackspace(
     provider,
     selector,
-    page = pageWindows[provider],
+    page = module.exports.windows(provider),
   ) {
     await module.exports.waitFor(provider, selector, page);
     const inputValue = await page.evaluate(selector, el => el.value);
@@ -323,7 +351,7 @@ module.exports = {
     provider,
     text,
     selector,
-    page = pageWindows[provider],
+    page = module.exports.windows(provider),
   ) {
     const element = await module.exports.waitAndClick(
       provider,
