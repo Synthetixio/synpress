@@ -29,11 +29,14 @@
     <a href="https://github.com/ensdomains"><img src="./images/ens.png" height="85" alt="Ethereum Name Service (ENS)" /></a>
     <a href="https://github.com/agoraxyz"><img src="./images/guild.png" height="90" alt="Guild" /></a>
     <br/>
-    <a href="https://github.com/hashgraph"><img src="./images/hedera.png" height="100" alt="Hedera" /></a>
-    <a href="https://github.com/Kwenta"><img src="./images/kwenta.png" height="100" alt="Kwenta" /></a>
+    <a href="https://github.com/ethereum-optimism"><img src="./images/optimism-logo.png" height="100" alt="Optimism" /></a>
     <a href="https://github.com/pantherprotocol"><img src="./images/panther.png" height="100" alt="Panther Protocol" /></a>
+    <a href="https://github.com/Kwenta"><img src="./images/kwenta.png" height="100" alt="Kwenta" /></a>
+    <a href="https://github.com/Synthetixio"><img src="./images/synthetix.png" height="100" alt="Panther Protocol" /></a>
+    <br/>
     <a href="https://github.com/OffchainLabs"><img src="./images/offchain-labs.png" height="100" alt="Offchain Labs" /></a>
     <a href="https://github.com/snapshot-labs"><img src="./images/snapshot-labs.png" height="90" alt="Snapshot Labs" /></a>
+    <a href="https://github.com/hashgraph"><img src="./images/hedera.png" height="100" alt="Hedera" /></a>
   </p>
 </p>
 
