@@ -1,10 +1,44 @@
-const sleep = require('util').promisify(setTimeout);
+import { promisify } from 'util';
+import { getNetwork } from '../helpers';
 
+const sleep = promisify(setTimeout);
 let retries = 0;
 
-module.exports = {
-  async getTransactionStatus(txid) {
-    const { getNetwork } = require('../helpers');
+type TxStatus = {
+  status: string;
+  message: string;
+  result: {
+    isError: string;
+    errDescription: string;
+  };
+};
+
+type TxReceipt = {
+  blockHash: string;
+  blockNumber: string;
+  contractAddress: string | null;
+  cumulativeGasUsed: string;
+  effectiveGasPrice: string;
+  from: string;
+  to: string;
+  gasUsed: string;
+  logs: Array<any>;
+  logsBloom: string;
+  status: string;
+  transactionHash: string;
+  transactionIndex: string;
+  type: string;
+};
+
+class EtherscanApi {
+  async getTransactionStatus(txid: string): Promise<{
+    txStatus: TxStatus;
+    txReceipt: {
+      jsonrpc: string;
+      id: number;
+      result: TxReceipt | null;
+    };
+  }> {
     const currentNetwork = getNetwork().networkName;
     const etherscanApi = require('etherscan-api').init(
       process.env.ETHERSCAN_KEY,
@@ -14,9 +48,10 @@ module.exports = {
     const txStatus = await etherscanApi.transaction.getstatus(txid);
     const txReceipt = await etherscanApi.proxy.eth_getTransactionReceipt(txid);
     return { txStatus, txReceipt };
-  },
-  async waitForTxSuccess(txid) {
-    const txStatus = await module.exports.getTransactionStatus(txid);
+  }
+
+  async waitForTxSuccess(txid: string): Promise<boolean> {
+    const txStatus = await this.getTransactionStatus(txid);
     if (
       // status success
       txStatus.txReceipt.result &&
@@ -46,5 +81,8 @@ module.exports = {
         `Transaction ${txid} has failed or it hasn't been approved until timer ran out. Check Etherscan for more details.`,
       );
     }
-  },
-};
+  }
+}
+
+const etherscanApi = new EtherscanApi();
+export default etherscanApi;
