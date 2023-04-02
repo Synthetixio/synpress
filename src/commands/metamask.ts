@@ -211,7 +211,7 @@ class MetamaskApi {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     return true;
   }
 
@@ -234,7 +234,7 @@ class MetamaskApi {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.optOutAnalytics();
+    await this.optOutAnalytics();
     // todo: add support for more secret words (15/18/21/24)
     for await (const [index, word] of secretWords.split(' ').entries()) {
       await playwright.waitAndType(
@@ -282,7 +282,7 @@ class MetamaskApi {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     return true;
   }
 
@@ -294,7 +294,7 @@ class MetamaskApi {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.optOutAnalytics();
+    await this.optOutAnalytics();
     await playwright.waitAndType(
       firstTimeFlowImportPageElements.passwordInput,
       password,
@@ -343,7 +343,7 @@ class MetamaskApi {
 
   async importAccount(privateKey: string): Promise<boolean> {
     await switchToMetamaskIfNotActive();
-    await module.exports.goToImportAccount();
+    await this.goToImportAccount();
     await playwright.waitAndType(
       mainPageElements.importAccount.input,
       privateKey,
@@ -355,7 +355,7 @@ class MetamaskApi {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     await switchToCypressIfNotActive();
     return true;
   }
@@ -364,7 +364,7 @@ class MetamaskApi {
     if (accountName) accountName = accountName.toLowerCase();
 
     await switchToMetamaskIfNotActive();
-    await module.exports.goToNewAccount();
+    await this.goToNewAccount();
     if (accountName) {
       await playwright.waitAndType(
         mainPageElements.createAccount.input,
@@ -372,7 +372,7 @@ class MetamaskApi {
       );
     }
     await playwright.waitAndClick(mainPageElements.createAccount.createButton);
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     await switchToCypressIfNotActive();
     return true;
   }
@@ -386,7 +386,7 @@ class MetamaskApi {
     await switchToMetamaskIfNotActive();
     // note: closePopupAndTooltips() is required after changing createAccount() to use direct urls (popup started appearing)
     // ^ this change also introduced 500ms delay for closePopupAndTooltips() function
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     await playwright.waitAndClick(mainPageElements.accountMenu.button);
     if (typeof accountNameOrAccountNumber === 'number') {
       await playwright.waitAndClick(
@@ -398,7 +398,7 @@ class MetamaskApi {
         accountNameOrAccountNumber,
       );
     }
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     await switchToCypressIfNotActive();
     return true;
   }
@@ -452,7 +452,7 @@ class MetamaskApi {
       );
     }
     await playwright.waitUntilStable();
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     await setNetwork(network);
     await switchToCypressIfNotActive();
     return true;
@@ -667,7 +667,7 @@ class MetamaskApi {
 
   async resetAccount(): Promise<boolean> {
     await switchToMetamaskIfNotActive();
-    await module.exports.goToAdvancedSettings();
+    await this.goToAdvancedSettings();
     await playwright.waitAndClick(advancedPageElements.resetAccountButton);
     await playwright.waitAndClick(resetAccountModalElements.resetButton);
     await playwright.waitAndClick(
@@ -677,7 +677,7 @@ class MetamaskApi {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     await switchToCypressIfNotActive();
     return true;
   }
@@ -823,7 +823,7 @@ class MetamaskApi {
       },
     );
 
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     await switchToCypressIfNotActive();
     tokenData.imported = true;
 
@@ -909,7 +909,7 @@ class MetamaskApi {
         notificationPage,
         { waitForEvent: 'navi' },
       );
-      await module.exports.confirmSignatureRequest();
+      await this.confirmSignatureRequest();
     } else {
       await playwright.waitAndClick(
         permissionsPageElements.connectButton,
@@ -1289,6 +1289,7 @@ class MetamaskApi {
       enableExperimentalSettings,
     }: any, // todo: add proper types
   ) {
+    console.log(this);
     const isCustomNetwork =
       (process.env.NETWORK_NAME &&
         process.env.RPC_URL &&
@@ -1301,7 +1302,7 @@ class MetamaskApi {
     }
     await playwright.assignWindows();
     await playwright.assignActiveTabName('metamask');
-    await module.exports.getExtensionDetails();
+    await this.getExtensionDetails();
     await playwright.fixBlankPage();
     await playwright.fixCriticalError();
 
@@ -1313,11 +1314,11 @@ class MetamaskApi {
     ) {
       if (secretWordsOrPrivateKey.includes(' ')) {
         // secret words
-        await module.exports.importWallet(secretWordsOrPrivateKey, password);
+        await this.importWallet(secretWordsOrPrivateKey, password);
       } else {
         // private key
-        await module.exports.createWallet(password);
-        await module.exports.importAccount(secretWordsOrPrivateKey);
+        await this.createWallet(password);
+        await this.importAccount(secretWordsOrPrivateKey);
       }
 
       await setupSettings(enableAdvancedSettings, enableExperimentalSettings);

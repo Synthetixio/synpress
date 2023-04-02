@@ -1,8 +1,8 @@
 const helpers = require('../helpers');
+const { default: metamask } = require('../commands/metamask');
 const playwright = require('../commands/playwright');
-const metamask = require('../commands/metamask');
 const synthetix = require('../commands/synthetix');
-const etherscan = require('../commands/etherscan');
+const { default: etherscan } = require('../commands/etherscan');
 
 /**
  * @type {Cypress.PluginConfig}
@@ -274,6 +274,14 @@ module.exports = (on, config) => {
       if (process.env.SECRET_WORDS) {
         secretWordsOrPrivateKey = process.env.SECRET_WORDS;
       }
+      console.log({
+        secretWordsOrPrivateKey,
+        network,
+        password,
+        enableAdvancedSettings,
+        enableExperimentalSettings,
+        metamask: metamask.initialSetup,
+      });
       await metamask.initialSetup(null, {
         secretWordsOrPrivateKey,
         network,
