@@ -99,6 +99,7 @@
     "@metamask/test-dapp": "^5.6.0",
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
     "@trunkio/launcher": "^1.2.3",
+    "@types/debug": "^4.1.7",
     "npm-check-updates": "^16.7.12",
     "release-it": "^15.8.0",
     "ts-node": "^10.9.1",

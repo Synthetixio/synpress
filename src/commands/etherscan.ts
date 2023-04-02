@@ -2,7 +2,6 @@ import { promisify } from 'util';
 import { getNetwork } from '../helpers';
 
 const sleep = promisify(setTimeout);
-let retries = 0;
 
 type TxStatus = {
   status: string;
@@ -31,6 +30,12 @@ type TxReceipt = {
 };
 
 class EtherscanApi {
+  retries: number;
+
+  constructor(retries: number = 0) {
+    this.retries = retries;
+  }
+
   async getTransactionStatus(txid: string): Promise<{
     txStatus: TxStatus;
     txReceipt: {
@@ -62,21 +67,21 @@ class EtherscanApi {
       console.log(
         `Transaction ${txid} has been confirmed with success, moving on..`,
       );
-      retries = 0;
+      this.retries = 0;
       return true;
     } else if (
       // status pending
       txStatus.txReceipt.result === null &&
       txStatus.txStatus.result.isError === '0' &&
-      retries <= 24 // 120 sec
+      this.retries <= 24 // 120 sec
     ) {
       console.log(`Transaction ${txid} is still pending.. waiting..`);
-      retries++;
+      this.retries++;
       await sleep(5000);
-      const result = await module.exports.waitForTxSuccess(txid);
+      const result = await this.waitForTxSuccess(txid);
       return result;
     } else {
-      retries = 0;
+      this.retries = 0;
       throw new Error(
         `Transaction ${txid} has failed or it hasn't been approved until timer ran out. Check Etherscan for more details.`,
       );
