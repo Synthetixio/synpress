@@ -80,6 +80,11 @@ const whatsNew = {
   continueButton: '[data-testid="whats_new-continue_button"]',
 };
 
+const welcome = {
+  takeTheTourButton: '[data-testid="welcome-take_the_tour"]',
+  takeTheTourButtonNext: '[data-testid="primary-button"]',
+};
+
 const accountBar = {
   title: '[data-testid="tooltip_interactive-wrapper"]',
   ethRow: '[data-testid="account-header-chain-eip155:1"]',
@@ -150,4 +155,5 @@ module.exports.mainPageElements = {
   importToken,
   asset,
   whatsNew,
+  welcome,
 };

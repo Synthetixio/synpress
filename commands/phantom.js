@@ -265,15 +265,28 @@ module.exports = {
 
       await switchToPhantomIfNotActive();
 
-      // skip what's new header
+      // skip welcome page
       if (
         await playwright
           .windows(PROVIDER)
-          .locator(mainPageElements.whatsNew.header)
+          .locator(mainPageElements.welcome.takeTheTourButton)
       ) {
         await playwright
           .windows(PROVIDER)
-          .click(mainPageElements.whatsNew.continueButton);
+          .click(mainPageElements.welcome.takeTheTourButton);
+        await new Promise(resolve => setTimeout(resolve, 200));
+        await playwright
+          .windows(PROVIDER)
+          .click(mainPageElements.welcome.takeTheTourButtonNext);
+        await new Promise(resolve => setTimeout(resolve, 200));
+        await playwright
+          .windows(PROVIDER)
+          .click(mainPageElements.welcome.takeTheTourButtonNext);
+        await new Promise(resolve => setTimeout(resolve, 200));
+        await playwright
+          .windows(PROVIDER)
+          .click(mainPageElements.welcome.takeTheTourButtonNext);
+        await new Promise(resolve => setTimeout(resolve, 200));
       }
       walletAddress = await module.exports.getWalletAddress();
       await playwright.switchToCypressWindow();
