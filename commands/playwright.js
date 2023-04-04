@@ -37,7 +37,7 @@ module.exports = {
     const chromium = playwrightInstance
       ? playwrightInstance
       : require('@playwright/test').chromium;
-    const debuggerDetails = await fetch('http://127.0.0.1:9222/json/version'); //DevSkim: ignore DS137138
+    const debuggerDetails = await fetch(`http://127.0.0.1:${process.env.DEBUG_PORT}/json/version`); //DevSkim: ignore DS137138
     const debuggerDetailsConfig = await debuggerDetails.json();
     const webSocketDebuggerUrl = debuggerDetailsConfig.webSocketDebuggerUrl;
     if (process.env.SLOW_MODE) {
