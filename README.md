@@ -323,6 +323,8 @@ All examples of setup are present in this repository. Just take a look around.
   - [e2e_cypress-action.yml](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/e2e_cypress-action.yml)
     ➡ Runs on `ubuntu-latest`, using official
     [cypress-io/github-action](https://github.com/cypress-io/github-action).
+- Run the tests on GitLab CI/CD ➡
+  [Synpress GitLab CI/CD Demo](https://gitlab.com/AhmedIbrahim336/synpress-demo#synpress-gitlab-demo)
 - Use [docker-e2e](https://github.com/Synthetixio/docker-e2e)
 - Synpress is tested and should work on all resolutions, starting from 800x600
 
