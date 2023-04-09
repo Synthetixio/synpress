@@ -19,12 +19,12 @@
 </p>
 
 <p align="center">
-    <i>Sponsored by: </i> <br/> <br/>
+    <i>Sponsored & used by: </i> <br/> <br/>
     <a href="https://github.com/ethereum-optimism"><img src="./images/optimism-logo.png" height="100" alt="Optimism" /></a>
 </p>
 
 <p align="center">
-    <i>Used by the best:</i> <br/>
+    <i>Used by the best:</i> <br/> </br>
     <a href="https://github.com/phantom"><img src="./images/phantom.png" height="85" alt="Phantom"/></a>
     <a href="https://github.com/ensdomains"><img src="./images/ens.png" height="85" alt="Ethereum Name Service (ENS)" /></a>
     <a href="https://github.com/agoraxyz"><img src="./images/guild.png" height="90" alt="Guild" /></a>
