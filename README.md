@@ -38,14 +38,14 @@ more details.
 - [Supported wallets](#supported-wallets)
 - [Usage examples](#usage-examples)
 - [Features](#features)
-- [Example setup for eslint and tsconfig](#👷-example-setup-for-eslint-and-tsconfig)
-- [Important notes](#⚡-important)
-- [Synpress + Docker](#🐳-using-with-docker)
+- [Example setup for eslint and tsconfig](#example-setup-for-eslint-and-tsconfig)
+- [Important notes](#important-notes)
+- [Synpress + Docker](#using-with-docker)
 - [CI tips & tricks](#ci-tips--tricks)
-- [CLI Usages](#🧪-usage)
+- [CLI Usages](#usage--commands)
 - [Environmental variables](#environmental-variables)
-- [Release process](#🚢-release-process)
-- [More resources](#📃-more-resources)
+- [Release process](#release-process)
+- [More resources](#more-resources)
 
 ## Supported frameworks
 
@@ -78,7 +78,7 @@ To see in which direction Synpress is headed to, take a look at
     [not for CI yet](https://developer.chrome.com/articles/new-headless/) as
     it's new and experimental)
 - Integrated with
-  [docker 🐳](https://github.com/Synthetixio/synpress#-using-with-docker)
+  [Docker 🐳](https://github.com/Synthetixio/synpress#-using-with-docker)
   - Recommended for
     [CI](https://github.com/Synthetixio/synpress#ci-tips--tricks)
   - Includes VNC and [noVNC](https://novnc.com/info.html)
@@ -115,7 +115,7 @@ To see in which direction Synpress is headed to, take a look at
   - Get your feedback remotely thanks to ngrok
   - Use mpeg-4 preview plugin to watch videos from inside codespaces :) ...
 
-## 👷 Example setup for eslint and tsconfig
+## Example setup for eslint and tsconfig
 
 Project structure:
 
@@ -188,7 +188,7 @@ and then modify it for your needs. Then you can direct synpress to use it with
 
 For example: `synpress run --configFile __tests__/e2e/customConfig.config.js`
 
-## ⚡ Important
+## Important Notes
 
 Synpress doesn't seem to communicate with metamask properly if
 `"chromeWebSecurity": false` flag is set. More about it
@@ -205,7 +205,7 @@ In the past, tests worked only in non-headless mode because extensions were not
 supported in headless mode by
 [playwright](https://playwright.dev/docs/chrome-extensions) and
 [Cypress](https://docs.cypress.io/api/plugins/browser-launch-api.html#Add-browser-extensions).
-As a workaround, we've provided docker 🐳 containers. They solved this issue and
+As a workaround, we've provided Docker 🐳 containers. They solved this issue and
 it's an alternative.
 
 You have to setup `xvfb` and window manager (like `fluxbox` or `xfce4`) to run
@@ -291,7 +291,7 @@ all, but it's good to mention. To prevent it from happening, you can create new
 private access token on GitHub (without any additional access) and specify
 `GH_USERNAME` & `GH_PAT` environmental variables.
 
-## 🐳 Using with Docker
+## Using with Docker
 
 Docker is awesome for CI. Give it a try.
 
@@ -342,7 +342,7 @@ All examples of setup are present in this repository. Just take a look around.
 - use [docker-e2e](https://github.com/Synthetixio/docker-e2e)
 - synpress is tested and should work on all resolutions, starting from 800x600
 
-## 🧪 Usage
+## Usage & Commands
 
 - `synpress run` to run tests
 - `synpress open` to open Cypress UI (may be bugged in some cases because it
@@ -409,7 +409,7 @@ Options:
 | `CYPRESS_GROUP`         | [Group tests](https://docs.cypress.io/guides/guides/command-line#cypress-run-group-lt-name-gt)                                                                                                              |
 | `CI`                    | `boolean` value indicate that tests are runing from CI/CD pipeline                                                                                                                                          |
 
-## 🚢 Release process
+## Release process
 
 1. Create PR from `dev` branch to `master` branch
 2. Merge it (new `-beta` version is automatically released)
@@ -430,7 +430,7 @@ Above actions will lead to:
 - New GitHub packages node module release
 - New GitHub release (tagged) created with changelog from commit messages
 
-## 📃 More resources
+## More resources
 
 - [Synpress - web3-enabled e2e testing tool](https://gitcoin.co/grants/5699/synpress-web3-enabled-e2e-testing-tool)
 - [How to set up Synpress for Web3 dApp Frontend Test Automation with MetaMask](https://medium.com/andamp/how-to-setup-synpress-for-wen3-dapp-frontend-test-automation-with-metamask-73396896684a)
