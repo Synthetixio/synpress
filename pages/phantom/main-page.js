@@ -69,10 +69,10 @@ const accountMenu = {
   settingsButton: '.account-menu__item--clickable:nth-child(11)',
 };
 
-const optionsMenu = {
-  button: '[data-testid=account-options-menu-button]',
-  accountDetailsButton: '[data-testid="account-options-menu__account-details"]',
-  connectedSitesButton: '[data-testid="account-options-menu__connected-sites"]',
+const settingsMenu = {
+  settingsMenuButton: '[data-testid="settings-menu-open-button"]',
+  settingsSidebarButton: '[data-testid="sidebar_menu-button-settings"]',
+  trustedAppsRow: '[data-testid="settings-item-trusted-apps"]',
 };
 
 const whatsNew = {
@@ -90,13 +90,8 @@ const accountBar = {
   ethRow: '[data-testid="account-header-chain-eip155:1"]',
 };
 
-const connectedSitesSelector = '.connected-sites';
 const connectedSites = {
-  modal: connectedSitesSelector,
-  disconnectLabel: `${connectedSitesSelector} .connected-sites-list__content-row-link-button`,
-  cancelButton: `${connectedSitesSelector} .btn-secondary`,
-  disconnectButton: `${connectedSitesSelector} .btn-primary`,
-  closeButton: `${connectedSitesSelector} [data-testid="popover-close"]`,
+  trustedAppsRevokeButton: '[data-testid="trusted-apps-revoke-button"]',
 };
 
 const accountModal = {
@@ -147,7 +142,7 @@ module.exports.mainPageElements = {
   actionableMessage,
   accountMenu,
   accountBar,
-  optionsMenu,
+  settingsMenu,
   connectedSites,
   accountModal,
   importAccount,

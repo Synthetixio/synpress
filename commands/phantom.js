@@ -394,16 +394,8 @@ module.exports = {
     await module.exports.closePopupAndTooltips();
     return true;
   },
-  selectWallet: async (wallet = 'metamask', mode = 'once') => {
+  selectWallet: async wallet => {
     const notificationPage = await playwright.switchToNotification(PROVIDER);
-
-    if (mode === 'always') {
-      await playwright.waitAndClick(
-        PROVIDER,
-        selectWalletElements.buttons.alwaysUse,
-        notificationPage,
-      );
-    }
 
     if (wallet === 'metamask') {
       await playwright.waitAndClick(
@@ -414,12 +406,54 @@ module.exports = {
       return true;
     }
 
+    if (wallet === 'phantom') {
+      await playwright.waitAndClick(
+        PROVIDER,
+        selectWalletElements.buttons.continueWithPhantom,
+        notificationPage,
+      );
+      return true;
+    }
+  },
+  disconnectWalletFromDapp: async () => {
+    await switchToPhantomIfNotActive();
     await playwright.waitAndClick(
       PROVIDER,
-      selectWalletElements.buttons.continueWithPhantom,
-      notificationPage,
+      mainPageElements.settingsMenu.settingsMenuButton,
     );
-    return true;
+    await playwright.waitAndClick(
+      PROVIDER,
+      mainPageElements.settingsMenu.settingsSidebarButton,
+    );
+    await playwright.waitAndClick(
+      PROVIDER,
+      mainPageElements.settingsMenu.trustedAppsRow,
+    );
+
+    const revokeButtonLocator = await playwright
+      .windows(PROVIDER)
+      .locator(mainPageElements.connectedSites.trustedAppsRevokeButton);
+    await playwright
+      .windows(PROVIDER)
+      .waitForSelector(mainPageElements.connectedSites.trustedAppsRevokeButton);
+    const hasRevokeButton = await revokeButtonLocator.isVisible();
+
+    if (hasRevokeButton) {
+      console.log(
+        '[disconnectWalletFromDapp] Wallet is connected to a dapp, disconnecting...',
+      );
+      await playwright.waitAndClick(
+        PROVIDER,
+        mainPageElements.connectedSites.trustedAppsRevokeButton,
+      );
+      await switchToCypressIfNotActive();
+      return true;
+    } else {
+      console.log(
+        '[disconnectWalletFromDapp] Wallet is not connected to a dapp, skipping...',
+      );
+    }
+    return false;
   },
 };
 
