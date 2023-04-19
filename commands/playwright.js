@@ -63,11 +63,7 @@ module.exports = {
     const pages = await pagesResponse.json();
 
     extensions = pages
-      .filter(
-        page =>
-          page.url.startsWith('chrome-extension://') &&
-          !page.url.endsWith('/_generated_background_page.html'), // cypress
-      )
+      .filter(page => page.url.startsWith('chrome-extension://'))
       .map(extension => {
         const matches = extension.url.match(/chrome-extension:\/\/(.*)\/.*/);
         return {
@@ -76,11 +72,68 @@ module.exports = {
               ? 'phantom'
               : extension.title.toLowerCase(),
           id: matches[1],
+          welcomeUrl:
+            extension.title === 'Phantom Wallet'
+              ? extension.url.replace('popup.html', 'onboarding.html')
+              : extension.url,
         };
       })
       .reduce((prev, curr) => ({ ...prev, [curr.name]: curr }), {});
 
     return browser.isConnected();
+  },
+  clearExtensionData: async provider => {
+    try {
+      // if (!mainWindow) {
+      //   const newPage = await browser.contexts()[0].newPage();
+      //   mainWindow = newPage;
+      // }
+
+      // await module.exports.switchToWindow(provider);
+      await module.exports.windows(provider).evaluate(async () => {
+        await new Promise((resolve, reject) => {
+          return chrome.storage.local.clear(() => {
+            if (chrome.runtime.lastError) {
+              reject(chrome.runtime.lastError);
+            } else {
+              resolve(true);
+            }
+          });
+        });
+
+        await new Promise((resolve, reject) => {
+          return chrome.storage.sync.clear(() => {
+            if (chrome.runtime.lastError) {
+              reject(chrome.runtime.lastError);
+            } else {
+              resolve(true);
+            }
+          });
+        });
+        // chrome.runtime.reload(); // closes the popup
+      });
+      // await mainWindow.waitForTimeout(1000);
+      // await module.exports.windows(provider).waitForTimeout(1000);
+      await module.exports.windows(provider).reload();
+      // return module.exports.windows(provider);
+      // await mainWindow.waitForTimeout(1000);
+      // const newPagePromise = new Promise(resolve =>
+      //   browser.contexts()[0].once('page', resolve),
+      // );
+      // await mainWindow.evaluate(async extensionWelcomeUrl => {
+      //   window.open(extensionWelcomeUrl, '_blank').focus();
+      // }, extensions[provider].welcomeUrl);
+
+      // await new Promise(resolve => setTimeout(resolve, 20000));
+      // pageWindows[provider] = await newPagePromise;
+      // pageWindows[provider] = newPage;
+      // await module.exports.assignActiveTabName(provider);
+      // await module.exports.windows(provider).reload();
+      // await module.exports.waitUntilStable();
+      // return module.exports.windows(provider);
+    } catch (ex) {
+      console.log(`[${provider}]: ${ex.message}`);
+    }
   },
   async clear() {
     browser = null;
@@ -100,6 +153,12 @@ module.exports = {
         pageWindows[provider] = page;
       }
     }
+
+    // if (!mainWindow) {
+    //   const newPage = await browser.contexts()[0].newPage();
+    //   mainWindow = newPage;
+    // }
+
     return true;
   },
   async assignActiveTabName(tabName) {
@@ -154,7 +213,7 @@ module.exports = {
 
     await module.exports.windows(provider).bringToFront();
     await module.exports.assignActiveTabName(provider);
-    return true;
+    return module.exports.windows(provider);
   },
   async switchToNotificationWindow(provider) {
     await notificationWindows[provider].bringToFront();

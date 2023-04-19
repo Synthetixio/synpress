@@ -84,6 +84,9 @@ module.exports = {
   goToImportToken: async () => {
     await module.exports.goTo(extensionImportTokenUrl);
   },
+  clearExtensionData: async () => {
+    await playwright.clearExtensionData(PROVIDER);
+  },
   getExtensionDetails: async () => {
     extensionInitialUrl = await playwright.windows(PROVIDER).url();
     extensionId = extensionInitialUrl.match('//(.*?)/')[1];

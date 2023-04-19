@@ -106,6 +106,9 @@ const metamask = {
   async goToImportToken() {
     await module.exports.goTo(extensionImportTokenUrl);
   },
+  clearExtensionData: async () => {
+    await playwright.clearExtensionData(PROVIDER);
+  },
   async getExtensionDetails() {
     extensionInitialUrl = await playwright.windows(PROVIDER).url();
     extensionId = extensionInitialUrl.match('//(.*?)/')[1];
