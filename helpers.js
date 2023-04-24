@@ -39,7 +39,7 @@ module.exports = {
       const { chainId, name } = await provider.getNetwork();
       selectedNetwork = {
         networkName: name,
-        networkId: chainId,
+        networkId: Number(chainId),
         isTestnet: true,
       };
     } else if (typeof network === 'object') {
