@@ -8,5 +8,7 @@ COPY package.json ./
 COPY yarn.lock ./
 
 FROM base as test
+
 RUN yarn --frozen-lockfile --prefer-offline --no-audit
+
 COPY . .
