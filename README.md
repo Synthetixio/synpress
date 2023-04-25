@@ -35,11 +35,10 @@ more details.
 ## Install
 
 ```bash
+# with yarn
 yarn add -D @synthetixio/synpress
-
-# Use with `synthetix-js` and `@synthetixio/js`
-yarn add @synthetixio/js@2.41.0 synthetix-js@2.74.1
-yarn add -D @synthetixio/synpress
+# with npm
+npm install --save-dev @synthetixio/synpress
 ```
 
 ## Supported frameworks
