@@ -1,6 +1,7 @@
 const log = require('debug')('synpress:metamask');
 const playwright = require('./playwright');
 const networks = require('../fixtures/networks.json');
+const { networkNames } = require('../constants/networks');
 
 const {
   onboardingWelcomePageElements,
@@ -1192,6 +1193,8 @@ const metamask = {
       // Add Optimism chain
       await module.exports.addNetwork(networks.optimism); // mainnet
       await module.exports.addNetwork(networks['optimism-goerli']); // testnet
+      // Make optimism mainnet the default network
+      await module.exports.changeNetwork(networkNames.optimism);
 
       if (isCustomNetwork) {
         await module.exports.addNetwork(network);
