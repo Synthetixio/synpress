@@ -207,53 +207,62 @@ module.exports = {
     let tagName;
     let response;
 
-    try {
-      if (version === 'latest' || !version) {
-        if (process.env.GH_USERNAME && process.env.GH_PAT) {
-          response = await axios.get(
-            'https://api.github.com/repos/phantom-labs/phantom-wallet/releases',
-            {
-              auth: {
-                username: process.env.GH_USERNAME,
-                password: process.env.GH_PAT,
-              },
-            },
-          );
-        } else {
-          response = await axios.get(
-            'https://api.github.com/repos/phantom-labs/phantom-wallet/releases',
-          );
-        }
-        filename = response.data[0].assets[0].name;
-        downloadUrl = response.data[0].assets[0].url;
-        tagName = 'phantom-chrome-latest';
-        log(
-          `Phantom version found! Filename: ${filename}; Download url: ${downloadUrl}; Tag name: ${tagName}`,
-        );
-      } else if (version) {
-        filename = `chrome-dist.zip`;
-        downloadUrl = `https://github.com/phantom-labs/phantom-wallet/releases/download/v${version}/chrome-dist.zip`;
-        tagName = `phantom-chrome-${version}`;
-        log(
-          `Phantom version found! Filename: ${filename}; Download url: ${downloadUrl}; Tag name: ${tagName}`,
-        );
-      }
-      return {
-        filename,
-        downloadUrl,
-        tagName,
-      };
-    } catch (e) {
-      if (e.response && e.response.status === 403) {
-        throw new Error(
-          `[getPhantomReleases] Unable to fetch phantom releases from GitHub because you've been rate limited! Please set GH_USERNAME and GH_PAT environment variables to avoid this issue or retry again.`,
-        );
-      } else {
-        throw new Error(
-          `[getPhantomReleases] Unable to fetch phantom releases from GitHub with following error:\n${e}`,
-        );
-      }
-    }
+    /**
+     * We don't have github releases public for now. Hardcode values until we have
+     */
+    return {
+      filename: 'phantom-chrome-latest',
+      downloadUrl: 'chrome-dist.zip',
+      tagName: 'phantom-chrome-latest',
+    };
+    // try {
+    //   if (version === 'latest' || !version) {
+    //     if (process.env.GH_USERNAME && process.env.GH_PAT) {
+    //       response = await axios.get(
+    //         'https://api.github.com/repos/phantom/wallet/releases',
+    //         {
+    //           auth: {
+    //             username: process.env.GH_USERNAME,
+    //             password: process.env.GH_PAT,
+    //           },
+    //         },
+    //       );
+    //     } else {
+    //       response = await axios.get(
+    //         'https://api.github.com/repos/phantom/wallet/releases',
+    //       );
+    //     }
+    //     console.log(response.data[0])
+    //     filename = response.data[0].assets[0].name;
+    //     downloadUrl = response.data[0].assets[0].url;
+    //     tagName = 'phantom-chrome-latest';
+    //     log(
+    //       `Phantom version found! Filename: ${filename}; Download url: ${downloadUrl}; Tag name: ${tagName}`,
+    //     );
+    //   } else if (version) {
+    //     filename = `chrome-dist.zip`;
+    //     downloadUrl = `https://github.com/phantom-labs/wallet/releases/download/v${version}/chrome-dist.zip`;
+    //     tagName = `phantom-chrome-${version}`;
+    //     log(
+    //       `Phantom version found! Filename: ${filename}; Download url: ${downloadUrl}; Tag name: ${tagName}`,
+    //     );
+    //   }
+    //   return {
+    //     filename,
+    //     downloadUrl,
+    //     tagName,
+    //   };
+    // } catch (e) {
+    //   if (e.response && e.response.status === 403) {
+    //     throw new Error(
+    //       `[getPhantomReleases] Unable to fetch phantom releases from GitHub because you've been rate limited! Please set GH_USERNAME and GH_PAT environment variables to avoid this issue or retry again.`,
+    //     );
+    //   } else {
+    //     throw new Error(
+    //       `[getPhantomReleases] Unable to fetch phantom releases from GitHub with following error:\n${e}`,
+    //     );
+    //   }
+    // }
   },
   download: async (provider, url, destination) => {
     try {

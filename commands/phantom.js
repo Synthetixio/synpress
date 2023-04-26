@@ -225,11 +225,23 @@ module.exports = {
     }
     return true;
   },
-  getWalletAddress: async () => {
+  getWalletAddress: async (chain = 'eth') => {
     await switchToPhantomIfNotActive();
     await playwright.windows(PROVIDER).hover(mainPageElements.accountBar.title);
     await new Promise(resolve => setTimeout(resolve, 100));
-    await playwright.waitAndClick(PROVIDER, mainPageElements.accountBar.ethRow);
+
+    if (chain === 'eth') {
+      await playwright.waitAndClick(
+        PROVIDER,
+        mainPageElements.accountBar.ethRow,
+      );
+    } else if (chain === 'solana') {
+      await playwright.waitAndClick(
+        PROVIDER,
+        mainPageElements.accountBar.solanaRow,
+      );
+    }
+
     walletAddress = await playwright
       .windows(PROVIDER)
       .evaluate('navigator.clipboard.readText()');
@@ -418,6 +430,43 @@ module.exports = {
       return true;
     }
   },
+  selectDefaultWallet: async wallet => {
+    if (!Object.keys(mainPageElements.defaultWallet).includes(wallet)) {
+      throw new Error(
+        'Wallet not supported, support ' +
+          Object.keys(mainPageElements.defaultWallet).join(', '),
+      );
+    }
+
+    await switchToPhantomIfNotActive();
+
+    // click settings
+    await playwright.waitAndClick(
+      PROVIDER,
+      mainPageElements.settingsMenu.settingsMenuButton,
+    );
+
+    // click gear in sidebar settings
+    await playwright.waitAndClick(
+      PROVIDER,
+      mainPageElements.settingsMenu.settingsSidebarButton,
+    );
+
+    // click default app wallet row
+    await playwright.waitAndClick(
+      PROVIDER,
+      mainPageElements.settingsMenu.defaultAppWalletRow,
+    );
+
+    // click option
+    await playwright.waitAndClick(
+      PROVIDER,
+      mainPageElements.defaultWallet[wallet],
+    );
+
+    // go back to main menu
+    await backToMainFromSettings();
+  },
   disconnectWalletFromDapp: async () => {
     await switchToPhantomIfNotActive();
     await playwright.waitAndClick(
@@ -441,6 +490,7 @@ module.exports = {
       .waitForSelector(mainPageElements.connectedSites.trustedAppsRevokeButton);
     const hasRevokeButton = await revokeButtonLocator.isVisible();
 
+    let isDisconnected = false;
     if (hasRevokeButton) {
       console.log(
         '[disconnectWalletFromDapp] Wallet is connected to a dapp, disconnecting...',
@@ -450,13 +500,17 @@ module.exports = {
         mainPageElements.connectedSites.trustedAppsRevokeButton,
       );
       await switchToCypressIfNotActive();
-      return true;
+      isDisconnected = true;
     } else {
       console.log(
         '[disconnectWalletFromDapp] Wallet is not connected to a dapp, skipping...',
       );
     }
-    return false;
+
+    // back to main
+    await backToMainFromSettings();
+
+    return isDisconnected;
   },
 };
 
@@ -475,4 +529,18 @@ async function switchToCypressIfNotActive() {
     switchBackToCypressWindow = false;
   }
   return switchBackToCypressWindow;
+}
+
+async function backToMainFromSettings() {
+  // click back
+  await playwright.waitAndClick(
+    PROVIDER,
+    mainPageElements.connectedSites.trustedAppsBackButton,
+  );
+
+  // click close menu
+  await playwright.waitAndClick(
+    PROVIDER,
+    mainPageElements.settingsMenu.settingsSidebarCloseButton,
+  );
 }

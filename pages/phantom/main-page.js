@@ -72,7 +72,9 @@ const accountMenu = {
 const settingsMenu = {
   settingsMenuButton: '[data-testid="settings-menu-open-button"]',
   settingsSidebarButton: '[data-testid="sidebar_menu-button-settings"]',
+  settingsSidebarCloseButton: '[data-testid="settings-menu-close-button"]',
   trustedAppsRow: '[data-testid="settings-item-trusted-apps"]',
+  defaultAppWalletRow: '[data-testid="settings-item-metamask-override"]',
 };
 
 const whatsNew = {
@@ -88,10 +90,18 @@ const welcome = {
 const accountBar = {
   title: '[data-testid="tooltip_interactive-wrapper"]',
   ethRow: '[data-testid="account-header-chain-eip155:1"]',
+  solanaRow: '[data-testid="account-header-chain-solana:101"]',
+};
+
+const defaultWallet = {
+  metamask: '[data-testid="metamask-override--USE_METAMASK"]',
+  phantom: '[data-testid="metamask-override--USE_PHANTOM"]',
+  always_ask: '[data-testid="metamask-override--ALWAYS_ASK"]',
 };
 
 const connectedSites = {
   trustedAppsRevokeButton: '[data-testid="trusted-apps-revoke-button"]',
+  trustedAppsBackButton: '[data-testid="header--back"]',
 };
 
 const accountModal = {
@@ -151,4 +161,5 @@ module.exports.mainPageElements = {
   asset,
   whatsNew,
   welcome,
+  defaultWallet,
 };
