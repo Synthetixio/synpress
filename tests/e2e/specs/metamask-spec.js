@@ -6,6 +6,7 @@ describe('Metamask', () => {
       cy.setupMetamask(
         'test test test test test test test test test test test junk',
         'goerli',
+        'optimism',
         'Tester@1234',
       ).then(setupFinished => {
         expect(setupFinished).to.be.true;

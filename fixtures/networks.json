@@ -1,0 +1,17 @@
+{
+  "optimism": {
+    "networkName": "Optimism",
+    "rpcUrl": "https://mainnet.optimism.io/",
+    "chainId": "10",
+    "symbol": "OP",
+    "blockExplorer": "https://optimistic.etherscan.io/",
+    "isTestnet": false
+  },
+  "optimism-goerli": {
+    "networkName": "Optimism Goerli",
+    "rpcUrl": "https://endpoints.omniatech.io/v1/op/goerli/public",
+    "chainId": "420",
+    "symbol": "OP",
+    "isTestnet": true
+  }
+}

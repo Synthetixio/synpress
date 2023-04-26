@@ -1,5 +1,6 @@
 const log = require('debug')('synpress:metamask');
 const playwright = require('./playwright');
+const networks = require('../fixtures/networks.json');
 
 const {
   onboardingWelcomePageElements,
@@ -32,7 +33,7 @@ const {
 const {
   confirmationPageElements,
 } = require('../pages/metamask/confirmation-page');
-const { setNetwork } = require('../helpers');
+const { setNetwork, getNetwork } = require('../helpers');
 
 let extensionInitialUrl;
 let extensionId;
@@ -372,32 +373,41 @@ const metamask = {
     return true;
   },
   async changeNetwork(network) {
+    const currentNetwork = getNetwork();
+    if (
+      typeof network === 'string' &&
+      currentNetwork.networkName === network.toLowerCase()
+    )
+      return;
+
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
     if (typeof network === 'string') {
       network = network.toLowerCase();
-      if (network === 'mainnet') {
-        await playwright.waitAndClick(
-          mainPageElements.networkSwitcher.mainnetNetworkItem,
-        );
-      } else if (network === 'goerli') {
-        await playwright.waitAndClick(
-          mainPageElements.networkSwitcher.goerliNetworkItem,
-        );
-      } else if (network === 'sepolia') {
-        await playwright.waitAndClick(
-          mainPageElements.networkSwitcher.sepoliaNetworkItem,
-        );
-      } else if (network === 'localhost') {
-        await playwright.waitAndClick(
-          mainPageElements.networkSwitcher.localhostNetworkItem,
-        );
-      } else {
+
+      const networkSelector = {
+        mainnet: mainPageElements.networkSwitcher.mainnetNetworkItem,
+        goerli: mainPageElements.networkSwitcher.goerliNetworkItem,
+        sepolia: mainPageElements.networkSwitcher.sepoliaNetworkItem,
+        localhost: mainPageElements.networkSwitcher.localhostNetworkItem,
+        optimism: mainPageElements.networkSwitcher.networkItem(
+          networks.optimism.networkName.toLowerCase(),
+        ),
+        [networks['optimism-goerli'].networkName.toLowerCase()]:
+          mainPageElements.networkSwitcher.networkItem(
+            networks['optimism-goerli'].networkName.toLowerCase(),
+          ),
+      };
+
+      if (network in networkSelector)
+        await playwright.waitAndClick(networkSelector[network]);
+      else {
         await playwright.waitAndClickByText(
           mainPageElements.networkSwitcher.dropdownMenuItem,
           network,
         );
       }
+
       await playwright.waitForText(
         mainPageElements.networkSwitcher.networkName,
         network,
@@ -1179,6 +1189,9 @@ const metamask = {
       }
 
       await setupSettings(enableAdvancedSettings, enableExperimentalSettings);
+      // Add Optimism chain
+      await module.exports.addNetwork(networks.optimism); // mainnet
+      await module.exports.addNetwork(networks['optimism-goerli']); // testnet
 
       if (isCustomNetwork) {
         await module.exports.addNetwork(network);

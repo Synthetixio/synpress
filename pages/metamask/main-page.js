@@ -8,6 +8,8 @@ const networkSwitcher = {
   goerliNetworkItem: `[data-testid="network-droppo"] [data-testid="goerli-network-item"]`,
   sepoliaNetworkItem: `[data-testid="network-droppo"] [data-testid="sepolia-network-item"]`,
   localhostNetworkItem: `[data-testid="network-droppo"] [data-testid="Localhost 8545-network-item"]`,
+  networkItem: networkName =>
+    `[data-testid="network-droppo"] [data-testid="${networkName}-network-item"]`,
   networkButton: number =>
     `[data-testid="network-droppo"] .dropdown-menu-item:nth-child(${
       3 + number
