@@ -778,6 +778,32 @@ const metamask = {
     );
     return true;
   },
+  async confirmPermisionToApproveAll() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      notificationPageElements.allowToSpendButton,
+      notificationPage,
+    );
+    await playwright.waitAndClick(
+      notificationPageElements.approveWarningToSpendButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
+  async rejectPermisionToApproveAll() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      notificationPageElements.allowToSpendButton,
+      notificationPage,
+    );
+    await playwright.waitAndClick(
+      notificationPageElements.rejectWarningToSpendButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
   async rejectPermissionToSpend() {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(

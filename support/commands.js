@@ -180,6 +180,14 @@ Cypress.Commands.add('rejectMetamaskPermissionToSpend', () => {
   return cy.task('rejectMetamaskPermissionToSpend');
 });
 
+Cypress.Commands.add('rejectPermisionToApproveAll', () => {
+  return cy.task('rejectPermisionToApproveAll');
+});
+
+Cypress.Commands.add('confirmPermisionToApproveAll', () => {
+  return cy.task('confirmPermisionToApproveAll');
+});
+
 Cypress.Commands.add('acceptMetamaskAccess', options => {
   return cy.task('acceptMetamaskAccess', options);
 });
