@@ -374,13 +374,6 @@ const metamask = {
     return true;
   },
   async changeNetwork(network) {
-    const currentNetwork = getNetwork();
-    if (
-      typeof network === 'string' &&
-      currentNetwork.networkName === network.toLowerCase()
-    )
-      return;
-
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
     if (typeof network === 'string') {
@@ -1195,10 +1188,14 @@ const metamask = {
       await module.exports.addNetwork(networks['optimism-goerli']); // testnet
       // Make optimism mainnet the default network
       await module.exports.changeNetwork(networkNames.optimism);
+      const currentNetwork = getNetwork();
 
       if (isCustomNetwork) {
         await module.exports.addNetwork(network);
-      } else {
+      } else if (
+        typeof network === 'string' &&
+        currentNetwork.networkName !== network.toLowerCase()
+      ) {
         await module.exports.changeNetwork(network);
       }
       walletAddress = await module.exports.getWalletAddress();
