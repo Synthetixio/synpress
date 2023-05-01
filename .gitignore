@@ -17,7 +17,6 @@ tests/e2e/videos
 tests/e2e/videos-ci
 tests/e2e/screenshots
 
-images/demo.gif
-images/synpress.png
+images/
 
 examples
