@@ -26,14 +26,12 @@ jobs:
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # pin@v2
 
       - name: Audit dependencies
-        run:
-          audit-ci --critical --report-type full --allowlist loader-utils
-          underscore
+        run: audit-ci --critical --report-type full
 
       - name: Lockfile lint
         run:
-          lockfile-lint -p yarn.lock --type yarn --allowed-schemes "https:"
-          "git+https:" --empty-hostname false
+          lockfile-lint -p yarn.lock --type yarn --allowed-hosts yarn
+          --validate-https --empty-hostname false
 
   build:
     needs: audit
