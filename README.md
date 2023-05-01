@@ -57,6 +57,15 @@ it directly. Check
 [usage examples](https://github.com/Synthetixio/synpress/#usage-examples) for
 more details.
 
+## Install
+
+```bash
+# with yarn
+yarn add -D @synthetixio/synpress
+# with npm
+npm install --save-dev @synthetixio/synpress
+```
+
 ## Supported frameworks
 
 - [Synpress](https://github.com/Synthetixio/synpress)

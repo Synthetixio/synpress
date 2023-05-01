@@ -421,29 +421,6 @@ setupMetamask(
 ): Chainable<Subject>;
 ```
 
-#### `cy.snxExchangerSettle()`
-
-Execute settle on Exchanger contract.
-
-```ts
-snxExchangerSettle(
-  asset: string,
-  walletAddress: string,
-  privateKey: string,
-): Chainable<Subject>;
-```
-
-#### `cy.snxCheckWaitingPeriod()`
-
-Check waiting period on Exchanger contract.
-
-```ts
-snxCheckWaitingPeriod(
-  asset: string,
-  walletAddress: string,
-): Chainable<Subject>;
-```
-
 #### `cy.etherscanGetTransactionStatus()`
 
 Get transaction status from Etherscan API.
