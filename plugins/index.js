@@ -1,7 +1,6 @@
 const helpers = require('../helpers');
 const playwright = require('../commands/playwright');
 const metamask = require('../commands/metamask');
-const synthetix = require('../commands/synthetix');
 const etherscan = require('../commands/etherscan');
 
 /**
@@ -282,25 +281,6 @@ module.exports = (on, config) => {
         enableExperimentalSettings,
       });
       return true;
-    },
-    snxExchangerSettle: async ({ asset, walletAddress, privateKey }) => {
-      if (process.env.PRIVATE_KEY) {
-        privateKey = process.env.PRIVATE_KEY;
-      }
-      const settled = await synthetix.settle({
-        asset,
-        walletAddress,
-        privateKey,
-      });
-      // todo: wait for confirmation?
-      return settled;
-    },
-    snxCheckWaitingPeriod: async ({ asset, walletAddress }) => {
-      const waitingPeriod = await synthetix.checkWaitingPeriod({
-        asset,
-        walletAddress,
-      });
-      return waitingPeriod;
     },
     getNetwork: () => {
       const network = helpers.getNetwork();
