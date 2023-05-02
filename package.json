@@ -79,9 +79,6 @@
     "@metamask/test-dapp": "^6.1.0",
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
     "@trunkio/launcher": "^1.2.4",
-    "npm-check-updates": "^16.10.9",
-    "release-it": "^15.10.2",
-    "prettier": "^2.8.8",
     "eslint": "^8.39.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-standard": "^17.0.0",
@@ -95,8 +92,12 @@
     "eslint-plugin-testing-library": "^5.10.3",
     "eslint-plugin-ui-testing": "^2.0.1",
     "eslint-plugin-unicorn": "^46.0.0",
+    "npm-check-updates": "^16.10.9",
+    "prettier": "^2.8.8",
+    "release-it": "^15.10.2",
     "serve": "^14.2.0",
-    "start-server-and-test": "^2.0.0"
+    "start-server-and-test": "^2.0.0",
+    "turbo": "^1.9.3"
   },
   "resolutions": {
     "gh-pages": "5.0.0",
