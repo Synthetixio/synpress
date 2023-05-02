@@ -66,7 +66,7 @@ jobs:
           GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
 
       - name: yarn config
-        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
