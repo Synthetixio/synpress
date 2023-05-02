@@ -1198,7 +1198,7 @@ const metamask = {
     // log('[confirmTransaction] Checking if tx data is present..');
     // if (
     //   await playwright
-    //     .notificationwindows(PROVIDER)
+    //     .windows(PROVIDER)
     //     .locator(confirmPageElements.dataButton)
     //     .count() > 0
     // ) {

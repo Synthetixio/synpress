@@ -269,6 +269,12 @@ module.exports = {
       log(
         `Trying to download and extract file from: ${url} to following path: ${destination}`,
       );
+
+      if (provider === 'phantom') {
+        // phantom doesnt support downloading yet.
+        return;
+      }
+
       if (process.env.GH_USERNAME && process.env.GH_PAT) {
         await download(url, destination, {
           extract: true,
@@ -277,13 +283,6 @@ module.exports = {
             Accept: 'application/octet-stream',
           },
         });
-
-        /**
-         * Some extensions will zip their dist folder
-         */
-        if (provider === 'phantom') {
-          await moveFiles(`${destination}/dist`, destination);
-        }
       } else {
         await download(url, destination, {
           extract: true,
