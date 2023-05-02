@@ -28,23 +28,23 @@ jobs:
         env:
           ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}
 
-      - name: Set yarn cache directory
-        run: yarn config set cache-folder .yarn-cache
+      - name: Set pnpm cache directory
+        run: pnpm config set store-dir .pnpm-store
         continue-on-error: true
 
       - uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # pin@v2
         with:
           path: |
-            .yarn-cache
+            .pnpm-store
             node_modules
             /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-pnpm-v1-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-v1-
+            ${{ runner.os }}-pnpm-v1-
         continue-on-error: true
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile --prefer-offline --no-audit
+        run: pnpm install --frozen-lockfile --prefer-offline
 
       # warning: your env vars could be printed out in console by anyone with access to exposed ngrok vnc
       - name: Install linux deps
@@ -70,7 +70,7 @@ jobs:
           echo -n "======> remote noVNC URL: "
           sleep 5
           curl -s localhost:4040/api/tunnels | jq -r .tunnels[0].public_url
-          yarn test:e2e:anvil
+          pnpm test:e2e:anvil
         env:
           NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
           NGROK_BASIC_AUTH: ${{ secrets.NGROK_BASIC_AUTH }}
