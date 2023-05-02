@@ -46,7 +46,6 @@ let extensionImportAccountUrl;
 let extensionImportTokenUrl;
 let walletAddress;
 let switchBackToCypressWindow;
-let listOfAcounts;
 
 const metamask = {
   extensionId: () => {
@@ -336,11 +335,14 @@ const metamask = {
     if (accountName) {
       accountName = accountName.toLowerCase();
     }
-    listOfAcounts = await playwright.waitAndGetValue(
+    await switchToMetamaskIfNotActive();
+    await playwright.waitAndClick(
+      mainPageElements.accountMenu.button,
+    );
+    const listOfAcounts = await playwright.waitAndGetValue(
       mainPageElements.listOfAcounts.accounts,
     );
     if (!listOfAcounts.includes(accountName)) {
-      await switchToMetamaskIfNotActive();
       await module.exports.goToNewAccount();
       if (accountName) {
         await playwright.waitAndType(
@@ -353,8 +355,8 @@ const metamask = {
       );
       await module.exports.closePopupAndTooltips();
       await switchToCypressIfNotActive();
-      return true;
     }
+    return true;
   },
   async switchAccount(accountNameOrAccountNumber) {
     if (typeof accountNameOrAccountNumber === 'string') {

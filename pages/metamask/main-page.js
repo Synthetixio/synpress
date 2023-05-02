@@ -71,7 +71,7 @@ const accountMenu = {
 
 const listOfAcounts = {
   form: '.account-menu__accounts',
-  accounts: '[data-testid="account-menu__account"]',
+  accounts: '.account-menu__name',
 };
 
 const optionsMenu = {
