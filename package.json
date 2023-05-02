@@ -73,7 +73,8 @@
     "ethers": "^6.3.0",
     "etherscan-api": "^10.3.0",
     "find-config": "^1.0.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "wait-on": "^7.0.1"
   },
   "devDependencies": {
     "@metamask/test-dapp": "^6.1.0",
