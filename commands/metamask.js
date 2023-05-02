@@ -354,8 +354,8 @@ const metamask = {
         mainPageElements.createAccount.createButton,
       );
       await module.exports.closePopupAndTooltips();
-      await switchToCypressIfNotActive();
     }
+    await switchToCypressIfNotActive();
     return true;
   },
   async switchAccount(accountNameOrAccountNumber) {
