@@ -1,0 +1,11 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "fix": {
+      "inputs": ["**/*.js", "**/**/*.js"]
+    },
+    "lint": {
+      "inputs": ["**/*.js", "**/**/*.js"]
+    }
+  }
+}
