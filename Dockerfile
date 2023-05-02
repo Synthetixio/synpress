@@ -5,10 +5,10 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY package.json ./
-COPY yarn.lock ./
+COPY pnpm-lock.yaml ./
 
 FROM base as test
 
-RUN yarn --frozen-lockfile --prefer-offline --no-audit
+RUN pnpm install --frozen-lockfile --prefer-offline
 
 COPY . .
