@@ -1,8 +1,0 @@
-$schema: https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json
-version: '0.2'
-dictionaryDefinitions:
-  - name: plugin-words
-    path: .trunk/cspell-words.txt
-    addWords: true
-dictionaries:
-  - plugin-words

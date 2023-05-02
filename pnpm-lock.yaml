@@ -93,9 +93,6 @@ devDependencies:
   '@microsoft/eslint-formatter-sarif':
     specifier: ^3.0.0
     version: 3.0.0
-  '@trunkio/launcher':
-    specifier: ^1.2.4
-    version: 1.2.4
   eslint:
     specifier: ^8.39.0
     version: 8.39.0
@@ -1926,11 +1923,6 @@ packages:
   /@tootallnate/once@2.0.0:
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
     engines: {node: '>= 10'}
-    dev: true
-
-  /@trunkio/launcher@1.2.4:
-    resolution: {integrity: sha512-6pR+KevJ+qpUqFBH6mtaclimdE+O9uYb8WXBGj0nT/RfLUUYkL2EEKDq5gaaPLiwBn6LghGTe1gTlvht79GDfQ==}
-    hasBin: true
     dev: true
 
   /@tufjs/canonical-json@1.0.0:

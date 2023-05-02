@@ -79,7 +79,6 @@
   "devDependencies": {
     "@metamask/test-dapp": "^6.1.0",
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
-    "@trunkio/launcher": "^1.2.4",
     "eslint": "^8.39.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-standard": "^17.0.0",
