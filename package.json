@@ -104,7 +104,8 @@
     "gh-pages": "5.0.0",
     "http-cache-semantics": "4.1.1",
     "ansi-regex": "5.0.1",
-    "@testing-library/dom": "8.20.0"
+    "@testing-library/dom": "8.20.0",
+    "got": "12.6.0"
   },
   "engines": {
     "node": ">=14"
