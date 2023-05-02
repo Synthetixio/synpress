@@ -106,7 +106,7 @@
     "http-cache-semantics": "4.1.1",
     "ansi-regex": "5.0.1",
     "@testing-library/dom": "8.20.0",
-    "got": "12.6.0"
+    "got": "11.8.5"
   },
   "engines": {
     "node": ">=14"
