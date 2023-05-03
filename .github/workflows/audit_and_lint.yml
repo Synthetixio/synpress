@@ -46,7 +46,8 @@ jobs:
         run: pnpm config set store-dir .pnpm-store
         continue-on-error: true
 
-      - uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # pin@v2
+      - name: Setup cache
+        uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # pin@v2
         with:
           path: |
             .pnpm-store
