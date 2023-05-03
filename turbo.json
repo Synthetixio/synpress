@@ -1,11 +1,13 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
-    "fix": {
-      "inputs": ["**/*.js", "**/**/*.js"]
-    },
-    "lint": {
-      "inputs": ["**/*.js", "**/**/*.js"]
+    "lint:eslint": {},
+    "lint:prettier": {},
+    "fix:eslint": {},
+    "fix:prettier": {},
+    "start:server": {
+      "cache": false,
+      "persistent": true
     }
   }
 }
