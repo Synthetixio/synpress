@@ -339,25 +339,6 @@ declare namespace Cypress {
       enableExperimentalSettings?: boolean,
     ): Chainable<Subject>;
     /**
-     * Execute settle on Exchanger contract
-     * @example
-     * cy.snxExchangerSettle('sETH', '0x...', '123123123123123123...')
-     */
-    snxExchangerSettle(
-      asset: string,
-      walletAddress: string,
-      privateKey: string,
-    ): Chainable<Subject>;
-    /**
-     * Check waiting period on Exchanger contract
-     * @example
-     * cy.snxCheckWaitingPeriod('sETH', '0x...')
-     */
-    snxCheckWaitingPeriod(
-      asset: string,
-      walletAddress: string,
-    ): Chainable<Subject>;
-    /**
      * Get transaction status from Etherscan API
      * @example
      * cy.etherscanGetTransactionStatus('0xf..')

@@ -245,29 +245,7 @@ Cypress.Commands.add('getNetwork', () => {
   return cy.task('getNetwork');
 });
 
-// SNX commands
-
-Cypress.Commands.add(
-  'snxExchangerSettle',
-  (asset, walletAddress, privateKey) => {
-    return cy.task(
-      'snxExchangerSettle',
-      { asset, walletAddress, privateKey },
-      { timeout: 300000 },
-    );
-  },
-);
-
-Cypress.Commands.add('snxCheckWaitingPeriod', (asset, walletAddress) => {
-  return cy.task(
-    'snxCheckWaitingPeriod',
-    { asset, walletAddress },
-    { timeout: 200000 },
-  );
-});
-
-// etherscan commands
-
+// Etherscan commands
 Cypress.Commands.add('etherscanGetTransactionStatus', txid => {
   return cy.task('etherscanGetTransactionStatus', { txid }, { timeout: 30000 });
 });
@@ -276,8 +254,7 @@ Cypress.Commands.add('etherscanWaitForTxSuccess', txid => {
   return cy.task('etherscanWaitForTxSuccess', { txid }, { timeout: 120000 });
 });
 
-// helper commands
-
+// Helper commands
 Cypress.Commands.add('waitForResources', (resources = []) => {
   const globalTimeout = 30000;
   const resourceCheckInterval = 2000;
