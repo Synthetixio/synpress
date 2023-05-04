@@ -103,6 +103,22 @@ describe('Metamask', () => {
         expect(network.isTestnet).to.be.true;
       });
     });
+    it(`rejectMetamaskPermisionToApproveAll should reject permission to approve all collectibles upon warning`, () => {
+      cy.get('#deployCollectiblesButton').click();
+      cy.confirmMetamaskTransaction();
+      cy.get('#mintButton').click();
+      cy.confirmMetamaskTransaction();
+      cy.get('#setApprovalForAllButton').click();
+      cy.rejectMetamaskPermisionToApproveAll().then(rejected => {
+        expect(rejected).to.be.true;
+      });
+    });
+    it(`confirmMetamaskPermisionToApproveAll should confirm permission to approve all collectibles`, () => {
+      cy.get('#setApprovalForAllButton').click();
+      cy.confirmMetamaskPermisionToApproveAll().then(confirmed => {
+        expect(confirmed).to.be.true;
+      });
+    });
     it(`changeMetamaskNetwork should change network using custom network name`, () => {
       if (Cypress.env('USE_ANVIL')) {
         cy.changeMetamaskNetwork('anvil').then(networkChanged => {
