@@ -1,3 +1,4 @@
+const log = require('debug')('synpress:playwright');
 const fetch = require('node-fetch');
 const {
   notificationPageElements,
@@ -329,6 +330,9 @@ module.exports = {
   async fixCriticalError(page = metamaskWindow) {
     for (let times = 0; times < 5; times++) {
       if ((await page.locator(pageElements.criticalError).count()) > 0) {
+        log(
+          '[fixCriticalError] Metamask crashed with critical error, refreshing..',
+        );
         if (times <= 3) {
           await page.reload();
           await module.exports.waitUntilMetamaskWindowIsStable();
@@ -343,6 +347,7 @@ module.exports = {
           );
         }
       } else if ((await page.locator(pageElements.errorPage).count()) > 0) {
+        log('[fixCriticalError] Metamask crashed with error, refreshing..');
         if (times <= 4) {
           await page.reload();
           await module.exports.waitUntilMetamaskWindowIsStable();
