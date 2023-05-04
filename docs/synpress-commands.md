@@ -316,6 +316,22 @@ Confirm metamask permission to spend asset.
 confirmMetamaskPermissionToSpend(spendLimit?: string): Chainable<Subject>;
 ```
 
+#### `cy.confirmMetamaskPermisionToApproveAll()`
+
+Confirm metamask permission to access all elements (example: collectibles).
+
+```ts
+confirmMetamaskPermisionToApproveAll(): Chainable<Subject>;
+```
+
+#### `cy.rejectMetamaskPermisionToApproveAll()`
+
+Reject metamask permission to access all elements (example: collectibles).
+
+```ts
+rejectMetamaskPermisionToApproveAll(): Chainable<Subject>;
+```
+
 #### `cy.rejectMetamaskPermissionToSpend()`
 
 Reject metamask permission to spend asset.
