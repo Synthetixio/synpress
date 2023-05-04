@@ -20,7 +20,7 @@ jobs:
     name: release
 
     container:
-      image: synthetixio/docker-node:18.13-ubuntu
+      image: synthetixio/docker-node:18.16-ubuntu
 
     steps:
       - name: Checkout
@@ -29,28 +29,25 @@ jobs:
           fetch-depth: 0
           ref: master
 
-      - name: Set yarn cache directory
-        run: yarn config set cache-folder .yarn-cache
+      - name: Set pnpm cache directory
+        run: pnpm config set store-dir .pnpm-store
         continue-on-error: true
 
-      - uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # pin@v2
+      - name: Setup cache
+        uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # pin@v2
         with:
           path: |
-            .yarn-cache
+            .pnpm-store
             node_modules
-          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-pnpm-v1-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-v1-
+            ${{ runner.os }}-pnpm-v1-
         continue-on-error: true
 
-      # fixes permission issues on docker
-      - name: Chown workspace
-        run: chown -R $(whoami) .
-
       - name: Install dependencies
-        run: yarn --frozen-lockfile --prefer-offline --no-audit
+        run: pnpm install --frozen-lockfile --prefer-offline
 
-      - name: git config
+      - name: Set git config
         run: |
           git config user.name $GIT_USER
           git config user.email $GIT_EMAIL
@@ -65,12 +62,12 @@ jobs:
           GPG_KEY: ${{ secrets.GPG_KEY }}
           GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
 
-      - name: yarn config
-        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+      - name: Set pnpm config
+        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Set current yarn package version
+      - name: Set current pnpm package version
         id: extract-version
         run: |
           PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
@@ -80,8 +77,8 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         run: |
           git reset --hard
-          yarn release:${{ github.event.inputs.version }} --ci
-          yarn publish --non-interactive
+          pnpm release:${{ github.event.inputs.version }} --ci
+          pnpm publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -97,11 +94,11 @@ jobs:
 
           echo ${{ steps.extract-version.outputs.current-version }}
           if echo ${{ steps.extract-version.outputs.current-version }} | grep -q "beta"; then
-            yarn release --ci --preRelease
-            yarn publish --non-interactive
+            pnpm release --ci --preRelease
+            pnpm publish
           else
-            yarn release:patch --ci --preRelease=beta
-            yarn publish --non-interactive
+            pnpm release:patch --ci --preRelease=beta
+            pnpm publish
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,4 +1,3 @@
-// trunk-ignore(eslint)
 declare namespace Cypress {
   interface Chainable<Subject> {
     /**

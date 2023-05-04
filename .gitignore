@@ -1,11 +1,9 @@
 node_modules
+.turbo
+.pnpm-store
+
 downloads
 lint-results.sarif
-.npm-cache
-.yarn-cache
-.npmrc
-.yarnrc
-yarn-error.log
 
 docker
 
