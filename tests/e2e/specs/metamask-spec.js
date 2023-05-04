@@ -103,13 +103,11 @@ describe('Metamask', () => {
         expect(network.isTestnet).to.be.false;
       });
     });
-
-    it(`should discard changing network if it is current one`, () => {
-      cy.changeMetamaskNetwork('goerli').then(networkChanged => {
+    it(`changeMetamaskNetwork should discard changing network if it is current one`, () => {
+      cy.changeMetamaskNetwork('mainnet').then(networkChanged => {
         expect(networkChanged).to.be.false;
       });
     });
-
     it(`changeMetamaskNetwork should change network using custom network name`, () => {
       if (Cypress.env('USE_ANVIL')) {
         cy.changeMetamaskNetwork('anvil').then(networkChanged => {
