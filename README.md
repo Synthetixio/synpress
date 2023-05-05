@@ -32,6 +32,8 @@
     <br/>
     <a href="https://github.com/pantherprotocol"><img src="./images/panther.png" height="100" alt="Panther Protocol" /></a>
     <a href="https://github.com/agoraxyz"><img src="./images/guild.png" height="90" alt="Guild" /></a>
+    <a href="https://github.com/aragon"><img src="./images/aragon.png" height="90" alt="Aragon" /></a>
+    <a href="https://github.com/delvtech/"><img src="./images/delv.png" height="90" alt="Delvtech" /></a>
     <br/>
     <a href="https://github.com/OffchainLabs"><img src="./images/offchain-labs.png" height="100" alt="Offchain Labs" /></a>
     <a href="https://github.com/snapshot-labs"><img src="./images/snapshot-labs.png" height="90" alt="Snapshot Labs" /></a>
