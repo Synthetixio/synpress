@@ -55,12 +55,12 @@ describe('Metamask', () => {
           rpcUrl: Cypress.env('DOCKER_RUN')
             ? 'http://foundry:8545'
             : 'http://127.0.0.1:8545',
-          chainId: '5',
-          symbol: 'GETH',
+          chainId: '11155111',
+          symbol: 'SETH',
           isTestnet: true,
         });
-        cy.get('#network').contains('5');
-        cy.get('#chainId').contains('0x5');
+        cy.get('#network').contains('11155111');
+        cy.get('#chainId').contains('0xaa36a7');
       } else {
         cy.addMetamaskNetwork({
           networkName: 'Optimism Network',
@@ -72,7 +72,7 @@ describe('Metamask', () => {
         }).then(networkAdded => {
           expect(networkAdded).to.be.true;
         });
-        cy.get('#network').contains('0xa');
+        cy.get('#network').contains('10');
         cy.get('#chainId').contains('0xa');
       }
     });
@@ -80,7 +80,7 @@ describe('Metamask', () => {
       cy.getNetwork().then(network => {
         if (Cypress.env('USE_ANVIL')) {
           expect(network.networkName).to.be.equal('anvil');
-          expect(network.networkId).to.be.equal(5);
+          expect(network.networkId).to.be.equal(11155111);
           expect(network.isTestnet).to.be.true;
         } else {
           expect(network.networkName).to.be.equal('optimism network');
@@ -113,8 +113,8 @@ describe('Metamask', () => {
         cy.changeMetamaskNetwork('anvil').then(networkChanged => {
           expect(networkChanged).to.be.true;
         });
-        cy.get('#network').contains('5');
-        cy.get('#chainId').contains('0x5');
+        cy.get('#network').contains('0xaa36a7');
+        cy.get('#chainId').contains('0xaa36a7');
       } else {
         cy.changeMetamaskNetwork('optimism network').then(networkChanged => {
           expect(networkChanged).to.be.true;
@@ -371,11 +371,11 @@ describe('Metamask', () => {
       });
     });
     it(`importMetamaskToken should import token to metamask`, () => {
-      const USDCContractAddressOnGoerli =
-        '0x2f3a40a3db8a7e3d09b0adfefbce4f6f81927557';
-      cy.importMetamaskToken(USDCContractAddressOnGoerli).then(tokenData => {
+      const USDCContractAddressOnSepolia =
+        '0xda9d4f9b69ac6C22e444eD9aF0CfC043b7a7f53f';
+      cy.importMetamaskToken(USDCContractAddressOnSepolia).then(tokenData => {
         expect(tokenData.tokenContractAddress).to.be.equal(
-          USDCContractAddressOnGoerli,
+          USDCContractAddressOnSepolia,
         );
         expect(tokenData.tokenSymbol).to.be.equal('USDC');
         expect(tokenData.tokenDecimals).to.be.equal('6');
@@ -383,17 +383,17 @@ describe('Metamask', () => {
       });
     });
     it(`importMetamaskToken should import token to metamask using advanced token settings`, () => {
-      const USDTContractAddressOnGoerli =
-        '0x509ee0d083ddf8ac028f2a56731412edd63223b9';
+      const tDAIContractAddressOnSepolia =
+        '0x53844F9577C2334e541Aec7Df7174ECe5dF1fCf0';
       cy.importMetamaskToken({
-        address: USDTContractAddressOnGoerli,
-        symbol: 'TDSU',
+        address: tDAIContractAddressOnSepolia,
+        symbol: 'IADt',
       }).then(tokenData => {
         expect(tokenData.tokenContractAddress).to.be.equal(
-          USDTContractAddressOnGoerli,
+          tDAIContractAddressOnSepolia,
         );
-        expect(tokenData.tokenSymbol).to.be.equal('TDSU');
-        expect(tokenData.tokenDecimals).to.be.equal('6');
+        expect(tokenData.tokenSymbol).to.be.equal('IADt');
+        expect(tokenData.tokenDecimals).to.be.equal('18');
         expect(tokenData.imported).to.be.true;
       });
     });
