@@ -1,17 +1,16 @@
-const log = require('debug')('synpress:metamask');
-const playwright = require('./playwright');
-
-const {
+import debug from 'debug';
+import playwright from './playwright';
+import {
   onboardingWelcomePageElements,
   metametricsPageElements,
   firstTimeFlowImportPageElements,
   revealSeedPageElements,
   endOfFlowPageElements,
   pinExtensionPageElements,
-} = require('../pages/metamask/first-time-flow-page');
-const { mainPageElements } = require('../pages/metamask/main-page');
-const { unlockPageElements } = require('../pages/metamask/unlock-page');
-const {
+} from '../pages/metamask/first-time-flow-page';
+import { mainPageElements } from '../pages/metamask/main-page';
+import { unlockPageElements } from '../pages/metamask/unlock-page';
+import {
   notificationPageElements,
   permissionsPageElements,
   confirmPageElements,
@@ -21,108 +20,131 @@ const {
   dataSignaturePageElements,
   recipientPopupElements,
   addTokenPageElements,
-} = require('../pages/metamask/notification-page');
-const {
+} from '../pages/metamask/notification-page';
+import {
   settingsPageElements,
   advancedPageElements,
   experimentalSettingsPageElements,
   resetAccountModalElements,
   addNetworkPageElements,
-} = require('../pages/metamask/settings-page');
-const {
-  confirmationPageElements,
-} = require('../pages/metamask/confirmation-page');
-const { setNetwork } = require('../helpers');
+} from '../pages/metamask/settings-page';
+import { confirmationPageElements } from '../pages/metamask/confirmation-page';
+import { setNetwork } from '../helpers';
 
-let extensionInitialUrl;
-let extensionId;
-let extensionHomeUrl;
-let extensionSettingsUrl;
-let extensionAdvancedSettingsUrl;
-let extensionExperimentalSettingsUrl;
-let extensionAddNetworkUrl;
-let extensionNewAccountUrl;
-let extensionImportAccountUrl;
-let extensionImportTokenUrl;
-let walletAddress;
-let switchBackToCypressWindow;
+const log = debug('synpress:metamask');
 
-const metamask = {
-  extensionId: () => {
-    return extensionId;
-  },
-  extensionUrls: () => {
+type Option<T> = T | undefined;
+
+type ExtenstionUrls = Record<
+  | 'extensionInitialUrl'
+  | 'extensionHomeUrl'
+  | 'extensionSettingsUrl'
+  | 'extensionAdvancedSettingsUrl'
+  | 'extensionExperimentalSettingsUrl'
+  | 'extensionAddNetworkUrl'
+  | 'extensionNewAccountUrl'
+  | 'extensionImportAccountUrl'
+  | 'extensionImportTokenUrl',
+  string | undefined
+>;
+
+class MetamaskApi {
+  extensionInitialUrl?: string;
+  extensionId?: string;
+  extensionHomeUrl?: string;
+  extensionSettingsUrl?: string;
+  extensionAdvancedSettingsUrl?: string;
+  extensionExperimentalSettingsUrl?: string;
+  extensionAddNetworkUrl?: string;
+  extensionNewAccountUrl?: string;
+  extensionImportAccountUrl?: string;
+  extensionImportTokenUrl?: string;
+  walletAddress?: string;
+  switchBackToCypressWindow?: boolean;
+
+  extensionUrls(): ExtenstionUrls {
     return {
-      extensionInitialUrl,
-      extensionHomeUrl,
-      extensionSettingsUrl,
-      extensionAdvancedSettingsUrl,
-      extensionExperimentalSettingsUrl,
-      extensionAddNetworkUrl,
-      extensionNewAccountUrl,
-      extensionImportAccountUrl,
-      extensionImportTokenUrl,
+      extensionInitialUrl: this.extensionInitialUrl,
+      extensionHomeUrl: this.extensionHomeUrl,
+      extensionSettingsUrl: this.extensionSettingsUrl,
+      extensionAdvancedSettingsUrl: this.extensionAdvancedSettingsUrl,
+      extensionExperimentalSettingsUrl: this.extensionExperimentalSettingsUrl,
+      extensionAddNetworkUrl: this.extensionAddNetworkUrl,
+      extensionNewAccountUrl: this.extensionNewAccountUrl,
+      extensionImportAccountUrl: this.extensionImportAccountUrl,
+      extensionImportTokenUrl: this.extensionImportTokenUrl,
     };
-  },
-  walletAddress: () => {
-    return walletAddress;
-  },
-  async goTo(url) {
+  }
+
+  async goTo(url?: string): Promise<void> {
+    if (!url) return;
     await Promise.all([
       playwright.metamaskWindow().waitForNavigation(),
       playwright.metamaskWindow().goto(url),
     ]);
     await playwright.waitUntilStable();
-  },
-  async goToHome() {
-    await module.exports.goTo(extensionHomeUrl);
-  },
-  async goToSettings() {
-    await module.exports.goTo(extensionSettingsUrl);
-  },
-  async goToAdvancedSettings() {
-    await module.exports.goTo(extensionAdvancedSettingsUrl);
-  },
-  async goToExperimentalSettings() {
-    await module.exports.goTo(extensionExperimentalSettingsUrl);
-  },
+  }
+
+  async goToHome(): Promise<void> {
+    await this.goTo(this.extensionHomeUrl);
+  }
+
+  async goToSettings(): Promise<void> {
+    await this.goTo(this.extensionSettingsUrl);
+  }
+
+  async goToAdvancedSettings(): Promise<void> {
+    await this.goTo(this.extensionAdvancedSettingsUrl);
+  }
+
+  async goToExperimentalSettings(): Promise<void> {
+    await this.goTo(this.extensionExperimentalSettingsUrl);
+  }
+
   async goToAddNetwork() {
-    await module.exports.goTo(extensionAddNetworkUrl);
-  },
-  async goToNewAccount() {
-    await module.exports.goTo(extensionNewAccountUrl);
-  },
-  async goToImportAccount() {
-    await module.exports.goTo(extensionImportAccountUrl);
-  },
-  async goToImportToken() {
-    await module.exports.goTo(extensionImportTokenUrl);
-  },
-  async getExtensionDetails() {
-    extensionInitialUrl = await playwright.metamaskWindow().url();
-    extensionId = extensionInitialUrl.match('//(.*?)/')[1];
-    extensionHomeUrl = `chrome-extension://${extensionId}/home.html`;
-    extensionSettingsUrl = `${extensionHomeUrl}#settings`;
-    extensionAdvancedSettingsUrl = `${extensionSettingsUrl}/advanced`;
-    extensionExperimentalSettingsUrl = `${extensionSettingsUrl}/experimental`;
-    extensionAddNetworkUrl = `${extensionSettingsUrl}/networks/add-network`;
-    extensionNewAccountUrl = `${extensionHomeUrl}#new-account`;
-    extensionImportAccountUrl = `${extensionNewAccountUrl}/import`;
-    extensionImportTokenUrl = `${extensionHomeUrl}#import-token`;
+    await this.goTo(this.extensionAddNetworkUrl);
+  }
+
+  async goToNewAccount(): Promise<void> {
+    await this.goTo(this.extensionNewAccountUrl);
+  }
+
+  async goToImportAccount(): Promise<void> {
+    await this.goTo(this.extensionImportAccountUrl);
+  }
+
+  async goToImportToken(): Promise<void> {
+    await this.goTo(this.extensionImportTokenUrl);
+  }
+
+  async getExtensionDetails(): Promise<
+    Partial<
+      ExtenstionUrls & {
+        extensionId: string;
+      }
+    >
+  > {
+    this.extensionInitialUrl = await playwright.metamaskWindow().url();
+
+    let extensionId = this.extensionInitialUrl?.match('//(.*?)/');
+    if (extensionId) this.extensionId = extensionId[1] as string;
+
+    this.extensionHomeUrl = `chrome-extension://${this.extensionId}/home.html`;
+    this.extensionSettingsUrl = `${this.extensionHomeUrl}#settings`;
+    this.extensionAdvancedSettingsUrl = `${this.extensionSettingsUrl}/advanced`;
+    this.extensionExperimentalSettingsUrl = `${this.extensionSettingsUrl}/experimental`;
+    this.extensionAddNetworkUrl = `${this.extensionSettingsUrl}/networks/add-network`;
+    this.extensionNewAccountUrl = `${this.extensionHomeUrl}#new-account`;
+    this.extensionImportAccountUrl = `${this.extensionNewAccountUrl}/import`;
+    this.extensionImportTokenUrl = `${this.extensionHomeUrl}#import-token`;
 
     return {
-      extensionInitialUrl,
-      extensionId,
-      extensionSettingsUrl,
-      extensionAdvancedSettingsUrl,
-      extensionExperimentalSettingsUrl,
-      extensionAddNetworkUrl,
-      extensionNewAccountUrl,
-      extensionImportAccountUrl,
-      extensionImportTokenUrl,
+      ...this.extensionUrls(),
+      extensionId: this.extensionId,
     };
-  },
-  async closePopupAndTooltips() {
+  }
+
+  async closePopupAndTooltips(): Promise<boolean> {
     // note: this is required for fast execution of e2e tests to avoid flakiness
     // otherwise popup may not be detected properly and not closed
     await playwright.metamaskWindow().waitForTimeout(1000);
@@ -159,8 +181,9 @@ const metamask = {
       );
     }
     return true;
-  },
-  async closeModal() {
+  }
+
+  async closeModal(): Promise<boolean> {
     // note: this is required for fast execution of e2e tests to avoid flakiness
     // otherwise modal may not be detected properly and not closed
     await playwright.metamaskWindow().waitForTimeout(1000);
@@ -175,8 +198,9 @@ const metamask = {
       );
     }
     return true;
-  },
-  async unlock(password) {
+  }
+
+  async unlock(password: string): Promise<boolean> {
     await playwright.fixBlankPage();
     await playwright.fixCriticalError();
     await playwright.waitAndType(unlockPageElements.passwordInput, password);
@@ -187,10 +211,11 @@ const metamask = {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     return true;
-  },
-  async optOutAnalytics() {
+  }
+
+  async optOutAnalytics(): Promise<boolean> {
     await playwright.waitAndClick(
       metametricsPageElements.optOutAnalyticsButton,
       await playwright.metamaskWindow(),
@@ -199,8 +224,9 @@ const metamask = {
       },
     );
     return true;
-  },
-  async importWallet(secretWords, password) {
+  }
+
+  async importWallet(secretWords: string, password: string): Promise<boolean> {
     await playwright.waitAndClick(
       onboardingWelcomePageElements.importWalletButton,
       await playwright.metamaskWindow(),
@@ -208,7 +234,7 @@ const metamask = {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.optOutAnalytics();
+    await this.optOutAnalytics();
     // todo: add support for more secret words (15/18/21/24)
     for await (const [index, word] of secretWords.split(' ').entries()) {
       await playwright.waitAndType(
@@ -256,10 +282,11 @@ const metamask = {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     return true;
-  },
-  async createWallet(password) {
+  }
+
+  async createWallet(password: string): Promise<boolean> {
     await playwright.waitAndClick(
       onboardingWelcomePageElements.createWalletButton,
       await playwright.metamaskWindow(),
@@ -267,7 +294,7 @@ const metamask = {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.optOutAnalytics();
+    await this.optOutAnalytics();
     await playwright.waitAndType(
       firstTimeFlowImportPageElements.passwordInput,
       password,
@@ -310,12 +337,13 @@ const metamask = {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     return true;
-  },
-  async importAccount(privateKey) {
+  }
+
+  async importAccount(privateKey: string): Promise<boolean> {
     await switchToMetamaskIfNotActive();
-    await module.exports.goToImportAccount();
+    await this.goToImportAccount();
     await playwright.waitAndType(
       mainPageElements.importAccount.input,
       privateKey,
@@ -327,16 +355,16 @@ const metamask = {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     await switchToCypressIfNotActive();
     return true;
-  },
-  async createAccount(accountName) {
-    if (accountName) {
-      accountName = accountName.toLowerCase();
-    }
+  }
+
+  async createAccount(accountName: string): Promise<boolean> {
+    if (accountName) accountName = accountName.toLowerCase();
+
     await switchToMetamaskIfNotActive();
-    await module.exports.goToNewAccount();
+    await this.goToNewAccount();
     if (accountName) {
       await playwright.waitAndType(
         mainPageElements.createAccount.input,
@@ -344,18 +372,21 @@ const metamask = {
       );
     }
     await playwright.waitAndClick(mainPageElements.createAccount.createButton);
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     await switchToCypressIfNotActive();
     return true;
-  },
-  async switchAccount(accountNameOrAccountNumber) {
+  }
+
+  async switchAccount(
+    accountNameOrAccountNumber: string | number,
+  ): Promise<boolean> {
     if (typeof accountNameOrAccountNumber === 'string') {
       accountNameOrAccountNumber = accountNameOrAccountNumber.toLowerCase();
     }
     await switchToMetamaskIfNotActive();
     // note: closePopupAndTooltips() is required after changing createAccount() to use direct urls (popup started appearing)
     // ^ this change also introduced 500ms delay for closePopupAndTooltips() function
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     await playwright.waitAndClick(mainPageElements.accountMenu.button);
     if (typeof accountNameOrAccountNumber === 'number') {
       await playwright.waitAndClick(
@@ -367,11 +398,18 @@ const metamask = {
         accountNameOrAccountNumber,
       );
     }
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     await switchToCypressIfNotActive();
     return true;
-  },
-  async changeNetwork(network) {
+  }
+
+  async changeNetwork(
+    network:
+      | string
+      | {
+          networkName: string;
+        },
+  ): Promise<boolean> {
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
     if (typeof network === 'string') {
@@ -414,33 +452,50 @@ const metamask = {
       );
     }
     await playwright.waitUntilStable();
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     await setNetwork(network);
     await switchToCypressIfNotActive();
     return true;
-  },
-  async addNetwork(network) {
+  }
+
+  async addNetwork(network?: {
+    networkName: string;
+    rpcUrl: string;
+    chainId: string | number;
+    symbol: string;
+    blockExplorer: string;
+    isTestnet: boolean;
+  }) {
     await switchToMetamaskIfNotActive();
-    if (
-      process.env.NETWORK_NAME &&
-      process.env.RPC_URL &&
-      process.env.CHAIN_ID
-    ) {
+
+    if (!network) {
+      const missingEnvVars = [
+        'NETWORK_NAME',
+        'RPC_URL',
+        'CHAIN_ID',
+        'SYMBOL',
+        'BLOCK_EXPLORER',
+        'IS_TESTNET',
+      ].filter(envVar => !process.env[envVar]);
+
+      if (missingEnvVars.length === 0)
+        throw new Error(
+          `Missing required environment variables to add a network:\n${missingEnvVars.join(
+            '\n',
+          )}`,
+        );
+
       network = {
-        networkName: process.env.NETWORK_NAME,
-        rpcUrl: process.env.RPC_URL,
-        chainId: process.env.CHAIN_ID,
-        symbol: process.env.SYMBOL,
-        blockExplorer: process.env.BLOCK_EXPLORER,
-        isTestnet: process.env.IS_TESTNET,
+        networkName: process.env.NETWORK_NAME!,
+        rpcUrl: process.env.RPC_URL!,
+        chainId: process.env.CHAIN_ID!,
+        symbol: process.env.SYMBOL!,
+        blockExplorer: process.env.BLOCK_EXPLORER!,
+        isTestnet: process.env.IS_TESTNET === 'true',
       };
     }
-    if (typeof network === 'string') {
-      network = network.toLowerCase();
-    } else if (typeof network === 'object') {
-      network.networkName = network.networkName.toLowerCase();
-    }
-    await module.exports.goToAddNetwork();
+
+    await this.goToAddNetwork();
     await playwright.waitAndType(
       addNetworkPageElements.networkNameInput,
       network.networkName,
@@ -472,7 +527,7 @@ const metamask = {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     await setNetwork(network);
     await playwright.waitForText(
       mainPageElements.networkSwitcher.networkName,
@@ -480,7 +535,8 @@ const metamask = {
     );
     await switchToCypressIfNotActive();
     return true;
-  },
+  }
+
   async disconnectWalletFromDapp() {
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.optionsMenu.button);
@@ -507,10 +563,11 @@ const metamask = {
         '[disconnectWalletFromDapp] Wallet is not connected to a dapp, skipping..',
       );
     }
-    await module.exports.closeModal();
+    await this.closeModal();
     await switchToCypressIfNotActive();
     return true;
-  },
+  }
+
   async disconnectWalletFromAllDapps() {
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.optionsMenu.button);
@@ -538,70 +595,79 @@ const metamask = {
         '[disconnectWalletFromAllDapps] Wallet is not connected to any dapps, skipping..',
       );
     }
-    await module.exports.closeModal();
+    await this.closeModal();
     await switchToCypressIfNotActive();
     return true;
-  },
-  async activateAdvancedGasControl(skipSetup) {
+  }
+
+  async activateAdvancedGasControl(skipSetup?: boolean) {
     return await activateAdvancedSetting(
       advancedPageElements.advancedGasControlToggleOn,
       advancedPageElements.advancedGasControlToggleOff,
       skipSetup,
     );
-  },
-  async activateShowHexData(skipSetup) {
+  }
+
+  async activateShowHexData(skipSetup?: boolean) {
     return await activateAdvancedSetting(
       advancedPageElements.showHexDataToggleOn,
       advancedPageElements.showHexDataToggleOff,
       skipSetup,
     );
-  },
-  async activateTestnetConversion(skipSetup) {
+  }
+
+  async activateTestnetConversion(skipSetup?: boolean) {
     return await activateAdvancedSetting(
       advancedPageElements.showTestnetConversionOn,
       advancedPageElements.showTestnetConversionOff,
       skipSetup,
     );
-  },
-  async activateShowTestnetNetworks(skipSetup) {
+  }
+
+  async activateShowTestnetNetworks(skipSetup?: boolean): Promise<boolean> {
     return await activateAdvancedSetting(
       advancedPageElements.showTestnetNetworksOn,
       advancedPageElements.showTestnetNetworksOff,
       skipSetup,
     );
-  },
-  async activateCustomNonce(skipSetup) {
+  }
+
+  async activateCustomNonce(skipSetup?: boolean): Promise<boolean> {
     return await activateAdvancedSetting(
       advancedPageElements.customNonceToggleOn,
       advancedPageElements.customNonceToggleOff,
       skipSetup,
     );
-  },
-  async activateDismissBackupReminder(skipSetup) {
+  }
+
+  async activateDismissBackupReminder(skipSetup?: boolean): Promise<boolean> {
     return await activateAdvancedSetting(
       advancedPageElements.dismissBackupReminderOn,
       advancedPageElements.dismissBackupReminderOff,
       skipSetup,
     );
-  },
-  async activateEthSignRequests(skipSetup) {
+  }
+
+  async activateEthSignRequests(skipSetup?: boolean): Promise<boolean> {
     return await activateAdvancedSetting(
       advancedPageElements.ethSignRequestsToggleOn,
       advancedPageElements.ethSignRequestsToggleOff,
       skipSetup,
     );
-  },
-  async activateImprovedTokenAllowance(skipSetup) {
+  }
+
+  async activateImprovedTokenAllowance(skipSetup?: boolean): Promise<boolean> {
     return await activateAdvancedSetting(
       experimentalSettingsPageElements.improvedTokenAllowanceToggleOn,
       experimentalSettingsPageElements.improvedTokenAllowanceToggleOff,
       skipSetup,
       true,
     );
-  },
-  async resetAccount() {
+  }
+
+  async resetAccount(): Promise<boolean> {
     await switchToMetamaskIfNotActive();
-    await module.exports.goToAdvancedSettings();
+    await this.goToAdvancedSettings();
     await playwright.waitAndClick(advancedPageElements.resetAccountButton);
     await playwright.waitAndClick(resetAccountModalElements.resetButton);
     await playwright.waitAndClick(
@@ -611,11 +677,12 @@ const metamask = {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.closePopupAndTooltips();
+    await this.closePopupAndTooltips();
     await switchToCypressIfNotActive();
     return true;
-  },
-  async confirmSignatureRequest() {
+  }
+
+  async confirmSignatureRequest(): Promise<boolean> {
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (
       await playwright
@@ -634,8 +701,9 @@ const metamask = {
       { waitForEvent: 'close' },
     );
     return true;
-  },
-  async rejectSignatureRequest() {
+  }
+
+  async rejectSignatureRequest(): Promise<boolean> {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       signaturePageElements.rejectSignatureRequestButton,
@@ -643,7 +711,8 @@ const metamask = {
       { waitForEvent: 'close' },
     );
     return true;
-  },
+  }
+
   async confirmDataSignatureRequest() {
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (
@@ -663,8 +732,9 @@ const metamask = {
       { waitForEvent: 'close' },
     );
     return true;
-  },
-  async rejectDataSignatureRequest() {
+  }
+
+  async rejectDataSignatureRequest(): Promise<boolean> {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       dataSignaturePageElements.rejectDataSignatureRequestButton,
@@ -672,11 +742,30 @@ const metamask = {
       { waitForEvent: 'close' },
     );
     return true;
-  },
-  async importToken(tokenConfig) {
-    let tokenData = {};
+  }
+
+  async importToken(
+    tokenConfig:
+      | string
+      | {
+          address: string;
+          symbol: string;
+        },
+  ): Promise<{
+    tokenContractAddress: string;
+    tokenSymbol: string;
+    tokenDecimals: string;
+    imported: boolean;
+  }> {
+    const tokenData: Awaited<ReturnType<typeof this.importToken>> = {
+      tokenContractAddress: '',
+      tokenSymbol: '',
+      tokenDecimals: '0',
+      imported: false,
+    };
+
     await switchToMetamaskIfNotActive();
-    await module.exports.goToImportToken();
+    await this.goToImportToken();
     if (typeof tokenConfig === 'string') {
       await playwright.waitAndType(
         mainPageElements.importToken.tokenContractAddressInput,
@@ -705,9 +794,11 @@ const metamask = {
       );
       tokenData.tokenSymbol = tokenConfig.symbol;
     }
+
     tokenData.tokenDecimals = await playwright.waitAndGetInputValue(
       mainPageElements.importToken.tokenDecimalInput,
     );
+
     await playwright.waitAndClick(
       mainPageElements.importToken.addCustomTokenButton,
       await playwright.metamaskWindow(),
@@ -715,6 +806,7 @@ const metamask = {
         waitForEvent: 'navi',
       },
     );
+
     await playwright.waitAndClick(
       mainPageElements.importToken.importTokensButton,
       await playwright.metamaskWindow(),
@@ -722,6 +814,7 @@ const metamask = {
         waitForEvent: 'navi',
       },
     );
+
     await playwright.waitAndClick(
       mainPageElements.asset.backButton,
       await playwright.metamaskWindow(),
@@ -729,12 +822,15 @@ const metamask = {
         waitForEvent: 'navi',
       },
     );
-    await module.exports.closePopupAndTooltips();
+
+    await this.closePopupAndTooltips();
     await switchToCypressIfNotActive();
     tokenData.imported = true;
+
     return tokenData;
-  },
-  async confirmAddToken() {
+  }
+
+  async confirmAddToken(): Promise<boolean> {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       addTokenPageElements.confirmAddTokenButton,
@@ -742,8 +838,9 @@ const metamask = {
       { waitForEvent: 'close' },
     );
     return true;
-  },
-  async rejectAddToken() {
+  }
+
+  async rejectAddToken(): Promise<boolean> {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       addTokenPageElements.rejectAddTokenButton,
@@ -751,8 +848,9 @@ const metamask = {
       { waitForEvent: 'close' },
     );
     return true;
-  },
-  async confirmPermissionToSpend(spendLimit) {
+  }
+
+  async confirmPermissionToSpend(spendLimit?: string) {
     const notificationPage = await playwright.switchToMetamaskNotification();
     // experimental mode on
     if (
@@ -777,8 +875,9 @@ const metamask = {
       { waitForEvent: 'close' },
     );
     return true;
-  },
-  async rejectPermissionToSpend() {
+  }
+
+  async rejectPermissionToSpend(): Promise<boolean> {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       notificationPageElements.rejectToSpendButton,
@@ -786,8 +885,12 @@ const metamask = {
       { waitForEvent: 'close' },
     );
     return true;
-  },
-  async acceptAccess(options) {
+  }
+
+  async acceptAccess(options?: {
+    allAccounts?: boolean;
+    signInSignature?: boolean;
+  }): Promise<boolean> {
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (options && options.allAccounts) {
       await playwright.waitAndClick(
@@ -806,7 +909,7 @@ const metamask = {
         notificationPage,
         { waitForEvent: 'navi' },
       );
-      await module.exports.confirmSignatureRequest();
+      await this.confirmSignatureRequest();
     } else {
       await playwright.waitAndClick(
         permissionsPageElements.connectButton,
@@ -815,9 +918,33 @@ const metamask = {
       );
     }
     return true;
-  },
-  async confirmTransaction(gasConfig) {
-    let txData = {};
+  }
+
+  // Todo: add proper types for the `confirmTransaction` function
+  async confirmTransaction(
+    gasConfig?:
+      | 'low'
+      | 'market'
+      | 'aggressive'
+      | 'site'
+      | {
+          gasLimit?: number;
+          gasPrice?: number;
+          baseFee?: number;
+          priorityFee?: number;
+        },
+  ): Promise<{
+    recipientPublicAddress: string;
+    networkName: string;
+    customNonce: string;
+    confirmed: boolean;
+  }> {
+    const txData: Awaited<ReturnType<typeof this.confirmTransaction>> = {
+      recipientPublicAddress: '',
+      networkName: '',
+      customNonce: '',
+      confirmed: false,
+    };
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (gasConfig) {
       log(
@@ -1031,8 +1158,9 @@ const metamask = {
     txData.confirmed = true;
     log('[confirmTransaction] Transaction confirmed!');
     return txData;
-  },
-  async rejectTransaction() {
+  }
+
+  async rejectTransaction(): Promise<boolean> {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       confirmPageElements.rejectButton,
@@ -1040,8 +1168,9 @@ const metamask = {
       { waitForEvent: 'close' },
     );
     return true;
-  },
-  async confirmEncryptionPublicKeyRequest() {
+  }
+
+  async confirmEncryptionPublicKeyRequest(): Promise<boolean> {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       encryptionPublicKeyPageElements.confirmEncryptionPublicKeyButton,
@@ -1049,8 +1178,9 @@ const metamask = {
       { waitForEvent: 'close' },
     );
     return true;
-  },
-  async rejectEncryptionPublicKeyRequest() {
+  }
+
+  async rejectEncryptionPublicKeyRequest(): Promise<boolean> {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       encryptionPublicKeyPageElements.rejectEncryptionPublicKeyButton,
@@ -1058,8 +1188,9 @@ const metamask = {
       { waitForEvent: 'close' },
     );
     return true;
-  },
-  async confirmDecryptionRequest() {
+  }
+
+  async confirmDecryptionRequest(): Promise<boolean> {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       decryptPageElements.confirmDecryptionRequestButton,
@@ -1067,8 +1198,9 @@ const metamask = {
       { waitForEvent: 'close' },
     );
     return true;
-  },
-  async rejectDecryptionRequest() {
+  }
+
+  async rejectDecryptionRequest(): Promise<boolean> {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       decryptPageElements.rejectDecryptionRequestButton,
@@ -1076,8 +1208,11 @@ const metamask = {
       { waitForEvent: 'close' },
     );
     return true;
-  },
-  async allowToAddNetwork({ waitForEvent } = {}) {
+  }
+
+  async allowToAddNetwork({
+    waitForEvent,
+  }: { waitForEvent?: string } = {}): Promise<boolean> {
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (waitForEvent) {
       await playwright.waitAndClick(
@@ -1092,8 +1227,9 @@ const metamask = {
       );
     }
     return true;
-  },
-  async rejectToAddNetwork() {
+  }
+
+  async rejectToAddNetwork(): Promise<boolean> {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       confirmationPageElements.footer.cancelButton,
@@ -1101,8 +1237,9 @@ const metamask = {
       { waitForEvent: 'close' },
     );
     return true;
-  },
-  async allowToSwitchNetwork() {
+  }
+
+  async allowToSwitchNetwork(): Promise<boolean> {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       confirmationPageElements.footer.approveButton,
@@ -1110,8 +1247,9 @@ const metamask = {
       { waitForEvent: 'close' },
     );
     return true;
-  },
-  async rejectToSwitchNetwork() {
+  }
+
+  async rejectToSwitchNetwork(): Promise<boolean> {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       confirmationPageElements.footer.cancelButton,
@@ -1119,35 +1257,39 @@ const metamask = {
       { waitForEvent: 'close' },
     );
     return true;
-  },
-  async allowToAddAndSwitchNetwork() {
-    await module.exports.allowToAddNetwork();
-    await module.exports.allowToSwitchNetwork();
+  }
+
+  async allowToAddAndSwitchNetwork(): Promise<boolean> {
+    await this.allowToAddNetwork();
+    await this.allowToSwitchNetwork();
     return true;
-  },
-  async getWalletAddress() {
+  }
+
+  async getWalletAddress(): Promise<Option<string>> {
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.optionsMenu.button);
     await playwright.waitAndClick(
       mainPageElements.optionsMenu.accountDetailsButton,
     );
-    walletAddress = await playwright.waitAndGetValue(
+    this.walletAddress = await playwright.waitAndGetValue(
       mainPageElements.accountModal.walletAddressInput,
     );
     await playwright.waitAndClick(mainPageElements.accountModal.closeButton);
     await switchToCypressIfNotActive();
-    return walletAddress;
-  },
+    return this.walletAddress;
+  }
+
   async initialSetup(
-    playwrightInstance,
+    playwrightInstance: any,
     {
       secretWordsOrPrivateKey,
       network,
       password,
       enableAdvancedSettings,
       enableExperimentalSettings,
-    },
+    }: any, // todo: add proper types
   ) {
+    console.log(this);
     const isCustomNetwork =
       (process.env.NETWORK_NAME &&
         process.env.RPC_URL &&
@@ -1160,7 +1302,7 @@ const metamask = {
     }
     await playwright.assignWindows();
     await playwright.assignActiveTabName('metamask');
-    await module.exports.getExtensionDetails();
+    await this.getExtensionDetails();
     await playwright.fixBlankPage();
     await playwright.fixCriticalError();
 
@@ -1172,21 +1314,21 @@ const metamask = {
     ) {
       if (secretWordsOrPrivateKey.includes(' ')) {
         // secret words
-        await module.exports.importWallet(secretWordsOrPrivateKey, password);
+        await this.importWallet(secretWordsOrPrivateKey, password);
       } else {
         // private key
-        await module.exports.createWallet(password);
-        await module.exports.importAccount(secretWordsOrPrivateKey);
+        await this.createWallet(password);
+        await this.importAccount(secretWordsOrPrivateKey);
       }
 
       await setupSettings(enableAdvancedSettings, enableExperimentalSettings);
 
       if (isCustomNetwork) {
-        await module.exports.addNetwork(network);
+        await this.addNetwork(network);
       } else {
-        await module.exports.changeNetwork(network);
+        await this.changeNetwork(network);
       }
-      walletAddress = await module.exports.getWalletAddress();
+      this.walletAddress = await this.getWalletAddress();
       await playwright.switchToCypressWindow();
       return true;
     } else if (
@@ -1195,8 +1337,8 @@ const metamask = {
         .locator(unlockPageElements.passwordInput)
         .isVisible()
     ) {
-      await module.exports.unlock(password);
-      walletAddress = await module.exports.getWalletAddress();
+      await this.unlock(password);
+      this.walletAddress = await this.getWalletAddress();
       await playwright.switchToCypressWindow();
       return true;
     } else {
@@ -1208,38 +1350,40 @@ const metamask = {
         !process.env.RESET_METAMASK
       ) {
         await switchToMetamaskIfNotActive();
-        walletAddress = await module.exports.getWalletAddress();
+        this.walletAddress = await this.getWalletAddress();
         await playwright.switchToCypressWindow();
         return true;
       } else {
         // todo: reset metamask state
       }
     }
-  },
-};
+  }
+}
+
+const metamask = new MetamaskApi();
 
 async function switchToMetamaskIfNotActive() {
   if (await playwright.isCypressWindowActive()) {
     await playwright.switchToMetamaskWindow();
-    switchBackToCypressWindow = true;
+    metamask.switchBackToCypressWindow = true;
   }
-  return switchBackToCypressWindow;
+  return metamask.switchBackToCypressWindow;
 }
 
 async function switchToCypressIfNotActive() {
-  if (switchBackToCypressWindow) {
+  if (metamask.switchBackToCypressWindow) {
     await playwright.switchToCypressWindow();
-    switchBackToCypressWindow = false;
+    metamask.switchBackToCypressWindow = false;
   }
-  return switchBackToCypressWindow;
+  return metamask.switchBackToCypressWindow;
 }
 
 async function activateAdvancedSetting(
-  toggleOn,
-  toggleOff,
-  skipSetup,
-  experimental,
-) {
+  toggleOn: string,
+  toggleOff: string,
+  skipSetup?: boolean,
+  experimental?: boolean,
+): Promise<boolean> {
   if (!skipSetup) {
     await switchToMetamaskIfNotActive();
     if (experimental) {
@@ -1266,9 +1410,9 @@ async function activateAdvancedSetting(
 }
 
 async function setupSettings(
-  enableAdvancedSettings,
-  enableExperimentalSettings,
-) {
+  enableAdvancedSettings: boolean,
+  enableExperimentalSettings: boolean,
+): Promise<boolean> {
   await switchToMetamaskIfNotActive();
   await metamask.goToAdvancedSettings();
   await metamask.activateAdvancedGasControl(true);
@@ -1295,4 +1439,4 @@ async function setupSettings(
   return true;
 }
 
-module.exports = metamask;
+export default metamask;
