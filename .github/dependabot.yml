@@ -16,7 +16,7 @@ updates:
         dependency-type: 'production'
       - dependency-name: 'synthetix-*'
         dependency-type: 'production'
-      - dependency-name: '@synthetixio/*'
+      - dependency-name: '@findtheparagon/*'
         dependency-type: 'production'
     labels:
       - 'npm'

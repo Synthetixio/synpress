@@ -1,5 +1,5 @@
 {
-  "name": "@synthetixio/synpress",
+  "name": "@findtheparagon/synpress",
   "version": "3.5.0",
   "packageManager": "pnpm@8.4.0",
   "description": "Synpress is e2e testing framework based around Cypress.io & playwright with included MetaMask support. Test your dapps with ease.",
@@ -111,6 +111,6 @@
     "node": ">=14"
   },
   "publishConfig": {
-    "access": "public"
+    "registry": "https://npm.pkg.github.com"
   }
 }

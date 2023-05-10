@@ -65,11 +65,11 @@ more details.
 
 ```bash
 # with pnpm
-pnpm add --save-dev @synthetixio/synpress
+pnpm add --save-dev @findtheparagon/synpress
 # with npm
-npm install --save-dev @synthetixio/synpress
+npm install --save-dev @findtheparagon/synpress
 # with yarn
-yarn add -D @synthetixio/synpress
+yarn add -D @findtheparagon/synpress
 ```
 
 ## Supported frameworks
@@ -164,7 +164,7 @@ project_dir
 const path = require('path');
 const synpressPath = path.join(
   process.cwd(),
-  '/node_modules/@synthetixio/synpress',
+  '/node_modules/@findtheparagon/synpress',
 );
 
 module.exports = {
@@ -175,7 +175,7 @@ module.exports = {
 2. Create `support.js` inside your tests folder (`/project_dir/tests/e2e`):
 
 ```js
-import '@synthetixio/synpress/support/index';
+import '@findtheparagon/synpress/support/index';
 ```
 
 _^ hint: you can also use this file to extend synpress - add custom commands,
@@ -190,7 +190,7 @@ and more.._
     "baseUrl": "../../node_modules",
     "types": [
       "cypress",
-      "@synthetixio/synpress/support",
+      "@findtheparagon/synpress/support",
       "cypress-wait-until",
       "@testing-library/cypress"
     ],
