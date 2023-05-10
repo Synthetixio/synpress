@@ -50,7 +50,7 @@ module.exports = {
       selectedNetwork = {
         networkName: name.toLowerCase(),
         networkDisplayName: name,
-        networkId: chainId,
+        networkId: Number(chainId),
         isTestnet: true,
       };
       ADDED_NETWORKS[name] = selectedNetwork;
