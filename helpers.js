@@ -9,21 +9,30 @@ const packageJson = require('./package.json');
 const PRESET_NETWORKS = Object.freeze({
   mainnet: {
     networkName: 'mainnet',
+    networkDisplayName: 'Ethereum Mainnet',
     networkId: 1,
     isTestnet: false,
   },
   goerli: {
     networkName: 'goerli',
+    networkDisplayName: 'Goerli Test Network',
     networkId: 5,
     isTestnet: true,
   },
   sepolia: {
     networkName: 'sepolia',
+    networkDisplayName: 'Sepolia Test Network',
     networkId: 11155111,
     isTestnet: true,
   },
 });
 
+// map(networkName => networkInfo)
+const ADDED_NETWORKS = {
+  'ethereum mainnet': PRESET_NETWORKS.mainnet,
+  'goerli test network': PRESET_NETWORKS.goerli,
+  'sepolia test network': PRESET_NETWORKS.sepolia,
+};
 let selectedNetwork = PRESET_NETWORKS.mainnet;
 
 module.exports = {
@@ -32,24 +41,38 @@ module.exports = {
 
     if (Object.keys(PRESET_NETWORKS).includes(network)) {
       selectedNetwork = PRESET_NETWORKS[network];
+      return;
     }
 
     if (network === 'localhost') {
       const provider = new ethers.JsonRpcProvider('http://127.0.0.1:8545');
       const { chainId, name } = await provider.getNetwork();
       selectedNetwork = {
-        networkName: name,
-        networkId: chainId,
+        networkName: name.toLowerCase(),
+        networkDisplayName: name,
+        networkId: Number(chainId),
         isTestnet: true,
       };
-    } else if (typeof network === 'object') {
+      ADDED_NETWORKS[name] = selectedNetwork;
+      return;
+    }
+
+    if (typeof network === 'object') {
       selectedNetwork = {
-        networkName: network.networkName,
+        networkName: network.networkName.toLowerCase(),
+        networkDisplayName: network.networkName,
         networkId: Number(network.chainId),
         isTestnet: network.isTestnet,
       };
+      ADDED_NETWORKS[network.networkName] = selectedNetwork;
+      return;
     }
-    // todo: handle a case when setNetwork() is triggered by changeNetwork() with a string of already added custom networks
+
+    if (typeof network === 'string') {
+      const addedNetwork = ADDED_NETWORKS[network.toLowerCase()];
+      if (!addedNetwork) throw new Error('Network not found');
+      selectedNetwork = addedNetwork;
+    }
   },
   getNetwork: () => {
     log(`Current network data: ${selectedNetwork}`);

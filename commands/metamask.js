@@ -32,7 +32,7 @@ const {
 const {
   confirmationPageElements,
 } = require('../pages/metamask/confirmation-page');
-const { setNetwork } = require('../helpers');
+const { setNetwork, getNetwork } = require('../helpers');
 
 let extensionInitialUrl;
 let extensionId;
@@ -372,6 +372,23 @@ const metamask = {
     return true;
   },
   async changeNetwork(network) {
+    const currentNetwork = getNetwork();
+
+    if (
+      typeof network === 'string' &&
+      (currentNetwork.networkDisplayName === network.toLowerCase() ||
+        currentNetwork.networkName === network.toLowerCase())
+    )
+      return false;
+
+    if (
+      typeof network === 'object' &&
+      (currentNetwork.networkDisplayName ===
+        network.networkName.toLowerCase() ||
+        currentNetwork.networkName === network.networkName.toLowerCase())
+    )
+      return false;
+
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
     if (typeof network === 'string') {
