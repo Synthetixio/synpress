@@ -331,7 +331,8 @@ Accept metamask access request.
 ```ts
 acceptMetamaskAccess(options?: {
   allAccounts?: boolean;
-  signInSignature?: boolean;
+  confirmSignatureRequest?: boolean;
+  confirmDataSignatureRequest?: boolean;
 }): Chainable<Subject>;
 ```
 
