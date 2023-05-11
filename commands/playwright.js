@@ -316,6 +316,7 @@ module.exports = {
   },
   // workaround for metamask random blank page on first run
   async fixBlankPage(page = metamaskWindow) {
+    await page.waitForTimeout(1000);
     for (let times = 0; times < 5; times++) {
       if (
         (await page.locator(onboardingWelcomePageElements.app).count()) === 0
