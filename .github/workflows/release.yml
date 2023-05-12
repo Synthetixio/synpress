@@ -67,7 +67,7 @@ jobs:
           GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
 
       - name: Set pnpm config
-        run: pnpm config set //registry.npmjs.org/:_auth $NPM_TOKEN
+        run: pnpm config set "//registry.npmjs.org/:_authToken" "${NPM_TOKEN}"
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
