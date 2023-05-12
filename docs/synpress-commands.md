@@ -316,6 +316,22 @@ Confirm metamask permission to spend asset.
 confirmMetamaskPermissionToSpend(spendLimit?: string): Chainable<Subject>;
 ```
 
+#### `cy.confirmMetamaskPermisionToApproveAll()`
+
+Confirm metamask permission to access all elements (example: collectibles).
+
+```ts
+confirmMetamaskPermisionToApproveAll(): Chainable<Subject>;
+```
+
+#### `cy.rejectMetamaskPermisionToApproveAll()`
+
+Reject metamask permission to access all elements (example: collectibles).
+
+```ts
+rejectMetamaskPermisionToApproveAll(): Chainable<Subject>;
+```
+
 #### `cy.rejectMetamaskPermissionToSpend()`
 
 Reject metamask permission to spend asset.
@@ -331,7 +347,8 @@ Accept metamask access request.
 ```ts
 acceptMetamaskAccess(options?: {
   allAccounts?: boolean;
-  signInSignature?: boolean;
+  confirmSignatureRequest?: boolean;
+  confirmDataSignatureRequest?: boolean;
 }): Chainable<Subject>;
 ```
 
@@ -418,29 +435,6 @@ setupMetamask(
   password?: string,
   enableAdvancedSettings?: boolean,
   enableExperimentalSettings?: boolean,
-): Chainable<Subject>;
-```
-
-#### `cy.snxExchangerSettle()`
-
-Execute settle on Exchanger contract.
-
-```ts
-snxExchangerSettle(
-  asset: string,
-  walletAddress: string,
-  privateKey: string,
-): Chainable<Subject>;
-```
-
-#### `cy.snxCheckWaitingPeriod()`
-
-Check waiting period on Exchanger contract.
-
-```ts
-snxCheckWaitingPeriod(
-  asset: string,
-  walletAddress: string,
 ): Chainable<Subject>;
 ```
 

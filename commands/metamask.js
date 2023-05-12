@@ -32,7 +32,7 @@ const {
 const {
   confirmationPageElements,
 } = require('../pages/metamask/confirmation-page');
-const { setNetwork } = require('../helpers');
+const { setNetwork, getNetwork } = require('../helpers');
 
 let extensionInitialUrl;
 let extensionId;
@@ -372,6 +372,23 @@ const metamask = {
     return true;
   },
   async changeNetwork(network) {
+    const currentNetwork = getNetwork();
+
+    if (
+      typeof network === 'string' &&
+      (currentNetwork.networkDisplayName === network.toLowerCase() ||
+        currentNetwork.networkName === network.toLowerCase())
+    )
+      return false;
+
+    if (
+      typeof network === 'object' &&
+      (currentNetwork.networkDisplayName ===
+        network.networkName.toLowerCase() ||
+        currentNetwork.networkName === network.networkName.toLowerCase())
+    )
+      return false;
+
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
     if (typeof network === 'string') {
@@ -800,20 +817,44 @@ const metamask = {
       notificationPage,
       { waitForEvent: 'navi' },
     );
+
     if (options && options.signInSignature) {
+      log(
+        [
+          '[deprecation-warning]: `options.signInSignature` is no longer used will be deprecated soon',
+          'Use `options.confirmSignatureRequest` or `options.confirmDataSignatureRequest`',
+        ].join('\n'),
+      );
+    }
+
+    if (
+      options &&
+      (options.signInSignature || options.confirmSignatureRequest)
+    ) {
       await playwright.waitAndClick(
         permissionsPageElements.connectButton,
         notificationPage,
         { waitForEvent: 'navi' },
       );
       await module.exports.confirmSignatureRequest();
-    } else {
+      return true;
+    }
+
+    if (options && options.confirmDataSignatureRequest) {
       await playwright.waitAndClick(
         permissionsPageElements.connectButton,
         notificationPage,
-        { waitForEvent: 'close' },
+        { waitForEvent: 'navi' },
       );
+      await module.exports.confirmDataSignatureRequest();
+      return true;
     }
+
+    await playwright.waitAndClick(
+      permissionsPageElements.connectButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
     return true;
   },
   async confirmTransaction(gasConfig) {
@@ -1072,6 +1113,32 @@ const metamask = {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       decryptPageElements.rejectDecryptionRequestButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
+  async confirmPermisionToApproveAll() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      notificationPageElements.allowToSpendButton,
+      notificationPage,
+    );
+    await playwright.waitAndClick(
+      notificationPageElements.approveWarningToSpendButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
+  async rejectPermisionToApproveAll() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      notificationPageElements.allowToSpendButton,
+      notificationPage,
+    );
+    await playwright.waitAndClick(
+      notificationPageElements.rejectWarningToSpendButton,
       notificationPage,
       { waitForEvent: 'close' },
     );

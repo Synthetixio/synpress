@@ -9,6 +9,8 @@ const loadingOverlayErrorButtonsRetryButton =
 const criticalError = '.critical-error';
 const criticalErrorRestartButton = '#critical-error-button';
 
+const errorPage = '.error-page';
+
 module.exports.pageElements = {
   loadingLogo,
   loadingSpinner,
@@ -18,4 +20,5 @@ module.exports.pageElements = {
   loadingOverlayErrorButtonsRetryButton,
   criticalError,
   criticalErrorRestartButton,
+  errorPage,
 };
