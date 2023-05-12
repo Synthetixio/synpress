@@ -44,6 +44,10 @@ jobs:
             ${{ runner.os }}-pnpm-v1-
         continue-on-error: true
 
+      # fixes permission issues on docker
+      - name: Chown workspace
+        run: chown -R $(whoami) .
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --prefer-offline
 
