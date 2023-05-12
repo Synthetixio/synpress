@@ -51,21 +51,26 @@ declare namespace Cypress {
     /**
      * Get current network
      * @example
-     * cy.getNetwork()
+     * cy.getCurrentNetwork()
      */
-    getNetwork(): Chainable<Subject>;
+    getCurrentNetwork(): Chainable<Subject>;
     /**
      * Add network in metamask (and also switch to the newly added network)
+     * List of available presets for networks: https://github.com/wagmi-dev/references/tree/main/packages/chains#chains
+     * If preset for your custom chain is not available, you can add custom network by yourself.
      * @example
-     * cy.addMetamaskNetwork({networkName: 'name', rpcUrl: 'https://url', chainId: '1', symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true})
+     * cy.addMetamaskNetwork('optimism') // works only if chain is available as preset
+     * cy.addMetamaskNetwork({name: 'optimism', rpcUrl: 'https://mainnet.optimism.io', chainId: 10, symbol: 'oETH', blockExplorer: 'https://https://optimistic.etherscan.io', isTestnet: false})
+     * cy.addMetamaskNetwork({id: 10, name: 'optimism', nativeCurrency: { symbol: 'OP' }, rpcUrls: { default: { http: ['https://mainnet.optimism.io'] } }, testnet: false })
      */
     addMetamaskNetwork(network: object): Chainable<Subject>;
     /**
-     * Change network in metamask
+     * Change network in metamask (if network is not present, it will be added)
+     * List of available presets for networks: https://github.com/wagmi-dev/references/tree/main/packages/chains#chains
+     * If preset for your custom chain is not available, you can add custom network by yourself with `cy.addMetamaskNetwork()`.
      * @example
      * cy.changeMetamaskNetwork('goerli')
-     * cy.changeMetamaskNetwork('custom network')
-     * cy.changeMetamaskNetwork({networkName: 'name'})
+     * cy.changeMetamaskNetwork('custom network name')
      */
     changeMetamaskNetwork(network: string): Chainable<Subject>;
     /**
@@ -322,12 +327,14 @@ declare namespace Cypress {
     fetchMetamaskWalletAddress(): Chainable<Subject>;
     /**
      * Run the flow for metamask setup
+     * List of available presets for networks: https://github.com/wagmi-dev/references/tree/main/packages/chains#chains
+     * If preset for your custom chain is not available, you can add custom network by yourself.
      * @example
      * cy.setupMetamask() // will use defaults
-     * cy.setupMetamask('secret, words, ...', 'goerli', 'password for metamask')
-     * cy.setupMetamask('secret, words, ...', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for metamask')
+     * cy.setupMetamask('secret, words, ...', 'optimism', 'password for metamask') // works only if chain is available as preset
+     * cy.setupMetamask('secret, words, ...', {name: 'optimism', rpcUrl: 'https://mainnet.optimism.io', chainId: 10, symbol: 'oETH', blockExplorer: 'https://https://optimistic.etherscan.io', isTestnet: false}, 'password for metamask')
      * cy.setupMetamask('private_key', 'goerli', 'password for metamask')
-     * cy.setupMetamask('private_key', {networkName: 'name', rpcUrl: 'https://url', chainId: 1, symbol: 'ETH', blockExplorer: 'https://url', isTestnet: true}, 'password for metamask')
+     * cy.setupMetamask('private_key', {name: 'optimism', rpcUrl: 'https://mainnet.optimism.io', chainId: 10, symbol: 'oETH', blockExplorer: 'https://https://optimistic.etherscan.io', isTestnet: false}, 'password for metamask')
      */
     setupMetamask(
       secretWordsOrPrivateKey?: string,

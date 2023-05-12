@@ -91,6 +91,9 @@ dependencies:
   node-fetch:
     specifier: ^2.6.1
     version: 2.6.9
+  underscore:
+    specifier: ^1.13.6
+    version: 1.13.6
   viem:
     specifier: ^0.3.17
     version: 0.3.17(typescript@5.0.4)
@@ -9829,6 +9832,10 @@ packages:
     dependencies:
       buffer: 5.7.1
       through: 2.3.8
+    dev: false
+
+  /underscore@1.13.6:
+    resolution: {integrity: sha512-+A5Sja4HP1M08MaXya7p5LvjuM7K6q/2EaC0+iovj/wOcMsTzMvDFbasi/oSapiwOlt252IqsKqPjCl7huKS0A==}
     dev: false
 
   /unicode-canonical-property-names-ecmascript@2.0.0:

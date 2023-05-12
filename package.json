@@ -78,6 +78,7 @@
     "find-config": "^1.0.0",
     "get-port": "^6.1.2",
     "node-fetch": "^2.6.1",
+    "underscore": "^1.13.6",
     "viem": "^0.3.17",
     "wait-on": "^7.0.1"
   },

@@ -32,7 +32,13 @@ const {
 const {
   confirmationPageElements,
 } = require('../pages/metamask/confirmation-page');
-const { setNetwork, getNetwork } = require('../helpers');
+const {
+  setNetwork,
+  addNetwork,
+  findNetwork,
+  checkNetworkAdded,
+  getCurrentNetwork,
+} = require('../helpers');
 
 let extensionInitialUrl;
 let extensionId;
@@ -372,64 +378,33 @@ const metamask = {
     return true;
   },
   async changeNetwork(network) {
-    const currentNetwork = getNetwork();
+    if (typeof network === 'string') {
+      network = await findNetwork(network);
+    }
 
-    if (
-      typeof network === 'string' &&
-      (currentNetwork.networkDisplayName === network.toLowerCase() ||
-        currentNetwork.networkName === network.toLowerCase())
-    )
-      return false;
+    const currentNetwork = getCurrentNetwork();
+    if (network === currentNetwork) {
+      return true;
+    }
 
-    if (
-      typeof network === 'object' &&
-      (currentNetwork.networkDisplayName ===
-        network.networkName.toLowerCase() ||
-        currentNetwork.networkName === network.networkName.toLowerCase())
-    )
-      return false;
+    const networkAdded = await checkNetworkAdded(network);
+    if (!networkAdded) {
+      await module.exports.addNetwork(network);
+      return true;
+    }
 
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
-    if (typeof network === 'string') {
-      network = network.toLowerCase();
-      if (network === 'mainnet') {
-        await playwright.waitAndClick(
-          mainPageElements.networkSwitcher.mainnetNetworkItem,
-        );
-      } else if (network === 'goerli') {
-        await playwright.waitAndClick(
-          mainPageElements.networkSwitcher.goerliNetworkItem,
-        );
-      } else if (network === 'sepolia') {
-        await playwright.waitAndClick(
-          mainPageElements.networkSwitcher.sepoliaNetworkItem,
-        );
-      } else if (network === 'localhost') {
-        await playwright.waitAndClick(
-          mainPageElements.networkSwitcher.localhostNetworkItem,
-        );
-      } else {
-        await playwright.waitAndClickByText(
-          mainPageElements.networkSwitcher.dropdownMenuItem,
-          network,
-        );
-      }
-      await playwright.waitForText(
-        mainPageElements.networkSwitcher.networkName,
-        network,
-      );
-    } else if (typeof network === 'object') {
-      network.networkName = network.networkName.toLowerCase();
-      await playwright.waitAndClickByText(
-        mainPageElements.networkSwitcher.dropdownMenuItem,
-        network.networkName,
-      );
-      await playwright.waitForText(
-        mainPageElements.networkSwitcher.networkName,
-        network.networkName,
-      );
-    }
+
+    await playwright.waitAndClickByText(
+      mainPageElements.networkSwitcher.dropdownMenuItem,
+      network.name,
+    );
+    await playwright.waitForText(
+      mainPageElements.networkSwitcher.networkName,
+      network.name,
+    );
+
     await playwright.waitUntilStable();
     await module.exports.closePopupAndTooltips();
     await setNetwork(network);
@@ -437,49 +412,94 @@ const metamask = {
     return true;
   },
   async addNetwork(network) {
-    await switchToMetamaskIfNotActive();
+    if (typeof network === 'string') {
+      network = await findNetwork(network);
+    }
+
+    // backward compatibility with older synpress versions
+    if (
+      typeof network === 'object' &&
+      (network.name || network.networkName) &&
+      network.rpcUrl &&
+      network.chainId &&
+      network.symbol
+    ) {
+      network = {
+        id: network.chainId,
+        name: network.name || network.networkName,
+        nativeCurrency: {
+          symbol: network.symbol,
+        },
+        rpcUrls: {
+          public: { http: [network.rpcUrl] },
+          default: { http: [network.rpcUrl] },
+        },
+        testnet: network.isTestnet,
+      };
+
+      if (network.blockExplorer) {
+        network.blockExplorers = {
+          etherscan: { url: network.blockExplorer },
+          default: { url: network.blockExplorer },
+        };
+      }
+    }
+
+    const networkAlreadyAdded = await checkNetworkAdded(network);
+    if (networkAlreadyAdded) {
+      await module.exports.changeNetwork(network);
+      return true;
+    }
+
     if (
       process.env.NETWORK_NAME &&
       process.env.RPC_URL &&
-      process.env.CHAIN_ID
+      process.env.CHAIN_ID &&
+      process.env.SYMBOL
     ) {
       network = {
-        networkName: process.env.NETWORK_NAME,
-        rpcUrl: process.env.RPC_URL,
-        chainId: process.env.CHAIN_ID,
-        symbol: process.env.SYMBOL,
-        blockExplorer: process.env.BLOCK_EXPLORER,
-        isTestnet: process.env.IS_TESTNET,
+        id: process.env.CHAIN_ID,
+        name: process.env.NETWORK_NAME,
+        nativeCurrency: {
+          symbol: process.env.SYMBOL,
+        },
+        rpcUrls: {
+          public: { http: [process.env.RPC_URL] },
+          default: { http: [process.env.RPC_URL] },
+        },
+        blockExplorers: {
+          etherscan: { url: process.env.BLOCK_EXPLORER },
+          default: { url: process.env.BLOCK_EXPLORER },
+        },
+        testnet: process.env.IS_TESTNET,
       };
     }
-    if (typeof network === 'string') {
-      network = network.toLowerCase();
-    } else if (typeof network === 'object') {
-      network.networkName = network.networkName.toLowerCase();
-    }
+
+    await addNetwork(network);
+
+    await switchToMetamaskIfNotActive();
+
     await module.exports.goToAddNetwork();
     await playwright.waitAndType(
       addNetworkPageElements.networkNameInput,
-      network.networkName,
+      network.name,
     );
     await playwright.waitAndType(
       addNetworkPageElements.rpcUrlInput,
-      network.rpcUrl,
+      network.rpcUrls.default.http[0],
     );
     await playwright.waitAndType(
       addNetworkPageElements.chainIdInput,
-      network.chainId,
+      network.id,
     );
-    if (network.symbol) {
-      await playwright.waitAndType(
-        addNetworkPageElements.symbolInput,
-        network.symbol,
-      );
-    }
+    await playwright.waitAndType(
+      addNetworkPageElements.symbolInput,
+      network.nativeCurrency.symbol,
+    );
     if (network.blockExplorer) {
       await playwright.waitAndType(
         addNetworkPageElements.blockExplorerInput,
-        network.blockExplorer,
+        network.blockExplorers.default.url,
       );
     }
     await playwright.waitAndClick(
@@ -490,11 +510,11 @@ const metamask = {
       },
     );
     await module.exports.closePopupAndTooltips();
-    await setNetwork(network);
     await playwright.waitForText(
       mainPageElements.networkSwitcher.networkName,
-      network.networkName,
+      network.name,
     );
+    await setNetwork(network);
     await switchToCypressIfNotActive();
     return true;
   },
@@ -1168,7 +1188,8 @@ const metamask = {
     const isCustomNetwork =
       (process.env.NETWORK_NAME &&
         process.env.RPC_URL &&
-        process.env.CHAIN_ID) ||
+        process.env.CHAIN_ID &&
+        process.env.SYMBOL) ||
       typeof network == 'object';
     if (playwrightInstance) {
       await playwright.init(playwrightInstance);
