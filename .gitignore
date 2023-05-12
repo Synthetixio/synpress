@@ -2,7 +2,6 @@ node_modules
 .turbo
 .pnpm-store
 .DS_Store
-.npmrc
 
 downloads
 lint-results.sarif
