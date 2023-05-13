@@ -32,35 +32,35 @@ it directly. Check
 [usage examples](https://github.com/Synthetixio/synpress/#usage-examples) for
 more details.
 
-# Table Of Content
+# Table of content
 
-- [Supported frameworks](#supported-frameworks)
-- [Supported wallets](#supported-wallets)
-- [Usage examples](#usage-examples)
-- [Features](#features)
-- [Example setup for eslint and tsconfig](#example-setup-for-eslint-and-tsconfig)
-- [Important notes](#important-notes)
-- [Synpress + Docker](#using-with-docker)
-- [CI tips & tricks](#ci-tips--tricks)
-- [CLI Usages](#usage--commands)
-- [Environmental variables](#environmental-variables)
-- [Release process](#release-process)
-- [More resources](#more-resources)
+- [⚙️ Supported frameworks](#-supported-frameworks)
+- [👝 Supported wallets](#-supported-wallets)
+- [✍️ Usage examples](#-usage-examples)
+- [🌟 Features](#-features)
+- [👷 Example setup for eslint and tsconfig](#-example-setup-for-eslint-and-tsconfig)
+- [⚡ Important notes](#-important-notes)
+- [🐳 Synpress + Docker](#-using-with-docker)
+- [💁‍♂️ CI tips & tricks](#-ci-tips--tricks)
+- [🧪 CLI](#-usage--commands)
+- [📃 Environmental variables](#-environmental-variables)
+- [🚢 Release process](#-release-process)
+- [📝 More resources](#-more-resources)
 
-## Supported frameworks
+## ⚙️ Supported frameworks
 
-- [synpress](https://github.com/Synthetixio/synpress)
+- [Synpress](https://github.com/Synthetixio/synpress)
 - [Playwright](https://playwright.dev/) (as a plugin)
 - [Cypress](https://github.com/cypress-io/cypress) (as a plugin)
 
-## Supported wallets
+## 👝 Supported wallets
 
 - [MetaMask](https://metamask.io/)
 
-## Usage examples:
+## ✍️ Usage examples:
 
-- [Synpress Examples](https://github.com/drptbl/synpress-examples/)
-- [Synpress E2E Tests](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e)
+- [⭐ Synpress examples](https://github.com/drptbl/synpress-examples/)
+- [Synpress e2e tests](https://github.com/Synthetixio/synpress/tree/dev/tests/e2e)
 
 ---
 
@@ -70,7 +70,7 @@ For full Synpress commands and their examples,
 To see in which direction Synpress is headed to, take a look at
 [planning board](https://github.com/orgs/Synthetixio/projects/14).
 
-## Features
+## 🌟 Features
 
 - Added support for metamask 🦊
 - Supports headless mode 🤖 (`synpress run --headless`)
@@ -93,7 +93,7 @@ To see in which direction Synpress is headed to, take a look at
 - Blazingly-fast ⚡
 - Extensible ⚙️ (add own custom commands and plugins)
 - Can be used in existing
-  [cypress setup](https://github.com/Synthetixio/synpress/issues/346#issuecomment-1060506096)
+  [Cypress setup](https://github.com/Synthetixio/synpress/issues/346#issuecomment-1060506096)
 - Supports dotenv
   - Loads all env vars from your `.env` file automatically (from project root
     folder)
@@ -115,7 +115,7 @@ To see in which direction Synpress is headed to, take a look at
   - Get your feedback remotely thanks to ngrok
   - Use mpeg-4 preview plugin to watch videos from inside codespaces :) ...
 
-## Example setup for eslint and tsconfig
+## 👷 Example setup for eslint and tsconfig
 
 Project structure:
 
@@ -188,7 +188,7 @@ and then modify it for your needs. Then you can direct synpress to use it with
 
 For example: `synpress run --configFile __tests__/e2e/customConfig.config.js`
 
-## Important Notes
+## ⚡ Important notes
 
 Synpress doesn't seem to communicate with metamask properly if
 `"chromeWebSecurity": false` flag is set. More about it
@@ -281,8 +281,8 @@ introduce delay between every action, 50ms by default) / `SLOW_MODE=<value>`.
 following features:
 
 - improved logging
-- [cypress debugger](https://docs.cypress.io/guides/guides/debugging)
-- [playwright debugger](https://playwright.dev/docs/debug)
+- [Cypress debugger](https://docs.cypress.io/guides/guides/debugging)
+- [Playwright debugger](https://playwright.dev/docs/debug)
 - slow down tests
 
 You may encounter 403 errors (on shared IPs & CI) related to rate limiting while
@@ -291,7 +291,7 @@ all, but it's good to mention. To prevent it from happening, you can create new
 private access token on GitHub (without any additional access) and specify
 `GH_USERNAME` & `GH_PAT` environmental variables.
 
-## Using with Docker
+## 🐳 Using with Docker
 
 Docker is awesome for CI. Give it a try.
 
@@ -310,7 +310,7 @@ Docker is awesome for CI. Give it a try.
   - remote: https://<random>.ngrok.io/vnc.html?autoconnect=true (check logs for
     url)
 
-### How to use
+### How to run e2e tests for Synpress using Docker
 
 1. `git clone git@github.com:Synthetixio/synpress.git`
 2. `cd synpress`
@@ -325,7 +325,7 @@ Docker is awesome for CI. Give it a try.
 
 All examples of setup are present in this repository. Just take a look around.
 
-## CI tips & tricks
+## 💁‍♂️ CI tips & tricks
 
 - check out many different
   [examples in this repository](https://github.com/Synthetixio/synpress/tree/dev/.github/workflows):
@@ -342,7 +342,7 @@ All examples of setup are present in this repository. Just take a look around.
 - use [docker-e2e](https://github.com/Synthetixio/docker-e2e)
 - synpress is tested and should work on all resolutions, starting from 800x600
 
-## Usage & Commands
+## 🧪 Usage & commands
 
 - `synpress run` to run tests
 - `synpress open` to open Cypress UI (may be bugged in some cases because it
@@ -384,7 +384,7 @@ Options:
   -h, --help                display help for command
 ```
 
-## Environmental variables
+## 📃 Environmental variables
 
 | Variable                | Description                                                                                                                                                                                                 |
 | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -409,7 +409,7 @@ Options:
 | `CYPRESS_GROUP`         | [Group tests](https://docs.cypress.io/guides/guides/command-line#cypress-run-group-lt-name-gt)                                                                                                              |
 | `CI`                    | `boolean` value indicate that tests are runing from CI/CD pipeline                                                                                                                                          |
 
-## Release process
+## 🚢 Release process
 
 1. Create PR from `dev` branch to `master` branch
 2. Merge it (new `-beta` version is automatically released)
@@ -430,8 +430,9 @@ Above actions will lead to:
 - New GitHub packages node module release
 - New GitHub release (tagged) created with changelog from commit messages
 
-## More resources
+## 📝 More resources
 
+- [End-to-end testing using Synpress](https://klaytn.foundation/synpress-setup-tutorial/)
 - [Synpress - web3-enabled e2e testing tool](https://gitcoin.co/grants/5699/synpress-web3-enabled-e2e-testing-tool)
 - [How to set up Synpress for Web3 dApp Frontend Test Automation with MetaMask](https://medium.com/andamp/how-to-setup-synpress-for-wen3-dapp-frontend-test-automation-with-metamask-73396896684a)
 - [Extending Synpress with additional MetaMask commands](https://medium.com/andamp/extending-synpress-with-additional-metamask-commands-fdc6b35a2ffc)
