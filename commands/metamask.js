@@ -32,7 +32,13 @@ const {
 const {
   confirmationPageElements,
 } = require('../pages/metamask/confirmation-page');
-const { setNetwork } = require('../helpers');
+const {
+  setNetwork,
+  addNetwork,
+  findNetwork,
+  checkNetworkAdded,
+  getCurrentNetwork,
+} = require('../helpers');
 
 let extensionInitialUrl;
 let extensionId;
@@ -127,10 +133,10 @@ const metamask = {
     // otherwise popup may not be detected properly and not closed
     await playwright.metamaskWindow().waitForTimeout(1000);
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(mainPageElements.popup.container)
-        .isVisible()
+        .count()) > 0
     ) {
       const popupBackground = playwright
         .metamaskWindow()
@@ -141,18 +147,18 @@ const metamask = {
         .mouse.click(popupBackgroundBox.x + 1, popupBackgroundBox.y + 1);
     }
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(mainPageElements.tippyTooltip.closeButton)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndClick(mainPageElements.tippyTooltip.closeButton);
     }
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(mainPageElements.actionableMessage.closeButton)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndClick(
         mainPageElements.actionableMessage.closeButton,
@@ -165,10 +171,10 @@ const metamask = {
     // otherwise modal may not be detected properly and not closed
     await playwright.metamaskWindow().waitForTimeout(1000);
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(mainPageElements.connectedSites.modal)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndClick(
         mainPageElements.connectedSites.closeButton,
@@ -372,97 +378,137 @@ const metamask = {
     return true;
   },
   async changeNetwork(network) {
+    // check if network is available in presets
+    if (typeof network === 'string') {
+      network = await findNetwork(network);
+    }
+
+    // handle a case if network is already changed
+    const currentNetwork = getCurrentNetwork();
+    if (network === currentNetwork) {
+      return false;
+    }
+
+    // uncomment to automatically add network if not added yet
+    // const networkAdded = await checkNetworkAdded(network);
+    // if (!networkAdded) {
+    //   await module.exports.addNetwork(network);
+    //   return true;
+    // }
+
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
-    if (typeof network === 'string') {
-      network = network.toLowerCase();
-      if (network === 'mainnet') {
-        await playwright.waitAndClick(
-          mainPageElements.networkSwitcher.mainnetNetworkItem,
-        );
-      } else if (network === 'goerli') {
-        await playwright.waitAndClick(
-          mainPageElements.networkSwitcher.goerliNetworkItem,
-        );
-      } else if (network === 'sepolia') {
-        await playwright.waitAndClick(
-          mainPageElements.networkSwitcher.sepoliaNetworkItem,
-        );
-      } else if (network === 'localhost') {
-        await playwright.waitAndClick(
-          mainPageElements.networkSwitcher.localhostNetworkItem,
-        );
-      } else {
-        await playwright.waitAndClickByText(
-          mainPageElements.networkSwitcher.dropdownMenuItem,
-          network,
-        );
-      }
-      await playwright.waitForText(
-        mainPageElements.networkSwitcher.networkName,
-        network,
-      );
-    } else if (typeof network === 'object') {
-      network.networkName = network.networkName.toLowerCase();
-      await playwright.waitAndClickByText(
-        mainPageElements.networkSwitcher.dropdownMenuItem,
-        network.networkName,
-      );
-      await playwright.waitForText(
-        mainPageElements.networkSwitcher.networkName,
-        network.networkName,
-      );
-    }
+
+    await playwright.waitAndClickByText(
+      mainPageElements.networkSwitcher.dropdownMenuItem,
+      network.name,
+    );
+    await playwright.waitForText(
+      mainPageElements.networkSwitcher.networkName,
+      network.name,
+    );
+
     await playwright.waitUntilStable();
     await module.exports.closePopupAndTooltips();
+    // set network to currently active
     await setNetwork(network);
     await switchToCypressIfNotActive();
     return true;
   },
   async addNetwork(network) {
-    await switchToMetamaskIfNotActive();
+    // check if available in presets
+    if (typeof network === 'string') {
+      network = await findNetwork(network);
+    }
+
+    // backward compatibility with older synpress versions
+    if (
+      typeof network === 'object' &&
+      (network.name || network.networkName) &&
+      network.rpcUrl &&
+      network.chainId &&
+      network.symbol
+    ) {
+      network = {
+        id: network.chainId,
+        name: network.name || network.networkName,
+        nativeCurrency: {
+          symbol: network.symbol,
+        },
+        rpcUrls: {
+          public: { http: [network.rpcUrl] },
+          default: { http: [network.rpcUrl] },
+        },
+        testnet: network.isTestnet,
+      };
+
+      if (network.blockExplorer) {
+        network.blockExplorers = {
+          etherscan: { url: network.blockExplorer },
+          default: { url: network.blockExplorer },
+        };
+      }
+    }
+
+    // dont add network if already present
+    const networkAlreadyAdded = await checkNetworkAdded(network);
+    if (networkAlreadyAdded) {
+      // uncomment to automatically change network if it was already added
+      // await module.exports.changeNetwork(network);
+      return false;
+    }
+
+    // handle adding network with env vars
     if (
       process.env.NETWORK_NAME &&
       process.env.RPC_URL &&
-      process.env.CHAIN_ID
+      process.env.CHAIN_ID &&
+      process.env.SYMBOL
     ) {
       network = {
-        networkName: process.env.NETWORK_NAME,
-        rpcUrl: process.env.RPC_URL,
-        chainId: process.env.CHAIN_ID,
-        symbol: process.env.SYMBOL,
-        blockExplorer: process.env.BLOCK_EXPLORER,
-        isTestnet: process.env.IS_TESTNET,
+        id: process.env.CHAIN_ID,
+        name: process.env.NETWORK_NAME,
+        nativeCurrency: {
+          symbol: process.env.SYMBOL,
+        },
+        rpcUrls: {
+          public: { http: [process.env.RPC_URL] },
+          default: { http: [process.env.RPC_URL] },
+        },
+        blockExplorers: {
+          etherscan: { url: process.env.BLOCK_EXPLORER },
+          default: { url: process.env.BLOCK_EXPLORER },
+        },
+        testnet: process.env.IS_TESTNET,
       };
     }
-    if (typeof network === 'string') {
-      network = network.toLowerCase();
-    } else if (typeof network === 'object') {
-      network.networkName = network.networkName.toLowerCase();
-    }
+
+    // add network to presets
+    await addNetwork(network);
+
+    await switchToMetamaskIfNotActive();
+
     await module.exports.goToAddNetwork();
     await playwright.waitAndType(
       addNetworkPageElements.networkNameInput,
-      network.networkName,
+      network.name,
     );
     await playwright.waitAndType(
       addNetworkPageElements.rpcUrlInput,
-      network.rpcUrl,
+      network.rpcUrls.default.http[0],
     );
     await playwright.waitAndType(
       addNetworkPageElements.chainIdInput,
-      network.chainId,
+      network.id,
     );
-    if (network.symbol) {
-      await playwright.waitAndType(
-        addNetworkPageElements.symbolInput,
-        network.symbol,
-      );
-    }
+    await playwright.waitAndType(
+      addNetworkPageElements.symbolInput,
+      network.nativeCurrency.symbol,
+    );
     if (network.blockExplorer) {
       await playwright.waitAndType(
         addNetworkPageElements.blockExplorerInput,
-        network.blockExplorer,
+        network.blockExplorers.default.url,
       );
     }
     await playwright.waitAndClick(
@@ -473,11 +519,12 @@ const metamask = {
       },
     );
     await module.exports.closePopupAndTooltips();
-    await setNetwork(network);
     await playwright.waitForText(
       mainPageElements.networkSwitcher.networkName,
-      network.networkName,
+      network.name,
     );
+    // set as currently active network
+    await setNetwork(network);
     await switchToCypressIfNotActive();
     return true;
   },
@@ -488,10 +535,10 @@ const metamask = {
       mainPageElements.optionsMenu.connectedSitesButton,
     );
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(mainPageElements.connectedSites.disconnectLabel)
-        .isVisible()
+        .count()) > 0
     ) {
       console.log(
         '[disconnectWalletFromDapp] Wallet is connected to a dapp, disconnecting..',
@@ -618,10 +665,10 @@ const metamask = {
   async confirmSignatureRequest() {
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (
-      await playwright
+      (await playwright
         .metamaskNotificationWindow()
         .locator(signaturePageElements.signatureRequestScrollDownButton)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndClick(
         signaturePageElements.signatureRequestScrollDownButton,
@@ -647,10 +694,10 @@ const metamask = {
   async confirmDataSignatureRequest() {
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (
-      await playwright
+      (await playwright
         .metamaskNotificationWindow()
         .locator(signaturePageElements.signatureRequestScrollDownButton)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndClick(
         signaturePageElements.signatureRequestScrollDownButton,
@@ -756,10 +803,10 @@ const metamask = {
     const notificationPage = await playwright.switchToMetamaskNotification();
     // experimental mode on
     if (
-      await playwright
+      (await playwright
         .metamaskNotificationWindow()
         .locator(notificationPageElements.customSpendingLimitInput)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndSetValue(
         spendLimit,
@@ -800,20 +847,44 @@ const metamask = {
       notificationPage,
       { waitForEvent: 'navi' },
     );
+
     if (options && options.signInSignature) {
+      log(
+        [
+          '[deprecation-warning]: `options.signInSignature` is no longer used will be deprecated soon',
+          'Use `options.confirmSignatureRequest` or `options.confirmDataSignatureRequest`',
+        ].join('\n'),
+      );
+    }
+
+    if (
+      options &&
+      (options.signInSignature || options.confirmSignatureRequest)
+    ) {
       await playwright.waitAndClick(
         permissionsPageElements.connectButton,
         notificationPage,
         { waitForEvent: 'navi' },
       );
       await module.exports.confirmSignatureRequest();
-    } else {
+      return true;
+    }
+
+    if (options && options.confirmDataSignatureRequest) {
       await playwright.waitAndClick(
         permissionsPageElements.connectButton,
         notificationPage,
-        { waitForEvent: 'close' },
+        { waitForEvent: 'navi' },
       );
+      await module.exports.confirmDataSignatureRequest();
+      return true;
     }
+
+    await playwright.waitAndClick(
+      permissionsPageElements.connectButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
     return true;
   },
   async cancelAccessRequest() {
@@ -833,10 +904,10 @@ const metamask = {
         '[confirmTransaction] gasConfig is present, determining transaction type..',
       );
       if (
-        await playwright
+        (await playwright
           .metamaskNotificationWindow()
           .locator(confirmPageElements.editGasFeeLegacyButton)
-          .isVisible()
+          .count()) > 0
       ) {
         log('[confirmTransaction] Looks like legacy tx');
         if (typeof gasConfig === 'object') {
@@ -846,10 +917,10 @@ const metamask = {
             notificationPage,
           );
           if (
-            await playwright
+            (await playwright
               .metamaskNotificationWindow()
               .locator(confirmPageElements.editGasFeeLegacyOverrideAckButton)
-              .isVisible()
+              .count()) > 0
           ) {
             log(
               '[confirmTransaction] Override acknowledgement modal is present, closing..',
@@ -959,10 +1030,10 @@ const metamask = {
     }
     log('[confirmTransaction] Checking if recipient address is present..');
     if (
-      await playwright
+      (await playwright
         .metamaskNotificationWindow()
         .locator(confirmPageElements.recipientButton)
-        .isVisible()
+        .count()) > 0
     ) {
       log('[confirmTransaction] Getting recipient address..');
       await playwright.waitAndClick(
@@ -980,10 +1051,10 @@ const metamask = {
     }
     log('[confirmTransaction] Checking if network name is present..');
     if (
-      await playwright
+      (await playwright
         .metamaskNotificationWindow()
         .locator(confirmPageElements.networkLabel)
-        .isVisible()
+        .count()) > 0
     ) {
       log('[confirmTransaction] Getting network name..');
       txData.networkName = await playwright.waitAndGetValue(
@@ -1004,7 +1075,7 @@ const metamask = {
     //   await playwright
     //     .metamaskNotificationWindow()
     //     .locator(confirmPageElements.dataButton)
-    //     .isVisible()
+    //     .count() > 0
     // ) {
     //   log('[confirmTransaction] Fetching tx data..');
     //   await playwright.waitAndClick(
@@ -1086,6 +1157,32 @@ const metamask = {
     );
     return true;
   },
+  async confirmPermisionToApproveAll() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      notificationPageElements.allowToSpendButton,
+      notificationPage,
+    );
+    await playwright.waitAndClick(
+      notificationPageElements.approveWarningToSpendButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
+  async rejectPermisionToApproveAll() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      notificationPageElements.allowToSpendButton,
+      notificationPage,
+    );
+    await playwright.waitAndClick(
+      notificationPageElements.rejectWarningToSpendButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
   async allowToAddNetwork({ waitForEvent } = {}) {
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (waitForEvent) {
@@ -1160,7 +1257,8 @@ const metamask = {
     const isCustomNetwork =
       (process.env.NETWORK_NAME &&
         process.env.RPC_URL &&
-        process.env.CHAIN_ID) ||
+        process.env.CHAIN_ID &&
+        process.env.SYMBOL) ||
       typeof network == 'object';
     if (playwrightInstance) {
       await playwright.init(playwrightInstance);
@@ -1173,10 +1271,10 @@ const metamask = {
     await playwright.fixBlankPage();
     await playwright.fixCriticalError();
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(onboardingWelcomePageElements.onboardingWelcomePage)
-        .isVisible()
+        .count()) > 0
     ) {
       if (secretWordsOrPrivateKey.includes(' ')) {
         // secret words
@@ -1198,10 +1296,10 @@ const metamask = {
       await playwright.switchToCypressWindow();
       return true;
     } else if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(unlockPageElements.passwordInput)
-        .isVisible()
+        .count()) > 0
     ) {
       await module.exports.unlock(password);
       walletAddress = await module.exports.getWalletAddress();
@@ -1212,7 +1310,7 @@ const metamask = {
         (await playwright
           .metamaskWindow()
           .locator(mainPageElements.walletOverview)
-          .isVisible()) &&
+          .count()) > 0 &&
         !process.env.RESET_METAMASK
       ) {
         await switchToMetamaskIfNotActive();
@@ -1256,7 +1354,7 @@ async function activateAdvancedSetting(
       await metamask.goToAdvancedSettings();
     }
   }
-  if (!(await playwright.metamaskWindow().locator(toggleOn).isVisible())) {
+  if ((await playwright.metamaskWindow().locator(toggleOn).count()) === 0) {
     await playwright.waitAndClick(toggleOff);
   }
   if (!skipSetup) {
@@ -1287,8 +1385,8 @@ async function setupSettings(
   if (enableAdvancedSettings) {
     await metamask.activateTestnetConversion(true);
   }
-  await metamask.goToExperimentalSettings();
   if (enableExperimentalSettings) {
+    await metamask.goToExperimentalSettings();
     await metamask.activateImprovedTokenAllowance(true);
   }
   await playwright.waitAndClick(
