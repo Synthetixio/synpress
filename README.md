@@ -63,7 +63,7 @@ more details.
 
 # Table of content
 
-- [🖥️ Install](#-install)
+- [🖥️ Install](#%EF%B8%8F-install)
 - [⚙️ Supported frameworks](#%EF%B8%8F-supported-frameworks)
 - [👝 Supported wallets](#-supported-wallets)
 - [✍️ Usage examples](#%EF%B8%8F-usage-examples)
