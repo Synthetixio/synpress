@@ -64,12 +64,12 @@ Switch to metamask notification window.
 switchToMetamaskNotification(): Chainable<Subject>;
 ```
 
-#### `cy.getNetwork()`
+#### `cy.getCurrentNetwork()`
 
 Get current network.
 
 ```ts
-getNetwork(): Chainable<Subject>;
+getCurrentNetwork(): Chainable<Subject>;
 ```
 
 #### `cy.addMetamaskNetwork()`
