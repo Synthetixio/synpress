@@ -34,14 +34,14 @@ more details.
 
 # Table of content
 
-- [⚙️ Supported frameworks](#-supported-frameworks)
+- [⚙️ Supported frameworks](#%EF%B8%8F-supported-frameworks)
 - [👝 Supported wallets](#-supported-wallets)
-- [✍️ Usage examples](#-usage-examples)
+- [✍️ Usage examples](#%EF%B8%8F-usage-examples)
 - [🌟 Features](#-features)
 - [👷 Example setup for eslint and tsconfig](#-example-setup-for-eslint-and-tsconfig)
 - [⚡ Important notes](#-important-notes)
 - [🐳 Synpress + Docker](#-using-with-docker)
-- [💁‍♂️ CI tips & tricks](#-ci-tips--tricks)
+- [💁‍♂️ CI tips & tricks](#%EF%B8%8F-ci-tips--tricks)
 - [🧪 CLI](#-usage--commands)
 - [📃 Environmental variables](#-environmental-variables)
 - [🚢 Release process](#-release-process)
