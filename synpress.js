@@ -17,14 +17,13 @@ if (process.env.SYNPRESS_LOCAL_TEST) {
   log('Loading .env config file from root folder');
   require('dotenv').config();
 } else {
-  log(
-    'Loading .env config file from first matching config file - root dir, ancestor or home dir',
-  );
-  require('dotenv').config({ path: require('find-config')('.env') });
-  log(
-    'Loading .env.e2e config file from first matching config file - root dir, ancestor or home dir',
-  );
-  require('dotenv').config({ path: require('find-config')('.env.e2e') });
+  const envFiles = ['.env', '.env.e2e', '.env.local', '.env.dev'];
+  envFiles.forEach(envFile => {
+    log(
+      `Loading ${envFile} config file from first matching config file - root dir, ancestor or home dir`,
+    );
+    require('dotenv').config({ path: require('find-config')(envFile) });
+  });
 }
 
 // if user skips metamask install or setup
