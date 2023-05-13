@@ -182,11 +182,14 @@ module.exports = {
   },
   async waitAndClickByText(selector, text, page = metamaskWindow) {
     await module.exports.waitFor(selector, page);
-    const element = page.locator(`text=${text}`);
-    await element.click();
+    const element = `:is(:text-is("${text}"), :text("${text}"))`;
+    await page.click(element);
     await module.exports.waitUntilStable();
   },
   async waitAndType(selector, value, page = metamaskWindow) {
+    if (typeof value === 'number') {
+      value = value.toString();
+    }
     const element = await module.exports.waitFor(selector, page);
     await element.type(value);
     await module.exports.waitUntilStable(page);
