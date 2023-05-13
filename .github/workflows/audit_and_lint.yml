@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: synthetixio/docker-sec-tools:18.13-alpine
+      image: synthetixio/docker-sec-tools:18.16-alpine
 
     steps:
       - name: Checkout
@@ -27,11 +27,6 @@ jobs:
 
       - name: Audit dependencies
         run: audit-ci --critical --report-type full
-
-      - name: Lockfile lint
-        run:
-          lockfile-lint -p yarn.lock --type yarn --allowed-hosts yarn
-          --validate-https --empty-hostname false
 
   build:
     needs: audit
@@ -41,40 +36,42 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: synthetixio/docker-node:18.13-alpine
+      image: synthetixio/docker-node:18.16-alpine
 
     steps:
       - name: Checkout
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # pin@v2
 
-      - name: Set yarn cache directory
-        run: yarn config set cache-folder .yarn-cache
+      - name: Set pnpm cache directory
+        run: pnpm config set store-dir .pnpm-store
         continue-on-error: true
 
-      - uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # pin@v2
+      - name: Setup cache
+        uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # pin@v2
         with:
           path: |
-            .yarn-cache
+            .pnpm-store
             node_modules
-          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-pnpm-v1-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-v1-
+            ${{ runner.os }}-pnpm-v1-
         continue-on-error: true
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile --prefer-offline --no-audit
+        run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Lint
         if:
           github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' ||
           github.event_name == 'pull_request'
-        run: yarn lint:sarif
+        run: pnpm lint
+        # run: yarn lint:sarif
 
-      - name: Upload lint results
-        if:
-          always() && (github.ref == 'refs/heads/master' || github.ref ==
-          'refs/heads/dev' || github.event_name == 'pull_request')
-        uses: github/codeql-action/upload-sarif@32dc499307d133bb5085bae78498c0ac2cf762d5 # pin@codeql-bundle-20210517
-        with:
-          sarif_file: lint-results.sarif
-        continue-on-error: true
+      # - name: Upload lint results
+      #   if:
+      #     always() && (github.ref == 'refs/heads/master' || github.ref ==
+      #     'refs/heads/dev' || github.event_name == 'pull_request')
+      #   uses: github/codeql-action/upload-sarif@32dc499307d133bb5085bae78498c0ac2cf762d5 # pin@codeql-bundle-20210517
+      #   with:
+      #     sarif_file: lint-results.sarif
+      #   continue-on-error: true

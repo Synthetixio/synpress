@@ -13,9 +13,11 @@ describe('SIWE', () => {
           '#WEB3_CONNECT_MODAL_ID .web3modal-provider-wrapper:nth-child(1)',
         ).click();
       });
-      cy.acceptMetamaskAccess({ signInSignature: true }).then(connected => {
-        expect(connected).to.be.true;
-      });
+      cy.acceptMetamaskAccess({ confirmSignatureRequest: true }).then(
+        connected => {
+          expect(connected).to.be.true;
+        },
+      );
     });
   });
 });

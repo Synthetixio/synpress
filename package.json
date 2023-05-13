@@ -1,6 +1,7 @@
 {
   "name": "@synthetixio/synpress",
-  "version": "3.5.0",
+  "version": "3.6.2",
+  "packageManager": "pnpm@8.4.0",
   "description": "Synpress is e2e testing framework based around Cypress.io & playwright with included MetaMask support. Test your dapps with ease.",
   "keywords": [
     "Synpress",
@@ -27,10 +28,10 @@
     "synpress": "synpress.js"
   },
   "scripts": {
-    "fix": "yarn fix:eslint && yarn fix:prettier",
+    "fix": "turbo fix:eslint fix:prettier --concurrency 1",
     "fix:eslint": "eslint --fix **/*.js",
     "fix:prettier": "prettier --write **/*.js",
-    "lint": "yarn lint:eslint && yarn lint:prettier",
+    "lint": "turbo lint:eslint lint:prettier",
     "lint:eslint": "eslint . --ext js",
     "lint:prettier": "prettier --check **/*.js",
     "lint:sarif": "node lint.js . --ext js",
@@ -38,14 +39,14 @@
     "release:major": "release-it major --disable-metrics",
     "release:minor": "release-it minor --disable-metrics",
     "release:patch": "release-it patch --disable-metrics",
-    "update:deps": "ncu -u -x 'node-fetch eslint' && yarn",
+    "update:deps": "ncu -u -x 'node-fetch eslint' && pnpm install",
     "start:server": "serve node_modules/@metamask/test-dapp/dist -p 3000",
-    "test:e2e": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js'",
-    "test:e2e:anvil": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true CYPRESS_USE_ANVIL=true node synpress.js run --configFile=synpress.config.js'",
-    "test:e2e:headless": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js --headless'",
-    "test:e2e:headless:anvil": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true CYPRESS_USE_ANVIL=true node synpress.js run --configFile=synpress.config.js --headless'",
-    "test:e2e:ci": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js --record --group'",
-    "test:e2e:ci:anvil": "start-server-and-test 'yarn start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true CYPRESS_USE_ANVIL=true node synpress.js run --configFile=synpress.config.js --record --group'",
+    "test:e2e": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js'",
+    "test:e2e:anvil": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true CYPRESS_USE_ANVIL=true node synpress.js run --configFile=synpress.config.js'",
+    "test:e2e:headless": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js --headless'",
+    "test:e2e:headless:anvil": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true CYPRESS_USE_ANVIL=true node synpress.js run --configFile=synpress.config.js --headless'",
+    "test:e2e:ci": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js --record --group'",
+    "test:e2e:ci:anvil": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true CYPRESS_USE_ANVIL=true node synpress.js run --configFile=synpress.config.js --record --group'",
     "test:e2e:ci:cypress-action": "SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true CYPRESS_USE_ANVIL=true node synpress.js run --configFile=synpress.config.js"
   },
   "dependencies": {
@@ -73,18 +74,16 @@
     "ethers": "^6.3.0",
     "etherscan-api": "^10.3.0",
     "find-config": "^1.0.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "wait-on": "^7.0.1"
   },
   "devDependencies": {
     "@metamask/test-dapp": "^6.1.0",
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
-    "@trunkio/launcher": "^1.2.4",
-    "npm-check-updates": "^16.10.9",
-    "release-it": "^15.10.2",
-    "prettier": "^2.8.8",
-    "eslint": "^7.32.0",
+    "eslint": "^8.39.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-standard": "^17.0.0",
+    "eslint-config-turbo": "^1.9.3",
     "eslint-plugin-chai-friendly": "^0.7.2",
     "eslint-plugin-cypress": "^2.13.3",
     "eslint-plugin-import": "^2.27.5",
@@ -95,14 +94,18 @@
     "eslint-plugin-testing-library": "^5.10.3",
     "eslint-plugin-ui-testing": "^2.0.1",
     "eslint-plugin-unicorn": "^46.0.0",
+    "npm-check-updates": "^16.10.9",
+    "prettier": "^2.8.8",
+    "release-it": "^15.10.2",
     "serve": "^14.2.0",
-    "start-server-and-test": "^2.0.0"
+    "start-server-and-test": "^2.0.0",
+    "turbo": "^1.9.4-canary.7"
   },
   "resolutions": {
-    "etherscan-api/gh-pages": "5.0.0",
-    "download/**/http-cache-semantics": "4.1.1",
-    "**/ansi-regex": "5.0.1",
-    "**/@testing-library/dom": "8.20.0"
+    "gh-pages": "5.0.0",
+    "http-cache-semantics": "4.1.1",
+    "ansi-regex": "5.0.1",
+    "@testing-library/dom": "8.20.0"
   },
   "engines": {
     "node": ">=14"

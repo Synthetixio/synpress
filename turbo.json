@@ -1,0 +1,13 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "lint:eslint": {},
+    "lint:prettier": {},
+    "fix:eslint": {},
+    "fix:prettier": {},
+    "start:server": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}
