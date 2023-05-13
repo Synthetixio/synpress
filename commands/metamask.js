@@ -133,10 +133,10 @@ const metamask = {
     // otherwise popup may not be detected properly and not closed
     await playwright.metamaskWindow().waitForTimeout(1000);
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(mainPageElements.popup.container)
-        .isVisible()
+        .count()) > 0
     ) {
       const popupBackground = playwright
         .metamaskWindow()
@@ -147,18 +147,18 @@ const metamask = {
         .mouse.click(popupBackgroundBox.x + 1, popupBackgroundBox.y + 1);
     }
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(mainPageElements.tippyTooltip.closeButton)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndClick(mainPageElements.tippyTooltip.closeButton);
     }
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(mainPageElements.actionableMessage.closeButton)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndClick(
         mainPageElements.actionableMessage.closeButton,
@@ -171,10 +171,10 @@ const metamask = {
     // otherwise modal may not be detected properly and not closed
     await playwright.metamaskWindow().waitForTimeout(1000);
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(mainPageElements.connectedSites.modal)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndClick(
         mainPageElements.connectedSites.closeButton,
@@ -535,10 +535,10 @@ const metamask = {
       mainPageElements.optionsMenu.connectedSitesButton,
     );
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(mainPageElements.connectedSites.disconnectLabel)
-        .isVisible()
+        .count()) > 0
     ) {
       console.log(
         '[disconnectWalletFromDapp] Wallet is connected to a dapp, disconnecting..',
@@ -665,10 +665,10 @@ const metamask = {
   async confirmSignatureRequest() {
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (
-      await playwright
+      (await playwright
         .metamaskNotificationWindow()
         .locator(signaturePageElements.signatureRequestScrollDownButton)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndClick(
         signaturePageElements.signatureRequestScrollDownButton,
@@ -694,10 +694,10 @@ const metamask = {
   async confirmDataSignatureRequest() {
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (
-      await playwright
+      (await playwright
         .metamaskNotificationWindow()
         .locator(signaturePageElements.signatureRequestScrollDownButton)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndClick(
         signaturePageElements.signatureRequestScrollDownButton,
@@ -803,10 +803,10 @@ const metamask = {
     const notificationPage = await playwright.switchToMetamaskNotification();
     // experimental mode on
     if (
-      await playwright
+      (await playwright
         .metamaskNotificationWindow()
         .locator(notificationPageElements.customSpendingLimitInput)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndSetValue(
         spendLimit,
@@ -895,10 +895,10 @@ const metamask = {
         '[confirmTransaction] gasConfig is present, determining transaction type..',
       );
       if (
-        await playwright
+        (await playwright
           .metamaskNotificationWindow()
           .locator(confirmPageElements.editGasFeeLegacyButton)
-          .isVisible()
+          .count()) > 0
       ) {
         log('[confirmTransaction] Looks like legacy tx');
         if (typeof gasConfig === 'object') {
@@ -908,10 +908,10 @@ const metamask = {
             notificationPage,
           );
           if (
-            await playwright
+            (await playwright
               .metamaskNotificationWindow()
               .locator(confirmPageElements.editGasFeeLegacyOverrideAckButton)
-              .isVisible()
+              .count()) > 0
           ) {
             log(
               '[confirmTransaction] Override acknowledgement modal is present, closing..',
@@ -1021,10 +1021,10 @@ const metamask = {
     }
     log('[confirmTransaction] Checking if recipient address is present..');
     if (
-      await playwright
+      (await playwright
         .metamaskNotificationWindow()
         .locator(confirmPageElements.recipientButton)
-        .isVisible()
+        .count()) > 0
     ) {
       log('[confirmTransaction] Getting recipient address..');
       await playwright.waitAndClick(
@@ -1042,10 +1042,10 @@ const metamask = {
     }
     log('[confirmTransaction] Checking if network name is present..');
     if (
-      await playwright
+      (await playwright
         .metamaskNotificationWindow()
         .locator(confirmPageElements.networkLabel)
-        .isVisible()
+        .count()) > 0
     ) {
       log('[confirmTransaction] Getting network name..');
       txData.networkName = await playwright.waitAndGetValue(
@@ -1066,7 +1066,7 @@ const metamask = {
     //   await playwright
     //     .metamaskNotificationWindow()
     //     .locator(confirmPageElements.dataButton)
-    //     .isVisible()
+    //     .count() > 0
     // ) {
     //   log('[confirmTransaction] Fetching tx data..');
     //   await playwright.waitAndClick(
@@ -1262,10 +1262,10 @@ const metamask = {
     await playwright.fixBlankPage();
     await playwright.fixCriticalError();
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(onboardingWelcomePageElements.onboardingWelcomePage)
-        .isVisible()
+        .count()) > 0
     ) {
       if (secretWordsOrPrivateKey.includes(' ')) {
         // secret words
@@ -1287,10 +1287,10 @@ const metamask = {
       await playwright.switchToCypressWindow();
       return true;
     } else if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(unlockPageElements.passwordInput)
-        .isVisible()
+        .count()) > 0
     ) {
       await module.exports.unlock(password);
       walletAddress = await module.exports.getWalletAddress();
@@ -1301,7 +1301,7 @@ const metamask = {
         (await playwright
           .metamaskWindow()
           .locator(mainPageElements.walletOverview)
-          .isVisible()) &&
+          .count()) > 0 &&
         !process.env.RESET_METAMASK
       ) {
         await switchToMetamaskIfNotActive();
@@ -1345,7 +1345,7 @@ async function activateAdvancedSetting(
       await metamask.goToAdvancedSettings();
     }
   }
-  if (!(await playwright.metamaskWindow().locator(toggleOn).isVisible())) {
+  if ((await playwright.metamaskWindow().locator(toggleOn).count()) === 0) {
     await playwright.waitAndClick(toggleOff);
   }
   if (!skipSetup) {
@@ -1376,8 +1376,8 @@ async function setupSettings(
   if (enableAdvancedSettings) {
     await metamask.activateTestnetConversion(true);
   }
-  await metamask.goToExperimentalSettings();
   if (enableExperimentalSettings) {
+    await metamask.goToExperimentalSettings();
     await metamask.activateImprovedTokenAllowance(true);
   }
   await playwright.waitAndClick(
