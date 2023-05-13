@@ -253,7 +253,7 @@ module.exports = {
     // info: waits for 60 seconds
     const locator = page.locator(selector);
     for (const element of await locator.all()) {
-      if ((await element.isVisible()) && retries < 300) {
+      if ((await element.count()) > 0 && retries < 300) {
         retries++;
         await page.waitForTimeout(200);
         await module.exports.waitToBeHidden(selector, page);
@@ -304,7 +304,7 @@ module.exports = {
     ); // shown on balance load
     // network error handler
     if (
-      await page.locator(pageElements.loadingOverlayErrorButtons).isVisible()
+      (await page.locator(pageElements.loadingOverlayErrorButtons).count()) > 0
     ) {
       await module.exports.waitAndClick(
         pageElements.loadingOverlayErrorButtonsRetryButton,
