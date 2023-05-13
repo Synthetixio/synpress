@@ -192,6 +192,14 @@ Cypress.Commands.add('rejectMetamaskTransaction', () => {
   return cy.task('rejectMetamaskTransaction');
 });
 
+Cypress.Commands.add('rejectMetamaskPermisionToApproveAll', () => {
+  return cy.task('rejectMetamaskPermisionToApproveAll');
+});
+
+Cypress.Commands.add('confirmMetamaskPermisionToApproveAll', () => {
+  return cy.task('confirmMetamaskPermisionToApproveAll');
+});
+
 Cypress.Commands.add('allowMetamaskToAddNetwork', waitForEvent => {
   return cy.task('allowMetamaskToAddNetwork', { waitForEvent });
 });

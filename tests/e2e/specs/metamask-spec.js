@@ -124,6 +124,22 @@ describe('Metamask', () => {
         cy.changeMetamaskNetwork('sepolia');
       }
     });
+    it(`rejectMetamaskPermisionToApproveAll should reject permission to approve all collectibles upon warning`, () => {
+      cy.get('#deployCollectiblesButton').click();
+      cy.confirmMetamaskTransaction();
+      cy.get('#mintButton').click();
+      cy.confirmMetamaskTransaction();
+      cy.get('#setApprovalForAllButton').click();
+      cy.rejectMetamaskPermisionToApproveAll().then(rejected => {
+        expect(rejected).to.be.true;
+      });
+    });
+    it(`confirmMetamaskPermisionToApproveAll should confirm permission to approve all collectibles`, () => {
+      cy.get('#setApprovalForAllButton').click();
+      cy.confirmMetamaskPermisionToApproveAll().then(confirmed => {
+        expect(confirmed).to.be.true;
+      });
+    });
     it(`importMetamaskAccount should import new account using private key`, () => {
       cy.importMetamaskAccount(
         '0x2a871d0798f97d79848a013d4936a73bf4cc922c825d33c1cf7073dff6d409c6',

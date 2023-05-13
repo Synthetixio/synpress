@@ -218,6 +218,8 @@ module.exports = (on, config) => {
       const rejected = await metamask.rejectPermissionToSpend();
       return rejected;
     },
+    confirmMetamaskPermisionToApproveAll: metamask.confirmPermisionToApproveAll,
+    rejectMetamaskPermisionToApproveAll: metamask.rejectPermisionToApproveAll,
     acceptMetamaskAccess: async options => {
       const accepted = await metamask.acceptAccess(options);
       return accepted;

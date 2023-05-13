@@ -6,6 +6,9 @@
 [![Discord](https://img.shields.io/discord/413890591840272394.svg?color=768AD4&label=discord&logo=https%3A%2F%2Fdiscordapp.com%2Fassets%2F8c9701b98ad4372b58f13fd9f65f966e.svg)](https://discordapp.com/channels/413890591840272394/)
 [![Twitter Follow](https://img.shields.io/twitter/follow/synthetix_io.svg?label=synthetix_io&style=social)](https://twitter.com/synthetix_io)
 
+> **We're Hiring 🎉** — Think you have what it takes? 
+> Feel free to drop an email to [jobs@synpress.io](mailto:jobs@synpress.io)
+
 #
 
 <p align="center" >
@@ -32,6 +35,8 @@
     <br/>
     <a href="https://github.com/pantherprotocol"><img src="./images/panther.png" height="100" alt="Panther Protocol" /></a>
     <a href="https://github.com/agoraxyz"><img src="./images/guild.png" height="90" alt="Guild" /></a>
+    <a href="https://github.com/aragon"><img src="./images/aragon.png" height="90" alt="Aragon" /></a>
+    <a href="https://github.com/delvtech/"><img src="./images/delv.png" height="90" alt="Delvtech" /></a>
     <br/>
     <a href="https://github.com/OffchainLabs"><img src="./images/offchain-labs.png" height="100" alt="Offchain Labs" /></a>
     <a href="https://github.com/snapshot-labs"><img src="./images/snapshot-labs.png" height="90" alt="Snapshot Labs" /></a>

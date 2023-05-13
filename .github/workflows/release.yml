@@ -44,6 +44,10 @@ jobs:
             ${{ runner.os }}-pnpm-v1-
         continue-on-error: true
 
+      # fixes permission issues on docker
+      - name: Chown workspace
+        run: chown -R $(whoami) .
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --prefer-offline
 
@@ -63,7 +67,7 @@ jobs:
           GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
 
       - name: Set pnpm config
-        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
+        run: pnpm config set "//registry.npmjs.org/:_authToken" "${NPM_TOKEN}"
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 

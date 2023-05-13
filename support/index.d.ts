@@ -252,6 +252,18 @@ declare namespace Cypress {
      */
     confirmMetamaskPermissionToSpend(spendLimit?: string): Chainable<Subject>;
     /**
+     * Confirm metamask permission to access all elements (example: collectibles)
+     * @example
+     * cy.confirmMetamaskPermisionToApproveAll()
+     */
+    confirmMetamaskPermisionToApproveAll(): Chainable<Subject>;
+    /**
+     * Reject metamask permission to access all elements (example: collectibles)
+     * @example
+     * cy.rejectMetamaskPermisionToApproveAll()
+     */
+    rejectMetamaskPermisionToApproveAll(): Chainable<Subject>;
+    /**
      * Reject metamask permission to spend asset
      * @example
      * cy.rejectMetamaskPermissionToSpend()
@@ -261,11 +273,12 @@ declare namespace Cypress {
      * Accept metamask access request
      * @example
      * cy.acceptMetamaskAccess()
-     * cy.acceptMetamaskAccess({allAccounts: true, signInSignature: true})
+     * cy.acceptMetamaskAccess({allAccounts: true, confirmSignatureRequest: true})
      */
     acceptMetamaskAccess(options?: {
       allAccounts?: boolean;
-      signInSignature?: boolean;
+      confirmSignatureRequest?: boolean;
+      confirmDataSignatureRequest?: boolean;
     }): Chainable<Subject>;
     /**
      * Confirm metamask transaction (auto-detects eip-1559 and legacy transactions)
