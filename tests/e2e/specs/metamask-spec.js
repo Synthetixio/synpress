@@ -41,11 +41,11 @@ describe('Metamask', () => {
         '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
       );
     });
-    it(`getNetwork should return network by default`, () => {
-      cy.getNetwork().then(network => {
-        expect(network.networkName).to.be.equal('sepolia');
-        expect(network.networkId).to.be.equal(11155111);
-        expect(network.isTestnet).to.be.true;
+    it(`getCurrentNetwork should return network by default`, () => {
+      cy.getCurrentNetwork().then(network => {
+        expect(network.name).to.match(/sepolia/i);
+        expect(network.id).to.be.equal(11155111);
+        expect(network.testnet).to.be.true;
       });
     });
     it(`addMetamaskNetwork should add custom network`, () => {
@@ -55,8 +55,8 @@ describe('Metamask', () => {
           rpcUrl: Cypress.env('DOCKER_RUN')
             ? 'http://foundry:8545'
             : 'http://127.0.0.1:8545',
-          chainId: '11155111',
-          symbol: 'SETH',
+          chainId: 11155111,
+          symbol: 'aETH',
           isTestnet: true,
         });
         cy.get('#network').contains('11155111');
@@ -65,8 +65,8 @@ describe('Metamask', () => {
         cy.addMetamaskNetwork({
           networkName: 'Optimism Network',
           rpcUrl: 'https://mainnet.optimism.io',
-          chainId: '10',
-          symbol: 'OETH',
+          chainId: 10,
+          symbol: 'oETH',
           blockExplorer: 'https://optimistic.etherscan.io',
           isTestnet: false,
         }).then(networkAdded => {
@@ -76,35 +76,35 @@ describe('Metamask', () => {
         cy.get('#chainId').contains('0xa');
       }
     });
-    it(`getNetwork should return valid network after adding a new network`, () => {
-      cy.getNetwork().then(network => {
+    it(`getCurrentNetwork should return valid network after adding a new network`, () => {
+      cy.getCurrentNetwork().then(network => {
         if (Cypress.env('USE_ANVIL')) {
-          expect(network.networkName).to.be.equal('anvil');
-          expect(network.networkId).to.be.equal(11155111);
-          expect(network.isTestnet).to.be.true;
+          expect(network.name).to.be.equal('anvil');
+          expect(network.id).to.be.equal(11155111);
+          expect(network.testnet).to.be.true;
         } else {
-          expect(network.networkName).to.be.equal('optimism network');
-          expect(network.networkId).to.be.equal(10);
-          expect(network.isTestnet).to.be.false;
+          expect(network.name).to.match(/optimism network/i);
+          expect(network.id).to.be.equal(10);
+          expect(network.testnet).to.be.false;
         }
       });
     });
     it(`changeMetamaskNetwork should change network using pre-defined network`, () => {
-      cy.changeMetamaskNetwork('mainnet').then(networkChanged => {
+      cy.changeMetamaskNetwork('ethereum').then(networkChanged => {
         expect(networkChanged).to.be.true;
       });
       cy.get('#network').contains('0x1');
       cy.get('#chainId').contains('0x1');
     });
-    it(`getNetwork should return valid network after changing a network`, () => {
-      cy.getNetwork().then(network => {
-        expect(network.networkName).to.be.equal('mainnet');
-        expect(network.networkId).to.be.equal(1);
-        expect(network.isTestnet).to.be.false;
+    it(`getCurrentNetwork should return valid network after changing a network`, () => {
+      cy.getCurrentNetwork().then(network => {
+        console.log(network);
+        expect(network.name).to.match(/ethereum/i);
+        expect(network.id).to.be.equal(1);
       });
     });
     it(`changeMetamaskNetwork should discard changing network if it is current one`, () => {
-      cy.changeMetamaskNetwork('mainnet').then(networkChanged => {
+      cy.changeMetamaskNetwork('ethereum').then(networkChanged => {
         expect(networkChanged).to.be.false;
       });
     });

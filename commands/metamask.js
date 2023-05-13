@@ -378,20 +378,23 @@ const metamask = {
     return true;
   },
   async changeNetwork(network) {
+    // check if network is available in presets
     if (typeof network === 'string') {
       network = await findNetwork(network);
     }
 
+    // handle a case if network is already changed
     const currentNetwork = getCurrentNetwork();
     if (network === currentNetwork) {
-      return true;
+      return false;
     }
 
-    const networkAdded = await checkNetworkAdded(network);
-    if (!networkAdded) {
-      await module.exports.addNetwork(network);
-      return true;
-    }
+    // uncomment to automatically add network if not added yet
+    // const networkAdded = await checkNetworkAdded(network);
+    // if (!networkAdded) {
+    //   await module.exports.addNetwork(network);
+    //   return true;
+    // }
 
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
@@ -407,11 +410,13 @@ const metamask = {
 
     await playwright.waitUntilStable();
     await module.exports.closePopupAndTooltips();
+    // set network to currently active
     await setNetwork(network);
     await switchToCypressIfNotActive();
     return true;
   },
   async addNetwork(network) {
+    // check if available in presets
     if (typeof network === 'string') {
       network = await findNetwork(network);
     }
@@ -445,12 +450,15 @@ const metamask = {
       }
     }
 
+    // dont add network if already present
     const networkAlreadyAdded = await checkNetworkAdded(network);
     if (networkAlreadyAdded) {
-      await module.exports.changeNetwork(network);
-      return true;
+      // uncomment to automatically change network if it was already added
+      // await module.exports.changeNetwork(network);
+      return false;
     }
 
+    // handle adding network with env vars
     if (
       process.env.NETWORK_NAME &&
       process.env.RPC_URL &&
@@ -475,6 +483,7 @@ const metamask = {
       };
     }
 
+    // add network to presets
     await addNetwork(network);
 
     await switchToMetamaskIfNotActive();
@@ -514,6 +523,7 @@ const metamask = {
       mainPageElements.networkSwitcher.networkName,
       network.name,
     );
+    // set as currently active network
     await setNetwork(network);
     await switchToCypressIfNotActive();
     return true;
