@@ -301,7 +301,7 @@ declare namespace Cypress {
     /**
      * Reject metamask access request
      * @example
-     * cy.cancelMetamaskAccess()
+     * cy.rejectMetamaskAccess()
      */
     rejectMetamaskAccess(): Chainable<boolean>;
     /**
