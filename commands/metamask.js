@@ -338,21 +338,35 @@ const metamask = {
     return true;
   },
   async createAccount(accountName) {
-    if (accountName) {
-      accountName = accountName.toLowerCase();
-    }
     await switchToMetamaskIfNotActive();
     await module.exports.goToNewAccount();
     if (accountName) {
+      accountName = accountName.toLowerCase();
       await playwright.waitAndType(
         mainPageElements.createAccount.input,
         accountName,
       );
     }
-    await playwright.waitAndClick(mainPageElements.createAccount.createButton);
+    const formErrorEl = await playwright.waitFor(
+      mainPageElements.createAccount.createAccountError,
+    );
+    const formErrorTxt = await formErrorEl.innerText();
+    const accountExists = 'This account name already exists' === formErrorTxt;
+
+    if (accountExists) {
+      log(`[createAccount] ${formErrorTxt}`);
+      await playwright.waitAndClick(
+        mainPageElements.createAccount.cancelButton,
+      );
+    } else {
+      await playwright.waitAndClick(
+        mainPageElements.createAccount.createButton,
+      );
+    }
+
     await module.exports.closePopupAndTooltips();
     await switchToCypressIfNotActive();
-    return true;
+    return accountExists ? formErrorTxt : true;
   },
   async switchAccount(accountNameOrAccountNumber) {
     if (typeof accountNameOrAccountNumber === 'string') {
