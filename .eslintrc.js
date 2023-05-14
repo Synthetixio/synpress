@@ -16,6 +16,7 @@ module.exports = {
     'plugin:cypress/recommended',
     'plugin:ui-testing/cypress',
     'plugin:testing-library/react',
+    'turbo',
   ],
   plugins: [
     'prettier',
@@ -34,5 +35,6 @@ module.exports = {
     'no-console': 0,
     'testing-library/no-debugging-utils': 0,
     'testing-library/prefer-screen-queries': 0,
+    'turbo/no-undeclared-env-vars': 0,
   },
 };
