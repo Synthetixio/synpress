@@ -299,6 +299,12 @@ declare namespace Cypress {
       confirmDataSignatureRequest?: boolean;
     }): Chainable<boolean>;
     /**
+     * Reject metamask access request
+     * @example
+     * cy.rejectMetamaskAccess()
+     */
+    rejectMetamaskAccess(): Chainable<boolean>;
+    /**
      * Confirm metamask transaction (auto-detects eip-1559 and legacy transactions)
      * @example
      * cy.confirmMetamaskTransaction()

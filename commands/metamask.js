@@ -901,6 +901,15 @@ const metamask = {
     );
     return true;
   },
+  async rejectAccess() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      notificationPageElements.cancelButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
   async confirmTransaction(gasConfig) {
     let txData = {};
     const notificationPage = await playwright.switchToMetamaskNotification();

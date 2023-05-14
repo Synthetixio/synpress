@@ -21,8 +21,14 @@ describe('Metamask', () => {
         expect(disconnected).to.be.true;
       });
     });
-    it(`acceptMetamaskAccess should accept connection request to metamask`, () => {
+    it('rejectMetamaskAccess should reject connection request to metamask', () => {
       cy.visit('/');
+      cy.get('#connectButton').click();
+      cy.rejectMetamaskAccess().then(rejected => {
+        expect(rejected).to.be.true;
+      });
+    });
+    it(`acceptMetamaskAccess should accept connection request to metamask`, () => {
       cy.get('#connectButton').click();
       cy.acceptMetamaskAccess().then(connected => {
         expect(connected).to.be.true;
