@@ -224,9 +224,7 @@ module.exports = (on, config) => {
       const accepted = await metamask.acceptAccess(options);
       return accepted;
     },
-    cancelMetamaskAccess: async () => {
-      return await metamask.cancelAccessRequest();
-    },
+    cancelMetamaskAccess: metamask.cancelAccessRequest,
     confirmMetamaskTransaction: async gasConfig => {
       const confirmed = await metamask.confirmTransaction(gasConfig);
       return confirmed;
