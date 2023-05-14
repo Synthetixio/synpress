@@ -161,11 +161,12 @@ describe('Metamask', () => {
       cy.createMetamaskAccount('custom-wallet').then(created => {
         expect(created).to.be.true;
       });
+    });
+    it(`createMetamaskAccount should not fail when creating new account with already existing custom name`, () => {
       cy.createMetamaskAccount('custom-wallet').then(created => {
-        expect(created).to.be.eq('This account name already exists');
+        expect(created).to.be.equal('This account name already exists');
       });
     });
-
     it(`switchMetamaskAccount should switch to another account using order number`, () => {
       cy.switchMetamaskAccount(2).then(switched => {
         expect(switched).to.be.true;
