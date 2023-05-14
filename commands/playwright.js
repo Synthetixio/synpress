@@ -182,11 +182,14 @@ module.exports = {
   },
   async waitAndClickByText(selector, text, page = metamaskWindow) {
     await module.exports.waitFor(selector, page);
-    const element = page.locator(`text=${text}`);
-    await element.click();
+    const element = `:is(:text-is("${text}"), :text("${text}"))`;
+    await page.click(element);
     await module.exports.waitUntilStable();
   },
   async waitAndType(selector, value, page = metamaskWindow) {
+    if (typeof value === 'number') {
+      value = value.toString();
+    }
     const element = await module.exports.waitFor(selector, page);
     await element.type(value);
     await module.exports.waitUntilStable(page);
@@ -253,7 +256,7 @@ module.exports = {
     // info: waits for 60 seconds
     const locator = page.locator(selector);
     for (const element of await locator.all()) {
-      if ((await element.isVisible()) && retries < 300) {
+      if ((await element.count()) > 0 && retries < 300) {
         retries++;
         await page.waitForTimeout(200);
         await module.exports.waitToBeHidden(selector, page);
@@ -304,7 +307,7 @@ module.exports = {
     ); // shown on balance load
     // network error handler
     if (
-      await page.locator(pageElements.loadingOverlayErrorButtons).isVisible()
+      (await page.locator(pageElements.loadingOverlayErrorButtons).count()) > 0
     ) {
       await module.exports.waitAndClick(
         pageElements.loadingOverlayErrorButtonsRetryButton,
