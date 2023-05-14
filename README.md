@@ -368,8 +368,8 @@ All examples of setup are present in this repository. Just take a look around.
 
 ## 💁‍♂️ CI tips & tricks
 
-- check out many different
-  [examples in this repository](https://github.com/Synthetixio/synpress/tree/dev/.github/workflows):
+- Check out many different
+  examples for GitHub Actions [in this repository](https://github.com/Synthetixio/synpress/tree/dev/.github/workflows):
   - [e2e_headful.yml](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/e2e_headful.yml)
     => runs on `ubuntu-latest`.
   - [e2e_debug.yml](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/e2e_debug.yml)
@@ -380,8 +380,9 @@ All examples of setup are present in this repository. Just take a look around.
   - [e2e_cypress-action.yml](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/e2e_cypress-action.yml)
     => runs on `ubuntu-latest`, using official
     [cypress-io/github-action](https://github.com/cypress-io/github-action).
-- use [docker-e2e](https://github.com/Synthetixio/docker-e2e)
-- synpress is tested and should work on all resolutions, starting from 800x600
+- You can find examples for GitLab CI => [here](https://gitlab.com/synpress/synpress-demo#synpress-gitlab-demo).
+- Use [docker-e2e](https://github.com/Synthetixio/docker-e2e)
+- Synpress is tested and should work on all resolutions, starting from 800x600
 
 ## 🧪 Usage & commands
 
