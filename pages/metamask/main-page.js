@@ -102,6 +102,7 @@ const createAccount = {
   input: `${importAccountSelector} .new-account-create-form__input`,
   cancelButton: `${importAccountSelector} .new-account-create-form__button:nth-child(1)`,
   createButton: `${importAccountSelector} .new-account-create-form__button:nth-child(2)`,
+  createAccountError: `${importAccountSelector} .new-account-create-form__error`,
 };
 
 const importTokenFormSelector = '.import-token__custom-token-form';
