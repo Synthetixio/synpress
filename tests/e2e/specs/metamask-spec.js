@@ -21,8 +21,14 @@ describe('Metamask', () => {
         expect(disconnected).to.be.true;
       });
     });
-    it(`acceptMetamaskAccess should accept connection request to metamask`, () => {
+    it('rejectMetamaskAccess should reject connection request to metamask', () => {
       cy.visit('/');
+      cy.get('#connectButton').click();
+      cy.rejectMetamaskAccess().then(rejected => {
+        expect(rejected).to.be.true;
+      });
+    });
+    it(`acceptMetamaskAccess should accept connection request to metamask`, () => {
       cy.get('#connectButton').click();
       cy.acceptMetamaskAccess().then(connected => {
         expect(connected).to.be.true;
@@ -160,6 +166,11 @@ describe('Metamask', () => {
     it(`createMetamaskAccount should create new account with custom name`, () => {
       cy.createMetamaskAccount('custom-wallet').then(created => {
         expect(created).to.be.true;
+      });
+    });
+    it(`createMetamaskAccount should not fail when creating new account with already existing custom name`, () => {
+      cy.createMetamaskAccount('custom-wallet').then(created => {
+        expect(created).to.be.equal('This account name already exists');
       });
     });
     it(`switchMetamaskAccount should switch to another account using order number`, () => {
