@@ -7,7 +7,7 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/synpress_.svg?label=synpress&style=social)](https://twitter.com/synpress_)
 
 > **We're Hiring 🎉** — Think you have what it takes?
-> Feel free to drop an email to [jobs@synpress.io](mailto:jobs@synpress.io).
+> We're looking for Software Engineer, [find out more](https://mirror.xyz/synpress.eth/FXhd5-7e7wBmYYtfmqkF0h7FhDBRUGuGF6j-D7jPpvM).
 
 #
 
