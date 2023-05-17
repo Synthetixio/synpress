@@ -6,6 +6,8 @@ const { ethers } = require('ethers');
 const download = require('download');
 const packageJson = require('./package.json');
 const chains = require('viem/chains');
+const appRoot = require('app-root-path');
+const os = require('os');
 
 let currentNetwork = chains.mainnet;
 // list of added networks to metamask
@@ -221,7 +223,14 @@ module.exports = {
   },
   async prepareMetamask(version) {
     const release = await module.exports.getMetamaskReleases(version);
-    const downloadsDirectory = path.resolve(__dirname, 'downloads');
+
+    let downloadsDirectory;
+    if (os.platform() === 'win32') {
+      downloadsDirectory = appRoot.resolve('/node_modules');
+    } else {
+      downloadsDirectory = path.resolve(__dirname, 'downloads');
+    }
+
     await module.exports.createDirIfNotExist(downloadsDirectory);
     const metamaskDirectory = path.join(downloadsDirectory, release.tagName);
     const metamaskDirectoryExists = await module.exports.checkDirOrFileExist(

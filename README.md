@@ -3,11 +3,11 @@
 [![CodeQL](https://github.com/Synthetixio/synpress/actions/workflows/codeql.yml/badge.svg?branch=master)](https://github.com/Synthetixio/synpress/actions/workflows/codeql.yml)
 [![Release CI](https://github.com/Synthetixio/synpress/actions/workflows/release.yml/badge.svg?branch=master)](https://github.com/Synthetixio/synpress/actions/workflows/release.yml)
 [![synpress](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/count/ohpeaz/master&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/ohpeaz/runs)
-[![Discord](https://img.shields.io/discord/413890591840272394.svg?color=768AD4&label=discord&logo=https%3A%2F%2Fdiscordapp.com%2Fassets%2F8c9701b98ad4372b58f13fd9f65f966e.svg)](https://discordapp.com/channels/413890591840272394/)
-[![Twitter Follow](https://img.shields.io/twitter/follow/synthetix_io.svg?label=synthetix_io&style=social)](https://twitter.com/synthetix_io)
+[![Discord](https://img.shields.io/discord/1103781993394733136.svg?color=768AD4&label=discord&logo=https%3A%2F%2Fdiscordapp.com%2Fassets%2F8c9701b98ad4372b58f13fd9f65f966e.svg)](https://discord.gg/XhZKSRGtWc)
+[![Twitter Follow](https://img.shields.io/twitter/follow/synpress_.svg?label=synpress&style=social)](https://twitter.com/synpress_)
 
-> **We're Hiring 🎉** — Think you have what it takes? 
-> Feel free to drop an email to [jobs@synpress.io](mailto:jobs@synpress.io)
+> **We're Hiring 🎉** — Think you have what it takes?
+> We're looking for Software Engineer, [find out more](https://mirror.xyz/synpress.eth/FXhd5-7e7wBmYYtfmqkF0h7FhDBRUGuGF6j-D7jPpvM).
 
 #
 
@@ -63,6 +63,7 @@ more details.
 
 # Table of content
 
+- [🧑‍🤝‍🧑 Community](-community)
 - [🖥️ Install](#%EF%B8%8F-install)
 - [⚙️ Supported frameworks](#%EF%B8%8F-supported-frameworks)
 - [👝 Supported wallets](#-supported-wallets)
@@ -76,6 +77,12 @@ more details.
 - [📃 Environmental variables](#-environmental-variables)
 - [🚢 Release process](#-release-process)
 - [📝 More resources](#-more-resources)
+
+## 🧑‍🤝‍🧑 Community
+
+- [Discord](https://discord.gg/XhZKSRGtWc) => for **live support** and direct chat with devs.
+- [Twitter](https://twitter.com/synpress_) => for updates and announcements.
+- [GitHub Discussions](https://github.com/Synthetixio/synpress/discussions) => for technical questions and feature requests.
 
 ## 🖥️ Install
 

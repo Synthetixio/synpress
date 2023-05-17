@@ -34,6 +34,9 @@ dependencies:
   '@viem/anvil':
     specifier: ^0.0.5
     version: 0.0.5(debug@4.3.4)
+  app-root-path:
+    specifier: ^3.1.0
+    version: 3.1.0
   axios:
     specifier: ^1.4.0
     version: 1.4.0(debug@4.3.4)
@@ -2658,6 +2661,11 @@ packages:
     dependencies:
       normalize-path: 3.0.0
       picomatch: 2.3.1
+    dev: false
+
+  /app-root-path@3.1.0:
+    resolution: {integrity: sha512-biN3PwB2gUtjaYy/isrU3aNWI5w+fAfvHkSvCKeQGxhmYpwKFUxudR3Yya+KqVRHBmEDYh+/lTozYCFbmzX4nA==}
+    engines: {node: '>= 6.0.0'}
     dev: false
 
   /append-transform@2.0.0:
