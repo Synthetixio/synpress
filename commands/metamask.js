@@ -1229,6 +1229,12 @@ const metamask = {
       notificationPage,
       { waitForEvent: 'close' },
     );
+    await switchToMetamaskIfNotActive();
+    await playwright.waitAndClick(
+      recipientPopupElements.popupCloseButton,
+    )
+    await module.exports.closePopupAndTooltips();
+    await switchToCypressIfNotActive();
     return true;
   },
   async rejectToSwitchNetwork() {
