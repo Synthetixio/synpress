@@ -1230,9 +1230,11 @@ const metamask = {
       { waitForEvent: 'close' },
     );
     await switchToMetamaskIfNotActive();
-    await playwright.waitAndClick(
-      recipientPopupElements.popupCloseButton,
-    )
+    if (recipientPopupElements.popupCloseButton) {
+      await playwright.waitAndClick(
+        recipientPopupElements.popupCloseButton,
+      )
+    }
     await module.exports.closePopupAndTooltips();
     await switchToCypressIfNotActive();
     return true;
