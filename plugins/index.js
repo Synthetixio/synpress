@@ -2,6 +2,7 @@ const helpers = require('../helpers');
 const playwright = require('../commands/playwright');
 const metamask = require('../commands/metamask');
 const etherscan = require('../commands/etherscan');
+const networkHandler = require('../services/network');
 
 /**
  * @type {Cypress.PluginConfig}
@@ -268,14 +269,16 @@ module.exports = (on, config) => {
       enableAdvancedSettings,
       enableExperimentalSettings,
     }) => {
-      network = network || process.env.NETWORK_NAME;
       privateKey = privateKey || process.env.PRIVATE_KEY;
       secretWords = secretWords || process.env.SECRET_WORDS;
 
-      if (!privateKey || !secretWords)
+      if (!privateKey && !secretWords)
         throw new Error(
           '[setupMetamask] Wallet private key or secret words must be provided',
         );
+
+      if (!network && networkHandler.shouldAddNetworkFromEnv())
+        network = networkHandler.getNetworkFromEnv();
 
       await metamask.initialSetup(null, {
         privateKey,

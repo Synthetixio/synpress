@@ -39,6 +39,7 @@ const {
   checkNetworkAdded,
   getCurrentNetwork,
 } = require('../helpers');
+const networkHandler = require('../services/network');
 
 let extensionInitialUrl;
 let extensionId;
@@ -404,11 +405,11 @@ const metamask = {
     }
 
     // uncomment to automatically add network if not added yet
-    // const networkAdded = await checkNetworkAdded(network);
-    // if (!networkAdded) {
-    //   await module.exports.addNetwork(network);
-    //   return true;
-    // }
+    const networkAdded = await checkNetworkAdded(network);
+    if (!networkAdded) {
+      await module.exports.addNetwork(network);
+      return true;
+    }
 
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
@@ -1269,22 +1270,13 @@ const metamask = {
       enableExperimentalSettings,
     },
   ) {
-    const isCustomNetwork =
-      (process.env.NETWORK_NAME &&
-        process.env.RPC_URL &&
-        process.env.CHAIN_ID &&
-        process.env.SYMBOL) ||
-      typeof network == 'object';
-    if (playwrightInstance) {
-      await playwright.init(playwrightInstance);
-    } else {
-      await playwright.init();
-    }
+    await playwright.init(playwrightInstance || null);
     await playwright.assignWindows();
     await playwright.assignActiveTabName('metamask');
     await module.exports.getExtensionDetails();
     await playwright.fixBlankPage();
     await playwright.fixCriticalError();
+
     if (
       (await playwright
         .metamaskWindow()
@@ -1300,11 +1292,19 @@ const metamask = {
 
       await setupSettings(enableAdvancedSettings, enableExperimentalSettings);
 
-      if (isCustomNetwork) {
-        await module.exports.addNetwork(network);
-      } else {
+      // ===================== Networks ====================
+      // 1) add new custom network from "NetworkInfo" object
+      if (typeof network === 'object') await module.exports.addNetwork(network);
+
+      // 2) add new network using env vars
+      if (!network && networkHandler.shouldAddNetworkFromEnv())
+        module.exports.addNetwork(networkHandler.getNetworkFromEnv());
+
+      // 3) switch networks + add network if needed (predefined network)
+      if (typeof network === 'string') {
         await module.exports.changeNetwork(network);
       }
+
       walletAddress = await module.exports.getWalletAddress();
       await playwright.switchToCypressWindow();
       return true;
