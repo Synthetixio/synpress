@@ -1261,7 +1261,8 @@ const metamask = {
   async initialSetup(
     playwrightInstance,
     {
-      secretWordsOrPrivateKey,
+      secretWords,
+      privateKey,
       network,
       password,
       enableAdvancedSettings,
@@ -1290,13 +1291,11 @@ const metamask = {
         .locator(onboardingWelcomePageElements.onboardingWelcomePage)
         .count()) > 0
     ) {
-      if (secretWordsOrPrivateKey.includes(' ')) {
-        // secret words
-        await module.exports.importWallet(secretWordsOrPrivateKey, password);
-      } else {
-        // private key
+      if (secretWords) await module.exports.importWallet(secretWords, password);
+
+      if (privateKey) {
         await module.exports.createWallet(password);
-        await module.exports.importAccount(secretWordsOrPrivateKey);
+        await module.exports.importAccount(privateKey);
       }
 
       await setupSettings(enableAdvancedSettings, enableExperimentalSettings);

@@ -261,23 +261,25 @@ module.exports = (on, config) => {
       return metamask.walletAddress();
     },
     setupMetamask: async ({
-      secretWordsOrPrivateKey,
+      secretWords,
+      privateKey,
       network,
       password,
       enableAdvancedSettings,
       enableExperimentalSettings,
     }) => {
-      if (process.env.NETWORK_NAME) {
-        network = process.env.NETWORK_NAME;
-      }
-      if (process.env.PRIVATE_KEY) {
-        secretWordsOrPrivateKey = process.env.PRIVATE_KEY;
-      }
-      if (process.env.SECRET_WORDS) {
-        secretWordsOrPrivateKey = process.env.SECRET_WORDS;
-      }
+      network = network || process.env.NETWORK_NAME;
+      privateKey = privateKey || process.env.PRIVATE_KEY;
+      secretWords = secretWords || process.env.SECRET_WORDS;
+
+      if (!privateKey || !secretWords)
+        throw new Error(
+          '[setupMetamask] Wallet private key or secret words must be provided',
+        );
+
       await metamask.initialSetup(null, {
-        secretWordsOrPrivateKey,
+        privateKey,
+        secretWords,
         network,
         password,
         enableAdvancedSettings,
