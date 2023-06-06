@@ -403,12 +403,11 @@ const metamask = {
       return false;
     }
 
-    // uncomment to automatically add network if not added yet
-    // const networkAdded = await checkNetworkAdded(network);
-    // if (!networkAdded) {
-    //   await module.exports.addNetwork(network);
-    //   return true;
-    // }
+    const networkAdded = await checkNetworkAdded(network);
+    if (!networkAdded) {
+      await module.exports.addNetwork(network);
+      return true;
+    }
 
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
@@ -467,34 +466,8 @@ const metamask = {
     // dont add network if already present
     const networkAlreadyAdded = await checkNetworkAdded(network);
     if (networkAlreadyAdded) {
-      // uncomment to automatically change network if it was already added
-      // await module.exports.changeNetwork(network);
+      await module.exports.changeNetwork(network);
       return false;
-    }
-
-    // handle adding network with env vars
-    if (
-      process.env.NETWORK_NAME &&
-      process.env.RPC_URL &&
-      process.env.CHAIN_ID &&
-      process.env.SYMBOL
-    ) {
-      network = {
-        id: process.env.CHAIN_ID,
-        name: process.env.NETWORK_NAME,
-        nativeCurrency: {
-          symbol: process.env.SYMBOL,
-        },
-        rpcUrls: {
-          public: { http: [process.env.RPC_URL] },
-          default: { http: [process.env.RPC_URL] },
-        },
-        blockExplorers: {
-          etherscan: { url: process.env.BLOCK_EXPLORER },
-          default: { url: process.env.BLOCK_EXPLORER },
-        },
-        testnet: process.env.IS_TESTNET,
-      };
     }
 
     // add network to presets
@@ -1268,12 +1241,6 @@ const metamask = {
       enableExperimentalSettings,
     },
   ) {
-    const isCustomNetwork =
-      (process.env.NETWORK_NAME &&
-        process.env.RPC_URL &&
-        process.env.CHAIN_ID &&
-        process.env.SYMBOL) ||
-      typeof network == 'object';
     if (playwrightInstance) {
       await playwright.init(playwrightInstance);
     } else {
@@ -1301,11 +1268,8 @@ const metamask = {
 
       await setupSettings(enableAdvancedSettings, enableExperimentalSettings);
 
-      if (isCustomNetwork) {
-        await module.exports.addNetwork(network);
-      } else {
-        await module.exports.changeNetwork(network);
-      }
+      await module.exports.changeNetwork(network);
+
       walletAddress = await module.exports.getWalletAddress();
       await playwright.switchToCypressWindow();
       return true;
