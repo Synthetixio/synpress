@@ -2,7 +2,7 @@
 describe('Metamask', () => {
   context('Test commands', () => {
     // todo: clear the state of extension and test different combinations of setupMetamask with private key & custom network
-    it.only(`setupMetamask should finish metamask setup using secret words`, () => {
+    it(`setupMetamask should finish metamask setup using secret words`, () => {
       cy.setupMetamask({
         secretWords:
           'test test test test test test test test test test test junk',

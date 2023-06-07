@@ -1,7 +1,10 @@
 class Network {
   shouldAddNetworkFromEnv() {
     return (
-      process.env.NETWORK_NAME && process.env.RPC_URL && process.env.CHAIN_ID
+      process.env.NETWORK_NAME &&
+      process.env.RPC_URL &&
+      process.env.CHAIN_ID &&
+      process.env.SYMBOL
     );
   }
 

@@ -271,6 +271,7 @@ module.exports = (on, config) => {
     }) => {
       privateKey = privateKey || process.env.PRIVATE_KEY;
       secretWords = secretWords || process.env.SECRET_WORDS;
+      password = password || process.env.METAMASK_PASSWORD || 'password';
 
       if (!privateKey && !secretWords)
         throw new Error(
@@ -279,6 +280,9 @@ module.exports = (on, config) => {
 
       if (!network && networkHandler.shouldAddNetworkFromEnv())
         network = networkHandler.getNetworkFromEnv();
+
+      if (!network && process.env.NETWORK_NAME)
+        network = process.env.NETWORK_NAME;
 
       await metamask.initialSetup(null, {
         privateKey,
