@@ -271,7 +271,7 @@ module.exports = (on, config) => {
     }) => {
       privateKey = privateKey || process.env.PRIVATE_KEY;
       secretWords = secretWords || process.env.SECRET_WORDS;
-      password = password || process.env.METAMASK_PASSWORD || 'password';
+      password = password || process.env.METAMASK_PASSWORD || 'Tester@1234';
 
       if (!privateKey && !secretWords)
         throw new Error(
