@@ -40,11 +40,13 @@ if (!process.env.SKIP_METAMASK_INSTALL && !process.env.SKIP_METAMASK_SETUP) {
   );
 }
 
-if (process.env.RPC_URL || process.env.CHAIN_ID) {
+if (process.env.RPC_URL || process.env.CHAIN_ID || process.env.SYMBOL) {
   if (!process.env.RPC_URL) {
     throw new Error('Please provide RPC_URL environment variable');
   } else if (!process.env.CHAIN_ID) {
     throw new Error('Please provide CHAIN_ID environment variable');
+  } else if (!process.env.SYMBOL) {
+    throw new Error('Please provide SYMBOL environment variable');
   }
 
   if (
