@@ -1,9 +1,5 @@
 const helpers = require('../helpers');
 const playwright = require('../commands/playwright');
-const provider =
-  process.env.PROVIDER === 'phantom'
-    ? require('../commands/phantom')
-    : require('../commands/metamask');
 const etherscan = require('../commands/etherscan');
 
 const metamaskProvider = require('../commands/metamask');

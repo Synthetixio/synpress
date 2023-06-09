@@ -248,11 +248,16 @@ module.exports = {
     await switchToCypressIfNotActive();
     return walletAddress;
   },
-  initialSetup: async ({
-    secretWordsOrPrivateKey,
-    password,
+  async initialSetup(
     playwrightInstance,
-  }) => {
+    {
+      secretWordsOrPrivateKey,
+      network,
+      password,
+      enableAdvancedSettings,
+      enableExperimentalSettings,
+    },
+  ) {
     await playwright.init(playwrightInstance);
     await playwright.assignWindows(PROVIDER);
     await playwright.assignActiveTabName(PROVIDER);
