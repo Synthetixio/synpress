@@ -29,7 +29,7 @@ jobs:
         uses: docker/setup-qemu-action@e81a89b1732b9c48d79cd809d8d81d79c4647a18 # pin@v1
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@f03ac48505955848960e80bbb68046aa35c7b9e7 # pin@v1
+        uses: docker/setup-buildx-action@6a58db7e0d21ca03e6c44877909e80e45217eed2 # pin@v1
 
       - name: Cache Docker layers
         uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # pin@v2
