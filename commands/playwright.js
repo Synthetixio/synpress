@@ -56,6 +56,35 @@ module.exports = {
     }
     return browser.isConnected();
   },
+  async clearExtensionData() {
+    try {
+      await module.exports.metamaskWindow().evaluate(async () => {
+        await new Promise((resolve, reject) => {
+          return chrome.storage.local.clear(() => {
+            if (chrome.runtime.lastError) {
+              reject(chrome.runtime.lastError);
+            } else {
+              resolve(true);
+            }
+          });
+        });
+
+        await new Promise((resolve, reject) => {
+          return chrome.storage.sync.clear(() => {
+            if (chrome.runtime.lastError) {
+              reject(chrome.runtime.lastError);
+            } else {
+              resolve(true);
+            }
+          });
+        });
+      });
+
+      await module.exports.metamaskWindow().reload();
+    } catch (error) {
+      console.log(`[clearExtensionData] ${error.message}`);
+    }
+  },
   async clear() {
     browser = null;
     return true;
