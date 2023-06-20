@@ -83,7 +83,8 @@ const whatsNew = {
 };
 
 const welcome = {
-  dismissRebrandAnnouncementButton: '[data-testid="welcome_dismiss-rebrand-announcement"]',
+  takeTheTourButton: '[data-testid="welcome-take_the_tour"]',
+  takeTheTourButtonNext: '[data-testid="primary-button"]',
 };
 
 const accountBar = {
