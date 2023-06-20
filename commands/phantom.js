@@ -285,27 +285,15 @@ module.exports = {
 
       await switchToPhantomIfNotActive();
 
-      // skip welcome page
+      // skip rebrand modal
       if (
         await playwright
           .windows(PROVIDER)
-          .locator(mainPageElements.welcome.takeTheTourButton)
+          .locator(mainPageElements.welcome.dismissRebrandAnnouncementButton)
       ) {
         await playwright
           .windows(PROVIDER)
-          .click(mainPageElements.welcome.takeTheTourButton);
-        await new Promise(resolve => setTimeout(resolve, 200));
-        await playwright
-          .windows(PROVIDER)
-          .click(mainPageElements.welcome.takeTheTourButtonNext);
-        await new Promise(resolve => setTimeout(resolve, 200));
-        await playwright
-          .windows(PROVIDER)
-          .click(mainPageElements.welcome.takeTheTourButtonNext);
-        await new Promise(resolve => setTimeout(resolve, 200));
-        await playwright
-          .windows(PROVIDER)
-          .click(mainPageElements.welcome.takeTheTourButtonNext);
+          .click(mainPageElements.welcome.dismissRebrandAnnouncementButton);
         await new Promise(resolve => setTimeout(resolve, 200));
       }
       walletAddress = await module.exports.getWalletAddress();
