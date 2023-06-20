@@ -285,7 +285,7 @@ module.exports = {
 
       await switchToPhantomIfNotActive();
 
-      // skip welcome page
+      // skip rebrand modal
       if (
         await playwright
           .windows(PROVIDER)
@@ -294,18 +294,6 @@ module.exports = {
         await playwright
           .windows(PROVIDER)
           .click(mainPageElements.welcome.dismissRebrandAnnouncementButton);
-        await new Promise(resolve => setTimeout(resolve, 200));
-        await playwright
-          .windows(PROVIDER)
-          .click(mainPageElements.welcome.dismissRebrandAnnouncementButtonNext);
-        await new Promise(resolve => setTimeout(resolve, 200));
-        await playwright
-          .windows(PROVIDER)
-          .click(mainPageElements.welcome.dismissRebrandAnnouncementButtonNext);
-        await new Promise(resolve => setTimeout(resolve, 200));
-        await playwright
-          .windows(PROVIDER)
-          .click(mainPageElements.welcome.dismissRebrandAnnouncementButtonNext);
         await new Promise(resolve => setTimeout(resolve, 200));
       }
       walletAddress = await module.exports.getWalletAddress();
