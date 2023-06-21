@@ -487,24 +487,32 @@ module.exports = {
       mainPageElements.settingsMenu.trustedAppsRow,
     );
 
-    const revokeButtonLocator = await playwright
+    // click trusted app
+    const rowButtonLocator = await playwright
       .windows(PROVIDER)
-      .locator(mainPageElements.connectedSites.trustedAppsRevokeButton);
+      .locator(mainPageElements.connectedSites.rowButton);
     await playwright
       .windows(PROVIDER)
-      .waitForSelector(mainPageElements.connectedSites.trustedAppsRevokeButton);
-    const hasRevokeButton = await revokeButtonLocator.isVisible();
+      .waitForSelector(mainPageElements.connectedSites.rowButton);
+    const hasConnectedSite = await rowButtonLocator.isVisible();
 
     let isDisconnected = false;
-    if (hasRevokeButton) {
+    if (hasConnectedSite) {
       console.log(
         '[disconnectWalletFromDapp] Wallet is connected to a dapp, disconnecting...',
       );
+
+      // click row button
+      await playwright.waitAndClick(
+        PROVIDER,
+        mainPageElements.connectedSites.rowButton,
+      );
+
+      // click disconnect
       await playwright.waitAndClick(
         PROVIDER,
         mainPageElements.connectedSites.trustedAppsRevokeButton,
       );
-      await switchToCypressIfNotActive();
       isDisconnected = true;
     } else {
       console.log(
@@ -514,6 +522,8 @@ module.exports = {
 
     // back to main
     await backToMainFromSettings();
+
+    await switchToCypressIfNotActive();
 
     return isDisconnected;
   },

@@ -102,6 +102,7 @@ const defaultWallet = {
 const connectedSites = {
   trustedAppsRevokeButton: '[data-testid="trusted-apps-revoke-button"]',
   trustedAppsBackButton: '[data-testid="header--back"]',
+  rowButton: '[data-testid="trusted_apps_row-button"]',
 };
 
 const accountModal = {
