@@ -216,7 +216,7 @@ const metamask = {
     );
     await module.exports.optOutAnalytics();
     // todo: add support for more secret words (15/18/21/24)
-    for await (const [index, word] of secretWords.split(' ').entries()) {
+    for (const [index, word] of secretWords.split(' ').entries()) {
       await playwright.waitAndType(
         firstTimeFlowImportPageElements.secretWordsInput(index),
         word,
@@ -1251,7 +1251,6 @@ const metamask = {
     await module.exports.getExtensionDetails();
     await playwright.fixBlankPage();
     await playwright.fixCriticalError();
-
     if (
       (await playwright
         .metamaskWindow()

@@ -1,7 +1,6 @@
 const helpers = require('../helpers');
 const playwright = require('../commands/playwright');
 const metamask = require('../commands/metamask');
-const etherscan = require('../commands/etherscan');
 
 /**
  * @type {Cypress.PluginConfig}
@@ -311,14 +310,6 @@ module.exports = (on, config) => {
     getCurrentNetwork: () => {
       const network = helpers.getCurrentNetwork();
       return network;
-    },
-    etherscanGetTransactionStatus: async ({ txid }) => {
-      const txStatus = await etherscan.getTransactionStatus(txid);
-      return txStatus;
-    },
-    etherscanWaitForTxSuccess: async ({ txid }) => {
-      const txSuccess = await etherscan.waitForTxSuccess(txid);
-      return txSuccess;
     },
   });
 
