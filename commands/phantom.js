@@ -285,29 +285,39 @@ module.exports = {
 
       await switchToPhantomIfNotActive();
 
+      // skip rebrand
+      try {
+        await playwright
+          .windows(PROVIDER)
+          .click(mainPageElements.welcome.rebrandAnnouncement, {
+            timeout: 1_000,
+          });
+      } catch {}
+
       // skip welcome page
-      if (
+      try {
         await playwright
           .windows(PROVIDER)
-          .locator(mainPageElements.welcome.takeTheTourButton)
-      ) {
+          .click(mainPageElements.welcome.takeTheTourButton, {
+            timeout: 1_000,
+          });
         await playwright
           .windows(PROVIDER)
-          .click(mainPageElements.welcome.takeTheTourButton);
-        await new Promise(resolve => setTimeout(resolve, 200));
+          .click(mainPageElements.welcome.takeTheTourButtonNext, {
+            timeout: 1_000,
+          });
         await playwright
           .windows(PROVIDER)
-          .click(mainPageElements.welcome.takeTheTourButtonNext);
-        await new Promise(resolve => setTimeout(resolve, 200));
+          .click(mainPageElements.welcome.takeTheTourButtonNext, {
+            timeout: 1_000,
+          });
         await playwright
           .windows(PROVIDER)
-          .click(mainPageElements.welcome.takeTheTourButtonNext);
-        await new Promise(resolve => setTimeout(resolve, 200));
-        await playwright
-          .windows(PROVIDER)
-          .click(mainPageElements.welcome.takeTheTourButtonNext);
-        await new Promise(resolve => setTimeout(resolve, 200));
-      }
+          .click(mainPageElements.welcome.takeTheTourButtonNext, {
+            timeout: 1_000,
+          });
+      } catch {}
+
       walletAddress = await module.exports.getWalletAddress();
       await playwright.switchToCypressWindow();
       return true;

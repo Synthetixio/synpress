@@ -85,6 +85,7 @@ const whatsNew = {
 const welcome = {
   takeTheTourButton: '[data-testid="welcome-take_the_tour"]',
   takeTheTourButtonNext: '[data-testid="primary-button"]',
+  rebrandAnnouncement: '[data-testid="welcome_dismiss-rebrand-announcement"]',
 };
 
 const accountBar = {
