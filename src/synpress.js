@@ -17,14 +17,13 @@ if (process.env.SYNPRESS_LOCAL_TEST) {
   log('Loading .env config file from root folder');
   require('dotenv').config();
 } else {
-  log(
-    'Loading .env config file from first matching config file - root dir, ancestor or home dir',
-  );
-  require('dotenv').config({ path: require('find-config')('.env') });
-  log(
-    'Loading .env.e2e config file from first matching config file - root dir, ancestor or home dir',
-  );
-  require('dotenv').config({ path: require('find-config')('.env.e2e') });
+  const envFiles = ['.env', '.env.e2e', '.env.local', '.env.dev'];
+  envFiles.forEach(envFile => {
+    log(
+      `Loading ${envFile} config file from first matching config file - root dir, ancestor or home dir`,
+    );
+    require('dotenv').config({ path: require('find-config')(envFile) });
+  });
 }
 
 // if user skips metamask install or setup
@@ -41,11 +40,13 @@ if (!process.env.SKIP_METAMASK_INSTALL && !process.env.SKIP_METAMASK_SETUP) {
   );
 }
 
-if (process.env.RPC_URL || process.env.CHAIN_ID) {
+if (process.env.RPC_URL || process.env.CHAIN_ID || process.env.SYMBOL) {
   if (!process.env.RPC_URL) {
     throw new Error('Please provide RPC_URL environment variable');
   } else if (!process.env.CHAIN_ID) {
     throw new Error('Please provide CHAIN_ID environment variable');
+  } else if (!process.env.SYMBOL) {
+    throw new Error('Please provide SYMBOL environment variable');
   }
 
   if (

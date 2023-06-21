@@ -1,3 +1,4 @@
+const log = require('debug')('synpress:playwright');
 const fetch = require('node-fetch');
 const {
   notificationPageElements,
@@ -181,11 +182,14 @@ module.exports = {
   },
   async waitAndClickByText(selector, text, page = metamaskWindow) {
     await module.exports.waitFor(selector, page);
-    const element = page.locator(`text=${text}`);
-    await element.click();
+    const element = `:is(:text-is("${text}"), :text("${text}"))`;
+    await page.click(element);
     await module.exports.waitUntilStable();
   },
   async waitAndType(selector, value, page = metamaskWindow) {
+    if (typeof value === 'number') {
+      value = value.toString();
+    }
     const element = await module.exports.waitFor(selector, page);
     await element.type(value);
     await module.exports.waitUntilStable(page);
@@ -252,7 +256,7 @@ module.exports = {
     // info: waits for 60 seconds
     const locator = page.locator(selector);
     for (const element of await locator.all()) {
-      if ((await element.isVisible()) && retries < 300) {
+      if ((await element.count()) > 0 && retries < 300) {
         retries++;
         await page.waitForTimeout(200);
         await module.exports.waitToBeHidden(selector, page);
@@ -303,7 +307,7 @@ module.exports = {
     ); // shown on balance load
     // network error handler
     if (
-      await page.locator(pageElements.loadingOverlayErrorButtons).isVisible()
+      (await page.locator(pageElements.loadingOverlayErrorButtons).count()) > 0
     ) {
       await module.exports.waitAndClick(
         pageElements.loadingOverlayErrorButtonsRetryButton,
@@ -315,6 +319,7 @@ module.exports = {
   },
   // workaround for metamask random blank page on first run
   async fixBlankPage(page = metamaskWindow) {
+    await page.waitForTimeout(1000);
     for (let times = 0; times < 5; times++) {
       if (
         (await page.locator(onboardingWelcomePageElements.app).count()) === 0
@@ -329,14 +334,32 @@ module.exports = {
   async fixCriticalError(page = metamaskWindow) {
     for (let times = 0; times < 5; times++) {
       if ((await page.locator(pageElements.criticalError).count()) > 0) {
-        if (times < 3) {
+        log(
+          '[fixCriticalError] Metamask crashed with critical error, refreshing..',
+        );
+        if (times <= 3) {
           await page.reload();
-        } else {
+          await module.exports.waitUntilMetamaskWindowIsStable();
+        } else if (times === 4) {
           await module.exports.waitAndClick(
             pageElements.criticalErrorRestartButton,
           );
+          await module.exports.waitUntilMetamaskWindowIsStable();
+        } else {
+          throw new Error(
+            '[fixCriticalError] Max amount of retries to fix critical metamask error has been reached.',
+          );
         }
-        await module.exports.waitUntilMetamaskWindowIsStable();
+      } else if ((await page.locator(pageElements.errorPage).count()) > 0) {
+        log('[fixCriticalError] Metamask crashed with error, refreshing..');
+        if (times <= 4) {
+          await page.reload();
+          await module.exports.waitUntilMetamaskWindowIsStable();
+        } else {
+          throw new Error(
+            '[fixCriticalError] Max amount of retries to fix critical metamask error has been reached.',
+          );
+        }
       } else {
         break;
       }

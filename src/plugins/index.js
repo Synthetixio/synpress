@@ -1,7 +1,6 @@
 const helpers = require('../helpers');
 const playwright = require('../commands/playwright');
 const metamask = require('../commands/metamask');
-const synthetix = require('../commands/synthetix');
 const etherscan = require('../commands/etherscan');
 
 /**
@@ -219,10 +218,13 @@ module.exports = (on, config) => {
       const rejected = await metamask.rejectPermissionToSpend();
       return rejected;
     },
+    confirmMetamaskPermisionToApproveAll: metamask.confirmPermisionToApproveAll,
+    rejectMetamaskPermisionToApproveAll: metamask.rejectPermisionToApproveAll,
     acceptMetamaskAccess: async options => {
       const accepted = await metamask.acceptAccess(options);
       return accepted;
     },
+    rejectMetamaskAccess: metamask.rejectAccess,
     confirmMetamaskTransaction: async gasConfig => {
       const confirmed = await metamask.confirmTransaction(gasConfig);
       return confirmed;
@@ -268,6 +270,29 @@ module.exports = (on, config) => {
       if (process.env.NETWORK_NAME) {
         network = process.env.NETWORK_NAME;
       }
+      if (
+        process.env.NETWORK_NAME &&
+        process.env.RPC_URL &&
+        process.env.CHAIN_ID &&
+        process.env.SYMBOL
+      ) {
+        network = {
+          id: process.env.CHAIN_ID,
+          name: process.env.NETWORK_NAME,
+          nativeCurrency: {
+            symbol: process.env.SYMBOL,
+          },
+          rpcUrls: {
+            public: { http: [process.env.RPC_URL] },
+            default: { http: [process.env.RPC_URL] },
+          },
+          blockExplorers: {
+            etherscan: { url: process.env.BLOCK_EXPLORER },
+            default: { url: process.env.BLOCK_EXPLORER },
+          },
+          testnet: process.env.IS_TESTNET,
+        };
+      }
       if (process.env.PRIVATE_KEY) {
         secretWordsOrPrivateKey = process.env.PRIVATE_KEY;
       }
@@ -283,27 +308,8 @@ module.exports = (on, config) => {
       });
       return true;
     },
-    snxExchangerSettle: async ({ asset, walletAddress, privateKey }) => {
-      if (process.env.PRIVATE_KEY) {
-        privateKey = process.env.PRIVATE_KEY;
-      }
-      const settled = await synthetix.settle({
-        asset,
-        walletAddress,
-        privateKey,
-      });
-      // todo: wait for confirmation?
-      return settled;
-    },
-    snxCheckWaitingPeriod: async ({ asset, walletAddress }) => {
-      const waitingPeriod = await synthetix.checkWaitingPeriod({
-        asset,
-        walletAddress,
-      });
-      return waitingPeriod;
-    },
-    getNetwork: () => {
-      const network = helpers.getNetwork();
+    getCurrentNetwork: () => {
+      const network = helpers.getCurrentNetwork();
       return network;
     },
     etherscanGetTransactionStatus: async ({ txid }) => {

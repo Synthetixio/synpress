@@ -1,5 +1,5 @@
 const fs = require('fs');
-const CLIEngine = require('eslint').CLIEngine;
+const CLIEngine = require('eslint').ESLint;
 
 const argv = process.argv.slice(2);
 const cli = new CLIEngine({
@@ -11,10 +11,10 @@ const cli = new CLIEngine({
 console.log('Starting to lint..');
 
 // Lint all files
-const report = cli.executeOnFiles(argv[0]);
+const report = cli.lintFiles(argv[0]);
 
 // get the default formatter
-const consoleFormatter = cli.getFormatter();
+const consoleFormatter = cli.loadFormatter();
 
 console.log('Lint finished');
 
@@ -22,7 +22,7 @@ console.log('Lint finished');
 console.log(consoleFormatter(report.results));
 
 // Output to sarif format
-const otherFormatter = cli.getFormatter(
+const otherFormatter = cli.loadFormatter(
   '@microsoft/eslint-formatter-sarif/sarif.js',
 );
 
