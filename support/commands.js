@@ -267,7 +267,7 @@ Cypress.Commands.add(
     enableAdvancedSettings = false,
     enableExperimentalSettings = false,
   }) => {
-    return cy.task('setupMetamask', {
+    return cy.task('setup', {
       provider,
       secretWordsOrPrivateKey,
       network,
