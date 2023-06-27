@@ -317,7 +317,7 @@ module.exports = {
     text,
     page = module.exports.windows(provider),
   ) {
-    await module.exports.waitFor(selector, page);
+    await module.exports.waitFor(provider, selector, page);
     const element = `:is(:text-is("${text}"), :text("${text}"))`;
     await page.click(element);
     if (provider === 'metamask') {

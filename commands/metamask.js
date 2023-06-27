@@ -1513,6 +1513,7 @@ async function setupSettings(
   enableExperimentalSettings,
 ) {
   await switchToMetamaskIfNotActive();
+
   await metamask.goToAdvancedSettings();
   await metamask.activateAdvancedGasControl(true);
   await metamask.activateShowHexData(true);

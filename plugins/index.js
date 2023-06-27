@@ -346,8 +346,10 @@ module.exports = (on, config) => {
       ).rejectPermissionToSpend();
       return rejected;
     },
-    confirmMetamaskPermisionToApproveAll: metamask.confirmPermisionToApproveAll,
-    rejectMetamaskPermisionToApproveAll: metamask.rejectPermisionToApproveAll,
+    confirmMetamaskPermisionToApproveAll:
+      metamaskProvider.confirmPermisionToApproveAll,
+    rejectMetamaskPermisionToApproveAll:
+      metamaskProvider.rejectPermisionToApproveAll,
 
     /**
      * @deprecated
@@ -361,7 +363,7 @@ module.exports = (on, config) => {
       );
       return accepted;
     },
-    rejectMetamaskAccess: metamask.rejectAccess,
+    rejectMetamaskAccess: metamaskProvider.rejectAccess,
 
     /**
      * @deprecated
@@ -465,7 +467,7 @@ module.exports = (on, config) => {
       if (process.env.SECRET_WORDS) {
         secretWordsOrPrivateKey = process.env.SECRET_WORDS;
       }
-      await getProvider(provider).initialSetup({
+      await getProvider(provider).initialSetup(null, {
         secretWordsOrPrivateKey,
         network,
         password,

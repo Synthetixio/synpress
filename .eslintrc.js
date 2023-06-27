@@ -5,6 +5,7 @@ module.exports = {
     commonjs: true,
     es2021: true,
     'cypress/globals': true,
+    webextensions: true,
   },
   extends: [
     'eslint:recommended',
