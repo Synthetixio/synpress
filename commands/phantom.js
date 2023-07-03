@@ -381,6 +381,16 @@ module.exports = {
     );
     return true;
   },
+  rejectTransaction: async () => {
+    const notificationPage = await playwright.switchToNotification(PROVIDER);
+    await playwright.waitAndClick(
+      PROVIDER,
+      transactionPageElements.buttons.rejectSign,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
   confirmIncorrectNetworkStage: async () => {
     const notificationPage = await playwright.switchToNotification(PROVIDER);
     await playwright.waitAndClick(
@@ -548,7 +558,7 @@ async function switchToPhantomIfNotActive() {
   return switchBackToCypressWindow;
 }
 
-async function switchToCypressIfNotActive() {
+export async function switchToCypressIfNotActive() {
   if (switchBackToCypressWindow) {
     await playwright.switchToCypressWindow();
     switchBackToCypressWindow = false;
