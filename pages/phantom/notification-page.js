@@ -170,8 +170,8 @@ module.exports.signaturePageElements = {
 
 module.exports.transactionPageElements = {
   buttons: {
-    confirmSign: '[data-testid="primary-button"]',
-    rejectSign: '[data-testid="secondary-button"]',
+    confirmTransaction: '[data-testid="primary-button"]',
+    rejectTransaction: '[data-testid="secondary-button"]',
   },
 };
 
