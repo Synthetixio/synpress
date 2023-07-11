@@ -156,7 +156,6 @@ module.exports.mainPageElements = {
   accountMenu,
   accountBar,
   settingsMenu,
-  developerSettingsSection,
   connectedSites,
   accountModal,
   importAccount,
