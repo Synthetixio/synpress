@@ -74,6 +74,7 @@ const settingsMenu = {
   settingsSidebarButton: '[data-testid="sidebar_menu-button-settings"]',
   settingsSidebarCloseButton: '[data-testid="settings-menu-close-button"]',
   trustedAppsRow: '[data-testid="settings-item-trusted-apps"]',
+  developerSettingsRow: '[data-testid="settings-item-developer-settings"]',
   defaultAppWalletRow: '[data-testid="settings-item-metamask-override"]',
 };
 
