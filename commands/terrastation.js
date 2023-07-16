@@ -1,7 +1,7 @@
 const log = require('debug')('synpress:metamask');
 const playwright = require('./playwrightTerraStation');
 
-const {portfolioValue, sendButton} = require('../pages/terrastation/main-page');
+ const elements = require('../pages/terrastation/main-page');
 
 
 const terrastation = {
@@ -36,16 +36,19 @@ const terrastation = {
       async initialSetup(
         playwrightInstance,
       ) {
+        console.log("we are hrere");
         if (playwrightInstance) {
           await playwright.init(playwrightInstance);
         } else {
+            console.log("I am here")
           await playwright.init();
         }
-        await playwright.assignWindows();
-        await playwright.assignActiveTabName('terraStation');
-        await module.exports.getExtensionDetails();
+        console.log("I am here 2")
+        await playwright.assignWindowsAndContext();
+        await playwright.waitAndClick(elements.welcomePageElements.newWallet)
+        
         return true;
       },
-}
+};
 
 module.exports = terrastation

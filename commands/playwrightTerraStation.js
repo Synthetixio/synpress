@@ -5,7 +5,7 @@ const sleep = require('util').promisify(setTimeout);
 
 let browser;
 let mainWindow;
-let terraStationWindow;
+let terraStationExtension;
 let terraStationNotificationWindow;
 let activeTabName;
 
@@ -18,8 +18,8 @@ module.exports = {
   mainWindow() {
     return mainWindow;
   },
-  terraStationWindow() {
-    return terraStationWindow;
+  terraStationExtension() {
+    return terraStationExtension;
   },
   terraStationNotificationWindow() {
     return terraStationNotificationWindow;
@@ -57,60 +57,28 @@ module.exports = {
     browser = null;
     return true;
   },
-  async assignWindows() {
-    let pages = await browser.contexts()[0].pages();
-    for (const page of pages) {
-      if (page.url().includes('runner')) {
-        mainWindow = page;
-      } else if (page.url().includes('extension')) {
-        terraStationWindow = page;
-      } else if (page.url().includes('notification')) {
-        terraStationNotificationWindow = page;
-      }
-    }
+//   async assignWindows() {
+//     let pages = await browser.contexts()[0].pages();
+//     console.log("OVO SU PAGEVI")
+//     console.log(pages)
+//     console.log("OVO SU PAGEVI")
+//     for (const page of pages) {
+//       if (page.url().includes('runner')) {
+//         mainWindow = page;
+//       } else if (page.url().includes('extension')) {
+//         terraStationWindow = page;
+//       } else if (page.url().includes('notification')) {
+//         terraStationNotificationWindow = page;
+//       }
+//     }
+//     return true;
+//   },
+
+  async assignWindowsAndContext() {
+    const context = await browser.newContext();
+    const extensionPage = await context.newPage();
+    await extensionPage.goto(mainPageElements.welcomePageElements.welcomeExtensionPageUrl);
+    terraStationExtension = extensionPage;
     return true;
-  },
-  async isCypressWindowActive() {
-    return activeTabName === 'cypress';
-  },
-  async isTerraStationWindowActive() {
-    return activeTabName === 'terraStation';
-  },
-  async isMetamaskNotificationWindowActive() {
-    return activeTabName === 'terraStation-notif';
-  },
-  async switchToCypressWindow() {
-    if (mainWindow) {
-      await mainWindow.bringToFront();
-      await module.exports.assignActiveTabName('cypress');
-    }
-    return true;
-  },
-  async switchToTerraStationkWindow() {
-    await terraStationWindow.bringToFront();
-    await module.exports.assignActiveTabName('terraStation');
-    return true;
-  },
-  async waitUntilTerraStationWindowIsStable(page = terraStationWindow) {
-    await module.exports.waitToBeHidden(mainPageElements.mainPageElements.portfolioValue, page); // shown on reload
-    // network error handler
-  },
-  async waitUntilStable(page) {
-    if (page && page.url().includes('notification')) {
-      await page.waitForLoadState('load');
-      await page.waitForLoadState('domcontentloaded');
-      await page.waitForLoadState('networkidle');
-      await module.exports.waitUntilNotificationWindowIsStable();
-    }
-    await metamaskWindow.waitForLoadState('load');
-    await metamaskWindow.waitForLoadState('domcontentloaded');
-    await metamaskWindow.waitForLoadState('networkidle');
-    await module.exports.waitUntilMetamaskWindowIsStable();
-    if (mainWindow) {
-      await mainWindow.waitForLoadState('load');
-      await mainWindow.waitForLoadState('domcontentloaded');
-      // todo: this may slow down tests and not be necessary but could improve stability
-      // await mainWindow.waitForLoadState('networkidle');
-    }
   },
 }

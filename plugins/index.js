@@ -37,16 +37,19 @@ module.exports = (on, config) => {
     //   const metamaskPath = await helpers.prepareMetamask(
     //     process.env.METAMASK_VERSION || '10.25.0',
     //   );
+    //   console.log(metamaskPath)
     //   arguments_.extensions.push(metamaskPath);
     // }
 
     if (!process.env.SKIP_TERRASTATION_INSTALL) {
-      // const terrastationPath = await helpers.prepareTerraStation(
-      //   process.env.TERRASTATION_VERSION || '1.0.0',
-      // );
-      arguments_.extensions.push("/Users/dimitrijedragasevic/synpress/binary");
+      const terrastationPath = await helpers.prepareTerraStation('7.4.1.1');
+      console.log(terrastationPath)
+      arguments_.extensions.push(terrastationPath);
     }
-
+    
+    
+    console.log(arguments_);
+  
     return arguments_;
   });
 
@@ -59,11 +62,11 @@ module.exports = (on, config) => {
       console.warn('\u001B[33m', 'WARNING:', message, '\u001B[0m');
       return true;
     },
+    // playwright commands
     initPlaywrightTerraStation: async () => {
       const connected = await playwrightTerraStation.init();
       return connected;
     },
-    // playwright commands
     initPlaywright: async () => {
       const connected = await playwright.init();
       return connected;

@@ -221,6 +221,57 @@ module.exports = {
       );
     }
   },
+  async getTerraStationReleases(version) {
+    log(`Trying to find TerraStation wallet version ${version} in GitHub releases..`);
+  
+    const filename = `Station.Wallet.${version}.-.Chrome.zip`;
+    const downloadUrl = `https://github.com/terra-money/station-extension/releases/download/v${version}/Station.Wallet.${version}.-.Chrome.zip`;
+    const tagName = `terra-station-${version}`;
+  
+    log(
+      `TerraStation wallet version found! Filename: ${filename}; Download url: ${downloadUrl}; Tag name: ${tagName}`,
+    );
+  
+    return {
+      filename,
+      downloadUrl,
+      tagName,
+    };
+  },
+  
+  async prepareTerraStation(version) {
+    const release = await module.exports.getTerraStationReleases(version);
+    if (!release.tagName) {
+      throw new Error('tagName is undefined in the release object');
+    }
+  
+    let downloadsDirectory;
+    if (os.platform() === 'win32') {
+      downloadsDirectory = appRoot.resolve('/node_modules');
+    } else {
+      downloadsDirectory = path.resolve(__dirname, 'downloads');
+    }
+  
+    await module.exports.createDirIfNotExist(downloadsDirectory);
+    const terraStationDirectory = path.join(downloadsDirectory, release.tagName,'/bui');
+    const terraStationDirectoryExists = await module.exports.checkDirOrFileExist(
+      terraStationDirectory,
+    );
+    const terraStationManifestFilePath = path.join(
+      downloadsDirectory,
+      release.tagName,
+      'manifest.json',
+    );
+    const terraStationManifestFileExists = await module.exports.checkDirOrFileExist(
+      terraStationManifestFilePath,
+    );
+    if (!terraStationDirectoryExists && !terraStationManifestFileExists) {
+      await module.exports.download(release.downloadUrl, terraStationDirectory);
+    } else {
+      log('TerraStation Wallet is already downloaded');
+    }
+    return terraStationDirectory;
+  },
   async prepareMetamask(version) {
     const release = await module.exports.getMetamaskReleases(version);
 
@@ -251,35 +302,4 @@ module.exports = {
     }
     return metamaskDirectory;
   },
-
-  async prepareTerraStation() {
-    const release = "/Users/dimitrijedragasevic/synpress/binary";
-
-    let downloadsDirectory;
-    if (os.platform() === 'win32') {
-      downloadsDirectory = appRoot.resolve('/node_modules');
-    } else {
-      downloadsDirectory = path.resolve(__dirname, 'downloads');
-    }
-
-    await module.exports.createDirIfNotExist(downloadsDirectory);
-    const metamaskDirectory = path.join(downloadsDirectory, release.tagName);
-    const metamaskDirectoryExists = await module.exports.checkDirOrFileExist(
-      metamaskDirectory,
-    );
-    const metamaskManifestFilePath = path.join(
-      downloadsDirectory,
-      release.tagName,
-      'manifest.json',
-    );
-    const metamaskManifestFileExists = await module.exports.checkDirOrFileExist(
-      metamaskManifestFilePath,
-    );
-    if (!metamaskDirectoryExists && !metamaskManifestFileExists) {
-      await module.exports.download(release.downloadUrl, metamaskDirectory);
-    } else {
-      log('Metamask is already downloaded');
-    }
-    return metamaskDirectory;
-  }
 };
