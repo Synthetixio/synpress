@@ -6,6 +6,9 @@ declare namespace Cypress {
      * cy.initPlaywright()
      */
     initPlaywright(): Chainable<boolean>;
+
+
+    initPlaywrightTerraStation(): Chainable<boolean>;
     /**
      * Assign currently open tabs with playwright
      * @example
@@ -404,6 +407,8 @@ declare namespace Cypress {
       enableAdvancedSettings?: boolean,
       enableExperimentalSettings?: boolean,
     ): Chainable<Subject>;
+
+    setupTerraStation(): Chainable<Subject>
     /**
      * Get transaction status from Etherscan API
      * @example

@@ -1,6 +1,8 @@
 const helpers = require('../helpers');
-const playwright = require('../commands/playwright');
+const playwright = require('../commands/playwrightMetamask');
+const playwrightTerraStation = require('../commands/playwrightTerraStation')
 const metamask = require('../commands/metamask');
+const terraStation = require('../commands/terrastation')
 const etherscan = require('../commands/etherscan');
 
 /**
@@ -30,12 +32,19 @@ module.exports = (on, config) => {
       }
     }
 
-    if (!process.env.SKIP_METAMASK_INSTALL) {
-      // NOTE: extensions cannot be loaded in headless Chrome
-      const metamaskPath = await helpers.prepareMetamask(
-        process.env.METAMASK_VERSION || '10.25.0',
-      );
-      arguments_.extensions.push(metamaskPath);
+    // if (!process.env.SKIP_METAMASK_INSTALL) {
+    //   // NOTE: extensions cannot be loaded in headless Chrome
+    //   const metamaskPath = await helpers.prepareMetamask(
+    //     process.env.METAMASK_VERSION || '10.25.0',
+    //   );
+    //   arguments_.extensions.push(metamaskPath);
+    // }
+
+    if (!process.env.SKIP_TERRASTATION_INSTALL) {
+      // const terrastationPath = await helpers.prepareTerraStation(
+      //   process.env.TERRASTATION_VERSION || '1.0.0',
+      // );
+      arguments_.extensions.push("/Users/dimitrijedragasevic/synpress/binary");
     }
 
     return arguments_;
@@ -49,6 +58,10 @@ module.exports = (on, config) => {
     warn(message) {
       console.warn('\u001B[33m', 'WARNING:', message, '\u001B[0m');
       return true;
+    },
+    initPlaywrightTerraStation: async () => {
+      const connected = await playwrightTerraStation.init();
+      return connected;
     },
     // playwright commands
     initPlaywright: async () => {
@@ -202,10 +215,6 @@ module.exports = (on, config) => {
       const imported = await metamask.importToken(tokenConfig);
       return imported;
     },
-    confirmMetamaskAddToken: async () => {
-      const confirmed = await metamask.confirmAddToken();
-      return confirmed;
-    },
     rejectMetamaskAddToken: async () => {
       const rejected = await metamask.rejectAddToken();
       return rejected;
@@ -319,6 +328,10 @@ module.exports = (on, config) => {
     etherscanWaitForTxSuccess: async ({ txid }) => {
       const txSuccess = await etherscan.waitForTxSuccess(txid);
       return txSuccess;
+    },
+    setupTerraStation: async () => {
+      await terraStation.initialSetup(null);
+      return true;
     },
   });
 

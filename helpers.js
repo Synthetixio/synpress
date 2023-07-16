@@ -251,4 +251,35 @@ module.exports = {
     }
     return metamaskDirectory;
   },
+
+  async prepareTerraStation() {
+    const release = "/Users/dimitrijedragasevic/synpress/binary";
+
+    let downloadsDirectory;
+    if (os.platform() === 'win32') {
+      downloadsDirectory = appRoot.resolve('/node_modules');
+    } else {
+      downloadsDirectory = path.resolve(__dirname, 'downloads');
+    }
+
+    await module.exports.createDirIfNotExist(downloadsDirectory);
+    const metamaskDirectory = path.join(downloadsDirectory, release.tagName);
+    const metamaskDirectoryExists = await module.exports.checkDirOrFileExist(
+      metamaskDirectory,
+    );
+    const metamaskManifestFilePath = path.join(
+      downloadsDirectory,
+      release.tagName,
+      'manifest.json',
+    );
+    const metamaskManifestFileExists = await module.exports.checkDirOrFileExist(
+      metamaskManifestFilePath,
+    );
+    if (!metamaskDirectoryExists && !metamaskManifestFileExists) {
+      await module.exports.download(release.downloadUrl, metamaskDirectory);
+    } else {
+      log('Metamask is already downloaded');
+    }
+    return metamaskDirectory;
+  }
 };

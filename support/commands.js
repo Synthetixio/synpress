@@ -7,6 +7,10 @@ Cypress.Commands.add('initPlaywright', () => {
   return cy.task('initPlaywright');
 });
 
+Cypress.Commands.add('initPlaywrightTerraStation', ()=> {
+  return cy.task("initPlaywrightTerraStation");
+});
+
 Cypress.Commands.add('assignWindows', () => {
   return cy.task('assignWindows');
 });
@@ -233,6 +237,10 @@ Cypress.Commands.add('fetchMetamaskWalletAddress', () => {
     return address;
   });
 });
+
+Cypress.Commands.add('setupTerraStaition', () => {
+  return cy.task('setupTerraStaition');
+})
 
 Cypress.Commands.add(
   'setupMetamask',
