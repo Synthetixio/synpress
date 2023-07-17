@@ -1242,7 +1242,9 @@ const metamask = {
     },
   ) {
     if (playwrightInstance) {
+      console.log('0');
       await playwright.init(playwrightInstance);
+      console.log('1');
     } else {
       await playwright.init();
     }
@@ -1251,6 +1253,7 @@ const metamask = {
     await module.exports.getExtensionDetails();
     await playwright.fixBlankPage();
     await playwright.fixCriticalError();
+    console.log('two');
     if (
       (await playwright
         .metamaskWindow()
