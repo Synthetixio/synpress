@@ -1299,6 +1299,7 @@ const metamask = {
         await playwright.switchToCypressWindow();
         return true;
       } else {
+        console.log('end');
         return await this.initialSetup(playwright, {
           secretWordsOrPrivateKey,
           network,
