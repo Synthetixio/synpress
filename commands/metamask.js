@@ -1300,7 +1300,7 @@ const metamask = {
         return true;
       } else {
         console.log('end');
-        return await module.exports.initialSetup(playwright, {
+        return await module.exports.initialSetup({
           secretWordsOrPrivateKey,
           network,
           password,
