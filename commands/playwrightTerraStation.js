@@ -1,6 +1,6 @@
 const log = require('debug')('synpress:playwright');
 const fetch = require('node-fetch');
-const mainPageElements = require('../pages/terrastation/main-page')
+const mainPageElements = require('../pages/terrastation/main-page');
 const sleep = require('util').promisify(setTimeout);
 
 let browser;
@@ -56,19 +56,24 @@ module.exports = {
   async assignPages() {
     let terraStationExtensionUrl;
     let serviceWorkers = await browser.contexts()[0].serviceWorkers();
-    serviceWorkers.forEach(worker => {
+    for (let worker of serviceWorkers) {
       const url = worker._initializer.url;
-      terraStationExtensionUrl = url.replace('background.js', 'index.html#/');
-    });
-    const blankPage = await browser.contexts()[0].newPage()
-    await blankPage.goto(terraStationExtensionUrl)
-    let pages = await browser.contexts()[0].pages()
-    pages.forEach( page => {
+
+      // Check if the URL contains 'background.js'
+      if (url.includes('background.js')) {
+        terraStationExtensionUrl = url.replace('background.js', 'index.html#/');
+        break; // Exit the loop once the correct service worker is found
+      }
+    }
+
+    const blankPage = await browser.contexts()[0].newPage();
+    await blankPage.goto(terraStationExtensionUrl);
+    let pages = await browser.contexts()[0].pages();
+    pages.forEach(page => {
       if (page.url().includes('index.html')) {
         terraStationExtension = page;
       }
-    })
-    
+    });
   },
   async clear() {
     browser = null;
@@ -86,5 +91,5 @@ module.exports = {
     await terraStationExtension.bringToFront();
     await module.exports.assignActiveTabName('terraStation');
     return true;
-  }, 
-}
+  },
+};

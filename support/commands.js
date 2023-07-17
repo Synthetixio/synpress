@@ -7,8 +7,8 @@ Cypress.Commands.add('initPlaywright', () => {
   return cy.task('initPlaywright');
 });
 
-Cypress.Commands.add('initPlaywrightTerraStation', ()=> {
-  return cy.task("initPlaywrightTerraStation");
+Cypress.Commands.add('initPlaywrightTerraStation', () => {
+  return cy.task('initPlaywrightTerraStation');
 });
 
 Cypress.Commands.add('setupTerraStation', () => {
@@ -244,7 +244,7 @@ Cypress.Commands.add('fetchMetamaskWalletAddress', () => {
 
 Cypress.Commands.add('setupTerraStaition', () => {
   return cy.task('setupTerraStaition');
-})
+});
 
 Cypress.Commands.add(
   'setupMetamask',

@@ -1,8 +1,8 @@
 const helpers = require('../helpers');
 const playwright = require('../commands/playwrightMetamask');
-const playwrightTerraStation = require('../commands/playwrightTerraStation')
+const playwrightTerraStation = require('../commands/playwrightTerraStation');
 const metamask = require('../commands/metamask');
-const terraStation = require('../commands/terrastation')
+const terraStation = require('../commands/terrastation');
 const etherscan = require('../commands/etherscan');
 
 /**
@@ -43,13 +43,12 @@ module.exports = (on, config) => {
 
     if (!process.env.SKIP_TERRASTATION_INSTALL) {
       const terrastationPath = await helpers.prepareTerraStation('7.4.1.1');
-      console.log(terrastationPath)
+      console.log(terrastationPath);
       arguments_.extensions.push(terrastationPath);
     }
-    
-    
+
     console.log(arguments_);
-  
+
     return arguments_;
   });
 
