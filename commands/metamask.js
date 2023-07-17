@@ -1301,6 +1301,10 @@ const metamask = {
       } else {
         console.log('end');
         // todo: reset metamask state
+        await switchToMetamaskIfNotActive();
+        walletAddress = await module.exports.getWalletAddress();
+        await playwright.switchToCypressWindow();
+        return true;
       }
     }
   },
