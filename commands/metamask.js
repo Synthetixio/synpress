@@ -1304,6 +1304,7 @@ const metamask = {
         await switchToMetamaskIfNotActive();
         walletAddress = await module.exports.getWalletAddress();
         await playwright.switchToCypressWindow();
+        console.log('swithc');
         return true;
       }
     }
