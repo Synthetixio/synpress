@@ -1299,24 +1299,13 @@ const metamask = {
         await playwright.switchToCypressWindow();
         return true;
       } else {
-        console.log('end');
-        if (playwrightInstance) {
-          console.log('0');
-          await playwright.init(playwrightInstance);
-          console.log('1');
-        } else {
-          await playwright.init();
-        }
-        await playwright.assignWindows();
-        await playwright.assignActiveTabName('metamask');
-        await module.exports.getExtensionDetails();
-        await playwright.fixBlankPage();
-        await playwright.fixCriticalError();
-        await switchToMetamaskIfNotActive();
-        walletAddress = await module.exports.getWalletAddress();
-        await playwright.switchToCypressWindow();
-        console.log('swithc');
-        return true;
+        return await this.initialSetup(playwright, {
+          secretWordsOrPrivateKey,
+          network,
+          password,
+          enableAdvancedSettings,
+          enableExperimentalSettings,
+        });
       }
     }
   },
