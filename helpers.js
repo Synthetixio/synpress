@@ -253,7 +253,7 @@ module.exports = {
     }
   
     await module.exports.createDirIfNotExist(downloadsDirectory);
-    const terraStationDirectory = path.join(downloadsDirectory, release.tagName,'/bui');
+    const terraStationDirectory = path.join(downloadsDirectory, release.tagName,'/build');
     const terraStationDirectoryExists = await module.exports.checkDirOrFileExist(
       terraStationDirectory,
     );

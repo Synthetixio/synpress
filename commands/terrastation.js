@@ -21,18 +21,11 @@ const terrastation = {
         ]);
         await playwright.waitUntilStable();
       },
+
       async goToHome() {
         await module.exports.goTo(extensionHomeUrl);
       },
-      async getExtensionDetails() {
-        extensionInitialUrl = await playwright.terraStationWindow().url();
-        extensionId = extensionInitialUrl.match('//(.*?)/')[1];
-        extensionHomeUrl = `chrome-extension://${extensionId}/index.html#/`;
-        return {
-          extensionInitialUrl,
-          extensionId,
-        };
-      },
+
       async initialSetup(
         playwrightInstance,
       ) {
@@ -44,8 +37,9 @@ const terrastation = {
           await playwright.init();
         }
         console.log("I am here 2")
-        await playwright.assignWindowsAndContext();
-        await playwright.waitAndClick(elements.welcomePageElements.newWallet)
+        await playwright.assignPages()
+        await playwright.switchToTerraStationWindow()
+      
         
         return true;
       },

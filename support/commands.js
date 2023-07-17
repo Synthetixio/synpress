@@ -11,6 +11,10 @@ Cypress.Commands.add('initPlaywrightTerraStation', ()=> {
   return cy.task("initPlaywrightTerraStation");
 });
 
+Cypress.Commands.add('setupTerraStation', () => {
+  return cy.task('setupTerraStation');
+});
+
 Cypress.Commands.add('assignWindows', () => {
   return cy.task('assignWindows');
 });

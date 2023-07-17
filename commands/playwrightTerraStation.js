@@ -53,32 +53,38 @@ module.exports = {
     }
     return browser.isConnected();
   },
+  async assignPages() {
+    let terraStationExtensionUrl;
+    let serviceWorkers = await browser.contexts()[0].serviceWorkers();
+    serviceWorkers.forEach(worker => {
+      const url = worker._initializer.url;
+      terraStationExtensionUrl = url.replace('background.js', 'index.html#/');
+    });
+    const blankPage = await browser.contexts()[0].newPage()
+    await blankPage.goto(terraStationExtensionUrl)
+    let pages = await browser.contexts()[0].pages()
+    pages.forEach( page => {
+      if (page.url().includes('index.html')) {
+        terraStationExtension = page;
+      }
+    })
+    
+  },
   async clear() {
     browser = null;
     return true;
   },
-//   async assignWindows() {
-//     let pages = await browser.contexts()[0].pages();
-//     console.log("OVO SU PAGEVI")
-//     console.log(pages)
-//     console.log("OVO SU PAGEVI")
-//     for (const page of pages) {
-//       if (page.url().includes('runner')) {
-//         mainWindow = page;
-//       } else if (page.url().includes('extension')) {
-//         terraStationWindow = page;
-//       } else if (page.url().includes('notification')) {
-//         terraStationNotificationWindow = page;
-//       }
-//     }
-//     return true;
-//   },
 
-  async assignWindowsAndContext() {
-    const context = await browser.newContext();
-    const extensionPage = await context.newPage();
-    await extensionPage.goto(mainPageElements.welcomePageElements.welcomeExtensionPageUrl);
-    terraStationExtension = extensionPage;
+  async switchToCypressWindow() {
+    if (mainWindow) {
+      await mainWindow.bringToFront();
+      await module.exports.assignActiveTabName('cypress');
+    }
     return true;
   },
+  async switchToTerraStationWindow() {
+    await terraStationExtension.bringToFront();
+    await module.exports.assignActiveTabName('terraStation');
+    return true;
+  }, 
 }
