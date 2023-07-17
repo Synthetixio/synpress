@@ -1300,7 +1300,18 @@ const metamask = {
         return true;
       } else {
         console.log('end');
-        // todo: reset metamask state
+        if (playwrightInstance) {
+          console.log('0');
+          await playwright.init(playwrightInstance);
+          console.log('1');
+        } else {
+          await playwright.init();
+        }
+        await playwright.assignWindows();
+        await playwright.assignActiveTabName('metamask');
+        await module.exports.getExtensionDetails();
+        await playwright.fixBlankPage();
+        await playwright.fixCriticalError();
         await switchToMetamaskIfNotActive();
         walletAddress = await module.exports.getWalletAddress();
         await playwright.switchToCypressWindow();
