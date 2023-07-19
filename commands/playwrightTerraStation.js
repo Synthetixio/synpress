@@ -1,15 +1,22 @@
 const log = require('debug')('synpress:playwright');
 const fetch = require('node-fetch');
-const mainPageElements = require('../pages/terrastation/main-page');
-const sleep = require('util').promisify(setTimeout);
+
+const {
+  seedFormElements,
+  seedCompletedFormElements,
+} = require('../pages/terrastation/seed-page');
+
+const expect = require('@playwright/test').expect;
 
 let browser;
 let mainWindow;
 let terraStationExtension;
-let terraStationNotificationWindow;
+let terraStationExtensionNewWallet;
+let terraStationExtensionSeed;
+let terraStationExtensionPrivateKey;
+let terraStationExtensionMultiSig;
+let terraStationExtensionLedger;
 let activeTabName;
-
-let retries = 0;
 
 module.exports = {
   browser() {
@@ -21,8 +28,20 @@ module.exports = {
   terraStationExtension() {
     return terraStationExtension;
   },
-  terraStationNotificationWindow() {
-    return terraStationNotificationWindow;
+  terraStationExtensionNewWallet() {
+    return terraStationExtensionNewWallet;
+  },
+  terraStationExtensionSeed() {
+    return terraStationExtensionSeed;
+  },
+  terraStationExtensionPrivateKey() {
+    return terraStationExtensionPrivateKey;
+  },
+  terraStationExtensionMultiSig() {
+    return terraStationExtensionMultiSig;
+  },
+  terraStationExtensionLedger() {
+    return terraStationExtensionLedger;
   },
   activeTabName() {
     return activeTabName;
@@ -53,7 +72,7 @@ module.exports = {
     }
     return browser.isConnected();
   },
-  async assignPages() {
+  async assignStartPage() {
     let terraStationExtensionUrl;
     let serviceWorkers = await browser.contexts()[0].serviceWorkers();
     for (let worker of serviceWorkers) {
@@ -75,6 +94,33 @@ module.exports = {
       }
     });
   },
+  async assignOtherPages() {
+    await terraStationExtension.bringToFront();
+    await terraStationExtension.getByText('New wallet').click();
+    await terraStationExtension.getByText('Import from seed phrase').click();
+    await terraStationExtension.getByText('Import from private key').click();
+    await terraStationExtension.getByText('New multisig wallet').click();
+    await terraStationExtension.getByText('Access with ledger').click();
+
+    let pages = await browser.contexts()[0].pages();
+    pages.forEach(page => {
+      if (page.url().includes('auth/new')) {
+        terraStationExtensionNewWallet = page;
+      }
+      if (page.url().includes('auth/recover')) {
+        terraStationExtensionSeed = page;
+      }
+      if (page.url().includes('auth/import')) {
+        terraStationExtensionPrivateKey = page;
+      }
+      if (page.url().includes('auth/multisig/new')) {
+        terraStationExtensionMultiSig = page;
+      }
+      if (page.url().includes('auth/ledger')) {
+        terraStationExtensionLedger = page;
+      }
+    });
+  },
   async clear() {
     browser = null;
     return true;
@@ -91,5 +137,42 @@ module.exports = {
     await terraStationExtension.bringToFront();
     await module.exports.assignActiveTabName('terraStation');
     return true;
+  },
+
+  async setupQaWallet() {
+    await this.fillSeedForm();
+  },
+
+  async fillSeedForm() {
+    const seed = 'fill with seed';
+    await terraStationExtensionSeed.bringToFront();
+    await terraStationExtensionSeed.waitForLoadState();
+    await terraStationExtensionSeed.fill(
+      seedFormElements.inputName,
+      'Test wallet 1',
+    );
+    await terraStationExtensionSeed.fill(
+      seedFormElements.inputPassword,
+      'testwallet123!',
+    );
+    await terraStationExtensionSeed.fill(
+      seedFormElements.inputconfirmPassword,
+      'testwallet123!',
+    );
+    await terraStationExtensionSeed.fill(
+      seedFormElements.inputMnemonicSeed,
+      seed,
+    );
+    await terraStationExtensionSeed.click(seedFormElements.submitButton),
+      await terraStationExtensionSeed.waitForURL('**/recover#3');
+
+    expect(
+      await terraStationExtensionSeed.getByTestId('DoneAllIcon'),
+    ).toBeVisible();
+    await terraStationExtensionSeed.locator('article:has-text("Dimitrije")');
+
+    await terraStationExtensionSeed
+      .getByRole('button', { name: 'Connect', exact: true })
+      .click();
   },
 };

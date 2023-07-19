@@ -1,11 +1,12 @@
 /* eslint-disable ui-testing/no-disabled-tests */
-describe('Metamask', () => {
+describe('Station', () => {
   context('Test commands', () => {
     // todo: clear the state of extension and test different combinations of setupMetamask with private key & custom network
     it(`setupMetamask should finish metamask setup using secret words`, () => {
       cy.setupTerraStation().then(setupFinished => {
         expect(setupFinished).to.be.true;
       });
+      
     });
     // it(`disconnectMetamaskWalletFromDapp shouldn't fail if there are no dapps connected`, () => {
     //   cy.disconnectMetamaskWalletFromDapp().then(disconnected => {
