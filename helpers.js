@@ -253,7 +253,7 @@ module.exports = {
     }
   
     await module.exports.createDirIfNotExist(downloadsDirectory);
-    const terraStationDirectory = path.join(downloadsDirectory, release.tagName,'/build');
+    const terraStationDirectory = path.join(downloadsDirectory, release.tagName);
     const terraStationDirectoryExists = await module.exports.checkDirOrFileExist(
       terraStationDirectory,
     );
@@ -270,7 +270,8 @@ module.exports = {
     } else {
       log('TerraStation Wallet is already downloaded');
     }
-    return terraStationDirectory;
+  
+    return terraStationDirectory + "/build";
   },
   async prepareMetamask(version) {
     const release = await module.exports.getMetamaskReleases(version);
