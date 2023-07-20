@@ -1300,7 +1300,19 @@ const metamask = {
         return true;
       } else {
         console.log('end');
-        await switchToMetamaskIfNotActive();
+        if (secretWordsOrPrivateKey.includes(' ')) {
+          // secret words
+          await module.exports.importWallet(secretWordsOrPrivateKey, password);
+        } else {
+          // private key
+          await module.exports.createWallet(password);
+          await module.exports.importAccount(secretWordsOrPrivateKey);
+        }
+
+        await setupSettings(enableAdvancedSettings, enableExperimentalSettings);
+
+        await module.exports.changeNetwork(network);
+
         walletAddress = await module.exports.getWalletAddress();
         await playwright.switchToCypressWindow();
         return true;
