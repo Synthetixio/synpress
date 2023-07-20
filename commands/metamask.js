@@ -1252,6 +1252,7 @@ const metamask = {
     await playwright.fixBlankPage();
     await playwright.fixCriticalError();
     console.log('two');
+    console.log(playwright.metamaskWindow());
     if (
       (await playwright
         .metamaskWindow()
