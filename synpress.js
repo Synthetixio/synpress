@@ -13,7 +13,7 @@ if (process.env.DEBUG && process.env.DEBUG.includes('synpress')) {
   }
 }
 
-if (!rocess.env.SEED_PHRASE) {
+if (!process.env.SEED_PHRASE) {
   throw new Error('Please provide SEED_PHRASE')
 }
 
@@ -28,49 +28,6 @@ if (process.env.SYNPRESS_LOCAL_TEST) {
     );
     require('dotenv').config({ path: require('find-config')(envFile) });
   });
-}
-
-// if user skips metamask install or setup
-if (!process.env.SKIP_METAMASK_INSTALL && !process.env.SKIP_METAMASK_SETUP) {
-  // we don't want to check for presence of SECRET_WORDS or PRIVATE_KEY
-  if (!process.env.SECRET_WORDS && !process.env.PRIVATE_KEY) {
-    throw new Error(
-      'Please provide SECRET_WORDS or PRIVATE_KEY environment variable',
-    );
-  }
-} else {
-  log(
-    'Skipping check for SECRET_WORDS and PRIVATE_KEY as SKIP_METAMASK_INSTALL or SKIP_METAMASK_SETUP is set',
-  );
-}
-
-if (process.env.RPC_URL || process.env.CHAIN_ID || process.env.SYMBOL) {
-  if (!process.env.RPC_URL) {
-    throw new Error('Please provide RPC_URL environment variable');
-  } else if (!process.env.CHAIN_ID) {
-    throw new Error('Please provide CHAIN_ID environment variable');
-  } else if (!process.env.SYMBOL) {
-    throw new Error('Please provide SYMBOL environment variable');
-  }
-
-  if (
-    !process.env.RPC_URL.startsWith('http://') && //DevSkim: ignore DS137138
-    !process.env.RPC_URL.startsWith('https://')
-  ) {
-    throw new Error(
-      'RPC_URL environment variable should start with "http://" or "https://"', //DevSkim: ignore DS137138
-    );
-  }
-
-  if (
-    process.env.BLOCK_EXPLORER &&
-    !process.env.BLOCK_EXPLORER.startsWith('http://') && //DevSkim: ignore DS137138
-    !process.env.BLOCK_EXPLORER.startsWith('https://')
-  ) {
-    throw new Error(
-      'BLOCK_EXPLORER environment variable should start with "http://" or "https://"', //DevSkim: ignore DS137138
-    );
-  }
 }
 
 program.version(version, '-v, --version');
