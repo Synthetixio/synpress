@@ -67,7 +67,7 @@ module.exports = {
         mainWindow = page;
       } else if (
         page.url().includes('extension') &&
-        page.url.includes('home.html')
+        page.url().includes('home.html')
       ) {
         console.log('url', page.url());
         metamaskWindow = page;
