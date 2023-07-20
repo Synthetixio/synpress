@@ -1260,11 +1260,12 @@ const metamask = {
         .count(),
     );
     console.log(
-      await playwright
-        .mainWindow()
-        .locator('button')
-        .getByText('Import an existing wallet')
-        .count(),
+      playwright.mainWindow() &&
+        (await playwright
+          .mainWindow()
+          .locator('button')
+          .getByText('Import an existing wallet')
+          .count()),
     );
     if (
       (await playwright
