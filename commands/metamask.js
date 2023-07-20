@@ -1252,11 +1252,17 @@ const metamask = {
     await playwright.fixBlankPage();
     await playwright.fixCriticalError();
     console.log('two');
-    const temp = playwright
-      .metamaskWindow()
-      .locator(onboardingWelcomePageElements.onboardingWelcomePage);
-    await temp.waitFor({ timeout: 10000 });
-    if (temp.count() > 0) {
+    if (
+      (await playwright
+        .metamaskWindow()
+        .locator(onboardingWelcomePageElements.onboardingWelcomePage)
+        .count()) > 0 ||
+      (await playwright
+        .metamaskWindow()
+        .locator('button')
+        .getByText('Import an existing wallet')
+        .count()) > 0
+    ) {
       console.log('three');
       if (secretWordsOrPrivateKey.includes(' ')) {
         // secret words
