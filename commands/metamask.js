@@ -1251,34 +1251,12 @@ const metamask = {
     await module.exports.getExtensionDetails();
     await playwright.fixBlankPage();
     await playwright.fixCriticalError();
-    console.log('two');
-    console.log(
-      await playwright
-        .metamaskWindow()
-        .locator('button')
-        .getByText('Import an existing wallet')
-        .count(),
-    );
-    console.log(
-      playwright.mainWindow() &&
-        (await playwright
-          .mainWindow()
-          .locator('button')
-          .getByText('Import an existing wallet')
-          .count()),
-    );
     if (
       (await playwright
         .metamaskWindow()
         .locator(onboardingWelcomePageElements.onboardingWelcomePage)
-        .count()) > 0 ||
-      (await playwright
-        .metamaskWindow()
-        .locator('button')
-        .getByText('Import an existing wallet')
         .count()) > 0
     ) {
-      console.log('three');
       if (secretWordsOrPrivateKey.includes(' ')) {
         // secret words
         await module.exports.importWallet(secretWordsOrPrivateKey, password);
@@ -1318,23 +1296,7 @@ const metamask = {
         await playwright.switchToCypressWindow();
         return true;
       } else {
-        console.log('end');
-        if (secretWordsOrPrivateKey.includes(' ')) {
-          // secret words
-          await module.exports.importWallet(secretWordsOrPrivateKey, password);
-        } else {
-          // private key
-          await module.exports.createWallet(password);
-          await module.exports.importAccount(secretWordsOrPrivateKey);
-        }
-
-        await setupSettings(enableAdvancedSettings, enableExperimentalSettings);
-
-        await module.exports.changeNetwork(network);
-
-        walletAddress = await module.exports.getWalletAddress();
-        await playwright.switchToCypressWindow();
-        return true;
+        // todo
       }
     }
   },
