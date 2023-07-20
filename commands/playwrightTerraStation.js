@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 const {
   seedFormElements,
   seedCompletedFormElements,
+  manageWalletsForm,
 } = require('../pages/terrastation/seed-page');
 
 const expect = require('@playwright/test').expect;
@@ -138,26 +139,31 @@ module.exports = {
     await module.exports.assignActiveTabName('terraStation');
     return true;
   },
-
-  async setupQaWallet() {
-    await this.fillSeedForm();
+  async bringToFrontAndReload(page) {
+    page.bringToFront();
+    page.reload();
   },
 
-  async fillSeedForm() {
-    const seed = 'fill with seed';
+  async setupQaWalletAndVerify() {
+    await this.fillSeedForm('Test wallet 1', 'Testtest123!');
+    await this.bringToFrontAndReload(terraStationExtension);
+    await this.verifyWalletAdded();
+  },
+
+  async fillSeedForm(walletName, password, seed = process.env.SEED_PHRASE) {
     await terraStationExtensionSeed.bringToFront();
     await terraStationExtensionSeed.waitForLoadState();
     await terraStationExtensionSeed.fill(
       seedFormElements.inputName,
-      'Test wallet 1',
+      walletName,
     );
     await terraStationExtensionSeed.fill(
       seedFormElements.inputPassword,
-      'testwallet123!',
+      password,
     );
     await terraStationExtensionSeed.fill(
       seedFormElements.inputconfirmPassword,
-      'testwallet123!',
+      password,
     );
     await terraStationExtensionSeed.fill(
       seedFormElements.inputMnemonicSeed,
@@ -169,10 +175,35 @@ module.exports = {
     expect(
       await terraStationExtensionSeed.getByTestId('DoneAllIcon'),
     ).toBeVisible();
-    await terraStationExtensionSeed.locator('article:has-text("Dimitrije")');
-
+    expect(
+      terraStationExtensionSeed.getByRole('button', {
+        name: 'Connect',
+        exact: true,
+      }),
+    ).toBeVisible();
     await terraStationExtensionSeed
       .getByRole('button', { name: 'Connect', exact: true })
       .click();
+  },
+
+  async verifyWalletAdded() {
+    expect(
+      await terraStationExtension
+        .getByText('Test wallet 1')
+        .filter({ hasText: 'Test wallet 1' }),
+    ).toBeVisible();
+    await terraStationExtension.getByText('Test wallet 1').click();
+    expect(
+      await terraStationExtension.getByText('Manage Wallets'),
+    ).toBeVisible();
+    expect(
+      await terraStationExtension.getByRole('button', {
+        name: 'Test wallet 1 terra1...6cw6qmfdnl9un23yxs',
+      }),
+    ).toBeVisible();
+    expect(await terraStationExtension.getByText('Add a wallet')).toBeVisible();
+    await terraStationExtension.click(
+      manageWalletsForm.menageWalletsCloseButton,
+    );
   },
 };

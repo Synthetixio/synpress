@@ -2,17 +2,14 @@
 describe('Station', () => {
   context('Test commands', () => {
     // todo: clear the state of extension and test different combinations of setupMetamask with private key & custom network
-    it(`setupMetamask should finish metamask setup using secret words`, () => {
+    it(`Setup terraStation with one wallet using recover with seed phrase option`, () => {
       cy.setupTerraStation().then(setupFinished => {
         expect(setupFinished).to.be.true;
       });
-      
     });
-    // it(`disconnectMetamaskWalletFromDapp shouldn't fail if there are no dapps connected`, () => {
-    //   cy.disconnectMetamaskWalletFromDapp().then(disconnected => {
-    //     expect(disconnected).to.be.true;
+    // it(`Check if we can recover another if one have one account recovered`, () => {
+    //     cy.wait(1000000000)
     //   });
-    // });
     // it(`disconnectMetamaskWalletFromAllDapps shouldn't fail if there are no dapps connected`, () => {
     //   cy.disconnectMetamaskWalletFromAllDapps().then(disconnected => {
     //     expect(disconnected).to.be.true;

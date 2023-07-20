@@ -13,7 +13,7 @@ const terrastation = {
 
     await playwright.assignStartPage();
     await playwright.assignOtherPages();
-    await playwright.setupQaWallet();
+    await playwright.setupQaWalletAndVerify();
     return true;
   },
 };

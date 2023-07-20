@@ -13,6 +13,10 @@ if (process.env.DEBUG && process.env.DEBUG.includes('synpress')) {
   }
 }
 
+if (!rocess.env.SEED_PHRASE) {
+  throw new Error('Please provide SEED_PHRASE')
+}
+
 if (process.env.SYNPRESS_LOCAL_TEST) {
   log('Loading .env config file from root folder');
   require('dotenv').config();
