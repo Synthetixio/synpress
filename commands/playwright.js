@@ -65,7 +65,10 @@ module.exports = {
     for (const page of pages) {
       if (page.url().includes('runner')) {
         mainWindow = page;
-      } else if (page.url().includes('extension')) {
+      } else if (
+        page.url().includes('extension') &&
+        page.url.includes('home.html')
+      ) {
         console.log('url', page.url());
         metamaskWindow = page;
       } else if (page.url().includes('notification')) {
