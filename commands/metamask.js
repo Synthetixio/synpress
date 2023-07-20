@@ -1252,7 +1252,20 @@ const metamask = {
     await playwright.fixBlankPage();
     await playwright.fixCriticalError();
     console.log('two');
-    console.log(playwright.metamaskWindow());
+    console.log(
+      await playwright
+        .metamaskWindow()
+        .locator('button')
+        .getByText('Import an existing wallet')
+        .count(),
+    );
+    console.log(
+      await playwright
+        .mainWindow()
+        .locator('button')
+        .getByText('Import an existing wallet')
+        .count(),
+    );
     if (
       (await playwright
         .metamaskWindow()
