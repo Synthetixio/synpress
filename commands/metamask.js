@@ -1242,9 +1242,7 @@ const metamask = {
     },
   ) {
     if (playwrightInstance) {
-      console.log('0');
       await playwright.init(playwrightInstance);
-      console.log('1');
     } else {
       await playwright.init();
     }
@@ -1254,12 +1252,12 @@ const metamask = {
     await playwright.fixBlankPage();
     await playwright.fixCriticalError();
     console.log('two');
-    if (
-      (await playwright
-        .metamaskWindow()
-        .locator(onboardingWelcomePageElements.onboardingWelcomePage)
-        .count()) > 0
-    ) {
+    const temp = playwright
+      .metamaskWindow()
+      .locator(onboardingWelcomePageElements.onboardingWelcomePage);
+    await temp.waitFor({ timeout: 10000 });
+    if (temp.count() > 0) {
+      console.log('three');
       if (secretWordsOrPrivateKey.includes(' ')) {
         // secret words
         await module.exports.importWallet(secretWordsOrPrivateKey, password);
