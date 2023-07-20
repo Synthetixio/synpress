@@ -408,7 +408,9 @@ declare namespace Cypress {
       enableExperimentalSettings?: boolean,
     ): Chainable<Subject>;
 
-    setupTerraStation(): Chainable<Subject>
+    setupTerraStation(): Chainable<Subject>;
+
+    recoverWalletFromSeed(): Chainable<Subject>;
     /**
      * Get transaction status from Etherscan API
      * @example

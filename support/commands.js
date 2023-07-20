@@ -19,6 +19,10 @@ Cypress.Commands.add('assignWindows', () => {
   return cy.task('assignWindows');
 });
 
+Cypress.Commands.add('recoverWalletFromSeed', () => {
+  return cy.task('recoverWalletFromSeed');
+});
+
 Cypress.Commands.add('assignActiveTabName', tabName => {
   return cy.task('assignActiveTabName', tabName);
 });

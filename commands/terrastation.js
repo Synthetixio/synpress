@@ -12,9 +12,16 @@ const terrastation = {
     }
 
     await playwright.assignStartPage();
-    await playwright.assignOtherPages();
+    await playwright.assignSeedPage();
     await playwright.setupQaWalletAndVerify();
     return true;
+  },
+  async recoverWalletFromSeed() {
+    await playwright.goToMenageWalletsMenuFromHome();
+    await playwright.fillImportFromSeedPhraseForm(
+      'Test wallet 2',
+      'Testtest123!',
+    );
   },
 };
 

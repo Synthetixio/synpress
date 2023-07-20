@@ -95,32 +95,38 @@ module.exports = {
       }
     });
   },
-  async assignOtherPages() {
-    await terraStationExtension.bringToFront();
-    await terraStationExtension.getByText('New wallet').click();
-    await terraStationExtension.getByText('Import from seed phrase').click();
-    await terraStationExtension.getByText('Import from private key').click();
-    await terraStationExtension.getByText('New multisig wallet').click();
-    await terraStationExtension.getByText('Access with ledger').click();
-
-    let pages = await browser.contexts()[0].pages();
-    pages.forEach(page => {
-      if (page.url().includes('auth/new')) {
-        terraStationExtensionNewWallet = page;
-      }
-      if (page.url().includes('auth/recover')) {
-        terraStationExtensionSeed = page;
-      }
-      if (page.url().includes('auth/import')) {
-        terraStationExtensionPrivateKey = page;
-      }
-      if (page.url().includes('auth/multisig/new')) {
-        terraStationExtensionMultiSig = page;
-      }
-      if (page.url().includes('auth/ledger')) {
-        terraStationExtensionLedger = page;
-      }
+  async waitForNewPageWithUrlPart(urlPart) {
+    return new Promise(resolve => {
+      browser.contexts()[0].on('page', newPage => {
+        newPage.url().includes(urlPart) && resolve(newPage);
+      });
     });
+  },
+  async assignNewWalletPage() {
+    const newWalletPagePromise = this.waitForNewPageWithUrlPart('auth/new');
+    await terraStationExtension.getByText('New wallet').click();
+    terraStationExtensionNewWallet = await newWalletPagePromise;
+  },
+  async assignSeedPage() {
+    const seedPagePromise = this.waitForNewPageWithUrlPart('auth/recover');
+    await terraStationExtension.getByText('Import from seed phrase').click();
+    terraStationExtensionSeed = await seedPagePromise;
+  },
+  async assignPrivateKeyPage() {
+    const privateKeyPagePromise = this.waitForNewPageWithUrlPart('auth/import');
+    await terraStationExtension.getByText('Import from private key').click();
+    terraStationExtensionPrivateKey = await privateKeyPagePromise;
+  },
+  async assignMultiSigPage() {
+    const multisigWalletPagePromise =
+      this.waitForNewPageWithUrlPart('auth/multisig/new');
+    await terraStationExtension.getByText('New multisig wallet').click();
+    terraStationExtensionMultiSig = await multisigWalletPagePromise;
+  },
+  async assignLedgerPage() {
+    const ledgerPagePromise = this.waitForNewPageWithUrlPart('auth/ledger');
+    await terraStationExtension.getByText('Access with ledger').click();
+    terraStationExtensionLedger = await ledgerPagePromise;
   },
   async clear() {
     browser = null;
@@ -147,9 +153,8 @@ module.exports = {
   async setupQaWalletAndVerify() {
     await this.fillSeedForm('Test wallet 1', 'Testtest123!');
     await this.bringToFrontAndReload(terraStationExtension);
-    await this.verifyWalletAdded();
+    await this.verifyFirstWalletAdded();
   },
-
   async fillSeedForm(walletName, password, seed = process.env.SEED_PHRASE) {
     await terraStationExtensionSeed.bringToFront();
     await terraStationExtensionSeed.waitForLoadState();
@@ -186,7 +191,7 @@ module.exports = {
       .click();
   },
 
-  async verifyWalletAdded() {
+  async verifyFirstWalletAdded() {
     expect(
       await terraStationExtension
         .getByText('Test wallet 1')
@@ -205,5 +210,32 @@ module.exports = {
     await terraStationExtension.click(
       manageWalletsForm.menageWalletsCloseButton,
     );
+  },
+
+  async goToMenageWalletsMenuFromHome() {
+    await terraStationExtension
+      .getByText('Test wallet 1')
+      .filter({ hasText: 'Test wallet 1' })
+      .click();
+    expect(
+      await terraStationExtension.getByText('Manage Wallets'),
+    ).toBeVisible();
+    expect(
+      await terraStationExtension.getByRole('button', {
+        name: 'Test wallet 1 terra1...6cw6qmfdnl9un23yxs',
+      }),
+    );
+    await terraStationExtension
+      .getByRole('button', { name: 'Add a wallet' })
+      .click();
+  },
+
+  async fillImportFromSeedPhraseForm(
+    walletName,
+    password,
+    seed = process.env.SEED_PHRASE_TWO,
+  ) {
+    await this.assignSeedPage();
+    await this.fillSeedForm(walletName, password, seed);
   },
 };
