@@ -66,6 +66,7 @@ module.exports = {
       if (page.url().includes('runner')) {
         mainWindow = page;
       } else if (page.url().includes('extension')) {
+        console.log('url', page.url());
         metamaskWindow = page;
       } else if (page.url().includes('notification')) {
         metamaskNotificationWindow = page;
