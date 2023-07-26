@@ -65,6 +65,7 @@ module.exports = {
     const workers = browser.contexts()[0].serviceWorkers();
     console.log(`workers`, workers);
     for (const page of pages) {
+      console.log(`page`, page);
       if (page.url().includes('runner')) {
         mainWindow = page;
       } else if (
