@@ -62,6 +62,8 @@ module.exports = {
   },
   async assignWindows() {
     let pages = await browser.contexts()[0].pages();
+    const workers = browser.contexts()[0].serviceWorkers();
+    console.log(`workers`, workers);
     for (const page of pages) {
       if (page.url().includes('runner')) {
         mainWindow = page;
