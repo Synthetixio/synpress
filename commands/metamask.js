@@ -1296,7 +1296,7 @@ const metamask = {
         await playwright.switchToCypressWindow();
         return true;
       } else {
-        // todo
+        // todo: reset metamask state
       }
     }
   },
