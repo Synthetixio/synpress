@@ -62,13 +62,8 @@ module.exports = {
   },
   async assignWindows() {
     let pages = await browser.contexts()[0].pages();
-    //const workers = browser.contexts()[0].serviceWorkers();
+
     for (const page of pages) {
-      const extensionName = await page.evaluate(async () => {
-        const manifest = await chrome.runtime.getManifest();
-        return manifest.name;
-      });
-      console.log(`extentionName`, extensionName);
       if (page.url().includes('runner')) {
         mainWindow = page;
       } else if (
