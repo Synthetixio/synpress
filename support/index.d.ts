@@ -7,6 +7,7 @@ declare namespace Cypress {
      */
     initPlaywright(): Chainable<boolean>;
 
+    verifyManageWalletsForm(): Chainable<Subject>;
 
     initPlaywrightTerraStation(): Chainable<boolean>;
     /**

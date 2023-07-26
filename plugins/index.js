@@ -32,15 +32,6 @@ module.exports = (on, config) => {
       }
     }
 
-    // if (!process.env.SKIP_METAMASK_INSTALL) {
-    //   // NOTE: extensions cannot be loaded in headless Chrome
-    //   const metamaskPath = await helpers.prepareMetamask(
-    //     process.env.METAMASK_VERSION || '10.25.0',
-    //   );
-    //   console.log(metamaskPath)
-    //   arguments_.extensions.push(metamaskPath);
-    // }
-
     if (!process.env.SKIP_TERRASTATION_INSTALL) {
       const terrastationPath = await helpers.prepareTerraStation('7.4.1.1');
       console.log(terrastationPath);
@@ -66,6 +57,12 @@ module.exports = (on, config) => {
       const connected = await playwrightTerraStation.init();
       return connected;
     },
+
+    verifyManageWalletsForm: async () => {
+      await terraStation.verifyManageWalletsForm();
+      return true;
+    },
+
     initPlaywright: async () => {
       const connected = await playwright.init();
       return connected;

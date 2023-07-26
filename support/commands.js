@@ -23,6 +23,10 @@ Cypress.Commands.add('recoverWalletFromSeed', () => {
   return cy.task('recoverWalletFromSeed');
 });
 
+Cypress.Commands.add('verifyManageWalletsForm', () => {
+  return cy.task('verifyManageWalletsForm')
+})
+
 Cypress.Commands.add('assignActiveTabName', tabName => {
   return cy.task('assignActiveTabName', tabName);
 });

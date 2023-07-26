@@ -191,6 +191,11 @@ module.exports = {
       .click();
   },
 
+  async getButtonByText(page, text) {
+   return await page.getByRole('button', { name: text, exact: true })
+  },
+
+  
   async verifyFirstWalletAdded() {
     expect(
       await terraStationExtension
@@ -212,7 +217,7 @@ module.exports = {
     );
   },
 
-  async goToMenageWalletsMenuFromHome() {
+  async goToManageWalletsMenuFromHome() {
     await terraStationExtension
       .getByText('Test wallet 1')
       .filter({ hasText: 'Test wallet 1' })
@@ -228,6 +233,15 @@ module.exports = {
     await terraStationExtension
       .getByRole('button', { name: 'Add a wallet' })
       .click();
+  },
+
+  async verifyElementsManageWalletsForm() {
+    expect(await terraStationExtension.getByText('Manage Wallets')).toBeVisible()
+    await expect(await this.getButtonByText(terraStationExtension, 'New wallet')).toBeVisible()
+    await expect(await this.getButtonByText(terraStationExtension,'Import from seed phrase')).toBeVisible()
+    await expect(await this.getButtonByText(terraStationExtension,'Import from private key')).toBeVisible()
+    await expect(await this.getButtonByText(terraStationExtension,'New multisig wallet')).toBeVisible()
+    await expect(await this.getButtonByText(terraStationExtension,'Access with ledger')).toBeVisible()
   },
 
   async fillImportFromSeedPhraseForm(
