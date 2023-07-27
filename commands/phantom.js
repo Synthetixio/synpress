@@ -121,7 +121,7 @@ module.exports = {
     return true;
   },
   importWallet: async (secretWords, password) => {
- await playwright.waitAndClick(
+    await playwright.waitAndClick(
       PROVIDER,
       firstTimeFlowPageElements.importWalletButton,
     );
@@ -164,12 +164,17 @@ module.exports = {
       PROVIDER,
       firstTimeFlowImportPageElements.termsCheckbox,
     );
-    // finish
+    // continue to next screen
     await playwright.waitAndClick(
       PROVIDER,
-      firstTimeFlowImportPageElements.finishAfterPasswordButton,
+      firstTimeFlowImportPageElements.continueAfterPasswordButton,
     );
+    // finish
     await new Promise(resolve => setTimeout(resolve, 1000)); // the transitioning is too fast
+    await playwright.waitAndClick(
+      PROVIDER,
+      firstTimeFlowImportPageElements.getStartedButton,
+    );
     return true;
   },
   closePopupAndTooltips: async () => {
