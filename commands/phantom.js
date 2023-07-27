@@ -169,17 +169,11 @@ module.exports = {
       PROVIDER,
       firstTimeFlowImportPageElements.continueAfterPasswordButton,
     );
-    // shortcut confirmation
-    await new Promise(resolve => setTimeout(resolve, 1000)); // the transitioning is too fast
-    await playwright.waitAndClick(
-      PROVIDER,
-      firstTimeFlowImportPageElements.continueOnShortcutConfirm,
-    );
     // finish
     await new Promise(resolve => setTimeout(resolve, 1000)); // the transitioning is too fast
     await playwright.waitAndClick(
       PROVIDER,
-      firstTimeFlowImportPageElements.continueOnShortcutConfirm,
+      firstTimeFlowImportPageElements.getStartedButton,
     );
     return true;
   },

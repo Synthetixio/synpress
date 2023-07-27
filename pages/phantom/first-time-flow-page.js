@@ -33,7 +33,7 @@ const confirmPasswordInput = `[data-testid="onboarding-form-confirm-password-inp
 const termsCheckbox = `[data-testid="onboarding-form-terms-of-service-checkbox"]`;
 const continueAfterPasswordButton =
   '[data-testid="onboarding-form-submit-button"]';
-const continueOnShortcutConfirm =
+const getStartedButton =
   '[data-testid="onboarding-form-submit-button"]';
 const importButton = `${newVaultForm} .create-new-vault__submit-button`;
 
@@ -47,7 +47,7 @@ module.exports.firstTimeFlowImportPageElements = {
   importButton,
   confirmWordsButton,
   continueAfterPasswordButton,
-  continueOnShortcutConfirm,
+  getStartedButton
 };
 
 const firstTimeFlowCreatePage = '.first-time-flow';
