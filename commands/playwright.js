@@ -8,6 +8,7 @@ const {
   onboardingWelcomePageElements,
 } = require('../pages/metamask/first-time-flow-page');
 const sleep = require('util').promisify(setTimeout);
+const _ = require('underscore');
 
 let browser;
 let mainWindow;
@@ -415,7 +416,7 @@ module.exports = {
     }
   },
   async getExtensionsData() {
-    if (extensionsData) {
+    if (!_.isEmpty(extensionsData)) {
       return extensionsData;
     }
 
