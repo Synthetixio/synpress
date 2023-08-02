@@ -78,7 +78,7 @@ describe('Metamask', () => {
         }).then(networkAdded => {
           expect(networkAdded).to.be.true;
         });
-        cy.get('#network').contains('10');
+        cy.get('#network').contains('0xa');
         cy.get('#chainId').contains('0xa');
       }
     });

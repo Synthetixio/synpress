@@ -7,16 +7,19 @@ const { pageElements } = require('../pages/metamask/page');
 const {
   onboardingWelcomePageElements,
 } = require('../pages/metamask/first-time-flow-page');
-// const metamask = require('./metamask');
 const sleep = require('util').promisify(setTimeout);
+const _ = require('underscore');
 
 let browser;
 let mainWindow;
 let metamaskWindow;
 let metamaskNotificationWindow;
+let metamaskPopupWindow;
 let activeTabName;
 
 let retries = 0;
+
+let extensionsData = {};
 
 module.exports = {
   browser() {
@@ -30,6 +33,9 @@ module.exports = {
   },
   metamaskNotificationWindow() {
     return metamaskNotificationWindow;
+  },
+  metamaskPopupWindow() {
+    return metamaskPopupWindow;
   },
   activeTabName() {
     return activeTabName;
@@ -61,14 +67,33 @@ module.exports = {
     return true;
   },
   async assignWindows() {
+    const metamaskExtensionData = (await module.exports.getExtensionsData())
+      .metamask;
+
     let pages = await browser.contexts()[0].pages();
     for (const page of pages) {
-      if (page.url().includes('runner')) {
+      if (page.url().includes('specs/runner')) {
         mainWindow = page;
-      } else if (page.url().includes('extension')) {
+      } else if (
+        page
+          .url()
+          .includes(`chrome-extension://${metamaskExtensionData.id}/home.html`)
+      ) {
         metamaskWindow = page;
-      } else if (page.url().includes('notification')) {
+      } else if (
+        page
+          .url()
+          .includes(
+            `chrome-extension://${metamaskExtensionData.id}/notification.html`,
+          )
+      ) {
         metamaskNotificationWindow = page;
+      } else if (
+        page
+          .url()
+          .includes(`chrome-extension://${metamaskExtensionData.id}/popup.html`)
+      ) {
+        metamaskPopupWindow = page;
       }
     }
     return true;
@@ -81,6 +106,7 @@ module.exports = {
     mainWindow = null;
     metamaskWindow = null;
     metamaskNotificationWindow = null;
+    metamaskPopupWindow = null;
     return true;
   },
   async isCypressWindowActive() {
@@ -109,10 +135,24 @@ module.exports = {
     await module.exports.assignActiveTabName('metamask-notif');
     return true;
   },
+  async switchToMetamaskPopupWindow() {
+    await metamaskPopupWindow.bringToFront();
+    await module.exports.assignActiveTabName('metamask-popup');
+    return true;
+  },
   async switchToMetamaskNotification() {
+    const metamaskExtensionData = (await module.exports.getExtensionsData())
+      .metamask;
+
     let pages = await browser.contexts()[0].pages();
     for (const page of pages) {
-      if (page.url().includes('notification')) {
+      if (
+        page
+          .url()
+          .includes(
+            `chrome-extension://${metamaskExtensionData.id}/notification.html`,
+          )
+      ) {
         metamaskNotificationWindow = page;
         retries = 0;
         await page.bringToFront();
@@ -270,7 +310,17 @@ module.exports = {
     }
   },
   async waitUntilStable(page) {
-    if (page && page.url().includes('notification')) {
+    const metamaskExtensionData = (await module.exports.getExtensionsData())
+      .metamask;
+
+    if (
+      page &&
+      page
+        .url()
+        .includes(
+          `chrome-extension://${metamaskExtensionData.id}/notification.html`,
+        )
+    ) {
       await page.waitForLoadState('load');
       await page.waitForLoadState('domcontentloaded');
       await page.waitForLoadState('networkidle');
@@ -364,5 +414,51 @@ module.exports = {
         break;
       }
     }
+  },
+  async getExtensionsData() {
+    if (!_.isEmpty(extensionsData)) {
+      return extensionsData;
+    }
+
+    const context = await browser.contexts()[0];
+    const page = await context.newPage();
+
+    await page.goto('chrome://extensions');
+    await page.waitForLoadState('load');
+    await page.waitForLoadState('domcontentloaded');
+
+    const devModeButton = page.locator('#devMode');
+    await devModeButton.waitFor();
+    await devModeButton.focus();
+    await devModeButton.click();
+
+    const extensionDataItems = await page.locator('extensions-item').all();
+    for (const extensionData of extensionDataItems) {
+      const extensionName = (
+        await extensionData
+          .locator('#name-and-version')
+          .locator('#name')
+          .textContent()
+      ).toLowerCase();
+
+      const extensionVersion = (
+        await extensionData
+          .locator('#name-and-version')
+          .locator('#version')
+          .textContent()
+      ).replace(/(\n| )/g, '');
+
+      const extensionId = (
+        await extensionData.locator('#extension-id').textContent()
+      ).replace('ID: ', '');
+
+      extensionsData[extensionName] = {
+        version: extensionVersion,
+        id: extensionId,
+      };
+    }
+    await page.close();
+
+    return extensionsData;
   },
 };
