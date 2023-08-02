@@ -13,9 +13,12 @@ let browser;
 let mainWindow;
 let metamaskWindow;
 let metamaskNotificationWindow;
+let metamaskPopupWindow;
 let activeTabName;
 
 let retries = 0;
+
+let extensionsData = {};
 
 module.exports = {
   browser() {
@@ -29,6 +32,9 @@ module.exports = {
   },
   metamaskNotificationWindow() {
     return metamaskNotificationWindow;
+  },
+  metamaskPopupWindow() {
+    return metamaskPopupWindow;
   },
   activeTabName() {
     return activeTabName;
@@ -60,14 +66,33 @@ module.exports = {
     return true;
   },
   async assignWindows() {
+    const metamaskExtensionData = (await module.exports.getExtensionsData())
+      .metamask;
+
     let pages = await browser.contexts()[0].pages();
     for (const page of pages) {
-      if (page.url().includes('runner')) {
+      if (page.url().includes('specs/runner')) {
         mainWindow = page;
-      } else if (page.url().includes('extension')) {
+      } else if (
+        page
+          .url()
+          .includes(`chrome-extension://${metamaskExtensionData.id}/home.html`)
+      ) {
         metamaskWindow = page;
-      } else if (page.url().includes('notification')) {
+      } else if (
+        page
+          .url()
+          .includes(
+            `chrome-extension://${metamaskExtensionData.id}/notification.html`,
+          )
+      ) {
         metamaskNotificationWindow = page;
+      } else if (
+        page
+          .url()
+          .includes(`chrome-extension://${metamaskExtensionData.id}/popup.html`)
+      ) {
+        metamaskPopupWindow = page;
       }
     }
     return true;
@@ -80,6 +105,7 @@ module.exports = {
     mainWindow = null;
     metamaskWindow = null;
     metamaskNotificationWindow = null;
+    metamaskPopupWindow = null;
     return true;
   },
   async isCypressWindowActive() {
@@ -108,10 +134,24 @@ module.exports = {
     await module.exports.assignActiveTabName('metamask-notif');
     return true;
   },
+  async switchToMetamaskPopupWindow() {
+    await metamaskPopupWindow.bringToFront();
+    await module.exports.assignActiveTabName('metamask-popup');
+    return true;
+  },
   async switchToMetamaskNotification() {
+    const metamaskExtensionData = (await module.exports.getExtensionsData())
+      .metamask;
+
     let pages = await browser.contexts()[0].pages();
     for (const page of pages) {
-      if (page.url().includes('notification')) {
+      if (
+        page
+          .url()
+          .includes(
+            `chrome-extension://${metamaskExtensionData.id}/notification.html`,
+          )
+      ) {
         metamaskNotificationWindow = page;
         retries = 0;
         await page.bringToFront();
@@ -269,7 +309,17 @@ module.exports = {
     }
   },
   async waitUntilStable(page) {
-    if (page && page.url().includes('notification')) {
+    const metamaskExtensionData = (await module.exports.getExtensionsData())
+      .metamask;
+
+    if (
+      page &&
+      page
+        .url()
+        .includes(
+          `chrome-extension://${metamaskExtensionData.id}/notification.html`,
+        )
+    ) {
       await page.waitForLoadState('load');
       await page.waitForLoadState('domcontentloaded');
       await page.waitForLoadState('networkidle');
@@ -364,8 +414,10 @@ module.exports = {
       }
     }
   },
-  async getExtensionIds() {
-    const extensionData = {};
+  async getExtensionsData() {
+    if (extensionsData) {
+      return extensionsData;
+    }
 
     const context = await browser.contexts()[0];
     const page = await context.newPage();
@@ -379,32 +431,33 @@ module.exports = {
     await devModeButton.focus();
     await devModeButton.click();
 
-    const extensionItems = await page.locator('extensions-item').all();
-    for (const extension of extensionItems) {
+    const extensionDataItems = await page.locator('extensions-item').all();
+    for (const extensionData of extensionDataItems) {
       const extensionName = (
-        await extension
+        await extensionData
           .locator('#name-and-version')
           .locator('#name')
           .textContent()
       ).toLowerCase();
 
       const extensionVersion = (
-        await extension
+        await extensionData
           .locator('#name-and-version')
           .locator('#version')
           .textContent()
       ).replace(/(\n| )/g, '');
 
       const extensionId = (
-        await extension.locator('#extension-id').textContent()
+        await extensionData.locator('#extension-id').textContent()
       ).replace('ID: ', '');
 
-      extensionData[extensionName] = {
+      extensionsData[extensionName] = {
         version: extensionVersion,
         id: extensionId,
       };
     }
     await page.close();
-    return extensionData;
+
+    return extensionsData;
   },
 };
