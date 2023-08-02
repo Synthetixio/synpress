@@ -7,7 +7,6 @@ const { pageElements } = require('../pages/metamask/page');
 const {
   onboardingWelcomePageElements,
 } = require('../pages/metamask/first-time-flow-page');
-// const metamask = require('./metamask');
 const sleep = require('util').promisify(setTimeout);
 
 let browser;
@@ -364,5 +363,48 @@ module.exports = {
         break;
       }
     }
+  },
+  async getExtensionIds() {
+    const extensionData = {};
+
+    const context = await browser.contexts()[0];
+    const page = await context.newPage();
+
+    await page.goto('chrome://extensions');
+    await page.waitForLoadState('load');
+    await page.waitForLoadState('domcontentloaded');
+
+    const devModeButton = page.locator('#devMode');
+    await devModeButton.waitFor();
+    await devModeButton.focus();
+    await devModeButton.click();
+
+    const extensionItems = await page.locator('extensions-item').all();
+    for (const extension of extensionItems) {
+      const extensionName = (
+        await extension
+          .locator('#name-and-version')
+          .locator('#name')
+          .textContent()
+      ).toLowerCase();
+
+      const extensionVersion = (
+        await extension
+          .locator('#name-and-version')
+          .locator('#version')
+          .textContent()
+      ).replace(/(\n| )/g, '');
+
+      const extensionId = (
+        await extension.locator('#extension-id').textContent()
+      ).replace('ID: ', '');
+
+      extensionData[extensionName] = {
+        version: extensionVersion,
+        id: extensionId,
+      };
+    }
+    await page.close();
+    return extensionData;
   },
 };
