@@ -85,7 +85,7 @@ body:
     attributes:
       label: 🐋 Are you using docker?
       options:
-        - label: Yes
+        - label: This issue is related to docker.
 
   - type: textarea
     id: what-happened
