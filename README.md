@@ -82,7 +82,6 @@ more details.
 
 - [Discord](https://discord.gg/XhZKSRGtWc) => for **live support** and direct chat with devs.
 - [Twitter](https://twitter.com/synpress_) => for updates and announcements.
-- [GitHub Discussions](https://github.com/Synthetixio/synpress/discussions) => for technical questions and feature requests.
 
 ## 🖥️ Install
 
