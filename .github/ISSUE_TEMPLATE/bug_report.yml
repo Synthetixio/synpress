@@ -3,6 +3,7 @@ description: Create a report with an issue.
 title: '[🐛 Bug]: <title>'
 labels: [bug 🐛, needs triaging ⏳]
 body:
+
   - type: checkboxes
     attributes:
       label: 🔎 Have you searched existing issues to avoid duplicates?
