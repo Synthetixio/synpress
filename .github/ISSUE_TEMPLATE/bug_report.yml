@@ -6,28 +6,29 @@ body:
 
   - type: checkboxes
     attributes:
-      label: "🔎 Have you searched existing issues to avoid duplicates?"
+      label: 🔎 Have you searched existing issues to avoid duplicates?
       options:
-        - label: "I have made sure that my issue is not a duplicate."
+        - label: I have made sure that my issue is not a duplicate.
           required: true
 
   - type: checkboxes
     attributes:
-      label: "🧪 Have you tested your code using latest version of Synpress?"
+      label: 🧪 Have you tested your code using latest version of Synpress?
       options:
-        - label: "I have made sure that my issue still exists on [latest version of Synpress](https://github.com/Synthetixio/synpress/releases)."
+        - label: I have made sure that my issue still exists on [latest version of Synpress](https://github.com/Synthetixio/synpress/releases).
           required: true
 
   - type: checkboxes
     attributes:
-      label: "💡 Are you able to provide enough information to be able to reproduce your issue locally?"
+      label: 💡 Are you able to provide enough information to be able to reproduce your issue locally?
       options:
-        - label: "I can provide enough details to reproduce my issue on local environment."
+        - label: I can provide enough details to reproduce my issue on local environment.
           required: true
 
   - type: markdown
     attributes:
       value: |
+      
         Thanks for taking the time to fill out this bug report!
 
   - type: markdown
@@ -77,13 +78,13 @@ body:
   - type: input
     id: ci
     attributes:
-      label: CI platform
-      description: Which CI platform are you using? (if applicable)
+      label: CI platform (if applicable)
+      description: Which CI platform are you using?
       placeholder: CircleCI
 
   - type: checkboxes
     attributes:
-      label: Are you running your tests inside docker?
+      label: Are you running your tests inside docker? (if applicable)
       options:
         - label: This issue could be related to docker.
 
@@ -114,9 +115,7 @@ body:
       label: How to reproduce the bug.
       description: |
         It is essential for us to be able to reproduce the bug on our own machines.
-        Please either create a [minimal reproducible example](https://stackoverflow.com/help/minimal-reproducible-example)
-        in a [new repository](https://github.com/new), a [gist](https://gist.github.com/)
-        or copy and paste all necessary files in here.
+        Please either create a [minimal reproducible example](https://stackoverflow.com/help/minimal-reproducible-example) in a [new repository](https://github.com/new), a [gist](https://gist.github.com/) or copy and paste all necessary files in here.
 
         > **What happens if you skip this step?** Someone will read your bug report, and maybe will be able to help you, but it’s unlikely that it will get much attention from the team. Eventually, the issue will likely get closed in favor of issues that have reproducible demos.
 
