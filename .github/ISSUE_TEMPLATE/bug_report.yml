@@ -8,14 +8,14 @@ body:
     attributes:
       label: "🔎 Have you searched existing issues to avoid duplicates?"
       options:
-        - label: "I have made sure that [my issue is not a duplicate](https://github.com/Synthetixio/synpress/issues?q=is%3Aissue+is%3Aopen+)."
+        - label: "I have made sure that my issue is not a duplicate."
           required: true
 
   - type: checkboxes
     attributes:
       label: "🧪 Have you tested your code using latest version of Synpress?"
       options:
-        - label: "I have made sure that [my issue still exists on latest version of Synpress](https://github.com/Synthetixio/synpress/releases)."
+        - label: "I have made sure that my issue still exists on [latest version of Synpress](https://github.com/Synthetixio/synpress/releases)."
           required: true
 
   - type: checkboxes
@@ -83,9 +83,9 @@ body:
 
   - type: checkboxes
     attributes:
-      label: 🐋 Are you using docker?
+      label: Are you running your tests inside docker?
       options:
-        - label: This issue is related to docker.
+        - label: This issue could be related to docker.
 
   - type: textarea
     id: what-happened
@@ -144,7 +144,8 @@ body:
     attributes:
       label: Relevant log output
       description: |
-        Please copy and paste any relevant log output. Setting `DEBUG=synpress:*` env flag before running your tests will provide more descriptive logs.
+        Please copy and paste any relevant log output.
+        Setting `DEBUG=synpress:*` env flag before running your tests will provide more descriptive logs.
       render: typescript
     validations:
       required: false
