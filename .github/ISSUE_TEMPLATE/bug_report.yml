@@ -8,8 +8,7 @@ body:
     attributes:
       label: 🔎 Have you searched existing issues to avoid duplicates?
       options:
-        - label:
-            I have made sure that [my issue is not a
+        - label: I have made sure that [my issue is not a
             duplicate](https://github.com/Synthetixio/synpress/issues?q=is%3Aissue+is%3Aopen+).
           required: true
 
@@ -17,19 +16,16 @@ body:
     attributes:
       label: 🧪 Have you tested your code using latest version of Synpress?
       options:
-        - label:
-            I have made sure that [my issue still exists on latest version of
+        - label: I have made sure that [my issue still exists on latest version of
             Synpress](https://github.com/Synthetixio/synpress/releases).
           required: true
 
   - type: checkboxes
     attributes:
-      label:
-        💡 Are you able to provide enough information to be able to reproduce
+      label: 💡 Are you able to provide enough information to be able to reproduce
         your issue locally?
       options:
-        - label:
-            I can provide enough details to reproduce my issue on local
+        - label: I can provide enough details to reproduce my issue on local
             environment.
           required: true
 
