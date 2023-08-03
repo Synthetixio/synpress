@@ -63,7 +63,7 @@ more details.
 
 # Table of content
 
-- [🧑‍🤝‍🧑 Community](-community)
+- [🧑‍🤝‍🧑 Community](#-community)
 - [🖥️ Install](#%EF%B8%8F-install)
 - [⚙️ Supported frameworks](#%EF%B8%8F-supported-frameworks)
 - [👝 Supported wallets](#-supported-wallets)
