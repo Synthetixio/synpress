@@ -1,28 +1,35 @@
 name: 🐛 Bug report
 description: Create a report with an issue.
-title: "[🐛 Bug]: <title>"
+title: '[🐛 Bug]: <title>'
 labels: [bug 🐛, needs triaging ⏳]
 body:
-
   - type: checkboxes
     attributes:
       label: 🔎 Have you searched existing issues to avoid duplicates?
       options:
-        - label: I have made sure that [my issue is not a duplicate](https://github.com/Synthetixio/synpress/issues?q=is%3Aissue+is%3Aopen+).
+        - label:
+            I have made sure that [my issue is not a
+            duplicate](https://github.com/Synthetixio/synpress/issues?q=is%3Aissue+is%3Aopen+).
           required: true
 
   - type: checkboxes
     attributes:
       label: 🧪 Have you tested your code using latest version of Synpress?
       options:
-        - label: I have made sure that [my issue still exists on latest version of Synpress](https://github.com/Synthetixio/synpress/releases).
+        - label:
+            I have made sure that [my issue still exists on latest version of
+            Synpress](https://github.com/Synthetixio/synpress/releases).
           required: true
 
   - type: checkboxes
     attributes:
-      label: 💡 Are you able to provide enough information to be able to reproduce your issue locally?
+      label:
+        💡 Are you able to provide enough information to be able to reproduce
+        your issue locally?
       options:
-        - label: I can provide enough details to reproduce my issue on local environment.
+        - label:
+            I can provide enough details to reproduce my issue on local
+            environment.
           required: true
 
   - type: markdown
