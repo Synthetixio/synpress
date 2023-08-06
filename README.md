@@ -6,8 +6,9 @@
 [![Discord](https://img.shields.io/discord/1103781993394733136.svg?color=768AD4&label=discord&logo=https%3A%2F%2Fdiscordapp.com%2Fassets%2F8c9701b98ad4372b58f13fd9f65f966e.svg)](https://discord.gg/XhZKSRGtWc)
 [![Twitter Follow](https://img.shields.io/twitter/follow/synpress_.svg?label=synpress&style=social)](https://twitter.com/synpress_)
 
-> **We're Hiring 🎉** — Think you have what it takes?
-> We're looking for Software Engineer, [find out more](https://mirror.xyz/synpress.eth/FXhd5-7e7wBmYYtfmqkF0h7FhDBRUGuGF6j-D7jPpvM).
+> **We're Hiring 🎉** — Think you have what it takes? We're looking for Software
+> Engineer,
+> [find out more](https://mirror.xyz/synpress.eth/FXhd5-7e7wBmYYtfmqkF0h7FhDBRUGuGF6j-D7jPpvM).
 
 #
 
@@ -63,26 +64,32 @@ more details.
 
 # Table of content
 
-- [🧑‍🤝‍🧑 Community](-community)
-- [🖥️ Install](#%EF%B8%8F-install)
-- [⚙️ Supported frameworks](#%EF%B8%8F-supported-frameworks)
-- [👝 Supported wallets](#-supported-wallets)
-- [✍️ Usage examples](#%EF%B8%8F-usage-examples)
-- [🌟 Features](#-features)
-- [👷 Example setup for eslint and tsconfig](#-example-setup-for-eslint-and-tsconfig)
-- [⚡ Important notes](#-important-notes)
-- [🐳 Synpress + Docker](#-using-with-docker)
-- [💁‍♂️ CI tips & tricks](#%EF%B8%8F-ci-tips--tricks)
-- [🧪 CLI](#-usage--commands)
-- [📃 Environmental variables](#-environmental-variables)
-- [🚢 Release process](#-release-process)
-- [📝 More resources](#-more-resources)
+- [](#)
+- [](#-1)
+- [Table of content](#table-of-content)
+  - [🧑‍🤝‍🧑 Community](#-community)
+  - [🖥️ Install](#️-install)
+  - [⚙️ Supported frameworks](#️-supported-frameworks)
+  - [👝 Supported wallets](#-supported-wallets)
+  - [✍️ Usage examples:](#️-usage-examples)
+  - [🌟 Features](#-features)
+  - [👷 Example setup for eslint and tsconfig](#-example-setup-for-eslint-and-tsconfig)
+  - [⚡ Important notes](#-important-notes)
+  - [🐳 Using with Docker](#-using-with-docker)
+    - [Requirements](#requirements)
+    - [Some neat features](#some-neat-features)
+    - [How to run e2e tests for Synpress using Docker](#how-to-run-e2e-tests-for-synpress-using-docker)
+  - [💁‍♂️ CI tips \& tricks](#️-ci-tips--tricks)
+  - [🧪 Usage \& commands](#-usage--commands)
+  - [📃 Environmental variables](#-environmental-variables)
+  - [🚢 Release process](#-release-process)
+  - [📝 More resources](#-more-resources)
 
 ## 🧑‍🤝‍🧑 Community
 
-- [Discord](https://discord.gg/XhZKSRGtWc) => for **live support** and direct chat with devs.
+- [Discord](https://discord.gg/XhZKSRGtWc) => for **live support** and direct
+  chat with devs.
 - [Twitter](https://twitter.com/synpress_) => for updates and announcements.
-- [GitHub Discussions](https://github.com/Synthetixio/synpress/discussions) => for technical questions and feature requests.
 
 ## 🖥️ Install
 
@@ -375,8 +382,8 @@ All examples of setup are present in this repository. Just take a look around.
 
 ## 💁‍♂️ CI tips & tricks
 
-- Check out many different
-  examples for GitHub Actions [in this repository](https://github.com/Synthetixio/synpress/tree/dev/.github/workflows):
+- Check out many different examples for GitHub Actions
+  [in this repository](https://github.com/Synthetixio/synpress/tree/dev/.github/workflows):
   - [e2e_headful.yml](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/e2e_headful.yml)
     => runs on `ubuntu-latest`.
   - [e2e_debug.yml](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/e2e_debug.yml)
@@ -387,7 +394,8 @@ All examples of setup are present in this repository. Just take a look around.
   - [e2e_cypress-action.yml](https://github.com/Synthetixio/synpress/blob/dev/.github/workflows/e2e_cypress-action.yml)
     => runs on `ubuntu-latest`, using official
     [cypress-io/github-action](https://github.com/cypress-io/github-action).
-- You can find examples for GitLab CI => [here](https://gitlab.com/synpress/synpress-demo#synpress-gitlab-demo).
+- You can find examples for GitLab CI =>
+  [here](https://gitlab.com/synpress/synpress-demo#synpress-gitlab-demo).
 - Use [docker-e2e](https://github.com/Synthetixio/docker-e2e)
 - Synpress is tested and should work on all resolutions, starting from 800x600
 
@@ -451,12 +459,12 @@ Options:
 | `METAMASK_VERSION`      | Metamask version to be installed                                                                                                                                                                            |
 | `SKIP_METAMASK_INSTALL` | Will skip MetaMask installation                                                                                                                                                                             |
 | `SKIP_METAMASK_SETUP`   | Will skip MetaMask initial setup                                                                                                                                                                            |
-| `GH_USERNAME`           | GitHub username (used to avoid rate-limit issue while downloading metamask)                                                                                                                                 |
+| `GH_USERNAME`           | GitHub username (used to avoid rate-limit issues while downloading Metamask)                                                                                                                                |
 | `GH_PAT`                | GitHub [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) (used to avoid rate-limit issue while downloading metamask) |
 | `ETHERSCAN_KEY`         | [Etherscan key](https://info.etherscan.com/etherscan-developer-api-key/) (used only for etherscan-related commands)                                                                                         |
 | `FAIL_ON_ERROR`         | Fail a test if there are any browser console errors                                                                                                                                                         |
 | `CYPRESS_GROUP`         | [Group tests](https://docs.cypress.io/guides/guides/command-line#cypress-run-group-lt-name-gt)                                                                                                              |
-| `CI`                    | `boolean` value indicate that tests are runing from CI/CD pipeline                                                                                                                                          |
+| `CI`                    | Boolean value indicates that tests are running from CI/CD pipeline                                                                                                                                          |
 
 ## 🚢 Release process
 

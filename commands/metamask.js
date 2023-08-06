@@ -40,8 +40,8 @@ const {
   getCurrentNetwork,
 } = require('../helpers');
 
-let extensionInitialUrl;
 let extensionId;
+let extensionVersion;
 let extensionHomeUrl;
 let extensionSettingsUrl;
 let extensionAdvancedSettingsUrl;
@@ -59,7 +59,6 @@ const metamask = {
   },
   extensionUrls: () => {
     return {
-      extensionInitialUrl,
       extensionHomeUrl,
       extensionSettingsUrl,
       extensionAdvancedSettingsUrl,
@@ -105,8 +104,11 @@ const metamask = {
     await module.exports.goTo(extensionImportTokenUrl);
   },
   async getExtensionDetails() {
-    extensionInitialUrl = await playwright.metamaskWindow().url();
-    extensionId = extensionInitialUrl.match('//(.*?)/')[1];
+    const metamaskExtensionData = (await playwright.getExtensionsData())
+      .metamask;
+
+    extensionId = metamaskExtensionData.id;
+    extensionVersion = metamaskExtensionData.version;
     extensionHomeUrl = `chrome-extension://${extensionId}/home.html`;
     extensionSettingsUrl = `${extensionHomeUrl}#settings`;
     extensionAdvancedSettingsUrl = `${extensionSettingsUrl}/advanced`;
@@ -117,8 +119,8 @@ const metamask = {
     extensionImportTokenUrl = `${extensionHomeUrl}#import-token`;
 
     return {
-      extensionInitialUrl,
       extensionId,
+      extensionVersion,
       extensionSettingsUrl,
       extensionAdvancedSettingsUrl,
       extensionExperimentalSettingsUrl,

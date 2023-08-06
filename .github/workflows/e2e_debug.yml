@@ -20,13 +20,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # pin@v2
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # pin@v2
 
       - name: Install pnpm
-        uses: pnpm/action-setup@c3b53f6a16e57305370b4ae5a540c2077a1d50dd # pin@v2.2.4
+        uses: pnpm/action-setup@d882d12c64e032187b2edb46d3a0d003b7a43598 # pin@v2.4.0
 
       - name: Setup node
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # pin@v3.6.0
+        uses: actions/setup-node@e33196f7422957bea03ed53f6fbb155025ffc7b8 # pin@v3.7.0
         with:
           node-version: 18.16
 
@@ -41,7 +41,7 @@ jobs:
         continue-on-error: true
 
       - name: Setup cache
-        uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # pin@v2
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # pin@v2
         with:
           path: |
             .pnpm-store
