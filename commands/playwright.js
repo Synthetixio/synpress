@@ -10,6 +10,8 @@ const {
 const sleep = require('util').promisify(setTimeout);
 const _ = require('underscore');
 
+let expectInstance;
+
 let browser;
 let mainWindow;
 let metamaskWindow;
@@ -22,6 +24,9 @@ let retries = 0;
 let extensionsData = {};
 
 module.exports = {
+  getExpectInstance() {
+    return expectInstance;
+  },
   browser() {
     return browser;
   },
@@ -39,6 +44,9 @@ module.exports = {
   },
   activeTabName() {
     return activeTabName;
+  },
+  async setExpectInstance(expect) {
+    expectInstance = expect;
   },
   async init(playwrightInstance) {
     const chromium = playwrightInstance
@@ -235,8 +243,8 @@ module.exports = {
     await module.exports.waitUntilStable(page);
   },
   async waitAndGetValue(selector, page = metamaskWindow) {
-    const expect = global.expect
-      ? global.expect
+    const expect = expectInstance
+      ? expectInstance
       : require('@playwright/test').expect;
     const element = await module.exports.waitFor(selector, page);
     await expect(element).toHaveText(/[a-zA-Z0-9]/, {
@@ -247,8 +255,8 @@ module.exports = {
     return value;
   },
   async waitAndGetInputValue(selector, page = metamaskWindow) {
-    const expect = global.expect
-      ? global.expect
+    const expect = expectInstance
+      ? expectInstance
       : require('@playwright/test').expect;
     const element = await module.exports.waitFor(selector, page);
     await expect(element).toHaveValue(/[a-zA-Z1-9]/);
@@ -256,8 +264,8 @@ module.exports = {
     return value;
   },
   async waitAndGetAttributeValue(selector, attribute, page = metamaskWindow) {
-    const expect = global.expect
-      ? global.expect
+    const expect = expectInstance
+      ? expectInstance
       : require('@playwright/test').expect;
     const element = await module.exports.waitFor(selector, page);
     await expect(element).toHaveAttribute(attribute, /[a-zA-Z0-9]/);
