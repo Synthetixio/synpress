@@ -279,14 +279,6 @@ module.exports = {
 
       await switchToPhantomIfNotActive();
 
-      // skip rebrand
-      try {
-        await playwright
-          .windows(PROVIDER)
-          .click(mainPageElements.welcome.rebrandAnnouncement, {
-            timeout: 1_000,
-          });
-      } catch {}
 
       // skip welcome page
       try {
