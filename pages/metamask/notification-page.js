@@ -26,8 +26,8 @@ module.exports.notificationPageElements = {
   rejectWarningToSpendButton,
 };
 
-const confirmSignatureRequestButton = `${notificationPage} .request-signature__footer__sign-button`;
-const rejectSignatureRequestButton = `${notificationPage} .request-signature__footer__cancel-button`;
+const confirmSignatureRequestButton = `${notificationPage} [data-testid="signature-sign-button"]`;
+const rejectSignatureRequestButton = `${notificationPage} [data-testid="signature-cancel-button"]`;
 const signatureRequestScrollDownButton = `${notificationPage} [data-testid="signature-request-scroll-button"]`;
 module.exports.signaturePageElements = {
   confirmSignatureRequestButton,
