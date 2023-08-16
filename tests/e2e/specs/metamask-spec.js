@@ -436,25 +436,24 @@ describe('Metamask', () => {
         expect(approved).to.be.true;
       });
     });
-    // todo: this feature is broken inside test-dapp, needs to be fixed (unable to switch to DAI chain)
-    it.skip(`rejectMetamaskToAddNetwork should reject permission to add network`, () => {
+    it(`rejectMetamaskToAddNetwork should reject permission to add network`, () => {
       cy.get('#addEthereumChain').click();
       cy.rejectMetamaskToAddNetwork().then(rejected => {
         expect(rejected).to.be.true;
       });
     });
-    it.skip(`allowMetamaskToAddNetwork should approve permission to add network`, () => {
+    it(`allowMetamaskToAddNetwork should approve permission to add network`, () => {
       cy.get('#addEthereumChain').click();
-      cy.allowMetamaskToAddNetwork('close').then(approved => {
+      cy.allowMetamaskToAddNetwork().then(approved => {
         expect(approved).to.be.true;
       });
     });
-    it.skip(`rejectMetamaskToSwitchNetwork should reject permission to switch network`, () => {
+    it(`rejectMetamaskToSwitchNetwork should reject permission to switch network`, () => {
       cy.rejectMetamaskToSwitchNetwork().then(rejected => {
         expect(rejected).to.be.true;
       });
     });
-    it.skip(`allowMetamaskToSwitchNetwork should approve permission to switch network`, () => {
+    it(`allowMetamaskToSwitchNetwork should approve permission to switch network`, () => {
       cy.get('#switchEthereumChain').click();
       cy.allowMetamaskToSwitchNetwork().then(approved => {
         expect(approved).to.be.true;
