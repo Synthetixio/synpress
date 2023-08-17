@@ -149,9 +149,8 @@ module.exports = (on, config) => {
       return activated;
     },
     activateImprovedTokenAllowanceInMetamask: async skipSetup => {
-      const activated = await metamask.activateImprovedTokenAllowance(
-        skipSetup,
-      );
+      const activated =
+        await metamask.activateImprovedTokenAllowance(skipSetup);
       return activated;
     },
     resetMetamaskAccount: async () => {
