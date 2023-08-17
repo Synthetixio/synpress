@@ -72,149 +72,50 @@ module.exports = (on, config) => {
       } else if (!network) {
         network = 'goerli';
       }
-      const networkChanged = await metamask.changeNetwork(network);
-      return networkChanged;
+      return await metamask.changeNetwork(network);
     },
-    activateAdvancedGasControlInMetamask: async skipSetup => {
-      const activated = await metamask.activateAdvancedGasControl(skipSetup);
-      return activated;
-    },
-    activateShowHexDataInMetamask: async skipSetup => {
-      const activated = await metamask.activateShowHexData(skipSetup);
-      return activated;
-    },
-    activateTestnetConversionInMetamask: async skipSetup => {
-      const activated = await metamask.activateTestnetConversion(skipSetup);
-      return activated;
-    },
-    activateShowTestnetNetworksInMetamask: async skipSetup => {
-      const activated = await metamask.activateShowTestnetNetworks(skipSetup);
-      return activated;
-    },
-    activateCustomNonceInMetamask: async skipSetup => {
-      const activated = await metamask.activateCustomNonce(skipSetup);
-      return activated;
-    },
-    activateDismissBackupReminderInMetamask: async skipSetup => {
-      const activated = await metamask.activateDismissBackupReminder(skipSetup);
-      return activated;
-    },
-    activateEthSignRequestsInMetamask: async skipSetup => {
-      const activated = await metamask.activateEthSignRequests(skipSetup);
-      return activated;
-    },
-    activateImprovedTokenAllowanceInMetamask: async skipSetup => {
-      const activated = await metamask.activateImprovedTokenAllowance(
-        skipSetup,
-      );
-      return activated;
-    },
-    resetMetamaskAccount: async () => {
-      const resetted = await metamask.resetAccount();
-      return resetted;
-    },
-    disconnectMetamaskWalletFromDapp: async () => {
-      const disconnected = await metamask.disconnectWalletFromDapp();
-      return disconnected;
-    },
-    disconnectMetamaskWalletFromAllDapps: async () => {
-      const disconnected = await metamask.disconnectWalletFromAllDapps();
-      return disconnected;
-    },
-    confirmMetamaskSignatureRequest: async () => {
-      const confirmed = await metamask.confirmSignatureRequest();
-      return confirmed;
-    },
-    confirmMetamaskDataSignatureRequest: async () => {
-      const confirmed = await metamask.confirmDataSignatureRequest();
-      return confirmed;
-    },
-    rejectMetamaskSignatureRequest: async () => {
-      const rejected = await metamask.rejectSignatureRequest();
-      return rejected;
-    },
-    rejectMetamaskDataSignatureRequest: async () => {
-      const rejected = await metamask.rejectDataSignatureRequest();
-      return rejected;
-    },
-    confirmMetamaskEncryptionPublicKeyRequest: async () => {
-      const confirmed = await metamask.confirmEncryptionPublicKeyRequest();
-      return confirmed;
-    },
-    rejectMetamaskEncryptionPublicKeyRequest: async () => {
-      const rejected = await metamask.rejectEncryptionPublicKeyRequest();
-      return rejected;
-    },
-    confirmMetamaskDecryptionRequest: async () => {
-      const confirmed = await metamask.confirmDecryptionRequest();
-      return confirmed;
-    },
-    rejectMetamaskDecryptionRequest: async () => {
-      const rejected = await metamask.rejectDecryptionRequest();
-      return rejected;
-    },
-    importMetamaskToken: async tokenConfig => {
-      const imported = await metamask.importToken(tokenConfig);
-      return imported;
-    },
-    confirmMetamaskAddToken: async () => {
-      const confirmed = await metamask.confirmAddToken();
-      return confirmed;
-    },
-    rejectMetamaskAddToken: async () => {
-      const rejected = await metamask.rejectAddToken();
-      return rejected;
-    },
-    confirmMetamaskPermissionToSpend: async spendLimit => {
-      const confirmed = await metamask.confirmPermissionToSpend(spendLimit);
-      return confirmed;
-    },
-    rejectMetamaskPermissionToSpend: async () => {
-      const rejected = await metamask.rejectPermissionToSpend();
-      return rejected;
-    },
+    activateAdvancedGasControlInMetamask: metamask.activateAdvancedGasControl,
+    activateShowHexDataInMetamask: metamask.activateShowHexData,
+    activateTestnetConversionInMetamask: metamask.activateTestnetConversion,
+    activateShowTestnetNetworksInMetamask: metamask.activateShowTestnetNetworks,
+    activateCustomNonceInMetamask: metamask.activateCustomNonce,
+    activateDismissBackupReminderInMetamask:
+      metamask.activateDismissBackupReminder,
+    activateEthSignRequestsInMetamask: metamask.activateEthSignRequests,
+    activateImprovedTokenAllowanceInMetamask:
+      metamask.activateImprovedTokenAllowance,
+    resetMetamaskAccount: metamask.resetAccount,
+    disconnectMetamaskWalletFromDapp: metamask.disconnectWalletFromDapp,
+    disconnectMetamaskWalletFromAllDapps: metamask.disconnectWalletFromAllDapps,
+    confirmMetamaskSignatureRequest: metamask.confirmSignatureRequest,
+    confirmMetamaskDataSignatureRequest: metamask.confirmDataSignatureRequest,
+    rejectMetamaskSignatureRequest: metamask.rejectSignatureRequest,
+    rejectMetamaskDataSignatureRequest: metamask.rejectDataSignatureRequest,
+    confirmMetamaskEncryptionPublicKeyRequest:
+      metamask.confirmEncryptionPublicKeyRequest,
+    rejectMetamaskEncryptionPublicKeyRequest:
+      metamask.rejectEncryptionPublicKeyRequest,
+    confirmMetamaskDecryptionRequest: metamask.confirmDecryptionRequest,
+    rejectMetamaskDecryptionRequest: metamask.rejectDecryptionRequest,
+    importMetamaskToken: metamask.importToken,
+    confirmMetamaskAddToken: metamask.confirmAddToken,
+    rejectMetamaskAddToken: metamask.rejectAddToken,
+    confirmMetamaskPermissionToSpend: metamask.confirmPermissionToSpend,
+    rejectMetamaskPermissionToSpend: metamask.rejectPermissionToSpend,
     confirmMetamaskPermisionToApproveAll: metamask.confirmPermisionToApproveAll,
     rejectMetamaskPermisionToApproveAll: metamask.rejectPermisionToApproveAll,
-    acceptMetamaskAccess: async options => {
-      const accepted = await metamask.acceptAccess(options);
-      return accepted;
-    },
+    acceptMetamaskAccess: metamask.acceptAccess,
     rejectMetamaskAccess: metamask.rejectAccess,
-    confirmMetamaskTransaction: async gasConfig => {
-      const confirmed = await metamask.confirmTransaction(gasConfig);
-      return confirmed;
-    },
-    rejectMetamaskTransaction: async () => {
-      const rejected = await metamask.rejectTransaction();
-      return rejected;
-    },
-    allowMetamaskToAddNetwork: async ({ waitForEvent }) => {
-      const allowed = await metamask.allowToAddNetwork({ waitForEvent });
-      return allowed;
-    },
-    rejectMetamaskToAddNetwork: async () => {
-      const rejected = await metamask.rejectToAddNetwork();
-      return rejected;
-    },
-    allowMetamaskToSwitchNetwork: async () => {
-      const allowed = await metamask.allowToSwitchNetwork();
-      return allowed;
-    },
-    rejectMetamaskToSwitchNetwork: async () => {
-      const rejected = await metamask.rejectToSwitchNetwork();
-      return rejected;
-    },
-    allowMetamaskToAddAndSwitchNetwork: async () => {
-      const allowed = await metamask.allowToAddAndSwitchNetwork();
-      return allowed;
-    },
-    getMetamaskWalletAddress: async () => {
-      const walletAddress = await metamask.getWalletAddress();
-      return walletAddress;
-    },
-    fetchMetamaskWalletAddress: async () => {
-      return metamask.walletAddress();
-    },
+    confirmMetamaskTransaction: metamask.confirmTransaction,
+    rejectMetamaskTransaction: metamask.rejectTransaction,
+    allowMetamaskToAddNetwork: async ({ waitForEvent }) =>
+      await metamask.allowToAddNetwork({ waitForEvent }),
+    rejectMetamaskToAddNetwork: metamask.rejectToAddNetwork,
+    allowMetamaskToSwitchNetwork: metamask.allowToSwitchNetwork,
+    rejectMetamaskToSwitchNetwork: metamask.rejectToSwitchNetwork,
+    allowMetamaskToAddAndSwitchNetwork: metamask.allowToAddAndSwitchNetwork,
+    getMetamaskWalletAddress: metamask.getWalletAddress,
+    fetchMetamaskWalletAddress: metamask.walletAddress,
     setupMetamask: async ({
       secretWordsOrPrivateKey,
       network,
@@ -263,18 +164,11 @@ module.exports = (on, config) => {
       });
       return true;
     },
-    getCurrentNetwork: () => {
-      const network = helpers.getCurrentNetwork();
-      return network;
-    },
-    etherscanGetTransactionStatus: async ({ txid }) => {
-      const txStatus = await etherscan.getTransactionStatus(txid);
-      return txStatus;
-    },
-    etherscanWaitForTxSuccess: async ({ txid }) => {
-      const txSuccess = await etherscan.waitForTxSuccess(txid);
-      return txSuccess;
-    },
+    getCurrentNetwork: helpers.getCurrentNetwork,
+    etherscanGetTransactionStatus: async ({ txid }) =>
+      await etherscan.getTransactionStatus(txid),
+    etherscanWaitForTxSuccess: async ({ txid }) =>
+      await etherscan.waitForTxSuccess(txid),
   });
 
   if (process.env.BASE_URL) {
