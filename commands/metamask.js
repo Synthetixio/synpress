@@ -790,7 +790,6 @@ const metamask = {
   async acceptAccess(options) {
     const notificationPage = await playwright.switchToMetamaskNotification();
 
-    // ========== Account Selection ==========
     if (options && options.accountIndexes) {
       if (
         !Array.isArray(options.accountIndexes) ||
@@ -812,8 +811,7 @@ const metamask = {
           checkboxSelector,
           notificationPage,
         );
-        const attrClass = await checkbox.getAttribute('class');
-        const isChecked = attrClass.includes('check-box__checked');
+        const isChecked = await checkbox.isChecked();
         const shouldCheck = options.accountIndexes.includes(accountIdx);
         if ((!isChecked && shouldCheck) || (isChecked && !shouldCheck)) {
           await playwright.waitAndClick(checkboxSelector, notificationPage);
