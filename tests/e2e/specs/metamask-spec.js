@@ -58,9 +58,7 @@ describe('Metamask', () => {
       if (Cypress.env('USE_ANVIL')) {
         cy.addMetamaskNetwork({
           networkName: 'anvil',
-          rpcUrl: Cypress.env('DOCKER_RUN')
-            ? 'http://foundry:8545'
-            : 'http://127.0.0.1:8545',
+          rpcUrl: 'http://127.0.0.1:8545',
           chainId: 11155111,
           symbol: 'aETH',
           isTestnet: true,
