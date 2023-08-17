@@ -26,7 +26,7 @@ jobs:
         uses: pnpm/action-setup@d882d12c64e032187b2edb46d3a0d003b7a43598 # pin@v2.4.0
 
       - name: Setup node
-        uses: actions/setup-node@bea5baf987ba7aa777a8a0b4ace377a21c45c381 # pin@v3.8.0
+        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # pin@v3.8.1
         with:
           node-version: 18.16
 
