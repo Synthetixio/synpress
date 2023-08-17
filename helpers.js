@@ -14,6 +14,11 @@ let currentNetwork = chains.mainnet;
 let addedNetworks = [chains.mainnet, chains.goerli, chains.sepolia];
 
 module.exports = {
+  async resetState() {
+    log('Resetting state of helpers');
+    currentNetwork = chains.mainnet;
+    addedNetworks = [chains.mainnet, chains.goerli, chains.sepolia];
+  },
   // set currently active network
   async setNetwork(network) {
     log(`Setting network to ${JSON.stringify(network)}`);
