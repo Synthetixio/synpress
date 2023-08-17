@@ -330,9 +330,9 @@ Accept metamask access request.
 
 ```ts
 acceptMetamaskAccess(options?: {
-  allAccounts?: boolean;
-  accountIndexes: number[];
-  signInSignature?: boolean;
+  accountIndexes: number[],
+  allAccounts?: boolean,
+  signInSignature?: boolean,
 }): Chainable<Subject>;
 ```
 
