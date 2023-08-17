@@ -24,6 +24,18 @@ let retries = 0;
 let extensionsData = {};
 
 module.exports = {
+  async resetState() {
+    log('Resetting state of playwright');
+    expectInstance = undefined;
+    browser = undefined;
+    mainWindow = undefined;
+    metamaskWindow = undefined;
+    metamaskNotificationWindow = undefined;
+    metamaskPopupWindow = undefined;
+    activeTabName = undefined;
+    retries = 0;
+    extensionsData = {};
+  },
   getExpectInstance() {
     return expectInstance;
   },

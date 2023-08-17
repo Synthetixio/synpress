@@ -54,6 +54,21 @@ let walletAddress;
 let switchBackToCypressWindow;
 
 const metamask = {
+  async resetState() {
+    log('Resetting state of metamask');
+    extensionId = undefined;
+    extensionVersion = undefined;
+    extensionHomeUrl = undefined;
+    extensionSettingsUrl = undefined;
+    extensionAdvancedSettingsUrl = undefined;
+    extensionExperimentalSettingsUrl = undefined;
+    extensionAddNetworkUrl = undefined;
+    extensionNewAccountUrl = undefined;
+    extensionImportAccountUrl = undefined;
+    extensionImportTokenUrl = undefined;
+    walletAddress = undefined;
+    switchBackToCypressWindow = undefined;
+  },
   extensionId: () => {
     return extensionId;
   },

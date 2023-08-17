@@ -14,6 +14,11 @@ let currentNetwork = chains.mainnet;
 let addedNetworks = [chains.mainnet, chains.goerli, chains.sepolia];
 
 module.exports = {
+  async resetState() {
+    log('Resetting state of helpers');
+    currentNetwork = chains.mainnet;
+    addedNetworks = [chains.mainnet, chains.goerli, chains.sepolia];
+  },
   // set currently active network
   async setNetwork(network) {
     log(`Setting network to ${JSON.stringify(network)}`);
@@ -233,9 +238,8 @@ module.exports = {
 
     await module.exports.createDirIfNotExist(downloadsDirectory);
     const metamaskDirectory = path.join(downloadsDirectory, release.tagName);
-    const metamaskDirectoryExists = await module.exports.checkDirOrFileExist(
-      metamaskDirectory,
-    );
+    const metamaskDirectoryExists =
+      await module.exports.checkDirOrFileExist(metamaskDirectory);
     const metamaskManifestFilePath = path.join(
       downloadsDirectory,
       release.tagName,
