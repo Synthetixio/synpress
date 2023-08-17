@@ -295,7 +295,7 @@ declare namespace Cypress {
      * cy.acceptMetamaskAccess({ accountIndexes: [0, 1, 2, 3] })
      */
     acceptMetamaskAccess(options?: {
-      accountIndexes: number[];
+      accountIndexes?: number[];
       allAccounts?: boolean;
       confirmSignatureRequest?: boolean;
       confirmDataSignatureRequest?: boolean;

@@ -346,7 +346,7 @@ Accept metamask access request.
 
 ```ts
 acceptMetamaskAccess(options?: {
-  accountIndexes: number[],
+  accountIndexes?: number[],
   allAccounts?: boolean,
   confirmSignatureRequest?: boolean,
   confirmDataSignatureRequest?: boolean,
