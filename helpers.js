@@ -238,9 +238,8 @@ module.exports = {
 
     await module.exports.createDirIfNotExist(downloadsDirectory);
     const metamaskDirectory = path.join(downloadsDirectory, release.tagName);
-    const metamaskDirectoryExists = await module.exports.checkDirOrFileExist(
-      metamaskDirectory,
-    );
+    const metamaskDirectoryExists =
+      await module.exports.checkDirOrFileExist(metamaskDirectory);
     const metamaskManifestFilePath = path.join(
       downloadsDirectory,
       release.tagName,
