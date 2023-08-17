@@ -3,6 +3,7 @@ const notificationAppContent = `${notificationPage} #app-content .app`;
 const loadingLogo = `${notificationPage} #loading__logo`;
 const loadingSpinner = `${notificationPage} #loading__spinner`;
 const nextButton = `${notificationPage} .permissions-connect-choose-account__bottom-buttons .btn-primary`;
+const cancelButton = `${notificationPage} .permissions-connect-choose-account__bottom-buttons .btn-secondary`;
 const customSpendingLimitInput = `${notificationPage} [data-testid="custom-spending-cap-input"]`;
 const allowToSpendButton = `${notificationPage} [data-testid="page-container-footer-next"]`;
 const rejectToSpendButton = `${notificationPage} [data-testid="page-container-footer-cancel"]`;
@@ -10,6 +11,8 @@ const selectAllCheckbox = `${notificationPage} .choose-account-list__header-chec
 const getAccountCheckboxSelector = (accountIdx = 1) =>
   `${notificationPage} .choose-account-list__account:nth-child(${accountIdx}) .check-box`;
 const selectAccountCheckbox = `${notificationPage} .choose-account-list__account .check-box`;
+const approveWarningToSpendButton = `${notificationPage} .set-approval-for-all-warning__footer__approve-button`;
+const rejectWarningToSpendButton = `${notificationPage} .btn-secondary.set-approval-for-all-warning__footer__cancel-button`;
 
 module.exports.notificationPageElements = {
   notificationPage,
@@ -17,12 +20,15 @@ module.exports.notificationPageElements = {
   loadingLogo,
   loadingSpinner,
   nextButton,
+  cancelButton,
   customSpendingLimitInput,
   allowToSpendButton,
   rejectToSpendButton,
   selectAllCheckbox,
   getAccountCheckboxSelector,
   selectAccountCheckbox,
+  approveWarningToSpendButton,
+  rejectWarningToSpendButton,
 };
 
 const confirmSignatureRequestButton = `${notificationPage} .request-signature__footer__sign-button`;

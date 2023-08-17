@@ -21,11 +21,7 @@ services:
       - ./docker/videos:/app/tests/e2e/videos
       - ./docker/screenshots:/app/tests/e2e/screenshots
     command: >
-      bash -c 'echo -n "======> local noVNC URL:
-      http://localhost:8080/vnc.html?autoconnect=true " && npx wait-on
-      http://display:8080 && echo -n "======> remote noVNC URL: " && curl -s
-      ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && yarn
-      test:e2e:anvil'
+      bash -c 'echo -n "======> local noVNC URL: http://localhost:8080/vnc.html?autoconnect=true " && pnpm wait-on http://display:8080 && echo -n "======> remote noVNC URL: " && curl -s ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && nginx && pnpm test:e2e:anvil'
     networks:
       - x11
 
@@ -48,7 +44,14 @@ services:
     image: synthetixio/ngrok:457bb48776c3b14de232d9dda620ba9188dc40ac-base
     ports:
       - '4040:4040'
-    command: ['ngrok', 'http', 'display:8080', '--authtoken', '${NGROK_AUTH}']
+    command:
+      [
+        'ngrok',
+        'http',
+        'display:8080',
+        '--authtoken',
+        '${NGROK_AUTH}'
+      ]
     depends_on:
       - display
     networks:
@@ -73,11 +76,25 @@ services:
       - foundry
     container_name: foundry
     image: synthetixio/foundry:457bb48776c3b14de232d9dda620ba9188dc40ac-base
-    command: ['anvil --no-cors --fork-url ${ANVIL_FORK_URL}']
+    command: [ 'anvil --no-cors --fork-url ${ANVIL_FORK_URL}' ]
     environment:
       - ANVIL_IP_ADDR=0.0.0.0
     ports:
       - '8545:8545'
+    networks:
+      - x11
+
+  foundry-metamask-test-dapp:
+    profiles:
+      - foundry
+    container_name: foundry-metamask-test-dapp
+    image: synthetixio/foundry:457bb48776c3b14de232d9dda620ba9188dc40ac-base
+    # Port and chain id as required by the MetaMask Test Dapp
+    command: [ 'anvil --no-cors --port 8546 --chain-id 1338' ]
+    environment:
+      - ANVIL_IP_ADDR=0.0.0.0
+    ports:
+      - '8546:8546'
     networks:
       - x11
 

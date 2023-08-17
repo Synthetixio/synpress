@@ -5,55 +5,98 @@ const path = require('path');
 const { ethers } = require('ethers');
 const download = require('download');
 const packageJson = require('./package.json');
+const chains = require('viem/chains');
+const appRoot = require('app-root-path');
+const os = require('os');
 
-const PRESET_NETWORKS = Object.freeze({
-  mainnet: {
-    networkName: 'mainnet',
-    networkId: 1,
-    isTestnet: false,
-  },
-  goerli: {
-    networkName: 'goerli',
-    networkId: 5,
-    isTestnet: true,
-  },
-  sepolia: {
-    networkName: 'sepolia',
-    networkId: 11155111,
-    isTestnet: true,
-  },
-});
-
-let selectedNetwork = PRESET_NETWORKS.mainnet;
+let currentNetwork = chains.mainnet;
+// list of added networks to metamask
+let addedNetworks = [chains.mainnet, chains.goerli, chains.sepolia];
 
 module.exports = {
-  async setNetwork(network) {
-    log(`Setting network to ${JSON.stringify(network)}`);
-
-    if (Object.keys(PRESET_NETWORKS).includes(network)) {
-      selectedNetwork = PRESET_NETWORKS[network];
-    }
-
-    if (network === 'localhost') {
-      const provider = new ethers.JsonRpcProvider('http://127.0.0.1:8545');
-      const { chainId, name } = await provider.getNetwork();
-      selectedNetwork = {
-        networkName: name,
-        networkId: chainId,
-        isTestnet: true,
-      };
-    } else if (typeof network === 'object') {
-      selectedNetwork = {
-        networkName: network.networkName,
-        networkId: Number(network.chainId),
-        isTestnet: network.isTestnet,
-      };
-    }
-    // todo: handle a case when setNetwork() is triggered by changeNetwork() with a string of already added custom networks
+  async resetState() {
+    log('Resetting state of helpers');
+    currentNetwork = chains.mainnet;
+    addedNetworks = [chains.mainnet, chains.goerli, chains.sepolia];
   },
-  getNetwork: () => {
-    log(`Current network data: ${selectedNetwork}`);
-    return selectedNetwork;
+  // set currently active network
+  async setNetwork(network) {
+    log('Setting network to', network);
+    currentNetwork = network;
+  },
+  // find network in presets
+  async findNetwork(network) {
+    if (typeof network === 'object') {
+      network = network.name || network.network;
+    }
+
+    network = network.toLowerCase();
+    log('[findNetwork] Trying to find following network', network);
+
+    let chain;
+    for (const [key, value] of Object.entries(chains)) {
+      const { name, network: chainNetwork } = value;
+      const lcName = name ? name.toLowerCase() : undefined;
+      const lcChainNetwork = chainNetwork
+        ? chainNetwork.toLowerCase()
+        : undefined;
+      if (lcName === network || lcChainNetwork === network) {
+        chain = chains[key];
+        break;
+      } else if (key.toLowerCase() === network) {
+        chain = chains[key];
+        break;
+      }
+    }
+
+    if (!chain) {
+      throw new Error(
+        `[setNetwork] Provided chain was not found.\nFor list of available chains, check: https://github.com/wagmi-dev/references/tree/main/packages/chains#chains`,
+      );
+    }
+
+    if (
+      chain.network === 'localhost' ||
+      chain.network === 'foundry' ||
+      chain.network === 'hardhat'
+    ) {
+      // todo: ip+port rpcUrls
+      const provider = new ethers.JsonRpcProvider(
+        chain.rpcUrls.default.http[0],
+      );
+      await provider.getNetwork().then(result => {
+        chain.id = Number(result.chainId);
+        chain.forkedFrom = result.name;
+      });
+    }
+
+    return chain;
+  },
+  // get currently active network
+  getCurrentNetwork() {
+    log('[getCurrentNetwork] Current network data', currentNetwork);
+    return currentNetwork;
+  },
+  // add new network to presets and list of metamask networks
+  async addNetwork(newNetwork) {
+    if (!newNetwork.network) {
+      newNetwork.network = newNetwork.name.toLowerCase().replace(' ', '-');
+    }
+
+    log(`[addNetwork] Adding new network: ${newNetwork}`);
+    chains[newNetwork.network] = newNetwork;
+    addedNetworks.push(newNetwork);
+  },
+  // check if network is already added to metamask
+  async checkNetworkAdded(network) {
+    log('[checkNetworkAdded] Checking if network is already added', network);
+    if (addedNetworks.includes(network)) {
+      log(`[checkNetworkAdded] Network is present`);
+      return true;
+    } else {
+      log(`[checkNetworkAdded] Network doesn't exist`);
+      return false;
+    }
   },
   getSynpressPath() {
     if (process.env.SYNPRESS_LOCAL_TEST) {
@@ -173,12 +216,18 @@ module.exports = {
   },
   async prepareMetamask(version) {
     const release = await module.exports.getMetamaskReleases(version);
-    const downloadsDirectory = path.resolve(__dirname, 'downloads');
+
+    let downloadsDirectory;
+    if (os.platform() === 'win32') {
+      downloadsDirectory = appRoot.resolve('/node_modules');
+    } else {
+      downloadsDirectory = path.resolve(__dirname, 'downloads');
+    }
+
     await module.exports.createDirIfNotExist(downloadsDirectory);
     const metamaskDirectory = path.join(downloadsDirectory, release.tagName);
-    const metamaskDirectoryExists = await module.exports.checkDirOrFileExist(
-      metamaskDirectory,
-    );
+    const metamaskDirectoryExists =
+      await module.exports.checkDirOrFileExist(metamaskDirectory);
     const metamaskManifestFilePath = path.join(
       downloadsDirectory,
       release.tagName,
