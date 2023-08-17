@@ -348,7 +348,7 @@ Accept metamask access request.
 acceptMetamaskAccess(options?: {
   accountIndexes: number[],
   allAccounts?: boolean,
-  confirmSignatureRequest?: boolean;
+  confirmSignatureRequest?: boolean,
   confirmDataSignatureRequest?: boolean,
 }): Chainable<Subject>;
 ```
