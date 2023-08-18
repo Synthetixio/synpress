@@ -51,214 +51,71 @@ module.exports = (on, config) => {
       return true;
     },
     // playwright commands
-    initPlaywright: async () => {
-      const connected = await playwright.init();
-      return connected;
-    },
-    clearPlaywright: async () => {
-      const cleared = await playwright.clear();
-      return cleared;
-    },
-    assignWindows: async () => {
-      const assigned = await playwright.assignWindows();
-      return assigned;
-    },
-    clearWindows: async () => {
-      const cleared = await playwright.clearWindows();
-      return cleared;
-    },
-    assignActiveTabName: async tabName => {
-      const assigned = await playwright.assignActiveTabName(tabName);
-      return assigned;
-    },
-    isMetamaskWindowActive: async () => {
-      const isMetamaskActive = await playwright.isMetamaskWindowActive();
-      return isMetamaskActive;
-    },
-    isCypressWindowActive: async () => {
-      const isCypressActive = await playwright.isCypressWindowActive();
-      return isCypressActive;
-    },
-    switchToCypressWindow: async () => {
-      const switched = await playwright.switchToCypressWindow();
-      return switched;
-    },
-    switchToMetamaskWindow: async () => {
-      const switched = await playwright.switchToMetamaskWindow();
-      return switched;
-    },
-    switchToMetamaskNotification: async () => {
-      const notificationPage = await playwright.switchToMetamaskNotification();
-      return notificationPage;
-    },
-    unlockMetamask: async password => {
-      const unlocked = await metamask.unlock(password);
-      return unlocked;
-    },
-    importMetamaskAccount: async privateKey => {
-      const imported = await metamask.importAccount(privateKey);
-      return imported;
-    },
-    createMetamaskAccount: async accountName => {
-      const created = await metamask.createAccount(accountName);
-      return created;
-    },
-    switchMetamaskAccount: async accountNameOrAccountNumber => {
-      const switched = await metamask.switchAccount(accountNameOrAccountNumber);
-      return switched;
-    },
-    addMetamaskNetwork: async network => {
-      const networkAdded = await metamask.addNetwork(network);
-      return networkAdded;
-    },
+    initPlaywright: playwright.init,
+    clearPlaywright: playwright.clear,
+    assignWindows: playwright.assignWindows,
+    clearWindows: playwright.clearWindows,
+    assignActiveTabName: playwright.assignActiveTabName,
+    isMetamaskWindowActive: playwright.isMetamaskWindowActive,
+    isCypressWindowActive: playwright.isCypressWindowActive,
+    switchToCypressWindow: playwright.switchToCypressWindow,
+    switchToMetamaskWindow: playwright.switchToMetamaskWindow,
+    switchToMetamaskNotification: playwright.switchToMetamaskNotification,
+    unlockMetamask: metamask.unlock,
+    importMetamaskAccount: metamask.importAccount,
+    createMetamaskAccount: metamask.createAccount,
+    switchMetamaskAccount: metamask.switchAccount,
+    addMetamaskNetwork: metamask.addNetwork,
     changeMetamaskNetwork: async network => {
       if (process.env.NETWORK_NAME && !network) {
         network = process.env.NETWORK_NAME;
       } else if (!network) {
         network = 'goerli';
       }
-      const networkChanged = await metamask.changeNetwork(network);
-      return networkChanged;
+      return await metamask.changeNetwork(network);
     },
-    activateAdvancedGasControlInMetamask: async skipSetup => {
-      const activated = await metamask.activateAdvancedGasControl(skipSetup);
-      return activated;
-    },
-    activateShowHexDataInMetamask: async skipSetup => {
-      const activated = await metamask.activateShowHexData(skipSetup);
-      return activated;
-    },
-    activateTestnetConversionInMetamask: async skipSetup => {
-      const activated = await metamask.activateTestnetConversion(skipSetup);
-      return activated;
-    },
-    activateShowTestnetNetworksInMetamask: async skipSetup => {
-      const activated = await metamask.activateShowTestnetNetworks(skipSetup);
-      return activated;
-    },
-    activateCustomNonceInMetamask: async skipSetup => {
-      const activated = await metamask.activateCustomNonce(skipSetup);
-      return activated;
-    },
-    activateDismissBackupReminderInMetamask: async skipSetup => {
-      const activated = await metamask.activateDismissBackupReminder(skipSetup);
-      return activated;
-    },
-    activateEthSignRequestsInMetamask: async skipSetup => {
-      const activated = await metamask.activateEthSignRequests(skipSetup);
-      return activated;
-    },
-    activateImprovedTokenAllowanceInMetamask: async skipSetup => {
-      const activated =
-        await metamask.activateImprovedTokenAllowance(skipSetup);
-      return activated;
-    },
-    resetMetamaskAccount: async () => {
-      const resetted = await metamask.resetAccount();
-      return resetted;
-    },
-    disconnectMetamaskWalletFromDapp: async () => {
-      const disconnected = await metamask.disconnectWalletFromDapp();
-      return disconnected;
-    },
-    disconnectMetamaskWalletFromAllDapps: async () => {
-      const disconnected = await metamask.disconnectWalletFromAllDapps();
-      return disconnected;
-    },
-    confirmMetamaskSignatureRequest: async () => {
-      const confirmed = await metamask.confirmSignatureRequest();
-      return confirmed;
-    },
-    confirmMetamaskDataSignatureRequest: async () => {
-      const confirmed = await metamask.confirmDataSignatureRequest();
-      return confirmed;
-    },
-    rejectMetamaskSignatureRequest: async () => {
-      const rejected = await metamask.rejectSignatureRequest();
-      return rejected;
-    },
-    rejectMetamaskDataSignatureRequest: async () => {
-      const rejected = await metamask.rejectDataSignatureRequest();
-      return rejected;
-    },
-    confirmMetamaskEncryptionPublicKeyRequest: async () => {
-      const confirmed = await metamask.confirmEncryptionPublicKeyRequest();
-      return confirmed;
-    },
-    rejectMetamaskEncryptionPublicKeyRequest: async () => {
-      const rejected = await metamask.rejectEncryptionPublicKeyRequest();
-      return rejected;
-    },
-    confirmMetamaskDecryptionRequest: async () => {
-      const confirmed = await metamask.confirmDecryptionRequest();
-      return confirmed;
-    },
-    rejectMetamaskDecryptionRequest: async () => {
-      const rejected = await metamask.rejectDecryptionRequest();
-      return rejected;
-    },
-    importMetamaskToken: async tokenConfig => {
-      const imported = await metamask.importToken(tokenConfig);
-      return imported;
-    },
-    confirmMetamaskAddToken: async () => {
-      const confirmed = await metamask.confirmAddToken();
-      return confirmed;
-    },
-    rejectMetamaskAddToken: async () => {
-      const rejected = await metamask.rejectAddToken();
-      return rejected;
-    },
-    confirmMetamaskPermissionToSpend: async spendLimit => {
-      const confirmed = await metamask.confirmPermissionToSpend(spendLimit);
-      return confirmed;
-    },
-    rejectMetamaskPermissionToSpend: async () => {
-      const rejected = await metamask.rejectPermissionToSpend();
-      return rejected;
-    },
+    activateAdvancedGasControlInMetamask: metamask.activateAdvancedGasControl,
+    activateShowHexDataInMetamask: metamask.activateShowHexData,
+    activateTestnetConversionInMetamask: metamask.activateTestnetConversion,
+    activateShowTestnetNetworksInMetamask: metamask.activateShowTestnetNetworks,
+    activateCustomNonceInMetamask: metamask.activateCustomNonce,
+    activateDismissBackupReminderInMetamask:
+      metamask.activateDismissBackupReminder,
+    activateEthSignRequestsInMetamask: metamask.activateEthSignRequests,
+    activateImprovedTokenAllowanceInMetamask:
+      metamask.activateImprovedTokenAllowance,
+    resetMetamaskAccount: metamask.resetAccount,
+    disconnectMetamaskWalletFromDapp: metamask.disconnectWalletFromDapp,
+    disconnectMetamaskWalletFromAllDapps: metamask.disconnectWalletFromAllDapps,
+    confirmMetamaskSignatureRequest: metamask.confirmSignatureRequest,
+    confirmMetamaskDataSignatureRequest: metamask.confirmDataSignatureRequest,
+    rejectMetamaskSignatureRequest: metamask.rejectSignatureRequest,
+    rejectMetamaskDataSignatureRequest: metamask.rejectDataSignatureRequest,
+    confirmMetamaskEncryptionPublicKeyRequest:
+      metamask.confirmEncryptionPublicKeyRequest,
+    rejectMetamaskEncryptionPublicKeyRequest:
+      metamask.rejectEncryptionPublicKeyRequest,
+    confirmMetamaskDecryptionRequest: metamask.confirmDecryptionRequest,
+    rejectMetamaskDecryptionRequest: metamask.rejectDecryptionRequest,
+    importMetamaskToken: metamask.importToken,
+    confirmMetamaskAddToken: metamask.confirmAddToken,
+    rejectMetamaskAddToken: metamask.rejectAddToken,
+    confirmMetamaskPermissionToSpend: metamask.confirmPermissionToSpend,
+    rejectMetamaskPermissionToSpend: metamask.rejectPermissionToSpend,
     confirmMetamaskPermisionToApproveAll: metamask.confirmPermisionToApproveAll,
     rejectMetamaskPermisionToApproveAll: metamask.rejectPermisionToApproveAll,
-    acceptMetamaskAccess: async options => {
-      const accepted = await metamask.acceptAccess(options);
-      return accepted;
-    },
+    acceptMetamaskAccess: metamask.acceptAccess,
     rejectMetamaskAccess: metamask.rejectAccess,
-    confirmMetamaskTransaction: async gasConfig => {
-      const confirmed = await metamask.confirmTransaction(gasConfig);
-      return confirmed;
-    },
-    rejectMetamaskTransaction: async () => {
-      const rejected = await metamask.rejectTransaction();
-      return rejected;
-    },
-    allowMetamaskToAddNetwork: async ({ waitForEvent }) => {
-      const allowed = await metamask.allowToAddNetwork({ waitForEvent });
-      return allowed;
-    },
-    rejectMetamaskToAddNetwork: async () => {
-      const rejected = await metamask.rejectToAddNetwork();
-      return rejected;
-    },
-    allowMetamaskToSwitchNetwork: async () => {
-      const allowed = await metamask.allowToSwitchNetwork();
-      return allowed;
-    },
-    rejectMetamaskToSwitchNetwork: async () => {
-      const rejected = await metamask.rejectToSwitchNetwork();
-      return rejected;
-    },
-    allowMetamaskToAddAndSwitchNetwork: async () => {
-      const allowed = await metamask.allowToAddAndSwitchNetwork();
-      return allowed;
-    },
-    getMetamaskWalletAddress: async () => {
-      const walletAddress = await metamask.getWalletAddress();
-      return walletAddress;
-    },
-    fetchMetamaskWalletAddress: async () => {
-      return metamask.walletAddress();
-    },
+    confirmMetamaskTransaction: metamask.confirmTransaction,
+    rejectMetamaskTransaction: metamask.rejectTransaction,
+    allowMetamaskToAddNetwork: async ({ waitForEvent }) =>
+      await metamask.allowToAddNetwork({ waitForEvent }),
+    rejectMetamaskToAddNetwork: metamask.rejectToAddNetwork,
+    allowMetamaskToSwitchNetwork: metamask.allowToSwitchNetwork,
+    rejectMetamaskToSwitchNetwork: metamask.rejectToSwitchNetwork,
+    allowMetamaskToAddAndSwitchNetwork: metamask.allowToAddAndSwitchNetwork,
+    getMetamaskWalletAddress: metamask.getWalletAddress,
+    fetchMetamaskWalletAddress: metamask.walletAddress,
     setupMetamask: async ({
       secretWordsOrPrivateKey,
       network,
@@ -307,18 +164,11 @@ module.exports = (on, config) => {
       });
       return true;
     },
-    getCurrentNetwork: () => {
-      const network = helpers.getCurrentNetwork();
-      return network;
-    },
-    etherscanGetTransactionStatus: async ({ txid }) => {
-      const txStatus = await etherscan.getTransactionStatus(txid);
-      return txStatus;
-    },
-    etherscanWaitForTxSuccess: async ({ txid }) => {
-      const txSuccess = await etherscan.waitForTxSuccess(txid);
-      return txSuccess;
-    },
+    getCurrentNetwork: helpers.getCurrentNetwork,
+    etherscanGetTransactionStatus: async ({ txid }) =>
+      await etherscan.getTransactionStatus(txid),
+    etherscanWaitForTxSuccess: async ({ txid }) =>
+      await etherscan.waitForTxSuccess(txid),
   });
 
   if (process.env.BASE_URL) {
