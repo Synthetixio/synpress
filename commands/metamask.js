@@ -181,6 +181,18 @@ const metamask = {
         mainPageElements.actionableMessage.closeButton,
       );
     }
+
+    // Closes "You have switched to [network]" popup.
+    // It appears if you connect to a new network for the first time.
+    if (
+      (await playwright
+        .metamaskWindow()
+        .locator(recipientPopupElements.popupCloseButton)
+        .count()) > 0
+    ) {
+      await playwright.waitAndClick(recipientPopupElements.popupCloseButton);
+    }
+
     return true;
   },
   async closeModal() {
@@ -1219,6 +1231,7 @@ const metamask = {
       notificationPage,
       { waitForEvent: 'close' },
     );
+    await module.exports.closePopupAndTooltips();
     return true;
   },
   async rejectToSwitchNetwork() {
