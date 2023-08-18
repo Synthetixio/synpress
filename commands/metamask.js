@@ -1231,7 +1231,10 @@ const metamask = {
       notificationPage,
       { waitForEvent: 'close' },
     );
+
+    // TODO: Add test for the new network popup. Requires changes to the MetaMask Test Dapp.
     await module.exports.closePopupAndTooltips();
+
     return true;
   },
   async rejectToSwitchNetwork() {
