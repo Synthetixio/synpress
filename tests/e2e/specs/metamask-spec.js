@@ -43,9 +43,9 @@ describe('Metamask', () => {
       );
     });
     it(`acceptMetamaskAccess should accept connection request to metamask with currently selected account (1st one) by default`, () => {
-      cy.switchMetamaskAccount(2)
-      cy.disconnectMetamaskWalletFromDapp()
-      cy.switchMetamaskAccount(1)
+      cy.switchMetamaskAccount(2);
+      cy.disconnectMetamaskWalletFromDapp();
+      cy.switchMetamaskAccount(1);
       cy.get('#connectButton').click();
       cy.acceptMetamaskAccess().then(connected => {
         expect(connected).to.be.true;
