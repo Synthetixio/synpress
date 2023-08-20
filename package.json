@@ -42,7 +42,7 @@
     "update:deps": "ncu -u -x 'node-fetch eslint' && pnpm install",
     "start:server": "serve node_modules/@metamask/test-dapp/dist -p 3000",
     "test:e2e": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js'",
-    "test:e2e:anvil": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true CYPRESS_USE_ANVIL=true node synpress.js run --configFile=synpress.config.js'",
+    "test:e2e:anvil": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'SYNPRESS_LOCAL_TEST=true CYPRESS_USE_ANVIL=true node synpress.js run --configFile=synpress.config.js'",
     "test:e2e:headless": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js --headless'",
     "test:e2e:headless:anvil": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true CYPRESS_USE_ANVIL=true node synpress.js run --configFile=synpress.config.js --headless'",
     "test:e2e:ci": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js --record --group'",

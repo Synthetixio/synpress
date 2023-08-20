@@ -2,7 +2,6 @@ const log = require('debug')('synpress:helpers');
 const axios = require('axios');
 const fs = require('fs').promises;
 const path = require('path');
-const { ethers } = require('ethers');
 const download = require('download');
 const packageJson = require('./package.json');
 const chains = require('viem/chains');
@@ -50,21 +49,6 @@ module.exports = {
       throw new Error(
         `[setNetwork] Provided chain was not found.\nFor list of available chains, check: https://github.com/wagmi-dev/references/tree/main/packages/chains#chains`,
       );
-    }
-
-    if (
-      chain.network === 'localhost' ||
-      chain.network === 'foundry' ||
-      chain.network === 'hardhat'
-    ) {
-      // todo: ip+port rpcUrls
-      const provider = new ethers.JsonRpcProvider(
-        chain.rpcUrls.default.http[0],
-      );
-      await provider.getNetwork().then(result => {
-        chain.id = Number(result.chainId);
-        chain.forkedFrom = result.name;
-      });
     }
 
     return chain;

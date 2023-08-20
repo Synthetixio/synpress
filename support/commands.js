@@ -1,6 +1,28 @@
 import '@testing-library/cypress/add-commands';
 import 'cypress-wait-until';
 
+// foundry commands
+
+Cypress.Commands.add('forkChains', options => {
+  return cy.task('forkChains', options);
+});
+
+Cypress.Commands.add('installFoundry', commit => {
+  return cy.task('installFoundry', commit);
+});
+
+Cypress.Commands.add('runAnvil', options => {
+  return cy.task('runAnvil', options);
+});
+
+Cypress.Commands.add('stopAnvil', anvilInstance => {
+  return cy.task('stopAnvil', anvilInstance);
+});
+
+Cypress.Commands.add('setupViem', anvilChainType => {
+  return cy.task('setupViem', anvilChainType);
+});
+
 // playwright commands
 
 Cypress.Commands.add('initPlaywright', () => {

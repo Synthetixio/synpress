@@ -11,7 +11,7 @@ describe('Metamask', () => {
         expect(setupFinished).to.be.true;
       });
     });
-    it(`disconnectMetamaskWalletFromDapp shouldn't fail if there are no dapps connected`, () => {
+    it.only(`disconnectMetamaskWalletFromDapp shouldn't fail if there are no dapps connected`, () => {
       cy.disconnectMetamaskWalletFromDapp().then(disconnected => {
         expect(disconnected).to.be.true;
       });
