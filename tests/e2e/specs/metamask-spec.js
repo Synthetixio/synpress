@@ -21,8 +21,14 @@ describe('Metamask', () => {
         expect(disconnected).to.be.true;
       });
     });
-    it(`acceptMetamaskAccess should accept connection request to metamask`, () => {
+    it('rejectMetamaskAccess should reject connection request to metamask', () => {
       cy.visit('/');
+      cy.get('#connectButton').click();
+      cy.rejectMetamaskAccess().then(rejected => {
+        expect(rejected).to.be.true;
+      });
+    });
+    it(`acceptMetamaskAccess should accept connection request to metamask`, () => {
       cy.get('#connectButton').click();
       cy.acceptMetamaskAccess().then(connected => {
         expect(connected).to.be.true;
@@ -52,9 +58,7 @@ describe('Metamask', () => {
       if (Cypress.env('USE_ANVIL')) {
         cy.addMetamaskNetwork({
           networkName: 'anvil',
-          rpcUrl: Cypress.env('DOCKER_RUN')
-            ? 'http://foundry:8545'
-            : 'http://127.0.0.1:8545',
+          rpcUrl: 'http://127.0.0.1:8545',
           chainId: 11155111,
           symbol: 'aETH',
           isTestnet: true,
@@ -72,7 +76,7 @@ describe('Metamask', () => {
         }).then(networkAdded => {
           expect(networkAdded).to.be.true;
         });
-        cy.get('#network').contains('10');
+        cy.get('#network').contains('0xa');
         cy.get('#chainId').contains('0xa');
       }
     });
@@ -124,8 +128,8 @@ describe('Metamask', () => {
         cy.changeMetamaskNetwork('sepolia');
       }
     });
-    it(`rejectMetamaskPermisionToApproveAll should reject permission to approve all collectibles upon warning`, () => {
-      cy.get('#deployCollectiblesButton').click();
+    it(`rejectMetamaskPermisionToApproveAll should reject permission to approve all NFTs upon warning`, () => {
+      cy.get('#deployNFTsButton').click();
       cy.confirmMetamaskTransaction();
       cy.get('#mintButton').click();
       cy.confirmMetamaskTransaction();
@@ -134,7 +138,7 @@ describe('Metamask', () => {
         expect(rejected).to.be.true;
       });
     });
-    it(`confirmMetamaskPermisionToApproveAll should confirm permission to approve all collectibles`, () => {
+    it(`confirmMetamaskPermisionToApproveAll should confirm permission to approve all NFTs`, () => {
       cy.get('#setApprovalForAllButton').click();
       cy.confirmMetamaskPermisionToApproveAll().then(confirmed => {
         expect(confirmed).to.be.true;
@@ -160,6 +164,11 @@ describe('Metamask', () => {
     it(`createMetamaskAccount should create new account with custom name`, () => {
       cy.createMetamaskAccount('custom-wallet').then(created => {
         expect(created).to.be.true;
+      });
+    });
+    it(`createMetamaskAccount should not fail when creating new account with already existing custom name`, () => {
+      cy.createMetamaskAccount('custom-wallet').then(created => {
+        expect(created).to.be.equal('This account name already exists');
       });
     });
     it(`switchMetamaskAccount should switch to another account using order number`, () => {
@@ -425,25 +434,24 @@ describe('Metamask', () => {
         expect(approved).to.be.true;
       });
     });
-    // todo: this feature is broken inside test-dapp, needs to be fixed (unable to switch to DAI chain)
-    it.skip(`rejectMetamaskToAddNetwork should reject permission to add network`, () => {
+    it(`rejectMetamaskToAddNetwork should reject permission to add network`, () => {
       cy.get('#addEthereumChain').click();
       cy.rejectMetamaskToAddNetwork().then(rejected => {
         expect(rejected).to.be.true;
       });
     });
-    it.skip(`allowMetamaskToAddNetwork should approve permission to add network`, () => {
+    it(`allowMetamaskToAddNetwork should approve permission to add network`, () => {
       cy.get('#addEthereumChain').click();
-      cy.allowMetamaskToAddNetwork('close').then(approved => {
+      cy.allowMetamaskToAddNetwork().then(approved => {
         expect(approved).to.be.true;
       });
     });
-    it.skip(`rejectMetamaskToSwitchNetwork should reject permission to switch network`, () => {
+    it(`rejectMetamaskToSwitchNetwork should reject permission to switch network`, () => {
       cy.rejectMetamaskToSwitchNetwork().then(rejected => {
         expect(rejected).to.be.true;
       });
     });
-    it.skip(`allowMetamaskToSwitchNetwork should approve permission to switch network`, () => {
+    it(`allowMetamaskToSwitchNetwork should approve permission to switch network`, () => {
       cy.get('#switchEthereumChain').click();
       cy.allowMetamaskToSwitchNetwork().then(approved => {
         expect(approved).to.be.true;

@@ -7,18 +7,38 @@ const { pageElements } = require('../pages/metamask/page');
 const {
   onboardingWelcomePageElements,
 } = require('../pages/metamask/first-time-flow-page');
-// const metamask = require('./metamask');
 const sleep = require('util').promisify(setTimeout);
+const _ = require('underscore');
+
+let expectInstance;
 
 let browser;
 let mainWindow;
 let metamaskWindow;
 let metamaskNotificationWindow;
+let metamaskPopupWindow;
 let activeTabName;
 
 let retries = 0;
 
+let extensionsData = {};
+
 module.exports = {
+  async resetState() {
+    log('Resetting state of playwright');
+    expectInstance = undefined;
+    browser = undefined;
+    mainWindow = undefined;
+    metamaskWindow = undefined;
+    metamaskNotificationWindow = undefined;
+    metamaskPopupWindow = undefined;
+    activeTabName = undefined;
+    retries = 0;
+    extensionsData = {};
+  },
+  getExpectInstance() {
+    return expectInstance;
+  },
   browser() {
     return browser;
   },
@@ -31,8 +51,14 @@ module.exports = {
   metamaskNotificationWindow() {
     return metamaskNotificationWindow;
   },
+  metamaskPopupWindow() {
+    return metamaskPopupWindow;
+  },
   activeTabName() {
     return activeTabName;
+  },
+  async setExpectInstance(expect) {
+    expectInstance = expect;
   },
   async init(playwrightInstance) {
     const chromium = playwrightInstance
@@ -61,14 +87,33 @@ module.exports = {
     return true;
   },
   async assignWindows() {
+    const metamaskExtensionData = (await module.exports.getExtensionsData())
+      .metamask;
+
     let pages = await browser.contexts()[0].pages();
     for (const page of pages) {
-      if (page.url().includes('runner')) {
+      if (page.url().includes('specs/runner')) {
         mainWindow = page;
-      } else if (page.url().includes('extension')) {
+      } else if (
+        page
+          .url()
+          .includes(`chrome-extension://${metamaskExtensionData.id}/home.html`)
+      ) {
         metamaskWindow = page;
-      } else if (page.url().includes('notification')) {
+      } else if (
+        page
+          .url()
+          .includes(
+            `chrome-extension://${metamaskExtensionData.id}/notification.html`,
+          )
+      ) {
         metamaskNotificationWindow = page;
+      } else if (
+        page
+          .url()
+          .includes(`chrome-extension://${metamaskExtensionData.id}/popup.html`)
+      ) {
+        metamaskPopupWindow = page;
       }
     }
     return true;
@@ -81,6 +126,7 @@ module.exports = {
     mainWindow = null;
     metamaskWindow = null;
     metamaskNotificationWindow = null;
+    metamaskPopupWindow = null;
     return true;
   },
   async isCypressWindowActive() {
@@ -109,10 +155,24 @@ module.exports = {
     await module.exports.assignActiveTabName('metamask-notif');
     return true;
   },
+  async switchToMetamaskPopupWindow() {
+    await metamaskPopupWindow.bringToFront();
+    await module.exports.assignActiveTabName('metamask-popup');
+    return true;
+  },
   async switchToMetamaskNotification() {
+    const metamaskExtensionData = (await module.exports.getExtensionsData())
+      .metamask;
+
     let pages = await browser.contexts()[0].pages();
     for (const page of pages) {
-      if (page.url().includes('notification')) {
+      if (
+        page
+          .url()
+          .includes(
+            `chrome-extension://${metamaskExtensionData.id}/notification.html`,
+          )
+      ) {
         metamaskNotificationWindow = page;
         retries = 0;
         await page.bringToFront();
@@ -195,8 +255,8 @@ module.exports = {
     await module.exports.waitUntilStable(page);
   },
   async waitAndGetValue(selector, page = metamaskWindow) {
-    const expect = global.expect
-      ? global.expect
+    const expect = expectInstance
+      ? expectInstance
       : require('@playwright/test').expect;
     const element = await module.exports.waitFor(selector, page);
     await expect(element).toHaveText(/[a-zA-Z0-9]/, {
@@ -207,8 +267,8 @@ module.exports = {
     return value;
   },
   async waitAndGetInputValue(selector, page = metamaskWindow) {
-    const expect = global.expect
-      ? global.expect
+    const expect = expectInstance
+      ? expectInstance
       : require('@playwright/test').expect;
     const element = await module.exports.waitFor(selector, page);
     await expect(element).toHaveValue(/[a-zA-Z1-9]/);
@@ -216,8 +276,8 @@ module.exports = {
     return value;
   },
   async waitAndGetAttributeValue(selector, attribute, page = metamaskWindow) {
-    const expect = global.expect
-      ? global.expect
+    const expect = expectInstance
+      ? expectInstance
       : require('@playwright/test').expect;
     const element = await module.exports.waitFor(selector, page);
     await expect(element).toHaveAttribute(attribute, /[a-zA-Z0-9]/);
@@ -256,7 +316,7 @@ module.exports = {
     // info: waits for 60 seconds
     const locator = page.locator(selector);
     for (const element of await locator.all()) {
-      if ((await element.isVisible()) && retries < 300) {
+      if ((await element.count()) > 0 && retries < 300) {
         retries++;
         await page.waitForTimeout(200);
         await module.exports.waitToBeHidden(selector, page);
@@ -270,7 +330,17 @@ module.exports = {
     }
   },
   async waitUntilStable(page) {
-    if (page && page.url().includes('notification')) {
+    const metamaskExtensionData = (await module.exports.getExtensionsData())
+      .metamask;
+
+    if (
+      page &&
+      page
+        .url()
+        .includes(
+          `chrome-extension://${metamaskExtensionData.id}/notification.html`,
+        )
+    ) {
       await page.waitForLoadState('load');
       await page.waitForLoadState('domcontentloaded');
       await page.waitForLoadState('networkidle');
@@ -307,7 +377,7 @@ module.exports = {
     ); // shown on balance load
     // network error handler
     if (
-      await page.locator(pageElements.loadingOverlayErrorButtons).isVisible()
+      (await page.locator(pageElements.loadingOverlayErrorButtons).count()) > 0
     ) {
       await module.exports.waitAndClick(
         pageElements.loadingOverlayErrorButtonsRetryButton,
@@ -364,5 +434,51 @@ module.exports = {
         break;
       }
     }
+  },
+  async getExtensionsData() {
+    if (!_.isEmpty(extensionsData)) {
+      return extensionsData;
+    }
+
+    const context = await browser.contexts()[0];
+    const page = await context.newPage();
+
+    await page.goto('chrome://extensions');
+    await page.waitForLoadState('load');
+    await page.waitForLoadState('domcontentloaded');
+
+    const devModeButton = page.locator('#devMode');
+    await devModeButton.waitFor();
+    await devModeButton.focus();
+    await devModeButton.click();
+
+    const extensionDataItems = await page.locator('extensions-item').all();
+    for (const extensionData of extensionDataItems) {
+      const extensionName = (
+        await extensionData
+          .locator('#name-and-version')
+          .locator('#name')
+          .textContent()
+      ).toLowerCase();
+
+      const extensionVersion = (
+        await extensionData
+          .locator('#name-and-version')
+          .locator('#version')
+          .textContent()
+      ).replace(/(\n| )/g, '');
+
+      const extensionId = (
+        await extensionData.locator('#extension-id').textContent()
+      ).replace('ID: ', '');
+
+      extensionsData[extensionName] = {
+        version: extensionVersion,
+        id: extensionId,
+      };
+    }
+    await page.close();
+
+    return extensionsData;
   },
 };

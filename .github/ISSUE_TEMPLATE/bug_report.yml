@@ -1,0 +1,150 @@
+name: 🐛 Bug report
+description: Create a report with an issue.
+title: '[🐛 Bug]: <title>'
+labels: [bug 🐛, needs triaging ⏳]
+body:
+
+  - type: checkboxes
+    attributes:
+      label: 🔎 Have you searched existing issues to avoid duplicates?
+      options:
+        - label: I have made sure that my issue is not a duplicate.
+          required: true
+
+  - type: checkboxes
+    attributes:
+      label: 🧪 Have you tested your code using latest version of Synpress?
+      options:
+        - label: I have made sure that my issue still exists on [latest version of Synpress](https://github.com/Synthetixio/synpress/releases).
+          required: true
+
+  - type: checkboxes
+    attributes:
+      label: 💡 Are you able to provide enough information to be able to reproduce your issue locally?
+      options:
+        - label: I can provide enough details to reproduce my issue on local environment.
+          required: true
+
+  - type: markdown
+    attributes:
+      value: |
+      
+        Thanks for taking the time to fill out this bug report!
+
+  - type: markdown
+    attributes:
+      value: |
+        First, let's get some information about the environment you are using:
+
+  - type: input
+    id: synpress-version
+    attributes:
+      label: Synpress version
+      description: Which version of Synpress are you running?
+      placeholder: 3.x.x
+    validations:
+      required: true
+
+  - type: input
+    id: node-version
+    attributes:
+      label: Node.js version
+      description: Which version of Node.js are you using?
+      placeholder: 18.x.x
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      description: Which OS are you using?
+      placeholder: macOS Ventura 13.x.x
+    validations:
+      required: true
+
+  - type: dropdown
+    id: run-mode
+    attributes:
+      label: Run mode
+      description: Which run mode are you using to run your tests?
+      options:
+        - Synpress (standalone)
+        - Cypress + Synpress (as plugin)
+        - Playwright + Synpress (as plugin)
+    validations:
+      required: true
+
+  - type: input
+    id: ci
+    attributes:
+      label: CI platform (if applicable)
+      description: Which CI platform are you using?
+      placeholder: CircleCI
+
+  - type: checkboxes
+    attributes:
+      label: Are you running your tests inside docker? (if applicable)
+      options:
+        - label: This issue could be related to docker.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: |
+        Describe clearly and concisely the bug including instructions showing how to reproduce it.
+      placeholder: |
+        Please add as many details as possible to avoid assumptions from our side. How do you
+        trigger this bug? Please walk us through it step by step.
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-is-expected
+    attributes:
+      label: What is your expected behavior?
+      description: |
+        What did you expect to happen instead?
+    validations:
+      required: false
+
+  - type: textarea
+    id: reproducible-example
+    attributes:
+      label: How to reproduce the bug.
+      description: |
+        It is essential for us to be able to reproduce the bug on our own machines.
+        Please either create a [minimal reproducible example](https://stackoverflow.com/help/minimal-reproducible-example) in a [new repository](https://github.com/new), a [gist](https://gist.github.com/) or copy and paste all necessary files in here.
+
+        > **What happens if you skip this step?** Someone will read your bug report, and maybe will be able to help you, but it’s unlikely that it will get much attention from the team. Eventually, the issue will likely get closed in favor of issues that have reproducible demos.
+
+        Please remember that:
+
+        - Issues without reproducible demos have a very low priority.
+        - The person fixing the bug would have to do that anyway. Please be respectful of their time.
+        - You might figure out the issues yourself as you work on extracting it.
+
+        Thanks for helping us help you!
+      placeholder: |
+        To reproduce the bug, create a file with the following code:
+        ```js
+        ...
+        ```
+        Then run:
+        ```sh
+        $ node reproducibleExample.js
+        ````
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: |
+        Please copy and paste any relevant log output.
+        Setting `DEBUG=synpress:*` env flag before running your tests will provide more descriptive logs.
+      render: typescript
+    validations:
+      required: false

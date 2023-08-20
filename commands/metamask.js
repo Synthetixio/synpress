@@ -40,8 +40,8 @@ const {
   getCurrentNetwork,
 } = require('../helpers');
 
-let extensionInitialUrl;
 let extensionId;
+let extensionVersion;
 let extensionHomeUrl;
 let extensionSettingsUrl;
 let extensionAdvancedSettingsUrl;
@@ -54,12 +54,26 @@ let walletAddress;
 let switchBackToCypressWindow;
 
 const metamask = {
+  async resetState() {
+    log('Resetting state of metamask');
+    extensionId = undefined;
+    extensionVersion = undefined;
+    extensionHomeUrl = undefined;
+    extensionSettingsUrl = undefined;
+    extensionAdvancedSettingsUrl = undefined;
+    extensionExperimentalSettingsUrl = undefined;
+    extensionAddNetworkUrl = undefined;
+    extensionNewAccountUrl = undefined;
+    extensionImportAccountUrl = undefined;
+    extensionImportTokenUrl = undefined;
+    walletAddress = undefined;
+    switchBackToCypressWindow = undefined;
+  },
   extensionId: () => {
     return extensionId;
   },
   extensionUrls: () => {
     return {
-      extensionInitialUrl,
       extensionHomeUrl,
       extensionSettingsUrl,
       extensionAdvancedSettingsUrl,
@@ -105,8 +119,11 @@ const metamask = {
     await module.exports.goTo(extensionImportTokenUrl);
   },
   async getExtensionDetails() {
-    extensionInitialUrl = await playwright.metamaskWindow().url();
-    extensionId = extensionInitialUrl.match('//(.*?)/')[1];
+    const metamaskExtensionData = (await playwright.getExtensionsData())
+      .metamask;
+
+    extensionId = metamaskExtensionData.id;
+    extensionVersion = metamaskExtensionData.version;
     extensionHomeUrl = `chrome-extension://${extensionId}/home.html`;
     extensionSettingsUrl = `${extensionHomeUrl}#settings`;
     extensionAdvancedSettingsUrl = `${extensionSettingsUrl}/advanced`;
@@ -117,8 +134,8 @@ const metamask = {
     extensionImportTokenUrl = `${extensionHomeUrl}#import-token`;
 
     return {
-      extensionInitialUrl,
       extensionId,
+      extensionVersion,
       extensionSettingsUrl,
       extensionAdvancedSettingsUrl,
       extensionExperimentalSettingsUrl,
@@ -133,10 +150,10 @@ const metamask = {
     // otherwise popup may not be detected properly and not closed
     await playwright.metamaskWindow().waitForTimeout(1000);
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(mainPageElements.popup.container)
-        .isVisible()
+        .count()) > 0
     ) {
       const popupBackground = playwright
         .metamaskWindow()
@@ -147,23 +164,35 @@ const metamask = {
         .mouse.click(popupBackgroundBox.x + 1, popupBackgroundBox.y + 1);
     }
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(mainPageElements.tippyTooltip.closeButton)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndClick(mainPageElements.tippyTooltip.closeButton);
     }
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(mainPageElements.actionableMessage.closeButton)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndClick(
         mainPageElements.actionableMessage.closeButton,
       );
     }
+
+    // Closes "You have switched to [network]" popup.
+    // It appears if you connect to a new network for the first time.
+    if (
+      (await playwright
+        .metamaskWindow()
+        .locator(recipientPopupElements.popupCloseButton)
+        .count()) > 0
+    ) {
+      await playwright.waitAndClick(recipientPopupElements.popupCloseButton);
+    }
+
     return true;
   },
   async closeModal() {
@@ -171,10 +200,10 @@ const metamask = {
     // otherwise modal may not be detected properly and not closed
     await playwright.metamaskWindow().waitForTimeout(1000);
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(mainPageElements.connectedSites.modal)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndClick(
         mainPageElements.connectedSites.closeButton,
@@ -338,21 +367,35 @@ const metamask = {
     return true;
   },
   async createAccount(accountName) {
-    if (accountName) {
-      accountName = accountName.toLowerCase();
-    }
     await switchToMetamaskIfNotActive();
     await module.exports.goToNewAccount();
     if (accountName) {
+      accountName = accountName.toLowerCase();
       await playwright.waitAndType(
         mainPageElements.createAccount.input,
         accountName,
       );
     }
-    await playwright.waitAndClick(mainPageElements.createAccount.createButton);
+    const formErrorEl = await playwright.waitFor(
+      mainPageElements.createAccount.createAccountError,
+    );
+    const formErrorTxt = await formErrorEl.innerText();
+    const accountExists = 'This account name already exists' === formErrorTxt;
+
+    if (accountExists) {
+      log(`[createAccount] ${formErrorTxt}`);
+      await playwright.waitAndClick(
+        mainPageElements.createAccount.cancelButton,
+      );
+    } else {
+      await playwright.waitAndClick(
+        mainPageElements.createAccount.createButton,
+      );
+    }
+
     await module.exports.closePopupAndTooltips();
     await switchToCypressIfNotActive();
-    return true;
+    return accountExists ? formErrorTxt : true;
   },
   async switchAccount(accountNameOrAccountNumber) {
     if (typeof accountNameOrAccountNumber === 'string') {
@@ -389,12 +432,11 @@ const metamask = {
       return false;
     }
 
-    // uncomment to automatically add network if not added yet
-    // const networkAdded = await checkNetworkAdded(network);
-    // if (!networkAdded) {
-    //   await module.exports.addNetwork(network);
-    //   return true;
-    // }
+    const networkAdded = await checkNetworkAdded(network);
+    if (!networkAdded) {
+      await module.exports.addNetwork(network);
+      return true;
+    }
 
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
@@ -453,34 +495,8 @@ const metamask = {
     // dont add network if already present
     const networkAlreadyAdded = await checkNetworkAdded(network);
     if (networkAlreadyAdded) {
-      // uncomment to automatically change network if it was already added
-      // await module.exports.changeNetwork(network);
+      await module.exports.changeNetwork(network);
       return false;
-    }
-
-    // handle adding network with env vars
-    if (
-      process.env.NETWORK_NAME &&
-      process.env.RPC_URL &&
-      process.env.CHAIN_ID &&
-      process.env.SYMBOL
-    ) {
-      network = {
-        id: process.env.CHAIN_ID,
-        name: process.env.NETWORK_NAME,
-        nativeCurrency: {
-          symbol: process.env.SYMBOL,
-        },
-        rpcUrls: {
-          public: { http: [process.env.RPC_URL] },
-          default: { http: [process.env.RPC_URL] },
-        },
-        blockExplorers: {
-          etherscan: { url: process.env.BLOCK_EXPLORER },
-          default: { url: process.env.BLOCK_EXPLORER },
-        },
-        testnet: process.env.IS_TESTNET,
-      };
     }
 
     // add network to presets
@@ -535,10 +551,10 @@ const metamask = {
       mainPageElements.optionsMenu.connectedSitesButton,
     );
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(mainPageElements.connectedSites.disconnectLabel)
-        .isVisible()
+        .count()) > 0
     ) {
       console.log(
         '[disconnectWalletFromDapp] Wallet is connected to a dapp, disconnecting..',
@@ -665,10 +681,10 @@ const metamask = {
   async confirmSignatureRequest() {
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (
-      await playwright
+      (await playwright
         .metamaskNotificationWindow()
         .locator(signaturePageElements.signatureRequestScrollDownButton)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndClick(
         signaturePageElements.signatureRequestScrollDownButton,
@@ -694,10 +710,10 @@ const metamask = {
   async confirmDataSignatureRequest() {
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (
-      await playwright
+      (await playwright
         .metamaskNotificationWindow()
         .locator(signaturePageElements.signatureRequestScrollDownButton)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndClick(
         signaturePageElements.signatureRequestScrollDownButton,
@@ -803,10 +819,10 @@ const metamask = {
     const notificationPage = await playwright.switchToMetamaskNotification();
     // experimental mode on
     if (
-      await playwright
+      (await playwright
         .metamaskNotificationWindow()
         .locator(notificationPageElements.customSpendingLimitInput)
-        .isVisible()
+        .count()) > 0
     ) {
       await playwright.waitAndSetValue(
         spendLimit,
@@ -887,6 +903,15 @@ const metamask = {
     );
     return true;
   },
+  async rejectAccess() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      notificationPageElements.cancelButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
   async confirmTransaction(gasConfig) {
     let txData = {};
     const notificationPage = await playwright.switchToMetamaskNotification();
@@ -895,10 +920,10 @@ const metamask = {
         '[confirmTransaction] gasConfig is present, determining transaction type..',
       );
       if (
-        await playwright
+        (await playwright
           .metamaskNotificationWindow()
           .locator(confirmPageElements.editGasFeeLegacyButton)
-          .isVisible()
+          .count()) > 0
       ) {
         log('[confirmTransaction] Looks like legacy tx');
         if (typeof gasConfig === 'object') {
@@ -908,10 +933,10 @@ const metamask = {
             notificationPage,
           );
           if (
-            await playwright
+            (await playwright
               .metamaskNotificationWindow()
               .locator(confirmPageElements.editGasFeeLegacyOverrideAckButton)
-              .isVisible()
+              .count()) > 0
           ) {
             log(
               '[confirmTransaction] Override acknowledgement modal is present, closing..',
@@ -1021,10 +1046,10 @@ const metamask = {
     }
     log('[confirmTransaction] Checking if recipient address is present..');
     if (
-      await playwright
+      (await playwright
         .metamaskNotificationWindow()
         .locator(confirmPageElements.recipientButton)
-        .isVisible()
+        .count()) > 0
     ) {
       log('[confirmTransaction] Getting recipient address..');
       await playwright.waitAndClick(
@@ -1042,10 +1067,10 @@ const metamask = {
     }
     log('[confirmTransaction] Checking if network name is present..');
     if (
-      await playwright
+      (await playwright
         .metamaskNotificationWindow()
         .locator(confirmPageElements.networkLabel)
-        .isVisible()
+        .count()) > 0
     ) {
       log('[confirmTransaction] Getting network name..');
       txData.networkName = await playwright.waitAndGetValue(
@@ -1066,7 +1091,7 @@ const metamask = {
     //   await playwright
     //     .metamaskNotificationWindow()
     //     .locator(confirmPageElements.dataButton)
-    //     .isVisible()
+    //     .count() > 0
     // ) {
     //   log('[confirmTransaction] Fetching tx data..');
     //   await playwright.waitAndClick(
@@ -1206,6 +1231,10 @@ const metamask = {
       notificationPage,
       { waitForEvent: 'close' },
     );
+
+    // TODO: Add test for the new network popup. Requires changes to the MetaMask Test Dapp.
+    await module.exports.closePopupAndTooltips();
+
     return true;
   },
   async rejectToSwitchNetwork() {
@@ -1245,12 +1274,6 @@ const metamask = {
       enableExperimentalSettings,
     },
   ) {
-    const isCustomNetwork =
-      (process.env.NETWORK_NAME &&
-        process.env.RPC_URL &&
-        process.env.CHAIN_ID &&
-        process.env.SYMBOL) ||
-      typeof network == 'object';
     if (playwrightInstance) {
       await playwright.init(playwrightInstance);
     } else {
@@ -1262,10 +1285,10 @@ const metamask = {
     await playwright.fixBlankPage();
     await playwright.fixCriticalError();
     if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(onboardingWelcomePageElements.onboardingWelcomePage)
-        .isVisible()
+        .count()) > 0
     ) {
       if (secretWordsOrPrivateKey.includes(' ')) {
         // secret words
@@ -1278,19 +1301,16 @@ const metamask = {
 
       await setupSettings(enableAdvancedSettings, enableExperimentalSettings);
 
-      if (isCustomNetwork) {
-        await module.exports.addNetwork(network);
-      } else {
-        await module.exports.changeNetwork(network);
-      }
+      await module.exports.changeNetwork(network);
+
       walletAddress = await module.exports.getWalletAddress();
       await playwright.switchToCypressWindow();
       return true;
     } else if (
-      await playwright
+      (await playwright
         .metamaskWindow()
         .locator(unlockPageElements.passwordInput)
-        .isVisible()
+        .count()) > 0
     ) {
       await module.exports.unlock(password);
       walletAddress = await module.exports.getWalletAddress();
@@ -1301,7 +1321,7 @@ const metamask = {
         (await playwright
           .metamaskWindow()
           .locator(mainPageElements.walletOverview)
-          .isVisible()) &&
+          .count()) > 0 &&
         !process.env.RESET_METAMASK
       ) {
         await switchToMetamaskIfNotActive();
@@ -1345,7 +1365,7 @@ async function activateAdvancedSetting(
       await metamask.goToAdvancedSettings();
     }
   }
-  if (!(await playwright.metamaskWindow().locator(toggleOn).isVisible())) {
+  if ((await playwright.metamaskWindow().locator(toggleOn).count()) === 0) {
     await playwright.waitAndClick(toggleOff);
   }
   if (!skipSetup) {
@@ -1376,8 +1396,8 @@ async function setupSettings(
   if (enableAdvancedSettings) {
     await metamask.activateTestnetConversion(true);
   }
-  await metamask.goToExperimentalSettings();
   if (enableExperimentalSettings) {
+    await metamask.goToExperimentalSettings();
     await metamask.activateImprovedTokenAllowance(true);
   }
   await playwright.waitAndClick(
