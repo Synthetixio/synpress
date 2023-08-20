@@ -1,5 +1,38 @@
 declare namespace Cypress {
   interface Chainable<Subject> {
+    // foundry commands
+    /**
+     * Setup Anvil pool and Viem clients
+     * @example
+     * cy.forkChains()
+     */
+    forkChains(): Chainable<Subject>;
+    /**
+     * Install Foundry
+     * @example
+     * cy.installFoundry()
+     */
+    installFoundry(commit?: string): Chainable<Subject>;
+    /**
+     * Run Anvil instance
+     * @example
+     * cy.runAnvil()
+     */
+    runAnvil(forkUrl: string, forkBlockNumber?: number): Chainable<Subject>;
+    /**
+     * Stop Anvil instance
+     * @example
+     * cy.stopAnvil()
+     */
+    stopAnvil(anvilInstance): Chainable<Subject>;
+    /**
+     * Setup Viem.sh
+     * @example
+     * cy.setupViem()
+     */
+    setupViem(anvilChainType): Chainable<Subject>;
+
+    // playwright commands
     /**
      * Connect playwright with Cypress instance
      * @example
@@ -60,7 +93,7 @@ declare namespace Cypress {
      * If preset for your custom chain is not available, you can add custom network by yourself.
      * @example
      * cy.addMetamaskNetwork('optimism') // works only if chain is available as preset
-     * cy.addMetamaskNetwork({name: 'optimism', rpcUrl: 'https://mainnet.optimism.io', chainId: 10, symbol: 'oETH', blockExplorer: 'https://https://optimistic.etherscan.io', isTestnet: false})
+     * cy.addMetamaskNetwork({name: 'optimism', rpcUrl: 'https://mainnet.optimism.io', chainId: 10, symbol: 'oETH', blockExplorer: 'https://optimistic.etherscan.io', isTestnet: false})
      * cy.addMetamaskNetwork({id: 10, name: 'optimism', nativeCurrency: { symbol: 'OP' }, rpcUrls: { default: { http: ['https://mainnet.optimism.io'] } }, testnet: false })
      */
     addMetamaskNetwork(
@@ -384,9 +417,9 @@ declare namespace Cypress {
      * @example
      * cy.setupMetamask() // will use defaults
      * cy.setupMetamask('secret, words, ...', 'optimism', 'password for metamask') // works only if chain is available as preset
-     * cy.setupMetamask('secret, words, ...', {name: 'optimism', rpcUrl: 'https://mainnet.optimism.io', chainId: 10, symbol: 'oETH', blockExplorer: 'https://https://optimistic.etherscan.io', isTestnet: false}, 'password for metamask')
+     * cy.setupMetamask('secret, words, ...', {name: 'optimism', rpcUrl: 'https://mainnet.optimism.io', chainId: 10, symbol: 'oETH', blockExplorer: 'https://optimistic.etherscan.io', isTestnet: false}, 'password for metamask')
      * cy.setupMetamask('private_key', 'goerli', 'password for metamask')
-     * cy.setupMetamask('private_key', {name: 'optimism', rpcUrl: 'https://mainnet.optimism.io', chainId: 10, symbol: 'oETH', blockExplorer: 'https://https://optimistic.etherscan.io', isTestnet: false}, 'password for metamask')
+     * cy.setupMetamask('private_key', {name: 'optimism', rpcUrl: 'https://mainnet.optimism.io', chainId: 10, symbol: 'oETH', blockExplorer: 'https://optimistic.etherscan.io', isTestnet: false}, 'password for metamask')
      */
     setupMetamask(
       secretWordsOrPrivateKey?: string,

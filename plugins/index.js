@@ -2,6 +2,7 @@ const helpers = require('../helpers');
 const playwright = require('../commands/playwright');
 const metamask = require('../commands/metamask');
 const etherscan = require('../commands/etherscan');
+const foundry = require('../commands/foundry');
 
 /**
  * @type {Cypress.PluginConfig}
@@ -50,6 +51,12 @@ module.exports = (on, config) => {
       console.warn('\u001B[33m', 'WARNING:', message, '\u001B[0m');
       return true;
     },
+    // foundry commands
+    forkChains: foundry.forkChains,
+    installFoundry: foundry.installFoundry,
+    runAnvil: foundry.runAnvil,
+    stopAnvil: foundry.stopAnvil,
+    setupViem: foundry.setupViem,
     // playwright commands
     initPlaywright: playwright.init,
     clearPlaywright: playwright.clear,
