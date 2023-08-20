@@ -56,6 +56,7 @@ module.exports = (on, config) => {
     installFoundry: foundry.installFoundry,
     runAnvil: foundry.runAnvil,
     stopAnvil: foundry.stopAnvil,
+    stopAnvilPool: foundry.stopAnvilPool,
     setupViem: foundry.setupViem,
     // playwright commands
     initPlaywright: playwright.init,

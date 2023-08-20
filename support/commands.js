@@ -19,6 +19,10 @@ Cypress.Commands.add('stopAnvil', anvilInstance => {
   return cy.task('stopAnvil', anvilInstance);
 });
 
+Cypress.Commands.add('stopAnvilPool', anvilPool => {
+  return cy.task('stopAnvilPool', anvilPool);
+});
+
 Cypress.Commands.add('setupViem', anvilChainType => {
   return cy.task('setupViem', anvilChainType);
 });

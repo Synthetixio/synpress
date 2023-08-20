@@ -22,9 +22,15 @@ declare namespace Cypress {
     /**
      * Stop Anvil instance
      * @example
-     * cy.stopAnvil()
+     * cy.stopAnvil(anvilInstance)
      */
     stopAnvil(anvilInstance): Chainable<Subject>;
+    /**
+     * Stop Anvil pool
+     * @example
+     * cy.stopAnvilPool(anvilPool)
+     */
+    stopAnvilPool(anvilPool): Chainable<Subject>;
     /**
      * Setup Viem.sh
      * @example
