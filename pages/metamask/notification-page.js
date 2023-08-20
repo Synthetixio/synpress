@@ -26,8 +26,15 @@ module.exports.notificationPageElements = {
   rejectWarningToSpendButton,
 };
 
-const confirmSignatureRequestButton = `${notificationPage} [data-testid="signature-sign-button"]`;
-const rejectSignatureRequestButton = `${notificationPage} [data-testid="signature-cancel-button"]`;
+// selectors covering different Metamask versions (at least 10.25.0 and 10.34.3)
+const confirmSignatureRequestButton =
+  `${notificationPage} [data-testid="signature-sign-button"], ` +
+  `${notificationPage} [data-testid="page-container-footer-next"], ` +
+  `${notificationPage} [data-testid="request-signature__sign"]`;
+const rejectSignatureRequestButton =
+  `${notificationPage} [data-testid="signature-cancel-button"], ` +
+  `${notificationPage} .request-signature__footer__cancel-button, ` +
+  `${notificationPage} [data-testid="page-container-footer-cancel"]`;
 const signatureRequestScrollDownButton = `${notificationPage} [data-testid="signature-request-scroll-button"]`;
 module.exports.signaturePageElements = {
   confirmSignatureRequestButton,
