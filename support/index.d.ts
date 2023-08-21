@@ -2,23 +2,50 @@ declare namespace Cypress {
   interface Chainable<Subject> {
     // foundry commands
     /**
-     * Setup Anvil pool and Viem clients
+     * Setup Foundry, run Anvil fork pool and expose Viem clients
      * @example
-     * cy.forkChains()
+     * cy.forkChains({chainsToFork: {optimism: {forkUrl: undefined, forkBlockNumber: undefined, host: '0.0.0.0', nativeCurrency: {decimals: 18, name: 'Optimism Ether', symbol: 'oETH'} } } });
+     * cy.forkChains({chainsToFork: {optimism: {forkUrl: 'https://rpc.ankr.com/optimism', forkBlockNumber: 123123123, host: '0.0.0.0', nativeCurrency: {decimals: 18, name: 'Optimism Ether', symbol: 'oETH'} } } });
      */
-    forkChains(): Chainable<Subject>;
+    forkChains(options: {
+      chainsToFork: {
+        [chain: string]: {
+          forkUrl?: string;
+          forkBlockNumber?: number;
+          host: string;
+          nativeCurrency: {
+            decimals: number;
+            name: string;
+            symbol: string;
+          };
+        };
+      };
+    }): Chainable<Subject>;
     /**
-     * Install Foundry
+     * Install Foundry and Anvil (if not installed already)
      * @example
      * cy.installFoundry()
+     * cy.installFoundry('200b3f48a1fccdd93d579233df740f8727da5bcd')
      */
     installFoundry(commit?: string): Chainable<Subject>;
     /**
-     * Run Anvil instance
+     * Run Anvil fork with attached Viem clients
      * @example
-     * cy.runAnvil()
+     * cy.runAnvilWithViem({optimism: {forkUrl: undefined, forkBlockNumber: undefined, host: '0.0.0.0', nativeCurrency: {decimals: 18, name: 'Optimism Ether', symbol: 'oETH'} } })
+     * cy.runAnvilWithViem({optimism: {forkUrl: 'https://rpc.ankr.com/optimism', forkBlockNumber: 123123123, host: '0.0.0.0', nativeCurrency: {decimals: 18, name: 'Optimism Ether', symbol: 'oETH'} } })
      */
-    runAnvil(forkUrl: string, forkBlockNumber?: number): Chainable<Subject>;
+    runAnvilWithViem(options: {
+      [chain: string]: {
+        forkUrl?: string;
+        forkBlockNumber?: number;
+        host: string;
+        nativeCurrency: {
+          decimals: number;
+          name: string;
+          symbol: string;
+        };
+      };
+    }): Chainable<Subject>;
     /**
      * Stop Anvil instance
      * @example
@@ -28,13 +55,14 @@ declare namespace Cypress {
     /**
      * Stop Anvil pool
      * @example
+     * cy.stopAnvilPool()
      * cy.stopAnvilPool(anvilPool)
      */
-    stopAnvilPool(anvilPool): Chainable<Subject>;
+    stopAnvilPool(anvilPool?): Chainable<Subject>;
     /**
-     * Setup Viem.sh
+     * Setup Viem.sh client for specified chain
      * @example
-     * cy.setupViem()
+     * cy.setupViem(chains[chain].anvilClientDetails.anvilChainType) // returned from runAnvilWithViem() or forkChains()
      */
     setupViem(anvilChainType): Chainable<Subject>;
 

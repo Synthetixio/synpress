@@ -54,7 +54,7 @@ module.exports = (on, config) => {
     // foundry commands
     forkChains: foundry.forkChains,
     installFoundry: foundry.installFoundry,
-    runAnvil: foundry.runAnvil,
+    runAnvilWithViem: foundry.runAnvilWithViem,
     stopAnvil: foundry.stopAnvil,
     stopAnvilPool: foundry.stopAnvilPool,
     setupViem: foundry.setupViem,

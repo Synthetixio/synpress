@@ -11,8 +11,8 @@ Cypress.Commands.add('installFoundry', commit => {
   return cy.task('installFoundry', commit);
 });
 
-Cypress.Commands.add('runAnvil', options => {
-  return cy.task('runAnvil', options);
+Cypress.Commands.add('runAnvilWithViem', options => {
+  return cy.task('runAnvilWithViem', options);
 });
 
 Cypress.Commands.add('stopAnvil', anvilInstance => {

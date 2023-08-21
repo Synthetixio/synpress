@@ -16,20 +16,11 @@ module.exports = {
     await module.exports.installFoundry(options.foundryCommit);
 
     if (typeof options === 'object') {
-      const chains = await module.exports.runAnvil(options.chainsToFork);
+      const chains = await module.exports.runAnvilWithViem(
+        options.chainsToFork,
+      );
 
-      let viemClients = {};
-      for (const [chain, options] of Object.entries(chains)) {
-        log(`Setting up ${chain}`);
-        viemClients.chain = await module.exports.setupViem(
-          options.anvilClientDetails.anvilChainType,
-        );
-      }
-
-      return {
-        chains,
-        viemClients,
-      };
+      return { chains };
     } else if (typeof options === 'string') {
       if (isNaN(options)) {
         // todo: add support for:
@@ -72,7 +63,7 @@ module.exports = {
       throw new Error('There was an error while trying to setup Viem.', error);
     }
   },
-  async runAnvil(chains) {
+  async runAnvilWithViem(chains) {
     const { ethers } = require('ethers');
     const anvilClient = await import('@viem/anvil');
     try {
@@ -131,7 +122,12 @@ module.exports = {
             },
           },
         };
+
+        chains[chain].viemClients = await module.exports.setupViem(
+          chains[chain].anvilClientDetails.anvilChainType,
+        );
       }
+
       activeChains = chains;
       return chains;
     } catch (error) {
