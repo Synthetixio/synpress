@@ -2,7 +2,16 @@ const { findNetwork } = require('../helpers');
 
 const log = require('debug')('synpress:foundry');
 
+let activeChains;
+
 module.exports = {
+  async resetState() {
+    log('Resetting state of foundry');
+    activeChains = undefined;
+  },
+  async getActiveChains() {
+    return activeChains;
+  },
   async forkChains(options) {
     await module.exports.installFoundry(options.foundryCommit);
 
@@ -123,6 +132,7 @@ module.exports = {
           },
         };
       }
+      activeChains = chains;
       return chains;
     } catch (error) {
       throw new Error('There was an error while trying to run anvil.', error);
@@ -131,7 +141,7 @@ module.exports = {
   async stopAnvil(anvilInstance) {
     try {
       await anvilInstance.stop();
-      console.log(anvilInstance.status); // idle
+      return true;
     } catch (error) {
       throw new Error('There was an error while trying to stop anvil.', error);
     }
@@ -148,7 +158,14 @@ module.exports = {
   },
   async stopAnvilPool(anvilPool) {
     try {
-      await anvilPool.empty();
+      if (Object.values(activeChains)[0]) {
+        await Object.values(
+          activeChains,
+        )[0].anvilClientDetails.anvilPool.empty();
+      } else {
+        await anvilPool.empty();
+      }
+      return true;
     } catch (error) {
       throw new Error(
         `There was an error while trying to stop anvil pool`,
@@ -160,10 +177,12 @@ module.exports = {
     const foundryClient = require('@foundry-rs/easy-foundryup');
     try {
       await foundryClient.getAnvilCommand();
+      return true;
     } catch (error) {
       await foundryClient.run(true, {
         commit,
       });
+      return true;
     }
   },
 };
