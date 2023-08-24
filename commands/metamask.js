@@ -380,7 +380,9 @@ const metamask = {
       mainPageElements.createAccount.createAccountError,
     );
     const formErrorTxt = await formErrorEl.innerText();
-    const accountExists = 'This account name already exists' === formErrorTxt;
+    const accountExists =
+      'This account name already exists' === formErrorTxt ||
+      'This account name is reserved' === formErrorTxt;
 
     if (accountExists) {
       log(`[createAccount] ${formErrorTxt}`);
@@ -415,7 +417,9 @@ const metamask = {
       mainPageElements.renameAccount.error,
     );
     const formErrorTxt = await formErrorEl.innerText();
-    const accountExists = 'This account name already exists' === formErrorTxt;
+    const accountExists =
+      'This account name already exists' === formErrorTxt ||
+      'This account name is reserved' === formErrorTxt;
 
     if (accountExists) {
       log(`[createAccount] ${formErrorTxt}`);
