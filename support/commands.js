@@ -53,6 +53,10 @@ Cypress.Commands.add('createMetamaskAccount', accountName => {
   return cy.task('createMetamaskAccount', accountName);
 });
 
+Cypress.Commands.add('renameMetamaskAccount', newAccountName => {
+  return cy.task('renameMetamaskAccount', newAccountName);
+});
+
 Cypress.Commands.add('switchMetamaskAccount', accountNameOrAccountNumber => {
   return cy.task('switchMetamaskAccount', accountNameOrAccountNumber);
 });

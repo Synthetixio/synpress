@@ -84,9 +84,17 @@ const connectedSites = {
   closeButton: `${connectedSitesSelector} [data-testid="popover-close"]`,
 };
 
+const accountModalSelector = '.account-modal';
 const accountModal = {
-  walletAddressInput: '.account-modal .qr-code__address',
+  walletAddressInput: `${accountModalSelector} .qr-code__address`,
   closeButton: '.account-modal__close',
+};
+
+const renameAccount = {
+  invokeInput: `${accountModalSelector} [data-testid="editable-label-button"]`,
+  input: `${accountModalSelector} [data-testid="editable-input"]`,
+  confirmButton: `${accountModalSelector} .editable-label__icon-button`,
+  error: `${accountModalSelector} .editable-label__error`,
 };
 
 const importAccountSelector = '.new-account';
@@ -135,6 +143,7 @@ module.exports.mainPageElements = {
   optionsMenu,
   connectedSites,
   accountModal,
+  renameAccount,
   importAccount,
   createAccount,
   importToken,

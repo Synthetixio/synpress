@@ -64,6 +64,7 @@ module.exports = (on, config) => {
     unlockMetamask: metamask.unlock,
     importMetamaskAccount: metamask.importAccount,
     createMetamaskAccount: metamask.createAccount,
+    renameMetamaskAccount: metamask.renameAccount,
     switchMetamaskAccount: metamask.switchAccount,
     addMetamaskNetwork: metamask.addNetwork,
     changeMetamaskNetwork: async network => {

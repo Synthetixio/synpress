@@ -380,7 +380,9 @@ const metamask = {
       mainPageElements.createAccount.createAccountError,
     );
     const formErrorTxt = await formErrorEl.innerText();
-    const accountExists = 'This account name already exists' === formErrorTxt;
+    const accountExists =
+      'This account name already exists' === formErrorTxt ||
+      'This account name is reserved' === formErrorTxt;
 
     if (accountExists) {
       log(`[createAccount] ${formErrorTxt}`);
@@ -394,6 +396,40 @@ const metamask = {
     }
 
     await module.exports.closePopupAndTooltips();
+    await switchToCypressIfNotActive();
+    return accountExists ? formErrorTxt : true;
+  },
+  async renameAccount(newAccountName) {
+    await switchToMetamaskIfNotActive();
+
+    await playwright.waitAndClick(mainPageElements.optionsMenu.button);
+    await playwright.waitAndClick(
+      mainPageElements.optionsMenu.accountDetailsButton,
+    );
+
+    await playwright.waitAndClick(mainPageElements.renameAccount.invokeInput);
+    await playwright.waitClearAndType(
+      newAccountName,
+      mainPageElements.renameAccount.input,
+    );
+
+    const formErrorEl = await playwright.waitFor(
+      mainPageElements.renameAccount.error,
+    );
+    const formErrorTxt = await formErrorEl.innerText();
+    const accountExists =
+      'This account name already exists' === formErrorTxt ||
+      'This account name is reserved' === formErrorTxt;
+
+    if (accountExists) {
+      log(`[createAccount] ${formErrorTxt}`);
+    } else {
+      await playwright.waitAndClick(
+        mainPageElements.renameAccount.confirmButton,
+      );
+    }
+
+    await playwright.waitAndClick(mainPageElements.accountModal.closeButton);
     await switchToCypressIfNotActive();
     return accountExists ? formErrorTxt : true;
   },
