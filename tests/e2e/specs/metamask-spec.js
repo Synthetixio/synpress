@@ -171,6 +171,16 @@ describe('Metamask', () => {
         expect(created).to.be.equal('This account name already exists');
       });
     });
+    it(`renameMetamaskAccount should rename metamask account`, () => {
+      cy.renameMetamaskAccount('custom-fancy-wallet').then(created => {
+        expect(created).to.be.true;
+      });
+    });
+    it(`renameMetamaskAccount should not fail when account with this name already exists`, () => {
+      cy.renameMetamaskAccount('custom-fancy-wallet').then(created => {
+        expect(created).to.be.equal('This account name already exists');
+      });
+    });
     it(`switchMetamaskAccount should switch to another account using order number`, () => {
       cy.switchMetamaskAccount(2).then(switched => {
         expect(switched).to.be.true;

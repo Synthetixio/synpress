@@ -104,6 +104,14 @@ Create new account in metamask.
 createMetamaskAccount(accountName?: string): Chainable<Subject>;
 ```
 
+#### `cy.renameMetamaskAccount()`
+
+Rename current account in metamask.
+
+```ts
+createMetamaskAccount(newAccountName: string): Chainable<Subject>;
+```
+
 #### `cy.switchMetamaskAccount()`
 
 Switch metamask account.

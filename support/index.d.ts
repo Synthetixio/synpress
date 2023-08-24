@@ -98,6 +98,12 @@ declare namespace Cypress {
      */
     createMetamaskAccount(accountName?: string): Chainable<boolean>;
     /**
+     * Rename current account in metamask
+     * @example
+     * cy.renameMetamaskAccount('fancyAccountName')
+     */
+    renameMetamaskAccount(newAccountName: string): Chainable<boolean>;
+    /**
      * Switch metamask account
      * @example
      * cy.switchMetamaskAccount(2)
