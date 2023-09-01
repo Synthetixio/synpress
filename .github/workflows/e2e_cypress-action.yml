@@ -69,7 +69,7 @@ jobs:
           DISPLAY: :0.0
 
       - name: Run e2e tests (cypress-action)
-        uses: cypress-io/github-action@248bde77443c376edc45906ede03a1aba9da0462 # pin@v5.8.4
+        uses: cypress-io/github-action@fd50b628255d62107377b511f928e6ebec975179 # pin@v6.3.0
         with:
           start: pnpm start:server
           command: pnpm test:e2e:ci:cypress-action
