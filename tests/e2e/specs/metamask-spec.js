@@ -341,6 +341,13 @@ describe('Metamask', () => {
         expect(txData.confirmed).to.be.true;
       });
     });
+    it(`confirmMetamaskTransaction should confirm legacy ETH transfer to yourself`, () => {
+      cy.get('#fromInput').type('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
+      cy.get('#toInput').type('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
+      cy.get('#amountInput').type('0x38D7EA4C68000') // 0.001 ETH
+      cy.get("#submitForm").click();
+      cy.confirmMetamaskTransaction()
+    });
     it(`confirmMetamaskTransaction should confirm eip-1559 transaction using default settings`, () => {
       cy.get('#sendEIP1559Button').click();
       cy.confirmMetamaskTransaction().then(txData => {

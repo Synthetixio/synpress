@@ -1088,18 +1088,34 @@ const metamask = {
         .count()) > 0
     ) {
       log('[confirmTransaction] Getting recipient address..');
-      await playwright.waitAndClick(
-        confirmPageElements.recipientButton,
+
+      const tooltip = await playwright.waitAndGetAttributeValue(
+        confirmPageElements.recipientAddressTooltipContainerButton,
+        'aria-describedby',
         notificationPage,
+        true,
       );
-      txData.recipientPublicAddress = await playwright.waitAndGetValue(
-        recipientPopupElements.recipientPublicAddress,
-        notificationPage,
-      );
-      await playwright.waitAndClick(
-        recipientPopupElements.popupCloseButton,
-        notificationPage,
-      );
+
+      // Handles the case where the recipient address is saved and has a "nickname".
+      if (tooltip === 'tippy-tooltip-2') {
+        txData.recipientPublicAddress = await playwright.waitAndGetValue(
+          confirmPageElements.recipientButton,
+          notificationPage,
+        );
+      } else {
+        await playwright.waitAndClick(
+          confirmPageElements.recipientButton,
+          notificationPage,
+        );
+        txData.recipientPublicAddress = await playwright.waitAndGetValue(
+          recipientPopupElements.recipientPublicAddress,
+          notificationPage,
+        );
+        await playwright.waitAndClick(
+          recipientPopupElements.popupCloseButton,
+          notificationPage,
+        );
+      }
     }
     log('[confirmTransaction] Checking if network name is present..');
     if (
