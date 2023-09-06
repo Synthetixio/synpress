@@ -275,12 +275,19 @@ module.exports = {
     const value = await element.inputValue();
     return value;
   },
-  async waitAndGetAttributeValue(selector, attribute, page = metamaskWindow) {
+  async waitAndGetAttributeValue(
+    selector,
+    attribute,
+    page = metamaskWindow,
+    skipValidation = false,
+  ) {
     const expect = expectInstance
       ? expectInstance
       : require('@playwright/test').expect;
     const element = await module.exports.waitFor(selector, page);
-    await expect(element).toHaveAttribute(attribute, /[a-zA-Z0-9]/);
+    if (!skipValidation) {
+      await expect(element).toHaveAttribute(attribute, /[a-zA-Z0-9]/);
+    }
     const attrValue = await element.getAttribute(attribute);
     return attrValue;
   },
