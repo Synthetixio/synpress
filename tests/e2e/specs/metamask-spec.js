@@ -423,6 +423,24 @@ describe('Metamask', () => {
         expect(txData.confirmed).to.be.true;
       });
     });
+    it(`openMetamaskTransactionDetails should open transaction details popup`, () => {
+      // Cannot be tested further with Cypress 😔
+      cy.openMetamaskTransactionDetails(0).then(
+        opened => expect(opened).to.be.true,
+      );
+    });
+    it(`closeMetamaskTransactionDetailsPopup should close transaction details popup`, () => {
+      cy.closeMetamaskTransactionDetailsPopup().then(
+        closed => expect(closed).to.be.true,
+      );
+    });
+    it(`openMetamaskTransactionDetails should click "View more" button enough times to open correct transaction details popup`, () => {
+      // Cannot be tested further with Cypress 😔
+      cy.openMetamaskTransactionDetails(14);
+      cy.closeMetamaskTransactionDetailsPopup().then(
+        closed => expect(closed).to.be.true,
+      );
+    });
     it(`confirmMetamaskTransaction should confirm transaction for token creation (contract deployment) and check tx data`, () => {
       cy.get('#createToken').click();
       cy.confirmMetamaskTransaction().then(txData => {

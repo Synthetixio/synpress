@@ -1254,6 +1254,59 @@ const metamask = {
     );
     return true;
   },
+  async openTransactionDetails(txIndex) {
+    await switchToMetamaskIfNotActive();
+    await playwright
+      .metamaskWindow()
+      .locator(mainPageElements.tabs.activityButton)
+      .click();
+
+    let visibleTxsCount = await playwright
+      .metamaskWindow()
+      .locator(
+        `${mainPageElements.activityTab.completedTransactionsList} > div`,
+      )
+      .count();
+
+    while (txIndex >= visibleTxsCount) {
+      await playwright.metamaskWindow().getByText('View more').click();
+
+      visibleTxsCount = await playwright
+        .metamaskWindow()
+        .locator(
+          `${mainPageElements.activityTab.completedTransactionsList} > div`,
+        )
+        .count();
+    }
+
+    if (txIndex >= visibleTxsCount) {
+      throw new Error(
+        `Transaction with index ${txIndex} is not found. There are only ${visibleTxsCount} transactions.`,
+      );
+    }
+
+    await playwright
+      .metamaskWindow()
+      .locator(mainPageElements.activityTab.completedTransaction(txIndex))
+      .click();
+
+    const isPopupVisible = await playwright
+      .metamaskWindow()
+      .locator(mainPageElements.popup.container)
+      .isVisible();
+
+    if (!isPopupVisible) {
+      throw new Error('Transaction details popup is not visible.');
+    }
+
+    return true;
+  },
+  async closeTransactionDetailsPopup() {
+    await switchToMetamaskIfNotActive();
+    await module.exports.closePopupAndTooltips();
+    await switchToCypressIfNotActive();
+    return true;
+  },
   async confirmEncryptionPublicKeyRequest() {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(

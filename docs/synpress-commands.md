@@ -384,6 +384,22 @@ Reject metamask transaction.
 rejectMetamaskTransaction(): Chainable<Subject>;
 ```
 
+#### `cy.openMetamaskTransactionDetails()`
+
+Open metamask transaction details based on the index of the transaction in the list on the activity tab.
+
+```ts
+openMetamaskTransactionDetails(txIndex: number): Chainable<Subject>;
+```
+
+#### `cy.closeMetamaskTransactionDetailsPopup()`
+
+Close currently open transaction details popup.
+
+```ts
+closeMetamaskTransactionDetailsPopup(): Chainable<Subject>;
+```
+
 #### `cy.allowMetamaskToAddNetwork()`
 
 Allow site to add new network in metamask.

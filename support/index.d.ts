@@ -365,6 +365,19 @@ declare namespace Cypress {
      */
     rejectMetamaskTransaction(): Chainable<boolean>;
     /**
+     * Open metamask transaction details based on the index of the transaction in the list on the activity tab
+     * @example
+     * cy.openMetamaskTransactionDetails(0)
+     * cy.openMetamaskTransactionDetails(1)
+     */
+    openMetamaskTransactionDetails(txIndex: number): Chainable<Subject>;
+    /**
+     * Close metamask transaction details popup
+     * @example
+     * cy.closeMetamaskTransactionDetailsPopup()
+     */
+    closeMetamaskTransactionDetailsPopup(): Chainable<boolean>;
+    /**
      * Allow site to add new network in metamask
      * @example
      * cy.allowMetamaskToAddNetwork()

@@ -111,6 +111,8 @@ module.exports = (on, config) => {
     confirmMetamaskTransactionAndWaitForMining:
       metamask.confirmTransactionAndWaitForMining,
     rejectMetamaskTransaction: metamask.rejectTransaction,
+    openMetamaskTransactionDetails: metamask.openTransactionDetails,
+    closeMetamaskTransactionDetailsPopup: metamask.closeTransactionDetailsPopup,
     allowMetamaskToAddNetwork: async ({ waitForEvent }) =>
       await metamask.allowToAddNetwork({ waitForEvent }),
     rejectMetamaskToAddNetwork: metamask.rejectToAddNetwork,
