@@ -1269,7 +1269,14 @@ const metamask = {
       .count();
 
     while (txIndex >= visibleTxsCount) {
-      await playwright.metamaskWindow().getByText('View more').click();
+      try {
+        await playwright.metamaskWindow().getByText('View more').click();
+      } catch (error) {
+        log('[openTransactionDetails] Clicking "View more" failed!');
+        throw new Error(
+          `Transaction with index ${txIndex} is not found. There are only ${visibleTxsCount} transactions.`,
+        );
+      }
 
       visibleTxsCount = await playwright
         .metamaskWindow()
@@ -1277,12 +1284,6 @@ const metamask = {
           `${mainPageElements.activityTab.completedTransactionsList} > div`,
         )
         .count();
-    }
-
-    if (txIndex >= visibleTxsCount) {
-      throw new Error(
-        `Transaction with index ${txIndex} is not found. There are only ${visibleTxsCount} transactions.`,
-      );
     }
 
     await playwright
