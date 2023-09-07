@@ -196,6 +196,13 @@ Cypress.Commands.add('confirmMetamaskTransaction', gasConfig => {
   return cy.task('confirmMetamaskTransaction', gasConfig);
 });
 
+Cypress.Commands.add(
+  'confirmMetamaskTransactionAndWaitForMining',
+  gasConfig => {
+    return cy.task('confirmMetamaskTransactionAndWaitForMining', gasConfig);
+  },
+);
+
 Cypress.Commands.add('rejectMetamaskTransaction', () => {
   return cy.task('rejectMetamaskTransaction');
 });

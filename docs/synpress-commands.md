@@ -368,6 +368,14 @@ Confirm metamask transaction (auto-detects eip-1559 and legacy transactions).
 confirmMetamaskTransaction(gasConfig?: object | string): Chainable<Subject>;
 ```
 
+#### `cy.confirmMetamaskTransactionAndWaitForMining()`
+
+Confirm metamask transaction (auto-detects eip-1559 and legacy transactions) and wait for ALL pending transactions to be mined.
+
+```ts
+confirmMetamaskTransactionAndWaitForMining(gasConfig?: object | string): Chainable<Subject>;
+```
+
 #### `cy.rejectMetamaskTransaction()`
 
 Reject metamask transaction.

@@ -335,6 +335,30 @@ declare namespace Cypress {
         | 'site',
     ): Chainable<Subject>;
     /**
+     * Confirm metamask transaction (auto-detects eip-1559 and legacy transactions) and wait for ALL pending transactions to be mined
+     * @example
+     * cy.confirmMetamaskTransactionAndWaitForMining()
+     * cy.confirmMetamaskTransactionAndWaitForMining({ gasLimit: 1000000, baseFee: 20, priorityFee: 20 }) // eip-1559
+     * cy.confirmMetamaskTransactionAndWaitForMining({ gasLimit: 1000000, gasPrice: 20 }) // legacy
+     * cy.confirmMetamaskTransactionAndWaitForMining('aggressive') // eip-1559 only! => available options: 'low', 'market', 'aggressive', 'site' (site is usually by default)
+     */
+    confirmMetamaskTransactionAndWaitForMining(
+      gasConfig?:
+        | {
+        gasLimit?: number;
+        baseFee?: number;
+        priorityFee?: number;
+      }
+        | {
+        gasLimit?: number;
+        gasPrice?: number;
+      }
+        | 'low'
+        | 'market'
+        | 'aggressive'
+        | 'site',
+    ): Chainable<Subject>;
+    /**
      * Reject metamask transaction
      * @example
      * cy.rejectMetamaskTransaction()
