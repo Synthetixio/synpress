@@ -1288,6 +1288,11 @@ const metamask = {
     await playwright
       .metamaskWindow()
       .locator(mainPageElements.activityTab.completedTransaction(txIndex))
+      .waitFor({ state: 'visible', timeout: 10000 });
+
+    await playwright
+      .metamaskWindow()
+      .locator(mainPageElements.activityTab.completedTransaction(txIndex))
       .click();
 
     await playwright
