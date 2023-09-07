@@ -1290,14 +1290,10 @@ const metamask = {
       .locator(mainPageElements.activityTab.completedTransaction(txIndex))
       .click();
 
-    const isPopupVisible = await playwright
+    await playwright
       .metamaskWindow()
       .locator(mainPageElements.popup.container)
-      .isVisible();
-
-    if (!isPopupVisible) {
-      throw new Error('Transaction details popup is not visible.');
-    }
+      .waitFor({ state: 'visible', timeout: 10000 });
 
     return true;
   },
