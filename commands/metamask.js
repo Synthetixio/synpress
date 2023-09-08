@@ -1261,40 +1261,36 @@ const metamask = {
       .locator(mainPageElements.tabs.activityButton)
       .click();
 
-    let visibleTxsCount = await playwright
+    let visibleTxs = await playwright
       .metamaskWindow()
       .locator(
         `${mainPageElements.activityTab.completedTransactionsList} > div`,
       )
-      .count();
+      .filter({ hasNotText: 'History' })
+      .filter({ hasNotText: 'View more' })
+      .all();
 
-    while (txIndex >= visibleTxsCount) {
+    while (txIndex >= visibleTxs.length) {
       try {
         await playwright.metamaskWindow().getByText('View more').click();
       } catch (error) {
         log('[openTransactionDetails] Clicking "View more" failed!');
         throw new Error(
-          `Transaction with index ${txIndex} is not found. There are only ${visibleTxsCount} transactions.`,
+          `Transaction with index ${txIndex} is not found. There are only ${visibleTxs.length} transactions.`,
         );
       }
 
-      visibleTxsCount = await playwright
+      visibleTxs = await playwright
         .metamaskWindow()
         .locator(
           `${mainPageElements.activityTab.completedTransactionsList} > div`,
         )
-        .count();
+        .filter({ hasNotText: 'History' })
+        .filter({ hasNotText: 'View more' })
+        .all();
     }
 
-    await playwright
-      .metamaskWindow()
-      .locator(mainPageElements.activityTab.completedTransaction(txIndex))
-      .waitFor({ state: 'visible', timeout: 10000 });
-
-    await playwright
-      .metamaskWindow()
-      .locator(mainPageElements.activityTab.completedTransaction(txIndex))
-      .click();
+    await visibleTxs[txIndex].click();
 
     await playwright
       .metamaskWindow()

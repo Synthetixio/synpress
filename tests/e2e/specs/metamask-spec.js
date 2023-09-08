@@ -456,6 +456,13 @@ describe('Metamask', () => {
         .invoke('text')
         .then(text => cy.log('Token hash: ' + text));
     });
+    it(`openMetamaskTransactionDetails should open correct transaction details popup when there is a pending tx`, () => {
+      // Cannot be tested further with Cypress 😔
+      cy.openMetamaskTransactionDetails(0);
+      cy.closeMetamaskTransactionDetailsPopup().then(
+        closed => expect(closed).to.be.true,
+      );
+    });
     it(`rejectMetamaskAddToken should cancel importing a token`, () => {
       cy.get('#watchAsset').click();
       cy.rejectMetamaskAddToken().then(rejected => {
