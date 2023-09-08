@@ -1,5 +1,6 @@
 const log = require('debug')('synpress:metamask');
 const playwright = require('./playwright');
+const sleep = require('util').promisify(setTimeout);
 
 const {
   onboardingWelcomePageElements,
@@ -1180,6 +1181,70 @@ const metamask = {
     log('[confirmTransaction] Transaction confirmed!');
     return txData;
   },
+  async confirmTransactionAndWaitForMining(gasConfig) {
+    // Before we switch to MetaMask tab we have to make sure the notification window has opened.
+    //
+    // Chaining `confirmTransactionAndWaitForMining` results in quick tabs switching
+    // which breaks MetaMask and the notification window does not open
+    // until we switch back to the "Cypress" tab.
+    await playwright.switchToMetamaskNotification();
+
+    await switchToMetamaskIfNotActive();
+    await playwright
+      .metamaskWindow()
+      .locator(mainPageElements.tabs.activityButton)
+      .click();
+
+    let retries = 0;
+    const retiresLimit = 600;
+
+    // 120 seconds
+    while (retries < retiresLimit) {
+      const unapprovedTxs = await playwright
+        .metamaskWindow()
+        .getByText('Unapproved')
+        .count();
+      if (unapprovedTxs === 1) {
+        break;
+      }
+      await sleep(200);
+      retries++;
+    }
+
+    if (retries === retiresLimit) {
+      throw new Error(
+        'New unapproved transaction was not detected in 120 seconds.',
+      );
+    }
+
+    const txData = await module.exports.confirmTransaction(gasConfig);
+
+    // 120 seconds
+    while (retries < retiresLimit) {
+      const pendingTxs = await playwright // TODO rename
+        .metamaskWindow()
+        .getByText('Pending')
+        .count();
+      const queuedTxs = await playwright // TODO rename
+        .metamaskWindow()
+        .getByText('Queued')
+        .count();
+      if (pendingTxs === 0 && queuedTxs === 0) {
+        break;
+      }
+      await sleep(200);
+      retries++;
+    }
+
+    if (retries === retiresLimit) {
+      throw new Error('Transaction was not mined in 120 seconds.');
+    }
+
+    await switchToCypressIfNotActive();
+
+    log('[confirmTransactionAndWaitForMining] Transaction confirmed!');
+    return txData;
+  },
   async rejectTransaction() {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
@@ -1187,6 +1252,57 @@ const metamask = {
       notificationPage,
       { waitForEvent: 'close' },
     );
+    return true;
+  },
+  async openTransactionDetails(txIndex) {
+    await switchToMetamaskIfNotActive();
+    await playwright
+      .metamaskWindow()
+      .locator(mainPageElements.tabs.activityButton)
+      .click();
+
+    let visibleTxs = await playwright
+      .metamaskWindow()
+      .locator(
+        `${mainPageElements.activityTab.completedTransactionsList} > div`,
+      )
+      .filter({ hasNotText: 'History' })
+      .filter({ hasNotText: 'View more' })
+      .all();
+
+    while (txIndex >= visibleTxs.length) {
+      try {
+        await playwright.metamaskWindow().getByText('View more').click();
+      } catch (error) {
+        log('[openTransactionDetails] Clicking "View more" failed!');
+        throw new Error(
+          `Transaction with index ${txIndex} is not found. There are only ${visibleTxs.length} transactions.`,
+        );
+      }
+
+      visibleTxs = await playwright
+        .metamaskWindow()
+        .locator(
+          `${mainPageElements.activityTab.completedTransactionsList} > div`,
+        )
+        .filter({ hasNotText: 'History' })
+        .filter({ hasNotText: 'View more' })
+        .all();
+    }
+
+    await visibleTxs[txIndex].click();
+
+    await playwright
+      .metamaskWindow()
+      .locator(mainPageElements.popup.container)
+      .waitFor({ state: 'visible', timeout: 10000 });
+
+    return true;
+  },
+  async closeTransactionDetailsPopup() {
+    await switchToMetamaskIfNotActive();
+    await module.exports.closePopupAndTooltips();
+    await switchToCypressIfNotActive();
     return true;
   },
   async confirmEncryptionPublicKeyRequest() {

@@ -196,8 +196,23 @@ Cypress.Commands.add('confirmMetamaskTransaction', gasConfig => {
   return cy.task('confirmMetamaskTransaction', gasConfig);
 });
 
+Cypress.Commands.add(
+  'confirmMetamaskTransactionAndWaitForMining',
+  gasConfig => {
+    return cy.task('confirmMetamaskTransactionAndWaitForMining', gasConfig);
+  },
+);
+
 Cypress.Commands.add('rejectMetamaskTransaction', () => {
   return cy.task('rejectMetamaskTransaction');
+});
+
+Cypress.Commands.add('openMetamaskTransactionDetails', txIndex => {
+  return cy.task('openMetamaskTransactionDetails', txIndex);
+});
+
+Cypress.Commands.add('closeMetamaskTransactionDetailsPopup', () => {
+  return cy.task('closeMetamaskTransactionDetailsPopup');
 });
 
 Cypress.Commands.add('rejectMetamaskPermisionToApproveAll', () => {

@@ -24,10 +24,13 @@ const tabs = {
 const transactionList = '.transaction-list__transactions';
 const pendingTransactionsList = `${transactionList} .transaction-list__pending-transactions`;
 const completedTransactionsList = `${transactionList} .transaction-list__completed-transactions`;
+const completedTransaction = txIndex =>
+  `${completedTransactionsList} > div:nth-child(${txIndex + 1})`;
 const activityTab = {
   transactionList,
   pendingTransactionsList,
   completedTransactionsList,
+  completedTransaction,
   unconfirmedTransaction: `${pendingTransactionsList} .transaction-list-item--unconfirmed`,
   confirmedTransaction: `${completedTransactionsList} .transaction-list-item`,
 };
