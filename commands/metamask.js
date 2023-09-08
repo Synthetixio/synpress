@@ -1221,11 +1221,11 @@ const metamask = {
 
     // 120 seconds
     while (retries < retiresLimit) {
-      const pendingTxs = await playwright // TODO rename
+      const pendingTxs = await playwright
         .metamaskWindow()
         .getByText('Pending')
         .count();
-      const queuedTxs = await playwright // TODO rename
+      const queuedTxs = await playwright
         .metamaskWindow()
         .getByText('Queued')
         .count();
