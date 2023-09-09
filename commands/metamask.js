@@ -1266,13 +1266,19 @@ const metamask = {
       .locator(
         `${mainPageElements.activityTab.completedTransactionsList} > div`,
       )
-      .filter({ hasNotText: 'History' })
-      .filter({ hasNotText: 'View more' })
+      .filter({
+        has: playwright.metamaskWindow().locator('div.list-item__heading'),
+      })
       .all();
 
     while (txIndex >= visibleTxs.length) {
       try {
-        await playwright.metamaskWindow().getByText('View more').click();
+        await playwright
+          .metamaskWindow()
+          .locator(
+            `${mainPageElements.activityTab.completedTransactionsList} > button`,
+          )
+          .click();
       } catch (error) {
         log('[openTransactionDetails] Clicking "View more" failed!');
         throw new Error(
@@ -1285,8 +1291,9 @@ const metamask = {
         .locator(
           `${mainPageElements.activityTab.completedTransactionsList} > div`,
         )
-        .filter({ hasNotText: 'History' })
-        .filter({ hasNotText: 'View more' })
+        .filter({
+          has: playwright.metamaskWindow().locator('div.list-item__heading'),
+        })
         .all();
     }
 
