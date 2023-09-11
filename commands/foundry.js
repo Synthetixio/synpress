@@ -64,9 +64,10 @@ module.exports = {
     }
   },
   async runAnvilWithViem(chains) {
-    const { ethers } = require('ethers');
-    const anvilClient = await import('@viem/anvil');
     try {
+      const { ethers } = require('ethers');
+      const anvilClient = await import('@viem/anvil');
+
       const pool = anvilClient.createPool();
 
       for (const [index, [chain, options]] of Object.entries(

@@ -2,7 +2,13 @@
 describe('Foundry', () => {
   context('Anvil commands', () => {
     before(() => {
-      cy.setupMetamask();
+      cy.setupMetamask(
+        'test test test test test test test test test test test junk',
+        'sepolia',
+        'Tester@1234',
+      ).then(setupFinished => {
+        expect(setupFinished).to.be.true;
+      });
     });
 
     it(`forkChains should setup a pool with fork of optimism chain with specified block number (108516344)`, () => {
