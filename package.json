@@ -82,7 +82,8 @@
     "node-fetch": "^2.6.1",
     "underscore": "^1.13.6",
     "viem": "^1.6.0",
-    "wait-on": "^7.0.1"
+    "wait-on": "^7.0.1",
+    "which": "^4.0.0"
   },
   "devDependencies": {
     "@metamask/test-dapp": "^7.0.1",

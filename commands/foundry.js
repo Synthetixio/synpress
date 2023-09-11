@@ -1,4 +1,5 @@
 const { findNetwork } = require('../helpers');
+const which = require('which')
 
 const log = require('debug')('synpress:foundry');
 
@@ -13,7 +14,12 @@ module.exports = {
     return activeChains;
   },
   async forkChains(options) {
-    log('starting to fork chains');
+    try {
+      await which('anvil');
+    } catch (e) {
+      throw new Error('No anvil :) Reason:', e);
+    }
+
     try {
       // await module.exports.installFoundry(options.foundryCommit);
 
