@@ -169,6 +169,7 @@ module.exports = {
       );
     }
   },
+  // eslint-disable-next-line no-unused-vars
   async installFoundry(commit = '200b3f48a1fccdd93d579233df740f8727da5bcd') {
     // const foundryClient = require('@foundry-rs/easy-foundryup');
     // try {
@@ -180,6 +181,6 @@ module.exports = {
     //   });
     //   return true;
     // }
-    throw new Error("INSTALL FOUNDRY CALL")
+    throw new Error('INSTALL FOUNDRY CALL');
   },
 };
