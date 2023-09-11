@@ -13,24 +13,29 @@ module.exports = {
     return activeChains;
   },
   async forkChains(options) {
-    // await module.exports.installFoundry(options.foundryCommit);
+    log('starting to fork chains');
+    try {
+      // await module.exports.installFoundry(options.foundryCommit);
 
-    if (typeof options === 'object') {
-      const chains = await module.exports.runAnvilWithViem(
-        options.chainsToFork,
-      );
+      if (typeof options === 'object') {
+        const chains = await module.exports.runAnvilWithViem(
+          options.chainsToFork,
+        );
 
-      return { chains };
-    } else if (typeof options === 'string') {
-      if (isNaN(options)) {
-        // todo: add support for:
-        // (multiple) network IDs
-        // (single) network name
-        // (multiple) network names
-      } else {
-        // todo: add support for:
-        // (single) network ID
+        return { chains };
+      } else if (typeof options === 'string') {
+        if (isNaN(options)) {
+          // todo: add support for:
+          // (multiple) network IDs
+          // (single) network name
+          // (multiple) network names
+        } else {
+          // todo: add support for:
+          // (single) network ID
+        }
       }
+    } catch (e) {
+      throw new Error('Error while forking chains', e);
     }
   },
   async setupViem(anvilChainType) {
