@@ -32,6 +32,8 @@ module.exports = {
         // todo: add support for:
         // (single) network ID
       }
+
+      throw new Error('Not implemented');
     }
   },
   async setupViem(anvilChainType) {
@@ -173,11 +175,18 @@ module.exports = {
   },
 };
 
+class AnvilNotInstalledError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'AnvilNotInstalledError';
+  }
+}
+
 async function validateIfAnvilIsInstalledOrThrow() {
   try {
     await which('anvil');
   } catch (e) {
-    throw new Error(
+    throw new AnvilNotInstalledError(
       'Anvil not detected!. Forking is possible thanks to Anvil, a local testnet node shipped with Foundry. To install the Foundry toolchain please refer here: https://book.getfoundry.sh/getting-started/installation',
     );
   }
