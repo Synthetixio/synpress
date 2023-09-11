@@ -7,24 +7,12 @@ Cypress.Commands.add('forkChains', options => {
   return cy.task('forkChains', options);
 });
 
-Cypress.Commands.add('installFoundry', commit => {
-  return cy.task('installFoundry', commit);
-});
-
-Cypress.Commands.add('runAnvilWithViem', options => {
-  return cy.task('runAnvilWithViem', options);
-});
-
 Cypress.Commands.add('stopAnvil', anvilInstance => {
   return cy.task('stopAnvil', anvilInstance);
 });
 
 Cypress.Commands.add('stopAnvilPool', anvilPool => {
   return cy.task('stopAnvilPool', anvilPool);
-});
-
-Cypress.Commands.add('setupViem', anvilChainType => {
-  return cy.task('setupViem', anvilChainType);
 });
 
 // playwright commands

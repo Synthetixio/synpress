@@ -22,31 +22,6 @@ declare namespace Cypress {
       };
     }): Chainable<Subject>;
     /**
-     * Install Foundry and Anvil (if not installed already)
-     * @example
-     * cy.installFoundry()
-     * cy.installFoundry('200b3f48a1fccdd93d579233df740f8727da5bcd')
-     */
-    installFoundry(commit?: string): Chainable<Subject>;
-    /**
-     * Run Anvil fork with attached Viem clients
-     * @example
-     * cy.runAnvilWithViem({optimism: {forkUrl: undefined, forkBlockNumber: undefined, host: '0.0.0.0', nativeCurrency: {decimals: 18, name: 'Optimism Ether', symbol: 'oETH'} } })
-     * cy.runAnvilWithViem({optimism: {forkUrl: 'https://rpc.ankr.com/optimism', forkBlockNumber: 123123123, host: '0.0.0.0', nativeCurrency: {decimals: 18, name: 'Optimism Ether', symbol: 'oETH'} } })
-     */
-    runAnvilWithViem(options: {
-      [chain: string]: {
-        forkUrl?: string;
-        forkBlockNumber?: number;
-        host: string;
-        nativeCurrency: {
-          decimals: number;
-          name: string;
-          symbol: string;
-        };
-      };
-    }): Chainable<Subject>;
-    /**
      * Stop Anvil instance
      * @example
      * cy.stopAnvil(anvilInstance)
@@ -59,12 +34,6 @@ declare namespace Cypress {
      * cy.stopAnvilPool(anvilPool)
      */
     stopAnvilPool(anvilPool?): Chainable<Subject>;
-    /**
-     * Setup Viem.sh client for specified chain
-     * @example
-     * cy.setupViem(chains[chain].anvilClientDetails.anvilChainType) // returned from runAnvilWithViem() or forkChains()
-     */
-    setupViem(anvilChainType): Chainable<Subject>;
 
     // playwright commands
     /**

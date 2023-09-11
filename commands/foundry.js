@@ -1,5 +1,5 @@
 const { findNetwork } = require('../helpers');
-const which = require('which')
+const which = require('which');
 
 const log = require('debug')('synpress:foundry');
 
@@ -14,34 +14,24 @@ module.exports = {
     return activeChains;
   },
   async forkChains(options) {
-    try {
-      await which('anvil');
-    } catch (e) {
-      throw new Error('No anvil :) Reason:', e);
-    }
+    await validateIfAnvilIsInstalledOrThrow();
 
-    try {
-      // await module.exports.installFoundry(options.foundryCommit);
+    if (typeof options === 'object') {
+      const chains = await module.exports.runAnvilWithViem(
+        options.chainsToFork,
+      );
 
-      if (typeof options === 'object') {
-        const chains = await module.exports.runAnvilWithViem(
-          options.chainsToFork,
-        );
-
-        return { chains };
-      } else if (typeof options === 'string') {
-        if (isNaN(options)) {
-          // todo: add support for:
-          // (multiple) network IDs
-          // (single) network name
-          // (multiple) network names
-        } else {
-          // todo: add support for:
-          // (single) network ID
-        }
+      return { chains };
+    } else if (typeof options === 'string') {
+      if (isNaN(options)) {
+        // todo: add support for:
+        // (multiple) network IDs
+        // (single) network name
+        // (multiple) network names
+      } else {
+        // todo: add support for:
+        // (single) network ID
       }
-    } catch (e) {
-      throw new Error('Error while forking chains', e);
     }
   },
   async setupViem(anvilChainType) {
@@ -181,18 +171,14 @@ module.exports = {
       );
     }
   },
-  // eslint-disable-next-line no-unused-vars
-  async installFoundry(commit = '200b3f48a1fccdd93d579233df740f8727da5bcd') {
-    // const foundryClient = require('@foundry-rs/easy-foundryup');
-    // try {
-    //   await foundryClient.getAnvilCommand();
-    //   return true;
-    // } catch (error) {
-    //   await foundryClient.run(true, {
-    //     commit,
-    //   });
-    //   return true;
-    // }
-    throw new Error('INSTALL FOUNDRY CALL');
-  },
 };
+
+async function validateIfAnvilIsInstalledOrThrow() {
+  try {
+    await which('anvil');
+  } catch (e) {
+    throw new Error(
+      'Anvil not detected!. Forking is possible thanks to Anvil, a local testnet node shipped with Foundry. To install the Foundry toolchain please refer here: https://book.getfoundry.sh/getting-started/installation',
+    );
+  }
+}
