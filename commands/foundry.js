@@ -13,7 +13,7 @@ module.exports = {
     return activeChains;
   },
   async forkChains(options) {
-    await module.exports.installFoundry(options.foundryCommit);
+    // await module.exports.installFoundry(options.foundryCommit);
 
     if (typeof options === 'object') {
       const chains = await module.exports.runAnvilWithViem(
@@ -170,15 +170,16 @@ module.exports = {
     }
   },
   async installFoundry(commit = '200b3f48a1fccdd93d579233df740f8727da5bcd') {
-    const foundryClient = require('@foundry-rs/easy-foundryup');
-    try {
-      await foundryClient.getAnvilCommand();
-      return true;
-    } catch (error) {
-      await foundryClient.run(true, {
-        commit,
-      });
-      return true;
-    }
+    // const foundryClient = require('@foundry-rs/easy-foundryup');
+    // try {
+    //   await foundryClient.getAnvilCommand();
+    //   return true;
+    // } catch (error) {
+    //   await foundryClient.run(true, {
+    //     commit,
+    //   });
+    //   return true;
+    // }
+    throw new Error("INSTALL FOUNDRY CALL")
   },
 };
