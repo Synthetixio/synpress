@@ -72,6 +72,7 @@ module.exports = (on, config) => {
     unlockMetamask: metamask.unlock,
     importMetamaskAccount: metamask.importAccount,
     createMetamaskAccount: metamask.createAccount,
+    renameMetamaskAccount: metamask.renameAccount,
     switchMetamaskAccount: metamask.switchAccount,
     addMetamaskNetwork: metamask.addNetwork,
     changeMetamaskNetwork: async network => {
@@ -115,7 +116,11 @@ module.exports = (on, config) => {
     acceptMetamaskAccess: metamask.acceptAccess,
     rejectMetamaskAccess: metamask.rejectAccess,
     confirmMetamaskTransaction: metamask.confirmTransaction,
+    confirmMetamaskTransactionAndWaitForMining:
+      metamask.confirmTransactionAndWaitForMining,
     rejectMetamaskTransaction: metamask.rejectTransaction,
+    openMetamaskTransactionDetails: metamask.openTransactionDetails,
+    closeMetamaskTransactionDetailsPopup: metamask.closeTransactionDetailsPopup,
     allowMetamaskToAddNetwork: async ({ waitForEvent }) =>
       await metamask.allowToAddNetwork({ waitForEvent }),
     rejectMetamaskToAddNetwork: metamask.rejectToAddNetwork,

@@ -24,10 +24,13 @@ const tabs = {
 const transactionList = '.transaction-list__transactions';
 const pendingTransactionsList = `${transactionList} .transaction-list__pending-transactions`;
 const completedTransactionsList = `${transactionList} .transaction-list__completed-transactions`;
+const completedTransaction = txIndex =>
+  `${completedTransactionsList} > div:nth-child(${txIndex + 1})`;
 const activityTab = {
   transactionList,
   pendingTransactionsList,
   completedTransactionsList,
+  completedTransaction,
   unconfirmedTransaction: `${pendingTransactionsList} .transaction-list-item--unconfirmed`,
   confirmedTransaction: `${completedTransactionsList} .transaction-list-item`,
 };
@@ -84,9 +87,17 @@ const connectedSites = {
   closeButton: `${connectedSitesSelector} [data-testid="popover-close"]`,
 };
 
+const accountModalSelector = '.account-modal';
 const accountModal = {
-  walletAddressInput: '.account-modal .qr-code__address',
+  walletAddressInput: `${accountModalSelector} .qr-code__address`,
   closeButton: '.account-modal__close',
+};
+
+const renameAccount = {
+  invokeInput: `${accountModalSelector} [data-testid="editable-label-button"]`,
+  input: `${accountModalSelector} [data-testid="editable-input"]`,
+  confirmButton: `${accountModalSelector} .editable-label__icon-button`,
+  error: `${accountModalSelector} .editable-label__error`,
 };
 
 const importAccountSelector = '.new-account';
@@ -135,6 +146,7 @@ module.exports.mainPageElements = {
   optionsMenu,
   connectedSites,
   accountModal,
+  renameAccount,
   importAccount,
   createAccount,
   importToken,

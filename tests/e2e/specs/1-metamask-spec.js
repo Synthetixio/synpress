@@ -171,9 +171,19 @@ describe('Metamask', () => {
         expect(created).to.be.equal('This account name already exists');
       });
     });
+    it(`renameMetamaskAccount should rename metamask account`, () => {
+      cy.renameMetamaskAccount('custom-fancy-wallet').then(created => {
+        expect(created).to.be.true;
+      });
+    });
     it(`switchMetamaskAccount should switch to another account using order number`, () => {
       cy.switchMetamaskAccount(2).then(switched => {
         expect(switched).to.be.true;
+      });
+    });
+    it(`renameMetamaskAccount should not fail when account with this name already exists`, () => {
+      cy.renameMetamaskAccount('custom-fancy-wallet').then(created => {
+        expect(created).to.be.equal('This account name already exists');
       });
     });
     it(`getMetamaskWalletAddress should return wallet address of current metamask account`, () => {
@@ -331,6 +341,15 @@ describe('Metamask', () => {
         expect(txData.confirmed).to.be.true;
       });
     });
+    it(`confirmMetamaskTransaction should confirm legacy ETH transfer to yourself`, () => {
+      cy.get('#fromInput').type('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266');
+      cy.get('#toInput').type('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266');
+      cy.get('#amountInput').type('0x38D7EA4C68000'); // 0.001 ETH
+      cy.get('#submitForm').click();
+      cy.confirmMetamaskTransaction().then(txData => {
+        expect(txData.recipientPublicAddress).to.be.equal('Account 1');
+      });
+    });
     it(`confirmMetamaskTransaction should confirm eip-1559 transaction using default settings`, () => {
       cy.get('#sendEIP1559Button').click();
       cy.confirmMetamaskTransaction().then(txData => {
@@ -368,6 +387,60 @@ describe('Metamask', () => {
         expect(txData.confirmed).to.be.true;
       });
     });
+    it(`confirmMetamaskTransactionAndWaitForMining should confirm legacy transaction and wait for it to be mined`, () => {
+      cy.get('#sendButton').click();
+      cy.confirmMetamaskTransactionAndWaitForMining().then(txData => {
+        expect(txData.recipientPublicAddress).to.be.not.empty;
+        expect(txData.networkName).to.be.not.empty;
+        expect(txData.customNonce).to.be.not.empty;
+        expect(txData.confirmed).to.be.true;
+      });
+    });
+    it(`confirmMetamaskTransactionAndWaitForMining should confirm eip-1559 transaction and wait for it to be mined`, () => {
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransactionAndWaitForMining().then(txData => {
+        expect(txData.recipientPublicAddress).to.be.not.empty;
+        expect(txData.networkName).to.be.not.empty;
+        expect(txData.customNonce).to.be.not.empty;
+        expect(txData.confirmed).to.be.true;
+      });
+    });
+    it(`chaining confirmMetamaskTransactionAndWaitForMining should work as expected`, () => {
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransactionAndWaitForMining().then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransactionAndWaitForMining().then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransactionAndWaitForMining().then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransactionAndWaitForMining().then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+    });
+    it(`openMetamaskTransactionDetails should open transaction details popup`, () => {
+      // Cannot be tested further with Cypress 😔
+      cy.openMetamaskTransactionDetails(0).then(
+        opened => expect(opened).to.be.true,
+      );
+    });
+    it(`closeMetamaskTransactionDetailsPopup should close transaction details popup`, () => {
+      cy.closeMetamaskTransactionDetailsPopup().then(
+        closed => expect(closed).to.be.true,
+      );
+    });
+    it(`openMetamaskTransactionDetails should click "View more" button enough times to open correct transaction details popup`, () => {
+      // Cannot be tested further with Cypress 😔
+      cy.openMetamaskTransactionDetails(14);
+      cy.closeMetamaskTransactionDetailsPopup().then(
+        closed => expect(closed).to.be.true,
+      );
+    });
     it(`confirmMetamaskTransaction should confirm transaction for token creation (contract deployment) and check tx data`, () => {
       cy.get('#createToken').click();
       cy.confirmMetamaskTransaction().then(txData => {
@@ -382,6 +455,13 @@ describe('Metamask', () => {
       cy.contains('#tokenAddress', /0x.*/, { timeout: 60000 })
         .invoke('text')
         .then(text => cy.log('Token hash: ' + text));
+    });
+    it(`openMetamaskTransactionDetails should open correct transaction details popup when there is a pending tx`, () => {
+      // Cannot be tested further with Cypress 😔
+      cy.openMetamaskTransactionDetails(0);
+      cy.closeMetamaskTransactionDetailsPopup().then(
+        closed => expect(closed).to.be.true,
+      );
     });
     it(`rejectMetamaskAddToken should cancel importing a token`, () => {
       cy.get('#watchAsset').click();

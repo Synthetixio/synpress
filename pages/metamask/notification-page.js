@@ -66,6 +66,7 @@ const confirmPageContent = `${notificationPage} .confirm-page-container-content`
 const networkLabel = `${confirmPageHeader} .network-display`;
 const senderButton = `${confirmPageHeader} .sender-to-recipient__party--sender`;
 const recipientButton = `${confirmPageHeader} .sender-to-recipient__party--recipient-with-address`;
+const recipientAddressTooltipContainerButton = `${confirmPageHeader} .sender-to-recipient__party--recipient .sender-to-recipient__tooltip-container`;
 const editGasFeeLegacyButton = `${notificationPage} .transaction-detail-edit button`;
 const editGasFeeLegacyOverrideAckButton = `${notificationPage} .edit-gas-display .edit-gas-display__dapp-acknowledgement-button`;
 const editGasLegacyPopup = `${notificationPage} .edit-gas-popover__wrapper`;
@@ -102,6 +103,7 @@ module.exports.confirmPageElements = {
   networkLabel,
   senderButton,
   recipientButton,
+  recipientAddressTooltipContainerButton,
   editGasFeeLegacyButton,
   editGasFeeLegacyOverrideAckButton,
   editGasLegacyPopup,
