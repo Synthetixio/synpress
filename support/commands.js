@@ -7,6 +7,10 @@ Cypress.Commands.add('forkChains', options => {
   return cy.task('forkChains', options);
 });
 
+Cypress.Commands.add('getActiveChains', options => {
+  return cy.task('getActiveChains', options);
+});
+
 Cypress.Commands.add('stopAnvil', anvilInstance => {
   return cy.task('stopAnvil', anvilInstance);
 });

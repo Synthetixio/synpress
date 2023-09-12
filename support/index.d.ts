@@ -22,6 +22,12 @@ declare namespace Cypress {
       };
     }): Chainable<Subject>;
     /**
+     * Returns active forked chains
+     * @example
+     * cy.getActiveChains();
+     */
+    getActiveChains(): Chainable<Subject>;
+    /**
      * Stop Anvil instance
      * @example
      * cy.stopAnvil(anvilInstance)
