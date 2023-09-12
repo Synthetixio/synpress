@@ -187,7 +187,7 @@ async function validateIfAnvilIsInstalledOrThrow() {
     await which('anvil');
   } catch (e) {
     throw new AnvilNotInstalledError(
-      'Anvil not detected!. Forking is possible thanks to Anvil, a local testnet node shipped with Foundry. To install the Foundry toolchain please refer here: https://book.getfoundry.sh/getting-started/installation',
+      'Anvil not detected! Forking is possible thanks to Anvil, a local testnet node shipped with Foundry. To install the Foundry toolchain please refer here: https://book.getfoundry.sh/getting-started/installation',
     );
   }
 }
