@@ -13,6 +13,14 @@ COPY pnpm-lock.yaml ./
 
 FROM base as test
 
+ENV PATH "$PATH:/root/.foundry/bin"
+
+RUN curl -L https://foundry.paradigm.xyz | bash && \
+  foundryup && \
+  forge --version && \
+  anvil --version && \
+  cast --version
+
 RUN pnpm install --frozen-lockfile --prefer-offline
 
 COPY . .
