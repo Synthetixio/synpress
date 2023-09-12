@@ -52,6 +52,9 @@ jobs:
             ${{ runner.os }}-pnpm-v1-
         continue-on-error: true
 
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --prefer-offline
 
