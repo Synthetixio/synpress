@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "devDependencies": {
+    "commitlint-config-gitmoji": "^2.3.1"
+  }
+}

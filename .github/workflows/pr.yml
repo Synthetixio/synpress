@@ -1,0 +1,33 @@
+name: 🦄 PR
+
+on:
+  pull_request:
+    types: [ opened, edited, synchronize, reopened ]
+
+jobs:
+  commitlint:
+    name: Validate title
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.7.5
+
+      - name: Fetch config package version
+        id: config-package-version
+        env:
+          GITMOJI_CONFIG_PACKAGE: "commitlint-config-gitmoji"
+        run: |
+          echo "CONFIG_PACKAGE=$(grep -A 2 "$GITMOJI_CONFIG_PACKAGE" pnpm-lock.yaml | awk '/version:/ {print "'"$GITMOJI_CONFIG_PACKAGE"'@" $2}')" >> $GITHUB_OUTPUT
+
+      - name: Install config package
+        env:
+          CONFIG_PACKAGE: "${{ steps.config-package-version.outputs.CONFIG_PACKAGE }}"
+        run: |
+          pnpm add $CONFIG_PACKAGE
+
+      - name: Validate PR title
+        run: |
+          echo "${{ github.event.pull_request.title }}" | pnpm -s dlx commitlint
