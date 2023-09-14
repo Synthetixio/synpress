@@ -20,14 +20,18 @@ jobs:
         env:
           GITMOJI_CONFIG_PACKAGE: "commitlint-config-gitmoji"
         run: |
-          echo "CONFIG_PACKAGE=$(grep -A 2 "$GITMOJI_CONFIG_PACKAGE" pnpm-lock.yaml | awk '/version:/ {print "'"$GITMOJI_CONFIG_PACKAGE"'@" $2}')" >> $GITHUB_OUTPUT
+          echo "CONFIG_PACKAGE=$(grep -A 2 "$GITMOJI_CONFIG_PACKAGE" pnpm-lock.yaml | awk '/version:/ {print "'"$GITMOJI_CONFIG_PACKAGE"'@" $2}')" >> "$GITHUB_OUTPUT"
 
       - name: Install config package
         env:
           CONFIG_PACKAGE: "${{ steps.config-package-version.outputs.CONFIG_PACKAGE }}"
         run: |
-          pnpm add $CONFIG_PACKAGE
+          pnpm add "$CONFIG_PACKAGE"
 
       - name: Validate PR title
+        env:
+          # Sanitizes PR title as documented here:
+          # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
+          PR_TITLE: "${{ github.event.pull_request.title }}"
         run: |
-          echo "${{ github.event.pull_request.title }}" | pnpm -s dlx commitlint
+          echo "$PR_TITLE" | pnpm -s dlx commitlint
