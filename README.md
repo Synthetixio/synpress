@@ -441,6 +441,15 @@ Options:
   -h, --help                display help for command
 ```
 
+## 👨‍⚕️ Known problems with MetaMask
+
+If your MetaMask is stuck on the loading screen, check what's happening under the hood in the console. You can find vital information about why it's stuck on this step.
+
+#### ⭐ Sentry.io HTTP error 499 (Request has been forbidden by antivirus)
+
+- Kaspersky antivirus sometimes blocks encrypted requests to Sentry.io. You can disable
+  this feature in Kaspersky advanced settings by toggling on `"Do not scan encrypted connections"`.
+
 ## 📃 Environmental variables
 
 | Variable                | Description                                                                                                                                                                                                 |
