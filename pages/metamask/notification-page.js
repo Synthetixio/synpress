@@ -51,11 +51,13 @@ module.exports.permissionsPageElements = {
 };
 
 const popupContainer = '.popover-container';
+const popupApproveButton = `${popupContainer} .confirmation-warning-modal__footer__approve-button`;
 const popupCloseButton = `${popupContainer} .popover-header__button`;
 const popupCopyRecipientPublicAddressButton = `${popupContainer} .nickname-popover__public-address button`;
 const recipientPublicAddress = `${popupContainer} .nickname-popover__public-address__constant`;
 module.exports.recipientPopupElements = {
   popupContainer,
+  popupApproveButton,
   popupCloseButton,
   popupCopyRecipientPublicAddressButton,
   recipientPublicAddress,

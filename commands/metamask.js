@@ -1399,6 +1399,14 @@ const metamask = {
     );
     return true;
   },
+  async allowToAddRPC () {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      recipientPopupElements.popupApproveButton,
+      notificationPage
+    );
+    return true;
+  },
   async allowToSwitchNetwork() {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(

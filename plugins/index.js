@@ -116,6 +116,7 @@ module.exports = (on, config) => {
     allowMetamaskToAddNetwork: async ({ waitForEvent }) =>
       await metamask.allowToAddNetwork({ waitForEvent }),
     rejectMetamaskToAddNetwork: metamask.rejectToAddNetwork,
+    rejectMetamaskToAddRPC: metamask.allowToAddRPC,
     allowMetamaskToSwitchNetwork: metamask.allowToSwitchNetwork,
     rejectMetamaskToSwitchNetwork: metamask.rejectToSwitchNetwork,
     allowMetamaskToAddAndSwitchNetwork: metamask.allowToAddAndSwitchNetwork,
