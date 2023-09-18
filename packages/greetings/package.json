@@ -1,0 +1,37 @@
+{
+  "name": "greetings",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./types/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "types"
+  ],
+  "scripts": {
+    "clean": "rimraf dist types",
+    "types:check": "tsc --noEmit",
+    "build": "tsup",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:prod": "pnpm run clean && pnpm run build && pnpm run build:types",
+    "run:greetings": "tsx src/run.ts"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.1",
+    "tsconfig": "workspace:*",
+    "tsup": "^7.2.0",
+    "tsx": "^3.12.10",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0"
+  }
+}

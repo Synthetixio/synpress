@@ -28,7 +28,7 @@ jobs:
         env:
           CONFIG_PACKAGE: "${{ steps.config-package-version.outputs.CONFIG_PACKAGE }}"
         run: |
-          pnpm add "$CONFIG_PACKAGE"
+          pnpm add -w "$CONFIG_PACKAGE"
 
       # The validation is done based on the `commitlint.config.js` file.
       - name: Validate PR title
