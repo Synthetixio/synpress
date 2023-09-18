@@ -8,4 +8,9 @@
 
 ### Node
 
+# Heaviest object in the universe
 node_modules
+
+# Compiled output
+dist
+types

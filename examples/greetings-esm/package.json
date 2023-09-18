@@ -1,0 +1,13 @@
+{
+  "name": "greetings-esm",
+  "type": "module",
+  "scripts": {
+    "run": "tsx src/example.ts"
+  },
+  "devDependencies": {
+    "tsx": "^3.12.10"
+  },
+  "dependencies": {
+    "greetings": "workspace:*"
+  }
+}
