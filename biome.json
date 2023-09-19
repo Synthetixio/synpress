@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "files": {
+    "ignore": ["**/node_modules", "**/dist", "**/types", ".vscode", ".idea"]
+  },
+  "formatter": {
+    "indentStyle": "space",
+    "indentSize": 2
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "trailingComma": "none",
+      "semicolons": "asNeeded"
+    }
+  }
+}
