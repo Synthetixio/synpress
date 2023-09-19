@@ -6,6 +6,10 @@
 # JetBrains
 .idea
 
+### Monorepo
+
+.turbo
+
 ### Node
 
 # Heaviest object in the universe
