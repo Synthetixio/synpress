@@ -19,9 +19,9 @@
   "scripts": {
     "clean": "rimraf dist types",
     "types:check": "tsc --noEmit",
-    "build": "tsup",
+    "build": "pnpm run clean && pnpm run build:dist && pnpm run build:types",
+    "build:dist": "tsup",
     "build:types": "tsc --emitDeclarationOnly",
-    "build:prod": "pnpm run clean && pnpm run build && pnpm run build:types",
     "run:greetings": "tsx src/run.ts"
   },
   "devDependencies": {
