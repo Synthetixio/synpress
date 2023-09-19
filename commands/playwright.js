@@ -10,6 +10,9 @@ const {
 // const metamask = require('./metamask');
 const { app } = require('../pages/phantom/notification-page');
 const sleep = require('util').promisify(setTimeout);
+const _ = require('underscore');
+
+let expectInstance;
 
 let browser;
 let mainWindow;
@@ -17,10 +20,26 @@ let activeTabName;
 let retries = 0;
 
 let pageWindows = {};
+let popupWindows = {};
 let notificationWindows = {};
-let extensions = {}; // name, id
+let extensionsData = {}; // name, id
 
 module.exports = {
+  async resetState() {
+    log('Resetting state of playwright');
+    expectInstance = undefined;
+    browser = undefined;
+    mainWindow = undefined;
+    pageWindows = {};
+    popupWindows = {};
+    notificationWindows = {};
+    activeTabName = undefined;
+    retries = 0;
+    extensionsData = {};
+  },
+  getExpectInstance() {
+    return expectInstance;
+  },
   browser() {
     return browser;
   },
@@ -33,8 +52,17 @@ module.exports = {
   windows(provider) {
     return pageWindows[provider];
   },
+  popup(provider) {
+    return popupWindows[provider];
+  },
+  metamaskPopupWindow() {
+    return popupWindows['metamask'];
+  },
   activeTabName() {
     return activeTabName;
+  },
+  async setExpectInstance(expect) {
+    expectInstance = expect;
   },
   async init(playwrightInstance) {
     const chromium = playwrightInstance
@@ -62,7 +90,7 @@ module.exports = {
     const pagesResponse = await fetch('http://127.0.0.1:9222/json');
     const pages = await pagesResponse.json();
 
-    extensions = pages
+    extensionsData = pages
       .filter(page => page.url.startsWith('chrome-extension://'))
       .map(extension => {
         const matches = extension.url.match(/chrome-extension:\/\/(.*)\/.*/);
@@ -122,7 +150,7 @@ module.exports = {
       // );
       // await mainWindow.evaluate(async extensionWelcomeUrl => {
       //   window.open(extensionWelcomeUrl, '_blank').focus();
-      // }, extensions[provider].welcomeUrl);
+      // }, extensionsData[provider].welcomeUrl);
 
       // await new Promise(resolve => setTimeout(resolve, 20000));
       // pageWindows[provider] = await newPagePromise;
@@ -142,14 +170,19 @@ module.exports = {
   async assignWindows(provider) {
     let pages = await browser.contexts()[0].pages();
     for (const page of pages) {
-      if (page.url().includes('runner')) {
+      if (page.url().includes('specs/runner')) {
         mainWindow = page;
       } else if (
-        page.url().includes(extensions[provider].id) &&
+        page.url().includes(extensionsData[provider].id) &&
         page.url().includes('notification')
       ) {
         notificationWindows[provider] = page;
-      } else if (page.url().includes(extensions[provider].id)) {
+      } else if (
+        page.url().includes(extensionsData[provider].id) &&
+        page.url().includes('popup')
+      ) {
+        popupWindows[provider] = page;
+      } else if (page.url().includes(extensionsData[provider].id)) {
         pageWindows[provider] = page;
       }
     }
@@ -169,6 +202,7 @@ module.exports = {
     mainWindow = null;
     pageWindows = {};
     notificationWindows = {};
+    popupWindows = {};
     return true;
   },
   async isCypressWindowActive() {
@@ -218,6 +252,11 @@ module.exports = {
   async switchToNotificationWindow(provider) {
     await notificationWindows[provider].bringToFront();
     await module.exports.assignActiveTabName(`${provider}-notif`);
+    return true;
+  },
+  async switchToPopup(provider) {
+    await popupWindows[provider].bringToFront();
+    await module.exports.assignActiveTabName(`${provider}-popup`);
     return true;
   },
   async switchToNotification(provider) {
@@ -344,8 +383,8 @@ module.exports = {
     selector,
     page = module.exports.windows(provider),
   ) {
-    const expect = global.expect
-      ? global.expect
+    const expect = expectInstance
+      ? expectInstance
       : require('@playwright/test').expect;
     const element = await module.exports.waitFor(provider, selector, page);
     await expect(element).toHaveText(/[a-zA-Z0-9]/, {
@@ -360,8 +399,8 @@ module.exports = {
     selector,
     page = module.exports.windows(provider),
   ) {
-    const expect = global.expect
-      ? global.expect
+    const expect = expectInstance
+      ? expectInstance
       : require('@playwright/test').expect;
     const element = await module.exports.waitFor(provider, selector, page);
     await expect(element).toHaveValue(/[a-zA-Z1-9]/);
@@ -373,12 +412,15 @@ module.exports = {
     selector,
     attribute,
     page = module.exports.windows(provider),
+    skipValidation = false,
   ) {
-    const expect = global.expect
-      ? global.expect
+    const expect = expectInstance
+      ? expectInstance
       : require('@playwright/test').expect;
     const element = await module.exports.waitFor(provider, selector, page);
-    await expect(element).toHaveAttribute(attribute, /[a-zA-Z0-9]/);
+    if (!skipValidation) {
+      await expect(element).toHaveAttribute(attribute, /[a-zA-Z0-9]/);
+    }
     const attrValue = await element.getAttribute(attribute);
     return attrValue;
   },
@@ -581,5 +623,51 @@ module.exports = {
         break;
       }
     }
+  },
+  async getExtensionsData() {
+    if (!_.isEmpty(extensionsData)) {
+      return extensionsData;
+    }
+
+    const context = await browser.contexts()[0];
+    const page = await context.newPage();
+
+    await page.goto('chrome://extensions');
+    await page.waitForLoadState('load');
+    await page.waitForLoadState('domcontentloaded');
+
+    const devModeButton = page.locator('#devMode');
+    await devModeButton.waitFor();
+    await devModeButton.focus();
+    await devModeButton.click();
+
+    const extensionDataItems = await page.locator('extensions-item').all();
+    for (const extensionData of extensionDataItems) {
+      const extensionName = (
+        await extensionData
+          .locator('#name-and-version')
+          .locator('#name')
+          .textContent()
+      ).toLowerCase();
+
+      const extensionVersion = (
+        await extensionData
+          .locator('#name-and-version')
+          .locator('#version')
+          .textContent()
+      ).replace(/(\n| )/g, '');
+
+      const extensionId = (
+        await extensionData.locator('#extension-id').textContent()
+      ).replace('ID: ', '');
+
+      extensionsData[extensionName] = {
+        version: extensionVersion,
+        id: extensionId,
+      };
+    }
+    await page.close();
+
+    return extensionsData;
   },
 };

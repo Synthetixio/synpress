@@ -98,6 +98,12 @@ declare namespace Cypress {
      */
     createMetamaskAccount(accountName?: string): Chainable<boolean>;
     /**
+     * Rename current account in metamask
+     * @example
+     * cy.renameMetamaskAccount('fancyAccountName')
+     */
+    renameMetamaskAccount(newAccountName: string): Chainable<boolean>;
+    /**
      * Switch metamask account
      * @example
      * cy.switchMetamaskAccount(2)
@@ -329,11 +335,48 @@ declare namespace Cypress {
         | 'site',
     ): Chainable<Subject>;
     /**
+     * Confirm metamask transaction (auto-detects eip-1559 and legacy transactions) and wait for ALL pending transactions to be mined
+     * @example
+     * cy.confirmMetamaskTransactionAndWaitForMining()
+     * cy.confirmMetamaskTransactionAndWaitForMining({ gasLimit: 1000000, baseFee: 20, priorityFee: 20 }) // eip-1559
+     * cy.confirmMetamaskTransactionAndWaitForMining({ gasLimit: 1000000, gasPrice: 20 }) // legacy
+     * cy.confirmMetamaskTransactionAndWaitForMining('aggressive') // eip-1559 only! => available options: 'low', 'market', 'aggressive', 'site' (site is usually by default)
+     */
+    confirmMetamaskTransactionAndWaitForMining(
+      gasConfig?:
+        | {
+        gasLimit?: number;
+        baseFee?: number;
+        priorityFee?: number;
+      }
+        | {
+        gasLimit?: number;
+        gasPrice?: number;
+      }
+        | 'low'
+        | 'market'
+        | 'aggressive'
+        | 'site',
+    ): Chainable<Subject>;
+    /**
      * Reject metamask transaction
      * @example
      * cy.rejectMetamaskTransaction()
      */
     rejectMetamaskTransaction(): Chainable<boolean>;
+    /**
+     * Open metamask transaction details based on the index of the transaction in the list on the activity tab
+     * @example
+     * cy.openMetamaskTransactionDetails(0)
+     * cy.openMetamaskTransactionDetails(1)
+     */
+    openMetamaskTransactionDetails(txIndex: number): Chainable<Subject>;
+    /**
+     * Close metamask transaction details popup
+     * @example
+     * cy.closeMetamaskTransactionDetailsPopup()
+     */
+    closeMetamaskTransactionDetailsPopup(): Chainable<boolean>;
     /**
      * Allow site to add new network in metamask
      * @example

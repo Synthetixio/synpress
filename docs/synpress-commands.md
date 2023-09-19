@@ -104,6 +104,14 @@ Create new account in metamask.
 createMetamaskAccount(accountName?: string): Chainable<Subject>;
 ```
 
+#### `cy.renameMetamaskAccount()`
+
+Rename current account in metamask.
+
+```ts
+createMetamaskAccount(newAccountName: string): Chainable<Subject>;
+```
+
 #### `cy.switchMetamaskAccount()`
 
 Switch metamask account.
@@ -360,12 +368,36 @@ Confirm metamask transaction (auto-detects eip-1559 and legacy transactions).
 confirmMetamaskTransaction(gasConfig?: object | string): Chainable<Subject>;
 ```
 
+#### `cy.confirmMetamaskTransactionAndWaitForMining()`
+
+Confirm metamask transaction (auto-detects eip-1559 and legacy transactions) and wait for ALL pending transactions to be mined.
+
+```ts
+confirmMetamaskTransactionAndWaitForMining(gasConfig?: object | string): Chainable<Subject>;
+```
+
 #### `cy.rejectMetamaskTransaction()`
 
 Reject metamask transaction.
 
 ```ts
 rejectMetamaskTransaction(): Chainable<Subject>;
+```
+
+#### `cy.openMetamaskTransactionDetails()`
+
+Open metamask transaction details based on the index of the transaction in the list on the activity tab.
+
+```ts
+openMetamaskTransactionDetails(txIndex: number): Chainable<Subject>;
+```
+
+#### `cy.closeMetamaskTransactionDetailsPopup()`
+
+Close currently open transaction details popup.
+
+```ts
+closeMetamaskTransactionDetailsPopup(): Chainable<Subject>;
 ```
 
 #### `cy.allowMetamaskToAddNetwork()`

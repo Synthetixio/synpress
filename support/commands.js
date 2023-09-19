@@ -74,6 +74,10 @@ Cypress.Commands.add('createMetamaskAccount', accountName => {
   return cy.task('createMetamaskAccount', accountName);
 });
 
+Cypress.Commands.add('renameMetamaskAccount', newAccountName => {
+  return cy.task('renameMetamaskAccount', newAccountName);
+});
+
 Cypress.Commands.add('switchMetamaskAccount', accountNameOrAccountNumber => {
   return cy.task('switchMetamaskAccount', accountNameOrAccountNumber);
 });
@@ -203,8 +207,23 @@ addCommand('acceptAccess', 'acceptMetamaskAccess');
 addCommand('confirmTransaction', 'confirmMetamaskTransaction');
 addCommand('rejectMetamaskAccess', 'rejectMetamaskAccess');
 
+Cypress.Commands.add(
+  'confirmMetamaskTransactionAndWaitForMining',
+  gasConfig => {
+    return cy.task('confirmMetamaskTransactionAndWaitForMining', gasConfig);
+  },
+);
+
 Cypress.Commands.add('rejectMetamaskTransaction', () => {
   return cy.task('rejectMetamaskTransaction');
+});
+
+Cypress.Commands.add('openMetamaskTransactionDetails', txIndex => {
+  return cy.task('openMetamaskTransactionDetails', txIndex);
+});
+
+Cypress.Commands.add('closeMetamaskTransactionDetailsPopup', () => {
+  return cy.task('closeMetamaskTransactionDetailsPopup');
 });
 
 Cypress.Commands.add('rejectMetamaskPermisionToApproveAll', () => {

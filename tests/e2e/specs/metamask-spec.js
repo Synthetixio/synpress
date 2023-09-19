@@ -58,9 +58,7 @@ describe('Metamask', () => {
       if (Cypress.env('USE_ANVIL')) {
         cy.addMetamaskNetwork({
           networkName: 'anvil',
-          rpcUrl: Cypress.env('DOCKER_RUN')
-            ? 'http://foundry:8545'
-            : 'http://127.0.0.1:8545',
+          rpcUrl: 'http://127.0.0.1:8545',
           chainId: 11155111,
           symbol: 'aETH',
           isTestnet: true,
@@ -78,7 +76,7 @@ describe('Metamask', () => {
         }).then(networkAdded => {
           expect(networkAdded).to.be.true;
         });
-        cy.get('#network').contains('10');
+        cy.get('#network').contains('0xa');
         cy.get('#chainId').contains('0xa');
       }
     });
@@ -130,8 +128,8 @@ describe('Metamask', () => {
         cy.changeMetamaskNetwork('sepolia');
       }
     });
-    it(`rejectMetamaskPermisionToApproveAll should reject permission to approve all collectibles upon warning`, () => {
-      cy.get('#deployCollectiblesButton').click();
+    it(`rejectMetamaskPermisionToApproveAll should reject permission to approve all NFTs upon warning`, () => {
+      cy.get('#deployNFTsButton').click();
       cy.confirmMetamaskTransaction();
       cy.get('#mintButton').click();
       cy.confirmMetamaskTransaction();
@@ -140,7 +138,7 @@ describe('Metamask', () => {
         expect(rejected).to.be.true;
       });
     });
-    it(`confirmMetamaskPermisionToApproveAll should confirm permission to approve all collectibles`, () => {
+    it(`confirmMetamaskPermisionToApproveAll should confirm permission to approve all NFTs`, () => {
       cy.get('#setApprovalForAllButton').click();
       cy.confirmMetamaskPermisionToApproveAll().then(confirmed => {
         expect(confirmed).to.be.true;
@@ -173,9 +171,19 @@ describe('Metamask', () => {
         expect(created).to.be.equal('This account name already exists');
       });
     });
+    it(`renameMetamaskAccount should rename metamask account`, () => {
+      cy.renameMetamaskAccount('custom-fancy-wallet').then(created => {
+        expect(created).to.be.true;
+      });
+    });
     it(`switchMetamaskAccount should switch to another account using order number`, () => {
       cy.switchMetamaskAccount(2).then(switched => {
         expect(switched).to.be.true;
+      });
+    });
+    it(`renameMetamaskAccount should not fail when account with this name already exists`, () => {
+      cy.renameMetamaskAccount('custom-fancy-wallet').then(created => {
+        expect(created).to.be.equal('This account name already exists');
       });
     });
     it(`getMetamaskWalletAddress should return wallet address of current metamask account`, () => {
@@ -333,6 +341,15 @@ describe('Metamask', () => {
         expect(txData.confirmed).to.be.true;
       });
     });
+    it(`confirmMetamaskTransaction should confirm legacy ETH transfer to yourself`, () => {
+      cy.get('#fromInput').type('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266');
+      cy.get('#toInput').type('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266');
+      cy.get('#amountInput').type('0x38D7EA4C68000'); // 0.001 ETH
+      cy.get('#submitForm').click();
+      cy.confirmMetamaskTransaction().then(txData => {
+        expect(txData.recipientPublicAddress).to.be.equal('Account 1');
+      });
+    });
     it(`confirmMetamaskTransaction should confirm eip-1559 transaction using default settings`, () => {
       cy.get('#sendEIP1559Button').click();
       cy.confirmMetamaskTransaction().then(txData => {
@@ -370,6 +387,60 @@ describe('Metamask', () => {
         expect(txData.confirmed).to.be.true;
       });
     });
+    it(`confirmMetamaskTransactionAndWaitForMining should confirm legacy transaction and wait for it to be mined`, () => {
+      cy.get('#sendButton').click();
+      cy.confirmMetamaskTransactionAndWaitForMining().then(txData => {
+        expect(txData.recipientPublicAddress).to.be.not.empty;
+        expect(txData.networkName).to.be.not.empty;
+        expect(txData.customNonce).to.be.not.empty;
+        expect(txData.confirmed).to.be.true;
+      });
+    });
+    it(`confirmMetamaskTransactionAndWaitForMining should confirm eip-1559 transaction and wait for it to be mined`, () => {
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransactionAndWaitForMining().then(txData => {
+        expect(txData.recipientPublicAddress).to.be.not.empty;
+        expect(txData.networkName).to.be.not.empty;
+        expect(txData.customNonce).to.be.not.empty;
+        expect(txData.confirmed).to.be.true;
+      });
+    });
+    it(`chaining confirmMetamaskTransactionAndWaitForMining should work as expected`, () => {
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransactionAndWaitForMining().then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransactionAndWaitForMining().then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransactionAndWaitForMining().then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransactionAndWaitForMining().then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+    });
+    it(`openMetamaskTransactionDetails should open transaction details popup`, () => {
+      // Cannot be tested further with Cypress 😔
+      cy.openMetamaskTransactionDetails(0).then(
+        opened => expect(opened).to.be.true,
+      );
+    });
+    it(`closeMetamaskTransactionDetailsPopup should close transaction details popup`, () => {
+      cy.closeMetamaskTransactionDetailsPopup().then(
+        closed => expect(closed).to.be.true,
+      );
+    });
+    it(`openMetamaskTransactionDetails should click "View more" button enough times to open correct transaction details popup`, () => {
+      // Cannot be tested further with Cypress 😔
+      cy.openMetamaskTransactionDetails(14);
+      cy.closeMetamaskTransactionDetailsPopup().then(
+        closed => expect(closed).to.be.true,
+      );
+    });
     it(`confirmMetamaskTransaction should confirm transaction for token creation (contract deployment) and check tx data`, () => {
       cy.get('#createToken').click();
       cy.confirmMetamaskTransaction().then(txData => {
@@ -384,6 +455,13 @@ describe('Metamask', () => {
       cy.contains('#tokenAddress', /0x.*/, { timeout: 60000 })
         .invoke('text')
         .then(text => cy.log('Token hash: ' + text));
+    });
+    it(`openMetamaskTransactionDetails should open correct transaction details popup when there is a pending tx`, () => {
+      // Cannot be tested further with Cypress 😔
+      cy.openMetamaskTransactionDetails(0);
+      cy.closeMetamaskTransactionDetailsPopup().then(
+        closed => expect(closed).to.be.true,
+      );
     });
     it(`rejectMetamaskAddToken should cancel importing a token`, () => {
       cy.get('#watchAsset').click();
@@ -436,25 +514,24 @@ describe('Metamask', () => {
         expect(approved).to.be.true;
       });
     });
-    // todo: this feature is broken inside test-dapp, needs to be fixed (unable to switch to DAI chain)
-    it.skip(`rejectMetamaskToAddNetwork should reject permission to add network`, () => {
+    it(`rejectMetamaskToAddNetwork should reject permission to add network`, () => {
       cy.get('#addEthereumChain').click();
       cy.rejectMetamaskToAddNetwork().then(rejected => {
         expect(rejected).to.be.true;
       });
     });
-    it.skip(`allowMetamaskToAddNetwork should approve permission to add network`, () => {
+    it(`allowMetamaskToAddNetwork should approve permission to add network`, () => {
       cy.get('#addEthereumChain').click();
-      cy.allowMetamaskToAddNetwork('close').then(approved => {
+      cy.allowMetamaskToAddNetwork().then(approved => {
         expect(approved).to.be.true;
       });
     });
-    it.skip(`rejectMetamaskToSwitchNetwork should reject permission to switch network`, () => {
+    it(`rejectMetamaskToSwitchNetwork should reject permission to switch network`, () => {
       cy.rejectMetamaskToSwitchNetwork().then(rejected => {
         expect(rejected).to.be.true;
       });
     });
-    it.skip(`allowMetamaskToSwitchNetwork should approve permission to switch network`, () => {
+    it(`allowMetamaskToSwitchNetwork should approve permission to switch network`, () => {
       cy.get('#switchEthereumChain').click();
       cy.allowMetamaskToSwitchNetwork().then(approved => {
         expect(approved).to.be.true;
