@@ -1,6 +1,6 @@
-import {bye, hello, sayHello} from 'greetings'
+import { bye, hello, sayHello } from 'greetings'
 
-sayHello("Alice")
+sayHello('Alice')
 
-console.log(hello("Bob"))
-console.log(bye("Carol"))
+console.log(hello('Bob'))
+console.log(bye('Carol'))
