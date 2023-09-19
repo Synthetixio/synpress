@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "build": "turbo build",
     "lint": "biome format . --write",
     "lint:check": "biome check ."
@@ -9,5 +10,6 @@
     "@biomejs/biome": "1.2.2",
     "commitlint-config-gitmoji": "^2.3.1",
     "turbo": "^1.10.14"
-  }
+  },
+  "packageManager": "pnpm@8.7.6"
 }
