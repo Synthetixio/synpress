@@ -1,4 +1,3 @@
-const log = require('debug')('synpress:phantom');
 const playwright = require('./playwright');
 
 const {
@@ -278,7 +277,6 @@ module.exports = {
       }
 
       await switchToPhantomIfNotActive();
-
 
       // skip welcome page
       try {

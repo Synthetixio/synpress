@@ -75,7 +75,7 @@ const priorityFeeInput = `${notificationPage} [data-testid="priority-fee-input"]
 const editGasLimitButton = `${notificationPage} [data-testid="advanced-gas-fee-edit"]`;
 const gasLimitInput = `${notificationPage} [data-testid="gas-limit-input"]`;
 const saveCustomGasFeeButton = `${notificationPage} .popover-container .btn-primary`;
-const totalLabel = `${confirmPageContent} .transaction-detail-item:nth-child(2) .transaction-detail-item__detail-values h6:nth-child(2)`; // todo: fix
+const totalLabel = `${confirmPageContent} .transaction-detail-item:nth-child(2) .transaction-detail-item__detail-values h6:nth-child(2)`;
 const customNonceInput = `${confirmPageContent} .custom-nonce-input input`;
 const tabs = `${confirmPageContent} .tabs`;
 const detailsButton = `${tabs} .tab:nth-child(1) button`;

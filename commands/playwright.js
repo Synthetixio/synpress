@@ -269,7 +269,7 @@ module.exports = {
         notificationWindows[provider] = page;
         retries = 0;
         await page.bringToFront();
-        if (provider == 'metamask') {
+        if (provider === 'metamask') {
           await module.exports.waitUntilStable(provider, page);
         }
         if (provider === 'phantom') {
@@ -297,7 +297,7 @@ module.exports = {
     }
   },
   async waitFor(provider, selector, page = module.exports.windows(provider)) {
-    if (provider == 'metamask') {
+    if (provider === 'metamask') {
       await module.exports.waitUntilStable(provider, page);
     }
     await page.waitForSelector(selector, { strict: false });

@@ -1697,7 +1697,7 @@ async function activateAdvancedSetting(
       await metamask.goToAdvancedSettings();
     }
   }
-  if (!(await playwright.windows(PROVIDER).locator(toggleOn).count()) === 0) {
+  if ((await playwright.windows(PROVIDER).locator(toggleOn).count()) === 0) {
     await playwright.waitAndClick(PROVIDER, toggleOff);
   }
   if (!skipSetup) {

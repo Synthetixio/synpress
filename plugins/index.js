@@ -289,9 +289,5 @@ module.exports = (on, config) => {
     config.env.SKIP_METAMASK_SETUP = true;
   }
 
-  if (process.env.PROVIDERS) {
-    config.env.PROVIDERS = process.env.PROVIDERS;
-  }
-
   return config;
 };

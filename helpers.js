@@ -101,7 +101,7 @@ module.exports = {
   },
   getSynpressPath() {
     if (process.env.SYNPRESS_LOCAL_TEST) {
-      return './node_modules/@phantom/synpress';
+      return '.';
     } else {
       return path.dirname(require.resolve(packageJson.name));
     }
