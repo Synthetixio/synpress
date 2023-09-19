@@ -1,5 +1,5 @@
-import {hello} from './hello'
+import { hello } from './hello'
 
 export function sayHello(name: string) {
-    console.log(hello(name))
+  console.log(hello(name))
 }

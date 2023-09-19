@@ -1,6 +1,11 @@
 {
   "private": true,
+  "scripts": {
+    "lint": "biome format . --write",
+    "lint:check": "biome check ."
+  },
   "devDependencies": {
+    "@biomejs/biome": "1.2.2",
     "commitlint-config-gitmoji": "^2.3.1"
   }
 }
