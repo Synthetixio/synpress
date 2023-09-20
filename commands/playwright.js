@@ -93,7 +93,9 @@ module.exports = {
     extensionsData = pages
       .filter(page => page.url.startsWith('chrome-extension://'))
       .map(extension => {
-        const matches = extension.url.match(/chrome-extension:\/\/(.*)\/.*/);
+        const matches = extension.url
+          .replace('chrome-extension://', '')
+          .match(/(\w*)(\/.*)?/);
         return {
           name:
             extension.title === 'Phantom Wallet'
@@ -112,12 +114,6 @@ module.exports = {
   },
   clearExtensionData: async provider => {
     try {
-      // if (!mainWindow) {
-      //   const newPage = await browser.contexts()[0].newPage();
-      //   mainWindow = newPage;
-      // }
-
-      // await module.exports.switchToWindow(provider);
       await module.exports.windows(provider).evaluate(async () => {
         await new Promise((resolve, reject) => {
           return chrome.storage.local.clear(() => {
@@ -138,27 +134,8 @@ module.exports = {
             }
           });
         });
-        // chrome.runtime.reload(); // closes the popup
       });
-      // await mainWindow.waitForTimeout(1000);
-      // await module.exports.windows(provider).waitForTimeout(1000);
       await module.exports.windows(provider).reload();
-      // return module.exports.windows(provider);
-      // await mainWindow.waitForTimeout(1000);
-      // const newPagePromise = new Promise(resolve =>
-      //   browser.contexts()[0].once('page', resolve),
-      // );
-      // await mainWindow.evaluate(async extensionWelcomeUrl => {
-      //   window.open(extensionWelcomeUrl, '_blank').focus();
-      // }, extensionsData[provider].welcomeUrl);
-
-      // await new Promise(resolve => setTimeout(resolve, 20000));
-      // pageWindows[provider] = await newPagePromise;
-      // pageWindows[provider] = newPage;
-      // await module.exports.assignActiveTabName(provider);
-      // await module.exports.windows(provider).reload();
-      // await module.exports.waitUntilStable();
-      // return module.exports.windows(provider);
     } catch (ex) {
       console.log(`[${provider}]: ${ex.message}`);
     }
@@ -597,13 +574,13 @@ module.exports = {
         );
         if (times <= 3) {
           await page.reload();
-          await module.exports.waitUntilMetamaskWindowIsStable();
+          await module.exports.waitUntilWindowIsStable();
         } else if (times === 4) {
           await module.exports.waitAndClick(
             provider,
             pageElements.criticalErrorRestartButton,
           );
-          await module.exports.waitUntilMetamaskWindowIsStable();
+          await module.exports.waitUntilWindowIsStable();
         } else {
           throw new Error(
             '[fixCriticalError] Max amount of retries to fix critical metamask error has been reached.',
@@ -613,7 +590,7 @@ module.exports = {
         log('[fixCriticalError] Metamask crashed with error, refreshing..');
         if (times <= 4) {
           await page.reload();
-          await module.exports.waitUntilMetamaskWindowIsStable();
+          await module.exports.waitUntilWindowIsStable();
         } else {
           throw new Error(
             '[fixCriticalError] Max amount of retries to fix critical metamask error has been reached.',
@@ -657,9 +634,11 @@ module.exports = {
           .textContent()
       ).replace(/(\n| )/g, '');
 
-      const extensionId = (
+      const [_, extensionId] = (
         await extensionData.locator('#extension-id').textContent()
-      ).replace('ID: ', '');
+      )
+        .replace('ID: ', '')
+        .match(/(\w*)(\/.*)?/);
 
       extensionsData[extensionName] = {
         version: extensionVersion,

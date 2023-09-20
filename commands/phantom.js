@@ -168,8 +168,8 @@ module.exports = {
       PROVIDER,
       firstTimeFlowImportPageElements.continueAfterPasswordButton,
     );
-    // finish
     await new Promise(resolve => setTimeout(resolve, 1000)); // the transitioning is too fast
+    // finish
     await playwright.waitAndClick(
       PROVIDER,
       firstTimeFlowImportPageElements.getStartedButton,

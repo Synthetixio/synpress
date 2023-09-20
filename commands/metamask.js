@@ -196,7 +196,7 @@ const metamask = {
     // It appears if you connect to a new network for the first time.
     if (
       (await playwright
-        .metamaskWindow()
+        .windows(PROVIDER)
         .locator(recipientPopupElements.popupCloseButton)
         .count()) > 0
     ) {
@@ -1329,7 +1329,7 @@ const metamask = {
 
     await switchToMetamaskIfNotActive();
     await playwright
-      .metamaskWindow()
+      .windows(PROVIDER)
       .locator(mainPageElements.tabs.activityButton)
       .click();
 
@@ -1339,7 +1339,7 @@ const metamask = {
     // 120 seconds
     while (retries < retiresLimit) {
       const unapprovedTxs = await playwright
-        .metamaskWindow()
+        .windows(PROVIDER)
         .getByText('Unapproved')
         .count();
       if (unapprovedTxs === 1) {
@@ -1360,11 +1360,11 @@ const metamask = {
     // 120 seconds
     while (retries < retiresLimit) {
       const pendingTxs = await playwright
-        .metamaskWindow()
+        .windows(PROVIDER)
         .getByText('Pending')
         .count();
       const queuedTxs = await playwright
-        .metamaskWindow()
+        .windows(PROVIDER)
         .getByText('Queued')
         .count();
       if (pendingTxs === 0 && queuedTxs === 0) {
@@ -1396,24 +1396,24 @@ const metamask = {
   async openTransactionDetails(txIndex) {
     await switchToMetamaskIfNotActive();
     await playwright
-      .metamaskWindow()
+      .windows(PROVIDER)
       .locator(mainPageElements.tabs.activityButton)
       .click();
 
     let visibleTxs = await playwright
-      .metamaskWindow()
+      .windows(PROVIDER)
       .locator(
         `${mainPageElements.activityTab.completedTransactionsList} > div`,
       )
       .filter({
-        has: playwright.metamaskWindow().locator('div.list-item__heading'),
+        has: playwright.windows(PROVIDER).locator('div.list-item__heading'),
       })
       .all();
 
     while (txIndex >= visibleTxs.length) {
       try {
         await playwright
-          .metamaskWindow()
+          .windows(PROVIDER)
           .locator(
             `${mainPageElements.activityTab.completedTransactionsList} > button`,
           )
@@ -1426,12 +1426,12 @@ const metamask = {
       }
 
       visibleTxs = await playwright
-        .metamaskWindow()
+        .windows(PROVIDER)
         .locator(
           `${mainPageElements.activityTab.completedTransactionsList} > div`,
         )
         .filter({
-          has: playwright.metamaskWindow().locator('div.list-item__heading'),
+          has: playwright.windows(PROVIDER).locator('div.list-item__heading'),
         })
         .all();
     }
@@ -1439,7 +1439,7 @@ const metamask = {
     await visibleTxs[txIndex].click();
 
     await playwright
-      .metamaskWindow()
+      .windows(PROVIDER)
       .locator(mainPageElements.popup.container)
       .waitFor({ state: 'visible', timeout: 10000 });
 
