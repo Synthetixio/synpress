@@ -24,13 +24,10 @@ const tabs = {
 const transactionList = '.transaction-list__transactions';
 const pendingTransactionsList = `${transactionList} .transaction-list__pending-transactions`;
 const completedTransactionsList = `${transactionList} .transaction-list__completed-transactions`;
-const completedTransaction = txIndex =>
-  `${completedTransactionsList} > div:nth-child(${txIndex + 1})`;
 const activityTab = {
   transactionList,
   pendingTransactionsList,
   completedTransactionsList,
-  completedTransaction,
   unconfirmedTransaction: `${pendingTransactionsList} .transaction-list-item--unconfirmed`,
   confirmedTransaction: `${completedTransactionsList} .transaction-list-item`,
 };
@@ -47,7 +44,6 @@ const popup = {
     cancelButton: `${sendPopupSelector} .btn-secondary`,
     transactionStatus: `${sendPopupSelector} .transaction-status`,
     copyTxIdButton: `${sendPopupSelector} .transaction-list-item-details__tx-hash .transaction-list-item-details__header-button a`,
-    // todo:
   },
 };
 
@@ -70,37 +66,49 @@ const accountMenu = {
   createAccountButton: '.account-menu__item--clickable:nth-child(6)',
   importAccountButton: '.account-menu__item--clickable:nth-child(7)',
   settingsButton: '.account-menu__item--clickable:nth-child(11)',
-  lockButton: '.account_menu__lock-button',
 };
 
-const optionsMenu = {
-  button: '[data-testid=account-options-menu-button]',
-  accountDetailsButton: '[data-testid="account-options-menu__account-details"]',
-  accountDetailsButtonV11: '[data-testid="account-list-menu-details"]',
-  connectedSitesButton: '[data-testid="account-options-menu__connected-sites"]',
+const settingsMenu = {
+  settingsMenuButton: '[data-testid="settings-menu-open-button"]',
+  settingsSidebarButton: '[data-testid="sidebar_menu-button-settings"]',
+  settingsSidebarCloseButton: '[data-testid="settings-menu-close-button"]',
+  trustedAppsRow: '[data-testid="settings-item-trusted-apps"]',
+  developerSettingsRow: '[data-testid="settings-item-developer-settings"]',
+  defaultAppWalletRow: '[data-testid="settings-item-metamask-override"]',
 };
 
-const connectedSitesSelector = '.connected-sites';
+const whatsNew = {
+  header: '[data-testid="whats_new-header"]',
+  continueButton: '[data-testid="whats_new-continue_button"]',
+};
+
+const welcome = {
+  takeTheTourButton: '[data-testid="welcome-take_the_tour"]',
+  takeTheTourButtonNext: '[data-testid="primary-button"]',
+  finishSetup: ['data-testid="onboarding-form-submit-button"'],
+};
+
+const accountBar = {
+  title: '[data-testid="tooltip_interactive-wrapper"]',
+  ethRow: '[data-testid="account-header-chain-eip155:1"]',
+  solanaRow: '[data-testid="account-header-chain-solana:101"]',
+};
+
+const defaultWallet = {
+  metamask: '[data-testid="metamask-override--USE_METAMASK"]',
+  phantom: '[data-testid="metamask-override--USE_PHANTOM"]',
+  always_ask: '[data-testid="metamask-override--ALWAYS_ASK"]',
+};
+
 const connectedSites = {
-  modal: connectedSitesSelector,
-  disconnectLabel: `${connectedSitesSelector} .connected-sites-list__content-row-link-button`,
-  cancelButton: `${connectedSitesSelector} .btn-secondary`,
-  disconnectButton: `${connectedSitesSelector} .btn-primary`,
-  closeButton: `${connectedSitesSelector} [data-testid="popover-close"]`,
+  trustedAppsRevokeButton: '[data-testid="trusted-apps-revoke-button"]',
+  trustedAppsBackButton: '[data-testid="header--back"]',
+  rowButton: '[data-testid="trusted_apps_row-button"]',
 };
 
-const accountModalSelector = '.account-modal';
 const accountModal = {
-  walletAddressInput: `${accountModalSelector} .qr-code__address`,
-  walletAddressInputV11: `[data-testid="address-copy-button-text"]`,
+  walletAddressInput: '.account-modal .qr-code__address',
   closeButton: '.account-modal__close',
-};
-
-const renameAccount = {
-  invokeInput: `${accountModalSelector} [data-testid="editable-label-button"]`,
-  input: `${accountModalSelector} [data-testid="editable-input"]`,
-  confirmButton: `${accountModalSelector} .editable-label__icon-button`,
-  error: `${accountModalSelector} .editable-label__error`,
 };
 
 const importAccountSelector = '.new-account';
@@ -116,7 +124,6 @@ const createAccount = {
   input: `${importAccountSelector} .new-account-create-form__input`,
   cancelButton: `${importAccountSelector} .new-account-create-form__button:nth-child(1)`,
   createButton: `${importAccountSelector} .new-account-create-form__button:nth-child(2)`,
-  createAccountError: `${importAccountSelector} .new-account-create-form__error`,
 };
 
 const importTokenFormSelector = '.import-token__custom-token-form';
@@ -146,12 +153,15 @@ module.exports.mainPageElements = {
   tippyTooltip,
   actionableMessage,
   accountMenu,
-  optionsMenu,
+  accountBar,
+  settingsMenu,
   connectedSites,
   accountModal,
-  renameAccount,
   importAccount,
   createAccount,
   importToken,
   asset,
+  whatsNew,
+  welcome,
+  defaultWallet,
 };

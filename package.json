@@ -1,6 +1,6 @@
 {
-  "name": "@synthetixio/synpress",
-  "version": "3.7.2-beta.6",
+  "name": "@phantom/synpress",
+  "version": "4.0.0-alpha.28",
   "packageManager": "pnpm@8.4.0",
   "description": "Synpress is e2e testing framework based around Cypress.io & playwright with included MetaMask support. Test your dapps with ease.",
   "keywords": [
@@ -81,6 +81,7 @@
     "get-port": "^7.0.0",
     "node-fetch": "^2.6.1",
     "underscore": "^1.13.6",
+    "unzip-crx-3": "^0.2.0",
     "viem": "^1.6.0",
     "wait-on": "^7.0.1"
   },
@@ -113,6 +114,9 @@
     "http-cache-semantics": "4.1.1",
     "ansi-regex": "5.0.1",
     "@testing-library/dom": "8.20.0"
+  },
+  "overrides": {
+    "lodash@<4.17.20": "4.17.20"
   },
   "engines": {
     "node": ">=14"
