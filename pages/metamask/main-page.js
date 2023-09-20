@@ -76,6 +76,7 @@ const accountMenu = {
 const optionsMenu = {
   button: '[data-testid=account-options-menu-button]',
   accountDetailsButton: '[data-testid="account-options-menu__account-details"]',
+  accountDetailsButtonV11: '[data-testid="account-list-menu-details"]',
   connectedSitesButton: '[data-testid="account-options-menu__connected-sites"]',
 };
 
@@ -91,6 +92,7 @@ const connectedSites = {
 const accountModalSelector = '.account-modal';
 const accountModal = {
   walletAddressInput: `${accountModalSelector} .qr-code__address`,
+  walletAddressInputV11: `[data-testid="address-copy-button-text"]`,
   closeButton: '.account-modal__close',
 };
 

@@ -1580,18 +1580,44 @@ const metamask = {
       PROVIDER,
       mainPageElements.optionsMenu.button,
     );
-    await playwright.waitAndClick(
-      PROVIDER,
-      mainPageElements.optionsMenu.accountDetailsButton,
-    );
-    walletAddress = await playwright.waitAndGetValue(
-      PROVIDER,
-      mainPageElements.accountModal.walletAddressInput,
-    );
-    await playwright.waitAndClick(
-      PROVIDER,
-      mainPageElements.accountModal.closeButton,
-    );
+
+    // metamask >= v11
+    if (
+      (await playwright
+        .windows(PROVIDER)
+        .locator(mainPageElements.optionsMenu.accountDetailsButtonV11)
+        .count()) > 0
+    ) {
+      await playwright.waitAndClick(
+        PROVIDER,
+        mainPageElements.optionsMenu.accountDetailsButtonV11,
+      );
+      walletAddress = await playwright.waitAndGetValue(
+        PROVIDER,
+        mainPageElements.accountModal.walletAddressInputV11,
+      );
+
+      // we still need to find the close button...
+      await playwright.waitAndClick(
+        PROVIDER,
+        mainPageElements.accountModal.closeButton,
+      );
+    } else {
+      // metamask < v11
+      await playwright.waitAndClick(
+        PROVIDER,
+        mainPageElements.optionsMenu.accountDetailsButton,
+      );
+      walletAddress = await playwright.waitAndGetValue(
+        PROVIDER,
+        mainPageElements.accountModal.walletAddressInput,
+      );
+      await playwright.waitAndClick(
+        PROVIDER,
+        mainPageElements.accountModal.closeButton,
+      );
+    }
+
     await switchToCypressIfNotActive();
     return walletAddress;
   },
@@ -1616,12 +1642,25 @@ const metamask = {
     await playwright.fixBlankPage(PROVIDER, playwright.windows(PROVIDER));
     await playwright.switchToWindow(PROVIDER);
     await playwright.fixCriticalError(PROVIDER, playwright.windows(PROVIDER));
+
     if (
       (await playwright
         .windows(PROVIDER)
         .locator(onboardingWelcomePageElements.onboardingWelcomePage)
         .count()) > 0
     ) {
+      // metamask > v11
+      if (
+        (await playwright
+          .windows(PROVIDER)
+          .locator(onboardingWelcomePageElements.acceptTermsCheckbox)
+          .count()) > 0
+      ) {
+        await playwright
+          .windows(PROVIDER)
+          .click(onboardingWelcomePageElements.acceptTermsCheckbox);
+      }
+
       if (secretWordsOrPrivateKey.includes(' ')) {
         // secret words
         await module.exports.importWallet(secretWordsOrPrivateKey, password);
@@ -1632,7 +1671,6 @@ const metamask = {
       }
 
       await setupSettings(enableAdvancedSettings, enableExperimentalSettings);
-
       await module.exports.changeNetwork(network);
 
       walletAddress = await module.exports.getWalletAddress();
@@ -1720,15 +1758,40 @@ async function setupSettings(
   enableExperimentalSettings,
 ) {
   await switchToMetamaskIfNotActive();
-
   await metamask.goToAdvancedSettings();
-  await metamask.activateAdvancedGasControl(true);
+
+  // metamask < v11
+  if (
+    (await playwright
+      .windows(PROVIDER)
+      .locator(advancedPageElements.advancedGasControlToggleOn)
+      .count()) > 0
+  ) {
+    await metamask.activateAdvancedGasControl(true);
+  }
   await metamask.activateShowHexData(true);
-  await metamask.activateShowTestnetNetworks(true);
+
+  // metamask < v11
+  if (
+    (await playwright
+      .windows(PROVIDER)
+      .locator(advancedPageElements.showTestnetNetworksOn)
+      .count()) > 0
+  ) {
+    await metamask.activateShowTestnetNetworks(true);
+  }
   await metamask.activateCustomNonce(true);
   await metamask.activateDismissBackupReminder(true);
   if (enableAdvancedSettings) {
-    await metamask.activateTestnetConversion(true);
+    // metamask < v11
+    if (
+      (await playwright
+        .windows(PROVIDER)
+        .locator(advancedPageElements.showTestnetConversionOn)
+        .count()) > 0
+    ) {
+      await metamask.activateTestnetConversion(true);
+    }
   }
   if (enableExperimentalSettings) {
     await metamask.goToExperimentalSettings();
