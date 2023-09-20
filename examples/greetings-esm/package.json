@@ -4,10 +4,10 @@
   "scripts": {
     "run": "tsx src/example.ts"
   },
-  "devDependencies": {
-    "tsx": "^3.12.10"
-  },
   "dependencies": {
     "greetings": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "^3.12.10"
   }
 }
