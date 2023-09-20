@@ -1,0 +1,34 @@
+name: 🎨 Lint
+
+on:
+  push:
+    branches:
+      - new-dawn
+  pull_request:
+
+jobs:
+  style:
+    name: Check code style
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.7.6
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check linter
+        run: pnpm run lint:check
+
+      - name: Check order in package.json
+        if: success() || failure() # Run even if linting fails
+        run: pnpm run sort-package-json:check
