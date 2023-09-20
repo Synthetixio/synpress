@@ -1,0 +1,43 @@
+{
+  "name": "metamask-legacy",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./helpers": "./dist/helpers.js",
+    "./commands/metamask": "./dist/commands/metamask.js",
+    "./commands/playwright": "./dist/commands/playwright.js",
+    "./pages/metamask/confirmation-page": "./dist/pages/metamask/confirmation-page.js",
+    "./pages/metamask/first-time-flow-page": "./dist/pages/metamask/first-time-flow-page.js",
+    "./pages/metamask/main-page": "./dist/pages/metamask/main-page.js",
+    "./pages/metamask/notification-page": "./dist/pages/metamask/notification-page.js",
+    "./pages/metamask/page": "./dist/pages/metamask/page.js",
+    "./pages/metamask/settings-page": "./dist/pages/metamask/settings-page.js",
+    "./pages/metamask/unlock-page": "./dist/pages/metamask/unlock-page.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "pnpm run clean && pnpm run build:dist",
+    "build:dist": "tsup",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.37.0",
+    "app-root-path": "^3.1.0",
+    "axios": "^1.4.0",
+    "debug": "^4.3.4",
+    "download": "^8.0.0",
+    "ethers": "^6.7.1",
+    "node-fetch": "^2.6.1",
+    "underscore": "^1.13.6",
+    "viem": "^1.6.0"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.1",
+    "tsconfig": "workspace:*",
+    "tsup": "^7.2.0"
+  }
+}
