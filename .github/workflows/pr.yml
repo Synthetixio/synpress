@@ -13,7 +13,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2
         with:
-          version: 8.7.5
+          version: 8.7.6
 
       # Fetches the config package version from the `pnpm-lock.yaml` file.
       - name: Fetch config package version
