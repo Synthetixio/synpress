@@ -3,8 +3,9 @@
   "scripts": {
     "build": "turbo build",
     "preinstall": "npx only-allow pnpm",
-    "lint": "biome format . --write",
+    "lint": "biome check . --apply",
     "lint:check": "biome check .",
+    "lint:unsafe": "biome check . --apply-unsafe",
     "prepare": "husky install",
     "sort-package-json": "sort-package-json 'package.json' 'packages/*/package.json' 'examples/*/package.json'",
     "sort-package-json:check": "sort-package-json 'package.json' 'packages/*/package.json' 'examples/*/package.json' --check"
