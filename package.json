@@ -1,14 +1,23 @@
 {
   "private": true,
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
     "build": "turbo build",
+    "preinstall": "npx only-allow pnpm",
     "lint": "biome format . --write",
-    "lint:check": "biome check ."
+    "lint:check": "biome check .",
+    "prepare": "husky install",
+    "sort-package-json": "sort-package-json 'package.json' 'packages/*/package.json' 'examples/*/package.json'",
+    "sort-package-json:check": "sort-package-json 'package.json' 'packages/*/package.json' 'examples/*/package.json' --check"
+  },
+  "lint-staged": {
+    "package.json": "sort-package-json"
   },
   "devDependencies": {
     "@biomejs/biome": "1.2.2",
     "commitlint-config-gitmoji": "^2.3.1",
+    "husky": "^8.0.0",
+    "lint-staged": "^14.0.1",
+    "sort-package-json": "^2.5.1",
     "turbo": "^1.10.14"
   },
   "packageManager": "pnpm@8.7.6",
