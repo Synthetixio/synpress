@@ -4,25 +4,20 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./helpers": "./dist/helpers.js",
-    "./commands/metamask": "./dist/commands/metamask.js",
-    "./commands/playwright": "./dist/commands/playwright.js",
-    "./pages/metamask/confirmation-page": "./dist/pages/metamask/confirmation-page.js",
-    "./pages/metamask/first-time-flow-page": "./dist/pages/metamask/first-time-flow-page.js",
-    "./pages/metamask/main-page": "./dist/pages/metamask/main-page.js",
-    "./pages/metamask/notification-page": "./dist/pages/metamask/notification-page.js",
-    "./pages/metamask/page": "./dist/pages/metamask/page.js",
-    "./pages/metamask/settings-page": "./dist/pages/metamask/settings-page.js",
-    "./pages/metamask/unlock-page": "./dist/pages/metamask/unlock-page.js"
+    ".": {
+      "import": {
+        "types": "./types/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
+    }
   },
-  "files": [
-    "dist",
-    "src"
-  ],
+  "main": "dist/index.cjs",
+  "types": "types/index.d.ts",
   "scripts": {
-    "build": "pnpm run clean && pnpm run build:dist",
+    "build": "pnpm run clean && pnpm run build:dist && pnpm run build:types",
     "build:dist": "tsup",
-    "clean": "rimraf dist"
+    "build:types": "tsc --emitDeclarationOnly",
+    "clean": "rimraf dist types"
   },
   "dependencies": {
     "@playwright/test": "^1.37.0",

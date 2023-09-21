@@ -2,10 +2,10 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig({
   name: 'metamask-legacy',
-  entry: ['src'],
+  entry: ['src/index.js'],
   outDir: 'dist',
-  format: 'esm',
+  format: 'cjs',
+  cjsInterop: true,
   splitting: false,
-  sourcemap: true,
-  shims: true
+  sourcemap: true
 })

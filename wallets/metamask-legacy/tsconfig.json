@@ -2,7 +2,11 @@
   "extends": "tsconfig/base.json",
   "compilerOptions": {
     "rootDir": "src",
+    "outDir": "types",
+    "declaration": true,
     "sourceMap": true,
+    "declarationMap": true,
+    "allowJs": true
   },
   "include": [
     "src"
