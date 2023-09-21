@@ -1,11 +1,11 @@
 {
-  "name": "example-greetings-esm",
+  "name": "example-metamask-legacy",
   "type": "module",
   "scripts": {
     "run": "tsx src/example.ts"
   },
   "dependencies": {
-    "greetings": "workspace:*"
+    "metamask-legacy": "workspace:*"
   },
   "devDependencies": {
     "tsx": "^3.12.10"
