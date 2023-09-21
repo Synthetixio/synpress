@@ -2,9 +2,11 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
+    "format": "biome format . --write",
+    "format:check": "biome format . --error-on-warnings",
     "preinstall": "npx only-allow pnpm",
     "lint": "biome check . --apply",
-    "lint:check": "biome check .",
+    "lint:check": "biome check . --verbose",
     "lint:unsafe": "biome check . --apply-unsafe",
     "prepare": "husky install",
     "sort-package-json": "sort-package-json 'package.json' 'packages/*/package.json' 'examples/*/package.json'",
