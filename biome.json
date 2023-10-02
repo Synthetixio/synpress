@@ -1,7 +1,14 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "ignore": ["**/node_modules", "**/dist", "**/types", ".vscode", ".idea"]
+    "ignore": [
+      "**/node_modules",
+      ".vscode",
+      ".idea",
+      "**/dist",
+      "**/types",
+      "**/coverage"
+    ]
   },
   "formatter": {
     "indentStyle": "space",
