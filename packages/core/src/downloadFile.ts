@@ -55,10 +55,9 @@ export async function downloadFile(options: DownloaderOptions) {
   })
 
   // TODO: This is a workaround to handle errors from both `writer` and `axios` and get 100% test coverage.
-  return returnPromise
-    .catch((error: Error) => {
-      throw new Error(
-        `[DownloadFile] Error downloading the file - ${error.message}`
-      )
-    })
+  return returnPromise.catch((error: Error) => {
+    throw new Error(
+      `[DownloadFile] Error downloading the file - ${error.message}`
+    )
+  })
 }
