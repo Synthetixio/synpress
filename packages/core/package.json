@@ -24,7 +24,8 @@
     "lint": "biome check . --apply",
     "lint:check": "biome check . --verbose",
     "lint:unsafe": "biome check . --apply-unsafe",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
     "types:check": "tsc --noEmit"
   },
   "devDependencies": {
