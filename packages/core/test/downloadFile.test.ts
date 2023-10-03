@@ -1,3 +1,4 @@
+import path from 'node:path'
 import axios from 'axios'
 import { fs, vol } from 'memfs'
 import { rest } from 'msw'
@@ -17,7 +18,7 @@ import { downloadFile } from '../src/downloadFile'
 const MOCK_OUTPUT_DIR = '/tmp'
 const MOCK_FILE_NAME = 'duck.txt'
 const MOCK_FILE_CONTENT = 'Quack! 🐾'
-const MOCK_FILE_PATH = `${MOCK_OUTPUT_DIR}/${MOCK_FILE_NAME}`
+const MOCK_FILE_PATH = path.join(MOCK_OUTPUT_DIR, MOCK_FILE_NAME)
 const MOCK_URL = `https://example.com/${MOCK_FILE_NAME}`
 
 const server = setupServer(
