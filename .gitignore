@@ -21,3 +21,7 @@ types
 
 # Vitest
 coverage
+
+### Synpress
+
+.cache-synpress
