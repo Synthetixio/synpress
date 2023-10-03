@@ -48,7 +48,7 @@ export async function downloadFile(options: DownloaderOptions) {
           reject(new Error(`[Writer] ${error.message}`))
         })
       })
-      .catch((error) => {
+      .catch((error: Error) => {
         // TODO: Handle errors in a more sophisticated way
         reject(new Error(`[Axios] ${error.message}`))
       })

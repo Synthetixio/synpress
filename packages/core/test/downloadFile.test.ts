@@ -67,6 +67,27 @@ describe('downloadFile', () => {
     })
   })
 
+  it('throws an error if the file cannot be downloaded', async () => {
+    server.use(
+      rest.get(MOCK_URL, (_, res, ctx) => {
+        return res(
+          ctx.status(500),
+          ctx.json({ message: 'Internal server error' })
+        )
+      })
+    )
+
+    const downloadFileFuncCall = downloadFile({
+      url: MOCK_URL,
+      outputDir: MOCK_OUTPUT_DIR,
+      fileName: MOCK_FILE_NAME
+    })
+
+    await expect(downloadFileFuncCall).rejects.toThrowError(
+      '[DownloadFile] Error downloading the file - [Axios] Request failed with status code 500'
+    )
+  })
+
   describe('when the file does not exist', () => {
     it('downloads a file', async () => {
       const result = await downloadFile({
@@ -82,27 +103,6 @@ describe('downloadFile', () => {
       expect(fs.existsSync(result.filePath)).toBe(true)
       expect(fs.readFileSync(result.filePath, 'utf8')).toBe(MOCK_FILE_CONTENT)
     })
-
-    it('throws an error if the file cannot be downloaded', async () => {
-      server.use(
-        rest.get(MOCK_URL, (_, res, ctx) => {
-          return res(
-            ctx.status(500),
-            ctx.json({ message: 'Internal server error' })
-          )
-        })
-      )
-
-      const downloadFileFuncCall = downloadFile({
-        url: MOCK_URL,
-        outputDir: MOCK_OUTPUT_DIR,
-        fileName: MOCK_FILE_NAME
-      })
-
-      await expect(() => downloadFileFuncCall).rejects.toThrowError(
-        '[DownloadFile] Error downloading the file - [Axios] Request failed with status code 500'
-      )
-    })
   })
 
   describe('when the file already exists', () => {
@@ -113,7 +113,7 @@ describe('downloadFile', () => {
       expect(fs.existsSync(MOCK_FILE_PATH)).toBe(true)
     })
 
-    it('skips download if the file exists', async () => {
+    it('skips download', async () => {
       const result = await downloadFile({
         url: MOCK_URL,
         outputDir: MOCK_OUTPUT_DIR,
