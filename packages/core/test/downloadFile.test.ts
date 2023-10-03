@@ -15,15 +15,15 @@ import {
 } from 'vitest'
 import { downloadFile } from '../src/downloadFile'
 
-const MOCK_OUTPUT_DIR = '/tmp'
-const MOCK_FILE_NAME = 'duck.txt'
-const MOCK_FILE_CONTENT = 'Quack! 🐾'
-const MOCK_FILE_PATH = path.join(MOCK_OUTPUT_DIR, MOCK_FILE_NAME)
-const MOCK_URL = `https://example.com/${MOCK_FILE_NAME}`
+const ROOT_DIR = '/tmp'
+const FILE_NAME = 'duck.txt'
+const FILE_CONTENT = 'Downloadable Quack! 🐾'
+const FILE_PATH = path.join(ROOT_DIR, FILE_NAME)
+const MOCK_URL = `https://example.com/${FILE_NAME}`
 
 const server = setupServer(
   rest.get(MOCK_URL, (_, res, ctx) => {
-    return res(ctx.text(MOCK_FILE_CONTENT))
+    return res(ctx.text(FILE_CONTENT))
   })
 )
 
@@ -44,7 +44,7 @@ describe('downloadFile', () => {
   })
 
   beforeEach(() => {
-    vol.mkdirSync(MOCK_OUTPUT_DIR)
+    vol.mkdirSync(ROOT_DIR)
   })
 
   afterEach(() => {
@@ -58,8 +58,8 @@ describe('downloadFile', () => {
 
     await downloadFile({
       url: MOCK_URL,
-      outputDir: MOCK_OUTPUT_DIR,
-      fileName: MOCK_FILE_NAME
+      outputDir: ROOT_DIR,
+      fileName: FILE_NAME
     })
 
     expect(axiosSpy).toHaveBeenCalledOnce()
@@ -80,8 +80,8 @@ describe('downloadFile', () => {
 
     const downloadFileFuncCall = downloadFile({
       url: MOCK_URL,
-      outputDir: MOCK_OUTPUT_DIR,
-      fileName: MOCK_FILE_NAME
+      outputDir: ROOT_DIR,
+      fileName: FILE_NAME
     })
 
     await expect(downloadFileFuncCall).rejects.toThrowError(
@@ -93,16 +93,16 @@ describe('downloadFile', () => {
     it('downloads a file', async () => {
       const result = await downloadFile({
         url: MOCK_URL,
-        outputDir: MOCK_OUTPUT_DIR,
-        fileName: MOCK_FILE_NAME
+        outputDir: ROOT_DIR,
+        fileName: FILE_NAME
       })
 
       expect(result).to.deep.equal({
-        filePath: MOCK_FILE_PATH,
+        filePath: FILE_PATH,
         downloadSkipped: false
       })
       expect(fs.existsSync(result.filePath)).toBe(true)
-      expect(fs.readFileSync(result.filePath, 'utf8')).toBe(MOCK_FILE_CONTENT)
+      expect(fs.readFileSync(result.filePath, 'utf8')).toBe(FILE_CONTENT)
     })
   })
 
@@ -110,19 +110,19 @@ describe('downloadFile', () => {
     const existingMockFileContent = 'This is an existing duck file! 🦆'
 
     beforeEach(() => {
-      fs.writeFileSync(MOCK_FILE_PATH, existingMockFileContent)
-      expect(fs.existsSync(MOCK_FILE_PATH)).toBe(true)
+      fs.writeFileSync(FILE_PATH, existingMockFileContent)
+      expect(fs.existsSync(FILE_PATH)).toBe(true)
     })
 
     it('skips download', async () => {
       const result = await downloadFile({
         url: MOCK_URL,
-        outputDir: MOCK_OUTPUT_DIR,
-        fileName: MOCK_FILE_NAME
+        outputDir: ROOT_DIR,
+        fileName: FILE_NAME
       })
 
       expect(result).to.deep.equal({
-        filePath: MOCK_FILE_PATH,
+        filePath: FILE_PATH,
         downloadSkipped: true
       })
       expect(fs.existsSync(result.filePath)).toBe(true)
@@ -134,17 +134,17 @@ describe('downloadFile', () => {
     it('overwrites the existing file if the `overrideFile` flag is present', async () => {
       const result = await downloadFile({
         url: MOCK_URL,
-        outputDir: MOCK_OUTPUT_DIR,
-        fileName: MOCK_FILE_NAME,
+        outputDir: ROOT_DIR,
+        fileName: FILE_NAME,
         overrideFile: true
       })
 
       expect(result).to.deep.equal({
-        filePath: MOCK_FILE_PATH,
+        filePath: FILE_PATH,
         downloadSkipped: false
       })
       expect(fs.existsSync(result.filePath)).toBe(true)
-      expect(fs.readFileSync(result.filePath, 'utf8')).toBe(MOCK_FILE_CONTENT)
+      expect(fs.readFileSync(result.filePath, 'utf8')).toBe(FILE_CONTENT)
     })
   })
 })
