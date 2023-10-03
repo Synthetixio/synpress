@@ -18,8 +18,8 @@
   ],
   "scripts": {
     "build": "pnpm run clean && pnpm run build:dist && pnpm run build:types",
-    "build:dist": "tsup",
-    "build:types": "tsc --emitDeclarationOnly",
+    "build:dist": "tsup --tsconfig tsconfig.build.json",
+    "build:types": "tsc --emitDeclarationOnly --project tsconfig.build.json",
     "clean": "rimraf dist types",
     "lint": "biome check . --apply",
     "lint:check": "biome check . --verbose",

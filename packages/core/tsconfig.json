@@ -1,13 +1,10 @@
 {
-  "extends": "tsconfig/base.json",
+  "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "types",
-    "declaration": true,
-    "sourceMap": true,
-    "declarationMap": true
+    "rootDir": "."
   },
   "include": [
-    "src"
+    "src",
+    "test"
   ]
 }
