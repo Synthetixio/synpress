@@ -1,3 +1,4 @@
+import path from 'node:path'
 import { fs, vol } from 'memfs'
 import {
   afterAll,
@@ -18,11 +19,14 @@ import {
 const ROOT_DIR = '/tmp'
 const FILE_NAME = 'duck.txt'
 const NESTED_FILE_NAME = 'nested-duck.txt'
-const ARCHIVE_PATH = `${ROOT_DIR}/archive.zip`
-const OUTPUT_PATH = `${ROOT_DIR}/archive`
-const OUTPUT_NESTED_DIR_PATH = `${OUTPUT_PATH}/nested`
-const FILE_OUTPUT_PATH = `${OUTPUT_PATH}/${FILE_NAME}`
-const NESTED_FILE_OUTPUT_PATH = `${OUTPUT_NESTED_DIR_PATH}/${NESTED_FILE_NAME}`
+const ARCHIVE_PATH = path.join(ROOT_DIR, 'archive.zip')
+const OUTPUT_PATH = path.join(ROOT_DIR, 'archive')
+const OUTPUT_NESTED_DIR_PATH = path.join(OUTPUT_PATH, 'nested')
+const FILE_OUTPUT_PATH = path.join(OUTPUT_PATH, FILE_NAME)
+const NESTED_FILE_OUTPUT_PATH = path.join(
+  OUTPUT_NESTED_DIR_PATH,
+  NESTED_FILE_NAME
+)
 
 vi.mock('fs-extra', async () => {
   return {
