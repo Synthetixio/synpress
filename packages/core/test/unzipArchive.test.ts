@@ -139,12 +139,12 @@ describe('unzipArchive', () => {
       expect(createReadStreamSpy).not.toHaveBeenCalled()
     })
 
-    it('overwrites the output directory if the `overrideFile` flag is present', async () => {
+    it('overwrites the output directory if the `overwrite` flag is present', async () => {
       createTestZipArchive(ARCHIVE_PATH)
 
       const result = await unzipArchive({
         archivePath: ARCHIVE_PATH,
-        overrideFile: true
+        overwrite: true
       })
 
       expect(result).toStrictEqual({
