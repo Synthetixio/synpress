@@ -124,7 +124,14 @@ importers:
   packages/tsconfig: {}
 
   wallets/metamask:
+    dependencies:
+      core:
+        specifier: workspace:*
+        version: link:../../packages/core
     devDependencies:
+      '@vitest/coverage-v8':
+        specifier: 1.0.0-beta.0
+        version: 1.0.0-beta.0(vitest@0.34.6)
       rimraf:
         specifier: ^5.0.1
         version: 5.0.1
@@ -137,6 +144,9 @@ importers:
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
+      vitest:
+        specifier: ^0.34.6
+        version: 0.34.6
 
   wallets/metamask-legacy:
     dependencies:
