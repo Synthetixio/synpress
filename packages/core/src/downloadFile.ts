@@ -26,6 +26,8 @@ export async function downloadFile(options: DownloaderOptions) {
         filePath,
         downloadSkipped: true
       })
+
+      return
     }
 
     axios
