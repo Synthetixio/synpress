@@ -4,7 +4,7 @@ import unzippper from 'unzipper'
 
 type UnzipArchiveOptions = {
   archivePath: string
-  overrideFile?: boolean
+  overwrite?: boolean
 }
 
 type UnzipArchiveResult = {
@@ -13,14 +13,14 @@ type UnzipArchiveResult = {
 }
 
 export async function unzipArchive(options: UnzipArchiveOptions) {
-  const { archivePath, overrideFile } = options
+  const { archivePath, overwrite } = options
 
   const resultPromise = new Promise<UnzipArchiveResult>((resolve, reject) => {
     const archiveFileExtension = archivePath.split('.').slice(-1)
     const outputPath = archivePath.replace(`.${archiveFileExtension}`, '')
 
     const fileExists = fs.existsSync(outputPath)
-    if (fileExists && !overrideFile) {
+    if (fileExists && !overwrite) {
       resolve({
         outputPath,
         unzipSkipped: true
