@@ -121,6 +121,8 @@ describe('unzipArchive', () => {
     })
 
     it('skips unzipping', async () => {
+      const createReadStreamSpy = vi.spyOn(fs, 'createReadStream')
+
       const result = await unzipArchive({
         archivePath: ARCHIVE_PATH
       })
@@ -133,6 +135,8 @@ describe('unzipArchive', () => {
       expect(fs.readFileSync(FILE_OUTPUT_PATH, 'utf8')).toBe(
         unzippedFileContent
       )
+
+      expect(createReadStreamSpy).not.toHaveBeenCalled()
     })
 
     it('overwrites the output directory if the `overrideFile` flag is present', async () => {
