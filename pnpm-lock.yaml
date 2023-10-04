@@ -123,6 +123,21 @@ importers:
 
   packages/tsconfig: {}
 
+  wallets/metamask:
+    devDependencies:
+      rimraf:
+        specifier: ^5.0.1
+        version: 5.0.1
+      tsconfig:
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
+      tsup:
+        specifier: ^7.2.0
+        version: 7.2.0(typescript@5.2.2)
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+
   wallets/metamask-legacy:
     dependencies:
       '@playwright/test':
