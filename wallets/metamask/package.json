@@ -18,15 +18,23 @@
   ],
   "scripts": {
     "build": "pnpm run clean && pnpm run build:dist && pnpm run build:types",
-    "build:dist": "tsup",
-    "build:types": "tsc --emitDeclarationOnly",
+    "build:dist": "tsup --tsconfig tsconfig.build.json",
+    "build:types": "tsc --emitDeclarationOnly --project tsconfig.build.json",
     "clean": "rimraf dist types",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest watch",
     "types:check": "tsc --noEmit"
   },
+  "dependencies": {
+    "core": "workspace:*"
+  },
   "devDependencies": {
+    "@vitest/coverage-v8": "1.0.0-beta.0",
     "rimraf": "^5.0.1",
     "tsconfig": "workspace:*",
     "tsup": "^7.2.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.6"
   }
 }

@@ -9,8 +9,8 @@
     "lint:check": "biome check . --verbose",
     "lint:unsafe": "biome check . --apply-unsafe",
     "prepare": "husky install",
-    "sort-package-json": "sort-package-json 'package.json' 'packages/*/package.json' 'examples/*/package.json'",
-    "sort-package-json:check": "sort-package-json 'package.json' 'packages/*/package.json' 'examples/*/package.json' --check",
+    "sort-package-json": "sort-package-json 'package.json' '{packages,wallets,examples}/*/package.json'",
+    "sort-package-json:check": "sort-package-json 'package.json' '{packages,wallets,examples}/*/package.json' --check",
     "test": "turbo test"
   },
   "lint-staged": {
