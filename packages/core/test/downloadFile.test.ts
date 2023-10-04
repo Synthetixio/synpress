@@ -54,7 +54,7 @@ describe('downloadFile', () => {
   })
 
   it('calls axios.get with the correct arguments', async () => {
-    const axiosSpy = vi.spyOn(axios, 'get')
+    const axiosGetSpy = vi.spyOn(axios, 'get')
 
     await downloadFile({
       url: MOCK_URL,
@@ -62,8 +62,8 @@ describe('downloadFile', () => {
       fileName: FILE_NAME
     })
 
-    expect(axiosSpy).toHaveBeenCalledOnce()
-    expect(axiosSpy).toHaveBeenCalledWith(MOCK_URL, {
+    expect(axiosGetSpy).toHaveBeenCalledOnce()
+    expect(axiosGetSpy).toHaveBeenCalledWith(MOCK_URL, {
       responseType: 'stream'
     })
   })
@@ -115,6 +115,8 @@ describe('downloadFile', () => {
     })
 
     it('skips download', async () => {
+      const axiosGetSpy = vi.spyOn(axios, 'get')
+
       const result = await downloadFile({
         url: MOCK_URL,
         outputDir: ROOT_DIR,
@@ -129,9 +131,13 @@ describe('downloadFile', () => {
       expect(fs.readFileSync(result.filePath, 'utf8')).toBe(
         existingMockFileContent
       )
+
+      expect(axiosGetSpy).not.toHaveBeenCalled()
     })
 
     it('overwrites the existing file if the `overrideFile` flag is present', async () => {
+      const axiosGetSpy = vi.spyOn(axios, 'get')
+
       const result = await downloadFile({
         url: MOCK_URL,
         outputDir: ROOT_DIR,
@@ -145,6 +151,8 @@ describe('downloadFile', () => {
       })
       expect(fs.existsSync(result.filePath)).toBe(true)
       expect(fs.readFileSync(result.filePath, 'utf8')).toBe(FILE_CONTENT)
+
+      expect(axiosGetSpy).toHaveBeenCalledOnce()
     })
   })
 })
