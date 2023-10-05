@@ -22,6 +22,12 @@ types
 # Vitest
 coverage
 
+### Playwright
+
+test-results
+playwright-report
+playwright/.cache
+
 ### Synpress
 
 .cache-synpress

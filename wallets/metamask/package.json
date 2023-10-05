@@ -23,6 +23,8 @@
     "clean": "rimraf dist types",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:headless": "HEADLESS=true playwright test",
     "test:watch": "vitest watch",
     "types:check": "tsc --noEmit"
   },
@@ -30,6 +32,8 @@
     "core": "workspace:*"
   },
   "devDependencies": {
+    "@playwright/test": "^1.38.1",
+    "@types/node": "^20.8.0",
     "@vitest/coverage-v8": "1.0.0-beta.0",
     "rimraf": "^5.0.1",
     "tsconfig": "workspace:*",

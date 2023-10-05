@@ -8,6 +8,8 @@
       "**/dist",
       "**/types",
       "**/coverage",
+      "**/test-results",
+      "**/playwright-report",
       "**/.cache-synpress"
     ]
   },
