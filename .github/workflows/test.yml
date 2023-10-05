@@ -60,3 +60,12 @@ jobs:
 
       - name: Run E2E tests (headless)
         run: pnpm run test:e2e:headless
+
+      - name: Archive Playwright traces
+        uses: actions/upload-artifact@v3
+        if: success() || failure()
+        with:
+          name: playwright-traces
+          path: |
+            wallets/metamask/test-results
+          if-no-files-found: error

@@ -17,13 +17,16 @@ export default defineConfig({
   // Opt out of parallel tests on CI.
   workers: process.env.CI ? 1 : undefined,
 
-  // Concise 'dot' for CI, default 'html' when running locally. See https://playwright.dev/docs/test-reporters.
+  // Concise 'dot' for CI, default 'html' when running locally.
+  // See https://playwright.dev/docs/test-reporters.
   reporter: process.env.CI ? 'dot' : 'html',
 
-  // Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions.
+  // Shared settings for all the projects below.
+  // See https://playwright.dev/docs/api/class-testoptions.
   use: {
-    // Collect traces for all failed tests. See https://playwright.dev/docs/trace-viewer.
-    trace: 'retain-on-failure'
+    // Collect all traces on CI, and only traces for failed tests when running locally.
+    // See https://playwright.dev/docs/trace-viewer.
+    trace: process.env.CI ? 'on' : 'retain-on-failure'
   },
 
   // Configure projects for major browsers.
