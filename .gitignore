@@ -6,6 +6,11 @@
 # JetBrains
 .idea
 
+### OS specific
+
+# macOS
+.DS_Store
+
 ### Monorepo
 
 .turbo
