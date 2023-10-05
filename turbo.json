@@ -5,6 +5,11 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", "types/**"]
     },
-    "test": {}
+    "test": {
+      "dependsOn": ["build"]
+    },
+    "test:e2e:headless": {
+      "dependsOn": ["build"]
+    }
   }
 }

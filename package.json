@@ -11,7 +11,8 @@
     "prepare": "husky install",
     "sort-package-json": "sort-package-json 'package.json' '{packages,wallets,examples}/*/package.json'",
     "sort-package-json:check": "sort-package-json 'package.json' '{packages,wallets,examples}/*/package.json' --check",
-    "test": "turbo test"
+    "test": "turbo test",
+    "test:e2e:headless": "turbo test:e2e:headless"
   },
   "lint-staged": {
     "package.json": "sort-package-json"
