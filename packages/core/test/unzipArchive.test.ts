@@ -1,14 +1,6 @@
 import path from 'node:path'
 import { fs, vol } from 'memfs'
-import {
-  afterAll,
-  afterEach,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi
-} from 'vitest'
+import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { unzipArchive } from '../src/unzipArchive'
 import {
   ARCHIVE_CONTENTS,
@@ -23,10 +15,7 @@ const ARCHIVE_PATH = path.join(ROOT_DIR, 'archive.zip')
 const OUTPUT_PATH = path.join(ROOT_DIR, 'archive')
 const OUTPUT_NESTED_DIR_PATH = path.join(OUTPUT_PATH, 'nested')
 const FILE_OUTPUT_PATH = path.join(OUTPUT_PATH, FILE_NAME)
-const NESTED_FILE_OUTPUT_PATH = path.join(
-  OUTPUT_NESTED_DIR_PATH,
-  NESTED_FILE_NAME
-)
+const NESTED_FILE_OUTPUT_PATH = path.join(OUTPUT_NESTED_DIR_PATH, NESTED_FILE_NAME)
 
 vi.mock('fs-extra', async () => {
   return {
@@ -88,12 +77,8 @@ describe('unzipArchive', () => {
         unzipSkipped: false
       })
       expect(fs.existsSync(result.outputPath)).toBe(true)
-      expect(fs.readFileSync(FILE_OUTPUT_PATH, 'utf8')).toBe(
-        ARCHIVE_CONTENTS[FILE_NAME]
-      )
-      expect(fs.readFileSync(NESTED_FILE_OUTPUT_PATH, 'utf8')).toBe(
-        ARCHIVE_CONTENTS[NESTED_FILE_NAME]
-      )
+      expect(fs.readFileSync(FILE_OUTPUT_PATH, 'utf8')).toBe(ARCHIVE_CONTENTS[FILE_NAME])
+      expect(fs.readFileSync(NESTED_FILE_OUTPUT_PATH, 'utf8')).toBe(ARCHIVE_CONTENTS[NESTED_FILE_NAME])
     }
 
     it('unzips the archive', async () => {
@@ -132,9 +117,7 @@ describe('unzipArchive', () => {
         unzipSkipped: true
       })
       expect(fs.existsSync(FILE_OUTPUT_PATH)).toBe(true)
-      expect(fs.readFileSync(FILE_OUTPUT_PATH, 'utf8')).toBe(
-        unzippedFileContent
-      )
+      expect(fs.readFileSync(FILE_OUTPUT_PATH, 'utf8')).toBe(unzippedFileContent)
 
       expect(createReadStreamSpy).not.toHaveBeenCalled()
     })
@@ -152,12 +135,8 @@ describe('unzipArchive', () => {
         unzipSkipped: false
       })
       expect(fs.existsSync(result.outputPath)).toBe(true)
-      expect(fs.readFileSync(FILE_OUTPUT_PATH, 'utf8')).not.toBe(
-        unzippedFileContent
-      )
-      expect(fs.readFileSync(NESTED_FILE_OUTPUT_PATH, 'utf8')).toBe(
-        ARCHIVE_CONTENTS[NESTED_FILE_NAME]
-      )
+      expect(fs.readFileSync(FILE_OUTPUT_PATH, 'utf8')).not.toBe(unzippedFileContent)
+      expect(fs.readFileSync(NESTED_FILE_OUTPUT_PATH, 'utf8')).toBe(ARCHIVE_CONTENTS[NESTED_FILE_NAME])
     })
   })
 })

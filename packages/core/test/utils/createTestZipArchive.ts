@@ -29,15 +29,10 @@ export const ARCHIVE_CONTENTS = {
 export function createTestZipArchive(archivePath: string) {
   const targetDir = path.dirname(archivePath)
   fs.mkdirSync(targetDir, { recursive: true })
-  fs.writeFileSync(
-    archivePath,
-    Buffer.from(ZIP_ARCHIVE_CONTENT_IN_BASE_64_URL, 'base64url')
-  )
+  fs.writeFileSync(archivePath, Buffer.from(ZIP_ARCHIVE_CONTENT_IN_BASE_64_URL, 'base64url'))
 }
 
-export async function createTestZipArchiveWithIncorrectEntries(
-  archivePath: string
-) {
+export async function createTestZipArchiveWithIncorrectEntries(archivePath: string) {
   return new Promise<void>((resolve, reject) => {
     const archiveStream = fs.createWriteStream(archivePath)
     const archive = archiver('zip', {

@@ -3,16 +3,7 @@ import axios from 'axios'
 import { fs, vol } from 'memfs'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi
-} from 'vitest'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { downloadFile } from '../src/downloadFile'
 
 const ROOT_DIR = '/tmp'
@@ -71,10 +62,7 @@ describe('downloadFile', () => {
   it('throws an error if the file cannot be downloaded', async () => {
     server.use(
       rest.get(MOCK_URL, (_, res, ctx) => {
-        return res(
-          ctx.status(500),
-          ctx.json({ message: 'Internal server error' })
-        )
+        return res(ctx.status(500), ctx.json({ message: 'Internal server error' }))
       })
     )
 
@@ -128,9 +116,7 @@ describe('downloadFile', () => {
         downloadSkipped: true
       })
       expect(fs.existsSync(result.filePath)).toBe(true)
-      expect(fs.readFileSync(result.filePath, 'utf8')).toBe(
-        existingMockFileContent
-      )
+      expect(fs.readFileSync(result.filePath, 'utf8')).toBe(existingMockFileContent)
 
       expect(axiosGetSpy).not.toHaveBeenCalled()
     })
