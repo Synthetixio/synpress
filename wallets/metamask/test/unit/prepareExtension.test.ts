@@ -1,10 +1,6 @@
 import * as core from 'core'
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
-import {
-  DEFAULT_METAMASK_VERSION,
-  EXTENSION_DOWNLOAD_URL,
-  prepareExtension
-} from '../../src/prepareExtension'
+import { DEFAULT_METAMASK_VERSION, EXTENSION_DOWNLOAD_URL, prepareExtension } from '../../src/prepareExtension'
 
 const MOCK_CACHE_DIR_PATH = 'mockCacheDirPath'
 const MOCK_EXTENSION_ARCHIVE_PATH = 'mockExtensionArchivePath'
