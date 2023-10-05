@@ -4,7 +4,7 @@ import {
   DEFAULT_METAMASK_VERSION,
   EXTENSION_DOWNLOAD_URL,
   prepareExtension
-} from '../src/prepareExtension'
+} from '../../src/prepareExtension'
 
 const MOCK_CACHE_DIR_PATH = 'mockCacheDirPath'
 const MOCK_EXTENSION_ARCHIVE_PATH = 'mockExtensionArchivePath'
