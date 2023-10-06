@@ -29,7 +29,8 @@
     "types:check": "tsc --noEmit"
   },
   "dependencies": {
-    "core": "workspace:*"
+    "core": "workspace:*",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@playwright/test": "^1.38.1",
