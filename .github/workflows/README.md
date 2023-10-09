@@ -1,6 +1,6 @@
 # .github/workflows
 
-CI Workflows
+CI Workflows.
 
 ## [🦄 pr.yml](pr.yml)
 

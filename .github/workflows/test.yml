@@ -13,18 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8.7.6
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version-file: ".nvmrc"
-          registry-url: https://registry.npmjs.org
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Setup Node & Install dependencies
+        uses: ./.github/actions/setup
 
       - name: Build project
         run: pnpm run build
@@ -38,18 +28,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8.7.6
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version-file: ".nvmrc"
-          registry-url: https://registry.npmjs.org
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Setup Node & Install dependencies
+        uses: ./.github/actions/setup
 
       # For now, we only need Chromium.
       - name: Install browsers for Playwright
