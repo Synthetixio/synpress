@@ -7,5 +7,6 @@
     "sourceMap": true,
     "declarationMap": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "files": ["environment.d.ts"]
 }
