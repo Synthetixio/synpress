@@ -11,24 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8.7.6
-
-      # Fetches the config package version from the `pnpm-lock.yaml` file.
-      - name: Fetch config package version
-        id: config-package-version
-        env:
-          GITMOJI_CONFIG_PACKAGE: "commitlint-config-gitmoji"
-        run: |
-          echo "CONFIG_PACKAGE=$(grep -A 2 "$GITMOJI_CONFIG_PACKAGE" pnpm-lock.yaml | awk '/version:/ {print "'"$GITMOJI_CONFIG_PACKAGE"'@" $2}')" >> "$GITHUB_OUTPUT"
-
-      # Installs only the config package required for commitlint.
-      - name: Install config package
-        env:
-          CONFIG_PACKAGE: "${{ steps.config-package-version.outputs.CONFIG_PACKAGE }}"
-        run: |
-          pnpm add -w "$CONFIG_PACKAGE"
+      - name: Setup Node & Install dependencies
+        uses: ./.github/actions/setup
 
       # The validation is done based on the `commitlint.config.js` file.
       - name: Validate PR title
