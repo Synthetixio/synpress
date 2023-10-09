@@ -10,6 +10,9 @@
     },
     "test:e2e:headless": {
       "dependsOn": ["build"]
+    },
+    "test:e2e:headful": {
+      "dependsOn": ["build"]
     }
   }
 }

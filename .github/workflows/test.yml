@@ -22,8 +22,8 @@ jobs:
       - name: Run tests
         run: pnpm run test
 
-  test-e2e:
-    name: Run E2E tests
+  test-e2e-headless:
+    name: Run E2E tests (headless)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -39,13 +39,50 @@ jobs:
         run: pnpm run build
 
       - name: Run E2E tests (headless)
-        run: pnpm run test:e2e:headless
+        run: pnpm run test:e2e:headless -- --output "test-results-headless"
 
       - name: Archive Playwright traces
         uses: actions/upload-artifact@v3
         if: success() || failure()
         with:
-          name: playwright-traces
+          name: playwright-traces-headless
           path: |
-            wallets/metamask/test-results
+            wallets/metamask/test-results-headless/
+          if-no-files-found: error
+
+  test-e2e-headful:
+    name: Run E2E tests (headful)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node & Install dependencies
+        uses: ./.github/actions/setup
+
+      # For now, we only need Chromium.
+      - name: Install browsers for Playwright
+        run: pnpm dlx playwright install chromium
+
+      - name: Build project
+        run: pnpm run build
+
+      - name: Install linux dependencies
+        run: |
+          sudo apt-get install --no-install-recommends -y \
+          xvfb
+
+      - name: Build project
+        run: pnpm run build
+
+      - name: Run E2E tests (headful)
+        run: |
+          xvfb-run pnpm run test:e2e:headful -- --output "test-results-headful"
+
+      - name: Archive Playwright traces
+        uses: actions/upload-artifact@v3
+        if: success() || failure()
+        with:
+          name: playwright-traces-headful
+          path: |
+            wallets/metamask/test-results-headful/
           if-no-files-found: error
