@@ -123,7 +123,10 @@ const metamask = {
     const metamaskExtensionData = (await playwright.getExtensionsData())
       .metamask;
 
-    extensionId = metamaskExtensionData.id;
+    // Handle cases where the extension id is prefixed with the localized `Identifier: ` string
+    extensionId = metamaskExtensionData.id.includes(': ')
+      ? metamaskExtensionData.id.split(': ')[1]
+      : metamaskExtensionData.id;
     extensionVersion = metamaskExtensionData.version;
     extensionHomeUrl = `chrome-extension://${extensionId}/home.html`;
     extensionSettingsUrl = `${extensionHomeUrl}#settings`;
