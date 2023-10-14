@@ -889,12 +889,43 @@ const metamask = {
   },
   async acceptAccess(options) {
     const notificationPage = await playwright.switchToMetamaskNotification();
+
+    if (options && options.accountIndexes) {
+      if (
+        !Array.isArray(options.accountIndexes) ||
+        options.accountIndexes.some(accIdx => Number.isNaN(Number(accIdx)))
+      ) {
+        console.error('`accountIndexes` must be an array of numbers');
+        return false;
+      }
+
+      const checkboxes = await notificationPage.locator(
+        notificationPageElements.selectAccountCheckbox,
+      );
+      const count = await checkboxes.count();
+      for (let i = 0; i < count; ++i) {
+        const accountIdx = i + 1;
+        const checkboxSelector =
+          notificationPageElements.getAccountCheckboxSelector(accountIdx);
+        const checkbox = await playwright.waitFor(
+          checkboxSelector,
+          notificationPage,
+        );
+        const isChecked = await checkbox.isChecked();
+        const shouldCheck = options.accountIndexes.includes(accountIdx);
+        if ((!isChecked && shouldCheck) || (isChecked && !shouldCheck)) {
+          await playwright.waitAndClick(checkboxSelector, notificationPage);
+        }
+      }
+    }
+
     if (options && options.allAccounts) {
       await playwright.waitAndClick(
         notificationPageElements.selectAllCheckbox,
         notificationPage,
       );
     }
+
     await playwright.waitAndClick(
       notificationPageElements.nextButton,
       notificationPage,

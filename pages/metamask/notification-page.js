@@ -8,6 +8,9 @@ const customSpendingLimitInput = `${notificationPage} [data-testid="custom-spend
 const allowToSpendButton = `${notificationPage} [data-testid="page-container-footer-next"]`;
 const rejectToSpendButton = `${notificationPage} [data-testid="page-container-footer-cancel"]`;
 const selectAllCheckbox = `${notificationPage} .choose-account-list__header-check-box`;
+const getAccountCheckboxSelector = (accountIdx = 1) =>
+  `${notificationPage} .choose-account-list__account:nth-child(${accountIdx}) .check-box`;
+const selectAccountCheckbox = `${notificationPage} .choose-account-list__account .check-box`;
 const approveWarningToSpendButton = `${notificationPage} .set-approval-for-all-warning__footer__approve-button`;
 const rejectWarningToSpendButton = `${notificationPage} .btn-secondary.set-approval-for-all-warning__footer__cancel-button`;
 
@@ -22,6 +25,8 @@ module.exports.notificationPageElements = {
   allowToSpendButton,
   rejectToSpendButton,
   selectAllCheckbox,
+  getAccountCheckboxSelector,
+  selectAccountCheckbox,
   approveWarningToSpendButton,
   rejectWarningToSpendButton,
 };

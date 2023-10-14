@@ -28,7 +28,24 @@ describe('Metamask', () => {
         expect(rejected).to.be.true;
       });
     });
-    it(`acceptMetamaskAccess should accept connection request to metamask`, () => {
+    it(`acceptMetamaskAccess should accept connection request to metamask with 2nd account`, () => {
+      cy.get('#connectButton').click();
+      cy.acceptMetamaskAccess({
+        accountIndexes: [2],
+      }).then(connected => {
+        expect(connected).to.be.true;
+      });
+      cy.get('#network').contains('11155111');
+      cy.get('#chainId').contains('0xaa36a7');
+      cy.get('#accounts').should(
+        'have.text',
+        '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
+      );
+    });
+    it(`acceptMetamaskAccess should accept connection request to metamask with currently selected account (1st one) by default`, () => {
+      cy.switchMetamaskAccount(2);
+      cy.disconnectMetamaskWalletFromDapp();
+      cy.switchMetamaskAccount(1);
       cy.get('#connectButton').click();
       cy.acceptMetamaskAccess().then(connected => {
         expect(connected).to.be.true;

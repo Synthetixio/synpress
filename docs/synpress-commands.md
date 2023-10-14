@@ -354,9 +354,10 @@ Accept metamask access request.
 
 ```ts
 acceptMetamaskAccess(options?: {
-  allAccounts?: boolean;
-  confirmSignatureRequest?: boolean;
-  confirmDataSignatureRequest?: boolean;
+  accountIndexes?: number[],
+  allAccounts?: boolean,
+  confirmSignatureRequest?: boolean,
+  confirmDataSignatureRequest?: boolean,
 }): Chainable<Subject>;
 ```
 
