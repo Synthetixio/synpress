@@ -128,19 +128,19 @@ describe('Metamask', () => {
         cy.changeMetamaskNetwork('sepolia');
       }
     });
-    it(`rejectMetamaskPermisionToApproveAll should reject permission to approve all NFTs upon warning`, () => {
+    it(`rejectMetamaskPermissionToApproveAll should reject permission to approve all NFTs upon warning`, () => {
       cy.get('#deployNFTsButton').click();
       cy.confirmMetamaskTransaction();
       cy.get('#mintButton').click();
       cy.confirmMetamaskTransaction();
       cy.get('#setApprovalForAllButton').click();
-      cy.rejectMetamaskPermisionToApproveAll().then(rejected => {
+      cy.rejectMetamaskPermissionToApproveAll().then(rejected => {
         expect(rejected).to.be.true;
       });
     });
-    it(`confirmMetamaskPermisionToApproveAll should confirm permission to approve all NFTs`, () => {
+    it(`confirmMetamaskPermissionToApproveAll should confirm permission to approve all NFTs`, () => {
       cy.get('#setApprovalForAllButton').click();
-      cy.confirmMetamaskPermisionToApproveAll().then(confirmed => {
+      cy.confirmMetamaskPermissionToApproveAll().then(confirmed => {
         expect(confirmed).to.be.true;
       });
     });

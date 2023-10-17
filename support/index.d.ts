@@ -278,15 +278,15 @@ declare namespace Cypress {
     /**
      * Confirm metamask permission to access all elements (example: collectibles)
      * @example
-     * cy.confirmMetamaskPermisionToApproveAll()
+     * cy.confirmMetamaskPermissionToApproveAll()
      */
-    confirmMetamaskPermisionToApproveAll(): Chainable<boolean>;
+    confirmMetamaskPermissionToApproveAll(): Chainable<boolean>;
     /**
      * Reject metamask permission to access all elements (example: collectibles)
      * @example
-     * cy.rejectMetamaskPermisionToApproveAll()
+     * cy.rejectMetamaskPermissionToApproveAll()
      */
-    rejectMetamaskPermisionToApproveAll(): Chainable<boolean>;
+    rejectMetamaskPermissionToApproveAll(): Chainable<boolean>;
     /**
      * Reject metamask permission to spend asset
      * @example
@@ -345,14 +345,14 @@ declare namespace Cypress {
     confirmMetamaskTransactionAndWaitForMining(
       gasConfig?:
         | {
-        gasLimit?: number;
-        baseFee?: number;
-        priorityFee?: number;
-      }
+            gasLimit?: number;
+            baseFee?: number;
+            priorityFee?: number;
+          }
         | {
-        gasLimit?: number;
-        gasPrice?: number;
-      }
+            gasLimit?: number;
+            gasPrice?: number;
+          }
         | 'low'
         | 'market'
         | 'aggressive'
