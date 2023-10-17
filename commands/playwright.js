@@ -59,7 +59,7 @@ module.exports = {
   },
   async metamaskExtensionId() {
     const metamaskExtensionData = (await module.exports.getExtensionsData())
-    .metamask;
+      .metamask;
     return metamaskExtensionData.id;
   },
   async setExpectInstance(expect) {
@@ -346,9 +346,7 @@ module.exports = {
       page &&
       page
         .url()
-        .includes(
-          `chrome-extension://${metamaskExtensionId}/notification.html`,
-        )
+        .includes(`chrome-extension://${metamaskExtensionId}/notification.html`)
     ) {
       await page.waitForLoadState('load');
       await page.waitForLoadState('domcontentloaded');
