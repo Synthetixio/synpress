@@ -1374,6 +1374,24 @@ const metamask = {
     );
     return true;
   },
+  async confirmRevokePermissionToAll() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      notificationPageElements.allowToSpendButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
+  async rejectRevokePermissionToAll() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      notificationPageElements.rejectToSpendButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
   async allowToAddNetwork({ waitForEvent } = {}) {
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (waitForEvent) {

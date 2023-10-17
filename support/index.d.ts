@@ -288,6 +288,18 @@ declare namespace Cypress {
      */
     rejectMetamaskPermissionToApproveAll(): Chainable<boolean>;
     /**
+     * Confirm metamask revoking permission to access all elements (example: collectibles)
+     * @example
+     * cy.confirmMetamaskRevokePermissionToAll()
+     */
+    confirmMetamaskRevokePermissionToAll(): Chainable<boolean>;
+    /**
+     * Reject metamask revoking permission to access all elements (example: collectibles)
+     * @example
+     * cy.rejectMetamaskRevokePermissionToAll()
+     */
+    rejectMetamaskRevokePermissionToAll(): Chainable<boolean>;
+    /**
      * Reject metamask permission to spend asset
      * @example
      * cy.rejectMetamaskPermissionToSpend()
