@@ -144,6 +144,18 @@ describe('Metamask', () => {
         expect(confirmed).to.be.true;
       });
     });
+    it(`rejectMetamaskRevokePermissionToAll should reject revoking permission to all NFTs`, () => {
+      cy.get('#revokeButton').click();
+      cy.rejectMetamaskRevokePermissionToAll().then(confirmed => {
+        expect(confirmed).to.be.true;
+      });
+    });
+    it(`confirmMetamaskRevokePermissionToAll should confirm revoking permission to all NFTs`, () => {
+      cy.get('#revokeButton').click();
+      cy.confirmMetamaskRevokePermissionToAll().then(confirmed => {
+        expect(confirmed).to.be.true;
+      });
+    });
     it(`importMetamaskAccount should import new account using private key`, () => {
       cy.importMetamaskAccount(
         '0x2a871d0798f97d79848a013d4936a73bf4cc922c825d33c1cf7073dff6d409c6',
