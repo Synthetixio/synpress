@@ -60,10 +60,7 @@ module.exports = {
   async metamaskExtensionId() {
     const metamaskExtensionData = (await module.exports.getExtensionsData())
     .metamask;
-    // Handle cases where the extension id is prefixed with the localized `Identifier: ` string
-    return metamaskExtensionData.id.includes(': ')
-      ? metamaskExtensionData.id.split(': ')[1]
-      : metamaskExtensionData.id;
+    return metamaskExtensionData.id;
   },
   async setExpectInstance(expect) {
     expectInstance = expect;
@@ -482,7 +479,7 @@ module.exports = {
 
       const extensionId = (
         await extensionData.locator('#extension-id').textContent()
-      ).replace('ID: ', '');
+      ).split(': ')[1];
 
       extensionsData[extensionName] = {
         version: extensionVersion,
