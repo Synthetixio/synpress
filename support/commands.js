@@ -215,12 +215,12 @@ Cypress.Commands.add('closeMetamaskTransactionDetailsPopup', () => {
   return cy.task('closeMetamaskTransactionDetailsPopup');
 });
 
-Cypress.Commands.add('rejectMetamaskPermisionToApproveAll', () => {
-  return cy.task('rejectMetamaskPermisionToApproveAll');
+Cypress.Commands.add('rejectMetamaskPermissionToApproveAll', () => {
+  return cy.task('rejectMetamaskPermissionToApproveAll');
 });
 
-Cypress.Commands.add('confirmMetamaskPermisionToApproveAll', () => {
-  return cy.task('confirmMetamaskPermisionToApproveAll');
+Cypress.Commands.add('confirmMetamaskPermissionToApproveAll', () => {
+  return cy.task('confirmMetamaskPermissionToApproveAll');
 });
 
 Cypress.Commands.add('allowMetamaskToAddNetwork', waitForEvent => {

@@ -132,7 +132,8 @@ getMetamaskWalletAddress(): Chainable<Subject>;
 
 #### `cy.activateAdvancedGasControlInMetamask()`
 
-Activate ability (in metamask settings) to specify custom gas price and limit while doing transactions in metamask.
+Activate ability (in metamask settings) to specify custom gas price and limit
+while doing transactions in metamask.
 
 ```ts
 activateAdvancedGasControlInMetamask(
@@ -142,7 +143,8 @@ activateAdvancedGasControlInMetamask(
 
 #### `cy.activateShowHexDataInMetamask()`
 
-Activate ability (in metamask settings) to show hex data while doing transaction in metamask.
+Activate ability (in metamask settings) to show hex data while doing transaction
+in metamask.
 
 ```ts
 activateShowHexDataInMetamask(skipSetup?: boolean): Chainable<Subject>;
@@ -150,7 +152,8 @@ activateShowHexDataInMetamask(skipSetup?: boolean): Chainable<Subject>;
 
 #### `cy.activateTestnetConversionInMetamask()`
 
-Activate ability (in metamask settings) to show fiat conversions on testnets in metamask.
+Activate ability (in metamask settings) to show fiat conversions on testnets in
+metamask.
 
 ```ts
 activateTestnetConversionInMetamask(
@@ -170,7 +173,8 @@ activateShowTestnetNetworksInMetamask(
 
 #### `cy.activateCustomNonceInMetamask()`
 
-Activate ability (in metamask settings) to specify custom nonce while doing transactions in metamask.
+Activate ability (in metamask settings) to specify custom nonce while doing
+transactions in metamask.
 
 ```ts
 activateCustomNonceInMetamask(skipSetup?: boolean): Chainable<Subject>;
@@ -178,7 +182,8 @@ activateCustomNonceInMetamask(skipSetup?: boolean): Chainable<Subject>;
 
 #### `cy.activateDismissBackupReminderInMetamask()`
 
-Activate ability (in metamask settings) to dismiss secret recovery phrase reminder in metamask.
+Activate ability (in metamask settings) to dismiss secret recovery phrase
+reminder in metamask.
 
 ```ts
 activateDismissBackupReminderInMetamask(
@@ -324,20 +329,20 @@ Confirm metamask permission to spend asset.
 confirmMetamaskPermissionToSpend(spendLimit?: string): Chainable<Subject>;
 ```
 
-#### `cy.confirmMetamaskPermisionToApproveAll()`
+#### `cy.confirmMetamaskPermissionToApproveAll()`
 
 Confirm metamask permission to access all elements (example: collectibles).
 
 ```ts
-confirmMetamaskPermisionToApproveAll(): Chainable<Subject>;
+confirmMetamaskPermissionToApproveAll(): Chainable<Subject>;
 ```
 
-#### `cy.rejectMetamaskPermisionToApproveAll()`
+#### `cy.rejectMetamaskPermissionToApproveAll()`
 
 Reject metamask permission to access all elements (example: collectibles).
 
 ```ts
-rejectMetamaskPermisionToApproveAll(): Chainable<Subject>;
+rejectMetamaskPermissionToApproveAll(): Chainable<Subject>;
 ```
 
 #### `cy.rejectMetamaskPermissionToSpend()`
@@ -370,7 +375,8 @@ confirmMetamaskTransaction(gasConfig?: object | string): Chainable<Subject>;
 
 #### `cy.confirmMetamaskTransactionAndWaitForMining()`
 
-Confirm metamask transaction (auto-detects eip-1559 and legacy transactions) and wait for ALL pending transactions to be mined.
+Confirm metamask transaction (auto-detects eip-1559 and legacy transactions) and
+wait for ALL pending transactions to be mined.
 
 ```ts
 confirmMetamaskTransactionAndWaitForMining(gasConfig?: object | string): Chainable<Subject>;
@@ -386,7 +392,8 @@ rejectMetamaskTransaction(): Chainable<Subject>;
 
 #### `cy.openMetamaskTransactionDetails()`
 
-Open metamask transaction details based on the index of the transaction in the list on the activity tab.
+Open metamask transaction details based on the index of the transaction in the
+list on the activity tab.
 
 ```ts
 openMetamaskTransactionDetails(txIndex: number): Chainable<Subject>;
@@ -514,4 +521,3 @@ isWithinViewport(
   viewportHeight: number,
 ): Chainable<Subject>;
 ```
-

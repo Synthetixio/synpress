@@ -1348,7 +1348,7 @@ const metamask = {
     );
     return true;
   },
-  async confirmPermisionToApproveAll() {
+  async confirmPermissionToApproveAll() {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       notificationPageElements.allowToSpendButton,
@@ -1361,7 +1361,7 @@ const metamask = {
     );
     return true;
   },
-  async rejectPermisionToApproveAll() {
+  async rejectPermissionToApproveAll() {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       notificationPageElements.allowToSpendButton,
