@@ -223,6 +223,14 @@ Cypress.Commands.add('confirmMetamaskPermissionToApproveAll', () => {
   return cy.task('confirmMetamaskPermissionToApproveAll');
 });
 
+Cypress.Commands.add('confirmMetamaskRevokePermissionToAll', () => {
+  return cy.task('confirmMetamaskRevokePermissionToAll');
+});
+
+Cypress.Commands.add('rejectMetamaskRevokePermissionToAll', () => {
+  return cy.task('rejectMetamaskRevokePermissionToAll');
+});
+
 Cypress.Commands.add('allowMetamaskToAddNetwork', waitForEvent => {
   return cy.task('allowMetamaskToAddNetwork', { waitForEvent });
 });
