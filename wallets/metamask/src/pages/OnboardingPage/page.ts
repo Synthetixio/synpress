@@ -9,6 +9,6 @@ export class OnboardingPage {
   }
 
   async importWallet(seedPhrase: string, password: string) {
-    return importWallet(this.page, seedPhrase, password)
+    return await importWallet(this.page, seedPhrase, password)
   }
 }
