@@ -1348,7 +1348,7 @@ const metamask = {
     );
     return true;
   },
-  async confirmPermisionToApproveAll() {
+  async confirmPermissionToApproveAll() {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       notificationPageElements.allowToSpendButton,
@@ -1361,7 +1361,7 @@ const metamask = {
     );
     return true;
   },
-  async rejectPermisionToApproveAll() {
+  async rejectPermissionToApproveAll() {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       notificationPageElements.allowToSpendButton,
@@ -1369,6 +1369,24 @@ const metamask = {
     );
     await playwright.waitAndClick(
       notificationPageElements.rejectWarningToSpendButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
+  async confirmRevokePermissionToAll() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      notificationPageElements.allowToSpendButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
+  async rejectRevokePermissionToAll() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      notificationPageElements.rejectToSpendButton,
       notificationPage,
       { waitForEvent: 'close' },
     );

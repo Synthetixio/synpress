@@ -103,8 +103,11 @@ module.exports = (on, config) => {
     rejectMetamaskAddToken: metamask.rejectAddToken,
     confirmMetamaskPermissionToSpend: metamask.confirmPermissionToSpend,
     rejectMetamaskPermissionToSpend: metamask.rejectPermissionToSpend,
-    confirmMetamaskPermisionToApproveAll: metamask.confirmPermisionToApproveAll,
-    rejectMetamaskPermisionToApproveAll: metamask.rejectPermisionToApproveAll,
+    confirmMetamaskPermissionToApproveAll:
+      metamask.confirmPermissionToApproveAll,
+    rejectMetamaskPermissionToApproveAll: metamask.rejectPermissionToApproveAll,
+    confirmMetamaskRevokePermissionToAll: metamask.confirmRevokePermissionToAll,
+    rejectMetamaskRevokePermissionToAll: metamask.rejectRevokePermissionToAll,
     acceptMetamaskAccess: metamask.acceptAccess,
     rejectMetamaskAccess: metamask.rejectAccess,
     confirmMetamaskTransaction: metamask.confirmTransaction,
