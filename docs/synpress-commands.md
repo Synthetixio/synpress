@@ -5,7 +5,7 @@
 Connect playwright with Cypress instance.
 
 ```ts
-initPlaywright(): Chainable<Subject>;
+initPlaywright(): Chainable<boolean>;
 ```
 
 #### `cy.assignWindows()`
@@ -13,7 +13,7 @@ initPlaywright(): Chainable<Subject>;
 Assign currently open tabs with playwright.
 
 ```ts
-assignWindows(): Chainable<Subject>;
+assignWindows(): Chainable<boolean>;
 ```
 
 #### `cy.assignActiveTabName()`
@@ -21,7 +21,7 @@ assignWindows(): Chainable<Subject>;
 Assigns currently active tab.
 
 ```ts
-assignActiveTabName(): Chainable<Subject>;
+assignActiveTabName(tabName: string): Chainable<boolean>;
 ```
 
 #### `cy.isMetamaskWindowActive()`
@@ -29,7 +29,7 @@ assignActiveTabName(): Chainable<Subject>;
 Checks if current active tab is metamask.
 
 ```ts
-isMetamaskWindowActive(): Chainable<Subject>;
+isMetamaskWindowActive(): Chainable<boolean>;
 ```
 
 #### `cy.isCypressWindowActive()`
@@ -37,7 +37,7 @@ isMetamaskWindowActive(): Chainable<Subject>;
 Checks if current active tab is cypress.
 
 ```ts
-isCypressWindowActive(): Chainable<Subject>;
+isCypressWindowActive(): Chainable<boolean>;
 ```
 
 #### `cy.switchToCypressWindow()`
@@ -45,7 +45,7 @@ isCypressWindowActive(): Chainable<Subject>;
 Switch to Cypress window.
 
 ```ts
-switchToCypressWindow(): Chainable<Subject>;
+switchToCypressWindow(): Chainable<boolean>;
 ```
 
 #### `cy.switchToMetamaskWindow()`
@@ -53,7 +53,7 @@ switchToCypressWindow(): Chainable<Subject>;
 Switch to metamask window.
 
 ```ts
-switchToMetamaskWindow(): Chainable<Subject>;
+switchToMetamaskWindow(): Chainable<boolean>;
 ```
 
 #### `cy.switchToMetamaskNotification()`
@@ -61,7 +61,7 @@ switchToMetamaskWindow(): Chainable<Subject>;
 Switch to metamask notification window.
 
 ```ts
-switchToMetamaskNotification(): Chainable<Subject>;
+switchToMetamaskNotification(): Chainable<boolean>;
 ```
 
 #### `cy.getCurrentNetwork()`
@@ -77,15 +77,26 @@ getCurrentNetwork(): Chainable<Subject>;
 Add network in metamask (and also switch to the newly added network).
 
 ```ts
-addMetamaskNetwork(network: object): Chainable<Subject>;
+addMetamaskNetwork(
+  network:
+    | string
+    | {
+        networkName: string;
+        rpcUrl: string;
+        chainId: number;
+        symbol?: string;
+        blockExplorer?: string;
+        isTestnet: boolean;
+      },
+): Chainable<boolean>;
 ```
 
 #### `cy.changeMetamaskNetwork()`
 
-Change network in metamask.
+Change network in metamask (if network is not present, it will be added).
 
 ```ts
-changeMetamaskNetwork(network: string): Chainable<Subject>;
+changeMetamaskNetwork(network: string): Chainable<boolean>;
 ```
 
 #### `cy.importMetamaskAccount()`
@@ -93,7 +104,7 @@ changeMetamaskNetwork(network: string): Chainable<Subject>;
 Import new account in metamask using private key.
 
 ```ts
-importMetamaskAccount(privateKey: string): Chainable<Subject>;
+importMetamaskAccount(privateKey: string): Chainable<boolean>;
 ```
 
 #### `cy.createMetamaskAccount()`
@@ -101,7 +112,7 @@ importMetamaskAccount(privateKey: string): Chainable<Subject>;
 Create new account in metamask.
 
 ```ts
-createMetamaskAccount(accountName?: string): Chainable<Subject>;
+createMetamaskAccount(accountName?: string): Chainable<boolean>;
 ```
 
 #### `cy.renameMetamaskAccount()`
@@ -109,7 +120,7 @@ createMetamaskAccount(accountName?: string): Chainable<Subject>;
 Rename current account in metamask.
 
 ```ts
-createMetamaskAccount(newAccountName: string): Chainable<Subject>;
+renameMetamaskAccount(newAccountName: string): Chainable<boolean>;
 ```
 
 #### `cy.switchMetamaskAccount()`
@@ -119,7 +130,7 @@ Switch metamask account.
 ```ts
 switchMetamaskAccount(
   accountNameOrAccountNumber: string | number,
-): Chainable<Subject>;
+): Chainable<boolean>;
 ```
 
 #### `cy.getMetamaskWalletAddress()`
@@ -127,35 +138,38 @@ switchMetamaskAccount(
 Get current wallet address of metamask wallet.
 
 ```ts
-getMetamaskWalletAddress(): Chainable<Subject>;
+getMetamaskWalletAddress(): Chainable<string>;
 ```
 
 #### `cy.activateAdvancedGasControlInMetamask()`
 
-Activate ability (in metamask settings) to specify custom gas price and limit while doing transactions in metamask.
+Activate ability (in metamask settings) to specify custom gas price and limit
+while doing transactions in metamask.
 
 ```ts
 activateAdvancedGasControlInMetamask(
   skipSetup?: boolean,
-): Chainable<Subject>;
+): Chainable<boolean>;
 ```
 
 #### `cy.activateShowHexDataInMetamask()`
 
-Activate ability (in metamask settings) to show hex data while doing transaction in metamask.
+Activate ability (in metamask settings) to show hex data while doing transaction
+in metamask.
 
 ```ts
-activateShowHexDataInMetamask(skipSetup?: boolean): Chainable<Subject>;
+activateShowHexDataInMetamask(skipSetup?: boolean): Chainable<boolean>;
 ```
 
 #### `cy.activateTestnetConversionInMetamask()`
 
-Activate ability (in metamask settings) to show fiat conversions on testnets in metamask.
+Activate ability (in metamask settings) to show fiat conversions on testnets in
+metamask.
 
 ```ts
 activateTestnetConversionInMetamask(
   skipSetup?: boolean,
-): Chainable<Subject>;
+): Chainable<boolean>;
 ```
 
 #### `cy.activateShowTestnetNetworksInMetamask()`
@@ -165,25 +179,27 @@ Activate ability (in metamask settings) to show testnet networks in metamask.
 ```ts
 activateShowTestnetNetworksInMetamask(
   skipSetup?: boolean,
-): Chainable<Subject>;
+): Chainable<boolean>;
 ```
 
 #### `cy.activateCustomNonceInMetamask()`
 
-Activate ability (in metamask settings) to specify custom nonce while doing transactions in metamask.
+Activate ability (in metamask settings) to specify custom nonce while doing
+transactions in metamask.
 
 ```ts
-activateCustomNonceInMetamask(skipSetup?: boolean): Chainable<Subject>;
+activateCustomNonceInMetamask(skipSetup?: boolean): Chainable<boolean>;
 ```
 
 #### `cy.activateDismissBackupReminderInMetamask()`
 
-Activate ability (in metamask settings) to dismiss secret recovery phrase reminder in metamask.
+Activate ability (in metamask settings) to dismiss secret recovery phrase
+reminder in metamask.
 
 ```ts
 activateDismissBackupReminderInMetamask(
   skipSetup?: boolean,
-): Chainable<Subject>;
+): Chainable<boolean>;
 ```
 
 #### `cy.activateEthSignRequestsInMetamask()`
@@ -191,7 +207,7 @@ activateDismissBackupReminderInMetamask(
 Activate eth sign requests in metamask settings.
 
 ```ts
-activateEthSignRequestsInMetamask(skipSetup?: boolean): Chainable<Subject>;
+activateEthSignRequestsInMetamask(skipSetup?: boolean): Chainable<boolean>;
 ```
 
 #### `cy.activateImprovedTokenAllowanceInMetamask()`
@@ -201,7 +217,7 @@ Activate improved token allowance in metamask settings (experimental).
 ```ts
 activateImprovedTokenAllowanceInMetamask(
   skipSetup?: boolean,
-): Chainable<Subject>;
+): Chainable<boolean>;
 ```
 
 #### `cy.resetMetamaskAccount()`
@@ -209,7 +225,7 @@ activateImprovedTokenAllowanceInMetamask(
 Reset metamask account state in settings.
 
 ```ts
-resetMetamaskAccount(): Chainable<Subject>;
+resetMetamaskAccount(): Chainable<boolean>;
 ```
 
 #### `cy.disconnectMetamaskWalletFromDapp()`
@@ -217,7 +233,7 @@ resetMetamaskAccount(): Chainable<Subject>;
 Disconnects metamask wallet from last connected dapp.
 
 ```ts
-disconnectMetamaskWalletFromDapp(): Chainable<Subject>;
+disconnectMetamaskWalletFromDapp(): Chainable<boolean>;
 ```
 
 #### `cy.disconnectMetamaskWalletFromAllDapps()`
@@ -225,7 +241,7 @@ disconnectMetamaskWalletFromDapp(): Chainable<Subject>;
 Disconnects metamask wallet from all connected dapps.
 
 ```ts
-disconnectMetamaskWalletFromAllDapps(): Chainable<Subject>;
+disconnectMetamaskWalletFromAllDapps(): Chainable<boolean>;
 ```
 
 #### `cy.confirmMetamaskSignatureRequest()`
@@ -233,7 +249,7 @@ disconnectMetamaskWalletFromAllDapps(): Chainable<Subject>;
 Confirm metamask permission to sign message.
 
 ```ts
-confirmMetamaskSignatureRequest(): Chainable<Subject>;
+confirmMetamaskSignatureRequest(): Chainable<boolean>;
 ```
 
 #### `cy.confirmMetamaskDataSignatureRequest()`
@@ -241,7 +257,7 @@ confirmMetamaskSignatureRequest(): Chainable<Subject>;
 Confirm metamask permission to sign Data message.
 
 ```ts
-confirmMetamaskDataSignatureRequest(): Chainable<Subject>;
+confirmMetamaskDataSignatureRequest(): Chainable<boolean>;
 ```
 
 #### `cy.rejectMetamaskSignatureRequest()`
@@ -249,7 +265,7 @@ confirmMetamaskDataSignatureRequest(): Chainable<Subject>;
 Reject metamask permission to sign message.
 
 ```ts
-rejectMetamaskSignatureRequest(): Chainable<Subject>;
+rejectMetamaskSignatureRequest(): Chainable<boolean>;
 ```
 
 #### `cy.confirmMetamaskEncryptionPublicKeyRequest()`
@@ -257,7 +273,7 @@ rejectMetamaskSignatureRequest(): Chainable<Subject>;
 Confirm metamask request for public encryption key.
 
 ```ts
-confirmMetamaskEncryptionPublicKeyRequest(): Chainable<Subject>;
+confirmMetamaskEncryptionPublicKeyRequest(): Chainable<boolean>;
 ```
 
 #### `cy.rejectMetamaskEncryptionPublicKeyRequest()`
@@ -265,7 +281,7 @@ confirmMetamaskEncryptionPublicKeyRequest(): Chainable<Subject>;
 Reject metamask request for public encryption key.
 
 ```ts
-rejectMetamaskEncryptionPublicKeyRequest(): Chainable<Subject>;
+rejectMetamaskEncryptionPublicKeyRequest(): Chainable<boolean>;
 ```
 
 #### `cy.confirmMetamaskDecryptionRequest()`
@@ -273,7 +289,7 @@ rejectMetamaskEncryptionPublicKeyRequest(): Chainable<Subject>;
 Confirm metamask request to decrypt message with private key.
 
 ```ts
-confirmMetamaskDecryptionRequest(): Chainable<Subject>;
+confirmMetamaskDecryptionRequest(): Chainable<boolean>;
 ```
 
 #### `cy.rejectMetamaskDecryptionRequest()`
@@ -281,7 +297,7 @@ confirmMetamaskDecryptionRequest(): Chainable<Subject>;
 Reject metamask request to decrypt message with private key.
 
 ```ts
-rejectMetamaskDecryptionRequest(): Chainable<Subject>;
+rejectMetamaskDecryptionRequest(): Chainable<boolean>;
 ```
 
 #### `cy.rejectMetamaskDataSignatureRequest()`
@@ -289,7 +305,7 @@ rejectMetamaskDecryptionRequest(): Chainable<Subject>;
 Reject metamask permission to sign Data message.
 
 ```ts
-rejectMetamaskDataSignatureRequest(): Chainable<Subject>;
+rejectMetamaskDataSignatureRequest(): Chainable<boolean>;
 ```
 
 #### `cy.importMetamaskToken()`
@@ -297,7 +313,14 @@ rejectMetamaskDataSignatureRequest(): Chainable<Subject>;
 Add custom token to metamask.
 
 ```ts
-importMetamaskToken(tokenConfig?: object | string): Chainable<Subject>;
+importMetamaskToken(
+  tokenConfig?:
+    | {
+        address: string;
+        symbol: string;
+      }
+    | string,
+): Chainable<boolean>;
 ```
 
 #### `cy.confirmMetamaskAddToken()`
@@ -305,7 +328,7 @@ importMetamaskToken(tokenConfig?: object | string): Chainable<Subject>;
 Confirm metamask request to add token.
 
 ```ts
-confirmMetamaskAddToken(): Chainable<Subject>;
+confirmMetamaskAddToken(): Chainable<boolean>;
 ```
 
 #### `cy.rejectMetamaskAddToken()`
@@ -313,7 +336,7 @@ confirmMetamaskAddToken(): Chainable<Subject>;
 Reject metamask request to add token.
 
 ```ts
-rejectMetamaskAddToken(): Chainable<Subject>;
+rejectMetamaskAddToken(): Chainable<boolean>;
 ```
 
 #### `cy.confirmMetamaskPermissionToSpend()`
@@ -321,23 +344,41 @@ rejectMetamaskAddToken(): Chainable<Subject>;
 Confirm metamask permission to spend asset.
 
 ```ts
-confirmMetamaskPermissionToSpend(spendLimit?: string): Chainable<Subject>;
+confirmMetamaskPermissionToSpend(spendLimit?: string): Chainable<string>;
 ```
 
-#### `cy.confirmMetamaskPermisionToApproveAll()`
+#### `cy.confirmMetamaskPermissionToApproveAll()`
 
 Confirm metamask permission to access all elements (example: collectibles).
 
 ```ts
-confirmMetamaskPermisionToApproveAll(): Chainable<Subject>;
+confirmMetamaskPermissionToApproveAll(): Chainable<boolean>;
 ```
 
-#### `cy.rejectMetamaskPermisionToApproveAll()`
+#### `cy.rejectMetamaskPermissionToApproveAll()`
 
 Reject metamask permission to access all elements (example: collectibles).
 
 ```ts
-rejectMetamaskPermisionToApproveAll(): Chainable<Subject>;
+rejectMetamaskPermissionToApproveAll(): Chainable<boolean>;
+```
+
+#### `cy.confirmMetamaskRevokePermissionToAll()`
+
+Confirm metamask revoking permission to access all elements (example:
+collectibles).
+
+```ts
+confirmMetamaskRevokePermissionToAll(): Chainable<boolean>;
+```
+
+#### `cy.rejectMetamaskRevokePermissionToAll()`
+
+Reject metamask revoking permission to access all elements (example:
+collectibles).
+
+```ts
+rejectMetamaskRevokePermissionToAll(): Chainable<boolean>;
 ```
 
 #### `cy.rejectMetamaskPermissionToSpend()`
@@ -345,7 +386,7 @@ rejectMetamaskPermisionToApproveAll(): Chainable<Subject>;
 Reject metamask permission to spend asset.
 
 ```ts
-rejectMetamaskPermissionToSpend(): Chainable<Subject>;
+rejectMetamaskPermissionToSpend(): Chainable<boolean>;
 ```
 
 #### `cy.acceptMetamaskAccess()`
@@ -357,7 +398,15 @@ acceptMetamaskAccess(options?: {
   allAccounts?: boolean;
   confirmSignatureRequest?: boolean;
   confirmDataSignatureRequest?: boolean;
-}): Chainable<Subject>;
+}): Chainable<boolean>;
+```
+
+#### `cy.rejectMetamaskAccess()`
+
+Reject metamask access request.
+
+```ts
+rejectMetamaskAccess(): Chainable<boolean>;
 ```
 
 #### `cy.confirmMetamaskTransaction()`
@@ -365,15 +414,46 @@ acceptMetamaskAccess(options?: {
 Confirm metamask transaction (auto-detects eip-1559 and legacy transactions).
 
 ```ts
-confirmMetamaskTransaction(gasConfig?: object | string): Chainable<Subject>;
+confirmMetamaskTransaction(
+  gasConfig?:
+    | {
+        gasLimit?: number;
+        baseFee?: number;
+        priorityFee?: number;
+      }
+    | {
+        gasLimit?: number;
+        gasPrice?: number;
+      }
+    | 'low'
+    | 'market'
+    | 'aggressive'
+    | 'site',
+): Chainable<Subject>;
 ```
 
 #### `cy.confirmMetamaskTransactionAndWaitForMining()`
 
-Confirm metamask transaction (auto-detects eip-1559 and legacy transactions) and wait for ALL pending transactions to be mined.
+Confirm metamask transaction (auto-detects eip-1559 and legacy transactions) and
+wait for ALL pending transactions to be mined.
 
 ```ts
-confirmMetamaskTransactionAndWaitForMining(gasConfig?: object | string): Chainable<Subject>;
+confirmMetamaskTransactionAndWaitForMining(
+  gasConfig?:
+    | {
+        gasLimit?: number;
+        baseFee?: number;
+        priorityFee?: number;
+      }
+    | {
+        gasLimit?: number;
+        gasPrice?: number;
+      }
+    | 'low'
+    | 'market'
+    | 'aggressive'
+    | 'site',
+): Chainable<Subject>;
 ```
 
 #### `cy.rejectMetamaskTransaction()`
@@ -381,12 +461,13 @@ confirmMetamaskTransactionAndWaitForMining(gasConfig?: object | string): Chainab
 Reject metamask transaction.
 
 ```ts
-rejectMetamaskTransaction(): Chainable<Subject>;
+rejectMetamaskTransaction(): Chainable<boolean>;
 ```
 
 #### `cy.openMetamaskTransactionDetails()`
 
-Open metamask transaction details based on the index of the transaction in the list on the activity tab.
+Open metamask transaction details based on the index of the transaction in the
+list on the activity tab.
 
 ```ts
 openMetamaskTransactionDetails(txIndex: number): Chainable<Subject>;
@@ -394,10 +475,10 @@ openMetamaskTransactionDetails(txIndex: number): Chainable<Subject>;
 
 #### `cy.closeMetamaskTransactionDetailsPopup()`
 
-Close currently open transaction details popup.
+Close metamask transaction details popup.
 
 ```ts
-closeMetamaskTransactionDetailsPopup(): Chainable<Subject>;
+closeMetamaskTransactionDetailsPopup(): Chainable<boolean>;
 ```
 
 #### `cy.allowMetamaskToAddNetwork()`
@@ -405,7 +486,7 @@ closeMetamaskTransactionDetailsPopup(): Chainable<Subject>;
 Allow site to add new network in metamask.
 
 ```ts
-allowMetamaskToAddNetwork(waitForEvent?: string): Chainable<Subject>;
+allowMetamaskToAddNetwork(waitForEvent?: string): Chainable<boolean>;
 ```
 
 #### `cy.rejectMetamaskToAddNetwork()`
@@ -413,7 +494,7 @@ allowMetamaskToAddNetwork(waitForEvent?: string): Chainable<Subject>;
 Reject site to add new network in metamask.
 
 ```ts
-rejectMetamaskToAddNetwork(): Chainable<Subject>;
+rejectMetamaskToAddNetwork(): Chainable<boolean>;
 ```
 
 #### `cy.allowMetamaskToSwitchNetwork()`
@@ -421,7 +502,7 @@ rejectMetamaskToAddNetwork(): Chainable<Subject>;
 Allow site to switch network in metamask.
 
 ```ts
-allowMetamaskToSwitchNetwork(): Chainable<Subject>;
+allowMetamaskToSwitchNetwork(): Chainable<boolean>;
 ```
 
 #### `cy.rejectMetamaskToSwitchNetwork()`
@@ -429,7 +510,7 @@ allowMetamaskToSwitchNetwork(): Chainable<Subject>;
 Reject site to switch network in metamask.
 
 ```ts
-rejectMetamaskToSwitchNetwork(): Chainable<Subject>;
+rejectMetamaskToSwitchNetwork(): Chainable<boolean>;
 ```
 
 #### `cy.allowMetamaskToAddAndSwitchNetwork()`
@@ -437,7 +518,7 @@ rejectMetamaskToSwitchNetwork(): Chainable<Subject>;
 Allow site to add new network in metamask and switch to it.
 
 ```ts
-allowMetamaskToAddAndSwitchNetwork(): Chainable<Subject>;
+allowMetamaskToAddAndSwitchNetwork(): Chainable<boolean>;
 ```
 
 #### `cy.unlockMetamask()`
@@ -445,7 +526,7 @@ allowMetamaskToAddAndSwitchNetwork(): Chainable<Subject>;
 Unlock metamask.
 
 ```ts
-unlockMetamask(password: string): Chainable<Subject>;
+unlockMetamask(password: string): Chainable<boolean>;
 ```
 
 #### `cy.fetchMetamaskWalletAddress()`
@@ -453,7 +534,7 @@ unlockMetamask(password: string): Chainable<Subject>;
 Fetches previous metamask wallet address.
 
 ```ts
-fetchMetamaskWalletAddress(): Chainable<Subject>;
+fetchMetamaskWalletAddress(): Chainable<boolean>;
 ```
 
 #### `cy.setupMetamask()`
@@ -463,7 +544,16 @@ Run the flow for metamask setup.
 ```ts
 setupMetamask(
   secretWordsOrPrivateKey?: string,
-  network?: string | object,
+  network?:
+    | string
+    | {
+        networkName: string;
+        rpcUrl: string;
+        chainId: number;
+        symbol?: string;
+        blockExplorer?: string;
+        isTestnet: boolean;
+      },
   password?: string,
   enableAdvancedSettings?: boolean,
   enableExperimentalSettings?: boolean,
@@ -483,7 +573,7 @@ etherscanGetTransactionStatus(txid: string): Chainable<Subject>;
 Wait until transaction is success using Etherscan API.
 
 ```ts
-etherscanWaitForTxSuccess(txid: string): Chainable<Subject>;
+etherscanWaitForTxSuccess(txid: string): Chainable<boolean>;
 ```
 
 #### `cy.waitForResources()`
@@ -514,4 +604,3 @@ isWithinViewport(
   viewportHeight: number,
 ): Chainable<Subject>;
 ```
-

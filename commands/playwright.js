@@ -57,6 +57,11 @@ module.exports = {
   activeTabName() {
     return activeTabName;
   },
+  async metamaskExtensionId() {
+    const metamaskExtensionData = (await module.exports.getExtensionsData())
+      .metamask;
+    return metamaskExtensionData.id;
+  },
   async setExpectInstance(expect) {
     expectInstance = expect;
   },
@@ -87,8 +92,7 @@ module.exports = {
     return true;
   },
   async assignWindows() {
-    const metamaskExtensionData = (await module.exports.getExtensionsData())
-      .metamask;
+    const metamaskExtensionId = await module.exports.metamaskExtensionId();
 
     let pages = await browser.contexts()[0].pages();
     for (const page of pages) {
@@ -97,21 +101,21 @@ module.exports = {
       } else if (
         page
           .url()
-          .includes(`chrome-extension://${metamaskExtensionData.id}/home.html`)
+          .includes(`chrome-extension://${metamaskExtensionId}/home.html`)
       ) {
         metamaskWindow = page;
       } else if (
         page
           .url()
           .includes(
-            `chrome-extension://${metamaskExtensionData.id}/notification.html`,
+            `chrome-extension://${metamaskExtensionId}/notification.html`,
           )
       ) {
         metamaskNotificationWindow = page;
       } else if (
         page
           .url()
-          .includes(`chrome-extension://${metamaskExtensionData.id}/popup.html`)
+          .includes(`chrome-extension://${metamaskExtensionId}/popup.html`)
       ) {
         metamaskPopupWindow = page;
       }
@@ -161,8 +165,7 @@ module.exports = {
     return true;
   },
   async switchToMetamaskNotification() {
-    const metamaskExtensionData = (await module.exports.getExtensionsData())
-      .metamask;
+    const metamaskExtensionId = await module.exports.metamaskExtensionId();
 
     let pages = await browser.contexts()[0].pages();
     for (const page of pages) {
@@ -170,7 +173,7 @@ module.exports = {
         page
           .url()
           .includes(
-            `chrome-extension://${metamaskExtensionData.id}/notification.html`,
+            `chrome-extension://${metamaskExtensionId}/notification.html`,
           )
       ) {
         metamaskNotificationWindow = page;
@@ -337,16 +340,13 @@ module.exports = {
     }
   },
   async waitUntilStable(page) {
-    const metamaskExtensionData = (await module.exports.getExtensionsData())
-      .metamask;
+    const metamaskExtensionId = await module.exports.metamaskExtensionId();
 
     if (
       page &&
       page
         .url()
-        .includes(
-          `chrome-extension://${metamaskExtensionData.id}/notification.html`,
-        )
+        .includes(`chrome-extension://${metamaskExtensionId}/notification.html`)
     ) {
       await page.waitForLoadState('load');
       await page.waitForLoadState('domcontentloaded');
@@ -477,7 +477,7 @@ module.exports = {
 
       const extensionId = (
         await extensionData.locator('#extension-id').textContent()
-      ).replace('ID: ', '');
+      ).split(': ')[1];
 
       extensionsData[extensionName] = {
         version: extensionVersion,

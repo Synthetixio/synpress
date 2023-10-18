@@ -1221,11 +1221,11 @@ const metamask = {
 
     // 120 seconds
     while (retries < retiresLimit) {
-      const pendingTxs = await playwright // TODO rename
+      const pendingTxs = await playwright
         .metamaskWindow()
         .getByText('Pending')
         .count();
-      const queuedTxs = await playwright // TODO rename
+      const queuedTxs = await playwright
         .metamaskWindow()
         .getByText('Queued')
         .count();
@@ -1266,13 +1266,19 @@ const metamask = {
       .locator(
         `${mainPageElements.activityTab.completedTransactionsList} > div`,
       )
-      .filter({ hasNotText: 'History' })
-      .filter({ hasNotText: 'View more' })
+      .filter({
+        has: playwright.metamaskWindow().locator('div.list-item__heading'),
+      })
       .all();
 
     while (txIndex >= visibleTxs.length) {
       try {
-        await playwright.metamaskWindow().getByText('View more').click();
+        await playwright
+          .metamaskWindow()
+          .locator(
+            `${mainPageElements.activityTab.completedTransactionsList} > button`,
+          )
+          .click();
       } catch (error) {
         log('[openTransactionDetails] Clicking "View more" failed!');
         throw new Error(
@@ -1285,8 +1291,9 @@ const metamask = {
         .locator(
           `${mainPageElements.activityTab.completedTransactionsList} > div`,
         )
-        .filter({ hasNotText: 'History' })
-        .filter({ hasNotText: 'View more' })
+        .filter({
+          has: playwright.metamaskWindow().locator('div.list-item__heading'),
+        })
         .all();
     }
 
@@ -1341,7 +1348,7 @@ const metamask = {
     );
     return true;
   },
-  async confirmPermisionToApproveAll() {
+  async confirmPermissionToApproveAll() {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       notificationPageElements.allowToSpendButton,
@@ -1354,7 +1361,7 @@ const metamask = {
     );
     return true;
   },
-  async rejectPermisionToApproveAll() {
+  async rejectPermissionToApproveAll() {
     const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       notificationPageElements.allowToSpendButton,
@@ -1362,6 +1369,24 @@ const metamask = {
     );
     await playwright.waitAndClick(
       notificationPageElements.rejectWarningToSpendButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
+  async confirmRevokePermissionToAll() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      notificationPageElements.allowToSpendButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
+  async rejectRevokePermissionToAll() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      notificationPageElements.rejectToSpendButton,
       notificationPage,
       { waitForEvent: 'close' },
     );
