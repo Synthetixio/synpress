@@ -19,7 +19,9 @@ export default defineConfig({
 
   // Concise 'dot' for CI, default 'html' when running locally.
   // See https://playwright.dev/docs/test-reporters.
-  reporter: process.env.CI ? [['html', { open: 'never', outputFolder: `playwright-report-${process.env.HEADLESS ? 'headless' : 'headed'}` }]] : 'html',
+  reporter: process.env.CI
+    ? [['html', { open: 'never', outputFolder: `playwright-report-${process.env.HEADLESS ? 'headless' : 'headed'}` }]]
+    : 'html',
 
   // Shared settings for all the projects below.
   // See https://playwright.dev/docs/api/class-testoptions.
