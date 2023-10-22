@@ -39,15 +39,15 @@ jobs:
         run: pnpm run build
 
       - name: Run E2E tests (headless)
-        run: pnpm run test:e2e:headless -- --output "test-results-headless"
+        run: pnpm run test:e2e:headless
 
-      - name: Archive Playwright traces
+      - name: Archive Playwright report
         uses: actions/upload-artifact@v3
         if: success() || failure()
         with:
-          name: playwright-traces-headless
+          name: playwright-report-headless
           path: |
-            wallets/metamask/test-results-headless/
+            wallets/metamask/playwright-report-headless/
           if-no-files-found: error
 
   test-e2e-headful:
@@ -76,13 +76,13 @@ jobs:
 
       - name: Run E2E tests (headful)
         run: |
-          xvfb-run pnpm run test:e2e:headful -- --output "test-results-headful"
+          xvfb-run pnpm run test:e2e:headful
 
-      - name: Archive Playwright traces
+      - name: Archive Playwright report
         uses: actions/upload-artifact@v3
         if: success() || failure()
         with:
-          name: playwright-traces-headful
+          name: playwright-report-headful
           path: |
-            wallets/metamask/test-results-headful/
+            wallets/metamask/playwright-report-headful/
           if-no-files-found: error
