@@ -1,7 +1,10 @@
 import { type BrowserContext, type Page, chromium, test as base } from '@playwright/test'
 import { connectToDapp } from '../../src/actions/connectToDapp'
+import { lock } from '../../src/actions/lock'
+import { unlock } from '../../src/actions/unlock'
 import { OnboardingPage } from '../../src/pages'
 import { prepareExtension } from '../../src/prepareExtension'
+import { HomePageSelectors, UnlockPageSelectors } from '../../src/selectors'
 import { getExtensionId } from '../../src/utils/getExtensionId'
 
 const DEFAULT_SEED_PHRASE = 'test test test test test test test test test test test junk'
@@ -10,7 +13,9 @@ const DEFAULT_PASSWORD = 'Tester@1234'
 let sharedContext: BrowserContext | undefined
 
 // Fixture for the test.
-const test = base.extend({
+const test = base.extend<{
+  metamaskPage: Page
+}>({
   context: async ({ context: _ }, use) => {
     if (sharedContext) {
       await use(sharedContext)
@@ -83,6 +88,24 @@ describe('MetaMask', () => {
       await connectToDapp(context, extensionId)
 
       await expect(page.locator('#accounts')).toHaveText('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
+    })
+  })
+
+  describe('lock', () => {
+    test('should lock the wallet', async ({ metamaskPage }) => {
+      await metamaskPage.bringToFront()
+
+      await lock(metamaskPage)
+
+      await expect(metamaskPage.locator(UnlockPageSelectors.submitButton)).toBeVisible()
+    })
+  })
+
+  describe('unlock', () => {
+    test('should unlock the wallet', async ({ metamaskPage }) => {
+      await unlock(metamaskPage, DEFAULT_PASSWORD)
+
+      await expect(metamaskPage.locator(HomePageSelectors.logo)).toBeVisible()
     })
   })
 })
