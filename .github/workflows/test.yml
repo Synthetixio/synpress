@@ -50,6 +50,15 @@ jobs:
             wallets/metamask/test-results-headless/
           if-no-files-found: error
 
+      - name: Archive Playwright report
+        uses: actions/upload-artifact@v3
+        if: success() || failure()
+        with:
+          name: playwright-report-headless
+          path: |
+            wallets/metamask/playwright-report-headless/
+          if-no-files-found: error
+
   test-e2e-headful:
     name: Run E2E tests (headful)
     runs-on: ubuntu-latest
@@ -85,4 +94,13 @@ jobs:
           name: playwright-traces-headful
           path: |
             wallets/metamask/test-results-headful/
+          if-no-files-found: error
+
+      - name: Archive Playwright report
+        uses: actions/upload-artifact@v3
+        if: success() || failure()
+        with:
+          name: playwright-report-headful
+          path: |
+            wallets/metamask/playwright-report-headful/
           if-no-files-found: error
