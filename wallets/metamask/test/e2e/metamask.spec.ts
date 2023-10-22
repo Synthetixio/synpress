@@ -110,8 +110,24 @@ describe('MetaMask', () => {
           .map((page) => page.url())
           .join(', ')
       )
+      console.log('1')
+      await expect.poll(() => {
+        console.log('check length:', context.pages().length)
+        return context.pages().map((page) => page.url()).join(', ')
+      }, { timeout: 10000}).not.toMatch(/notification\.html/)
+      // expect(context.pages().length).toHaveLength(3)
+      console.log('2')
       const metamaskPage = context.pages()[1] as Page
+      // await metamaskPage.pause()
       await metamaskPage.bringToFront()
+      console.log(
+        'context.pages()',
+        context
+          .pages()
+          .map((page) => page.url())
+          .join(', ')
+      )
+      // await metamaskPage.pause()
 
       await lock(metamaskPage)
 
