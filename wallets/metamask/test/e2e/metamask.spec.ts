@@ -92,7 +92,9 @@ describe('MetaMask', () => {
   })
 
   describe('lock', () => {
-    test('should lock the wallet', async ({ metamaskPage }) => {
+    test('should lock the wallet', async ({ context }) => {
+      console.log('context.pages().length', context.pages().length)
+      const metamaskPage = context.pages()[1] as Page
       await metamaskPage.bringToFront()
 
       await lock(metamaskPage)
@@ -102,7 +104,9 @@ describe('MetaMask', () => {
   })
 
   describe('unlock', () => {
-    test('should unlock the wallet', async ({ metamaskPage }) => {
+    test('should unlock the wallet', async ({ context }) => {
+      console.log('context.pages().length', context.pages().length)
+      const metamaskPage = context.pages()[1] as Page
       await unlock(metamaskPage, DEFAULT_PASSWORD)
 
       await expect(metamaskPage.locator(HomePageSelectors.logo)).toBeVisible()
