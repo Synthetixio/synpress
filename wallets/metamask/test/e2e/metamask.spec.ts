@@ -46,6 +46,15 @@ const test = base.extend<{
       throw new Error('[FIXTURE] MetaMask extension did not load in time')
     }
 
+    context.on("close", () => {
+      console.log("context closed")
+    })
+
+    const mmPage = context.pages()[1] as Page
+    mmPage.on("close", () => {
+      console.log("meta mask page closed")
+    })
+
     sharedContext = context
     await use(context)
   },
