@@ -97,6 +97,22 @@ describe('MetaMask', () => {
       await connectToDapp(context, extensionId)
 
       await expect(page.locator('#accounts')).toHaveText('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
+
+      console.log('context.pages().length', context.pages().length)
+      console.log(
+        'context.pages()',
+        context
+          .pages()
+          .map((page) => page.url())
+          .join(', ')
+      )
+      console.log('1')
+      await expect.poll(() => {
+        console.log('check length:', context.pages().length)
+        return context.pages().map((page) => page.url()).join(', ')
+      }, { timeout: 10000}).not.toMatch(/notification\.html/)
+
+      await expect(page.locator('#accounts')).toHaveText('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
     })
   })
 
