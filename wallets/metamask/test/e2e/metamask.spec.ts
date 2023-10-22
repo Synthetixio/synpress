@@ -46,13 +46,13 @@ const test = base.extend<{
       throw new Error('[FIXTURE] MetaMask extension did not load in time')
     }
 
-    context.on("close", () => {
-      console.log("context closed")
+    context.on('close', () => {
+      console.log('context closed')
     })
 
     const mmPage = context.pages()[1] as Page
-    mmPage.on("close", () => {
-      console.log("meta mask page closed")
+    mmPage.on('close', () => {
+      console.log('meta mask page closed')
     })
 
     sharedContext = context
@@ -103,6 +103,13 @@ describe('MetaMask', () => {
   describe('lock', () => {
     test('should lock the wallet', async ({ context }) => {
       console.log('context.pages().length', context.pages().length)
+      console.log(
+        'context.pages()',
+        context
+          .pages()
+          .map((page) => page.url())
+          .join(', ')
+      )
       const metamaskPage = context.pages()[1] as Page
       await metamaskPage.bringToFront()
 
@@ -115,6 +122,13 @@ describe('MetaMask', () => {
   describe('unlock', () => {
     test('should unlock the wallet', async ({ context }) => {
       console.log('context.pages().length', context.pages().length)
+      console.log(
+        'context.pages()',
+        context
+          .pages()
+          .map((page) => page.url())
+          .join(', ')
+      )
       const metamaskPage = context.pages()[1] as Page
       await unlock(metamaskPage, DEFAULT_PASSWORD)
 
