@@ -93,8 +93,6 @@ describe('MetaMask', () => {
 
   describe('lock', () => {
     test('should lock the wallet', async ({ metamaskPage }) => {
-      await metamaskPage.bringToFront()
-
       await lock(metamaskPage)
 
       await expect(metamaskPage.locator(UnlockPageSelectors.submitButton)).toBeVisible()
