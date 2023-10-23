@@ -22,34 +22,6 @@ jobs:
       - name: Run tests
         run: pnpm run test
 
-  test-e2e-headless:
-    name: Run E2E tests (headless)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Node & Install dependencies
-        uses: ./.github/actions/setup
-
-      # For now, we only need Chromium.
-      - name: Install browsers for Playwright
-        run: pnpm dlx playwright install chromium
-
-      - name: Build project
-        run: pnpm run build
-
-      - name: Run E2E tests (headless)
-        run: pnpm run test:e2e:headless
-
-      - name: Archive Playwright report
-        uses: actions/upload-artifact@v3
-        if: success() || failure()
-        with:
-          name: playwright-report-headless
-          path: |
-            wallets/metamask/playwright-report-headless/
-          if-no-files-found: error
-
   test-e2e-headful:
     name: Run E2E tests (headful)
     runs-on: ubuntu-latest
