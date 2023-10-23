@@ -6,7 +6,7 @@ import {
   ARCHIVE_CONTENTS,
   createTestZipArchive,
   createTestZipArchiveWithIncorrectEntries
-} from './utils/createTestZipArchive'
+} from './test-utils/createTestZipArchive'
 
 const ROOT_DIR = '/tmp'
 const FILE_NAME = 'duck.txt'
