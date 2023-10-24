@@ -5,7 +5,7 @@ import esbuild from 'esbuild'
 export const WALLET_SETUP_FUNC_HASH_LENGTH = 10
 
 // biome-ignore lint/suspicious/noExplicitAny: any type here is intentional
-type AnyFunction = (...args: any) => any
+type AnyFunction = (...args: any) => Promise<any>
 
 export function getWalletSetupFuncHash(walletSetupFunc: AnyFunction) {
   // This transformation is necessary because a user could end up using a different execution engine than Playwright.

@@ -33,7 +33,8 @@
     "axios": "^1.4.0",
     "esbuild": "^0.19.5",
     "fs-extra": "^11.1.1",
-    "unzipper": "^0.10.14"
+    "unzipper": "^0.10.14",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/archiver": "^5.3.3",
