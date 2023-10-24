@@ -64,6 +64,9 @@ importers:
       unzipper:
         specifier: ^0.10.14
         version: 0.10.14
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
     devDependencies:
       '@types/archiver':
         specifier: ^5.3.3
