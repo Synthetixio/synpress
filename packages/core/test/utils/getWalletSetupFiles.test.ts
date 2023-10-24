@@ -42,6 +42,11 @@ describe('getWalletSetupFiles', () => {
     vol.reset() // Clear the in-memory file system after each test
   })
 
+  it('throws if unknown error', async () => {
+    // biome-ignore lint/style/noNonNullAssertion: this non-null assertion is intentional
+    await expect(getWalletSetupFiles(null!)).rejects.toThrowError('path must be a string or Buffer')
+  })
+
   it('throws if the target directory does not exist', async () => {
     const nonExistentDirPath = path.join(ROOT_DIR, 'non-existent-dir')
     await expect(getWalletSetupFiles(nonExistentDirPath)).rejects.toThrowError(
