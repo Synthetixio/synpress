@@ -58,6 +58,9 @@ importers:
       fs-extra:
         specifier: ^11.1.1
         version: 11.1.1
+      playwright-core:
+        specifier: 1.39.0
+        version: 1.39.0
       unzipper:
         specifier: ^0.10.14
         version: 0.10.14
@@ -3126,7 +3129,6 @@ packages:
     resolution: {integrity: sha512-+k4pdZgs1qiM+OUkSjx96YiKsXsmb59evFoqv8SKO067qBA+Z2s/dCzJij/ZhdQcs2zlTAgRKfeiiLm8PQ2qvw==}
     engines: {node: '>=16'}
     hasBin: true
-    dev: true
 
   /playwright@1.38.0:
     resolution: {integrity: sha512-fJGw+HO0YY+fU/F1N57DMO+TmXHTrmr905J05zwAQE9xkuwP/QLDk63rVhmyxh03dYnEhnRbsdbH9B0UVVRB3A==}
