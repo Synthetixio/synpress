@@ -1,0 +1,55 @@
+{
+  "name": "playwright-utils",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./types/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "main": "./dist/index.js",
+  "files": [
+    "dist",
+    "src",
+    "types"
+  ],
+  "scripts": {
+    "build": "pnpm run clean && pnpm run build:dist && pnpm run build:types",
+    "build:cache": "tsx src/buildCache.ts",
+    "build:cache:force": "tsx src/buildCache.ts --force",
+    "build:cache:force:headless": "HEADLESS=true tsx src/buildCache.ts --force",
+    "build:cache:headless": "HEADLESS=true tsx src/buildCache.ts",
+    "build:dist": "tsup --tsconfig tsconfig.build.json",
+    "build:types": "tsc --emitDeclarationOnly --project tsconfig.build.json",
+    "clean": "rimraf dist types",
+    "lint": "biome check . --apply",
+    "lint:check": "biome check . --verbose",
+    "lint:unsafe": "biome check . --apply-unsafe",
+    "local:test:e2e": "playwright test",
+    "local:test:e2e:headless": "HEADLESS=true playwright test",
+    "serve:test-dapp": "serve node_modules/@metamask/test-dapp/dist -p 9011",
+    "types:check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "core": "workspace:*",
+    "fs-extra": "^11.1.1",
+    "metamask": "workspace:*"
+  },
+  "devDependencies": {
+    "@metamask/test-dapp": "^7.2.0",
+    "@types/fs-extra": "^11.0.2",
+    "@types/node": "^20.8.0",
+    "rimraf": "^5.0.1",
+    "serve": "^14.2.1",
+    "tsconfig": "workspace:*",
+    "tsup": "^7.2.0",
+    "tsx": "^3.12.10",
+    "typescript": "^5.2.2"
+  },
+  "peerDependencies": {
+    "@playwright/test": "1.39.0"
+  }
+}
