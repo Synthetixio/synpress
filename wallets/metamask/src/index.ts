@@ -1,2 +1,5 @@
 export * from './prepareExtension'
 export * from './pages'
+export * from './actions'
+export * from './selectors'
+export * from './utils/getExtensionId'
