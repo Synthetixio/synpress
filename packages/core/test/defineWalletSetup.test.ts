@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { defineWalletSetup } from '../src/defineWalletSetup'
 
+const PASSWORD = 'Quack Quack! 🦆'
 const EXPECTED_HASH = '69620d59802a61c6900f'
 
 const testWalletSetupFunction = async (): Promise<void> => {
@@ -13,9 +14,10 @@ const testWalletSetupFunction = async (): Promise<void> => {
 }
 
 describe('defineWalletSetup', () => {
-  it('returns both hash and function', async () => {
-    const { hash, fn } = defineWalletSetup(testWalletSetupFunction)
+  it('returns hash, function and wallet password', async () => {
+    const { hash, fn, walletPassword } = defineWalletSetup(PASSWORD, testWalletSetupFunction)
     expect(hash).toEqual(EXPECTED_HASH)
     expect(fn.toString()).toEqual(testWalletSetupFunction.toString())
+    expect(walletPassword).toEqual(PASSWORD)
   })
 })
