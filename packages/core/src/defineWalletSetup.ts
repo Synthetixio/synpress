@@ -4,11 +4,12 @@ import { getWalletSetupFuncHash } from './utils/getWalletSetupFuncHash'
 export type WalletSetupFunction = (context: BrowserContext, walletPage: Page) => Promise<void>
 
 // TODO: This runs at least twice. Should we cache it somehow?
-export function defineWalletSetup(fn: WalletSetupFunction) {
+export function defineWalletSetup(walletPassword: string, fn: WalletSetupFunction) {
   const hash = getWalletSetupFuncHash(fn)
 
   return {
     hash,
-    fn
+    fn,
+    walletPassword
   }
 }
