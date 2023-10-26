@@ -6,5 +6,6 @@
   "include": [
     "src",
     "test"
-  ]
+  ],
+  "files": ["environment.d.ts"]
 }
