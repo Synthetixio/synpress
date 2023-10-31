@@ -1,6 +1,14 @@
 import { afterAll, describe, expect, it, vi } from 'vitest'
 import { importWalletSetupFile } from '../../src/utils/importWalletSetupFile'
 
+vi.mock('ts-import', async () => {
+  return {
+    load: async (tsRelativePath: string) => {
+      return await import(tsRelativePath)
+    }
+  }
+})
+
 vi.mock('./valid.setup.ts', async () => {
   return {
     default: {

@@ -1,5 +1,8 @@
+import path from 'node:path'
+import * as tsImport from 'ts-import'
 import { z } from 'zod'
 import type { WalletSetupFunction } from '../defineWalletSetup'
+import { ensureCacheDirExists } from '../ensureCacheDirExists'
 
 // TODO: Add hash length validation.
 const WalletSetupModule = z.object({
@@ -9,8 +12,19 @@ const WalletSetupModule = z.object({
   })
 })
 
+const TS_IMPORT_CACHE_DIR = path.join(ensureCacheDirExists(), '.cache-ts-import')
+
 export async function importWalletSetupFile(walletSetupFilePath: string) {
-  const walletSetupModule = await import(walletSetupFilePath)
+  // TODO: We should write our version of `ts-import` that utilizes the same logic as `getWalletSetupFuncHash`.
+  // Note: This might not work correctly on Windows!
+  const walletSetupModule = await tsImport.load(walletSetupFilePath, {
+    useCache: false, // TODO: This option does not work :(
+    transpileOptions: {
+      cache: {
+        dir: TS_IMPORT_CACHE_DIR
+      }
+    }
+  })
 
   const result = WalletSetupModule.safeParse(walletSetupModule)
   if (!result.success) {
