@@ -11,6 +11,7 @@
     }
   },
   "main": "./dist/index.js",
+  "bin": "./dist/cli/index.js",
   "files": [
     "dist",
     "src",
@@ -24,6 +25,7 @@
     "lint": "biome check . --apply",
     "lint:check": "biome check . --verbose",
     "lint:unsafe": "biome check . --apply-unsafe",
+    "prepublish": "pnpm run build",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest watch",
@@ -31,8 +33,11 @@
   },
   "dependencies": {
     "axios": "^1.4.0",
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
     "esbuild": "^0.19.5",
     "fs-extra": "^11.1.1",
+    "gradient-string": "^2.0.2",
     "ts-import": "5.0.0-beta.0",
     "unzipper": "^0.10.14",
     "zod": "^3.22.4"
@@ -40,6 +45,7 @@
   "devDependencies": {
     "@types/archiver": "^5.3.3",
     "@types/fs-extra": "^11.0.2",
+    "@types/gradient-string": "^1.1.4",
     "@types/node": "^20.8.0",
     "@types/unzipper": "^0.10.7",
     "@vitest/coverage-v8": "1.0.0-beta.0",
