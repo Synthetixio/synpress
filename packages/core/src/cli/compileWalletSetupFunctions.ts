@@ -19,7 +19,7 @@ export async function compileWalletSetupFunctions(walletSetupDir: string) {
     clean: true,
     outDir,
     format: 'esm',
-    splitting: false,
+    splitting: true,
     sourcemap: false,
     config: false,
     esbuildOptions(options) {
