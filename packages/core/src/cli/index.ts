@@ -13,25 +13,14 @@ interface CliFlags {
   force: boolean
 }
 
-const dirArgumentWarning = [
-  chalk.yellowBright`[TEMPORARY NOTE: You`,
-  chalk.red.bold` HAVE `,
-  chalk.yellowBright`to create this directory`,
-  chalk.red.bold` YOURSELF!`,
-  chalk.yellowBright`]`
-].join('')
-
+// TODO: Add unit tests for the CLI!
 export const main = async () => {
   console.log(`⚠️ ${chalk.yellowBright`The CLI is in alpha so expect breaking changes!`} ⚠️\n`)
 
   const program = new Command()
     .name(chalk.magenta('core'))
     .description('A CLI for building the cache of wallet setup functions')
-    .argument(
-      '[dir]',
-      `Directory containing the wallet setup functions ${dirArgumentWarning}`,
-      path.join('test', WALLET_SETUP_DIR_NAME)
-    )
+    .argument('[dir]', 'Directory containing the wallet setup functions', path.join('test', WALLET_SETUP_DIR_NAME))
     .option(
       '--headless',
       'Build cache in the headless browser mode. Alternatively, set the `HEADLESS` env variable to `true`',
