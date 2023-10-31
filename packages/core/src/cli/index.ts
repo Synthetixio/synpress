@@ -3,8 +3,10 @@
 import path from 'node:path'
 import chalk from 'chalk'
 import { Command } from 'commander'
+import { rimraf } from 'rimraf'
 import { WALLET_SETUP_DIR_NAME } from '../constants'
 import { createCache } from '../createCache'
+import { compileWalletSetupFunctions } from './compileWalletSetupFunctions'
 import { footer } from './footer'
 import { prepareExtension } from './prepareExtension'
 
@@ -43,10 +45,14 @@ export const main = async () => {
   }
 
   console.log('[DEBUG] Running with the following options:')
-  console.log({ cacheDir: walletSetupDir, ...flags, headless: Boolean(process.env.HEADLESS) ?? false })
+  console.log({ cacheDir: walletSetupDir, ...flags, headless: Boolean(process.env.HEADLESS) ?? false }, '\n')
+
+  const compiledWalletSetupDirPath = await compileWalletSetupFunctions(walletSetupDir)
 
   // TODO: We should be using `prepareExtension` function from the wallet itself!
-  await createCache(walletSetupDir, prepareExtension, flags.force)
+  await createCache(compiledWalletSetupDirPath, prepareExtension, flags.force)
+
+  await rimraf(compiledWalletSetupDirPath)
 }
 
 main().catch((err) => {
