@@ -1,5 +1,21 @@
+import path from 'node:path'
+import * as tsImport from 'ts-import'
 import { afterAll, describe, expect, it, vi } from 'vitest'
 import { importWalletSetupFile } from '../../src/utils/importWalletSetupFile'
+
+vi.mock('ts-import', async () => {
+  return {
+    load: async (tsRelativePath: string) => {
+      return await import(tsRelativePath)
+    }
+  }
+})
+
+vi.mock('../../src/ensureCacheDirExists', async () => {
+  return {
+    ensureCacheDirExists: vi.fn(() => '/tmp')
+  }
+})
 
 vi.mock('./valid.setup.ts', async () => {
   return {
@@ -38,6 +54,22 @@ describe('importWalletSetupFile', () => {
     await expect(importWalletSetupFile(invalidFilePath)).rejects.toThrowError(
       `[ImportWalletSetupFile] Invalid wallet setup function at ${invalidFilePath}`
     )
+  })
+
+  it('calls tsImport.load with correct arguments', async () => {
+    const loadSpy = vi.spyOn(tsImport, 'load')
+
+    const validFilePath = './valid.setup.ts'
+    await importWalletSetupFile(validFilePath)
+
+    expect(loadSpy).toHaveBeenCalledWith(validFilePath, {
+      useCache: false,
+      transpileOptions: {
+        cache: {
+          dir: path.join('/tmp', '.cache-ts-import')
+        }
+      }
+    })
   })
 
   it('returns the hash and function of a valid wallet setup file', async () => {

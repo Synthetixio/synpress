@@ -3,7 +3,7 @@ import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vites
 
 import path from 'node:path'
 import fsExtra from 'fs-extra'
-import type { WalletSetupFunction } from '../../src/defineWalletSetup'
+import type { WalletSetupFunction } from '../../src'
 import * as EnsureCacheDirExists from '../../src/ensureCacheDirExists'
 import * as CreateCacheForWalletSetupFunction from '../../src/utils/createCacheForWalletSetupFunction'
 import { triggerCacheCreation } from '../../src/utils/triggerCacheCreation'
@@ -27,7 +27,7 @@ vi.mock('fs-extra', async () => {
 
 vi.mock('../../src/ensureCacheDirExists', async () => {
   return {
-    ensureCacheDirExists: vi.fn(() => ROOT_DIR)
+    ensureCacheDirExists: vi.fn(() => '/tmp')
   }
 })
 
