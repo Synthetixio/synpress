@@ -6,9 +6,9 @@ import { Command } from 'commander'
 import { rimraf } from 'rimraf'
 import { WALLET_SETUP_DIR_NAME } from '../constants'
 import { createCache } from '../createCache'
+import { prepareExtension } from '../prepareExtension'
 import { compileWalletSetupFunctions } from './compileWalletSetupFunctions'
 import { footer } from './footer'
-import { prepareExtension } from './prepareExtension'
 
 interface CliFlags {
   headless: boolean
