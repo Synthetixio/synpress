@@ -1,4 +1,4 @@
-import { downloadFile, ensureCacheDirExists, unzipArchive } from '..'
+import { downloadFile, ensureCacheDirExists, unzipArchive } from '.'
 
 export const DEFAULT_METAMASK_VERSION = '10.25.0'
 export const EXTENSION_DOWNLOAD_URL = `https://github.com/MetaMask/metamask-extension/releases/download/v${DEFAULT_METAMASK_VERSION}/metamask-chrome-${DEFAULT_METAMASK_VERSION}.zip`
