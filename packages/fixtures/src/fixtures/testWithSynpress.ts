@@ -10,10 +10,11 @@ import type {
 import { chromium, test as base } from '@playwright/test'
 import { defineWalletSetup, waitForExtensionOnLoadPage } from 'core'
 import { createTempContextDir, removeTempContextDir } from 'core'
-import { CACHE_DIR_NAME } from 'core'
+import { CACHE_DIR_NAME, prepareExtension } from 'core'
 import fs from 'fs-extra'
-import { getExtensionId, prepareExtension } from 'metamask'
-import { unlockMetaMask } from './utils/unlockMetaMask'
+import { getExtensionId } from '../utils/getExtensionId'
+
+type UnlockWalletFunction = (walletPage: Page, password: string) => Promise<void>
 
 // Base types of the `test` fixture from Playwright.
 type TestFixtures = PlaywrightTestArgs & PlaywrightTestOptions
@@ -36,6 +37,7 @@ let _metamaskPage: Page
 
 const synpressFixtures = (
   walletSetup: ReturnType<typeof defineWalletSetup>,
+  unlockWallet: UnlockWalletFunction,
   slowMo = 0
 ): Fixtures<SynpressFixtures, WorkerFixtures> => ({
   _contextPath: async ({ browserName }, use, testInfo) => {
@@ -78,7 +80,7 @@ const synpressFixtures = (
 
     _metamaskPage = await waitForExtensionOnLoadPage(context)
 
-    await unlockMetaMask(_metamaskPage, walletSetup.walletPassword)
+    await unlockWallet(_metamaskPage, walletSetup.walletPassword)
 
     await use(context)
 
@@ -98,7 +100,11 @@ const synpressFixtures = (
   }
 })
 
-export const testWithSynpress = (walletSetup: ReturnType<typeof defineWalletSetup>, slowMo?: number) => {
+export const testWithSynpress = (
+  walletSetup: ReturnType<typeof defineWalletSetup>,
+  unlockWallet: UnlockWalletFunction,
+  slowMo?: number
+) => {
   // biome-ignore lint/suspicious/noExplicitAny: satisfying TypeScript here - this type doesn't matter since we are overriding it
-  return base.extend<PublicSynpressFixtures>(synpressFixtures(walletSetup, slowMo) as any)
+  return base.extend<PublicSynpressFixtures>(synpressFixtures(walletSetup, unlockWallet, slowMo) as any)
 }
