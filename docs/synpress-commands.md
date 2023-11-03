@@ -398,6 +398,7 @@ acceptMetamaskAccess(options?: {
   allAccounts?: boolean;
   confirmSignatureRequest?: boolean;
   confirmDataSignatureRequest?: boolean;
+  switchNetwork?: boolean;
 }): Chainable<boolean>;
 ```
 

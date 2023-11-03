@@ -933,6 +933,20 @@ const metamask = {
       return true;
     }
 
+    if (options && options.switchNetwork) {
+      await playwright.waitAndClick(
+        permissionsPageElements.connectButton,
+        notificationPage,
+        { waitForEvent: 'navi' },
+      );
+      await playwright.waitAndClick(
+        confirmationPageElements.footer.approveButton,
+        notificationPage,
+        { waitForEvent: 'close' },
+      );
+      return true;
+    }
+
     await playwright.waitAndClick(
       permissionsPageElements.connectButton,
       notificationPage,

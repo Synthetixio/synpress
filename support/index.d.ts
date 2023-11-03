@@ -315,6 +315,7 @@ declare namespace Cypress {
       allAccounts?: boolean;
       confirmSignatureRequest?: boolean;
       confirmDataSignatureRequest?: boolean;
+      switchNetwork?: boolean;
     }): Chainable<boolean>;
     /**
      * Reject metamask access request
