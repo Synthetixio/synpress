@@ -18,6 +18,9 @@
   ],
   "scripts": {
     "build": "pnpm run clean && pnpm run build:dist && pnpm run build:types",
+    "build:cache": "core test/e2e/wallet-setup",
+    "build:cache:headless": "core test/e2e/wallet-setup --headless",
+    "build:cache:headless:force": "core test/e2e/wallet-setup --headless --force",
     "build:dist": "tsup --tsconfig tsconfig.build.json",
     "build:types": "tsc --emitDeclarationOnly --project tsconfig.build.json",
     "clean": "rimraf dist types",
@@ -30,6 +33,7 @@
   },
   "dependencies": {
     "core": "workspace:*",
+    "fixtures": "workspace:*",
     "zod": "^3.22.4"
   },
   "devDependencies": {

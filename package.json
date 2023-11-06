@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
+    "build:cache": "turbo build:cache",
     "format": "biome format . --write",
     "format:check": "biome format . --error-on-warnings",
     "preinstall": "npx only-allow pnpm",

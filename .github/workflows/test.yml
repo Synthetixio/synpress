@@ -46,6 +46,10 @@ jobs:
       - name: Build project
         run: pnpm run build
 
+      - name: Build cache
+        run: |
+          xvfb-run pnpm run build:cache
+
       - name: Run E2E tests (headful)
         run: |
           xvfb-run pnpm run test:e2e:headful
