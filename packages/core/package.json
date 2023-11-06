@@ -25,7 +25,7 @@
     "lint": "biome check . --apply",
     "lint:check": "biome check . --verbose",
     "lint:unsafe": "biome check . --apply-unsafe",
-    "prepublish": "pnpm run build",
+    "prepare": "pnpm run build",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest watch",
