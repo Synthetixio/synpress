@@ -2,6 +2,7 @@ import path from 'node:path'
 import { glob } from 'glob'
 import { build } from 'tsup'
 import { ensureCacheDirExists } from '../ensureCacheDirExists'
+import { FIXES_BANNER } from './compilationFixes'
 
 const OUT_DIR_NAME = 'wallet-setup-dist'
 
@@ -22,6 +23,9 @@ export async function compileWalletSetupFunctions(walletSetupDir: string) {
     splitting: true,
     sourcemap: false,
     config: false,
+    banner: {
+      js: FIXES_BANNER
+    },
     esbuildOptions(options) {
       options.drop = ['console', 'debugger']
     }
