@@ -186,6 +186,9 @@ importers:
       core:
         specifier: workspace:*
         version: link:../../packages/core
+      fixtures:
+        specifier: workspace:*
+        version: link:../../packages/fixtures
       zod:
         specifier: ^3.22.4
         version: 3.22.4

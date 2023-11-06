@@ -8,11 +8,11 @@
     "test": {
       "dependsOn": ["build"]
     },
-    "test:e2e:headless": {
+    "build:cache": {
       "dependsOn": ["build"]
     },
     "test:e2e:headful": {
-      "dependsOn": ["build"]
+      "dependsOn": ["build", "build:cache"]
     }
   }
 }
