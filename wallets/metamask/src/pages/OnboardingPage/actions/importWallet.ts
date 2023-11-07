@@ -4,7 +4,7 @@ import {
   GetStartedPageSelectors,
   PinExtensionPageSelectors,
   WalletCreationSuccessPageSelectors
-} from '../../../selectors'
+} from '../selectors'
 import { confirmSecretRecoveryPhrase, createPassword } from './helpers'
 
 export async function importWallet(page: Page, seedPhrase: string, password: string) {

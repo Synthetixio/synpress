@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import { SecretRecoveryPhrasePageSelectors } from '../../../../selectors'
+import { SecretRecoveryPhrasePageSelectors } from '../../selectors'
 
 const StepSelectors = SecretRecoveryPhrasePageSelectors.passwordStep
 
