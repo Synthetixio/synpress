@@ -1,4 +1,4 @@
-import { createDataTestSelector } from '../../utils/selectors/createDataTestSelector'
+import { createDataTestSelector } from '../../../utils/selectors/createDataTestSelector'
 
 export default {
   createNewWallet: createDataTestSelector('onboarding-create-wallet'),
