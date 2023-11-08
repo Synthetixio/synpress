@@ -1,9 +1,13 @@
 import type { Page } from '@playwright/test'
 import { errors as playwrightErrors } from '@playwright/test'
-import { CrashPageSelectors, HomePageSelectors, LoadingSelectors, unlock } from '../'
+import { MetaMask } from '../metamask'
+import { CrashPage, HomePage } from '../pages'
+import { LoadingSelectors } from '../selectors'
 
 export async function unlockForFixture(page: Page, password: string) {
-  await unlock(page, password)
+  const metamask = new MetaMask(page.context(), page, password)
+
+  await metamask.unlock()
 
   await page.locator(LoadingSelectors.spinner).waitFor({
     state: 'hidden',
@@ -14,11 +18,11 @@ export async function unlockForFixture(page: Page, password: string) {
 }
 
 async function retryIfMetaMaskCrashAfterUnlock(page: Page) {
-  const isHomePageVisible = await page.locator(HomePageSelectors.logo).isVisible()
+  const isHomePageVisible = await page.locator(HomePage.selectors.logo).isVisible()
 
   if (!isHomePageVisible) {
-    if (await page.locator(CrashPageSelectors.header).isVisible()) {
-      const errors = await page.locator(CrashPageSelectors.errors).allTextContents()
+    if (await page.locator(CrashPage.selectors.header).isVisible()) {
+      const errors = await page.locator(CrashPage.selectors.errors).allTextContents()
 
       console.warn(['[RetryIfMetaMaskCrashAfterUnlock] MetaMask crashed due to:', ...errors].join('\n'))
 
@@ -26,7 +30,7 @@ async function retryIfMetaMaskCrashAfterUnlock(page: Page) {
       await page.reload()
 
       try {
-        await page.locator(HomePageSelectors.logo).waitFor({
+        await page.locator(HomePage.selectors.logo).waitFor({
           state: 'visible',
           timeout: 10_000 // TODO: Extract & Make this timeout configurable.
         })

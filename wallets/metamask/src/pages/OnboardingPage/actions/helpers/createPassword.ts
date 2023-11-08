@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
-import { SecretRecoveryPhrasePageSelectors } from '../../selectors'
+import Selectors from '../../selectors'
 
-const StepSelectors = SecretRecoveryPhrasePageSelectors.passwordStep
+const StepSelectors = Selectors.SecretRecoveryPhrasePageSelectors.passwordStep
 
 export async function createPassword(page: Page, password: string) {
   await page.locator(StepSelectors.passwordInput).fill(password)

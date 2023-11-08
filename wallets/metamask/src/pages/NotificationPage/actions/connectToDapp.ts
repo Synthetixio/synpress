@@ -1,5 +1,5 @@
 import type { BrowserContext } from '@playwright/test'
-import { getNotificationPage } from '../utils/getNotificationPage'
+import { getNotificationPage } from '../utils'
 
 export async function connectToDapp(context: BrowserContext, extensionId: string) {
   const notificationPage = await getNotificationPage(context, extensionId)

@@ -1,4 +1,4 @@
-import { createDataTestSelector } from '../../utils/selectors/createDataTestSelector'
+import { createDataTestSelector } from '../../../utils/selectors/createDataTestSelector'
 
 const container = '.account-menu'
 const accountMenu = {
