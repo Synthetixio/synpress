@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
-import { SecretRecoveryPhrasePageSelectors } from '../../selectors'
+import Selectors from '../../selectors'
 
-const StepSelectors = SecretRecoveryPhrasePageSelectors.recoveryStep
+const StepSelectors = Selectors.SecretRecoveryPhrasePageSelectors.recoveryStep
 
 export async function confirmSecretRecoveryPhrase(page: Page, seedPhrase: string) {
   const seedPhraseWords = seedPhrase.split(' ')

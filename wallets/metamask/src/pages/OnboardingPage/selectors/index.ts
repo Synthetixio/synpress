@@ -5,7 +5,7 @@ import SecretRecoveryPhrasePageSelectors from './secretRecoveryPhrasePage'
 import WalletCreationSuccessPageSelectors from './walletCreationSuccessPage'
 
 // biome-ignore format: empty lines should be preserved
-export {
+export default {
   // Initial Welcome Page
   GetStartedPageSelectors,
 

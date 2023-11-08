@@ -1,8 +1,8 @@
 import type { Page } from '@playwright/test'
-import { importWallet } from './actions'
+import { lock } from './actions'
 import Selectors from './selectors'
 
-export class OnboardingPage {
+export class HomePage {
   static readonly selectors = Selectors
   readonly selectors = Selectors
 
@@ -12,7 +12,7 @@ export class OnboardingPage {
     this.page = page
   }
 
-  async importWallet(seedPhrase: string, password: string) {
-    return await importWallet(this.page, seedPhrase, password)
+  async lock() {
+    await lock(this.page)
   }
 }

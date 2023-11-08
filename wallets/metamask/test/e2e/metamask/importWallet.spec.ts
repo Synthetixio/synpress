@@ -1,5 +1,6 @@
 import { type BrowserContext, type Page, chromium, test as base } from '@playwright/test'
-import { OnboardingPage, prepareExtension } from '../../src'
+import { MetaMask } from '../../../src'
+import { prepareExtension } from '../../../src/prepareExtension'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'
 const PASSWORD = 'Tester@1234'
@@ -50,11 +51,14 @@ const test = base.extend<{
 
 const { describe, expect } = test
 
-describe('importWallet', () => {
-  test('should go through the onboarding flow and import wallet from seed phrase', async ({ metamaskPage }) => {
-    const onboardingPage = new OnboardingPage(metamaskPage)
+describe('MetaMask.importWallet', () => {
+  test('should go through the onboarding flow and import wallet from seed phrase', async ({
+    context,
+    metamaskPage
+  }) => {
+    const metamask = new MetaMask(context, metamaskPage, PASSWORD)
 
-    await onboardingPage.importWallet(SEED_PHRASE, PASSWORD)
+    await metamask.importWallet(SEED_PHRASE)
 
     await expect(metamaskPage.getByText('Account 1')).toBeVisible()
     await expect(metamaskPage.getByText('0xf39...2266')).toBeVisible()
