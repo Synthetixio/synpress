@@ -32,7 +32,6 @@ type PublicSynpressFixtures = {
 type SynpressFixtures = TestFixtures & PrivateSynpressFixtures & PublicSynpressFixtures
 
 // TODO: Bad practice. Use a store!
-let _extensionId: string
 let _metamaskPage: Page
 
 const synpressFixtures = (
@@ -87,13 +86,9 @@ const synpressFixtures = (
     await context.close()
   },
   extensionId: async ({ context }, use) => {
-    if (_extensionId) {
-      await use(_extensionId)
-    }
+    const extensionId = await getExtensionId(context, 'MetaMask')
 
-    _extensionId = await getExtensionId(context, 'MetaMask')
-
-    await use(_extensionId)
+    await use(extensionId)
   },
   metamaskPage: async ({ context: _ }, use) => {
     await use(_metamaskPage)
