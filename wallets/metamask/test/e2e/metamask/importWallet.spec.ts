@@ -49,18 +49,13 @@ const test = base.extend<{
   }
 })
 
-const { describe, expect } = test
+const { expect } = test
 
-describe('MetaMask.importWallet', () => {
-  test('should go through the onboarding flow and import wallet from seed phrase', async ({
-    context,
-    metamaskPage
-  }) => {
-    const metamask = new MetaMask(context, metamaskPage, PASSWORD)
+test('should go through the onboarding flow and import wallet from seed phrase', async ({ context, metamaskPage }) => {
+  const metamask = new MetaMask(context, metamaskPage, PASSWORD)
 
-    await metamask.importWallet(SEED_PHRASE)
+  await metamask.importWallet(SEED_PHRASE)
 
-    await expect(metamaskPage.getByText('Account 1')).toBeVisible()
-    await expect(metamaskPage.getByText('0xf39...2266')).toBeVisible()
-  })
+  await expect(metamaskPage.getByText('Account 1')).toBeVisible()
+  await expect(metamaskPage.getByText('0xf39...2266')).toBeVisible()
 })
