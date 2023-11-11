@@ -1,17 +1,12 @@
-import type { BrowserContext } from '@playwright/test'
-import { getNotificationPageAndWaitForLoad } from '../../../utils/getNotificationPageAndWaitForLoad'
+import type { Page } from '@playwright/test'
 import Selectors from '../selectors'
 
-const signMessage = async (context: BrowserContext, extensionId: string) => {
-  const notificationPage = await getNotificationPageAndWaitForLoad(context, extensionId)
-
-  await notificationPage.locator(Selectors.SignaturePage.signButton).click()
+const signMessage = async (notificationPage: Page) => {
+  await notificationPage.locator(Selectors.SignaturePage.simpleMessage.signButton).click()
 }
 
-const rejectMessage = async (context: BrowserContext, extensionId: string) => {
-  const notificationPage = await getNotificationPageAndWaitForLoad(context, extensionId)
-
-  await notificationPage.locator(Selectors.SignaturePage.rejectButton).click()
+const rejectMessage = async (notificationPage: Page) => {
+  await notificationPage.locator(Selectors.SignaturePage.simpleMessage.rejectButton).click()
 }
 
 // Used for:
