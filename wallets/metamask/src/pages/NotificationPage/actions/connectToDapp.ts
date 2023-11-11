@@ -1,8 +1,8 @@
 import type { BrowserContext } from '@playwright/test'
-import { getNotificationPage } from '../../../utils/getNotificationPage'
+import { getNotificationPageAndWaitForLoad } from '../../../utils/getNotificationPageAndWaitForLoad'
 
 export async function connectToDapp(context: BrowserContext, extensionId: string) {
-  const notificationPage = await getNotificationPage(context, extensionId)
+  const notificationPage = await getNotificationPageAndWaitForLoad(context, extensionId)
 
   // Click `Next`.
   await notificationPage.getByRole('button').nth(1).click()
