@@ -1,6 +1,8 @@
 import type { BrowserContext, Page } from '@playwright/test'
 import { CrashPage, HomePage, LockPage, NotificationPage, OnboardingPage } from './pages'
 
+const NO_EXTENSION_ID_ERROR = new Error('MetaMask extensionId is not set')
+
 export class MetaMask {
   crashPage: CrashPage
   onboardingPage: OnboardingPage
@@ -8,7 +10,12 @@ export class MetaMask {
   homePage: HomePage
   notificationPage: NotificationPage
 
-  constructor(readonly context: BrowserContext, readonly page: Page, readonly password: string) {
+  constructor(
+    readonly context: BrowserContext,
+    readonly page: Page,
+    readonly password: string,
+    readonly extensionId?: string
+  ) {
     this.crashPage = new CrashPage()
 
     this.onboardingPage = new OnboardingPage(page)
@@ -21,8 +28,11 @@ export class MetaMask {
     await this.onboardingPage.importWallet(seedPhrase, this.password)
   }
 
-  async connectToDapp(extensionId: string) {
-    await this.notificationPage.connectToDapp(extensionId)
+  async connectToDapp() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+    await this.notificationPage.connectToDapp(this.extensionId)
   }
 
   async lock() {
@@ -31,5 +41,19 @@ export class MetaMask {
 
   async unlock() {
     await this.lockPage.unlock(this.password)
+  }
+
+  async confirmSignature() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+    await this.notificationPage.signPersonalMessage(this.extensionId)
+  }
+
+  async rejectSignature() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+    await this.notificationPage.rejectPersonalMessage(this.extensionId)
   }
 }
