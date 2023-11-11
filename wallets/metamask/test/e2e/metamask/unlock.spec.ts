@@ -5,16 +5,14 @@ import basicSetup from '../wallet-setup/basic.setup'
 
 const test = testWithSynpress(basicSetup, unlockForFixture)
 
-const { describe, expect } = test
+const { expect } = test
 
-describe('MetaMask.unlock', () => {
-  test('should unlock the wallet', async ({ context, metamaskPage }) => {
-    const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
+test('should unlock the wallet', async ({ context, metamaskPage }) => {
+  const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
 
-    await metamask.lock()
+  await metamask.lock()
 
-    await metamask.unlock()
+  await metamask.unlock()
 
-    await expect(metamaskPage.locator(metamask.homePage.selectors.logo)).toBeVisible()
-  })
+  await expect(metamaskPage.locator(metamask.homePage.selectors.logo)).toBeVisible()
 })
