@@ -1,2 +1,2 @@
 export * from './connectToDapp'
-export * from './personalSign'
+export * from './signSimpleMessage'

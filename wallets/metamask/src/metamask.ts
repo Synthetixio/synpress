@@ -47,13 +47,13 @@ export class MetaMask {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
-    await this.notificationPage.signPersonalMessage(this.extensionId)
+    await this.notificationPage.signSimpleMessage(this.extensionId)
   }
 
   async rejectSignature() {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
-    await this.notificationPage.rejectPersonalMessage(this.extensionId)
+    await this.notificationPage.rejectSimpleMessage(this.extensionId)
   }
 }

@@ -29,3 +29,21 @@ test('should confirm `personal_sign`', async ({ context, metamaskPage, page, ext
     '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'
   )
 })
+
+test('should confirm `eth_signTypedData`', async ({ context, metamaskPage, page, extensionId }) => {
+  const metamask = new MetaMask(context, metamaskPage, connectedSetup.walletPassword, extensionId)
+
+  await page.goto('https://metamask.github.io/test-dapp/')
+
+  await page.locator('#signTypedData').click()
+
+  await metamask.confirmSignature()
+
+  await expect(page.locator('#signTypedDataResult')).toHaveText(
+    '0xd75eece0d337f4e425f87bd112c849561956afe4f154cdd07d1d4cba7a979b481ba6ceede5c0eb9daa66bec4eea6e7ecfee5496274ef2a93b69abd97531519b21c'
+  )
+
+  await page.locator('#signTypedDataVerify').click()
+
+  await expect(page.locator('#signTypedDataVerifyResult')).toHaveText('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
+})
