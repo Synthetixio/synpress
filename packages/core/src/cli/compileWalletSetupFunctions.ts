@@ -23,6 +23,7 @@ export async function compileWalletSetupFunctions(walletSetupDir: string) {
     splitting: true,
     sourcemap: false,
     config: false,
+    external: ['@playwright/test'],
     banner: {
       js: FIXES_BANNER
     },
