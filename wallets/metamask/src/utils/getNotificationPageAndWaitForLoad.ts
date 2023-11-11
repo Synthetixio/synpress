@@ -1,6 +1,6 @@
 import type { BrowserContext, Page } from '@playwright/test'
 
-export async function getNotificationPage(context: BrowserContext, extensionId: string) {
+export async function getNotificationPageAndWaitForLoad(context: BrowserContext, extensionId: string) {
   const notificationPageUrl = `chrome-extension://${extensionId}/notification.html`
 
   const isNotificationPage = (page: Page) => page.url().includes(notificationPageUrl)
@@ -17,6 +17,8 @@ export async function getNotificationPage(context: BrowserContext, extensionId: 
     width: 360,
     height: 592
   })
+
+  await notificationPage.waitForLoadState('load')
 
   return notificationPage
 }
