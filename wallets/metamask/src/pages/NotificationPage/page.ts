@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import { connectToDapp, personalSign } from './actions'
+import { connectToDapp, signSimpleMessage } from './actions'
 
 export class NotificationPage {
   readonly page: Page
@@ -12,11 +12,11 @@ export class NotificationPage {
     await connectToDapp(this.page.context(), extensionId)
   }
 
-  async signPersonalMessage(extensionId: string) {
-    await personalSign.sign(this.page.context(), extensionId)
+  async signSimpleMessage(extensionId: string) {
+    await signSimpleMessage.sign(this.page.context(), extensionId)
   }
 
-  async rejectPersonalMessage(extensionId: string) {
-    await personalSign.reject(this.page.context(), extensionId)
+  async rejectSimpleMessage(extensionId: string) {
+    await signSimpleMessage.reject(this.page.context(), extensionId)
   }
 }
