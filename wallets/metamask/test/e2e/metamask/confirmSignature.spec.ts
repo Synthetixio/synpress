@@ -47,3 +47,39 @@ test('should confirm `eth_signTypedData`', async ({ context, metamaskPage, page,
 
   await expect(page.locator('#signTypedDataVerifyResult')).toHaveText('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
 })
+
+test('should confirm `eth_signTypedData_v3`', async ({ context, metamaskPage, page, extensionId }) => {
+  const metamask = new MetaMask(context, metamaskPage, connectedSetup.walletPassword, extensionId)
+
+  await page.goto('https://metamask.github.io/test-dapp/')
+
+  await page.locator('#signTypedDataV3').click()
+
+  await metamask.confirmSignature()
+
+  await expect(page.locator('#signTypedDataV3Result')).toHaveText(
+    '0x6ea8bb309a3401225701f3565e32519f94a0ea91a5910ce9229fe488e773584c0390416a2190d9560219dab757ecca2029e63fa9d1c2aebf676cc25b9f03126a1b'
+  )
+
+  await page.locator('#signTypedDataV3Verify').click()
+
+  await expect(page.locator('#signTypedDataV3VerifyResult')).toHaveText('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
+})
+
+test('should confirm `eth_signTypedData_v4`', async ({ context, metamaskPage, page, extensionId }) => {
+  const metamask = new MetaMask(context, metamaskPage, connectedSetup.walletPassword, extensionId)
+
+  await page.goto('https://metamask.github.io/test-dapp/')
+
+  await page.locator('#signTypedDataV4').click()
+
+  await metamask.confirmSignature()
+
+  await expect(page.locator('#signTypedDataV4Result')).toHaveText(
+    '0x789d9365fe0fbf1485b8069cbb000b78abd56b92608f9bc11a0d78e8810cd0434a60e93790c52348e5ac8770a8c5b0bb89411c2fbc61cbb4f56d67d60a3374961c'
+  )
+
+  await page.locator('#signTypedDataV4Verify').click()
+
+  await expect(page.locator('#signTypedDataV4VerifyResult')).toHaveText('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
+})

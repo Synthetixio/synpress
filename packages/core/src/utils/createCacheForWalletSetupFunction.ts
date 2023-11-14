@@ -2,7 +2,7 @@ import { chromium } from 'playwright-core'
 import type { WalletSetupFunction } from '../defineWalletSetup'
 import { waitForExtensionOnLoadPage } from './waitForExtensionOnLoadPage'
 
-// Inlining the sleep function here cause this is the ONLY place in the entire codebase where sleep should be used!
+// Inlining the sleep function here cause this is one of the few places in the entire codebase where sleep should be used!
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export async function createCacheForWalletSetupFunction(

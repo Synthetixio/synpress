@@ -32,6 +32,7 @@ export class MetaMask {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
+
     await this.notificationPage.connectToDapp(this.extensionId)
   }
 
@@ -47,13 +48,15 @@ export class MetaMask {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
-    await this.notificationPage.signSimpleMessage(this.extensionId)
+
+    await this.notificationPage.signMessage(this.extensionId)
   }
 
   async rejectSignature() {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
-    await this.notificationPage.rejectSimpleMessage(this.extensionId)
+
+    await this.notificationPage.rejectMessage(this.extensionId)
   }
 }
