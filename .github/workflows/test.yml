@@ -31,6 +31,9 @@ jobs:
       - name: Setup Node & Install dependencies
         uses: ./.github/actions/setup
 
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
       # For now, we only need Chromium.
       - name: Install browsers for Playwright
         run: pnpm dlx playwright install chromium
@@ -49,6 +52,10 @@ jobs:
       - name: Build cache
         run: |
           xvfb-run pnpm run build:cache
+
+      - name: Start Anvil node
+        run: |
+          anvil --port 8546 --chain-id 1338 &
 
       - name: Run E2E tests (headful)
         run: |
