@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
 import { getNotificationPageAndWaitForLoad } from '../../utils/getNotificationPageAndWaitForLoad'
 import { waitFor } from '../../utils/waitFor'
-import { connectToDapp, signSimpleMessage, signStructuredMessage } from './actions'
+import { connectToDapp, network, signSimpleMessage, signStructuredMessage } from './actions'
 import Selectors from './selectors'
 
 export class NotificationPage {
@@ -54,5 +54,29 @@ export class NotificationPage {
     } else {
       await signSimpleMessage.reject(notificationPage)
     }
+  }
+
+  async approveNewNetwork(extensionId: string) {
+    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+
+    await network.approveNewNetwork(notificationPage)
+  }
+
+  async rejectNewNetwork(extensionId: string) {
+    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+
+    await network.rejectNewNetwork(notificationPage)
+  }
+
+  async approveSwitchNetwork(extensionId: string) {
+    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+
+    await network.approveSwitchNetwork(notificationPage)
+  }
+
+  async rejectSwitchNetwork(extensionId: string) {
+    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+
+    await network.rejectSwitchNetwork(notificationPage)
   }
 }

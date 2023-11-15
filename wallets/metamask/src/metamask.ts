@@ -59,4 +59,36 @@ export class MetaMask {
 
     await this.notificationPage.rejectMessage(this.extensionId)
   }
+
+  async approveNewNetwork() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.approveNewNetwork(this.extensionId)
+  }
+
+  async rejectNewNetwork() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.rejectNewNetwork(this.extensionId)
+  }
+
+  async approveSwitchNetwork() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.approveSwitchNetwork(this.extensionId)
+  }
+
+  async rejectSwitchNetwork() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.rejectSwitchNetwork(this.extensionId)
+  }
 }
