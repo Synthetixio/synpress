@@ -1,17 +1,10 @@
-import { testWithSynpress } from 'fixtures'
-import { MetaMask, unlockForFixture } from '../../../src'
+import { testWithMetaMask } from '../testWithMetaMask'
 
-import connectedSetup from '../wallet-setup/connected.setup'
-
-const test = testWithSynpress(connectedSetup, unlockForFixture)
+const test = testWithMetaMask
 
 const { expect } = test
 
-test('should reject `personal_sign`', async ({ context, metamaskPage, page, extensionId }) => {
-  const metamask = new MetaMask(context, metamaskPage, connectedSetup.walletPassword, extensionId)
-
-  await page.goto('https://metamask.github.io/test-dapp/')
-
+test('should reject `personal_sign`', async ({ page, metamask }) => {
   await page.locator('#personalSign').click()
 
   await metamask.rejectSignature()
@@ -22,11 +15,7 @@ test('should reject `personal_sign`', async ({ context, metamaskPage, page, exte
   await expect(page.locator('#personalSignResult')).toHaveText('')
 })
 
-test('should reject `eth_signTypedData`', async ({ context, metamaskPage, page, extensionId }) => {
-  const metamask = new MetaMask(context, metamaskPage, connectedSetup.walletPassword, extensionId)
-
-  await page.goto('https://metamask.github.io/test-dapp/')
-
+test('should reject `eth_signTypedData`', async ({ page, metamask }) => {
   await page.locator('#signTypedData').click()
 
   await metamask.rejectSignature()
@@ -36,11 +25,7 @@ test('should reject `eth_signTypedData`', async ({ context, metamaskPage, page, 
   )
 })
 
-test('should reject `eth_signTypedData_v3`', async ({ context, metamaskPage, page, extensionId }) => {
-  const metamask = new MetaMask(context, metamaskPage, connectedSetup.walletPassword, extensionId)
-
-  await page.goto('https://metamask.github.io/test-dapp/')
-
+test('should reject `eth_signTypedData_v3`', async ({ page, metamask }) => {
   await page.locator('#signTypedDataV3').click()
 
   await metamask.rejectSignature()
@@ -50,11 +35,7 @@ test('should reject `eth_signTypedData_v3`', async ({ context, metamaskPage, pag
   )
 })
 
-test('should reject `eth_signTypedData_v4`', async ({ context, metamaskPage, page, extensionId }) => {
-  const metamask = new MetaMask(context, metamaskPage, connectedSetup.walletPassword, extensionId)
-
-  await page.goto('https://metamask.github.io/test-dapp/')
-
+test('should reject `eth_signTypedData_v4`', async ({ page, metamask }) => {
   await page.locator('#signTypedDataV4').click()
 
   await metamask.rejectSignature()
