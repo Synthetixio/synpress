@@ -1,7 +1,14 @@
 import type { Page } from '@playwright/test'
 import { getNotificationPageAndWaitForLoad } from '../../utils/getNotificationPageAndWaitForLoad'
 import { waitFor } from '../../utils/waitFor'
-import { connectToDapp, network, signSimpleMessage, signStructuredMessage, transaction } from './actions'
+import {
+  approvePermission,
+  connectToDapp,
+  network,
+  signSimpleMessage,
+  signStructuredMessage,
+  transaction
+} from './actions'
 import Selectors from './selectors'
 
 export class NotificationPage {
@@ -90,5 +97,21 @@ export class NotificationPage {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
     await transaction.reject(notificationPage)
+  }
+
+  async approvePermission(extensionId: string, customSpendLimit?: number) {
+    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+
+    if (customSpendLimit) {
+      await approvePermission.editSpendLimit(notificationPage, customSpendLimit)
+    }
+
+    await approvePermission.approve(notificationPage)
+  }
+
+  async rejectPermission(extensionId: string) {
+    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+
+    await approvePermission.reject(notificationPage)
   }
 }

@@ -107,4 +107,20 @@ export class MetaMask {
 
     await this.notificationPage.rejectTransaction(this.extensionId)
   }
+
+  async approvePermission(customSpendLimit?: number) {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.approvePermission(this.extensionId, customSpendLimit)
+  }
+
+  async rejectPermission() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.rejectPermission(this.extensionId)
+  }
 }
