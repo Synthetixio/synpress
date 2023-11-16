@@ -3,6 +3,7 @@ import { errors as playwrightErrors } from '@playwright/test'
 import { MetaMask } from '../metamask'
 import { CrashPage, HomePage } from '../pages'
 import { LoadingSelectors } from '../selectors'
+import { waitFor } from '../utils/waitFor'
 
 export async function unlockForFixture(page: Page, password: string) {
   const metamask = new MetaMask(page.context(), page, password)
@@ -15,6 +16,14 @@ export async function unlockForFixture(page: Page, password: string) {
   })
 
   await retryIfMetaMaskCrashAfterUnlock(page)
+
+  const recoveryPhraseReminder = page.locator(metamask.homePage.selectors.recoveryPhraseReminder.gotItButton)
+
+  // TODO: Extract & Make this timeout configurable.
+  const isRecoveryPhraseReminderVisible = await waitFor(recoveryPhraseReminder, 'visible', 1000, false)
+  if (isRecoveryPhraseReminderVisible) {
+    await recoveryPhraseReminder.click()
+  }
 }
 
 async function retryIfMetaMaskCrashAfterUnlock(page: Page) {
