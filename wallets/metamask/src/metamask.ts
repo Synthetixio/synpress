@@ -91,4 +91,20 @@ export class MetaMask {
 
     await this.notificationPage.rejectSwitchNetwork(this.extensionId)
   }
+
+  async confirmTransaction() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.confirmTransaction(this.extensionId)
+  }
+
+  async rejectTransaction() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.rejectTransaction(this.extensionId)
+  }
 }
