@@ -4,7 +4,8 @@ const container = '.account-menu'
 const accountMenu = {
   accountMenuButton: createDataTestSelector('account-menu-icon'),
   lockButton: `${container} .account-menu__lock-button`,
-  importAccountButton: `${container} > .account-menu__item--clickable:nth-of-type(2)`
+  importAccountButton: `${container} > .account-menu__item--clickable:nth-of-type(2)`,
+  accountNamesSelector: `${container} ${createDataTestSelector('account-menu__account')} .account-menu__name`
 }
 
 const importAccountScreen = {
