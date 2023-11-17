@@ -28,6 +28,10 @@ export class MetaMask {
     await this.onboardingPage.importWallet(seedPhrase, this.password)
   }
 
+  async importWalletFromPrivateKey(privateKey: string) {
+    await this.homePage.importWalletFromPrivateKey(privateKey)
+  }
+
   async connectToDapp() {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
