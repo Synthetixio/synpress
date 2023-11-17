@@ -32,6 +32,10 @@ export class MetaMask {
     await this.homePage.importWalletFromPrivateKey(privateKey)
   }
 
+  async switchAccount(accountName: string) {
+    await this.homePage.switchAccount(accountName)
+  }
+
   async connectToDapp() {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
