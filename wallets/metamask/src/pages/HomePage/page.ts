@@ -1,6 +1,7 @@
 import type { Page } from '@playwright/test'
-import { importWalletFromPrivateKey, lock, switchAccount } from './actions'
+import { importWalletFromPrivateKey, lock, settings, switchAccount } from './actions'
 import Selectors from './selectors'
+import type { SettingsSidebarMenus } from './selectors/settings'
 
 export class HomePage {
   static readonly selectors = Selectors
@@ -10,6 +11,10 @@ export class HomePage {
 
   constructor(page: Page) {
     this.page = page
+  }
+
+  async goBackToHomePage() {
+    await this.page.locator(Selectors.logo).click()
   }
 
   async lock() {
@@ -22,5 +27,17 @@ export class HomePage {
 
   async switchAccount(accountName: string) {
     await switchAccount(this.page, accountName)
+  }
+
+  async openSettings() {
+    await settings.openSettings(this.page)
+  }
+
+  async openSidebarMenu(menu: SettingsSidebarMenus) {
+    await settings.openSidebarMenu(this.page, menu)
+  }
+
+  async toggleShowTestNetworks() {
+    await settings.advanced.toggleShowTestNetworks(this.page)
   }
 }

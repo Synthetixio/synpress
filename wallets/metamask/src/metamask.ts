@@ -1,5 +1,6 @@
 import type { BrowserContext, Page } from '@playwright/test'
 import { CrashPage, HomePage, LockPage, NotificationPage, OnboardingPage } from './pages'
+import { SettingsSidebarMenus } from './pages/HomePage/selectors/settings'
 
 const NO_EXTENSION_ID_ERROR = new Error('MetaMask extensionId is not set')
 
@@ -130,5 +131,21 @@ export class MetaMask {
     }
 
     await this.notificationPage.rejectPermission(this.extensionId)
+  }
+
+  async goBackToHomePage() {
+    await this.homePage.goBackToHomePage()
+  }
+
+  async openSettings() {
+    await this.homePage.openSettings()
+  }
+
+  async openSidebarMenu(menu: SettingsSidebarMenus) {
+    await this.homePage.openSidebarMenu(menu)
+  }
+
+  async toggleShowTestNetworks() {
+    await this.homePage.toggleShowTestNetworks()
   }
 }
