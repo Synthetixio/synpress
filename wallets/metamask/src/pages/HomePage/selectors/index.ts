@@ -1,10 +1,12 @@
 import { createDataTestSelector } from '../../../utils/selectors/createDataTestSelector'
+import settings from './settings'
 
 const container = '.account-menu'
 const accountMenu = {
   accountMenuButton: createDataTestSelector('account-menu-icon'),
   lockButton: `${container} .account-menu__lock-button`,
   importAccountButton: `${container} > .account-menu__item--clickable:nth-of-type(2)`,
+  settingsButton: `${container} > .account-menu__item--clickable:nth-of-type(5)`,
   accountNamesSelector: `${container} ${createDataTestSelector('account-menu__account')} .account-menu__name`
 }
 
@@ -18,9 +20,16 @@ const recoveryPhraseReminder = {
   gotItButton: '.recovery-phrase-reminder button.btn-primary'
 }
 
+const networkDropdown = {
+  dropdownButton: createDataTestSelector('network-display'),
+  networks: `${createDataTestSelector('network-droppo')} .network-dropdown-list li`
+}
+
 export default {
   logo: createDataTestSelector('app-header-logo'),
   account: createDataTestSelector('selected-account-click'),
+  settings,
+  networkDropdown,
   accountMenu,
   importAccountScreen,
   recoveryPhraseReminder
