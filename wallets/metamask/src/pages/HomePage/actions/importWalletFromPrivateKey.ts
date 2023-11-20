@@ -11,7 +11,7 @@ export async function importWalletFromPrivateKey(page: Page, privateKey: string)
   await importButton.click()
 
   // TODO: Extract & make configurable
-  const isHidden = await waitFor(importButton, 'hidden', 1000, false)
+  const isHidden = await waitFor(() => importButton.isHidden(), 1000, false)
 
   if (!isHidden) {
     const errorText = await page.locator(Selectors.importAccountScreen.error).textContent({

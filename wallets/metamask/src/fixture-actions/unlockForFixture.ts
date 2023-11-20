@@ -20,7 +20,7 @@ export async function unlockForFixture(page: Page, password: string) {
   const recoveryPhraseReminder = page.locator(metamask.homePage.selectors.recoveryPhraseReminder.gotItButton)
 
   // TODO: Extract & Make this timeout configurable.
-  const isRecoveryPhraseReminderVisible = await waitFor(recoveryPhraseReminder, 'visible', 1000, false)
+  const isRecoveryPhraseReminderVisible = await waitFor(() => recoveryPhraseReminder.isVisible(), 1000, false)
   if (isRecoveryPhraseReminderVisible) {
     await recoveryPhraseReminder.click()
   }
