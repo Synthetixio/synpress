@@ -13,7 +13,7 @@ export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
 
   const recoveryPhraseReminder = walletPage.locator(metamask.homePage.selectors.recoveryPhraseReminder.gotItButton)
 
-  const isRecoveryPhraseReminderVisible = await waitFor(recoveryPhraseReminder, 'visible', 3_000, false)
+  const isRecoveryPhraseReminderVisible = await waitFor(() => recoveryPhraseReminder.isVisible(), 3_000, false)
   if (isRecoveryPhraseReminderVisible) {
     await recoveryPhraseReminder.click()
   }
