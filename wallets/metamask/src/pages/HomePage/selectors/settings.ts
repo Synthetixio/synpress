@@ -17,6 +17,10 @@ const advanced = {
   showTestNetworksToggle: `${createDataTestSelector('advanced-setting-show-testnet-conversion')} .toggle-button`
 }
 
+const experimental = {
+  toggleImprovedTokenAllowanceExperience: '.settings-page__content-item .toggle-button'
+}
+
 const newNetworkFormContainer = '.networks-tab__add-network-form'
 const newNetworkForm = {
   networkNameInput: `${newNetworkFormContainer} .form-field:nth-child(1) input`,
@@ -39,5 +43,6 @@ export default {
   SettingsSidebarMenus,
   sidebarMenu,
   advanced,
+  experimental,
   networks
 }

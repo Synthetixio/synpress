@@ -42,6 +42,10 @@ export class HomePage {
     await settings.advanced.toggleShowTestNetworks(this.page)
   }
 
+  async toggleImprovedTokenAllowanceExperience() {
+    await settings.experimental.toggleImprovedTokenAllowanceExperience(this.page)
+  }
+
   async switchNetwork(networkName: string) {
     await switchNetwork(this.page, networkName)
   }

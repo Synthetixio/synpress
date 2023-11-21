@@ -8,7 +8,7 @@ const test = testWithSynpress(basicSetup, unlockForFixture)
 
 const { expect } = test
 
-test('should toggle the "show test networks" option', async ({ context, metamaskPage }) => {
+test('should toggle the "Show test networks" option', async ({ context, metamaskPage }) => {
   const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
 
   await metamaskPage.locator(metamask.homePage.selectors.networkDropdown.dropdownButton).click()

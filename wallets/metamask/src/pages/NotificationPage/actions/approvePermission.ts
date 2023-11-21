@@ -13,6 +13,25 @@ const editTokenPermission = async (notificationPage: Page, customSpendLimit: num
   await notificationPage.locator(Selectors.PermissionPage.approve.editPermission.saveButton).click()
 }
 
+const editTokenPermissionWithImprovedTokenAllowanceExperience = async (
+  notificationPage: Page,
+  customSpendLimit: 'default' | 'max' | number
+) => {
+  if (customSpendLimit === 'default') {
+    await notificationPage.locator(Selectors.PermissionPage.improvedApprove.useDefaultButton).click()
+    return
+  }
+
+  if (customSpendLimit === 'max') {
+    await notificationPage.locator(Selectors.PermissionPage.improvedApprove.maxButton).click()
+    return
+  }
+
+  await notificationPage
+    .locator(Selectors.PermissionPage.improvedApprove.customSpendingCapInput)
+    .fill(customSpendLimit.toString())
+}
+
 const approveTokenPermission = async (notificationPage: Page) => {
   await notificationPage.locator(Selectors.PermissionPage.approve.confirmButton).click()
 }
@@ -23,6 +42,7 @@ const rejectTokenPermission = async (notificationPage: Page) => {
 
 export const approvePermission = {
   editSpendLimit: editTokenPermission,
+  editSpendLimitWithImprovedTokenAllowanceExperience: editTokenPermissionWithImprovedTokenAllowanceExperience,
   approve: approveTokenPermission,
   reject: rejectTokenPermission
 }
