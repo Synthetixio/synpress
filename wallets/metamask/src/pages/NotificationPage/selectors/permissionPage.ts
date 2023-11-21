@@ -14,6 +14,15 @@ const approve = {
   rejectButton: `.page-container__footer ${createDataTestSelector('page-container-footer-cancel')}`
 }
 
+const improvedApprove = {
+  useDefaultButton: '.custom-spending-cap .form-field__heading button',
+  maxButton: '.custom-spending-cap .custom-spending-cap__max button',
+  customSpendingCapInput: `.custom-spending-cap ${createDataTestSelector('custom-spending-cap-input')}`,
+  confirmButton: `.page-container__footer ${createDataTestSelector('page-container-footer-next')}`,
+  rejectButton: `.page-container__footer ${createDataTestSelector('page-container-footer-cancel')}`
+}
+
 export default {
-  approve
+  approve,
+  improvedApprove
 }

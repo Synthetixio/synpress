@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test'
+import type { Locator, Page } from '@playwright/test'
 import { waitFor } from '../../../utils/waitFor'
 import Selectors from '../selectors'
 import type { SettingsSidebarMenus } from '../selectors/settings'
@@ -12,11 +12,7 @@ async function openSidebarMenu(page: Page, menu: SettingsSidebarMenus) {
   await page.locator(Selectors.settings.sidebarMenu(menu)).click()
 }
 
-async function toggleShowTestNetworks(page: Page) {
-  // .nth(0) -> Show conversion on test networks
-  // .nth(1) -> Show test networks
-  const toggleLocator = page.locator(Selectors.settings.advanced.showTestNetworksToggle).nth(1)
-
+async function toggle(toggleLocator: Locator) {
   // TODO: Extract timeout
   const classes = await toggleLocator.getAttribute('class', { timeout: 3_000 })
 
@@ -46,12 +42,29 @@ async function toggleShowTestNetworks(page: Page) {
   await waitFor(waitForAction, 3_000, true)
 }
 
+async function toggleShowTestNetworks(page: Page) {
+  // .nth(0) -> Show conversion on test networks
+  // .nth(1) -> Show test networks
+  const toggleLocator = page.locator(Selectors.settings.advanced.showTestNetworksToggle).nth(1)
+  await toggle(toggleLocator)
+}
+
+async function toggleImprovedTokenAllowanceExperience(page: Page) {
+  const toggleLocator = page.locator(Selectors.settings.experimental.toggleImprovedTokenAllowanceExperience)
+  await toggle(toggleLocator)
+}
+
 const advanced = {
   toggleShowTestNetworks
+}
+
+const experimental = {
+  toggleImprovedTokenAllowanceExperience
 }
 
 export const settings = {
   openSettings,
   openSidebarMenu,
-  advanced
+  advanced,
+  experimental
 }

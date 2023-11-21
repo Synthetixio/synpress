@@ -1,4 +1,5 @@
 import type { Page } from '@playwright/test'
+import { z } from 'zod'
 import { getNotificationPageAndWaitForLoad } from '../../utils/getNotificationPageAndWaitForLoad'
 import { waitFor } from '../../utils/waitFor'
 import {
@@ -105,11 +106,28 @@ export class NotificationPage {
     await transaction.confirmAndWaitForMining(this.page, notificationPage)
   }
 
-  async approvePermission(extensionId: string, customSpendLimit?: number) {
+  // TODO: Revisit this in the future and make the improved token allowance experience enabled by default.
+  async approvePermission(extensionId: string, spendLimit: 'default' | 'max' | number = 'default') {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
-    if (customSpendLimit) {
-      await approvePermission.editSpendLimit(notificationPage, customSpendLimit)
+    const isImprovedTokenAllowanceEnabled = await waitFor(
+      () => notificationPage.locator(Selectors.PermissionPage.improvedApprove.customSpendingCapInput).isVisible(),
+      1_500,
+      false
+    )
+
+    if (isImprovedTokenAllowanceEnabled) {
+      await approvePermission.editSpendLimitWithImprovedTokenAllowanceExperience(notificationPage, spendLimit)
+    } else {
+      if (spendLimit !== 'default') {
+        const parsedCustomSpentLimit = z
+          .number({
+            invalid_type_error:
+              'Custom spend limit must be a number if the improved token allowance experience is disabled'
+          })
+          .parse(spendLimit)
+        await approvePermission.editSpendLimit(notificationPage, parsedCustomSpentLimit)
+      }
     }
 
     await approvePermission.approve(notificationPage)

@@ -126,12 +126,12 @@ export class MetaMask {
     await this.notificationPage.rejectTransaction(this.extensionId)
   }
 
-  async approvePermission(customSpendLimit?: number) {
+  async approvePermission(spendLimit?: 'default' | 'max' | number) {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.approvePermission(this.extensionId, customSpendLimit)
+    await this.notificationPage.approvePermission(this.extensionId, spendLimit)
   }
 
   async rejectPermission() {
@@ -156,6 +156,10 @@ export class MetaMask {
 
   async toggleShowTestNetworks() {
     await this.homePage.toggleShowTestNetworks()
+  }
+
+  async toggleImprovedTokenAllowanceExperience() {
+    await this.homePage.toggleImprovedTokenAllowanceExperience()
   }
 
   // ---- EXPERIMENTAL FEATURES ----

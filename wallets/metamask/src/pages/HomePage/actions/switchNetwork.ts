@@ -8,8 +8,6 @@ export async function switchNetwork(page: Page, networkName: string) {
 
   const networkNames = await page.locator(Selectors.networkDropdown.networks).allTextContents()
 
-  console.log({ networkNames })
-
   const seekedNetworkNames = networkNames.filter((name) => name.toLocaleLowerCase() === networkName.toLocaleLowerCase())
 
   if (seekedNetworkNames.length === 0) {
