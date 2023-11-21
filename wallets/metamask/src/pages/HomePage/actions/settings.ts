@@ -1,4 +1,5 @@
 import type { Page } from '@playwright/test'
+import { waitFor } from '../../../utils/waitFor'
 import Selectors from '../selectors'
 import type { SettingsSidebarMenus } from '../selectors/settings'
 
@@ -14,7 +15,35 @@ async function openSidebarMenu(page: Page, menu: SettingsSidebarMenus) {
 async function toggleShowTestNetworks(page: Page) {
   // .nth(0) -> Show conversion on test networks
   // .nth(1) -> Show test networks
-  await page.locator(Selectors.settings.advanced.showTestNetworksToggle).nth(1).click()
+  const toggleLocator = page.locator(Selectors.settings.advanced.showTestNetworksToggle).nth(1)
+
+  // TODO: Extract timeout
+  const classes = await toggleLocator.getAttribute('class', { timeout: 3_000 })
+
+  if (!classes) {
+    throw new Error('[ToggleShowTestNetworks] Toggle class returned null')
+  }
+
+  const isOn = classes.includes('toggle-button--on')
+
+  await toggleLocator.click()
+
+  const waitForAction = async () => {
+    const classes = await toggleLocator.getAttribute('class')
+
+    if (!classes) {
+      throw new Error('[ToggleShowTestNetworks] Toggle class returned null inside waitFor')
+    }
+
+    if (isOn) {
+      return classes.includes('toggle-button--off')
+    }
+
+    return classes.includes('toggle-button--on')
+  }
+
+  // TODO: Extract timeout
+  await waitFor(waitForAction, 3_000, true)
 }
 
 const advanced = {
