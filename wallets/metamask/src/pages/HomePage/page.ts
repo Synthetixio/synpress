@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import { importWalletFromPrivateKey, lock, settings, switchAccount } from './actions'
+import { importWalletFromPrivateKey, lock, settings, switchAccount, switchNetwork } from './actions'
 import Selectors from './selectors'
 import type { SettingsSidebarMenus } from './selectors/settings'
 
@@ -39,5 +39,9 @@ export class HomePage {
 
   async toggleShowTestNetworks() {
     await settings.advanced.toggleShowTestNetworks(this.page)
+  }
+
+  async switchNetwork(networkName: string) {
+    await switchNetwork(this.page, networkName)
   }
 }

@@ -37,6 +37,10 @@ export class MetaMask {
     await this.homePage.switchAccount(accountName)
   }
 
+  async switchNetwork(networkName: string) {
+    await this.homePage.switchNetwork(networkName)
+  }
+
   async connectToDapp() {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR

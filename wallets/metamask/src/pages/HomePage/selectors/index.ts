@@ -22,12 +22,13 @@ const recoveryPhraseReminder = {
 
 const networkDropdown = {
   dropdownButton: createDataTestSelector('network-display'),
-  networks: `${createDataTestSelector('network-droppo')} .network-dropdown-list li`
+  networks: `${createDataTestSelector('network-droppo')} .network-dropdown-list li > span`
 }
 
 export default {
   logo: createDataTestSelector('app-header-logo'),
   account: createDataTestSelector('selected-account-click'),
+  currentNetwork: createDataTestSelector('network-display'),
   settings,
   networkDropdown,
   accountMenu,
