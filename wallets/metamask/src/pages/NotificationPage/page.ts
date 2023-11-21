@@ -99,6 +99,12 @@ export class NotificationPage {
     await transaction.reject(notificationPage)
   }
 
+  async confirmTransactionAndWaitForMining(extensionId: string) {
+    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+
+    await transaction.confirmAndWaitForMining(this.page, notificationPage)
+  }
+
   async approvePermission(extensionId: string, customSpendLimit?: number) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
