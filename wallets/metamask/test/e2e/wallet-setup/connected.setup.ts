@@ -1,7 +1,6 @@
 import { defineWalletSetup } from 'core'
 import { getExtensionId } from 'fixtures'
 import { MetaMask } from '../../../src'
-import { waitFor } from '../../../src/utils/waitFor'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'
 
@@ -14,12 +13,8 @@ export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
 
   await metamask.importWallet(SEED_PHRASE)
 
-  const recoveryPhraseReminder = walletPage.locator(metamask.homePage.selectors.recoveryPhraseReminder.gotItButton)
-
-  const isRecoveryPhraseReminderVisible = await waitFor(() => recoveryPhraseReminder.isVisible(), 3_000, false)
-  if (isRecoveryPhraseReminderVisible) {
-    await recoveryPhraseReminder.click()
-  }
+  // TODO: This should be automatically called when creating cache.
+  await metamask.closeTooltipsIfAnyAreVisible()
 
   const page = await context.newPage()
 

@@ -162,6 +162,10 @@ export class MetaMask {
     await this.homePage.toggleImprovedTokenAllowanceExperience()
   }
 
+  async closeTooltipsIfAnyAreVisible() {
+    await this.homePage.closeTooltipsIfAnyAreVisible()
+  }
+
   // ---- EXPERIMENTAL FEATURES ----
 
   public readonly experimental = {

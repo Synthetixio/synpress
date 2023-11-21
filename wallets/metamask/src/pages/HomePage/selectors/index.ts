@@ -20,6 +20,15 @@ const recoveryPhraseReminder = {
   gotItButton: '.recovery-phrase-reminder button.btn-primary'
 }
 
+const tippyPopper = {
+  closeButton: '.tippy-popper button'
+}
+
+const popoverContainer = '.popover-container'
+const popover = {
+  closeButton: `${popoverContainer} ${createDataTestSelector('popover-close')}`
+}
+
 const networkDropdown = {
   dropdownButton: createDataTestSelector('network-display'),
   networks: `${createDataTestSelector('network-droppo')} .network-dropdown-list li > span`,
@@ -48,5 +57,7 @@ export default {
   networkDropdown,
   accountMenu,
   importAccountScreen,
-  recoveryPhraseReminder
+  tippyPopper,
+  recoveryPhraseReminder,
+  popover
 }

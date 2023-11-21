@@ -1,5 +1,13 @@
 import type { Page } from '@playwright/test'
-import { addNetwork, importWalletFromPrivateKey, lock, settings, switchAccount, switchNetwork } from './actions'
+import {
+  addNetwork,
+  closeTooltipsIfAnyAreVisible,
+  importWalletFromPrivateKey,
+  lock,
+  settings,
+  switchAccount,
+  switchNetwork
+} from './actions'
 import type { Network } from './actions'
 import Selectors from './selectors'
 import type { SettingsSidebarMenus } from './selectors/settings'
@@ -52,5 +60,9 @@ export class HomePage {
 
   async addNetwork(network: Network) {
     await addNetwork(this.page, network)
+  }
+
+  async closeTooltipsIfAnyAreVisible() {
+    await closeTooltipsIfAnyAreVisible(this.page)
   }
 }
