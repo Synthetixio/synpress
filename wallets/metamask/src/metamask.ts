@@ -1,5 +1,6 @@
 import type { BrowserContext, Page } from '@playwright/test'
 import { CrashPage, HomePage, LockPage, NotificationPage, OnboardingPage } from './pages'
+import type { Network } from './pages/HomePage/actions'
 import { SettingsSidebarMenus } from './pages/HomePage/selectors/settings'
 
 const NO_EXTENSION_ID_ERROR = new Error('MetaMask extensionId is not set')
@@ -35,6 +36,10 @@ export class MetaMask {
 
   async switchAccount(accountName: string) {
     await this.homePage.switchAccount(accountName)
+  }
+
+  async addNetwork(network: Network) {
+    await this.homePage.addNetwork(network)
   }
 
   async switchNetwork(networkName: string) {

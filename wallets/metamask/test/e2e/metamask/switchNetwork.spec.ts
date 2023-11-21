@@ -7,10 +7,6 @@ const test = testWithSynpress(basicSetup, unlockForFixture)
 
 const { expect } = test
 
-test.use({
-  permissions: ['clipboard-read']
-})
-
 test('should switch network', async ({ context, metamaskPage }) => {
   const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
 
@@ -21,15 +17,12 @@ test('should switch network', async ({ context, metamaskPage }) => {
 
   await metamask.toggleShowTestNetworks()
 
-  const networkBefore = await metamaskPage.locator(metamask.homePage.selectors.currentNetwork).textContent()
-
-  expect(networkBefore).toEqual('Ethereum Mainnet')
+  await expect(metamaskPage.locator(metamask.homePage.selectors.currentNetwork)).toHaveText('Ethereum Mainnet')
 
   const targetNetwork = 'Sepolia test network'
   await metamask.switchNetwork(targetNetwork)
 
-  const networkAfter = await metamaskPage.locator(metamask.homePage.selectors.currentNetwork).textContent()
-  expect(networkAfter).toEqual(targetNetwork)
+  await expect(metamaskPage.locator(metamask.homePage.selectors.currentNetwork)).toHaveText(targetNetwork)
 })
 
 test('should throw an error if there is no account with target name', async ({ context, metamaskPage }) => {

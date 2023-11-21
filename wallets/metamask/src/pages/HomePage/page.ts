@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test'
-import { importWalletFromPrivateKey, lock, settings, switchAccount, switchNetwork } from './actions'
+import { addNetwork, importWalletFromPrivateKey, lock, settings, switchAccount, switchNetwork } from './actions'
+import type { Network } from './actions'
 import Selectors from './selectors'
 import type { SettingsSidebarMenus } from './selectors/settings'
 
@@ -43,5 +44,9 @@ export class HomePage {
 
   async switchNetwork(networkName: string) {
     await switchNetwork(this.page, networkName)
+  }
+
+  async addNetwork(network: Network) {
+    await addNetwork(this.page, network)
   }
 }
