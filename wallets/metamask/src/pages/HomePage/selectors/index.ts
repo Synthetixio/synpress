@@ -22,7 +22,8 @@ const recoveryPhraseReminder = {
 
 const networkDropdown = {
   dropdownButton: createDataTestSelector('network-display'),
-  networks: `${createDataTestSelector('network-droppo')} .network-dropdown-list li > span`
+  networks: `${createDataTestSelector('network-droppo')} .network-dropdown-list li > span`,
+  addNetworkButton: `${createDataTestSelector('network-droppo')} .network__add-network-button > button`
 }
 
 export default {

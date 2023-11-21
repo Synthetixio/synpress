@@ -17,8 +17,27 @@ const advanced = {
   showTestNetworksToggle: `${createDataTestSelector('advanced-setting-show-testnet-conversion')} .toggle-button`
 }
 
+const newNetworkFormContainer = '.networks-tab__add-network-form'
+const newNetworkForm = {
+  networkNameInput: `${newNetworkFormContainer} .form-field:nth-child(1) input`,
+  rpcUrlInput: `${newNetworkFormContainer} .form-field:nth-child(2) input`,
+  rpcUrlError: `${newNetworkFormContainer} .form-field:nth-child(2) .form-field__error`,
+  chainIdInput: `${newNetworkFormContainer} .form-field:nth-child(3) input`,
+  chainIdError: `${newNetworkFormContainer} .form-field:nth-child(3) .form-field__error`,
+  symbolInput: `${newNetworkFormContainer} .form-field:nth-child(4) input`,
+  blockExplorerUrlInput: `${newNetworkFormContainer} .form-field:nth-child(5) input`,
+  cancelButton: `${newNetworkFormContainer} .networks-tab__add-network-form-footer button.btn-secondary`,
+  saveButton: `${newNetworkFormContainer} .networks-tab__add-network-form-footer button.btn-primary`
+}
+
+const networks = {
+  addNetworkManuallyButton: `${createDataTestSelector('add-network-manually')}`,
+  newNetworkForm
+}
+
 export default {
   SettingsSidebarMenus,
   sidebarMenu,
-  advanced
+  advanced,
+  networks
 }
