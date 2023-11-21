@@ -157,4 +157,18 @@ export class MetaMask {
   async toggleShowTestNetworks() {
     await this.homePage.toggleShowTestNetworks()
   }
+
+  // ---- EXPERIMENTAL FEATURES ----
+
+  public readonly experimental = {
+    confirmTransactionAndWaitForMining: async () => await this.confirmTransactionAndWaitForMining()
+  }
+
+  private async confirmTransactionAndWaitForMining() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.confirmTransactionAndWaitForMining(this.extensionId)
+  }
 }
