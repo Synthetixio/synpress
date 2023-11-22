@@ -13,6 +13,7 @@ import { footer } from './footer'
 interface CliFlags {
   headless: boolean
   force: boolean
+  debug: boolean
 }
 
 // TODO: Add unit tests for the CLI!
@@ -29,6 +30,7 @@ export const main = async () => {
       false
     )
     .option('-f, --force', 'Force the creation of cache even if it already exists', false)
+    .option('-d, --debug', 'If this flag is present, the compilation files are not going to be deleted', false)
     .helpOption(undefined, 'Display help for command')
     .addHelpText('afterAll', `\n${footer}\n`)
     .parse(process.argv)
@@ -52,7 +54,9 @@ export const main = async () => {
   // TODO: We should be using `prepareExtension` function from the wallet itself!
   await createCache(compiledWalletSetupDirPath, prepareExtension, flags.force)
 
-  await rimraf(compiledWalletSetupDirPath)
+  if (!flags.debug) {
+    await rimraf(compiledWalletSetupDirPath)
+  }
 }
 
 main().catch((err) => {
