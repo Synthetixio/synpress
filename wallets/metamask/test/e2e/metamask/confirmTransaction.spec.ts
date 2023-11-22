@@ -23,7 +23,7 @@ test('should confirm legacy transaction', async ({ page, metamask, connectToAnvi
   await metamask.confirmTransaction()
 })
 
-test('should confirm EIP 1559 transaction', async ({ page, metamask, connectToAnvil }) => {
+test('should confirm EIP-1559 transaction', async ({ page, metamask, connectToAnvil }) => {
   await connectToAnvil()
 
   await page.locator('#sendEIP1559Button').click()

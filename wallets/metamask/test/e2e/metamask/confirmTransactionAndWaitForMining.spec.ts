@@ -25,7 +25,7 @@ test.skip('should confirm legacy transaction and wait for mining', async ({ page
   await metamask.experimental.confirmTransactionAndWaitForMining()
 })
 
-test.skip('should confirm EIP 1559 transaction and wait for mining', async ({ page, metamask, connectToAnvil }) => {
+test.skip('should confirm EIP-1559 transaction and wait for mining', async ({ page, metamask, connectToAnvil }) => {
   await connectToAnvil()
 
   await page.locator('#sendEIP1559Button').click()

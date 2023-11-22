@@ -71,13 +71,13 @@ const activityTab = {
   transactionsList: `${tabContainer} .transaction-list__transactions`,
   pendingQueuedTransactions: `${tabContainer} .transaction-list__pending-transactions .transaction-list-item .transaction-status-label--queued`,
   pendingUnapprovedTransactions: `${tabContainer} .transaction-list__pending-transactions .transaction-list-item .transaction-status-label--unapproved`,
-  pendingApprovedTransactions: `${tabContainer} .transaction-list__pending-transactions .transaction-list-item .transaction-status-label--pending`
+  pendingApprovedTransactions: `${tabContainer} .transaction-list__pending-transactions .transaction-list-item .transaction-status-label--pending`,
+  completedTransactions: `${tabContainer} .transaction-list__completed-transactions .transaction-list-item`
 
   /// ---- Unused Selectors ----
   // pendingTransactionsList: `${tabContainer} .transaction-list__pending-transactions`,
   // pendingTransactions: `${tabContainer} .transaction-list__pending-transactions .transaction-list-item`,
   // completedTransactionsList: `${tabContainer} .transaction-list__completed-transactions`,
-  // completedTransactions: `${tabContainer} .transaction-list__completed-transactions .transaction-list-item`
 }
 
 export default {
