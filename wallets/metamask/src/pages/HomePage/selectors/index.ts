@@ -37,6 +37,11 @@ const popover = {
   closeButton: `${popoverContainer} ${createDataTestSelector('popover-close')}`
 }
 
+const networkAddedPopover = {
+  switchToNetworkButton: `${popoverContainer} button.btn-primary`,
+  dismissButton: `${popoverContainer} button.btn-secondary`
+}
+
 const recoveryPhraseReminder = {
   gotItButton: '.recovery-phrase-reminder button.btn-primary'
 }
@@ -75,5 +80,6 @@ export default {
   networkDropdown,
   accountMenu,
   recoveryPhraseReminder,
-  popover
+  popover,
+  networkAddedPopover
 }
