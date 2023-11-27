@@ -7,10 +7,6 @@ const test = testWithSynpress(basicSetup, unlockForFixture)
 
 const { expect } = test
 
-test.use({
-  permissions: ['clipboard-read']
-})
-
 test('should switch account', async ({ context, metamaskPage }) => {
   const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
 
@@ -19,10 +15,8 @@ test('should switch account', async ({ context, metamaskPage }) => {
 
   await metamask.switchAccount('Account 1')
 
-  await metamaskPage.locator(metamask.homePage.selectors.account).click()
-
-  const accountAddressInClipboard = await metamaskPage.evaluate('navigator.clipboard.readText()')
-  expect(accountAddressInClipboard).toContain('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266')
+  await expect(metamaskPage.getByText('Account 1')).toBeVisible()
+  await expect(metamaskPage.getByText('0xf39Fd...92266')).toBeVisible()
 })
 
 test('should throw an error if there is no account with target name', async ({ context, metamaskPage }) => {

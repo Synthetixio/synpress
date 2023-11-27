@@ -12,9 +12,9 @@ test('should go back to the home page', async ({ context, metamaskPage }) => {
 
   await metamask.openSettings()
 
-  await expect(metamaskPage.locator(metamask.homePage.selectors.account)).not.toBeVisible()
+  await expect(metamaskPage.locator(metamask.homePage.selectors.copyAccountAddressButton)).not.toBeVisible()
 
   await metamask.goBackToHomePage()
 
-  await expect(metamaskPage.locator(metamask.homePage.selectors.account)).toBeVisible()
+  await expect(metamaskPage.locator(metamask.homePage.selectors.copyAccountAddressButton)).toBeVisible()
 })

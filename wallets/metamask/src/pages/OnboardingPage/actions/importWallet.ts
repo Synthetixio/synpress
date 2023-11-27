@@ -1,8 +1,10 @@
 import type { Page } from '@playwright/test'
+import { closePopover } from '../../HomePage/actions'
 import Selectors from '../selectors'
 import { confirmSecretRecoveryPhrase, createPassword } from './helpers'
 
 export async function importWallet(page: Page, seedPhrase: string, password: string) {
+  await page.locator(Selectors.GetStartedPageSelectors.termsOfServiceCheckbox).click()
   await page.locator(Selectors.GetStartedPageSelectors.importWallet).click()
 
   await page.locator(Selectors.AnalyticsPageSelectors.optOut).click()
@@ -15,4 +17,6 @@ export async function importWallet(page: Page, seedPhrase: string, password: str
 
   await page.locator(Selectors.PinExtensionPageSelectors.nextButton).click()
   await page.locator(Selectors.PinExtensionPageSelectors.confirmButton).click()
+
+  await closePopover(page)
 }

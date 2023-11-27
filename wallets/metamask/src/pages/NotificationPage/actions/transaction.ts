@@ -4,7 +4,7 @@ import HomePageSelectors from '../../HomePage/selectors'
 import Selectors from '../selectors'
 
 const confirmTransaction = async (notificationPage: Page) => {
-  await notificationPage.locator(Selectors.TransactionPage.confirmButton).click()
+  await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
 }
 
 const confirmTransactionAndWaitForMining = async (walletPage: Page, notificationPage: Page) => {
@@ -42,7 +42,7 @@ const confirmTransactionAndWaitForMining = async (walletPage: Page, notification
 }
 
 const rejectTransaction = async (notificationPage: Page) => {
-  await notificationPage.locator(Selectors.TransactionPage.rejectButton).click()
+  await notificationPage.locator(Selectors.ActionFooter.rejectActionButton).click()
 }
 
 export const transaction = {

@@ -2,34 +2,29 @@ import type { Page } from '@playwright/test'
 import { errors as playwrightErrors } from '@playwright/test'
 import { MetaMask } from '../metamask'
 import { CrashPage, HomePage } from '../pages'
-import { LoadingSelectors } from '../selectors'
-import { waitFor } from '../utils/waitFor'
+import { closePopover, closeRecoveryPhraseReminder } from '../pages/HomePage/actions'
+import { waitForSpinnerToVanish } from '../utils/waitForSpinnerToVanish'
 
 export async function unlockForFixture(page: Page, password: string) {
   const metamask = new MetaMask(page.context(), page, password)
 
   await metamask.unlock()
 
-  await page.locator(LoadingSelectors.spinner).waitFor({
-    state: 'hidden',
-    timeout: 3000 // TODO: Extract & Make this timeout configurable.
-  })
+  await waitForSpinnerToVanish(page)
 
   await retryIfMetaMaskCrashAfterUnlock(page)
 
-  const recoveryPhraseReminder = page.locator(metamask.homePage.selectors.recoveryPhraseReminder.gotItButton)
-
-  // TODO: Extract & Make this timeout configurable.
-  const isRecoveryPhraseReminderVisible = await waitFor(() => recoveryPhraseReminder.isVisible(), 1000, false)
-  if (isRecoveryPhraseReminderVisible) {
-    await recoveryPhraseReminder.click()
-  }
+  await closePopover(page)
+  await closeRecoveryPhraseReminder(page)
 }
 
 async function retryIfMetaMaskCrashAfterUnlock(page: Page) {
-  const isHomePageVisible = await page.locator(HomePage.selectors.logo).isVisible()
+  const homePageLogoLocator = page.locator(HomePage.selectors.logo)
 
-  if (!isHomePageVisible) {
+  const isHomePageLogoVisible = await homePageLogoLocator.isVisible()
+  const isPopoverVisible = await page.locator(HomePage.selectors.popover.closeButton).isVisible()
+
+  if (!isHomePageLogoVisible && !isPopoverVisible) {
     if (await page.locator(CrashPage.selectors.header).isVisible()) {
       const errors = await page.locator(CrashPage.selectors.errors).allTextContents()
 
@@ -39,7 +34,7 @@ async function retryIfMetaMaskCrashAfterUnlock(page: Page) {
       await page.reload()
 
       try {
-        await page.locator(HomePage.selectors.logo).waitFor({
+        await homePageLogoLocator.waitFor({
           state: 'visible',
           timeout: 10_000 // TODO: Extract & Make this timeout configurable.
         })

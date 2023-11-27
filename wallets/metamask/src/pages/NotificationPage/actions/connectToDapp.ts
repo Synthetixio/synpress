@@ -1,12 +1,10 @@
-import type { BrowserContext } from '@playwright/test'
-import { getNotificationPageAndWaitForLoad } from '../../../utils/getNotificationPageAndWaitForLoad'
+import type { Page } from '@playwright/test'
+import Selectors from '../selectors'
 
-export async function connectToDapp(context: BrowserContext, extensionId: string) {
-  const notificationPage = await getNotificationPageAndWaitForLoad(context, extensionId)
-
+export async function connectToDapp(notificationPage: Page) {
   // Click `Next`.
-  await notificationPage.getByRole('button').nth(1).click()
+  await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
 
   // Click `Connect`.
-  await notificationPage.getByRole('button').nth(1).click()
+  await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
 }

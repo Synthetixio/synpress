@@ -4,6 +4,9 @@ const test = testWithMetaMask
 
 const { expect } = test
 
+// These tests rely on the same account, which means they must be run in serial.
+test.describe.configure({ mode: 'serial' })
+
 test('should confirm contract deployment', async ({ page, metamask }) => {
   await page.locator('#addEthereumChain').click()
 

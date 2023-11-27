@@ -126,7 +126,7 @@ export class MetaMask {
     await this.notificationPage.rejectTransaction(this.extensionId)
   }
 
-  async approvePermission(spendLimit?: 'default' | 'max' | number) {
+  async approvePermission(spendLimit?: 'max' | number) {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -158,8 +158,8 @@ export class MetaMask {
     await this.homePage.toggleShowTestNetworks()
   }
 
-  async toggleImprovedTokenAllowanceExperience() {
-    await this.homePage.toggleImprovedTokenAllowanceExperience()
+  async toggleDismissSecretRecoveryPhraseReminder() {
+    await this.homePage.toggleDismissSecretRecoveryPhraseReminder()
   }
 
   // ---- EXPERIMENTAL FEATURES ----

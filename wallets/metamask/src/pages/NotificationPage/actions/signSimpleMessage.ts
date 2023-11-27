@@ -2,11 +2,11 @@ import type { Page } from '@playwright/test'
 import Selectors from '../selectors'
 
 const signMessage = async (notificationPage: Page) => {
-  await notificationPage.locator(Selectors.SignaturePage.simpleMessage.signButton).click()
+  await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
 }
 
 const rejectMessage = async (notificationPage: Page) => {
-  await notificationPage.locator(Selectors.SignaturePage.simpleMessage.rejectButton).click()
+  await notificationPage.locator(Selectors.ActionFooter.rejectActionButton).click()
 }
 
 // Used for:

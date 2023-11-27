@@ -19,6 +19,7 @@
   "scripts": {
     "build": "pnpm run clean && pnpm run build:dist && pnpm run build:types",
     "build:dist": "tsup",
+    "build:dist:watch": "tsup --watch",
     "build:types": "tsc --emitDeclarationOnly",
     "clean": "rimraf dist types",
     "lint": "biome check . --apply",

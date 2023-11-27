@@ -8,7 +8,7 @@ import type {
   PlaywrightWorkerOptions
 } from '@playwright/test'
 import { chromium, test as base } from '@playwright/test'
-import { defineWalletSetup, waitForExtensionOnLoadPage } from 'core'
+import { defineWalletSetup } from 'core'
 import { createTempContextDir, removeTempContextDir } from 'core'
 import { CACHE_DIR_NAME, prepareExtension } from 'core'
 import fs from 'fs-extra'
@@ -77,7 +77,16 @@ const synpressFixtures = (
       slowMo: process.env.HEADLESS ? 0 : slowMo
     })
 
-    _metamaskPage = await waitForExtensionOnLoadPage(context)
+    // TODO: This should be stored in a store to speed up the tests.
+    const extensionId = await getExtensionId(context, 'MetaMask')
+
+    // TODO: Not sure if this is the best approach. Time will tell.
+    // We're utilizing the blank page here.
+    _metamaskPage = context.pages()[0] as Page
+
+    await _metamaskPage.goto(`chrome-extension://${extensionId}/home.html`)
+
+    await _metamaskPage.reload()
 
     await unlockWallet(_metamaskPage, walletSetup.walletPassword)
 
