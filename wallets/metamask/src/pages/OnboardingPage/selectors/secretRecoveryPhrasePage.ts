@@ -5,7 +5,7 @@ const recoveryStep = {
   selectNumberOfWordsOption: (option: number | string) => `${option}`,
   secretRecoveryPhraseWord: (index: number) => createDataTestSelector(`import-srp__srp-word-${index}`),
   confirmSecretRecoveryPhraseButton: createDataTestSelector('import-srp-confirm'),
-  error: '.actionable-message.actionable-message--danger.import-srp__srp-error > .actionable-message__message'
+  error: '.mm-banner-alert.import-srp__srp-error div'
 }
 
 const passwordStep = {
@@ -13,7 +13,7 @@ const passwordStep = {
   confirmPasswordInput: createDataTestSelector('create-password-confirm'),
   acceptTermsCheckbox: createDataTestSelector('create-password-terms'),
   importWalletButton: createDataTestSelector('create-password-import'),
-  error: `${createDataTestSelector('create-password-confirm')} + h6`
+  error: `${createDataTestSelector('create-password-new')} + h6 > span > span`
 }
 
 export default {

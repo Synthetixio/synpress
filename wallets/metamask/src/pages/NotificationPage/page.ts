@@ -1,5 +1,4 @@
 import type { Page } from '@playwright/test'
-import { z } from 'zod'
 import { getNotificationPageAndWaitForLoad } from '../../utils/getNotificationPageAndWaitForLoad'
 import { waitFor } from '../../utils/waitFor'
 import {
@@ -23,7 +22,9 @@ export class NotificationPage {
   }
 
   async connectToDapp(extensionId: string) {
-    await connectToDapp(this.page.context(), extensionId)
+    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+
+    await connectToDapp(notificationPage)
   }
 
   // TODO: Revisit this logic in the future to see if we can increase the performance by utilizing `Promise.race`.
@@ -106,28 +107,11 @@ export class NotificationPage {
     await transaction.confirmAndWaitForMining(this.page, notificationPage)
   }
 
-  // TODO: Revisit this in the future and make the improved token allowance experience enabled by default.
-  async approvePermission(extensionId: string, spendLimit: 'default' | 'max' | number = 'default') {
+  async approvePermission(extensionId: string, spendLimit?: 'max' | number) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
-    const isImprovedTokenAllowanceEnabled = await waitFor(
-      () => notificationPage.locator(Selectors.PermissionPage.improvedApprove.customSpendingCapInput).isVisible(),
-      1_500,
-      false
-    )
-
-    if (isImprovedTokenAllowanceEnabled) {
-      await approvePermission.editSpendLimitWithImprovedTokenAllowanceExperience(notificationPage, spendLimit)
-    } else {
-      if (spendLimit !== 'default') {
-        const parsedCustomSpentLimit = z
-          .number({
-            invalid_type_error:
-              'Custom spend limit must be a number if the improved token allowance experience is disabled'
-          })
-          .parse(spendLimit)
-        await approvePermission.editSpendLimit(notificationPage, parsedCustomSpentLimit)
-      }
+    if (spendLimit !== undefined) {
+      await approvePermission.editTokenPermission(notificationPage, spendLimit)
     }
 
     await approvePermission.approve(notificationPage)

@@ -1,12 +1,13 @@
 import type { Page } from '@playwright/test'
+import { allTextContents } from '../../../utils/allTextContents'
 import Selectors from '../selectors'
 
 export async function switchAccount(page: Page, accountName: string) {
-  await page.locator(Selectors.accountMenu.accountMenuButton).click()
+  await page.locator(Selectors.accountMenu.accountButton).click()
 
-  const accountNamesLocators = await page.locator(Selectors.accountMenu.accountNamesSelector).all()
+  const accountNamesLocators = await page.locator(Selectors.accountMenu.accountNames).all()
 
-  const accountNames = await page.locator(Selectors.accountMenu.accountNamesSelector).allTextContents()
+  const accountNames = await allTextContents(accountNamesLocators)
 
   const seekedAccountNames = accountNames.filter((name) => name.toLocaleLowerCase() === accountName.toLocaleLowerCase())
 

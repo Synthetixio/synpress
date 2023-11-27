@@ -1,22 +1,14 @@
-import { type BrowserContext, type Page, chromium, test as base } from '@playwright/test'
+import { type Page, chromium, test as base } from '@playwright/test'
 import { MetaMask } from '../../../src'
 import { prepareExtension } from '../../../src/prepareExtension'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'
 const PASSWORD = 'Tester@1234'
 
-let sharedContext: BrowserContext | undefined
-
 const test = base.extend<{
   metamaskPage: Page
 }>({
   context: async ({ context: _ }, use) => {
-    if (sharedContext) {
-      await use(sharedContext)
-
-      return
-    }
-
     const metamaskPath = await prepareExtension()
 
     // biome-ignore format: the array should not be formatted
@@ -40,8 +32,9 @@ const test = base.extend<{
       throw new Error('[FIXTURE] MetaMask extension did not load in time')
     }
 
-    sharedContext = context
     await use(context)
+
+    await context.close()
   },
   metamaskPage: async ({ context }, use) => {
     const metamaskOnboardingPage = context.pages()[1] as Page
@@ -57,5 +50,27 @@ test('should go through the onboarding flow and import wallet from seed phrase',
   await metamask.importWallet(SEED_PHRASE)
 
   await expect(metamaskPage.getByText('Account 1')).toBeVisible()
-  await expect(metamaskPage.getByText('0xf39...2266')).toBeVisible()
+  await expect(metamaskPage.getByText('0xf39Fd...92266')).toBeVisible()
+})
+
+test('should throw an error due to incorrect seed phrase', async ({ context, metamaskPage }) => {
+  const metamask = new MetaMask(context, metamaskPage, PASSWORD)
+
+  // Last word is incorrect.
+  const incorrectSeedPhrase = 'test test test test test test test test test test test jun'
+
+  await expect(metamask.importWallet(incorrectSeedPhrase)).rejects.toThrowError(
+    '[ConfirmSecretRecoveryPhrase] Invalid seed phrase. Error from MetaMask: Invalid Secret Recovery Phrase'
+  )
+})
+
+test('should throw an error due to incorrect password', async ({ context, metamaskPage }) => {
+  // Minimum length is 8 characters.
+  const incorrectPassword = 'test'
+
+  const metamask = new MetaMask(context, metamaskPage, incorrectPassword)
+
+  await expect(metamask.importWallet(SEED_PHRASE)).rejects.toThrowError(
+    '[CreatePassword] Invalid password. Error from MetaMask: Password not long enough'
+  )
 })

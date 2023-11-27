@@ -1,5 +1,13 @@
 import type { Page } from '@playwright/test'
-import { addNetwork, importWalletFromPrivateKey, lock, settings, switchAccount, switchNetwork } from './actions'
+import {
+  addNetwork,
+  importWalletFromPrivateKey,
+  lock,
+  settings,
+  switchAccount,
+  switchNetwork,
+  toggleShowTestNetworks
+} from './actions'
 import type { Network } from './actions'
 import Selectors from './selectors'
 import type { SettingsSidebarMenus } from './selectors/settings'
@@ -39,11 +47,11 @@ export class HomePage {
   }
 
   async toggleShowTestNetworks() {
-    await settings.advanced.toggleShowTestNetworks(this.page)
+    await toggleShowTestNetworks(this.page)
   }
 
-  async toggleImprovedTokenAllowanceExperience() {
-    await settings.experimental.toggleImprovedTokenAllowanceExperience(this.page)
+  async toggleDismissSecretRecoveryPhraseReminder() {
+    await settings.advanced.toggleDismissSecretRecoveryPhraseReminder(this.page)
   }
 
   async switchNetwork(networkName: string) {

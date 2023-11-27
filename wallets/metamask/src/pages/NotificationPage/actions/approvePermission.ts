@@ -1,48 +1,31 @@
 import type { Page } from '@playwright/test'
 import Selectors from '../selectors'
 
-const editTokenPermission = async (notificationPage: Page, customSpendLimit: number) => {
-  await notificationPage.locator(Selectors.PermissionPage.approve.editPermission.editPermissionButton).click()
-
-  await notificationPage.locator(Selectors.PermissionPage.approve.editPermission.customSpendLimitButton).click()
-
-  await notificationPage
-    .locator(Selectors.PermissionPage.approve.editPermission.customSpendLimitInput)
-    .fill(customSpendLimit.toString())
-
-  await notificationPage.locator(Selectors.PermissionPage.approve.editPermission.saveButton).click()
-}
-
-const editTokenPermissionWithImprovedTokenAllowanceExperience = async (
-  notificationPage: Page,
-  customSpendLimit: 'default' | 'max' | number
-) => {
-  if (customSpendLimit === 'default') {
-    await notificationPage.locator(Selectors.PermissionPage.improvedApprove.useDefaultButton).click()
-    return
-  }
-
+const editTokenPermission = async (notificationPage: Page, customSpendLimit: 'max' | number) => {
   if (customSpendLimit === 'max') {
-    await notificationPage.locator(Selectors.PermissionPage.improvedApprove.maxButton).click()
+    await notificationPage.locator(Selectors.PermissionPage.approve.maxButton).click()
     return
   }
 
   await notificationPage
-    .locator(Selectors.PermissionPage.improvedApprove.customSpendingCapInput)
+    .locator(Selectors.PermissionPage.approve.customSpendingCapInput)
     .fill(customSpendLimit.toString())
 }
 
 const approveTokenPermission = async (notificationPage: Page) => {
-  await notificationPage.locator(Selectors.PermissionPage.approve.confirmButton).click()
+  // Click the "Next" button.
+  await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
+
+  // Click the "Confirm" button.
+  await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
 }
 
 const rejectTokenPermission = async (notificationPage: Page) => {
-  await notificationPage.locator(Selectors.PermissionPage.approve.rejectButton).click()
+  await notificationPage.locator(Selectors.ActionFooter.rejectActionButton).click()
 }
 
 export const approvePermission = {
-  editSpendLimit: editTokenPermission,
-  editSpendLimitWithImprovedTokenAllowanceExperience: editTokenPermissionWithImprovedTokenAllowanceExperience,
+  editTokenPermission,
   approve: approveTokenPermission,
   reject: rejectTokenPermission
 }

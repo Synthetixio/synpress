@@ -2,23 +2,24 @@ import { createDataTestSelector } from '../../../utils/selectors/createDataTestS
 
 export enum SettingsSidebarMenus {
   General = 1,
-  Advanced = 2,
-  Contacts = 3,
-  SecurityAndPrivacy = 4,
-  Alerts = 5,
-  Networks = 6,
-  Experimental = 7,
-  About = 8
+  Advanced = 2
+
+  /// ---- Unused Selectors ----
+  // Contacts = 3,
+  // SecurityAndPrivacy = 4,
+  // Alerts = 5,
+  // Networks = 6,
+  // Experimental = 7,
+  // About = 8
 }
 const sidebarMenu = (menu: SettingsSidebarMenus) =>
   `.settings-page__content__tabs .tab-bar__tab.pointer:nth-of-type(${menu})`
 
 const advanced = {
-  showTestNetworksToggle: `${createDataTestSelector('advanced-setting-show-testnet-conversion')} .toggle-button`
-}
-
-const experimental = {
-  toggleImprovedTokenAllowanceExperience: '.settings-page__content-item .toggle-button'
+  // locator(showTestNetworksToggle).nth(0) -> Show conversion on test networks
+  // locator(showTestNetworksToggle).nth(1) -> Show test networks
+  showTestNetworksToggle: `${createDataTestSelector('advanced-setting-show-testnet-conversion')} .toggle-button`,
+  dismissSecretRecoveryPhraseReminderToggle: '.settings-page__content-row:nth-of-type(11) .toggle-button'
 }
 
 const newNetworkFormContainer = '.networks-tab__add-network-form'
@@ -30,8 +31,10 @@ const newNetworkForm = {
   chainIdError: `${newNetworkFormContainer} .form-field:nth-child(3) .form-field__error`,
   symbolInput: `${newNetworkFormContainer} .form-field:nth-child(4) input`,
   blockExplorerUrlInput: `${newNetworkFormContainer} .form-field:nth-child(5) input`,
-  cancelButton: `${newNetworkFormContainer} .networks-tab__add-network-form-footer button.btn-secondary`,
   saveButton: `${newNetworkFormContainer} .networks-tab__add-network-form-footer button.btn-primary`
+
+  /// ---- Unused Selectors ----
+  // cancelButton: `${newNetworkFormContainer} .networks-tab__add-network-form-footer button.btn-secondary`,
 }
 
 const networks = {
@@ -43,6 +46,5 @@ export default {
   SettingsSidebarMenus,
   sidebarMenu,
   advanced,
-  experimental,
   networks
 }

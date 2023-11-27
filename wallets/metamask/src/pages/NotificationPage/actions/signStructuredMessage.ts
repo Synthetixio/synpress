@@ -3,17 +3,17 @@ import Selectors from '../selectors'
 
 const signMessage = async (notificationPage: Page) => {
   const scrollDownButton = notificationPage.locator(Selectors.SignaturePage.structuredMessage.scrollDownButton)
-  const signButton = notificationPage.locator(Selectors.SignaturePage.structuredMessage.signButton)
+  const signButton = notificationPage.locator(Selectors.ActionFooter.confirmActionButton)
 
   while (await signButton.isDisabled()) {
     await scrollDownButton.click()
   }
 
-  await notificationPage.locator(Selectors.SignaturePage.structuredMessage.signButton).click()
+  await signButton.click()
 }
 
 const rejectMessage = async (notificationPage: Page) => {
-  await notificationPage.locator(Selectors.SignaturePage.structuredMessage.rejectButton).click()
+  await notificationPage.locator(Selectors.ActionFooter.rejectActionButton).click()
 }
 
 // Used for:

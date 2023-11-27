@@ -1,7 +1,6 @@
 import { defineWalletSetup } from 'core'
 import { getExtensionId } from 'fixtures'
 import { MetaMask } from '../../../src'
-import { waitFor } from '../../../src/utils/waitFor'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'
 
@@ -14,12 +13,12 @@ export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
 
   await metamask.importWallet(SEED_PHRASE)
 
-  const recoveryPhraseReminder = walletPage.locator(metamask.homePage.selectors.recoveryPhraseReminder.gotItButton)
+  await metamask.openSettings()
 
-  const isRecoveryPhraseReminderVisible = await waitFor(() => recoveryPhraseReminder.isVisible(), 3_000, false)
-  if (isRecoveryPhraseReminderVisible) {
-    await recoveryPhraseReminder.click()
-  }
+  const SidebarMenus = metamask.homePage.selectors.settings.SettingsSidebarMenus
+  await metamask.openSidebarMenu(SidebarMenus.Advanced)
+
+  await metamask.toggleDismissSecretRecoveryPhraseReminder()
 
   const page = await context.newPage()
 

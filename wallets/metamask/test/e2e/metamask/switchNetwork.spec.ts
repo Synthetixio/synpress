@@ -10,16 +10,13 @@ const { expect } = test
 test('should switch network', async ({ context, metamaskPage }) => {
   const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
 
-  await metamask.openSettings()
-
-  const SidebarMenus = metamask.homePage.selectors.settings.SettingsSidebarMenus
-  await metamask.openSidebarMenu(SidebarMenus.Advanced)
-
   await metamask.toggleShowTestNetworks()
+
+  await metamaskPage.locator(metamask.homePage.selectors.networkDropdown.closeDropdownButton).click()
 
   await expect(metamaskPage.locator(metamask.homePage.selectors.currentNetwork)).toHaveText('Ethereum Mainnet')
 
-  const targetNetwork = 'Sepolia test network'
+  const targetNetwork = 'Sepolia'
   await metamask.switchNetwork(targetNetwork)
 
   await expect(metamaskPage.locator(metamask.homePage.selectors.currentNetwork)).toHaveText(targetNetwork)

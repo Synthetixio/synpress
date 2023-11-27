@@ -3,19 +3,22 @@ import { waitFor } from '../../../utils/waitFor'
 import Selectors from '../selectors'
 
 export async function importWalletFromPrivateKey(page: Page, privateKey: string) {
-  await page.locator(Selectors.accountMenu.accountMenuButton).click()
-  await page.locator(Selectors.accountMenu.importAccountButton).click()
-  await page.locator(Selectors.importAccountScreen.privateKeyInput).fill(privateKey)
+  await page.locator(Selectors.accountMenu.accountButton).click()
 
-  const importButton = page.locator(Selectors.importAccountScreen.importButton)
+  await page.locator(Selectors.accountMenu.addAccountMenu.addAccountButton).click()
+  await page.locator(Selectors.accountMenu.addAccountMenu.importAccountButton).click()
+
+  await page.locator(Selectors.accountMenu.addAccountMenu.importAccountMenu.privateKeyInput).fill(privateKey)
+
+  const importButton = page.locator(Selectors.accountMenu.addAccountMenu.importAccountMenu.importButton)
   await importButton.click()
 
   // TODO: Extract & make configurable
-  const isHidden = await waitFor(() => importButton.isHidden(), 1000, false)
+  const isImportButtonHidden = await waitFor(() => importButton.isHidden(), 1_000, false)
 
-  if (!isHidden) {
-    const errorText = await page.locator(Selectors.importAccountScreen.error).textContent({
-      timeout: 1000 // TODO: Extract & make configurable
+  if (!isImportButtonHidden) {
+    const errorText = await page.locator(Selectors.accountMenu.addAccountMenu.importAccountMenu.error).textContent({
+      timeout: 1_000 // TODO: Extract & make configurable
     })
 
     throw new Error(`[ImportWalletFromPrivateKey] Importing failed due to error: ${errorText}`)

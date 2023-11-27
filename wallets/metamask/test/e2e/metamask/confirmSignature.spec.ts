@@ -57,7 +57,7 @@ test('should confirm `eth_signTypedData_v4`', async ({ page, metamask }) => {
   await metamask.confirmSignature()
 
   await expect(page.locator('#signTypedDataV4Result')).toHaveText(
-    '0x789d9365fe0fbf1485b8069cbb000b78abd56b92608f9bc11a0d78e8810cd0434a60e93790c52348e5ac8770a8c5b0bb89411c2fbc61cbb4f56d67d60a3374961c'
+    '0x1cf422c4a319c19ecb89c960e7c296810278fa2bef256c7e9419b285c8216c547b3371fa1ec3987ce08561d3ed779845393d8d3e4311376d0bc0846f37d1b2821c'
   )
 
   await page.locator('#signTypedDataV4Verify').click()

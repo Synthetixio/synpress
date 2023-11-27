@@ -1,6 +1,6 @@
 import { downloadFile, ensureCacheDirExists, unzipArchive } from 'core'
 
-export const DEFAULT_METAMASK_VERSION = '10.25.0'
+export const DEFAULT_METAMASK_VERSION = '11.5.1'
 export const EXTENSION_DOWNLOAD_URL = `https://github.com/MetaMask/metamask-extension/releases/download/v${DEFAULT_METAMASK_VERSION}/metamask-chrome-${DEFAULT_METAMASK_VERSION}.zip`
 
 export async function prepareExtension() {

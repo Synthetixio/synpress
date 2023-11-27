@@ -46,6 +46,7 @@ test.skip('should confirm EIP 1559 transaction and wait for mining', async ({ pa
 })
 
 test.skip('should work correctly when calling sequentially', async ({ page, metamask }) => {
+  // This test takes a looooooooong time, so we need to increase the test timeout.
   test.setTimeout(120_000)
 
   await page.locator('#addEthereumChain').click()
