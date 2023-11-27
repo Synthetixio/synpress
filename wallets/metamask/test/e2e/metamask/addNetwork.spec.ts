@@ -1,7 +1,8 @@
 import { testWithSynpress } from 'fixtures'
-import { MetaMask, unlockForFixture } from '../../../src'
-
 import { z } from 'zod'
+import { MetaMask, unlockForFixture } from '../../../src'
+import { waitFor } from '../../../src/utils/waitFor'
+
 import basicSetup from '../wallet-setup/basic.setup'
 
 const test = testWithSynpress(basicSetup, unlockForFixture)
@@ -16,10 +17,17 @@ const network = {
   blockExplorerUrl: 'https://optimistic.etherscan.io'
 }
 
-test('should add network', async ({ context, metamaskPage }) => {
+test('should add network and close network added popup', async ({ context, metamaskPage }) => {
   const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
 
   await metamask.addNetwork(network)
+
+  const isNetworkAddedPopupVisible = await waitFor(
+    () => metamaskPage.locator(metamask.homePage.selectors.networkAddedPopover.switchToNetworkButton).isVisible(),
+    1_000,
+    false
+  )
+  expect(isNetworkAddedPopupVisible).toBe(false)
 
   await expect(metamaskPage.locator(metamask.homePage.selectors.currentNetwork)).toHaveText(network.name)
 })
