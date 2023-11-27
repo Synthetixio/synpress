@@ -4,11 +4,8 @@ const test = testWithMetaMask
 
 const { expect } = test
 
-test('should reject approve request', async ({ page, metamask }) => {
-  await page.locator('#addEthereumChain').click()
-
-  await metamask.approveNewNetwork()
-  await metamask.approveSwitchNetwork()
+test('should reject approve request', async ({ page, metamask, connectToAnvil }) => {
+  await connectToAnvil()
 
   await expect(page.locator('#tokenAddresses')).toBeEmpty()
   await page.locator('#createToken').click()

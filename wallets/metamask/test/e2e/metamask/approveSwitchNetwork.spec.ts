@@ -2,24 +2,24 @@ import { testWithMetaMask } from '../testWithMetaMask'
 
 const test = testWithMetaMask
 
-const { expect, describe } = test
+const { expect } = test
 
-describe('when adding a new network', () => {
-  test('should switch to the new network', async ({ page, metamask }) => {
-    await page.locator('#addEthereumChain').click()
+/// TODO: It's impossible to enable this test and run it in parallel with other tests using MetaMask Test Dapp due to port conflict.
+// describe('when adding a new network', () => {
+//   test('should switch to the new network', async ({ page, metamask }) => {
+//     await page.locator('#addEthereumChain').click()
+//
+//     await metamask.approveNewNetwork()
+//     await metamask.approveSwitchNetwork()
+//
+//     await expect(page.locator('#chainId')).toHaveText('0x53a')
+//   })
+// })
 
-    await metamask.approveNewNetwork()
-    await metamask.approveSwitchNetwork()
+test('should switch to the requested network', async ({ page, metamask, connectToAnvil }) => {
+  await connectToAnvil()
 
-    await expect(page.locator('#chainId')).toHaveText('0x53a')
-  })
-})
-
-test('should switch to the requested network', async ({ page, metamask }) => {
-  await page.locator('#addEthereumChain').click()
-
-  await metamask.approveNewNetwork()
-  await metamask.rejectSwitchNetwork()
+  await metamask.switchNetwork('Ethereum Mainnet')
 
   await expect(page.locator('#chainId')).toHaveText('0x1')
 

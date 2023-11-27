@@ -4,7 +4,12 @@ const test = testWithMetaMask
 
 const { expect } = test
 
-test('should add a new network', async ({ page, metamask }) => {
+test('should add a new network', async ({ page, metamask, createAnvilNode }) => {
+  await createAnvilNode({
+    chainId: 1338,
+    port: 8546
+  })
+
   await page.locator('#addEthereumChain').click()
 
   await metamask.approveNewNetwork()

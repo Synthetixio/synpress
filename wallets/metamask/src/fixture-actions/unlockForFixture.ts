@@ -10,6 +10,7 @@ export async function unlockForFixture(page: Page, password: string) {
 
   await metamask.unlock()
 
+  // TODO: If this function times out -> page.reload() and try again.
   await waitForSpinnerToVanish(page)
 
   await retryIfMetaMaskCrashAfterUnlock(page)
