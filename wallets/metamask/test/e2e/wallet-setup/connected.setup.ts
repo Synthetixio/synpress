@@ -22,7 +22,7 @@ export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
 
   const page = await context.newPage()
 
-  await page.goto('https://metamask.github.io/test-dapp/')
+  await page.goto('http://localhost:9999')
 
   await page.locator('#connectButton').click()
 

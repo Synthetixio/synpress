@@ -10,7 +10,7 @@ export const testWithMetaMask = testWithSynpress(connectedSetup, unlockForFixtur
     await use(metamask)
   },
   page: async ({ page }, use) => {
-    await page.goto('https://metamask.github.io/test-dapp/')
+    await page.goto('/')
 
     await use(page)
   }

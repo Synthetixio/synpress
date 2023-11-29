@@ -1,8 +1,9 @@
 import type { Page } from '@playwright/test'
 import { z } from 'zod'
-import { clickLocatorIfCondition } from '../../../utils/closePopup'
+import { clickLocatorIfCondition } from '../../../utils/clickLocatorIfCondition'
 import { waitFor } from '../../../utils/waitFor'
 import Selectors from '../selectors'
+import { closePopover } from './popups'
 
 const Network = z.object({
   name: z.string(),
@@ -54,4 +55,7 @@ export async function addNetwork(page: Page, network: Network) {
   // Note: The "Dismiss" button does NOTHING and the network is ALWAYS automatically switched.
   const switchToNetworkButtonLocator = page.locator(Selectors.networkAddedPopover.switchToNetworkButton)
   await clickLocatorIfCondition(switchToNetworkButtonLocator, () => switchToNetworkButtonLocator.isVisible(), 1_000)
+
+  // Closes the "You have switched to X. Things to keep in mind..." popup.
+  await closePopover(page)
 }

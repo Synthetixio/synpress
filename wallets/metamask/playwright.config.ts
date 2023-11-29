@@ -25,6 +25,9 @@ export default defineConfig({
   // Shared settings for all the projects below.
   // See https://playwright.dev/docs/api/class-testoptions.
   use: {
+    // We are using locally deployed MetaMask Test Dapp.
+    baseURL: 'http://localhost:9999',
+
     // Collect all traces on CI, and only traces for failed tests when running locally.
     // See https://playwright.dev/docs/trace-viewer.
     trace: process.env.CI ? 'on' : 'retain-on-failure'
