@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import { clickLocatorIfCondition } from '../../../../utils/closePopup'
+import { clickLocatorIfCondition } from '../../../../utils/clickLocatorIfCondition'
 import Selectors from '../../selectors'
 
 // Closes the popover with news, rainbows, unicorns, and other stuff.

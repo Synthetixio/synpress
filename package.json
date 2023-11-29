@@ -10,6 +10,7 @@
     "lint:check": "biome check . --verbose",
     "lint:unsafe": "biome check . --apply-unsafe",
     "prepare": "husky install",
+    "serve:test-dapp": "serve node_modules/@metamask/test-dapp/dist -p 9999",
     "sort-package-json": "sort-package-json 'package.json' '{packages,wallets,examples}/*/package.json'",
     "sort-package-json:check": "sort-package-json 'package.json' '{packages,wallets,examples}/*/package.json' --check",
     "test": "turbo test",
@@ -21,9 +22,11 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.2.2",
+    "@metamask/test-dapp": "^8.0.0",
     "commitlint-config-gitmoji": "^2.3.1",
     "husky": "^8.0.0",
     "lint-staged": "^14.0.1",
+    "serve": "^14.2.1",
     "sort-package-json": "^2.5.1",
     "turbo": "^1.10.14"
   },

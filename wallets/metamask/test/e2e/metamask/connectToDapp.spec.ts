@@ -10,7 +10,7 @@ const { expect } = test
 test('should connect wallet to dapp', async ({ context, page, extensionId }) => {
   const metamask = new MetaMask(context, page, basicSetup.walletPassword, extensionId)
 
-  await page.goto('https://metamask.github.io/test-dapp/')
+  await page.goto('/')
 
   await page.locator('#connectButton').click()
 
