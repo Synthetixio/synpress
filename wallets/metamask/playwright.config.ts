@@ -14,14 +14,16 @@ export default defineConfig({
   // Run all tests in parallel.
   fullyParallel: true,
 
+  retries: process.env.CI ? 1 : 0,
+
   // Fail the build on CI if you accidentally left test.only in the source code.
   forbidOnly: !!process.env.CI,
 
   // Fail all remaining tests on CI after the first failure. We want to reduce the feedback loop on CI to minimum.
-  maxFailures: process.env.CI ? 1 : 0,
+  maxFailures: process.env.CI ? 0 : 0,
 
   // Opt out of parallel tests on CI since it supports only 1 worker.
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 3 : undefined,
 
   // Concise 'dot' for CI, default 'html' when running locally.
   // See https://playwright.dev/docs/test-reporters.
@@ -37,7 +39,7 @@ export default defineConfig({
 
     // Collect all traces on CI, and only traces for failed tests when running locally.
     // See https://playwright.dev/docs/trace-viewer.
-    trace: process.env.CI ? 'on' : 'retain-on-failure'
+    trace: process.env.CI ? 'on-first-retry' : 'retain-on-failure'
   },
 
   // Configure projects for major browsers.

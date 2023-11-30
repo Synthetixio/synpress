@@ -24,7 +24,7 @@ jobs:
 
   test-e2e-headful:
     name: Run E2E tests (headful)
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
 
@@ -38,13 +38,11 @@ jobs:
       - name: Install browsers for Playwright
         run: pnpm dlx playwright install chromium
 
-      - name: Build project
-        run: pnpm run build
-
-      - name: Install linux dependencies
-        run: |
-          sudo apt-get install --no-install-recommends -y \
-          xvfb
+      # Skipping this for now, `xvfb` is already installed on the self-hosted runner.
+      #- name: Install linux dependencies
+      #  run: |
+      #    sudo apt-get install --no-install-recommends -y \
+      #    xvfb
 
       - name: Build project
         run: pnpm run build
@@ -53,9 +51,10 @@ jobs:
         run: |
           pnpm run serve:test-dapp &
 
+      # We have to use a force flag here because the cache is not invalidated each run.
       - name: Build cache
         run: |
-          xvfb-run pnpm run build:cache
+          xvfb-run pnpm run build:cache -- --force
 
       - name: Run E2E tests (headful)
         run: |
