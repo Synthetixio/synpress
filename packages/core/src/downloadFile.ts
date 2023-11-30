@@ -30,6 +30,8 @@ export async function downloadFile(options: DownloaderOptions) {
       return
     }
 
+    console.log(`[DEBUG] Downloading file from ${url}`)
+
     axios
       .get(url, {
         responseType: 'stream'
