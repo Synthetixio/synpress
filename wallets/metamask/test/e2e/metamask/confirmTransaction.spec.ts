@@ -4,14 +4,8 @@ const test = testWithMetaMask
 
 const { expect } = test
 
-// These tests rely on the same account, which means they must be run in serial.
-test.describe.configure({ mode: 'serial' })
-
-test('should confirm contract deployment', async ({ page, metamask }) => {
-  await page.locator('#addEthereumChain').click()
-
-  await metamask.approveNewNetwork()
-  await metamask.approveSwitchNetwork()
+test('should confirm contract deployment', async ({ page, metamask, connectToAnvil }) => {
+  await connectToAnvil()
 
   await expect(page.locator('#tokenAddresses')).toBeEmpty()
   await page.locator('#createToken').click()
@@ -21,22 +15,16 @@ test('should confirm contract deployment', async ({ page, metamask }) => {
   await expect(page.locator('#tokenAddresses')).toContainText(/^0x/)
 })
 
-test('should confirm legacy transaction', async ({ page, metamask }) => {
-  await page.locator('#addEthereumChain').click()
-
-  await metamask.approveNewNetwork()
-  await metamask.approveSwitchNetwork()
+test('should confirm legacy transaction', async ({ page, metamask, connectToAnvil }) => {
+  await connectToAnvil()
 
   await page.locator('#sendButton').click()
 
   await metamask.confirmTransaction()
 })
 
-test('should confirm EIP 1559 transaction', async ({ page, metamask }) => {
-  await page.locator('#addEthereumChain').click()
-
-  await metamask.approveNewNetwork()
-  await metamask.approveSwitchNetwork()
+test('should confirm EIP 1559 transaction', async ({ page, metamask, connectToAnvil }) => {
+  await connectToAnvil()
 
   await page.locator('#sendEIP1559Button').click()
 

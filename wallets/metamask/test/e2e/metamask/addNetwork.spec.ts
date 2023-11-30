@@ -9,7 +9,7 @@ const test = testWithSynpress(basicSetup, unlockForFixture)
 
 const { expect } = test
 
-const network = {
+const optimismMainnet = {
   name: 'OP Mainnet',
   rpcUrl: 'https://mainnet.optimism.io',
   chainId: 10,
@@ -17,14 +17,24 @@ const network = {
   blockExplorerUrl: 'https://optimistic.etherscan.io'
 }
 
-test('should add network and close network added popup', async ({ context, metamaskPage }) => {
+test('should add network and close network added popup', async ({ context, metamaskPage, createAnvilNode }) => {
   const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
+
+  const { rpcUrl, chainId } = await createAnvilNode()
+
+  const network = {
+    name: 'Anvil',
+    rpcUrl,
+    chainId,
+    symbol: 'ETH',
+    blockExplorerUrl: 'https://etherscan.io/'
+  }
 
   await metamask.addNetwork(network)
 
   const isNetworkAddedPopupVisible = await waitFor(
     () => metamaskPage.locator(metamask.homePage.selectors.networkAddedPopover.switchToNetworkButton).isVisible(),
-    1_000,
+    3_000,
     false
   )
   expect(isNetworkAddedPopupVisible).toBe(false)
@@ -32,13 +42,20 @@ test('should add network and close network added popup', async ({ context, metam
   await expect(metamaskPage.locator(metamask.homePage.selectors.currentNetwork)).toHaveText(network.name)
 })
 
-test('should add network without block explorer', async ({ context, metamaskPage }) => {
+test('should add network without block explorer', async ({ context, metamaskPage, createAnvilNode }) => {
   const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
 
-  await metamask.addNetwork({
-    ...network,
+  const { rpcUrl, chainId } = await createAnvilNode()
+
+  const network = {
+    name: 'Anvil',
+    rpcUrl,
+    chainId,
+    symbol: 'ETH',
     blockExplorerUrl: undefined
-  })
+  }
+
+  await metamask.addNetwork(network)
 
   await expect(metamaskPage.locator(metamask.homePage.selectors.currentNetwork)).toHaveText(network.name)
 })
@@ -54,7 +71,7 @@ test('should throw if there is an issue with rpc url', async ({ context, metamas
   const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
 
   const promise = metamask.addNetwork({
-    ...network,
+    ...optimismMainnet,
     rpcUrl: 'hps://mainnet.optimism.io' // Incorrect.
   })
 
@@ -67,7 +84,7 @@ test('should throw if there is an issue with chain id', async ({ context, metama
   const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
 
   const promise = metamask.addNetwork({
-    ...network,
+    ...optimismMainnet,
     chainId: 0x42069 // Incorrect.
   })
 

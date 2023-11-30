@@ -8,6 +8,7 @@ import type {
   PlaywrightWorkerOptions
 } from '@playwright/test'
 import { chromium, test as base } from '@playwright/test'
+import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import { defineWalletSetup } from 'core'
 import { createTempContextDir, removeTempContextDir } from 'core'
 import { CACHE_DIR_NAME, prepareExtension } from 'core'
@@ -27,6 +28,7 @@ type PrivateSynpressFixtures = {
 type PublicSynpressFixtures = {
   extensionId: string
   metamaskPage: Page
+  createAnvilNode: (options?: CreateAnvilOptions) => Promise<{ anvil: Anvil; rpcUrl: string; chainId: number }>
 }
 
 type SynpressFixtures = TestFixtures & PrivateSynpressFixtures & PublicSynpressFixtures
@@ -101,6 +103,25 @@ const synpressFixtures = (
   },
   metamaskPage: async ({ context: _ }, use) => {
     await use(_metamaskPage)
+  },
+  // TODO: We should be able to use this in a wallet setup. This will be possible when we add a store.
+  // TODO: ^ Thanks to this we won't have to rely on MetaMask RPC for initial connection, which will increase the speed of the tests.
+  createAnvilNode: async ({ context: _ }, use) => {
+    const pool = createPool()
+
+    await use(async (options?: CreateAnvilOptions) => {
+      const nodeId = Array.from(pool.instances()).length
+      const anvil = await pool.start(nodeId, options)
+
+      const rpcUrl = `http://${anvil.host}:${anvil.port}`
+
+      const DEFAULT_ANVIL_CHAIN_ID = 31337
+      const chainId = options?.chainId ?? DEFAULT_ANVIL_CHAIN_ID
+
+      return { anvil, rpcUrl, chainId }
+    })
+
+    await pool.empty()
   }
 })
 
