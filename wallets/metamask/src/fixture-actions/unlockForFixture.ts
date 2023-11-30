@@ -8,15 +8,29 @@ import { waitForSpinnerToVanish } from '../utils/waitForSpinnerToVanish'
 export async function unlockForFixture(page: Page, password: string) {
   const metamask = new MetaMask(page.context(), page, password)
 
-  await metamask.unlock()
-
-  // TODO: If this function times out -> page.reload() and try again.
-  await waitForSpinnerToVanish(page)
+  await unlockWalletButReloadIfSpinnerDoesNotVanish(metamask)
 
   await retryIfMetaMaskCrashAfterUnlock(page)
 
   await closePopover(page)
   await closeRecoveryPhraseReminder(page)
+}
+
+async function unlockWalletButReloadIfSpinnerDoesNotVanish(metamask: MetaMask) {
+  try {
+    await metamask.unlock()
+  } catch (e) {
+    if (e instanceof playwrightErrors.TimeoutError) {
+      console.warn('[UnlockWalletButReloadIfSpinnerDoesNotVanish] Unlocking MetaMask timed out. Reloading page...')
+
+      const page = metamask.page
+
+      await page.reload()
+      await waitForSpinnerToVanish(page)
+    } else {
+      throw e
+    }
+  }
 }
 
 async function retryIfMetaMaskCrashAfterUnlock(page: Page) {
