@@ -17,6 +17,9 @@ export default defineConfig({
   // Fail the build on CI if you accidentally left test.only in the source code.
   forbidOnly: !!process.env.CI,
 
+  // Fail all remaining tests on CI after the first failure. We want to reduce the feedback loop on CI to minimum.
+  maxFailures: process.env.CI ? 1 : 0,
+
   // Opt out of parallel tests on CI since it supports only 1 worker.
   workers: process.env.CI ? 1 : undefined,
 
