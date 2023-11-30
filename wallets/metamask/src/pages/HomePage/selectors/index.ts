@@ -38,8 +38,12 @@ const popover = {
 }
 
 const networkAddedPopover = {
-  switchToNetworkButton: `${popoverContainer} button.btn-primary`,
-  dismissButton: `${popoverContainer} button.btn-secondary`
+  switchToNetworkButton: '.home__new-network-added button.btn-primary',
+  dismissButton: '.home__new-network-added button.btn-secondary'
+}
+
+const newNetworkInfoPopover = {
+  gotItButton: '.new-network-info__wrapper button.btn-primary'
 }
 
 const recoveryPhraseReminder = {
@@ -81,5 +85,6 @@ export default {
   accountMenu,
   recoveryPhraseReminder,
   popover,
-  networkAddedPopover
+  networkAddedPopover,
+  newNetworkInfoPopover
 }
