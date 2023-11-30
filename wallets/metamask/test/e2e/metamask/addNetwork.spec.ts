@@ -9,14 +9,6 @@ const test = testWithSynpress(basicSetup, unlockForFixture)
 
 const { expect } = test
 
-const optimismMainnet = {
-  name: 'OP Mainnet',
-  rpcUrl: 'https://mainnet.optimism.io',
-  chainId: 10,
-  symbol: 'ETH',
-  blockExplorerUrl: 'https://optimistic.etherscan.io'
-}
-
 test('should add network and close network added popup', async ({ context, metamaskPage, createAnvilNode }) => {
   const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
 
@@ -70,6 +62,14 @@ test('should validate the network object with Zod', async ({ context, metamaskPa
 test('should throw if there is an issue with rpc url', async ({ context, metamaskPage }) => {
   const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
 
+  const optimismMainnet = {
+    name: 'OP Mainnet',
+    rpcUrl: 'https://mainnet.optimism.io',
+    chainId: 10,
+    symbol: 'ETH',
+    blockExplorerUrl: 'https://optimistic.etherscan.io'
+  }
+
   const promise = metamask.addNetwork({
     ...optimismMainnet,
     rpcUrl: 'hps://mainnet.optimism.io' // Incorrect.
@@ -80,15 +80,25 @@ test('should throw if there is an issue with rpc url', async ({ context, metamas
   )
 })
 
-test('should throw if there is an issue with chain id', async ({ context, metamaskPage }) => {
+test('should throw if there is an issue with chain id', async ({ context, metamaskPage, createAnvilNode }) => {
   const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
 
+  const { rpcUrl, chainId } = await createAnvilNode()
+
+  const network = {
+    name: 'Anvil',
+    rpcUrl,
+    chainId,
+    symbol: 'ETH',
+    blockExplorerUrl: 'https://etherscan.io/'
+  }
+
   const promise = metamask.addNetwork({
-    ...optimismMainnet,
+    ...network,
     chainId: 0x42069 // Incorrect.
   })
 
   await expect(promise).rejects.toThrowError(
-    '[AddNetwork] Chain ID error: The RPC URL you have entered returned a different chain ID (10). Please update the Chain ID to match the RPC URL of the network you are trying to add.'
+    '[AddNetwork] Chain ID error: The RPC URL you have entered returned a different chain ID (31337). Please update the Chain ID to match the RPC URL of the network you are trying to add.'
   )
 })
