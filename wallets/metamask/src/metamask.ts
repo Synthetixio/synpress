@@ -169,7 +169,10 @@ export class MetaMask {
   // ---- EXPERIMENTAL FEATURES ----
 
   public readonly experimental = {
-    confirmTransactionAndWaitForMining: async () => await this.confirmTransactionAndWaitForMining()
+    confirmTransactionAndWaitForMining: async () => await this.confirmTransactionAndWaitForMining(),
+    // Note: `txIndex` starts from 0.
+    openTransactionDetails: async (txIndex: number) => await this.openTransactionDetails(txIndex),
+    closeTransactionDetails: async () => await this.closeTransactionDetails()
   }
 
   private async confirmTransactionAndWaitForMining() {
@@ -178,5 +181,13 @@ export class MetaMask {
     }
 
     await this.notificationPage.confirmTransactionAndWaitForMining(this.extensionId)
+  }
+
+  private async openTransactionDetails(txIndex: number) {
+    await this.homePage.openTransactionDetails(txIndex)
+  }
+
+  private async closeTransactionDetails() {
+    await this.homePage.closeTransactionDetails()
   }
 }

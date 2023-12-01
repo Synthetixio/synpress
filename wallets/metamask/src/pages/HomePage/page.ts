@@ -7,7 +7,8 @@ import {
   settings,
   switchAccount,
   switchNetwork,
-  toggleShowTestNetworks
+  toggleShowTestNetworks,
+  transactionDetails
 } from './actions'
 import type { Network } from './actions'
 import Selectors from './selectors'
@@ -65,5 +66,13 @@ export class HomePage {
 
   async addNetwork(network: Network) {
     await addNetwork(this.page, network)
+  }
+
+  async openTransactionDetails(txIndex: number) {
+    await transactionDetails.open(this.page, txIndex)
+  }
+
+  async closeTransactionDetails() {
+    await transactionDetails.close(this.page)
   }
 }
