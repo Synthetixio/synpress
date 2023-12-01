@@ -30,6 +30,10 @@ export class MetaMask {
     await this.onboardingPage.importWallet(seedPhrase, this.password)
   }
 
+  async addNewAccount(accountName: string) {
+    await this.homePage.addNewAccount(accountName)
+  }
+
   async importWalletFromPrivateKey(privateKey: string) {
     await this.homePage.importWalletFromPrivateKey(privateKey)
   }

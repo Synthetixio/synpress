@@ -1,6 +1,7 @@
 import type { Page } from '@playwright/test'
 import {
   addNetwork,
+  addNewAccount,
   importWalletFromPrivateKey,
   lock,
   settings,
@@ -28,6 +29,10 @@ export class HomePage {
 
   async lock() {
     await lock(this.page)
+  }
+
+  async addNewAccount(accountName: string) {
+    await addNewAccount(this.page, accountName)
   }
 
   async importWalletFromPrivateKey(privateKey: string) {

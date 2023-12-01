@@ -3,6 +3,11 @@ import settings from './settings'
 
 const accountMenuContainer = '.multichain-account-menu-popover'
 
+const addNewAccountMenu = {
+  accountNameInput: `${accountMenuContainer} input`,
+  createButton: `${accountMenuContainer} button.mm-button-primary`
+}
+
 const importAccountMenu = {
   privateKeyInput: `${accountMenuContainer} input#private-key-box`,
   importButton: `${accountMenuContainer} ${createDataTestSelector('import-account-confirm-button')}`,
@@ -17,6 +22,7 @@ const addAccountMenu = {
     'multichain-account-menu-popover-add-account'
   )}`,
   importAccountButton: `${accountMenuContainer} div.mm-box.mm-box--padding-4:nth-child(2) > div.mm-box:nth-child(2) > button`,
+  addNewAccountMenu,
   importAccountMenu
 }
 
