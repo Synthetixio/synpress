@@ -6,5 +6,6 @@ export default defineConfig({
   outDir: 'dist',
   format: 'esm',
   splitting: false,
-  sourcemap: true
+  sourcemap: true,
+  external: ['playwright-core']
 })

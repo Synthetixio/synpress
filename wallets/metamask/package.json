@@ -38,7 +38,6 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@playwright/test": "1.40.0",
     "@types/node": "^20.8.0",
     "@vitest/coverage-v8": "1.0.0-beta.0",
     "rimraf": "^5.0.1",
@@ -46,5 +45,8 @@
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "vitest": "^0.34.6"
+  },
+  "peerDependencies": {
+    "@playwright/test": "1.40.0"
   }
 }
