@@ -1,4 +1,4 @@
-import { testWithSynpress } from 'fixtures'
+import { testWithSynpress } from '@synthetixio/synpress-fixtures'
 import { z } from 'zod'
 import { MetaMask, unlockForFixture } from '../../../src'
 import { waitFor } from '../../../src/utils/waitFor'

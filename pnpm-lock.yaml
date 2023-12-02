@@ -134,12 +134,12 @@ importers:
       '@playwright/test':
         specifier: 1.40.0
         version: 1.40.0
+      '@synthetixio/synpress-core':
+        specifier: workspace:*
+        version: link:../core
       '@viem/anvil':
         specifier: ^0.0.6
         version: 0.0.6
-      core:
-        specifier: workspace:*
-        version: link:../core
       fs-extra:
         specifier: ^11.1.1
         version: 11.1.1
@@ -192,10 +192,10 @@ importers:
 
   wallets/metamask:
     dependencies:
-      core:
+      '@synthetixio/synpress-core':
         specifier: workspace:*
         version: link:../../packages/core
-      fixtures:
+      '@synthetixio/synpress-fixtures':
         specifier: workspace:*
         version: link:../../packages/fixtures
       zod:

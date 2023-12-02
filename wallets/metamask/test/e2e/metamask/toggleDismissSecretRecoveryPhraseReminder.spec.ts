@@ -1,4 +1,4 @@
-import { testWithSynpress } from 'fixtures'
+import { testWithSynpress } from '@synthetixio/synpress-fixtures'
 import { MetaMask, unlockForFixture } from '../../../src'
 
 import Selectors from '../../../src/pages/HomePage/selectors'

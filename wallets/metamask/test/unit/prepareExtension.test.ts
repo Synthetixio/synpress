@@ -1,4 +1,4 @@
-import * as core from 'core'
+import * as core from '@synthetixio/synpress-core'
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
 import { DEFAULT_METAMASK_VERSION, EXTENSION_DOWNLOAD_URL, prepareExtension } from '../../src/prepareExtension'
 
@@ -6,7 +6,7 @@ const MOCK_CACHE_DIR_PATH = 'mockCacheDirPath'
 const MOCK_EXTENSION_ARCHIVE_PATH = 'mockExtensionArchivePath'
 const MOCK_EXTENSION_FINAL_PATH = 'mockExtensionFinalPath'
 
-vi.mock('core', async () => {
+vi.mock('@synthetixio/synpress-core', async () => {
   return {
     default: vi.fn(),
     ensureCacheDirExists: vi.fn().mockImplementation(() => MOCK_CACHE_DIR_PATH),

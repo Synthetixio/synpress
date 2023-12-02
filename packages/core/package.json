@@ -1,6 +1,6 @@
 {
-  "name": "core",
-  "version": "1.0.0",
+  "name": "@synthetixio/synpress-core",
+  "version": "0.0.1",
   "type": "module",
   "exports": {
     ".": {

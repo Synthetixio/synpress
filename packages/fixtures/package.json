@@ -1,6 +1,6 @@
 {
-  "name": "fixtures",
-  "version": "1.0.0",
+  "name": "@synthetixio/synpress-fixtures",
+  "version": "0.0.1",
   "type": "module",
   "exports": {
     ".": {
@@ -28,8 +28,8 @@
     "types:check": "tsc --noEmit"
   },
   "dependencies": {
+    "@synthetixio/synpress-core": "workspace:*",
     "@viem/anvil": "^0.0.6",
-    "core": "workspace:*",
     "fs-extra": "^11.1.1",
     "zod": "^3.22.4"
   },
