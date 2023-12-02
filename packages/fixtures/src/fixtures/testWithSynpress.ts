@@ -8,10 +8,10 @@ import type {
   PlaywrightWorkerOptions
 } from '@playwright/test'
 import { chromium, test as base } from '@playwright/test'
+import { defineWalletSetup } from '@synthetixio/synpress-core'
+import { createTempContextDir, removeTempContextDir } from '@synthetixio/synpress-core'
+import { CACHE_DIR_NAME, prepareExtension } from '@synthetixio/synpress-core'
 import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
-import { defineWalletSetup } from 'core'
-import { createTempContextDir, removeTempContextDir } from 'core'
-import { CACHE_DIR_NAME, prepareExtension } from 'core'
 import fs from 'fs-extra'
 import { getExtensionId } from '../utils/getExtensionId'
 

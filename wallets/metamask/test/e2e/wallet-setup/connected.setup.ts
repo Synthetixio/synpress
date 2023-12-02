@@ -1,5 +1,5 @@
-import { defineWalletSetup } from 'core'
-import { getExtensionId } from 'fixtures'
+import { defineWalletSetup } from '@synthetixio/synpress-core'
+import { getExtensionId } from '@synthetixio/synpress-fixtures'
 import { MetaMask } from '../../../src'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'

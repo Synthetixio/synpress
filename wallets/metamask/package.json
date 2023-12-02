@@ -1,6 +1,6 @@
 {
-  "name": "metamask",
-  "version": "1.0.0",
+  "name": "@synthetixio/synpress-metamask",
+  "version": "0.0.1",
   "type": "module",
   "exports": {
     ".": {
@@ -18,9 +18,9 @@
   ],
   "scripts": {
     "build": "pnpm run clean && pnpm run build:dist && pnpm run build:types",
-    "build:cache": "core test/e2e/wallet-setup",
-    "build:cache:headless": "core test/e2e/wallet-setup --headless",
-    "build:cache:headless:force": "core test/e2e/wallet-setup --headless --force",
+    "build:cache": "synpress-core test/e2e/wallet-setup",
+    "build:cache:headless": "synpress-core test/e2e/wallet-setup --headless",
+    "build:cache:headless:force": "synpress-core test/e2e/wallet-setup --headless --force",
     "build:dist": "tsup --tsconfig tsconfig.build.json",
     "build:types": "tsc --emitDeclarationOnly --project tsconfig.build.json",
     "clean": "rimraf dist types",
@@ -33,8 +33,8 @@
     "types:check": "tsc --noEmit"
   },
   "dependencies": {
-    "core": "workspace:*",
-    "fixtures": "workspace:*",
+    "@synthetixio/synpress-core": "workspace:*",
+    "@synthetixio/synpress-fixtures": "workspace:*",
     "zod": "^3.22.4"
   },
   "devDependencies": {
