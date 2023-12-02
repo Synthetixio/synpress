@@ -1,0 +1,46 @@
+{
+  "name": "@synthetixio/synpress",
+  "version": "4.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./types/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "main": "./dist/index.js",
+  "bin": "./dist/cli.js",
+  "files": [
+    "dist",
+    "src",
+    "types"
+  ],
+  "scripts": {
+    "build": "pnpm run clean && pnpm run build:dist && pnpm run build:types",
+    "build:dist": "tsup",
+    "build:types": "tsc --emitDeclarationOnly",
+    "clean": "rimraf dist types",
+    "lint": "biome check . --apply",
+    "lint:check": "biome check . --verbose",
+    "lint:unsafe": "biome check . --apply-unsafe",
+    "prepublishOnly": "pnpm run build",
+    "types:check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@synthetixio/synpress-core": "workspace:*",
+    "@synthetixio/synpress-fixtures": "workspace:*",
+    "@synthetixio/synpress-metamask": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "rimraf": "^5.0.1",
+    "tsconfig": "workspace:*",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2"
+  },
+  "peerDependencies": {
+    "@playwright/test": "1.40.0"
+  }
+}

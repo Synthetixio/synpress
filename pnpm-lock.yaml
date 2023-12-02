@@ -190,6 +190,37 @@ importers:
 
   packages/tsconfig: {}
 
+  release:
+    dependencies:
+      '@playwright/test':
+        specifier: 1.40.0
+        version: 1.40.0
+      '@synthetixio/synpress-core':
+        specifier: workspace:*
+        version: link:../packages/core
+      '@synthetixio/synpress-fixtures':
+        specifier: workspace:*
+        version: link:../packages/fixtures
+      '@synthetixio/synpress-metamask':
+        specifier: workspace:*
+        version: link:../wallets/metamask
+    devDependencies:
+      '@types/node':
+        specifier: ^20.8.0
+        version: 20.8.0
+      rimraf:
+        specifier: ^5.0.1
+        version: 5.0.1
+      tsconfig:
+        specifier: workspace:*
+        version: link:../packages/tsconfig
+      tsup:
+        specifier: ^7.2.0
+        version: 7.2.0(typescript@5.2.2)
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+
   wallets/metamask:
     dependencies:
       '@playwright/test':
