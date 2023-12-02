@@ -7,5 +7,5 @@ export default defineConfig({
   format: 'esm',
   splitting: false,
   sourcemap: true,
-  external: ['metamask']
+  external: ['@playwright/test']
 })

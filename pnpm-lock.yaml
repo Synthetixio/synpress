@@ -192,6 +192,9 @@ importers:
 
   wallets/metamask:
     dependencies:
+      '@playwright/test':
+        specifier: 1.40.0
+        version: 1.40.0
       '@synthetixio/synpress-core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -202,9 +205,6 @@ importers:
         specifier: ^3.22.4
         version: 3.22.4
     devDependencies:
-      '@playwright/test':
-        specifier: 1.40.0
-        version: 1.40.0
       '@types/node':
         specifier: ^20.8.0
         version: 20.8.0
@@ -917,6 +917,7 @@ packages:
     hasBin: true
     dependencies:
       playwright: 1.40.0
+    dev: false
 
   /@scure/base@1.1.3:
     resolution: {integrity: sha512-/+SgoRjLq7Xlf0CWuLHq2LUZeL/w65kfzAPG5NH9pcmBhs+nunQTn4gvdwgMTIXnt9b2C/1SeL2XiysZEyIC9Q==}
@@ -2214,6 +2215,7 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
+    dev: false
     optional: true
 
   /fsevents@2.3.3:
@@ -3339,6 +3341,7 @@ packages:
     resolution: {integrity: sha512-fvKewVJpGeca8t0ipM56jkVSU6Eo0RmFvQ/MaCQNDYm+sdvKkMBBWTE1FdeMqIdumRaXXjZChWHvIzCGM/tA/Q==}
     engines: {node: '>=16'}
     hasBin: true
+    dev: false
 
   /playwright@1.38.0:
     resolution: {integrity: sha512-fJGw+HO0YY+fU/F1N57DMO+TmXHTrmr905J05zwAQE9xkuwP/QLDk63rVhmyxh03dYnEhnRbsdbH9B0UVVRB3A==}
@@ -3358,6 +3361,7 @@ packages:
       playwright-core: 1.40.0
     optionalDependencies:
       fsevents: 2.3.2
+    dev: false
 
   /postcss-load-config@4.0.1:
     resolution: {integrity: sha512-vEJIc8RdiBRu3oRAI0ymerOn+7rPuMvRXslTvZUKZonDHFIczxztIyJ1urxM1x9JXEikvpWWTUUqal5j/8QgvA==}
