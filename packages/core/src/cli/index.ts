@@ -49,7 +49,7 @@ export const main = async () => {
   console.log('[DEBUG] Running with the following options:')
   console.log({ cacheDir: walletSetupDir, ...flags, headless: Boolean(process.env.HEADLESS) ?? false }, '\n')
 
-  const compiledWalletSetupDirPath = await compileWalletSetupFunctions(walletSetupDir)
+  const compiledWalletSetupDirPath = await compileWalletSetupFunctions(walletSetupDir, flags.debug)
 
   // TODO: We should be using `prepareExtension` function from the wallet itself!
   await createCache(compiledWalletSetupDirPath, prepareExtension, flags.force)

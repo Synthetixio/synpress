@@ -8,7 +8,7 @@ const OUT_DIR_NAME = 'wallet-setup-dist'
 
 const createGlobPattern = (walletSetupDir: string) => path.join(walletSetupDir, '**', '*.{js,ts}')
 
-export async function compileWalletSetupFunctions(walletSetupDir: string) {
+export async function compileWalletSetupFunctions(walletSetupDir: string, debug: boolean) {
   const outDir = path.join(ensureCacheDirExists(), OUT_DIR_NAME)
 
   const globPattern = createGlobPattern(walletSetupDir)
@@ -28,7 +28,7 @@ export async function compileWalletSetupFunctions(walletSetupDir: string) {
       js: FIXES_BANNER
     },
     esbuildOptions(options) {
-      options.drop = ['console', 'debugger']
+      options.drop = debug ? [] : ['console', 'debugger']
     }
   })
 
