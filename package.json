@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "build:cache": "turbo build:cache",
+    "build:cache": "turbo build:cache --filter=@synthetixio/synpress-metamask",
     "format": "biome format . --write",
     "format:check": "biome format . --error-on-warnings",
     "preinstall": "npx only-allow pnpm",
@@ -14,8 +14,8 @@
     "sort-package-json": "sort-package-json 'package.json' '{packages,wallets,examples}/*/package.json'",
     "sort-package-json:check": "sort-package-json 'package.json' '{packages,wallets,examples}/*/package.json' --check",
     "test": "turbo test",
-    "test:e2e:headful": "turbo test:e2e:headful",
-    "test:e2e:headless": "turbo test:e2e:headless"
+    "test:e2e:headful": "turbo test:e2e:headful --filter=@synthetixio/synpress-metamask",
+    "test:e2e:headless": "turbo test:e2e:headless --filter=@synthetixio/synpress-metamask"
   },
   "lint-staged": {
     "package.json": "sort-package-json"
