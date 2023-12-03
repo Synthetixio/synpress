@@ -1,0 +1,25 @@
+{
+  "name": "example-new-dawn",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:cache": "synpress",
+    "build:cache:force": "synpress --force",
+    "build:cache:headless": "synpress --headless",
+    "serve:test-dapp": "serve node_modules/@metamask/test-dapp/dist -p 12345",
+    "test:e2e:headful": "playwright test",
+    "test:e2e:headless": "HEADLESS=true playwright test",
+    "test:e2e:headless:ui": "HEADLESS=true playwright test --ui"
+  },
+  "dependencies": {
+    "@playwright/test": "1.40.0",
+    "@synthetixio/synpress": "workspace:*",
+    "dotenv": "16.3.1"
+  },
+  "devDependencies": {
+    "@metamask/test-dapp": "8.0.0",
+    "@types/node": "20.10.2",
+    "serve": "14.2.1",
+    "typescript": "5.3.2"
+  }
+}
