@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.2.2",
+    "@changesets/cli": "^2.27.1",
     "@metamask/test-dapp": "^8.0.0",
     "commitlint-config-gitmoji": "^2.3.1",
     "husky": "^8.0.0",
