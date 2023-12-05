@@ -1,5 +1,7 @@
 {
   "name": "example-metamask-legacy",
+  "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "run": "tsx src/example.ts"
