@@ -18,9 +18,6 @@
     "indentStyle": "space",
     "indentSize": 2
   },
-  "linter": {
-    "ignore": ["wallets/metamask-legacy"]
-  },
   "javascript": {
     "formatter": {
       "quoteStyle": "single",
