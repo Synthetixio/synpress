@@ -42,8 +42,8 @@ importers:
         specifier: 1.40.0
         version: 1.40.0
       '@synthetixio/synpress':
-        specifier: workspace:*
-        version: link:../../release
+        specifier: 0.0.0-devtest-20231206214259
+        version: 0.0.0-devtest-20231206214259(@playwright/test@1.40.0)(playwright-core@1.40.0)(typescript@5.3.2)
       dotenv:
         specifier: 16.3.1
         version: 16.3.1
@@ -1072,6 +1072,97 @@ packages:
   /@sinclair/typebox@0.27.8:
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
     dev: true
+
+  /@synthetixio/synpress-core@0.0.0-devtest-20231206214259(playwright-core@1.40.0)(typescript@5.3.2):
+    resolution: {integrity: sha512-QVn0R7l6o2PBF9KOEJZ39SQtcQNd0UXPDdICcO1nIIeJjVIFWAX0J151ovBkaL/pB1X5ydqsoQjdOniutn1t+Q==}
+    hasBin: true
+    peerDependencies:
+      playwright-core: 1.40.0
+    dependencies:
+      axios: 1.5.0
+      chalk: 5.3.0
+      commander: 11.1.0
+      esbuild: 0.19.5
+      fs-extra: 11.1.1
+      glob: 10.3.10
+      gradient-string: 2.0.2
+      playwright-core: 1.40.0
+      tsup: 7.2.0(typescript@5.3.2)
+      unzipper: 0.10.14
+      zod: 3.22.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - debug
+      - postcss
+      - supports-color
+      - ts-node
+      - typescript
+    dev: false
+
+  /@synthetixio/synpress-fixtures@0.0.0-devtest-20231206214259(@playwright/test@1.40.0)(playwright-core@1.40.0)(typescript@5.3.2):
+    resolution: {integrity: sha512-PyLRLwXDcr1HbOd4e7hcetPjbpj48SbZiJGjw4mjj9luRMdjcgkbwXesNQkEtAjZiwSmYjVyCfur1mWUsbC62w==}
+    peerDependencies:
+      '@playwright/test': 1.40.0
+    dependencies:
+      '@playwright/test': 1.40.0
+      '@synthetixio/synpress-core': 0.0.0-devtest-20231206214259(playwright-core@1.40.0)(typescript@5.3.2)
+      '@viem/anvil': 0.0.6
+      fs-extra: 11.1.1
+      zod: 3.22.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - bufferutil
+      - debug
+      - playwright-core
+      - postcss
+      - supports-color
+      - ts-node
+      - typescript
+      - utf-8-validate
+    dev: false
+
+  /@synthetixio/synpress-metamask@0.0.0-devtest-20231206214259(@playwright/test@1.40.0)(playwright-core@1.40.0)(typescript@5.3.2):
+    resolution: {integrity: sha512-ltEGW51ksVOvvubAzLDFQVbDE1pJzhD4k4GF8EX91MFqN45PJfElqX2AStJkGvaqgF7oRJr9CT0wAVBHfzOnvw==}
+    peerDependencies:
+      '@playwright/test': 1.40.0
+    dependencies:
+      '@playwright/test': 1.40.0
+      '@synthetixio/synpress-core': 0.0.0-devtest-20231206214259(playwright-core@1.40.0)(typescript@5.3.2)
+      '@synthetixio/synpress-fixtures': 0.0.0-devtest-20231206214259(@playwright/test@1.40.0)(playwright-core@1.40.0)(typescript@5.3.2)
+      zod: 3.22.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - bufferutil
+      - debug
+      - playwright-core
+      - postcss
+      - supports-color
+      - ts-node
+      - typescript
+      - utf-8-validate
+    dev: false
+
+  /@synthetixio/synpress@0.0.0-devtest-20231206214259(@playwright/test@1.40.0)(playwright-core@1.40.0)(typescript@5.3.2):
+    resolution: {integrity: sha512-WKTVDPpXDNU8Y/cF0y6T4ePNFU93VShsJ8ITzAlFK+ULAagwJNJaYZ/Ww0RoFEwPVQIW2EQhPA/uz44C8WuUbg==}
+    hasBin: true
+    peerDependencies:
+      '@playwright/test': 1.40.0
+    dependencies:
+      '@playwright/test': 1.40.0
+      '@synthetixio/synpress-core': 0.0.0-devtest-20231206214259(playwright-core@1.40.0)(typescript@5.3.2)
+      '@synthetixio/synpress-fixtures': 0.0.0-devtest-20231206214259(@playwright/test@1.40.0)(playwright-core@1.40.0)(typescript@5.3.2)
+      '@synthetixio/synpress-metamask': 0.0.0-devtest-20231206214259(@playwright/test@1.40.0)(playwright-core@1.40.0)(typescript@5.3.2)
+    transitivePeerDependencies:
+      - '@swc/core'
+      - bufferutil
+      - debug
+      - playwright-core
+      - postcss
+      - supports-color
+      - ts-node
+      - typescript
+      - utf-8-validate
+    dev: false
 
   /@types/archiver@5.3.3:
     resolution: {integrity: sha512-0ABdVcXL6jOwNGY+hjWPqrxUvKelBEwNLcuv/SV2vZ4YCH8w9NttFCt+/QqI5zgMX+iX/XqVy89/r7EmLJmMpQ==}
@@ -4588,6 +4679,42 @@ packages:
       - supports-color
       - ts-node
 
+  /tsup@7.2.0(typescript@5.3.2):
+    resolution: {integrity: sha512-vDHlczXbgUvY3rWvqFEbSqmC1L7woozbzngMqTtL2PGBODTtWlRwGDDawhvWzr5c1QjKe4OAKqJGfE1xeXUvtQ==}
+    engines: {node: '>=16.14'}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': ^1
+      postcss: ^8.4.12
+      typescript: '>=4.1.0'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      postcss:
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      bundle-require: 4.0.1(esbuild@0.18.20)
+      cac: 6.7.14
+      chokidar: 3.5.3
+      debug: 4.3.4
+      esbuild: 0.18.20
+      execa: 5.1.1
+      globby: 11.1.0
+      joycon: 3.1.1
+      postcss-load-config: 4.0.1
+      resolve-from: 5.0.0
+      rollup: 3.29.2
+      source-map: 0.8.0-beta.0
+      sucrase: 3.34.0
+      tree-kill: 1.2.2
+      typescript: 5.3.2
+    transitivePeerDependencies:
+      - supports-color
+      - ts-node
+    dev: false
+
   /tty-table@4.2.3:
     resolution: {integrity: sha512-Fs15mu0vGzCrj8fmJNP7Ynxt5J7praPXqFN0leZeZBXJwkMxv9cb2D454k1ltrtUSJbZ4yH4e0CynsHLxmUfFA==}
     engines: {node: '>=8.0.0'}
@@ -4744,7 +4871,6 @@ packages:
     resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==}
     engines: {node: '>=14.17'}
     hasBin: true
-    dev: true
 
   /ufo@1.3.1:
     resolution: {integrity: sha512-uY/99gMLIOlJPwATcMVYfqDSxUR9//AUcgZMzwfSTJPDKzA1S8mX4VLqa+fiAtveraQUBCz4FFcwVZBGbwBXIw==}
