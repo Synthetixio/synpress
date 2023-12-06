@@ -3,14 +3,11 @@
   "version": "0.0.0",
   "type": "module",
   "exports": {
-    ".": {
-      "import": {
-        "types": "./types/index.d.ts",
-        "default": "./dist/index.js"
-      }
-    }
+    "types": "./types/index.d.ts",
+    "default": "./dist/index.js"
   },
   "main": "./dist/index.js",
+  "types": "./types/index.d.ts",
   "files": [
     "dist",
     "src",
