@@ -30,7 +30,12 @@ synpress --headless
 pnpm install 
 ```
 
-2. Build cache with our CLI by using a script:
+2. Start MetaMask Test Dapp:
+```bash
+pnpm run serve:test-dapp
+```
+
+3. Build cache with our CLI by using a script:
 ```bash
 # You can either build cache in a headed mode:
 pnpm run build:cache
@@ -39,7 +44,7 @@ pnpm run build:cache
 pnpm run build:cache:headless
 ```
 
-3. Run Playwright tests as you would normally do:
+4. Run Playwright tests as you would normally do:
 ```bash
 # Use one of our scripts:
 pnpm run test:e2e:headful
