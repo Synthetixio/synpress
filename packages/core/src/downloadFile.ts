@@ -1,6 +1,7 @@
 import path from 'node:path'
 import axios from 'axios'
 import fs from 'fs-extra'
+import { onDownloadProgress } from './utils/onDownloadProgress'
 
 type DownloaderOptions = {
   url: string
@@ -34,7 +35,8 @@ export async function downloadFile(options: DownloaderOptions) {
 
     axios
       .get(url, {
-        responseType: 'stream'
+        responseType: 'stream',
+        onDownloadProgress: onDownloadProgress(url, fileName)
       })
       .then((response) => {
         const writer = fs.createWriteStream(filePath)
