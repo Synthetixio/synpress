@@ -14,7 +14,11 @@ const MOCK_URL = `https://example.com/${FILE_NAME}`
 
 const server = setupServer(
   http.get(MOCK_URL, () => {
-    return HttpResponse.text(FILE_CONTENT)
+    return HttpResponse.text(FILE_CONTENT, {
+      headers: {
+        'Content-Length': new Blob([FILE_CONTENT]).size.toString()
+      }
+    })
   })
 )
 
@@ -55,7 +59,8 @@ describe('downloadFile', () => {
 
     expect(axiosGetSpy).toHaveBeenCalledOnce()
     expect(axiosGetSpy).toHaveBeenCalledWith(MOCK_URL, {
-      responseType: 'stream'
+      responseType: 'stream',
+      onDownloadProgress: expect.any(Function)
     })
   })
 
