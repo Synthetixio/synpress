@@ -1,10 +1,10 @@
 import path from 'node:path'
 import axios from 'axios'
 import { fs, vol } from 'memfs'
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
-import { downloadFile } from '../src/downloadFile'
+import { downloadFile } from '../src'
 
 const ROOT_DIR = '/tmp'
 const FILE_NAME = 'duck.txt'
@@ -13,8 +13,8 @@ const FILE_PATH = path.join(ROOT_DIR, FILE_NAME)
 const MOCK_URL = `https://example.com/${FILE_NAME}`
 
 const server = setupServer(
-  rest.get(MOCK_URL, (_, res, ctx) => {
-    return res(ctx.text(FILE_CONTENT))
+  http.get(MOCK_URL, () => {
+    return HttpResponse.text(FILE_CONTENT)
   })
 )
 
@@ -61,8 +61,11 @@ describe('downloadFile', () => {
 
   it('throws an error if the file cannot be downloaded', async () => {
     server.use(
-      rest.get(MOCK_URL, (_, res, ctx) => {
-        return res(ctx.status(500), ctx.json({ message: 'Internal server error' }))
+      http.get(MOCK_URL, () => {
+        return new HttpResponse(null, {
+          status: 500,
+          statusText: 'Internal Server Error'
+        })
       })
     )
 
