@@ -26,10 +26,16 @@ export async function triggerCacheCreation(
       await fs.remove(cachePath)
     }
 
-    console.log(`Triggering cache creation for: ${funcHash} (${fileName.replace(/\.(js|ts)$/, '.{js,ts}')})`)
+    const fileNameWithCorrectExtension = fileName.replace(/\.(js|ts)$/, '.{js,ts}')
+    console.log(`Triggering cache creation for: ${funcHash} (${fileNameWithCorrectExtension})`)
 
     // We're not inferring the return type here to make sure we don't accidentally await the function.
-    const createCachePromise: Promise<void> = createCacheForWalletSetupFunction(extensionPath, cachePath, setupFunction)
+    const createCachePromise: Promise<void> = createCacheForWalletSetupFunction(
+      extensionPath,
+      cachePath,
+      setupFunction,
+      fileNameWithCorrectExtension
+    )
     cacheCreationPromises.push(createCachePromise)
   }
 

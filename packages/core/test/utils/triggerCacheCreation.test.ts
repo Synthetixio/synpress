@@ -52,18 +52,25 @@ describe('triggerCacheCreation', () => {
     const setupFunctions = new Map<string, { fileName: string; setupFunction: WalletSetupFunction }>()
 
     for (const hash of hashes) {
-      setupFunctions.set(hash, { fileName: path.join(ROOT_DIR, hash), setupFunction: testSetupFunction })
+      setupFunctions.set(hash, { fileName: path.join(ROOT_DIR, `${hash}.ts`), setupFunction: testSetupFunction })
     }
 
     return setupFunctions
   }
 
-  function expectCreateCacheForWalletSetupFunction(n: number, contextCacheDirName: string) {
+  function expectCreateCacheForWalletSetupFunction(
+    n: number,
+    setupFunctions: ReturnType<typeof prepareSetupFunctions>,
+    hash: string
+  ) {
+    const fileNameWithCorrectExtension = setupFunctions.get(hash)?.fileName?.replace(/\.(js|ts)$/, '.{js,ts}')
+
     expect(createCacheForWalletSetupFunctionSpy).toHaveBeenNthCalledWith(
       n,
       EXTENSION_PATH,
-      path.join(ROOT_DIR, contextCacheDirName),
-      testSetupFunction
+      path.join(ROOT_DIR, hash),
+      testSetupFunction,
+      fileNameWithCorrectExtension
     )
   }
 
@@ -101,8 +108,8 @@ describe('triggerCacheCreation', () => {
     await triggerCacheCreation(setupFunctions, downloadExtension, false)
 
     expect(createCacheForWalletSetupFunctionSpy).toHaveBeenCalledTimes(2)
-    expectCreateCacheForWalletSetupFunction(1, 'hash1')
-    expectCreateCacheForWalletSetupFunction(2, 'hash2')
+    expectCreateCacheForWalletSetupFunction(1, setupFunctions, 'hash1')
+    expectCreateCacheForWalletSetupFunction(2, setupFunctions, 'hash2')
   })
 
   it('checks if cache already exists for each entry', async () => {
@@ -136,8 +143,8 @@ describe('triggerCacheCreation', () => {
 
       expect(promises).toHaveLength(2)
       expect(createCacheForWalletSetupFunctionSpy).toHaveBeenCalledTimes(2)
-      expectCreateCacheForWalletSetupFunction(1, 'hash1')
-      expectCreateCacheForWalletSetupFunction(2, 'hash3')
+      expectCreateCacheForWalletSetupFunction(1, setupFunctions, 'hash1')
+      expectCreateCacheForWalletSetupFunction(2, setupFunctions, 'hash3')
     })
   })
 
@@ -164,9 +171,9 @@ describe('triggerCacheCreation', () => {
 
       expect(promises).toHaveLength(3)
       expect(createCacheForWalletSetupFunctionSpy).toHaveBeenCalledTimes(3)
-      expectCreateCacheForWalletSetupFunction(1, 'hash1')
-      expectCreateCacheForWalletSetupFunction(2, 'hash2')
-      expectCreateCacheForWalletSetupFunction(3, 'hash3')
+      expectCreateCacheForWalletSetupFunction(1, setupFunctions, 'hash1')
+      expectCreateCacheForWalletSetupFunction(2, setupFunctions, 'hash2')
+      expectCreateCacheForWalletSetupFunction(3, setupFunctions, 'hash3')
     })
   })
 })
