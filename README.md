@@ -489,6 +489,8 @@ If your MetaMask is stuck on the loading screen, check what's happening under th
 | `FAIL_ON_ERROR`         | Fail a test if there are any browser console errors                                                                                                                                                         |
 | `CYPRESS_GROUP`         | [Group tests](https://docs.cypress.io/guides/guides/command-line#cypress-run-group-lt-name-gt)                                                                                                              |
 | `CI`                    | Boolean value indicates that tests are running from CI/CD pipeline                                                                                                                                          |
+| `RETRIES_SWITCH_TO_METAMASK_NOTIFICATION`                    | Number of retries to switch to meta mask notifications, default 50 retries                                                                                                                                        |
+| `RETRIES_WAIT_TO_BE_HIDDEN`                    | Number of retries to waitToBeHidden, default 300 retries                                                                                                                                        |
 
 ## 🚢 Release process
 
