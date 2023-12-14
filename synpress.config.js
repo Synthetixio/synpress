@@ -16,8 +16,6 @@ module.exports = defineConfig({
   retries: {
     runMode: process.env.CI ? 1 : 0,
     openMode: 0,
-    switchToMetamaskNotification: 50,
-    waitToBeHidden: 300,
   },
   fixturesFolder,
   screenshotsFolder: 'tests/e2e/screenshots',
