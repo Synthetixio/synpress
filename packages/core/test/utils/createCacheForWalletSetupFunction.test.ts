@@ -34,9 +34,10 @@ vi.mock('../../src/utils/waitForExtensionOnLoadPage', async () => {
 describe('createCacheForWalletSetupFunction', () => {
   const launchPersistentContextSpy = vi.spyOn(chromium, 'launchPersistentContext')
   const walletSetup = vi.fn()
+  const fileName = 'test.ts'
 
   const runCreateCacheForWalletSetupFunction = async () => {
-    const promise = createCacheForWalletSetupFunction(EXTENSION_PATH, CONTEXT_PATH, walletSetup)
+    const promise = createCacheForWalletSetupFunction(EXTENSION_PATH, CONTEXT_PATH, walletSetup, fileName)
     await vi.runAllTimersAsync()
     await promise
   }
@@ -100,6 +101,17 @@ describe('createCacheForWalletSetupFunction', () => {
     expect(walletSetup).toHaveBeenCalledWith(context, extensionPage)
   })
 
+  it('throws an error if walletSetup throws one', async () => {
+    const errorMessage = 'A duck has thrown a tantrum! 🦆'
+    walletSetup.mockRejectedValueOnce(new Error(errorMessage))
+
+    const promise = createCacheForWalletSetupFunction(EXTENSION_PATH, CONTEXT_PATH, walletSetup, fileName)
+
+    await expect(promise).rejects.toThrowError(
+      `[CORE] Encountered an error while executing wallet setup function from file ${fileName}. Error message: ${errorMessage}`
+    )
+  })
+
   it('closes context', async () => {
     const closeContext = vi.fn()
     // biome-ignore lint/suspicious/noExplicitAny: any type here is intentional
@@ -117,7 +129,7 @@ describe('createCacheForWalletSetupFunction', () => {
 
     const setTimeoutSpy = vi.spyOn(global, 'setTimeout')
 
-    const promise = createCacheForWalletSetupFunction(EXTENSION_PATH, CONTEXT_PATH, walletSetup)
+    const promise = createCacheForWalletSetupFunction(EXTENSION_PATH, CONTEXT_PATH, walletSetup, fileName)
 
     // Verify that nothing was run yet.
     expect(walletSetup).not.toHaveBeenCalled()

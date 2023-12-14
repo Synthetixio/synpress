@@ -8,7 +8,8 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 export async function createCacheForWalletSetupFunction(
   extensionPath: string,
   contextCacheDirPath: string,
-  walletSetup: WalletSetupFunction
+  walletSetup: WalletSetupFunction,
+  fileName: string
 ) {
   // TODO: Extract & Make a constant.
   const browserArgs = [`--disable-extensions-except=${extensionPath}`, `--load-extension=${extensionPath}`]
@@ -24,7 +25,15 @@ export async function createCacheForWalletSetupFunction(
 
   const extensionPage = await waitForExtensionOnLoadPage(context)
 
-  await walletSetup(context, extensionPage)
+  try {
+    await walletSetup(context, extensionPage)
+  } catch (e) {
+    throw new Error(
+      `[CORE] Encountered an error while executing wallet setup function from file ${fileName}. Error message: ${
+        (e as Error).message
+      }`
+    )
+  }
 
   // We sleep here to give the browser enough time to save the context to the disk.
   await sleep(3000) // TODO: Extract & Make this timeout configurable.
