@@ -1210,7 +1210,7 @@ const metamask = {
       .click();
 
     let retries = 0;
-    const retiresLimit = 600;
+    const retiresLimit = process.env?.CONFIRM_TRANSACTION_RETRIES_LIMIT?? 600;
 
     // 120 seconds
     while (retries < retiresLimit) {

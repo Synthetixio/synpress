@@ -491,6 +491,7 @@ If your MetaMask is stuck on the loading screen, check what's happening under th
 | `CI`                    | Boolean value indicates that tests are running from CI/CD pipeline                                                                                                                                          |
 | `RETRIES_SWITCH_TO_METAMASK_NOTIFICATION`                    | Number of retries to switch to meta mask notifications, default 50 retries                                                                                                                                        |
 | `RETRIES_WAIT_TO_BE_HIDDEN`                    | Number of retries to waitToBeHidden, default 300 retries                                                                                                                                        |
+| `CONFIRM_TRANSACTION_RETRIES_LIMIT`                    | Number of retries to confirm Metamask transaction and wait For mining, default 600 retries                                                                                                                                        |
 
 ## 🚢 Release process
 
