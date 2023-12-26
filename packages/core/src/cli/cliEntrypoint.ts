@@ -44,8 +44,10 @@ export const cliEntrypoint = async () => {
     process.env.HEADLESS = true
   }
 
-  console.log('[DEBUG] Running with the following options:')
-  console.log({ cacheDir: walletSetupDir, ...flags, headless: Boolean(process.env.HEADLESS) ?? false }, '\n')
+  if (flags.debug) {
+    console.log('[DEBUG] Running with the following options:')
+    console.log({ cacheDir: walletSetupDir, ...flags, headless: Boolean(process.env.HEADLESS) ?? false }, '\n')
+  }
 
   const compiledWalletSetupDirPath = await compileWalletSetupFunctions(walletSetupDir, flags.debug)
 
