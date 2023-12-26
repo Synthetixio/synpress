@@ -85,7 +85,7 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
       playwright-core:
-        specifier: 1.40.0
+        specifier: ^1.40.0
         version: 1.40.0
       progress:
         specifier: ^2.0.3
@@ -146,7 +146,7 @@ importers:
   packages/fixtures:
     dependencies:
       '@playwright/test':
-        specifier: 1.40.0
+        specifier: ^1.40.0
         version: 1.40.0
       '@synthetixio/synpress-core':
         specifier: workspace:*
@@ -185,7 +185,7 @@ importers:
   release:
     dependencies:
       '@playwright/test':
-        specifier: 1.40.0
+        specifier: ^1.40.0
         version: 1.40.0
       '@synthetixio/synpress-core':
         specifier: workspace:*
@@ -216,7 +216,7 @@ importers:
   wallets/metamask:
     dependencies:
       '@playwright/test':
-        specifier: 1.40.0
+        specifier: ^1.40.0
         version: 1.40.0
       '@synthetixio/synpress-core':
         specifier: workspace:*
