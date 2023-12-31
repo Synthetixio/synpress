@@ -1,13 +1,127 @@
 import type { Page } from '@playwright/test'
+import { z } from 'zod'
 import { waitFor } from '../../../utils/waitFor'
 import HomePageSelectors from '../../HomePage/selectors'
 import Selectors from '../selectors'
 
-const confirmTransaction = async (notificationPage: Page) => {
+const GasSetting = z.union([
+  z.literal('low'),
+  z.literal('market'),
+  z.literal('aggressive'),
+  z.literal('site'),
+  z
+    .object({
+      maxBaseFee: z.number(),
+      priorityFee: z.number(),
+      // TODO: Add gasLimit range validation.
+      gasLimit: z.number().optional()
+    })
+    .superRefine(({ maxBaseFee, priorityFee }, ctx) => {
+      if (priorityFee > maxBaseFee) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Max base fee cannot be lower than priority fee',
+          path: ['MetaMask', 'confirmTransaction', 'gasSetting', 'maxBaseFee']
+        })
+      }
+    })
+])
+
+export type GasSetting = z.input<typeof GasSetting>
+
+const confirmTransaction = async (notificationPage: Page, options: GasSetting) => {
+  const gasSetting = GasSetting.parse(options)
+
+  // By default, the `site` gas setting is used.
+  if (gasSetting === 'site') {
+    await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
+
+    return
+  }
+
+  // TODO: This button can be invisible in case of a network issue. Verify this, and handle in the future.
+  await notificationPage.locator(Selectors.TransactionPage.editGasFeeMenu.editGasFeeButton).click()
+
+  const estimationNotAvailableErrorMessage = (gasSetting: string) =>
+    `[ConfirmTransaction] Estimated fee is not available for the "${gasSetting}" gas setting. By default, MetaMask would use the "site" gas setting in this case, however, this is not YOUR intention.`
+
+  const handleLowMediumOrAggressiveGasSetting = async (
+    gasSetting: string,
+    selectors: { button: string; maxFee: string }
+  ) => {
+    if ((await notificationPage.locator(selectors.maxFee).textContent()) === '--') {
+      throw new Error(estimationNotAvailableErrorMessage(gasSetting))
+    }
+
+    await notificationPage.locator(selectors.button).click()
+  }
+
+  if (gasSetting === 'low') {
+    await handleLowMediumOrAggressiveGasSetting(gasSetting, Selectors.TransactionPage.editGasFeeMenu.lowGasFee)
+  } else if (gasSetting === 'market') {
+    await handleLowMediumOrAggressiveGasSetting(gasSetting, Selectors.TransactionPage.editGasFeeMenu.marketGasFee)
+  } else if (gasSetting === 'aggressive') {
+    await handleLowMediumOrAggressiveGasSetting(gasSetting, Selectors.TransactionPage.editGasFeeMenu.aggressiveGasFee)
+  } else {
+    await notificationPage.locator(Selectors.TransactionPage.editGasFeeMenu.advancedGasFeeButton).click()
+
+    await notificationPage.locator(Selectors.TransactionPage.editGasFeeMenu.advancedGasFeeMenu.maxBaseFeeInput).fill('')
+    await notificationPage
+      .locator(Selectors.TransactionPage.editGasFeeMenu.advancedGasFeeMenu.maxBaseFeeInput)
+      .fill(gasSetting.maxBaseFee.toString())
+
+    await notificationPage
+      .locator(Selectors.TransactionPage.editGasFeeMenu.advancedGasFeeMenu.priorityFeeInput)
+      .fill('')
+    await notificationPage
+      .locator(Selectors.TransactionPage.editGasFeeMenu.advancedGasFeeMenu.priorityFeeInput)
+      .fill(gasSetting.priorityFee.toString())
+
+    if (gasSetting.gasLimit) {
+      await notificationPage
+        .locator(Selectors.TransactionPage.editGasFeeMenu.advancedGasFeeMenu.gasLimitEditButton)
+        .click()
+
+      await notificationPage.locator(Selectors.TransactionPage.editGasFeeMenu.advancedGasFeeMenu.gasLimitInput).fill('')
+      await notificationPage
+        .locator(Selectors.TransactionPage.editGasFeeMenu.advancedGasFeeMenu.gasLimitInput)
+        .fill(gasSetting.gasLimit.toString())
+
+      const gasLimitErrorLocator = notificationPage.locator(
+        Selectors.TransactionPage.editGasFeeMenu.advancedGasFeeMenu.gasLimitError
+      )
+      const isGasLimitErrorHidden = await waitFor(() => gasLimitErrorLocator.isHidden(), 1_000, false) // TODO: Extract & make configurable
+
+      if (!isGasLimitErrorHidden) {
+        const errorText = await gasLimitErrorLocator.textContent({
+          timeout: 1_000 // TODO: Extract & make configurable
+        })
+
+        throw new Error(`[ConfirmTransaction] Invalid gas limit: ${errorText}`)
+      }
+    }
+
+    await notificationPage.locator(Selectors.TransactionPage.editGasFeeMenu.advancedGasFeeMenu.saveButton).click()
+  }
+
+  // We wait until the tooltip is not visible anymore. This indicates a gas setting was changed.
+  // Ideally, we would wait until the edit button changes its text, i.e., "Site" -> "Aggressive", however, this is not possible right now.
+  // For some unknown reason, if the manual gas setting is too high (>1 ETH), the edit button displays "Site" instead of "Advanced" ¯\_(ツ)_/¯
+  const waitForAction = async () => {
+    const isTooltipVisible = await notificationPage
+      .locator(Selectors.TransactionPage.editGasFeeMenu.editGasFeeButtonToolTip)
+      .isVisible()
+
+    return !isTooltipVisible
+  }
+
+  // TODO: Extract & make configurable
+  await waitFor(waitForAction, 3_000, true)
+
   await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
 }
 
-const confirmTransactionAndWaitForMining = async (walletPage: Page, notificationPage: Page) => {
+const confirmTransactionAndWaitForMining = async (walletPage: Page, notificationPage: Page, options: GasSetting) => {
   await walletPage.locator(HomePageSelectors.activityTab.activityTabButton).click()
 
   const waitForUnapprovedTxs = async () => {
@@ -23,7 +137,7 @@ const confirmTransactionAndWaitForMining = async (walletPage: Page, notification
     throw new Error('No new pending transactions found in 30s')
   }
 
-  await confirmTransaction(notificationPage)
+  await confirmTransaction(notificationPage, options)
 
   const waitForMining = async () => {
     const unapprovedTxs = await walletPage.locator(HomePageSelectors.activityTab.pendingUnapprovedTransactions).count()

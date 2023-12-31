@@ -2,6 +2,7 @@ import type { Page } from '@playwright/test'
 import { getNotificationPageAndWaitForLoad } from '../../utils/getNotificationPageAndWaitForLoad'
 import { waitFor } from '../../utils/waitFor'
 import {
+  type GasSetting,
   approvePermission,
   connectToDapp,
   network,
@@ -89,10 +90,10 @@ export class NotificationPage {
     await network.rejectSwitchNetwork(notificationPage)
   }
 
-  async confirmTransaction(extensionId: string) {
+  async confirmTransaction(extensionId: string, gasSetting: GasSetting) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
-    await transaction.confirm(notificationPage)
+    await transaction.confirm(notificationPage, gasSetting)
   }
 
   async rejectTransaction(extensionId: string) {
@@ -101,10 +102,10 @@ export class NotificationPage {
     await transaction.reject(notificationPage)
   }
 
-  async confirmTransactionAndWaitForMining(extensionId: string) {
+  async confirmTransactionAndWaitForMining(extensionId: string, gasSetting: GasSetting) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
-    await transaction.confirmAndWaitForMining(this.page, notificationPage)
+    await transaction.confirmAndWaitForMining(this.page, notificationPage, gasSetting)
   }
 
   async approvePermission(extensionId: string, spendLimit?: 'max' | number) {

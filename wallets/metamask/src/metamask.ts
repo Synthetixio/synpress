@@ -2,6 +2,7 @@ import type { BrowserContext, Page } from '@playwright/test'
 import { CrashPage, HomePage, LockPage, NotificationPage, OnboardingPage } from './pages'
 import type { Network } from './pages/HomePage/actions'
 import { SettingsSidebarMenus } from './pages/HomePage/selectors/settings'
+import type { GasSetting } from './pages/NotificationPage/actions'
 
 const NO_EXTENSION_ID_ERROR = new Error('MetaMask extensionId is not set')
 
@@ -114,12 +115,12 @@ export class MetaMask {
     await this.notificationPage.rejectSwitchNetwork(this.extensionId)
   }
 
-  async confirmTransaction() {
+  async confirmTransaction(gasSetting: GasSetting = 'site') {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.confirmTransaction(this.extensionId)
+    await this.notificationPage.confirmTransaction(this.extensionId, gasSetting)
   }
 
   async rejectTransaction() {
@@ -169,18 +170,19 @@ export class MetaMask {
   // ---- EXPERIMENTAL FEATURES ----
 
   public readonly experimental = {
-    confirmTransactionAndWaitForMining: async () => await this.confirmTransactionAndWaitForMining(),
+    confirmTransactionAndWaitForMining: async (gasSetting: GasSetting = 'site') =>
+      await this.confirmTransactionAndWaitForMining(gasSetting),
     // Note: `txIndex` starts from 0.
     openTransactionDetails: async (txIndex: number) => await this.openTransactionDetails(txIndex),
     closeTransactionDetails: async () => await this.closeTransactionDetails()
   }
 
-  private async confirmTransactionAndWaitForMining() {
+  private async confirmTransactionAndWaitForMining(gasSetting: GasSetting) {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.confirmTransactionAndWaitForMining(this.extensionId)
+    await this.notificationPage.confirmTransactionAndWaitForMining(this.extensionId, gasSetting)
   }
 
   private async openTransactionDetails(txIndex: number) {
