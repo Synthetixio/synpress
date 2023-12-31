@@ -23,7 +23,8 @@ export async function compileWalletSetupFunctions(walletSetupDir: string, debug:
     splitting: true,
     sourcemap: false,
     config: false,
-    external: ['@playwright/test'],
+    // TODO: Make this list configurable.
+    external: ['@synthetixio/synpress', '@playwright/test', 'playwright-core', 'esbuild', 'tsup'],
     banner: {
       js: FIXES_BANNER
     },
