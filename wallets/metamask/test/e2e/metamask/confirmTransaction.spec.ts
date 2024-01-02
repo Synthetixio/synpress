@@ -49,7 +49,7 @@ describe('with custom gas setting', () => {
   }) => {
     await connectAndTriggerEIP1559Transaction()
 
-    await expect(metamask.confirmTransaction('low')).rejects.toThrowError(
+    await expect(metamask.confirmTransaction({ gasSetting: 'low' })).rejects.toThrowError(
       '[ConfirmTransaction] Estimated fee is not available for the "low" gas setting. By default, MetaMask would use the "site" gas setting in this case, however, this is not YOUR intention.'
     )
   })
@@ -60,7 +60,7 @@ describe('with custom gas setting', () => {
   }) => {
     await connectAndTriggerEIP1559Transaction()
 
-    await expect(metamask.confirmTransaction('market')).rejects.toThrowError(
+    await expect(metamask.confirmTransaction({ gasSetting: 'market' })).rejects.toThrowError(
       '[ConfirmTransaction] Estimated fee is not available for the "market" gas setting. By default, MetaMask would use the "site" gas setting in this case, however, this is not YOUR intention.'
     )
   })
@@ -71,7 +71,7 @@ describe('with custom gas setting', () => {
   }) => {
     await connectAndTriggerEIP1559Transaction()
 
-    await expect(metamask.confirmTransaction('aggressive')).rejects.toThrowError(
+    await expect(metamask.confirmTransaction({ gasSetting: 'aggressive' })).rejects.toThrowError(
       '[ConfirmTransaction] Estimated fee is not available for the "aggressive" gas setting. By default, MetaMask would use the "site" gas setting in this case, however, this is not YOUR intention.'
     )
   })
@@ -82,7 +82,7 @@ describe('with custom gas setting', () => {
   }) => {
     await connectAndTriggerEIP1559Transaction()
 
-    await metamask.confirmTransaction('site')
+    await metamask.confirmTransaction({ gasSetting: 'site' })
   })
 
   describe('with advanced (manual) gas setting', () => {
@@ -93,8 +93,10 @@ describe('with custom gas setting', () => {
       await connectAndTriggerEIP1559Transaction()
 
       const promise = metamask.confirmTransaction({
-        maxBaseFee: 250,
-        priorityFee: 300
+        gasSetting: {
+          maxBaseFee: 250,
+          priorityFee: 300
+        }
       })
 
       await expect(promise).rejects.toThrowError(
@@ -112,9 +114,11 @@ describe('with custom gas setting', () => {
       await connectAndTriggerEIP1559Transaction()
 
       const promise = metamask.confirmTransaction({
-        maxBaseFee: 250,
-        priorityFee: 150,
-        gasLimit: 10
+        gasSetting: {
+          maxBaseFee: 250,
+          priorityFee: 150,
+          gasLimit: 10
+        }
       })
 
       await expect(promise).rejects.toThrowError(
@@ -129,9 +133,11 @@ describe('with custom gas setting', () => {
       await connectAndTriggerEIP1559Transaction()
 
       await metamask.confirmTransaction({
-        maxBaseFee: 250,
-        priorityFee: 150,
-        gasLimit: 250_000
+        gasSetting: {
+          maxBaseFee: 250,
+          priorityFee: 150,
+          gasLimit: 250_000
+        }
       })
     })
 
@@ -139,8 +145,10 @@ describe('with custom gas setting', () => {
       await connectAndTriggerEIP1559Transaction()
 
       await metamask.confirmTransaction({
-        maxBaseFee: 250,
-        priorityFee: 150
+        gasSetting: {
+          maxBaseFee: 250,
+          priorityFee: 150
+        }
       })
     })
 
@@ -149,8 +157,10 @@ describe('with custom gas setting', () => {
       await connectAndTriggerEIP1559Transaction()
 
       await metamask.confirmTransaction({
-        maxBaseFee: 250_000,
-        priorityFee: 150_000
+        gasSetting: {
+          maxBaseFee: 250_000,
+          priorityFee: 150_000
+        }
       })
     })
   })

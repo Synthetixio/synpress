@@ -90,10 +90,10 @@ export class NotificationPage {
     await network.rejectSwitchNetwork(notificationPage)
   }
 
-  async confirmTransaction(extensionId: string, gasSetting: GasSetting) {
+  async confirmTransaction(extensionId: string, options?: { gasSetting?: GasSetting }) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
-    await transaction.confirm(notificationPage, gasSetting)
+    await transaction.confirm(notificationPage, options?.gasSetting ?? 'site')
   }
 
   async rejectTransaction(extensionId: string) {
@@ -102,10 +102,10 @@ export class NotificationPage {
     await transaction.reject(notificationPage)
   }
 
-  async confirmTransactionAndWaitForMining(extensionId: string, gasSetting: GasSetting) {
+  async confirmTransactionAndWaitForMining(extensionId: string, options?: { gasSetting?: GasSetting }) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
-    await transaction.confirmAndWaitForMining(this.page, notificationPage, gasSetting)
+    await transaction.confirmAndWaitForMining(this.page, notificationPage, options?.gasSetting ?? 'site')
   }
 
   async approvePermission(extensionId: string, options?: { spendLimit?: 'max' | number; gasSetting?: GasSetting }) {
