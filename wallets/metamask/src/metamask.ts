@@ -131,12 +131,12 @@ export class MetaMask {
     await this.notificationPage.rejectTransaction(this.extensionId)
   }
 
-  async approvePermission(spendLimit?: 'max' | number) {
+  async approvePermission(options?: { spendLimit?: 'max' | number; gasSetting?: GasSetting }) {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.approvePermission(this.extensionId, spendLimit)
+    await this.notificationPage.approvePermission(this.extensionId, options)
   }
 
   async rejectPermission() {
