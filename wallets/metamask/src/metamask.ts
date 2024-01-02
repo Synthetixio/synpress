@@ -115,12 +115,12 @@ export class MetaMask {
     await this.notificationPage.rejectSwitchNetwork(this.extensionId)
   }
 
-  async confirmTransaction(gasSetting: GasSetting = 'site') {
+  async confirmTransaction(options?: { gasSetting?: GasSetting }) {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.confirmTransaction(this.extensionId, gasSetting)
+    await this.notificationPage.confirmTransaction(this.extensionId, options)
   }
 
   async rejectTransaction() {
@@ -170,19 +170,19 @@ export class MetaMask {
   // ---- EXPERIMENTAL FEATURES ----
 
   public readonly experimental = {
-    confirmTransactionAndWaitForMining: async (gasSetting: GasSetting = 'site') =>
-      await this.confirmTransactionAndWaitForMining(gasSetting),
+    confirmTransactionAndWaitForMining: async (options?: { gasSetting?: GasSetting }) =>
+      await this.confirmTransactionAndWaitForMining(options),
     // Note: `txIndex` starts from 0.
     openTransactionDetails: async (txIndex: number) => await this.openTransactionDetails(txIndex),
     closeTransactionDetails: async () => await this.closeTransactionDetails()
   }
 
-  private async confirmTransactionAndWaitForMining(gasSetting: GasSetting) {
+  private async confirmTransactionAndWaitForMining(options?: { gasSetting?: GasSetting }) {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.confirmTransactionAndWaitForMining(this.extensionId, gasSetting)
+    await this.notificationPage.confirmTransactionAndWaitForMining(this.extensionId, options)
   }
 
   private async openTransactionDetails(txIndex: number) {
