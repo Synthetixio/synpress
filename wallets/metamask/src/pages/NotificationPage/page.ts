@@ -108,14 +108,14 @@ export class NotificationPage {
     await transaction.confirmAndWaitForMining(this.page, notificationPage, gasSetting)
   }
 
-  async approvePermission(extensionId: string, spendLimit?: 'max' | number) {
+  async approvePermission(extensionId: string, options?: { spendLimit?: 'max' | number; gasSetting?: GasSetting }) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
-    if (spendLimit !== undefined) {
-      await approvePermission.editTokenPermission(notificationPage, spendLimit)
+    if (options?.spendLimit !== undefined) {
+      await approvePermission.editTokenPermission(notificationPage, options.spendLimit)
     }
 
-    await approvePermission.approve(notificationPage)
+    await approvePermission.approve(notificationPage, options?.gasSetting ?? 'site')
   }
 
   async rejectPermission(extensionId: string) {
