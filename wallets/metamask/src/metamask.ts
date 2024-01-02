@@ -169,15 +169,7 @@ export class MetaMask {
 
   // ---- EXPERIMENTAL FEATURES ----
 
-  public readonly experimental = {
-    confirmTransactionAndWaitForMining: async (options?: { gasSetting?: GasSetting }) =>
-      await this.confirmTransactionAndWaitForMining(options),
-    // Note: `txIndex` starts from 0.
-    openTransactionDetails: async (txIndex: number) => await this.openTransactionDetails(txIndex),
-    closeTransactionDetails: async () => await this.closeTransactionDetails()
-  }
-
-  private async confirmTransactionAndWaitForMining(options?: { gasSetting?: GasSetting }) {
+  async confirmTransactionAndWaitForMining(options?: { gasSetting?: GasSetting }) {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -185,11 +177,12 @@ export class MetaMask {
     await this.notificationPage.confirmTransactionAndWaitForMining(this.extensionId, options)
   }
 
-  private async openTransactionDetails(txIndex: number) {
+  // Note: `txIndex` starts from 0.
+  async openTransactionDetails(txIndex: number) {
     await this.homePage.openTransactionDetails(txIndex)
   }
 
-  private async closeTransactionDetails() {
+  async closeTransactionDetails() {
     await this.homePage.closeTransactionDetails()
   }
 }

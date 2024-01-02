@@ -12,7 +12,7 @@ test.skip('should confirm contract deployment and wait for mining', async ({ pag
   await expect(page.locator('#tokenAddresses')).toBeEmpty()
   await page.locator('#createToken').click()
 
-  await metamask.experimental.confirmTransactionAndWaitForMining()
+  await metamask.confirmTransactionAndWaitForMining()
 
   await expect(page.locator('#tokenAddresses')).toContainText(/^0x/)
 })
@@ -22,7 +22,7 @@ test.skip('should confirm legacy transaction and wait for mining', async ({ page
 
   await page.locator('#sendButton').click()
 
-  await metamask.experimental.confirmTransactionAndWaitForMining()
+  await metamask.confirmTransactionAndWaitForMining()
 })
 
 test.skip('should confirm EIP-1559 transaction and wait for mining', async ({ page, metamask, connectToAnvil }) => {
@@ -30,7 +30,7 @@ test.skip('should confirm EIP-1559 transaction and wait for mining', async ({ pa
 
   await page.locator('#sendEIP1559Button').click()
 
-  await metamask.experimental.confirmTransactionAndWaitForMining()
+  await metamask.confirmTransactionAndWaitForMining()
 })
 
 test.skip('should work correctly when calling sequentially', async ({ page, metamask, connectToAnvil }) => {
@@ -40,11 +40,11 @@ test.skip('should work correctly when calling sequentially', async ({ page, meta
   await connectToAnvil()
 
   await page.locator('#sendEIP1559Button').click()
-  await metamask.experimental.confirmTransactionAndWaitForMining()
+  await metamask.confirmTransactionAndWaitForMining()
 
   await page.locator('#sendEIP1559Button').click()
-  await metamask.experimental.confirmTransactionAndWaitForMining()
+  await metamask.confirmTransactionAndWaitForMining()
 
   await page.locator('#sendEIP1559Button').click()
-  await metamask.experimental.confirmTransactionAndWaitForMining()
+  await metamask.confirmTransactionAndWaitForMining()
 })
