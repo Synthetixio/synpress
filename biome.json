@@ -10,7 +10,8 @@
       "**/coverage",
       "**/test-results",
       "**/playwright-report",
-      "**/.cache-synpress"
+      "**/.cache-synpress",
+      "**/.vitepress/cache"
     ]
   },
   "formatter": {
