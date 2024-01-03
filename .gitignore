@@ -27,6 +27,10 @@ types
 # Vitest
 coverage
 
+# Vitepress
+**/.vitepress/dist
+**/.vitepress/cache
+
 ### Playwright
 
 test-results
