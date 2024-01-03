@@ -5,6 +5,11 @@ on:
     branches:
       - new-dawn
   pull_request:
+    paths:
+      - '.github/actions/**/*.yml'
+      - '.github/workflows/**/*.yml'
+      - 'packages/**'
+      - 'wallets/**'
 
 jobs:
   test-unit:
