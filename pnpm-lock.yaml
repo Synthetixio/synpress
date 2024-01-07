@@ -38,6 +38,9 @@ importers:
 
   docs:
     devDependencies:
+      tsconfig:
+        specifier: workspace:*
+        version: link:../packages/tsconfig
       vitepress:
         specifier: 1.0.0-rc.35
         version: 1.0.0-rc.35(@algolia/client-search@4.22.0)(search-insights@2.13.0)
