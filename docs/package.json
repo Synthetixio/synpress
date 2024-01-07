@@ -9,6 +9,7 @@
     "docs:preview": "vitepress preview"
   },
   "devDependencies": {
+    "tsconfig": "workspace:*",
     "vitepress": "1.0.0-rc.35"
   }
 }
