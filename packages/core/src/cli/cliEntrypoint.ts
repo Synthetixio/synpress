@@ -20,7 +20,7 @@ export const cliEntrypoint = async () => {
   console.log(`⚠️ ${chalk.yellowBright`The CLI is in alpha so expect breaking changes!`} ⚠️\n`)
 
   const program = new Command()
-    .name(chalk.magenta('core'))
+    .name(chalk.magenta('synpress'))
     .description('A CLI for building the cache of wallet setup functions')
     .argument('[dir]', 'Directory containing the wallet setup functions', path.join('test', WALLET_SETUP_DIR_NAME))
     .option(
