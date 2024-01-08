@@ -35,7 +35,11 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/Synthetixio/synpress/tree/new-dawn' },
       { icon: 'discord', link: 'https://discord.gg/XhZKSRGtWc' },
       { icon: 'x', link: 'https://twitter.com/Synpress_' }
-    ]
+    ],
+
+    footer: {
+      message: 'Supported by 🔴 <a href="https://www.optimism.io/" target="_blank">Optimism</a>'
+    }
   }
   // TODO: Add real a favicon
   // TODO: Check if we should add other things into head
