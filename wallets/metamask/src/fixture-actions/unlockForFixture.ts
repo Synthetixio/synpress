@@ -5,6 +5,13 @@ import { CrashPage, HomePage } from '../pages'
 import { closePopover, closeRecoveryPhraseReminder } from '../pages/HomePage/actions'
 import { waitForSpinnerToVanish } from '../utils/waitForSpinnerToVanish'
 
+/**
+ *  A more advanced version of the `MetaMask.unlock()` function that incorporates various workarounds for MetaMask issues, among other things.
+ *  This function should be used instead of the `MetaMask.unlock()` when passing it to the `testWithSynpress` function.
+ *
+ * @param page - The MetaMask tab page.
+ * @param password - The password of the MetaMask wallet.
+ */
 export async function unlockForFixture(page: Page, password: string) {
   const metamask = new MetaMask(page.context(), page, password)
 

@@ -125,6 +125,18 @@ const synpressFixtures = (
   }
 })
 
+/**
+ *  The factory function for the `test` fixture from Playwright extended with Synpress fixtures.
+ *
+ * @param walletSetup - An object returned from the `defineWalletSetup` function.
+ * @param walletSetup.hash - Hash of the cached wallet setup function.
+ * @param walletSetup.fn - The wallet setup function itself.
+ * @param walletSetup.walletPassword - The password of the wallet.
+ * @param unlockWallet - A function that unlocks the wallet.
+ * @param slowMo - Slows down Playwright operations by the specified amount of milliseconds. Useful so that you can see what is going on. Defaults to `0`.
+ *
+ * @returns The `test` fixture from Playwright extended with Synpress fixtures. See: https://playwright.dev/docs/api/class-test#test-call.
+ */
 export const testWithSynpress = (
   walletSetup: ReturnType<typeof defineWalletSetup>,
   unlockWallet: UnlockWalletFunction,
