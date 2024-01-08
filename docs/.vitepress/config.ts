@@ -1,9 +1,7 @@
-import { createRequire } from 'module'
 import { defineConfig } from 'vitepress'
+import TypedocSidebar from '../api/typedoc-sidebar.json'
 
-// TODO: Can we somehow change this to `import`?
-const require = createRequire(import.meta.url)
-const pkg = require('../../release/package.json')
+const pkg = await import('../node_modules/@synthetixio/synpress/package.json')
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -14,7 +12,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Docs', link: '/docs' },
-      { text: 'API', link: '/markdown-examples' },
+      { text: 'API', link: '/api/' },
       { text: 'Examples', link: 'https://github.com/Synthetixio/synpress/tree/new-dawn/examples' },
       {
         text: pkg.version,
@@ -28,15 +26,10 @@ export default defineConfig({
       }
     ],
 
-    sidebar: [
-      {
-        text: 'Examples',
-        items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
-        ]
-      }
-    ],
+    sidebar: {
+      '/docs/': { base: '/docs/', items: [] },
+      '/api/': TypedocSidebar
+    },
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/Synthetixio/synpress/tree/new-dawn' },

@@ -6,10 +6,15 @@
   "scripts": {
     "docs:build": "vitepress build",
     "docs:dev": "vitepress dev",
-    "docs:preview": "vitepress preview"
+    "docs:preview": "vitepress preview",
+    "generate:docs": "typedoc --options typedoc.json"
   },
   "devDependencies": {
+    "@synthetixio/synpress": "workspace:*",
     "tsconfig": "workspace:*",
+    "typedoc": "^0.25.6",
+    "typedoc-plugin-markdown": "4.0.0-next.38",
+    "typedoc-vitepress-theme": "^1.0.0-next.4",
     "vitepress": "1.0.0-rc.35"
   }
 }

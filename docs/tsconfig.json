@@ -3,5 +3,5 @@
   "compilerOptions": {
     "rootDir": "."
   },
-  "include": [".vitepress/config.ts"]
+  "include": [".vitepress/config.ts", "node_modules/@synthetixio/synpress/src/index.ts"]
 }
