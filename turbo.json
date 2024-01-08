@@ -13,6 +13,9 @@
     },
     "test:e2e:headful": {
       "dependsOn": ["build", "build:cache"]
+    },
+    "docs:build": {
+      "outputs": ["docs/.vitepress/dist"]
     }
   }
 }
