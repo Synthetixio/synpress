@@ -1,0 +1,22 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "out": "./api",
+  "entryPoints": ["node_modules/@synthetixio/synpress/src/index.ts"],
+  "plugin": ["typedoc-plugin-markdown", "typedoc-vitepress-theme"],
+  "readme": "none",
+  "hideGenerator": true,
+  "disableSources": true,
+
+  "hidePageHeader": true,
+  "hideBreadcrumbs": true,
+  "hideInPageTOC": false,
+  "useCodeBlocks": true,
+  "expandObjects": true,
+  "excludeGroups": true,
+  "parametersFormat": "table",
+  "propertiesFormat": "table",
+  "typeDeclarationFormat": "table",
+  "indexFormat": "table",
+  "indexPageTitle": "API Reference",
+  "memberPageTitle": "{name}"
+}

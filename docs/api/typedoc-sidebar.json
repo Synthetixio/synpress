@@ -1,0 +1,39 @@
+[
+  {
+    "text": "Classes",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "MetaMask",
+        "link": "/api/classes/MetaMask.md",
+        "collapsed": true
+      }
+    ]
+  },
+  {
+    "text": "Functions",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "defineWalletSetup",
+        "link": "/api/functions/defineWalletSetup.md",
+        "collapsed": true
+      },
+      {
+        "text": "getExtensionId",
+        "link": "/api/functions/getExtensionId.md",
+        "collapsed": true
+      },
+      {
+        "text": "testWithSynpress",
+        "link": "/api/functions/testWithSynpress.md",
+        "collapsed": true
+      },
+      {
+        "text": "unlockForFixture",
+        "link": "/api/functions/unlockForFixture.md",
+        "collapsed": true
+      }
+    ]
+  }
+]

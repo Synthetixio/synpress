@@ -38,12 +38,24 @@ importers:
 
   docs:
     devDependencies:
+      '@synthetixio/synpress':
+        specifier: workspace:*
+        version: link:../release
       tsconfig:
         specifier: workspace:*
         version: link:../packages/tsconfig
+      typedoc:
+        specifier: ^0.25.6
+        version: 0.25.6(typescript@5.3.2)
+      typedoc-plugin-markdown:
+        specifier: 4.0.0-next.38
+        version: 4.0.0-next.38(typedoc@0.25.6)
+      typedoc-vitepress-theme:
+        specifier: ^1.0.0-next.4
+        version: 1.0.0-next.4(typedoc-plugin-markdown@4.0.0-next.38)
       vitepress:
         specifier: 1.0.0-rc.35
-        version: 1.0.0-rc.35(@algolia/client-search@4.22.0)(search-insights@2.13.0)
+        version: 1.0.0-rc.35(@algolia/client-search@4.22.0)(search-insights@2.13.0)(typescript@5.3.2)
 
   examples/new-dawn:
     dependencies:
@@ -1628,7 +1640,7 @@ packages:
       vue: ^3.2.25
     dependencies:
       vite: 5.0.10
-      vue: 3.4.4
+      vue: 3.4.4(typescript@5.3.2)
     dev: true
 
   /@vitest/coverage-v8@1.0.0-beta.0(vitest@0.34.6):
@@ -1760,7 +1772,7 @@ packages:
     dependencies:
       '@vue/compiler-ssr': 3.4.4
       '@vue/shared': 3.4.4
-      vue: 3.4.4
+      vue: 3.4.4(typescript@5.3.2)
     dev: true
 
   /@vue/shared@3.4.4:
@@ -1925,6 +1937,10 @@ packages:
   /ansi-regex@6.0.1:
     resolution: {integrity: sha512-n5M855fKb2SsfMIiFFoVrABHJC8QtHwVx+mHWP3QcEqBHYienj5dHSgjbxtC0WEZXYt4wcD6zrQElDPhFuZgfA==}
     engines: {node: '>=12'}
+
+  /ansi-sequence-parser@1.1.1:
+    resolution: {integrity: sha512-vJXt3yiaUL4UU546s3rPXlsry/RnM730G1+HkpKE012AN0sx1eOrxSu95oKDIonskeLTijMgqWZ3uDEe3NFvyg==}
+    dev: true
 
   /ansi-styles@3.2.1:
     resolution: {integrity: sha512-VT0ZI6kZRdTh8YyJw3SMbYm/u+NqfsAxEpWO0Pf9sq8/e94WxxOpPKx9FR1FlyCtOVDNOQ+8ntlqFxiRc+r5qA==}
@@ -3837,6 +3853,10 @@ packages:
       yallist: 4.0.0
     dev: true
 
+  /lunr@2.3.9:
+    resolution: {integrity: sha512-zTU3DaZaF3Rt9rhN3uBMGQD3dD2/vFQqnvZCDv4dl5iOzq2IZQqTxu90r4E5J+nP70J3ilqVCrbho2eWaeW8Ow==}
+    dev: true
+
   /magic-string@0.30.4:
     resolution: {integrity: sha512-Q/TKtsC5BPm0kGqgBIF9oXAs/xEf2vRKiIB4wCRQTJOQIByZ1d+NnUOotvJOvNpi5RNIgVOMC3pOuaP1ZTDlVg==}
     engines: {node: '>=12'}
@@ -3870,6 +3890,12 @@ packages:
 
   /mark.js@8.11.1:
     resolution: {integrity: sha512-1I+1qpDt4idfgLQG+BNWmrqku+7/2bi5nLf4YwF8y8zXvmfiTBY3PV3ZibfrjBueCByROpuBjLLFCajqkgYoLQ==}
+    dev: true
+
+  /marked@4.3.0:
+    resolution: {integrity: sha512-PRsaiG84bK+AMvxziE/lCFss8juXjNaWzVbN5tXAm4XjeaS9NAHhop+PjQxz2A9h8Q4M/xGmzP8vqNwy6JeK0A==}
+    engines: {node: '>= 12'}
+    hasBin: true
     dev: true
 
   /memfs@4.5.0(quill-delta@5.1.0)(rxjs@7.8.1)(tslib@2.5.0):
@@ -4827,6 +4853,15 @@ packages:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
 
+  /shiki@0.14.7:
+    resolution: {integrity: sha512-dNPAPrxSc87ua2sKJ3H5dQ/6ZaY8RNnaAqK+t0eG7p0Soi2ydiqbGOTaZCqaYvA/uZYfS1LJnemt3Q+mSfcPCg==}
+    dependencies:
+      ansi-sequence-parser: 1.1.1
+      jsonc-parser: 3.2.0
+      vscode-oniguruma: 1.7.0
+      vscode-textmate: 8.0.0
+    dev: true
+
   /shikiji-core@0.9.17:
     resolution: {integrity: sha512-r1FWTXk6SO2aYqfWgcsJ11MuVQ1ymPSdXzJjK7q8EXuyqu8yc2N5qrQy5+BL6gTVOaF4yLjbxFjF+KTRM1Sp8Q==}
     dev: true
@@ -5449,6 +5484,36 @@ packages:
       is-typed-array: 1.1.12
     dev: true
 
+  /typedoc-plugin-markdown@4.0.0-next.38(typedoc@0.25.6):
+    resolution: {integrity: sha512-XrjVxrTvoR85f+elTdSoo/lRVKqk77XntxZvDXYamuxD9c8RjAqAbztM0chcL0rvMOlMotUScRUIBdsGPE6kqA==}
+    peerDependencies:
+      typedoc: 0.25.x
+    dependencies:
+      typedoc: 0.25.6(typescript@5.3.2)
+    dev: true
+
+  /typedoc-vitepress-theme@1.0.0-next.4(typedoc-plugin-markdown@4.0.0-next.38):
+    resolution: {integrity: sha512-DprnFk3ioxwfnkfGzx02YzN/hrTde+ifeVB9H4QLoyguAR2zPsNxi7RGUUX1bddxrxiV6IZBkPoECzTE5ibBzA==}
+    peerDependencies:
+      typedoc-plugin-markdown: '>=4.0.0-next.19'
+    dependencies:
+      typedoc-plugin-markdown: 4.0.0-next.38(typedoc@0.25.6)
+    dev: true
+
+  /typedoc@0.25.6(typescript@5.3.2):
+    resolution: {integrity: sha512-1rdionQMpOkpA58qfym1J+YD+ukyA1IEIa4VZahQI2ZORez7dhOvEyUotQL/8rSoMBopdzOS+vAIsORpQO4cTA==}
+    engines: {node: '>= 16'}
+    hasBin: true
+    peerDependencies:
+      typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x || 5.2.x || 5.3.x
+    dependencies:
+      lunr: 2.3.9
+      marked: 4.3.0
+      minimatch: 9.0.3
+      shiki: 0.14.7
+      typescript: 5.3.2
+    dev: true
+
   /typescript@5.2.2:
     resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
     engines: {node: '>=14.17'}
@@ -5631,7 +5696,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitepress@1.0.0-rc.35(@algolia/client-search@4.22.0)(search-insights@2.13.0):
+  /vitepress@1.0.0-rc.35(@algolia/client-search@4.22.0)(search-insights@2.13.0)(typescript@5.3.2):
     resolution: {integrity: sha512-+2VnFwtYIiKWWAnMjWg7ik0PfsUdrNoZIZKeu5dbJtrkzKO/mTvlA3owiT5VBKJsZAgI17B5UV37aYfUvGrN6g==}
     hasBin: true
     peerDependencies:
@@ -5657,7 +5722,7 @@ packages:
       shikiji-core: 0.9.17
       shikiji-transformers: 0.9.17
       vite: 5.0.10
-      vue: 3.4.4
+      vue: 3.4.4(typescript@5.3.2)
     transitivePeerDependencies:
       - '@algolia/client-search'
       - '@types/node'
@@ -5751,6 +5816,14 @@ packages:
       - terser
     dev: true
 
+  /vscode-oniguruma@1.7.0:
+    resolution: {integrity: sha512-L9WMGRfrjOhgHSdOYgCt/yRMsXzLDJSL7BPrOZt73gU0iWO4mpqzqQzOz5srxqTvMBaR0XZTSrVWo4j55Rc6cA==}
+    dev: true
+
+  /vscode-textmate@8.0.0:
+    resolution: {integrity: sha512-AFbieoL7a5LMqcnOF04ji+rpXadgOXnZsxQr//r83kLPr7biP7am3g9zbaZIaBGwBRWeSvoMD4mgPdX3e4NWBg==}
+    dev: true
+
   /vue-demi@0.14.6(vue@3.4.4):
     resolution: {integrity: sha512-8QA7wrYSHKaYgUxDA5ZC24w+eHm3sYCbp0EzcDwKqN3p6HqtTCGR/GVsPyZW92unff4UlcSh++lmqDWN3ZIq4w==}
     engines: {node: '>=12'}
@@ -5763,10 +5836,10 @@ packages:
       '@vue/composition-api':
         optional: true
     dependencies:
-      vue: 3.4.4
+      vue: 3.4.4(typescript@5.3.2)
     dev: true
 
-  /vue@3.4.4:
+  /vue@3.4.4(typescript@5.3.2):
     resolution: {integrity: sha512-suZXgDVT8lRNhKmxdkwOsR0oyUi8is7mtqI18qW97JLoyorEbE9B2Sb4Ws/mR/+0AgA/JUtsv1ytlRSH3/pDIA==}
     peerDependencies:
       typescript: '*'
@@ -5779,6 +5852,7 @@ packages:
       '@vue/runtime-dom': 3.4.4
       '@vue/server-renderer': 3.4.4(vue@3.4.4)
       '@vue/shared': 3.4.4
+      typescript: 5.3.2
     dev: true
 
   /wcwidth@1.0.1:
