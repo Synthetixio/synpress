@@ -6,6 +6,7 @@
   "readme": "none",
   "hideGenerator": true,
   "disableSources": true,
+  "githubPages": false,
 
   "hidePageHeader": true,
   "hideBreadcrumbs": true,
