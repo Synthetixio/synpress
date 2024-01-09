@@ -29,7 +29,6 @@ export async function compileWalletSetupFunctions(walletSetupDir: string, debug:
     )
   }
 
-  // TODO: In this step, modify `console.log` so it prints from which file the log is coming from.
   await build({
     name: 'cli-build',
     silent: true,
@@ -44,6 +43,11 @@ export async function compileWalletSetupFunctions(walletSetupDir: string, debug:
     external: ['@synthetixio/synpress', '@playwright/test', 'playwright-core', 'esbuild', 'tsup'],
     banner: {
       js: FIXES_BANNER
+    },
+    esbuildOptions(options) {
+      // TODO: In this step, if the debug file is present, we should modify `console.log` so it prints from which file the log is coming from.
+      // We're dropping `console.log` and `debugger` statements because they do not play nicely with the Playwright Test Runner.
+      options.drop = debug ? [] : ['console', 'debugger']
     }
   })
 
