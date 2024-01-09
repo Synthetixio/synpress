@@ -1,38 +1,31 @@
 [
   {
     "text": "Classes",
-    "collapsed": true,
     "items": [
       {
         "text": "MetaMask",
-        "link": "/api/classes/MetaMask.md",
-        "collapsed": true
+        "link": "/api/classes/MetaMask.md"
       }
     ]
   },
   {
     "text": "Functions",
-    "collapsed": true,
     "items": [
       {
         "text": "defineWalletSetup",
-        "link": "/api/functions/defineWalletSetup.md",
-        "collapsed": true
+        "link": "/api/functions/defineWalletSetup.md"
       },
       {
         "text": "getExtensionId",
-        "link": "/api/functions/getExtensionId.md",
-        "collapsed": true
+        "link": "/api/functions/getExtensionId.md"
       },
       {
         "text": "testWithSynpress",
-        "link": "/api/functions/testWithSynpress.md",
-        "collapsed": true
+        "link": "/api/functions/testWithSynpress.md"
       },
       {
         "text": "unlockForFixture",
-        "link": "/api/functions/unlockForFixture.md",
-        "collapsed": true
+        "link": "/api/functions/unlockForFixture.md"
       }
     ]
   }
