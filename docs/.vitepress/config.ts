@@ -8,7 +8,15 @@ export default defineConfig({
   cleanUrls: true,
   title: 'Synpress',
   description: 'E2E testing library for Web3 dapps.',
+  lastUpdated: true,
   themeConfig: {
+    editLink: {
+      pattern: 'https://github.com/Synthetixio/synpress/tree/new-dawn/docs/:path',
+      text: 'Suggest changes to this page'
+    },
+
+    externalLinkIcon: true,
+
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Docs', link: '/docs' },
