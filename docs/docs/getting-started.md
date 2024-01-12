@@ -1,7 +1,9 @@
-# Getting started
+# Getting Started
 
 ::: warning
 This documentation is for the **alpha** release of Synpress v4. The API is subject to change.
+
+For Synpress v3 documentation, please refer to [here](https://github.com/Synthetixio/synpress).
 :::
 
 ## Overview
