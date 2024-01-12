@@ -1,5 +1,5 @@
 import { defineConfig } from 'vitepress'
-import TypedocSidebar from '../api/typedoc-sidebar.json'
+import { sidebar } from './sidebar'
 
 const pkg = await import('../node_modules/@synthetixio/synpress/package.json')
 
@@ -19,7 +19,7 @@ export default defineConfig({
 
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Docs', link: '/docs' },
+      { text: 'Docs', link: '/docs/getting-started' },
       { text: 'API', link: '/api/' },
       { text: 'Examples', link: 'https://github.com/Synthetixio/synpress/tree/new-dawn/examples' },
       {
@@ -34,10 +34,7 @@ export default defineConfig({
       }
     ],
 
-    sidebar: {
-      '/docs/': { base: '/docs/', items: [] },
-      '/api/': TypedocSidebar
-    },
+    sidebar,
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/Synthetixio/synpress/tree/new-dawn' },
@@ -49,7 +46,4 @@ export default defineConfig({
       message: 'Supported by 🔴 <a href="https://www.optimism.io/" target="_blank">Optimism</a>'
     }
   }
-  // TODO: Add real a favicon
-  // TODO: Check if we should add other things into head
-  // head: [['link', { rel: 'icon', href: '/public/synpress-logo.png' }]]
 })
