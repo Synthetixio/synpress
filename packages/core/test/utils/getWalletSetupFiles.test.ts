@@ -29,10 +29,14 @@ describe('getWalletSetupFiles', () => {
     await createFiles([
       'quack',
       'quack.js',
+      'quack.mjs',
+      'quack.cjs',
       'quack.ts',
       'quack.tsx',
       'quack.setup',
       'quack.setup.js',
+      'quack.setup.mjs',
+      'quack.setup.cjs',
       'quack.setup.ts',
       'quack.setup.tsx'
     ])
@@ -66,8 +70,9 @@ describe('getWalletSetupFiles', () => {
   it('returns only valid setup files', async () => {
     const setupFiles = await getWalletSetupFiles(ROOT_DIR)
 
-    expect(setupFiles).toHaveLength(2)
-    expect(setupFiles).toContain('quack.setup.js')
+    expect(setupFiles).toHaveLength(3)
     expect(setupFiles).toContain('quack.setup.ts')
+    expect(setupFiles).toContain('quack.setup.js')
+    expect(setupFiles).toContain('quack.setup.mjs')
   })
 })

@@ -6,7 +6,7 @@ import { FIXES_BANNER } from './compilationFixes'
 
 const OUT_DIR_NAME = 'wallet-setup-dist'
 
-const createGlobPattern = (walletSetupDir: string) => path.join(walletSetupDir, '**', '*.setup.{js,ts}')
+const createGlobPattern = (walletSetupDir: string) => path.join(walletSetupDir, '**', '*.setup.{ts,js,mjs}')
 
 export async function compileWalletSetupFunctions(walletSetupDir: string, debug: boolean) {
   const outDir = path.join(ensureCacheDirExists(), OUT_DIR_NAME)
@@ -24,7 +24,7 @@ export async function compileWalletSetupFunctions(walletSetupDir: string, debug:
     throw new Error(
       [
         `No wallet setup files found at ${walletSetupDir}`,
-        'Remember that all wallet setup files must end with `.setup.{js,ts}` extension!'
+        'Remember that all wallet setup files must end with `.setup.{ts,js,mjs}` extension!'
       ].join('\n')
     )
   }

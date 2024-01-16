@@ -26,7 +26,7 @@ export async function triggerCacheCreation(
       await fs.remove(cachePath)
     }
 
-    const fileNameWithCorrectExtension = fileName.replace(/\.(js|ts)$/, '.{js,ts}')
+    const fileNameWithCorrectExtension = fileName.replace(/\.(ts|js|mjs)$/, '.{ts,js,mjs}')
     console.log(`Triggering cache creation for: ${funcHash} (${fileNameWithCorrectExtension})`)
 
     // We're not inferring the return type here to make sure we don't accidentally await the function.
