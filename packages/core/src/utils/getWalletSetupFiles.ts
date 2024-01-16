@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
 
-const SETUP_FILE_FILTER_REGEX = /\.setup\.(js|ts)$/
+const SETUP_FILE_FILTER_REGEX = /\.setup\.(ts|js|mjs)$/
 
 export async function getWalletSetupFiles(walletSetupDirPath: string) {
   await fs.access(walletSetupDirPath).catch((e) => {
@@ -22,7 +22,7 @@ export async function getWalletSetupFiles(walletSetupDirPath: string) {
     throw new Error(
       [
         `[GetWalletSetupFiles] No wallet setup files found at ${walletSetupDirPath}`,
-        'Remember that all wallet setup files must end with `.setup.{js,ts}` extension!'
+        'Remember that all wallet setup files must end with `.setup.{ts,js,mjs}` extension!'
       ].join('\n')
     )
   }

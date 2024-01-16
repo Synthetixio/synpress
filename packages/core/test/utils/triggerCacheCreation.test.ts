@@ -63,7 +63,7 @@ describe('triggerCacheCreation', () => {
     setupFunctions: ReturnType<typeof prepareSetupFunctions>,
     hash: string
   ) {
-    const fileNameWithCorrectExtension = setupFunctions.get(hash)?.fileName?.replace(/\.(js|ts)$/, '.{js,ts}')
+    const fileNameWithCorrectExtension = setupFunctions.get(hash)?.fileName?.replace(/\.(ts|js|mjs)$/, '.{ts,js,mjs}')
 
     expect(createCacheForWalletSetupFunctionSpy).toHaveBeenNthCalledWith(
       n,
