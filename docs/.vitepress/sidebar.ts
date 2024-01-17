@@ -13,6 +13,16 @@ export const sidebar: DefaultTheme.Sidebar = {
         { text: 'Platform Compatibility', link: '/docs/platform-compatibility' },
         { text: 'Known Issues', link: '/docs/known-issues' }
       ]
+    },
+    {
+      text: 'Guides',
+      items: [
+        { text: 'Wallet Cache', link: '/docs/guides/wallet-cache' },
+        { text: 'Debugging Wallet Setups', link: '/docs/guides/wallet-setup-debug' },
+        { text: 'Playwright', link: '/docs/guides/playwright' },
+        { text: 'Built-in Fixtures', link: '/docs/guides/fixtures' },
+        { text: 'CI', link: '/docs/guides/ci' }
+      ]
     }
   ],
   '/api/': TypedocSidebar

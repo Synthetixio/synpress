@@ -2,7 +2,7 @@
 
 ## Playwright
 
-The good news is in all of our testing, we haven't encountered any significant issues with Playwright! However, we're aware of the following problems:
+The good news is we haven't encountered any significant issues with Playwright in all of our testing! However, we're aware of the following problems:
 
 ### Blank MetaMask previews in traces {#my-anchor}
 
@@ -14,4 +14,4 @@ If you require the previews for development purposes, your only option is to com
 
 ### MetaMask is not working in headless mode on GitHub Actions CI
 
-Due to a bug in MetaMask, it's impossible to run MetaMask in headless mode on GitHub Actions CI. This bug probably affects other CI providers, but we haven't tested it yet.
+Due to a bug in MetaMask, it's impossible to run MetaMask in headless mode on GitHub Actions. We're certain this bug affects other CI providers, however, we have yet to test it.
