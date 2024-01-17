@@ -9,10 +9,10 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /markdown-examples
+      link: /docs/getting-started
     - theme: alt
       text: Why Synpress?
-      link: /api-examples
+      link: /docs/introduction
   image:
     src: /synpress-logo.png
     alt: Synpress
@@ -22,12 +22,12 @@ features:
     title: Setup Browser Once
     details: Forget about setting up your browser for every test.
     linkText: Learn more about it
-    link: /todo
+    link: /docs/guides/wallet-cache
   - icon: 🚀
     title: Blazingly Fast
     details: Synpress is written with speed in mind, allowing for super fast serial and parallel testing.
     linkText: See for yourself
-    link: /todo
+    link: /docs/introduction#performance
   - icon: ⚙️
     title: Built-in Anvil Support
     details: Spin up a local node for each test with one line of code.

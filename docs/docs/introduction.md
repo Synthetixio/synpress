@@ -3,13 +3,13 @@
 ## The Problem at Hand
 
 In general, the state of Web3 tooling is excellent. There are numerous options for building frontends, backends, and smart contracts. 
-However, when it comes to testing, the situation is great, but only when it comes to testing backends and smart contracts.
+However, when it comes to testing, the situation is also great, but only when it comes to testing backends and smart contracts.
 
 Smart contract testing is in a superb state, thanks to tools like [Hardhat](https://hardhat.org/), [Foundry](https://github.com/foundry-rs/foundry), [Echidna](https://github.com/crytic/echidna), and many more.
 
 Backend testing is in an even better state because you can utilize all the tools that are available in the Web2 world.
 
-When it comes to frontend testing, the situation could be better. All Web2 tools used for frontend testing, are not that useful for Web3 dapps, because here we have to deal with things like wallets, and other Web3-specific things.
+When it comes to frontend testing, the situation could be better. All Web2 tools used for frontend testing, are not that useful for Web3 dapps, because here we have to deal with stuff like wallets, and other Web3-specific things.
 
 That's why, in 2020, we created Synpress, the first ever Web3-native E2E testing library.
 
@@ -34,7 +34,7 @@ Synpress provides a simple yet powerful and fully typed API that is easy to use.
 
 Our documentation is comprehensive, and we've made sure it covers everything you need to know about Synpress.
 
-Synpress can be used with ~~two~~ leading E2E testing frameworks out there, i.e., ~~both~~ [Playwright](https://playwright.dev/) ~~and [Cypress](https://www.cypress.io/)~~, with support for all of their features.
+Synpress can be used with ~~two~~ leading E2E testing frameworks out there, i.e., ~~both~~ [Playwright](https://playwright.dev/) ~~and [Cypress](https://www.cypress.io/)~~, with support for all of ~~their~~ its features.
 
 ## Stability
 
@@ -50,4 +50,4 @@ By speed, we not only mean the time it takes to run the tests but also the time 
 
 We'd love to show you some fancy graphs, but we have yet to have any since we're still heavily working on the performance aspect of Synpress.
 
-However, check out [this tweet](https://x.com/0xDuckception/status/1741498318860042438) to see the differences we've seen in our own tests when running them with the new Synpress.
+However, at this point in time, we can already say that Synpress is the fastest Web3 testing library out there. Check out [this tweet](https://x.com/0xDuckception/status/1741498318860042438) to see the differences we've seen in our own tests when running them with the new Synpress.
