@@ -19,6 +19,7 @@ export const sidebar: DefaultTheme.Sidebar = {
       items: [
         { text: 'Wallet Cache', link: '/docs/guides/wallet-cache' },
         { text: 'Debugging Wallet Setups', link: '/docs/guides/wallet-setup-debug' },
+        { text: 'CLI', link: '/docs/guides/cli' },
         { text: 'Playwright', link: '/docs/guides/playwright' },
         { text: 'Built-in Fixtures', link: '/docs/guides/fixtures' },
         { text: 'CI', link: '/docs/guides/ci' }
