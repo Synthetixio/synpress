@@ -44,6 +44,6 @@
     "vitest": "^0.34.6"
   },
   "peerDependencies": {
-    "@playwright/test": "^1.40.1"
+    "@playwright/test": "^1.41.1"
   }
 }
