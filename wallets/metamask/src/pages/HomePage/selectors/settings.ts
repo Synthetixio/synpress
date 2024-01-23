@@ -15,9 +15,15 @@ export enum SettingsSidebarMenus {
 const sidebarMenu = (menu: SettingsSidebarMenus) =>
   `.settings-page__content__tabs .tab-bar__tab.pointer:nth-of-type(${menu})`
 
+const resetAccount = {
+  button: `${createDataTestSelector('advanced-setting-reset-account')} button`,
+  confirmButton: '.modal .modal-container__footer button.btn-danger-primary'
+}
+
 const advanced = {
   // locator(showTestNetworksToggle).nth(0) -> Show conversion on test networks
   // locator(showTestNetworksToggle).nth(1) -> Show test networks
+  resetAccount,
   showTestNetworksToggle: `${createDataTestSelector('advanced-setting-show-testnet-conversion')} .toggle-button`,
   dismissSecretRecoveryPhraseReminderToggle: '.settings-page__content-row:nth-of-type(11) .toggle-button'
 }

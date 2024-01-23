@@ -56,6 +56,10 @@ export class HomePage {
     await toggleShowTestNetworks(this.page)
   }
 
+  async resetAccount() {
+    await settings.advanced.resetAccount(this.page)
+  }
+
   async toggleDismissSecretRecoveryPhraseReminder() {
     await settings.advanced.toggleDismissSecretRecoveryPhraseReminder(this.page)
   }
