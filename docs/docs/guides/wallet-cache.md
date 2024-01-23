@@ -98,8 +98,6 @@ export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
 
 ::: warning PREREQUISITE
 Before building the cache, you must have relevant Playwright browsers installed on your machine. See [this Playwright guide](https://playwright.dev/docs/browsers) for instructions on how to do it.
-
-If you forget to install the browsers and try to build the cache first, the cache might be built incorrectly, requiring you to rebuild it using the `--force` flag in case it says the cache already exists. See the [Debugging Wallet Setups](./wallet-setup-debug.md) section for more information.
 :::
 
 Once you've written your wallet setup file, you must build its cache. This is done with our CLI tool `synpress`. Here's how to do it:

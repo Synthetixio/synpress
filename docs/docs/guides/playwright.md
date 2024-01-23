@@ -68,6 +68,54 @@ You can notice the unusual `extensionId` fixture used here. This fixture is amon
 
 To access the MetaMask API, you must create an instance of the `MetaMask` class as shown above. To learn more about the constructor and all the methods this class provides, see [its API reference](/api/classes/MetaMask).
 
+::: tip
+
+If you're using the same wallet setup in multiple test files, you can speed up the process of writing your tests by defining a custom fixture that will create the `MetaMask` instance for you.
+
+::: details 💡 Click here to see how to do it
+
+1. Define the custom fixture in a separate file by extending the `testWithSynpress` function.
+2. Use this new instance in your test file.
+
+See the code below:
+
+::: code-group
+
+```typescript [testWithMetaMask.ts]
+import { testWithSynpress, MetaMask, unlockForFixture } from '@synthetixio/synpress'
+
+import connectedSetup from './wallet-setup/connected.setup'
+
+export const testWithMetaMask = testWithSynpress(connectedSetup, unlockForFixture).extend<{
+  metamask: MetaMask
+}>({
+  metamask: async ({ context, metamaskPage, extensionId }, use) => {
+    const metamask = new MetaMask(context, metamaskPage, connectedSetup.walletPassword, extensionId)
+
+    await use(metamask)
+  }
+})
+```
+
+```typescript [basic.spec.ts]
+import {testWithMetaMask as test} from './testWithMetaMask'
+
+const { expect } = test
+
+// The `MetaMask` instance is now available in the test context.
+test('should connect wallet to dapp', async ({ context, page, extensionId, metamask }) => {
+  await page.goto('/')
+
+  await page.locator('#connectButton').click()
+  
+  await metamask.connectToDapp()
+
+  await expect(page.locator('#accounts')).toHaveText('0xdeadbeef')
+})
+```
+
+:::
+
 ## Run the test
 
 Now that you have your test defined, you can run it as you would typically do with Playwright:
@@ -82,7 +130,7 @@ In the current stage of Synpress development, the `playwright test` command will
 To run your tests in the headless mode, you need to use the `HEADLESS` environmental variable:
 
 ```bash
-HEADLESS=test playwrighe test
+HEADLESS=true playwrighe test
 ```
 
 This behavior will be changed in the future to resemble Playwright's default behavior.

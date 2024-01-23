@@ -72,3 +72,7 @@ synpress [PATH_TO_DIR_WITH_WALLET_SETUP_FILES] --debug --force
 ```
 
 Now, you should see the outputs of your `console.log` statements in the console! 🎉
+
+::: tip
+See the [CLI](./cli.md) section for more information about how the `--force` flags works.
+:::
