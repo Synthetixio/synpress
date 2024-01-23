@@ -25,6 +25,11 @@ describe('isDirEmpty', () => {
     vol.reset() // Clear the in-memory file system after each test
   })
 
+  it('returns `true` if the directory does not exist', async () => {
+    const isEmpty = await isDirEmpty(path.join('empty_dir'))
+    expect(isEmpty).toEqual(true)
+  })
+
   it('returns `true` if the directory is empty', async () => {
     const isEmpty = await isDirEmpty(ROOT_DIR)
     expect(isEmpty).toEqual(true)

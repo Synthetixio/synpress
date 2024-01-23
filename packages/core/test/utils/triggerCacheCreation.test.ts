@@ -39,6 +39,15 @@ vi.mock('../../src/utils/createCacheForWalletSetupFunction', async () => {
   }
 })
 
+// We're not adding a test for code that uses `isDirEmpty` because soon it will be removed.
+vi.mock('../../src/utils/isDirEmpty', async () => {
+  return {
+    isDirEmpty: vi.fn(async () => {
+      return false
+    })
+  }
+})
+
 describe('triggerCacheCreation', () => {
   const createCacheForWalletSetupFunctionSpy = vi.spyOn(
     CreateCacheForWalletSetupFunction,
