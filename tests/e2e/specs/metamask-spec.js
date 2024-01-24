@@ -347,9 +347,23 @@ describe('Metamask', () => {
     it(`confirmMetamaskTransaction should confirm legacy transaction using advanced gas settings`, () => {
       cy.get('#sendButton').click();
       cy.confirmMetamaskTransaction({
-        gasLimit: 210000,
-        gasPrice: 100,
+        gasConfig: {
+          gasLimit: 210000,
+          gasPrice: 100,
+        },
       }).then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+    });
+    it(`confirmMetamaskTransaction should work for serial transactions`, () => {
+      cy.get('#sendEIP1559Button').click();
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransaction({
+        shouldWaitForPopupClosure: true,
+      }).then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+      cy.confirmMetamaskTransaction().then(txData => {
         expect(txData.confirmed).to.be.true;
       });
     });
@@ -373,28 +387,38 @@ describe('Metamask', () => {
     });
     it(`confirmMetamaskTransaction should confirm eip-1559 transaction using pre-defined (low, market, aggressive, site) gas settings`, () => {
       cy.get('#sendEIP1559Button').click();
-      cy.confirmMetamaskTransaction('low').then(txData => {
+      cy.confirmMetamaskTransaction({
+        gasConfig: 'low',
+      }).then(txData => {
         expect(txData.confirmed).to.be.true;
       });
       cy.get('#sendEIP1559Button').click();
-      cy.confirmMetamaskTransaction('market').then(txData => {
+      cy.confirmMetamaskTransaction({
+        gasConfig: 'market',
+      }).then(txData => {
         expect(txData.confirmed).to.be.true;
       });
       cy.get('#sendEIP1559Button').click();
-      cy.confirmMetamaskTransaction('aggressive').then(txData => {
+      cy.confirmMetamaskTransaction({
+        gasConfig: 'aggressive',
+      }).then(txData => {
         expect(txData.confirmed).to.be.true;
       });
       cy.get('#sendEIP1559Button').click();
-      cy.confirmMetamaskTransaction('site').then(txData => {
+      cy.confirmMetamaskTransaction({
+        gasConfig: 'site',
+      }).then(txData => {
         expect(txData.confirmed).to.be.true;
       });
     });
     it(`confirmMetamaskTransaction should confirm eip-1559 transaction using advanced gas settings`, () => {
       cy.get('#sendEIP1559Button').click();
       cy.confirmMetamaskTransaction({
-        gasLimit: 210000,
-        baseFee: 100,
-        priorityFee: 10,
+        gasConfig: {
+          gasLimit: 210000,
+          baseFee: 100,
+          priorityFee: 10,
+        },
       }).then(txData => {
         expect(txData.confirmed).to.be.true;
       });
@@ -522,6 +546,18 @@ describe('Metamask', () => {
     });
     it(`confirmMetamaskPermissionToSpend should approve permission to spend token`, () => {
       cy.get('#approveTokens').click();
+      cy.confirmMetamaskPermissionToSpend().then(approved => {
+        expect(approved).to.be.true;
+      });
+    });
+    it(`confirmMetamaskPermissionToSpend should work for serial transactions`, () => {
+      cy.get('#approveTokens').click();
+      cy.get('#approveTokens').click();
+      cy.confirmMetamaskPermissionToSpend({
+        shouldWaitForPopupClosure: true,
+      }).then(approved => {
+        expect(approved).to.be.true;
+      });
       cy.confirmMetamaskPermissionToSpend().then(approved => {
         expect(approved).to.be.true;
       });

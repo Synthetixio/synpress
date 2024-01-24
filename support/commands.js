@@ -175,8 +175,14 @@ Cypress.Commands.add('rejectMetamaskAddToken', () => {
 
 Cypress.Commands.add(
   'confirmMetamaskPermissionToSpend',
-  (spendLimit = '999999999999999999') => {
-    return cy.task('confirmMetamaskPermissionToSpend', spendLimit);
+  ({
+    spendLimit = '999999999999999999',
+    shouldWaitForPopupClosure = false,
+  } = {}) => {
+    return cy.task('confirmMetamaskPermissionToSpend', {
+      spendLimit,
+      shouldWaitForPopupClosure,
+    });
   },
 );
 
@@ -192,9 +198,15 @@ Cypress.Commands.add('rejectMetamaskAccess', () => {
   return cy.task('rejectMetamaskAccess');
 });
 
-Cypress.Commands.add('confirmMetamaskTransaction', gasConfig => {
-  return cy.task('confirmMetamaskTransaction', gasConfig);
-});
+Cypress.Commands.add(
+  'confirmMetamaskTransaction',
+  ({ gasConfig, shouldWaitForPopupClosure = false } = {}) => {
+    return cy.task('confirmMetamaskTransaction', {
+      gasConfig,
+      shouldWaitForPopupClosure,
+    });
+  },
+);
 
 Cypress.Commands.add(
   'confirmMetamaskTransactionAndWaitForMining',
