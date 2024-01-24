@@ -27,6 +27,7 @@ This class is the heart of Synpress's MetaMask API.
   - [rejectSignature()](MetaMask.md#rejectsignature)
   - [rejectSwitchNetwork()](MetaMask.md#rejectswitchnetwork)
   - [rejectTransaction()](MetaMask.md#rejecttransaction)
+  - [resetAccount()](MetaMask.md#resetaccount)
   - [switchAccount()](MetaMask.md#switchaccount)
   - [switchNetwork()](MetaMask.md#switchnetwork)
   - [toggleDismissSecretRecoveryPhraseReminder()](MetaMask.md#toggledismisssecretrecoveryphrasereminder)
@@ -395,6 +396,24 @@ rejectTransaction(): Promise<void>
 ```
 
 Rejects a transaction request.
+
+#### Returns
+
+`Promise`\<`void`\>
+
+***
+
+### resetAccount()
+
+```ts
+resetAccount(): Promise<void>
+```
+
+Resets the account.
+
+::: warning
+This function requires the correct menu to be already opened.
+:::
 
 #### Returns
 

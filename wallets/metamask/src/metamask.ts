@@ -331,6 +331,17 @@ export class MetaMask {
     await this.homePage.toggleDismissSecretRecoveryPhraseReminder()
   }
 
+  /**
+   * Resets the account.
+   *
+   * ::: warning
+   * This function requires the correct menu to be already opened.
+   * :::
+   */
+  async resetAccount() {
+    await this.homePage.resetAccount()
+  }
+
   /// -------------------------------------------
   /// ---------- EXPERIMENTAL FEATURES ----------
   /// -------------------------------------------
