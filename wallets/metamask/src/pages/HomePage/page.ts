@@ -2,6 +2,7 @@ import type { Page } from '@playwright/test'
 import {
   addNetwork,
   addNewAccount,
+  renameAccount,
   importWalletFromPrivateKey,
   lock,
   settings,
@@ -34,6 +35,10 @@ export class HomePage {
 
   async addNewAccount(accountName: string) {
     await addNewAccount(this.page, accountName)
+  }
+
+  async renameAccount(newAccountName: string) {
+    await renameAccount(this.page, newAccountName)
   }
 
   async importWalletFromPrivateKey(privateKey: string) {
