@@ -442,13 +442,13 @@ module.exports = {
   changeAccount: async (accountIndex = 1) => {
     await playwright.waitAndClick(
       PROVIDER,
-      '[data-testid="settings-menu-open-button"]',
+      mainPageElements.settingsMenu.settingsMenuButton,
       await playwright.windows(PROVIDER),
     );
 
     await playwright.waitAndClick(
       PROVIDER,
-      `[data-testid="account-menu"] [data-testid="tooltip_interactive-wrapper"]:nth-child(${accountIndex})`,
+      mainPageElements.accountMenu.accountButton(accountIndex),
       await playwright.windows(PROVIDER),
     );
   },
