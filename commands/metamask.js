@@ -852,7 +852,10 @@ const metamask = {
     );
     return true;
   },
-  async confirmPermissionToSpend(spendLimit) {
+  async confirmPermissionToSpend({
+    spendLimit,
+    shouldWaitForPopupClosure = false,
+  } = {}) {
     const notificationPage = await playwright.switchToMetamaskNotification();
     // experimental mode on
     if (
@@ -874,7 +877,7 @@ const metamask = {
     await playwright.waitAndClick(
       notificationPageElements.allowToSpendButton,
       notificationPage,
-      { waitForEvent: 'close' },
+      shouldWaitForPopupClosure ? undefined : { waitForEvent: 'close' },
     );
     return true;
   },
@@ -963,7 +966,10 @@ const metamask = {
     );
     return true;
   },
-  async confirmTransaction(gasConfig) {
+  async confirmTransaction({
+    gasConfig,
+    shouldWaitForPopupClosure = false,
+  } = {}) {
     let txData = {};
     const notificationPage = await playwright.switchToMetamaskNotification();
     if (gasConfig) {
@@ -1189,7 +1195,7 @@ const metamask = {
     await playwright.waitAndClick(
       confirmPageElements.confirmButton,
       notificationPage,
-      { waitForEvent: 'close' },
+      shouldWaitForPopupClosure ? undefined : { waitForEvent: 'close' },
     );
     txData.confirmed = true;
     log('[confirmTransaction] Transaction confirmed!');

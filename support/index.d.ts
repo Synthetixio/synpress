@@ -272,9 +272,13 @@ declare namespace Cypress {
      * Confirm metamask permission to spend asset
      * @example
      * cy.confirmMetamaskPermissionToSpend()
-     * cy.confirmMetamaskPermissionToSpend('999999999')
+     * cy.confirmMetamaskPermissionToSpend({ spendLimit: '999999999' })
+     * cy.confirmMetamaskPermissionToSpend({ spendLimit: '999999999', shouldWaitForPopupClosure: false })
      */
-    confirmMetamaskPermissionToSpend(spendLimit?: string): Chainable<string>;
+    confirmMetamaskPermissionToSpend(options: {
+      spendLimit?: string
+      shouldWaitForPopupClosure?: boolean
+    }): Chainable<string>;
     /**
      * Confirm metamask permission to access all elements (example: collectibles)
      * @example
@@ -327,26 +331,28 @@ declare namespace Cypress {
      * Confirm metamask transaction (auto-detects eip-1559 and legacy transactions)
      * @example
      * cy.confirmMetamaskTransaction()
-     * cy.confirmMetamaskTransaction({ gasLimit: 1000000, baseFee: 20, priorityFee: 20 }) // eip-1559
-     * cy.confirmMetamaskTransaction({ gasLimit: 1000000, gasPrice: 20 }) // legacy
-     * cy.confirmMetamaskTransaction('aggressive') // eip-1559 only! => available options: 'low', 'market', 'aggressive', 'site' (site is usually by default)
+     * cy.confirmMetamaskTransaction({ gasConfig: { gasLimit: 1000000, baseFee: 20, priorityFee: 20 } }) // eip-1559
+     * cy.confirmMetamaskTransaction({ gasConfig: { gasLimit: 1000000, gasPrice: 20 } }) // legacy
+     * cy.confirmMetamaskTransaction({ gasConfig: 'aggressive' }) // eip-1559 only! => available options: 'low', 'market', 'aggressive', 'site' (site is usually by default)
+     * cy.confirmMetamaskTransaction({ shouldWaitForPopupClosure: false })
      */
-    confirmMetamaskTransaction(
-      gasConfig?:
+    confirmMetamaskTransaction(options: {
+      gasConfig:
         | {
-            gasLimit?: number;
-            baseFee?: number;
-            priorityFee?: number;
-          }
+          gasLimit?: number;
+          baseFee?: number;
+          priorityFee?: number;
+        }
         | {
-            gasLimit?: number;
-            gasPrice?: number;
-          }
+          gasLimit?: number;
+          gasPrice?: number;
+        }
         | 'low'
         | 'market'
         | 'aggressive'
         | 'site',
-    ): Chainable<Subject>;
+      shouldWaitForPopupClosure?: boolean
+    }): Chainable<Subject>;
     /**
      * Confirm metamask transaction (auto-detects eip-1559 and legacy transactions) and wait for ALL pending transactions to be mined
      * @example
