@@ -5,7 +5,7 @@ describe('Metamask', () => {
     it(`setupMetamask should finish metamask setup using secret words`, () => {
       cy.setupMetamask(
         'test test test test test test test test test test test junk',
-        'sepolia',
+        'goerli',
         'Tester@1234',
       ).then(setupFinished => {
         expect(setupFinished).to.be.true;
@@ -33,8 +33,8 @@ describe('Metamask', () => {
       cy.acceptMetamaskAccess().then(connected => {
         expect(connected).to.be.true;
       });
-      cy.get('#network').contains('11155111');
-      cy.get('#chainId').contains('0xaa36a7');
+      cy.get('#network').contains('5');
+      cy.get('#chainId').contains('0x5');
       cy.get('#accounts').should(
         'have.text',
         '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
@@ -49,8 +49,8 @@ describe('Metamask', () => {
     });
     it(`getCurrentNetwork should return network by default`, () => {
       cy.getCurrentNetwork().then(network => {
-        expect(network.name).to.match(/sepolia/i);
-        expect(network.id).to.be.equal(11155111);
+        expect(network.name).to.match(/goerli/i);
+        expect(network.id).to.be.equal(5);
         expect(network.testnet).to.be.true;
       });
     });
@@ -59,12 +59,12 @@ describe('Metamask', () => {
         cy.addMetamaskNetwork({
           networkName: 'anvil',
           rpcUrl: 'http://127.0.0.1:8545',
-          chainId: 11155111,
+          chainId: 5,
           symbol: 'aETH',
           isTestnet: true,
         });
-        cy.get('#network').contains('11155111');
-        cy.get('#chainId').contains('0xaa36a7');
+        cy.get('#network').contains('5');
+        cy.get('#chainId').contains('0x5');
       } else {
         cy.addMetamaskNetwork({
           networkName: 'Optimism Network',
@@ -84,7 +84,7 @@ describe('Metamask', () => {
       cy.getCurrentNetwork().then(network => {
         if (Cypress.env('USE_ANVIL')) {
           expect(network.name).to.be.equal('anvil');
-          expect(network.id).to.be.equal(11155111);
+          expect(network.id).to.be.equal(5);
           expect(network.testnet).to.be.true;
         } else {
           expect(network.name).to.match(/optimism network/i);
@@ -117,15 +117,15 @@ describe('Metamask', () => {
         cy.changeMetamaskNetwork('anvil').then(networkChanged => {
           expect(networkChanged).to.be.true;
         });
-        cy.get('#network').contains('0xaa36a7');
-        cy.get('#chainId').contains('0xaa36a7');
+        cy.get('#network').contains('0x5');
+        cy.get('#chainId').contains('0x5');
       } else {
         cy.changeMetamaskNetwork('optimism network').then(networkChanged => {
           expect(networkChanged).to.be.true;
         });
         cy.get('#network').contains('0xa');
         cy.get('#chainId').contains('0xa');
-        cy.changeMetamaskNetwork('sepolia');
+        cy.changeMetamaskNetwork('goerli');
       }
     });
     it(`rejectMetamaskPermissionToApproveAll should reject permission to approve all NFTs upon warning`, () => {
@@ -488,28 +488,28 @@ describe('Metamask', () => {
       });
     });
     it(`importMetamaskToken should import token to metamask`, () => {
-      const USDCContractAddressOnSepolia =
-        '0xda9d4f9b69ac6C22e444eD9aF0CfC043b7a7f53f';
-      cy.importMetamaskToken(USDCContractAddressOnSepolia).then(tokenData => {
+      const tetherContractAddressOnGoerli =
+        '0x509Ee0d083DdF8AC028f2a56731412edD63223B9';
+      cy.importMetamaskToken(tetherContractAddressOnGoerli).then(tokenData => {
         expect(tokenData.tokenContractAddress).to.be.equal(
-          USDCContractAddressOnSepolia,
+          tetherContractAddressOnGoerli,
         );
-        expect(tokenData.tokenSymbol).to.be.equal('USDC');
+        expect(tokenData.tokenSymbol).to.be.equal('USDT');
         expect(tokenData.tokenDecimals).to.be.equal('6');
         expect(tokenData.imported).to.be.true;
       });
     });
     it(`importMetamaskToken should import token to metamask using advanced token settings`, () => {
-      const tDAIContractAddressOnSepolia =
-        '0x53844F9577C2334e541Aec7Df7174ECe5dF1fCf0';
+      const daiContractAddressOnGoerli =
+        '0x5233d9FeA273A88c3c8672910042E63850ddF9aa';
       cy.importMetamaskToken({
-        address: tDAIContractAddressOnSepolia,
-        symbol: 'IADt',
+        address: daiContractAddressOnGoerli,
+        symbol: 'xDAI',
       }).then(tokenData => {
         expect(tokenData.tokenContractAddress).to.be.equal(
-          tDAIContractAddressOnSepolia,
+          daiContractAddressOnGoerli,
         );
-        expect(tokenData.tokenSymbol).to.be.equal('IADt');
+        expect(tokenData.tokenSymbol).to.be.equal('xDAI');
         expect(tokenData.tokenDecimals).to.be.equal('18');
         expect(tokenData.imported).to.be.true;
       });
