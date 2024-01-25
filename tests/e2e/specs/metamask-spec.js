@@ -5,7 +5,7 @@ describe('Metamask', () => {
     it(`setupMetamask should finish metamask setup using secret words`, () => {
       cy.setupMetamask(
         'test test test test test test test test test test test junk',
-        'sepolia',
+        'goerli',
         'Tester@1234',
       ).then(setupFinished => {
         expect(setupFinished).to.be.true;
@@ -33,8 +33,8 @@ describe('Metamask', () => {
       cy.acceptMetamaskAccess().then(connected => {
         expect(connected).to.be.true;
       });
-      cy.get('#network').contains('11155111');
-      cy.get('#chainId').contains('0xaa36a7');
+      cy.get('#network').contains('5');
+      cy.get('#chainId').contains('0x5');
       cy.get('#accounts').should(
         'have.text',
         '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
@@ -49,8 +49,8 @@ describe('Metamask', () => {
     });
     it(`getCurrentNetwork should return network by default`, () => {
       cy.getCurrentNetwork().then(network => {
-        expect(network.name).to.match(/sepolia/i);
-        expect(network.id).to.be.equal(11155111);
+        expect(network.name).to.match(/goerli/i);
+        expect(network.id).to.be.equal(5);
         expect(network.testnet).to.be.true;
       });
     });
@@ -59,12 +59,12 @@ describe('Metamask', () => {
         cy.addMetamaskNetwork({
           networkName: 'anvil',
           rpcUrl: 'http://127.0.0.1:8545',
-          chainId: 11155111,
+          chainId: 5,
           symbol: 'aETH',
           isTestnet: true,
         });
-        cy.get('#network').contains('11155111');
-        cy.get('#chainId').contains('0xaa36a7');
+        cy.get('#network').contains('5');
+        cy.get('#chainId').contains('0x5');
       } else {
         cy.addMetamaskNetwork({
           networkName: 'Optimism Network',
@@ -84,7 +84,7 @@ describe('Metamask', () => {
       cy.getCurrentNetwork().then(network => {
         if (Cypress.env('USE_ANVIL')) {
           expect(network.name).to.be.equal('anvil');
-          expect(network.id).to.be.equal(11155111);
+          expect(network.id).to.be.equal(5);
           expect(network.testnet).to.be.true;
         } else {
           expect(network.name).to.match(/optimism network/i);
@@ -117,15 +117,15 @@ describe('Metamask', () => {
         cy.changeMetamaskNetwork('anvil').then(networkChanged => {
           expect(networkChanged).to.be.true;
         });
-        cy.get('#network').contains('0xaa36a7');
-        cy.get('#chainId').contains('0xaa36a7');
+        cy.get('#network').contains('0x5');
+        cy.get('#chainId').contains('0x5');
       } else {
         cy.changeMetamaskNetwork('optimism network').then(networkChanged => {
           expect(networkChanged).to.be.true;
         });
         cy.get('#network').contains('0xa');
         cy.get('#chainId').contains('0xa');
-        cy.changeMetamaskNetwork('sepolia');
+        cy.changeMetamaskNetwork('goerli');
       }
     });
     it(`rejectMetamaskPermissionToApproveAll should reject permission to approve all NFTs upon warning`, () => {
@@ -347,9 +347,23 @@ describe('Metamask', () => {
     it(`confirmMetamaskTransaction should confirm legacy transaction using advanced gas settings`, () => {
       cy.get('#sendButton').click();
       cy.confirmMetamaskTransaction({
-        gasLimit: 210000,
-        gasPrice: 100,
+        gasConfig: {
+          gasLimit: 210000,
+          gasPrice: 100,
+        },
       }).then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+    });
+    it(`confirmMetamaskTransaction should work for serial transactions`, () => {
+      cy.get('#sendEIP1559Button').click();
+      cy.get('#sendEIP1559Button').click();
+      cy.confirmMetamaskTransaction({
+        shouldWaitForPopupClosure: true,
+      }).then(txData => {
+        expect(txData.confirmed).to.be.true;
+      });
+      cy.confirmMetamaskTransaction().then(txData => {
         expect(txData.confirmed).to.be.true;
       });
     });
@@ -373,28 +387,38 @@ describe('Metamask', () => {
     });
     it(`confirmMetamaskTransaction should confirm eip-1559 transaction using pre-defined (low, market, aggressive, site) gas settings`, () => {
       cy.get('#sendEIP1559Button').click();
-      cy.confirmMetamaskTransaction('low').then(txData => {
+      cy.confirmMetamaskTransaction({
+        gasConfig: 'low',
+      }).then(txData => {
         expect(txData.confirmed).to.be.true;
       });
       cy.get('#sendEIP1559Button').click();
-      cy.confirmMetamaskTransaction('market').then(txData => {
+      cy.confirmMetamaskTransaction({
+        gasConfig: 'market',
+      }).then(txData => {
         expect(txData.confirmed).to.be.true;
       });
       cy.get('#sendEIP1559Button').click();
-      cy.confirmMetamaskTransaction('aggressive').then(txData => {
+      cy.confirmMetamaskTransaction({
+        gasConfig: 'aggressive',
+      }).then(txData => {
         expect(txData.confirmed).to.be.true;
       });
       cy.get('#sendEIP1559Button').click();
-      cy.confirmMetamaskTransaction('site').then(txData => {
+      cy.confirmMetamaskTransaction({
+        gasConfig: 'site',
+      }).then(txData => {
         expect(txData.confirmed).to.be.true;
       });
     });
     it(`confirmMetamaskTransaction should confirm eip-1559 transaction using advanced gas settings`, () => {
       cy.get('#sendEIP1559Button').click();
       cy.confirmMetamaskTransaction({
-        gasLimit: 210000,
-        baseFee: 100,
-        priorityFee: 10,
+        gasConfig: {
+          gasLimit: 210000,
+          baseFee: 100,
+          priorityFee: 10,
+        },
       }).then(txData => {
         expect(txData.confirmed).to.be.true;
       });
@@ -488,28 +512,28 @@ describe('Metamask', () => {
       });
     });
     it(`importMetamaskToken should import token to metamask`, () => {
-      const USDCContractAddressOnSepolia =
-        '0xda9d4f9b69ac6C22e444eD9aF0CfC043b7a7f53f';
-      cy.importMetamaskToken(USDCContractAddressOnSepolia).then(tokenData => {
+      const tetherContractAddressOnGoerli =
+        '0x509Ee0d083DdF8AC028f2a56731412edD63223B9';
+      cy.importMetamaskToken(tetherContractAddressOnGoerli).then(tokenData => {
         expect(tokenData.tokenContractAddress).to.be.equal(
-          USDCContractAddressOnSepolia,
+          tetherContractAddressOnGoerli,
         );
-        expect(tokenData.tokenSymbol).to.be.equal('USDC');
+        expect(tokenData.tokenSymbol).to.be.equal('USDT');
         expect(tokenData.tokenDecimals).to.be.equal('6');
         expect(tokenData.imported).to.be.true;
       });
     });
     it(`importMetamaskToken should import token to metamask using advanced token settings`, () => {
-      const tDAIContractAddressOnSepolia =
-        '0x53844F9577C2334e541Aec7Df7174ECe5dF1fCf0';
+      const daiContractAddressOnGoerli =
+        '0x5233d9FeA273A88c3c8672910042E63850ddF9aa';
       cy.importMetamaskToken({
-        address: tDAIContractAddressOnSepolia,
-        symbol: 'IADt',
+        address: daiContractAddressOnGoerli,
+        symbol: 'xDAI',
       }).then(tokenData => {
         expect(tokenData.tokenContractAddress).to.be.equal(
-          tDAIContractAddressOnSepolia,
+          daiContractAddressOnGoerli,
         );
-        expect(tokenData.tokenSymbol).to.be.equal('IADt');
+        expect(tokenData.tokenSymbol).to.be.equal('xDAI');
         expect(tokenData.tokenDecimals).to.be.equal('18');
         expect(tokenData.imported).to.be.true;
       });
@@ -522,6 +546,18 @@ describe('Metamask', () => {
     });
     it(`confirmMetamaskPermissionToSpend should approve permission to spend token`, () => {
       cy.get('#approveTokens').click();
+      cy.confirmMetamaskPermissionToSpend().then(approved => {
+        expect(approved).to.be.true;
+      });
+    });
+    it(`confirmMetamaskPermissionToSpend should work for serial transactions`, () => {
+      cy.get('#approveTokens').click();
+      cy.get('#approveTokens').click();
+      cy.confirmMetamaskPermissionToSpend({
+        shouldWaitForPopupClosure: true,
+      }).then(approved => {
+        expect(approved).to.be.true;
+      });
       cy.confirmMetamaskPermissionToSpend().then(approved => {
         expect(approved).to.be.true;
       });

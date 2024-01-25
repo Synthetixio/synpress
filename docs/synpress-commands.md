@@ -344,7 +344,10 @@ rejectMetamaskAddToken(): Chainable<boolean>;
 Confirm metamask permission to spend asset.
 
 ```ts
-confirmMetamaskPermissionToSpend(spendLimit?: string): Chainable<string>;
+confirmMetamaskPermissionToSpend(options: {
+  spendLimit?: string
+  shouldWaitForPopupClosure?: boolean
+}): Chainable<string>;
 ```
 
 #### `cy.confirmMetamaskPermissionToApproveAll()`
@@ -415,22 +418,23 @@ rejectMetamaskAccess(): Chainable<boolean>;
 Confirm metamask transaction (auto-detects eip-1559 and legacy transactions).
 
 ```ts
-confirmMetamaskTransaction(
-  gasConfig?:
+confirmMetamaskTransaction(options: {
+  gasConfig:
     | {
-        gasLimit?: number;
-        baseFee?: number;
-        priorityFee?: number;
+      gasLimit?: number;
+      baseFee?: number;
+      priorityFee?: number;
       }
     | {
-        gasLimit?: number;
-        gasPrice?: number;
-      }
+      gasLimit?: number;
+      gasPrice?: number;
+    }
     | 'low'
     | 'market'
     | 'aggressive'
-    | 'site',
-): Chainable<Subject>;
+    | 'site', 
+  shouldWaitForPopupClosure?: boolean
+}): Chainable<Subject>;
 ```
 
 #### `cy.confirmMetamaskTransactionAndWaitForMining()`
