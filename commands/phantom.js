@@ -439,6 +439,19 @@ module.exports = {
       return true;
     }
   },
+  changeAccount: async (accountIndex = 1) => {
+    await playwright.waitAndClick(
+      PROVIDER,
+      mainPageElements.settingsMenu.settingsMenuButton,
+      await playwright.windows(PROVIDER),
+    );
+
+    await playwright.waitAndClick(
+      PROVIDER,
+      mainPageElements.accountMenu.accountButton(accountIndex),
+      await playwright.windows(PROVIDER),
+    );
+  },
   selectDefaultWallet: async wallet => {
     if (!Object.keys(mainPageElements.defaultWallet).includes(wallet)) {
       throw new Error(

@@ -60,12 +60,7 @@ const actionableMessage = {
 };
 
 const accountMenu = {
-  button: '.account-menu__icon',
-  accountButton: number => `.account-menu__account:nth-child(${number})`,
-  accountName: '.account-menu__name',
-  createAccountButton: '.account-menu__item--clickable:nth-child(6)',
-  importAccountButton: '.account-menu__item--clickable:nth-child(7)',
-  settingsButton: '.account-menu__item--clickable:nth-child(11)',
+  accountButton: number => `[data-testid="account-menu"] [data-testid="tooltip_interactive-wrapper"]:nth-child(${number})`,
 };
 
 const settingsMenu = {
