@@ -15,9 +15,8 @@ export async function renameAccount(page: Page, newAccountName: Account['name'])
   await page.locator(Selectors.accountMenu.accountButton).click()
 
   await page.locator(Selectors.accountMenu.renameAccountMenu.listItemButton).click()
-  await page.locator(Selectors.accountMenu.renameAccountMenu.listItemDetails).click()
+  await page.locator(Selectors.accountMenu.renameAccountMenu.listItemDetailButton).click()
   await page.locator(Selectors.accountMenu.renameAccountMenu.renameButton).click()
   await page.locator(Selectors.accountMenu.renameAccountMenu.renameInput).fill(newAccountName)
-
-  await page.locator(Selectors.accountMenu.renameAccountMenu.renameConfirmButton).click()
+  await page.keyboard.press('Enter')
 }
