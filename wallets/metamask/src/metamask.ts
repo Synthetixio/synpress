@@ -256,34 +256,34 @@ export class MetaMask {
    * Approves a permission request to spend tokens.
    *
    * ::: warning
-   * This function does not work with the NFTs approvals.
+   * For NFT approvals, use `confirmTransaction` method.
    * :::
    *
    * @param options - The permission options.
    * @param options.spendLimit - The spend limit to use for the permission.
    * @param options.gasSetting - The gas setting to use for the approval transaction.
    */
-  async approvePermission(options?: { spendLimit?: 'max' | number; gasSetting?: GasSetting }) {
+  async approveTokenPermission(options?: { spendLimit?: 'max' | number; gasSetting?: GasSetting }) {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.approvePermission(this.extensionId, options)
+    await this.notificationPage.approveTokenPermission(this.extensionId, options)
   }
 
   /**
    * Rejects a permission request to spend tokens.
    *
    * ::: warning
-   * This function does not work with the NFTs approvals.
+   * For NFT approvals, use `confirmTransaction` method.
    * :::
    */
-  async rejectPermission() {
+  async rejectTokenPermission() {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.rejectPermission(this.extensionId)
+    await this.notificationPage.rejectTokenPermission(this.extensionId)
   }
 
   /**

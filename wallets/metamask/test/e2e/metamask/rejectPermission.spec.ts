@@ -14,5 +14,5 @@ test('should reject approve request', async ({ page, metamask, connectToAnvil })
 
   await page.locator('#approveTokens').click()
 
-  await metamask.rejectPermission()
+  await metamask.rejectTokenPermission()
 })

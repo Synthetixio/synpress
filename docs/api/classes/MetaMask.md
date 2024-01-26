@@ -11,8 +11,8 @@ This class is the heart of Synpress's MetaMask API.
   - [addNetwork()](MetaMask.md#addnetwork)
   - [addNewAccount()](MetaMask.md#addnewaccount)
   - [approveNewNetwork()](MetaMask.md#approvenewnetwork)
-  - [approvePermission()](MetaMask.md#approvepermission)
   - [approveSwitchNetwork()](MetaMask.md#approveswitchnetwork)
+  - [approveTokenPermission()](MetaMask.md#approvetokenpermission)
   - [confirmSignature()](MetaMask.md#confirmsignature)
   - [confirmTransaction()](MetaMask.md#confirmtransaction)
   - [connectToDapp()](MetaMask.md#connecttodapp)
@@ -23,9 +23,9 @@ This class is the heart of Synpress's MetaMask API.
   - [openSettings()](MetaMask.md#opensettings)
   - [openSidebarMenu()](MetaMask.md#opensidebarmenu)
   - [rejectNewNetwork()](MetaMask.md#rejectnewnetwork)
-  - [rejectPermission()](MetaMask.md#rejectpermission)
   - [rejectSignature()](MetaMask.md#rejectsignature)
   - [rejectSwitchNetwork()](MetaMask.md#rejectswitchnetwork)
+  - [rejectTokenPermission()](MetaMask.md#rejecttokenpermission)
   - [rejectTransaction()](MetaMask.md#rejecttransaction)
   - [resetAccount()](MetaMask.md#resetaccount)
   - [switchAccount()](MetaMask.md#switchaccount)
@@ -138,16 +138,30 @@ Approves a new network request.
 
 ***
 
-### approvePermission()
+### approveSwitchNetwork()
 
 ```ts
-approvePermission(options?): Promise<void>
+approveSwitchNetwork(): Promise<void>
+```
+
+Approves a switch network request.
+
+#### Returns
+
+`Promise`\<`void`\>
+
+***
+
+### approveTokenPermission()
+
+```ts
+approveTokenPermission(options?): Promise<void>
 ```
 
 Approves a permission request to spend tokens.
 
 ::: warning
-This function does not work with the NFTs approvals.
+For NFT approvals, use `confirmTransaction` method.
 :::
 
 #### Parameters
@@ -157,20 +171,6 @@ This function does not work with the NFTs approvals.
 | `options`? | \{   `gasSetting`:   \| `"low"`      \| `"market"`      \| `"aggressive"`      \| `"site"`      \| \{      `gasLimit`: `number`;      `maxBaseFee`: `number`;      `priorityFee`: `number`;      };   `spendLimit`: `number` \| `"max"`;   } | The permission options. |
 | `options.gasSetting`? |    \| `"low"`   \| `"market"`   \| `"aggressive"`   \| `"site"`   \| \{   `gasLimit`: `number`;   `maxBaseFee`: `number`;   `priorityFee`: `number`;   } | The gas setting to use for the approval transaction. |
 | `options.spendLimit`? | `number` \| `"max"` | The spend limit to use for the permission. |
-
-#### Returns
-
-`Promise`\<`void`\>
-
-***
-
-### approveSwitchNetwork()
-
-```ts
-approveSwitchNetwork(): Promise<void>
-```
-
-Approves a switch network request.
 
 #### Returns
 
@@ -343,24 +343,6 @@ Rejects a new network request.
 
 ***
 
-### rejectPermission()
-
-```ts
-rejectPermission(): Promise<void>
-```
-
-Rejects a permission request to spend tokens.
-
-::: warning
-This function does not work with the NFTs approvals.
-:::
-
-#### Returns
-
-`Promise`\<`void`\>
-
-***
-
 ### rejectSignature()
 
 ```ts
@@ -382,6 +364,24 @@ rejectSwitchNetwork(): Promise<void>
 ```
 
 Rejects a switch network request.
+
+#### Returns
+
+`Promise`\<`void`\>
+
+***
+
+### rejectTokenPermission()
+
+```ts
+rejectTokenPermission(): Promise<void>
+```
+
+Rejects a permission request to spend tokens.
+
+::: warning
+For NFT approvals, use `confirmTransaction` method.
+:::
 
 #### Returns
 
