@@ -67,11 +67,11 @@ const settingsMenu = {
   settingsMenuButton: '[data-testid="settings-menu-open-button"]',
   settingsSidebarButton: '[data-testid="sidebar_menu-button-settings"]',
   settingsSidebarCloseButton: '[data-testid="settings-menu-close-button"]',
+  settingsPreferencesButton: '[data-testid="settings-item-preferences"]',
   trustedAppsRow: '[data-testid="settings-item-trusted-apps"]',
   developerSettingsRow: '[data-testid="settings-item-developer-settings"]',
   defaultAppWalletRow: '[data-testid="settings-item-metamask-override"]',
 };
-
 const whatsNew = {
   header: '[data-testid="whats_new-header"]',
   continueButton: '[data-testid="whats_new-continue_button"]',
