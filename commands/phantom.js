@@ -474,6 +474,12 @@ module.exports = {
       mainPageElements.settingsMenu.settingsSidebarButton,
     );
 
+    // click preferences
+    await playwright.waitAndClick(
+      PROVIDER,
+      mainPageElements.settingsMenu.settingsPreferencesButton,
+    );
+
     // click default app wallet row
     await playwright.waitAndClick(
       PROVIDER,
@@ -485,6 +491,16 @@ module.exports = {
       PROVIDER,
       mainPageElements.defaultWallet[wallet],
     );
+
+    // go back to preferences menu
+    await playwright.waitAndClick(
+      PROVIDER,
+      mainPageElements.connectedSites.trustedAppsBackButton,
+    );
+
+    await playwright
+      .windows(PROVIDER)
+      .waitForSelector( mainPageElements.settingsMenu.defaultAppWalletRow)
 
     // go back to main menu
     await backToMainFromSettings();
