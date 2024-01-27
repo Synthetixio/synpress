@@ -585,5 +585,12 @@ describe('Metamask', () => {
         expect(approved).to.be.true;
       });
     });
+    it(`allowToAddAndSwitchNetwork should switch network if this network was previously already added`, () => {
+      cy.changeMetamaskNetwork('mainnet');
+      cy.get('#addEthereumChain').click();
+      cy.allowMetamaskToAddAndSwitchNetwork().then(approved => {
+        expect(approved).to.be.true;
+      });
+    });
   });
 });
