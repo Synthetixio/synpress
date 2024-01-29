@@ -32,9 +32,30 @@ export type GasSetting = z.input<typeof GasSetting>
 const confirmTransaction = async (notificationPage: Page, options: GasSetting) => {
   const gasSetting = GasSetting.parse(options)
 
+  const handleNftSetApprovalForAll = async (page: Page) => {
+    try {
+      const nftApproveButtonLocator = page.locator(
+        Selectors.TransactionPage.nftApproveAllConfirmationPopup.approveButton
+      )
+      const isNfTPopupHidden = await waitFor(() => nftApproveButtonLocator.isHidden(), 3_000, false)
+
+      if (!isNfTPopupHidden) {
+        await nftApproveButtonLocator.click()
+      }
+    } catch (e) {
+      if (page.isClosed()) {
+        return
+      }
+
+      throw new Error(`Failed to handle NFT setApprovalForAll popup: ${e}`)
+    }
+  }
+
   // By default, the `site` gas setting is used.
   if (gasSetting === 'site') {
     await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
+
+    await handleNftSetApprovalForAll(notificationPage)
 
     return
   }
@@ -119,6 +140,8 @@ const confirmTransaction = async (notificationPage: Page, options: GasSetting) =
   await waitFor(waitForAction, 3_000, true)
 
   await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
+
+  await handleNftSetApprovalForAll(notificationPage)
 }
 
 const confirmTransactionAndWaitForMining = async (walletPage: Page, notificationPage: Page, options: GasSetting) => {

@@ -3,12 +3,24 @@ import { testWithMetaMask } from '../testWithMetaMask'
 
 const test = testWithMetaMask.extend<{
   connectAndTriggerEIP1559Transaction: () => Promise<void>
+  connectDeployAndMintNft: () => Promise<void>
 }>({
   connectAndTriggerEIP1559Transaction: async ({ page, connectToAnvil }, use) => {
     await use(async () => {
       await connectToAnvil()
 
       await page.locator('#sendEIP1559Button').click()
+    })
+  },
+  connectDeployAndMintNft: async ({ page, connectToAnvil, metamask }, use) => {
+    await use(async () => {
+      await connectToAnvil()
+
+      await page.locator('#deployNFTsButton').click()
+      await metamask.confirmTransaction()
+
+      await page.locator('#mintButton').click()
+      await metamask.confirmTransaction()
     })
   }
 })
@@ -39,6 +51,64 @@ describe('with default gas setting', () => {
     await connectAndTriggerEIP1559Transaction()
 
     await metamask.confirmTransaction()
+  })
+
+  describe('NFTs', () => {
+    test('should confirm `watch NFT` request', async ({ page, metamask, connectDeployAndMintNft }) => {
+      await connectDeployAndMintNft()
+
+      await page.locator('#watchNFTButton').click()
+
+      await metamask.confirmTransaction()
+    })
+
+    test('should confirm `watch all NFTs` request', async ({ page, metamask, connectDeployAndMintNft }) => {
+      await connectDeployAndMintNft()
+
+      await page.locator('#watchNFTsButton').click()
+
+      await metamask.confirmTransaction()
+    })
+
+    test('should confirm `approve` transaction', async ({ page, metamask, connectDeployAndMintNft }) => {
+      await connectDeployAndMintNft()
+
+      await page.locator('#approveButton').click()
+
+      await metamask.confirmTransaction()
+
+      await expect(page.locator('#nftsStatus')).toHaveText('Approve completed')
+    })
+
+    test('should confirm `set approval for all` transaction', async ({ page, metamask, connectDeployAndMintNft }) => {
+      await connectDeployAndMintNft()
+
+      await page.locator('#setApprovalForAllButton').click()
+
+      await metamask.confirmTransaction()
+
+      await expect(page.locator('#nftsStatus')).toHaveText('Set Approval For All completed')
+    })
+
+    test('should confirm `revoke` transaction', async ({ page, metamask, connectDeployAndMintNft }) => {
+      await connectDeployAndMintNft()
+
+      await page.locator('#revokeButton').click()
+
+      await metamask.confirmTransaction()
+
+      await expect(page.locator('#nftsStatus')).toHaveText('Revoke completed')
+    })
+
+    test('should confirm `transfer from` transaction', async ({ page, metamask, connectDeployAndMintNft }) => {
+      await connectDeployAndMintNft()
+
+      await page.locator('#transferFromButton').click()
+
+      await metamask.confirmTransaction()
+
+      await expect(page.locator('#nftsStatus')).toHaveText('Transfer From completed')
+    })
   })
 })
 
@@ -162,6 +232,21 @@ describe('with custom gas setting', () => {
           priorityFee: 150_000
         }
       })
+    })
+
+    test('should confirm `set approval for all` transaction', async ({ page, metamask, connectDeployAndMintNft }) => {
+      await connectDeployAndMintNft()
+
+      await page.locator('#setApprovalForAllButton').click()
+
+      await metamask.confirmTransaction({
+        gasSetting: {
+          maxBaseFee: 250,
+          priorityFee: 150
+        }
+      })
+
+      await expect(page.locator('#nftsStatus')).toHaveText('Set Approval For All completed')
     })
   })
 })

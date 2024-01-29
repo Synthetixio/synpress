@@ -35,6 +35,11 @@ const editGasFeeMenu = {
   advancedGasFeeMenu
 }
 
+const nftApproveAllConfirmationPopup = {
+  approveButton: '.set-approval-for-all-warning__content button.set-approval-for-all-warning__footer__approve-button'
+}
+
 export default {
-  editGasFeeMenu
+  editGasFeeMenu,
+  nftApproveAllConfirmationPopup
 }
