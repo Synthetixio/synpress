@@ -42,6 +42,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@synthetixio/synpress-tsconfig": "workspace:*",
     "@types/archiver": "^5.3.3",
     "@types/fs-extra": "^11.0.2",
     "@types/gradient-string": "^1.1.4",
@@ -53,7 +54,6 @@
     "memfs": "^4.5.0",
     "msw": "^2.0.11",
     "rimraf": "^5.0.1",
-    "tsconfig": "workspace:*",
     "typescript": "^5.2.2",
     "vitest": "^0.34.6"
   },
