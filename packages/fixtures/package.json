@@ -31,10 +31,10 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@synthetixio/synpress-tsconfig": "workspace:*",
     "@types/fs-extra": "^11.0.2",
     "@types/node": "^20.8.0",
     "rimraf": "^5.0.1",
-    "tsconfig": "workspace:*",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2"
   },
