@@ -122,7 +122,7 @@ importers:
         version: 3.22.4
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: workspace:*
+        specifier: 0.0.1-alpha.0
         version: link:../tsconfig
       '@types/archiver':
         specifier: ^5.3.3
@@ -170,7 +170,7 @@ importers:
         specifier: ^1.41.1
         version: 1.41.1
       '@synthetixio/synpress-core':
-        specifier: workspace:*
+        specifier: 0.0.1-alpha.0
         version: link:../core
       '@viem/anvil':
         specifier: ^0.0.6
@@ -183,7 +183,7 @@ importers:
         version: 3.22.4
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: workspace:*
+        specifier: 0.0.1-alpha.0
         version: link:../tsconfig
       '@types/fs-extra':
         specifier: ^11.0.2
@@ -209,17 +209,17 @@ importers:
         specifier: ^1.41.1
         version: 1.41.1
       '@synthetixio/synpress-core':
-        specifier: workspace:*
+        specifier: 0.0.1-alpha.0
         version: link:../packages/core
       '@synthetixio/synpress-fixtures':
-        specifier: workspace:*
+        specifier: 0.0.1-alpha.0
         version: link:../packages/fixtures
       '@synthetixio/synpress-metamask':
-        specifier: workspace:*
+        specifier: 0.0.1-alpha.0
         version: link:../wallets/metamask
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: workspace:*
+        specifier: 0.0.1-alpha.0
         version: link:../packages/tsconfig
       '@types/node':
         specifier: ^20.8.0
@@ -240,17 +240,17 @@ importers:
         specifier: ^1.41.1
         version: 1.41.1
       '@synthetixio/synpress-core':
-        specifier: workspace:*
+        specifier: 0.0.1-alpha.0
         version: link:../../packages/core
       '@synthetixio/synpress-fixtures':
-        specifier: workspace:*
+        specifier: 0.0.1-alpha.0
         version: link:../../packages/fixtures
       zod:
         specifier: ^3.22.4
         version: 3.22.4
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: workspace:*
+        specifier: 0.0.1-alpha.0
         version: link:../../packages/tsconfig
       '@types/node':
         specifier: ^20.8.0
