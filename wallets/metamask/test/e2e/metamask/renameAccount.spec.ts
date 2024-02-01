@@ -1,6 +1,5 @@
 import { testWithSynpress } from '@synthetixio/synpress-fixtures'
 import { MetaMask, unlockForFixture } from '../../../src'
-import { z } from 'zod'
 
 import basicSetup from '../wallet-setup/basic.setup'
 
@@ -20,11 +19,5 @@ test('should rename current account with specified name', async ({ context, meta
 test('should throw Zod error if an empty account name is passed', async ({ context, metamaskPage }) => {
   const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
 
-  await expect(metamask.renameAccount('')).rejects.toThrowError(z.ZodError)
-})
-
-test('should throw Zod error if a reserved account name is passed', async ({ context, metamaskPage }) => {
-  const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
-
-  await expect(metamask.renameAccount('Account 12')).rejects.toThrowError(z.ZodError)
+  await expect(metamask.renameAccount('')).rejects.toThrowError('Invalid account name')
 })

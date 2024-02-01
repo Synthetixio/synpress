@@ -2,11 +2,13 @@ import type { Page } from '@playwright/test'
 import Selectors from '../selectors'
 import { z } from 'zod'
 
+// @todo, look into validation schema that's language agnostic for Metamask reserved words (""Account 1", "Account 2", etc.)
 const Account = z.object({
   name: z.string().refine((value) => {
-    return value.trim().length > 0 && !/^Account\s*\d+/.test(value);
+    return value.trim().length > 0
   }, 'Invalid account name'),
 })
+
 export type Account = z.infer<typeof Account>
 
 export async function renameAccount(page: Page, newAccountName: Account['name']) {
@@ -18,5 +20,5 @@ export async function renameAccount(page: Page, newAccountName: Account['name'])
   await page.locator(Selectors.accountMenu.renameAccountMenu.listItemDetailButton).click()
   await page.locator(Selectors.accountMenu.renameAccountMenu.renameButton).click()
   await page.locator(Selectors.accountMenu.renameAccountMenu.renameInput).fill(newAccountName)
-  await page.keyboard.press('Enter')
+  await page.locator(Selectors.accountMenu.renameAccountMenu.confirmRenameButton).click()
 }
