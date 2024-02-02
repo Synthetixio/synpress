@@ -40,3 +40,7 @@ playwright/.cache
 ### Synpress
 
 .cache-synpress
+
+### Vercel
+
+.vercel
