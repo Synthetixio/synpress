@@ -15,7 +15,7 @@
       "dependsOn": ["build", "build:cache"]
     },
     "docs:build": {
-      "outputs": ["docs/.vitepress/dist"]
+      "outputs": ["docs/.vitepress/dist/**"]
     }
   }
 }
