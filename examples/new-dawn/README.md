@@ -42,7 +42,7 @@ pnpm install
 pnpm run serve:test-dapp
 ```
 
-3. Install PlayWright:
+3. Install Playwright:
 
 ```bash
 pnpm exec playwright install  
