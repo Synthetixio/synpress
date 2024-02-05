@@ -12,8 +12,8 @@ const renameAccountMenu = {
   listItemButton: `${accountMenuContainer} ${createDataTestSelector('account-list-item-menu-button')}`,
   listItemDetailButton: `${createDataTestSelector('account-list-menu-details')}`,
   renameButton: `${createDataTestSelector('editable-label-button')}`,
-  confirmRenameButton: `div.editable-label button.mm-button-icon`,
-  renameInput: `input`,
+  confirmRenameButton: 'div.editable-label button.mm-button-icon',
+  renameInput: 'input'
 }
 
 const importAccountMenu = {
@@ -38,7 +38,7 @@ const accountMenu = {
   accountButton: createDataTestSelector('account-menu-icon'),
   accountNames: `${accountMenuContainer} .multichain-account-menu-popover__list .multichain-account-list-item__account-name__button`,
   addAccountMenu,
-  renameAccountMenu,
+  renameAccountMenu
 }
 
 const threeDotsMenu = {

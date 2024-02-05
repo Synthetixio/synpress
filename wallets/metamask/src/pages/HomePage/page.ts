@@ -2,9 +2,9 @@ import type { Page } from '@playwright/test'
 import {
   addNetwork,
   addNewAccount,
-  renameAccount,
   importWalletFromPrivateKey,
   lock,
+  renameAccount,
   settings,
   switchAccount,
   switchNetwork,

@@ -102,7 +102,7 @@ export class MetaMask {
    */
   async renameAccount(newAccountName: string) {
     await this.homePage.renameAccount(newAccountName)
-}
+  }
 
   /**
    * Imports a wallet using the given private key.

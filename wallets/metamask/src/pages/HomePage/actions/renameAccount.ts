@@ -1,12 +1,12 @@
 import type { Page } from '@playwright/test'
-import Selectors from '../selectors'
 import { z } from 'zod'
+import Selectors from '../selectors'
 
 // @todo, look into validation schema that's language agnostic for Metamask reserved words (""Account 1", "Account 2", etc.)
 const Account = z.object({
   name: z.string().refine((value) => {
     return value.trim().length > 0
-  }, 'Invalid account name'),
+  }, 'Invalid account name')
 })
 
 export type Account = z.infer<typeof Account>
