@@ -5,8 +5,8 @@ const test = testWithSynpress(BasicSetup, unlockForFixture)
 
 const { expect } = test
 
-test('should connect wallet to the MetaMask Test Dapp', async ({ context, page, extensionId }) => {
-  const metamask = new MetaMask(context, page, BasicSetup.walletPassword, extensionId)
+test('should connect wallet to the MetaMask Test Dapp', async ({ context, page, metamaskPage, extensionId }) => {
+  const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId)
 
   await page.goto('/')
 
