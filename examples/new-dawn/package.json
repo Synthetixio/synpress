@@ -7,7 +7,7 @@
     "build:cache": "synpress",
     "build:cache:force": "synpress --force",
     "build:cache:headless": "synpress --headless",
-    "serve:test-dapp": "serve node_modules/@metamask/test-dapp/dist -p 12345",
+    "serve:test-dapp": "serve node_modules/@metamask/test-dapp/dist -p 9999",
     "test:e2e:headful": "playwright test",
     "test:e2e:headless": "HEADLESS=true playwright test",
     "test:e2e:headless:ui": "HEADLESS=true playwright test --ui"
