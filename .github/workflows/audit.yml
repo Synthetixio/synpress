@@ -1,0 +1,29 @@
+name: 🔎 Audit
+
+on:
+  push:
+    branches:
+      - new-dawn
+  pull_request:
+    paths:
+      - 'pnpm-*.yaml'
+      - 'package.json'
+      - 'packages/**/package.json'
+      - 'wallets/**/package.json'
+      - 'examples/**/package.json'
+      - 'release/package.json'
+      - 'docs/package.json'
+
+jobs:
+  audit:
+    name: Audit dependencies
+    runs-on: ubuntu-latest
+    container:
+      image: synthetixio/docker-sec-tools:20.11-alpine
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # pin@v4.1.1
+
+      - name: Audit dependencies
+        run: audit-ci --critical --report-type full
