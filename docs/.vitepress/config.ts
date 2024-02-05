@@ -9,6 +9,7 @@ export default defineConfig({
   title: 'Synpress',
   description: 'E2E testing library for Web3 dapps.',
   lastUpdated: true,
+  head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
   themeConfig: {
     editLink: {
       pattern: 'https://github.com/Synthetixio/synpress/tree/new-dawn/docs/:path',

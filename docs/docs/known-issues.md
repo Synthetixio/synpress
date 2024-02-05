@@ -15,3 +15,7 @@ If you require the previews for development purposes, your only option is to com
 ### MetaMask is not working in headless mode on GitHub Actions CI
 
 Due to a bug in MetaMask, it's impossible to run MetaMask in headless mode on GitHub Actions. We're certain this bug affects other CI providers, however, we have yet to test it.
+
+::: warning NOTE
+You can run the tests in the headful mode on CI, and they will work just fine.
+:::

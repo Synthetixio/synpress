@@ -1,6 +1,6 @@
 {
   "name": "@synthetixio/synpress-core",
-  "version": "0.0.0",
+  "version": "0.0.1-alpha.0",
   "type": "module",
   "exports": {
     "types": "./types/index.d.ts",
@@ -29,35 +29,35 @@
     "types:check": "tsc --noEmit"
   },
   "dependencies": {
-    "axios": "^1.4.0",
-    "chalk": "^5.3.0",
-    "commander": "^11.1.0",
-    "esbuild": "^0.19.5",
-    "fs-extra": "^11.1.1",
-    "glob": "^10.3.10",
-    "gradient-string": "^2.0.2",
-    "progress": "^2.0.3",
-    "tsup": "^7.2.0",
-    "unzipper": "^0.10.14",
-    "zod": "^3.22.4"
+    "axios": "1.6.7",
+    "chalk": "5.3.0",
+    "commander": "11.1.0",
+    "esbuild": "0.20.0",
+    "fs-extra": "11.2.0",
+    "glob": "10.3.10",
+    "gradient-string": "2.0.2",
+    "progress": "2.0.3",
+    "tsup": "8.0.1",
+    "unzipper": "0.10.14",
+    "zod": "3.22.4"
   },
   "devDependencies": {
-    "@types/archiver": "^5.3.3",
-    "@types/fs-extra": "^11.0.2",
-    "@types/gradient-string": "^1.1.4",
-    "@types/node": "^20.8.0",
-    "@types/progress": "^2.0.7",
-    "@types/unzipper": "^0.10.7",
-    "@vitest/coverage-v8": "1.0.0-beta.0",
-    "archiver": "^6.0.1",
-    "memfs": "^4.5.0",
-    "msw": "^2.0.11",
-    "rimraf": "^5.0.1",
-    "tsconfig": "workspace:*",
-    "typescript": "^5.2.2",
-    "vitest": "^0.34.6"
+    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.0",
+    "@types/archiver": "6.0.2",
+    "@types/fs-extra": "11.0.4",
+    "@types/gradient-string": "1.1.5",
+    "@types/node": "20.11.16",
+    "@types/progress": "2.0.7",
+    "@types/unzipper": "0.10.9",
+    "@vitest/coverage-v8": "1.2.2",
+    "archiver": "6.0.1",
+    "memfs": "4.6.0",
+    "msw": "2.1.5",
+    "rimraf": "5.0.5",
+    "typescript": "5.3.3",
+    "vitest": "1.2.2"
   },
   "peerDependencies": {
-    "playwright-core": "^1.41.1"
+    "playwright-core": "1.41.1"
   }
 }

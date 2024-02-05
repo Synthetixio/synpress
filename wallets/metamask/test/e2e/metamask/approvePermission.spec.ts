@@ -23,7 +23,7 @@ describe('with default gas setting', () => {
 
     await page.locator('#approveTokens').click()
 
-    await metamask.approvePermission()
+    await metamask.approveTokenPermission()
   })
 
   test('should approve tokens with the `max` limit', async ({ page, metamask, deployToken }) => {
@@ -31,7 +31,7 @@ describe('with default gas setting', () => {
 
     await page.locator('#approveTokens').click()
 
-    await metamask.approvePermission({ spendLimit: 'max' })
+    await metamask.approveTokenPermission({ spendLimit: 'max' })
   })
 
   test('should approve tokens with the custom limit', async ({ page, metamask, deployToken }) => {
@@ -39,7 +39,7 @@ describe('with default gas setting', () => {
 
     await page.locator('#approveTokens').click()
 
-    await metamask.approvePermission({ spendLimit: 420 })
+    await metamask.approveTokenPermission({ spendLimit: 420 })
   })
 })
 
@@ -49,7 +49,7 @@ describe('with custom gas setting', () => {
 
     await page.locator('#approveTokens').click()
 
-    await metamask.approvePermission({
+    await metamask.approveTokenPermission({
       gasSetting: 'site'
     })
   })
@@ -63,7 +63,7 @@ describe('with custom gas setting', () => {
 
     await page.locator('#approveTokens').click()
 
-    await metamask.approvePermission({
+    await metamask.approveTokenPermission({
       spendLimit: 'max',
       gasSetting: {
         maxBaseFee: 250,
@@ -81,7 +81,7 @@ describe('with custom gas setting', () => {
 
     await page.locator('#approveTokens').click()
 
-    await metamask.approvePermission({
+    await metamask.approveTokenPermission({
       spendLimit: 420,
       gasSetting: {
         maxBaseFee: 250,

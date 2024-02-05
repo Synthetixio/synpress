@@ -14,7 +14,7 @@ describe('Token', () => {
     await deployToken()
 
     await page.locator('#approveTokens').click()
-    await metamask.approvePermission()
+    await metamask.approveTokenPermission()
   })
 })
 
