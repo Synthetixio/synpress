@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test'
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -15,7 +15,7 @@ export default defineConfig({
 
   use: {
     // We are using locally deployed MetaMask Test Dapp.
-    baseURL: 'http://localhost:9999',
+    baseURL: 'http://localhost:9999'
   },
 
   // Synpress currently only supports Chromium, however, this will change in the future.
@@ -30,6 +30,6 @@ export default defineConfig({
   webServer: {
     command: 'pnpm run serve:test-dapp',
     url: 'http://localhost:9999',
-    reuseExistingServer: true,
-  },
-});
+    reuseExistingServer: true
+  }
+})
