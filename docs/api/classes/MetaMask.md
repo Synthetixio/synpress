@@ -216,10 +216,16 @@ Confirms a transaction request.
 ### connectToDapp()
 
 ```ts
-connectToDapp(): Promise<void>
+connectToDapp(accounts?): Promise<void>
 ```
 
-Connects to the dapp using the currently selected account.
+Connects to the dapp using the currently selected accounts.
+
+#### Parameters
+
+| Parameter  | Type       | Description    |
+|:-----------|:-----------|:---------------|
+| `accounts` | `string[]` | Accounts list. |
 
 #### Returns
 
