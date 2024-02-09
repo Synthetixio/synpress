@@ -10,26 +10,32 @@ async function selectAccounts(accountsToSelect: string[], accountLocators: Locat
   }
 }
 
+async function connectMultipleAccounts(notificationPage: Page, accounts: string[]) {
+  // Wait for the accounts to be loaded as 'all()' doesnt not wait for the results - https://playwright.dev/docs/api/class-locator#locator-all
+  // Additionally disable default account to reuse necessary delay
+  await notificationPage
+    .locator(Selectors.ConnectPage.accountOption)
+    .locator(Selectors.ConnectPage.accountCheckbox)
+    .last()
+    .setChecked(false)
+
+  const accountLocators = await notificationPage.locator(Selectors.ConnectPage.accountOption).all()
+  const accountNames = await allTextContents(accountLocators)
+
+  await selectAccounts(accounts, accountLocators, accountNames)
+}
+
 async function confirmConnection(notificationPage: Page) {
+  // Click `Next`
   await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
+  // Click `Connect`
   await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
 }
 
 // By default, only the last account will be selected. If you want to select a specific account, pass `accounts` parameter.
 export async function connectToDapp(notificationPage: Page, accounts?: string[]) {
   if (accounts && accounts.length > 0) {
-    // Wait for the accounts to be loaded as 'all()' doesnt not wait for the results - https://playwright.dev/docs/api/class-locator#locator-all
-    // Additionally disable default account to reuse necessary delay
-    await notificationPage
-      .locator(Selectors.ConnectPage.accountOption)
-      .locator(Selectors.ConnectPage.accountCheckbox)
-      .last()
-      .setChecked(false)
-
-    const accountLocators = await notificationPage.locator(Selectors.ConnectPage.accountOption).all()
-    const accountNames = await allTextContents(accountLocators)
-
-    await selectAccounts(accounts, accountLocators, accountNames)
+    await connectMultipleAccounts(notificationPage, accounts)
   }
 
   await confirmConnection(notificationPage)
