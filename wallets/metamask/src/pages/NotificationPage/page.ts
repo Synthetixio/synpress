@@ -22,10 +22,10 @@ export class NotificationPage {
     this.page = page
   }
 
-  async connectToDapp(extensionId: string) {
+  async connectToDapp(extensionId: string, accounts?: string[]) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
-    await connectToDapp(notificationPage)
+    await connectToDapp(notificationPage, accounts)
   }
 
   // TODO: Revisit this logic in the future to see if we can increase the performance by utilizing `Promise.race`.

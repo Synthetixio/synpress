@@ -148,12 +148,12 @@ export class MetaMask {
   /**
    * Connects to the dapp using the currently selected account.
    */
-  async connectToDapp() {
+  async connectToDapp(accounts?: string[]) {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.connectToDapp(this.extensionId)
+    await this.notificationPage.connectToDapp(this.extensionId, accounts)
   }
 
   /**
