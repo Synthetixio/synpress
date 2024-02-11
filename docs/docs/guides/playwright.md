@@ -113,6 +113,23 @@ test('should connect wallet to dapp', async ({ context, page, extensionId, metam
   await expect(page.locator('#accounts')).toHaveText('0xdeadbeef')
 })
 ```
+```typescript [basic.spec.ts]
+import { testWithMetaMask as test } from './testWithMetaMask';
+
+const { expect } = test;
+
+// The `MetaMask` instance is now available in the test context.
+test('should connect multiple wallets to dapp', async ({ context, page, extensionId, metamask }) => {
+  await page.goto('/');
+
+  await page.locator('#connectButton').click();
+
+  await metamask.connectToDapp(['0xdeadbeef1', '0xdeadbeef2']);
+
+  await expect(page.locator('#accounts')).toHaveText('0xdeadbeef1,0xdeadbeef2');
+
+});
+```
 
 :::
 
