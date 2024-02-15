@@ -133,7 +133,7 @@ export class MetaMask {
    * @param networkName - The name of the network to switch to.
    * @param isTestnet - If switch to a test network.
    */
-  async switchNetwork(networkName: string, isTestnet: boolean = false) {
+  async switchNetwork(networkName: string, isTestnet = false) {
     await this.homePage.switchNetwork(networkName, isTestnet)
   }
 
@@ -264,7 +264,10 @@ export class MetaMask {
    * @param options.spendLimit - The spend limit to use for the permission.
    * @param options.gasSetting - The gas setting to use for the approval transaction.
    */
-  async approveTokenPermission(options?: { spendLimit?: 'max' | number; gasSetting?: GasSetting }) {
+  async approveTokenPermission(options?: {
+    spendLimit?: 'max' | number
+    gasSetting?: GasSetting
+  }) {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -357,7 +360,9 @@ export class MetaMask {
    * @experimental
    * @group Experimental Methods
    */
-  async confirmTransactionAndWaitForMining(options?: { gasSetting?: GasSetting }) {
+  async confirmTransactionAndWaitForMining(options?: {
+    gasSetting?: GasSetting
+  }) {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
