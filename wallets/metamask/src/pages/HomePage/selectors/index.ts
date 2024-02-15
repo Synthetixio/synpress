@@ -60,9 +60,12 @@ const networkDropdownContainer = '.multichain-network-list-menu-content-wrapper'
 const networkDropdown = {
   dropdownButton: createDataTestSelector('network-display'),
   closeDropdownButton: `${networkDropdownContainer} > section > div:nth-child(1) button`,
-  networks: `${networkDropdownContainer} .multichain-network-list-menu button`,
-  showTestNetworksToggle: `${networkDropdownContainer} > section > div:nth-child(3) .toggle-button`,
-  addNetworkButton: ` ${networkDropdownContainer} div.mm-box.mm-box--padding-4 > button`
+  networksList: `${networkDropdownContainer} .multichain-network-list-menu`,
+  networks: `${networkDropdownContainer} .multichain-network-list-item p`,
+  showTestNetworksToggle: `${networkDropdownContainer} > section > div > label.toggle-button`,
+  addNetworkButton: `${networkDropdownContainer} div.mm-box.mm-box--padding-4 > button`,
+  toggleOff: `${networkDropdownContainer} label.toggle-button.toggle-button--off`,
+  toggleOn: `${networkDropdownContainer} label.toggle-button.toggle-button--on`
 }
 
 const tabContainer = '.tabs__content'

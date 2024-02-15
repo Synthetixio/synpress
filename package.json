@@ -23,16 +23,16 @@
     "package.json": "sort-package-json"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.2.2",
+    "@biomejs/biome": "1.5.3",
     "@changesets/cli": "2.27.1",
     "@metamask/test-dapp": "8.1.0",
     "commitlint-config-gitmoji": "2.3.1",
     "husky": "9.0.10",
-    "lint-staged": "15.2.1",
-    "npm-check-updates": "16.14.14",
+    "lint-staged": "15.2.2",
+    "npm-check-updates": "16.14.15",
     "serve": "14.2.1",
     "sort-package-json": "2.7.0",
-    "turbo": "1.12.2"
+    "turbo": "1.12.3"
   },
   "packageManager": "pnpm@8.15.1",
   "engines": {

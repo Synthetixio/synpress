@@ -1,6 +1,6 @@
 import { downloadFile, ensureCacheDirExists, unzipArchive } from '@synthetixio/synpress-core'
 
-export const DEFAULT_METAMASK_VERSION = '11.6.3'
+export const DEFAULT_METAMASK_VERSION = '11.9.1'
 export const EXTENSION_DOWNLOAD_URL = `https://github.com/MetaMask/metamask-extension/releases/download/v${DEFAULT_METAMASK_VERSION}/metamask-chrome-${DEFAULT_METAMASK_VERSION}.zip`
 
 export async function prepareExtension() {

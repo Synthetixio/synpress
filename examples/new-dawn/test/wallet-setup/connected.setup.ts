@@ -20,5 +20,5 @@ export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
 
   await page.locator('#connectButton').click()
 
-  await metamask.connectToDapp()
+  await metamask.connectToDapp(['Account 1'])
 })

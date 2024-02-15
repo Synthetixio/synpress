@@ -64,8 +64,8 @@ export class HomePage {
     await settings.advanced.toggleDismissSecretRecoveryPhraseReminder(this.page)
   }
 
-  async switchNetwork(networkName: string) {
-    await switchNetwork(this.page, networkName)
+  async switchNetwork(networkName: string, isTestnet: boolean) {
+    await switchNetwork(this.page, networkName, isTestnet)
   }
 
   async addNetwork(network: Network) {

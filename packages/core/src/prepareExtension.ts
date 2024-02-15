@@ -1,6 +1,6 @@
 import { downloadFile, ensureCacheDirExists, unzipArchive } from '.'
 
-export const DEFAULT_METAMASK_VERSION = '11.6.3'
+export const DEFAULT_METAMASK_VERSION = '11.9.1'
 export const EXTENSION_DOWNLOAD_URL = `https://github.com/MetaMask/metamask-extension/releases/download/v${DEFAULT_METAMASK_VERSION}/metamask-chrome-${DEFAULT_METAMASK_VERSION}.zip`
 
 // NOTE: This function is copied from `wallets/metamask/src/prepareExtension.ts` only TEMPORARILY!

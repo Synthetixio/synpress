@@ -131,9 +131,10 @@ export class MetaMask {
    * Switches to the network with the given name.
    *
    * @param networkName - The name of the network to switch to.
+   * @param isTestnet - If switch to a test network.
    */
-  async switchNetwork(networkName: string) {
-    await this.homePage.switchNetwork(networkName)
+  async switchNetwork(networkName: string, isTestnet: boolean = false) {
+    await this.homePage.switchNetwork(networkName, isTestnet)
   }
 
   /**
