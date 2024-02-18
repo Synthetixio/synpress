@@ -35,12 +35,10 @@ const newNetworkForm = {
   rpcUrlError: `${newNetworkFormContainer} .form-field:nth-child(2) .form-field__error`,
   chainIdInput: `${newNetworkFormContainer} .form-field:nth-child(3) input`,
   chainIdError: `${newNetworkFormContainer} .form-field:nth-child(3) .form-field__error`,
-  symbolInput: `${newNetworkFormContainer} .form-field:nth-child(4) input`,
-  blockExplorerUrlInput: `${newNetworkFormContainer} .form-field:nth-child(5) input`,
+  symbolInput: `${createDataTestSelector('network-form-ticker')} input`,
+  symbolError: createDataTestSelector('network-form-ticker-warning'),
+  blockExplorerUrlInput: `${newNetworkFormContainer} .form-field:last-child input`,
   saveButton: `${newNetworkFormContainer} .networks-tab__add-network-form-footer button.btn-primary`
-
-  /// ---- Unused Selectors ----
-  // cancelButton: `${newNetworkFormContainer} .networks-tab__add-network-form-footer button.btn-secondary`,
 }
 
 const networks = {

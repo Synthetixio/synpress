@@ -3,24 +3,36 @@ import { allTextContents } from '../../../utils/allTextContents'
 import Selectors from '../selectors'
 import { closeRecoveryPhraseReminder } from './popups'
 
-export async function switchNetwork(page: Page, networkName: string) {
+async function openTestnetSection(page: Page) {
+  const toggleButtonLocator = page.locator(Selectors.networkDropdown.showTestNetworksToggle)
+  const classes = await toggleButtonLocator.getAttribute('class')
+  if (classes?.includes('toggle-button--off')) {
+    await toggleButtonLocator.click()
+    await page.locator(Selectors.networkDropdown.toggleOn).isChecked()
+  }
+}
+
+export async function switchNetwork(page: Page, networkName: string, includeTestNetworks: boolean) {
   await page.locator(Selectors.networkDropdown.dropdownButton).click()
 
-  const networkLocators = await page.locator(Selectors.networkDropdown.networks).all()
+  if (includeTestNetworks) {
+    await openTestnetSection(page)
+  }
 
+  const networkLocators = await page.locator(Selectors.networkDropdown.networks).all()
   const networkNames = await allTextContents(networkLocators)
 
-  const seekedNetworkNames = networkNames.filter((name) => name.toLocaleLowerCase() === networkName.toLocaleLowerCase())
+  const seekedNetworkNameIndex = networkNames.findIndex(
+    (name) => name.toLocaleLowerCase() === networkName.toLocaleLowerCase()
+  )
 
-  if (seekedNetworkNames.length === 0) {
+  const seekedNetworkLocator = seekedNetworkNameIndex >= 0 && networkLocators[seekedNetworkNameIndex]
+
+  if (!seekedNetworkLocator) {
     throw new Error(`[SwitchNetwork] Network with name ${networkName} not found`)
   }
 
-  // biome-ignore lint/style/noNonNullAssertion: this non-null assertion is intentional
-  const accountIndex = networkNames.indexOf(seekedNetworkNames[0]!) // TODO: handle the undefined here better
-
-  // biome-ignore lint/style/noNonNullAssertion: this non-null assertion is intentional
-  await networkLocators[accountIndex]!.click() // TODO: handle the undefined here better
+  await seekedNetworkLocator.click()
 
   // TODO: This is not really needed if we do `metamask.toggleDismissSecretRecoveryPhraseReminder()` by default. Figure this out!
   await closeRecoveryPhraseReminder(page)

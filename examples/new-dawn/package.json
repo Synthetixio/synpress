@@ -15,11 +15,11 @@
   "dependencies": {
     "@playwright/test": "1.41.2",
     "@synthetixio/synpress": "4.0.0-alpha.0",
-    "dotenv": "16.4.1"
+    "dotenv": "16.4.2"
   },
   "devDependencies": {
     "@metamask/test-dapp": "8.1.0",
-    "@types/node": "20.11.16",
+    "@types/node": "20.11.17",
     "serve": "14.2.1",
     "typescript": "5.3.3"
   }
