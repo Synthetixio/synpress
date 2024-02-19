@@ -3,6 +3,7 @@
   "files": {
     "ignore": [
       "**/node_modules",
+      ".changeset",
       ".vscode",
       ".idea",
       "**/dist",
