@@ -1,5 +1,11 @@
 # @synthetixio/synpress-tsconfig
 
+## 0.0.1-alpha.1
+
+### Patch Changes
+
+- Alpha Release
+
 ## 0.0.1-alpha.0
 
 ### Patch Changes

@@ -10,5 +10,8 @@
     "@synthetixio/synpress": "3.0.0",
     "@synthetixio/synpress-metamask": "0.0.0"
   },
-  "changesets": ["fresh-walls-nail"]
+  "changesets": [
+    "fresh-walls-nail",
+    "poor-pianos-thank"
+  ]
 }
