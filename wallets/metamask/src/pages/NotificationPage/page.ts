@@ -8,8 +8,8 @@ import {
   network,
   signSimpleMessage,
   signStructuredMessage,
-  transaction,
-  token
+  token,
+  transaction
 } from './actions'
 import Selectors from './selectors'
 

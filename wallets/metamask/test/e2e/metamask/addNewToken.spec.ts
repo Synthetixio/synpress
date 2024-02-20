@@ -1,5 +1,5 @@
-import { testWithMetaMask } from '../testWithMetaMask'
 import Selectors from '../../../src/pages/HomePage/selectors'
+import { testWithMetaMask } from '../testWithMetaMask'
 
 const test = testWithMetaMask
 

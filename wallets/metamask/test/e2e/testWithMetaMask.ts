@@ -1,8 +1,8 @@
 import { testWithSynpress } from '@synthetixio/synpress-fixtures'
 import { MetaMask, unlockForFixture } from '../../src'
 
-import connectedSetup from './wallet-setup/connected.setup'
 import { expect } from '@playwright/test'
+import connectedSetup from './wallet-setup/connected.setup'
 
 export const testWithMetaMask = testWithSynpress(connectedSetup, unlockForFixture).extend<{
   metamask: MetaMask
