@@ -76,12 +76,9 @@ const activityTab = {
   pendingUnapprovedTransactions: `${tabContainer} .transaction-list__pending-transactions .transaction-list-item .transaction-status-label--unapproved`,
   pendingApprovedTransactions: `${tabContainer} .transaction-list__pending-transactions .transaction-list-item .transaction-status-label--pending`,
   completedTransactions: `${tabContainer} .transaction-list__completed-transactions .transaction-list-item`
-
-  /// ---- Unused Selectors ----
-  // pendingTransactionsList: `${tabContainer} .transaction-list__pending-transactions`,
-  // pendingTransactions: `${tabContainer} .transaction-list__pending-transactions .transaction-list-item`,
-  // completedTransactionsList: `${tabContainer} .transaction-list__completed-transactions`,
 }
+
+const singleToken = '.multichain-token-list-item'
 
 export default {
   logo: `button${createDataTestSelector('app-header-logo')}`,
@@ -95,5 +92,8 @@ export default {
   recoveryPhraseReminder,
   popover,
   networkAddedPopover,
-  newNetworkInfoPopover
+  newNetworkInfoPopover,
+  portfolio: {
+    singleToken
+  }
 }

@@ -8,7 +8,8 @@ import {
   network,
   signSimpleMessage,
   signStructuredMessage,
-  transaction
+  transaction,
+  token
 } from './actions'
 import Selectors from './selectors'
 
@@ -125,5 +126,11 @@ export class NotificationPage {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
     await approvePermission.reject(notificationPage)
+  }
+
+  async addNewToken(extensionId: string) {
+    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+
+    await token.addNew(notificationPage)
   }
 }

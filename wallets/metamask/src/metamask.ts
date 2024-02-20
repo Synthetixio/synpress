@@ -391,4 +391,12 @@ export class MetaMask {
   async closeTransactionDetails() {
     await this.homePage.closeTransactionDetails()
   }
+
+  async addNewToken() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.addNewToken(this.extensionId)
+  }
 }

@@ -1,21 +1,8 @@
 import { testWithMetaMask } from '../testWithMetaMask'
 
-const test = testWithMetaMask.extend<{
-  deployToken: () => Promise<void>
-}>({
-  deployToken: async ({ page, metamask, connectToAnvil }, use) => {
-    await use(async () => {
-      await connectToAnvil()
+const test = testWithMetaMask
 
-      await expect(page.locator('#tokenAddresses')).toBeEmpty()
-      await page.locator('#createToken').click()
-
-      await metamask.confirmTransaction()
-    })
-  }
-})
-
-const { expect, describe } = test
+const { describe } = test
 
 describe('with default gas setting', () => {
   test('should approve tokens with the default limit by default', async ({ page, metamask, deployToken }) => {
