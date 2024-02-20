@@ -1,3 +1,4 @@
+import { homePageSelectors } from '@synthetixio/synpress'
 import { describe, expect, test } from '../advancedFixture'
 
 describe('Token', () => {
@@ -15,6 +16,17 @@ describe('Token', () => {
 
     await page.locator('#approveTokens').click()
     await metamask.approveTokenPermission()
+  })
+
+  test('should add token to the wallet', async ({ page, metamask, metamaskPage, connectToAnvil, deployToken }) => {
+    await connectToAnvil()
+    await deployToken()
+
+    await page.locator('#watchAssets').click()
+
+    await metamask.addNewToken()
+
+    await expect(metamaskPage.locator(homePageSelectors.portfolio.singleToken).nth(1)).toContainText('TST')
   })
 })
 
