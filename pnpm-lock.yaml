@@ -66,7 +66,7 @@ importers:
         specifier: 1.41.2
         version: 1.41.2
       '@synthetixio/synpress':
-        specifier: 4.0.0-alpha.1
+        specifier: 4.0.0-alpha.2
         version: link:../../release
       dotenv:
         specifier: 16.4.2
@@ -125,7 +125,7 @@ importers:
         version: 3.22.4
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: 0.0.1-alpha.1
+        specifier: 0.0.1-alpha.2
         version: link:../tsconfig
       '@types/archiver':
         specifier: 6.0.2
@@ -173,7 +173,7 @@ importers:
         specifier: 1.41.2
         version: 1.41.2
       '@synthetixio/synpress-core':
-        specifier: 0.0.1-alpha.1
+        specifier: 0.0.1-alpha.2
         version: link:../core
       '@viem/anvil':
         specifier: 0.0.7
@@ -186,7 +186,7 @@ importers:
         version: 3.22.4
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: 0.0.1-alpha.1
+        specifier: 0.0.1-alpha.2
         version: link:../tsconfig
       '@types/fs-extra':
         specifier: 11.0.4
@@ -212,17 +212,17 @@ importers:
         specifier: 1.41.2
         version: 1.41.2
       '@synthetixio/synpress-core':
-        specifier: 0.0.1-alpha.1
+        specifier: 0.0.1-alpha.2
         version: link:../packages/core
       '@synthetixio/synpress-fixtures':
-        specifier: 0.0.1-alpha.1
+        specifier: 0.0.1-alpha.2
         version: link:../packages/fixtures
       '@synthetixio/synpress-metamask':
-        specifier: 0.0.1-alpha.1
+        specifier: 0.0.1-alpha.2
         version: link:../wallets/metamask
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: 0.0.1-alpha.1
+        specifier: 0.0.1-alpha.2
         version: link:../packages/tsconfig
       '@types/node':
         specifier: 20.11.17
@@ -243,17 +243,17 @@ importers:
         specifier: 1.41.2
         version: 1.41.2
       '@synthetixio/synpress-core':
-        specifier: 0.0.1-alpha.1
+        specifier: 0.0.1-alpha.2
         version: link:../../packages/core
       '@synthetixio/synpress-fixtures':
-        specifier: 0.0.1-alpha.1
+        specifier: 0.0.1-alpha.2
         version: link:../../packages/fixtures
       zod:
         specifier: 3.22.4
         version: 3.22.4
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: 0.0.1-alpha.1
+        specifier: 0.0.1-alpha.2
         version: link:../../packages/tsconfig
       '@types/node':
         specifier: 20.11.17
