@@ -3,6 +3,7 @@ import { CrashPage, HomePage, LockPage, NotificationPage, OnboardingPage } from 
 import type { Network } from './pages/HomePage/actions'
 import { SettingsSidebarMenus } from './pages/HomePage/selectors/settings'
 import type { GasSetting } from './pages/NotificationPage/actions'
+import { SettingsPage } from './pages/SettingsPage/page'
 
 const NO_EXTENSION_ID_ERROR = new Error('MetaMask extensionId is not set')
 
@@ -40,6 +41,7 @@ export class MetaMask {
    * @group Selectors
    */
   readonly notificationPage: NotificationPage
+  readonly settingsPage: SettingsPage
 
   /**
    * Class constructor.
@@ -75,6 +77,7 @@ export class MetaMask {
     this.lockPage = new LockPage(page)
     this.homePage = new HomePage(page)
     this.notificationPage = new NotificationPage(page)
+    this.settingsPage = new SettingsPage(page)
   }
 
   /**
@@ -171,6 +174,14 @@ export class MetaMask {
     }
 
     await this.notificationPage.signMessage(this.extensionId)
+  }
+
+  async confirmSignatureWithRisk() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.signMessageWithRisk(this.extensionId)
   }
 
   /**
@@ -344,6 +355,16 @@ export class MetaMask {
    */
   async resetAccount() {
     await this.homePage.resetAccount()
+  }
+
+  async unsafe_enableEthSign() {
+    await this.homePage.openSettings()
+    await this.settingsPage.enableEthSign()
+  }
+
+  async disableEthSign() {
+    await this.homePage.openSettings()
+    await this.settingsPage.disableEthSign()
   }
 
   /// -------------------------------------------

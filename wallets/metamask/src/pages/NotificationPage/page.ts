@@ -57,6 +57,12 @@ export class NotificationPage {
     }
   }
 
+  async signMessageWithRisk(extensionId: string) {
+    const { notificationPage } = await this.beforeMessageSignature(extensionId)
+
+    await signSimpleMessage.signWithRisk(notificationPage)
+  }
+
   async rejectMessage(extensionId: string) {
     const { notificationPage, isScrollButtonVisible } = await this.beforeMessageSignature(extensionId)
 
