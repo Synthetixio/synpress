@@ -12,6 +12,7 @@ export function getWalletSetupFuncHash(walletSetupFunc: AnyFunction) {
   // Different execution engines -> different codes -> different hashes.
   const { code } = esbuild.transformSync(walletSetupFunc.toString(), {
     format: 'esm',
+    minifyWhitespace: true,
     drop: ['console', 'debugger'],
     loader: 'ts',
     logLevel: 'silent'

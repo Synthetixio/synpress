@@ -1,6 +1,6 @@
 {
   "name": "@synthetixio/synpress-metamask",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.3",
   "type": "module",
   "exports": {
     "types": "./types/index.d.ts",
@@ -30,12 +30,12 @@
     "types:check": "tsc --noEmit"
   },
   "dependencies": {
-    "@synthetixio/synpress-core": "0.0.1-alpha.1",
-    "@synthetixio/synpress-fixtures": "0.0.1-alpha.1",
+    "@synthetixio/synpress-core": "0.0.1-alpha.3",
+    "@synthetixio/synpress-fixtures": "0.0.1-alpha.3",
     "zod": "3.22.4"
   },
   "devDependencies": {
-    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.1",
+    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.3",
     "@types/node": "20.11.17",
     "@vitest/coverage-v8": "1.2.2",
     "rimraf": "5.0.5",

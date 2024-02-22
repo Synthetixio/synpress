@@ -11,7 +11,9 @@
     "@synthetixio/synpress-metamask": "0.0.0"
   },
   "changesets": [
+    "fluffy-hornets-tell",
     "fresh-walls-nail",
-    "poor-pianos-thank"
+    "poor-pianos-thank",
+    "quick-cups-breathe"
   ]
 }
