@@ -176,6 +176,9 @@ export class MetaMask {
     await this.notificationPage.signMessage(this.extensionId)
   }
 
+  /**
+   * Confirms a signature request with potential risk.
+   */
   async confirmSignatureWithRisk() {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
@@ -357,11 +360,18 @@ export class MetaMask {
     await this.homePage.resetAccount()
   }
 
+  /**
+   * Enables the eth_sign feature in MetaMask advanced settings.
+   * This method is marked as unsafe because enabling eth_sign can have security implications.
+   */
   async unsafe_enableEthSign() {
     await this.homePage.openSettings()
     await this.settingsPage.enableEthSign()
   }
 
+  /**
+   * Disables the eth_sign feature in MetaMask advanced settings.
+   */
   async disableEthSign() {
     await this.homePage.openSettings()
     await this.settingsPage.disableEthSign()
