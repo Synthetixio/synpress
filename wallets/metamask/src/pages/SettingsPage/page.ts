@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
 import { enableEthSign } from './actions'
-import Selectors from './selectors'
 import disableEthSign from './actions/disableEthSign'
+import Selectors from './selectors'
 
 export class SettingsPage {
   static readonly selectors = Selectors
