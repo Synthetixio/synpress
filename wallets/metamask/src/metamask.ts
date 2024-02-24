@@ -128,6 +128,13 @@ export class MetaMask {
   }
 
   /**
+   * Retrieves the current account address.
+   */
+  async getAccountAddress() {
+    return await this.homePage.getAccountAddress()
+  }
+
+  /**
    * Switches to the network with the given name.
    *
    * @param networkName - The name of the network to switch to.

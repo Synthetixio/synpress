@@ -250,3 +250,32 @@ describe('with custom gas setting', () => {
     })
   })
 })
+
+describe('with `from` and `to` specified', () => {
+  test('should confirm from/to transfer', async ({ page, metamask, deployToken }) => {
+    await deployToken()
+
+    const accountAddress = await metamask.getAccountAddress()
+    await page.locator('#transferFromSenderInput').fill(accountAddress)
+    await page.locator('#transferFromRecipientInput').fill('0x70997970C51812dc3A010C7d01b50e0d17dc79C8')
+
+    await page.locator('#transferFromTokens').click()
+    await metamask.confirmTransaction()
+  })
+})
+
+describe('without gas limit', () => {
+  test('should approve tokens', async ({ page, metamask, deployToken }) => {
+    await deployToken()
+
+    await page.locator('#approveTokensWithoutGas').click()
+    await metamask.approveTokenPermission()
+  })
+
+  test('should transfer tokens', async ({ page, metamask, deployToken }) => {
+    await deployToken()
+
+    await page.locator('#transferTokensWithoutGas').click()
+    await metamask.confirmTransaction()
+  })
+})
