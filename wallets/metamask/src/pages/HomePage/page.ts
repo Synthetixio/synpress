@@ -2,6 +2,7 @@ import type { Page } from '@playwright/test'
 import {
   addNetwork,
   addNewAccount,
+  getAccountAddress,
   importWalletFromPrivateKey,
   lock,
   settings,
@@ -34,6 +35,10 @@ export class HomePage {
 
   async addNewAccount(accountName: string) {
     await addNewAccount(this.page, accountName)
+  }
+
+  async getAccountAddress() {
+    return await getAccountAddress(this.page)
   }
 
   async importWalletFromPrivateKey(privateKey: string) {
