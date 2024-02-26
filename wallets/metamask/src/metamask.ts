@@ -384,10 +384,6 @@ export class MetaMask {
     await this.settingsPage.disableEthSign()
   }
 
-  async requestPermissions() {
-
-  }
-
   /// -------------------------------------------
   /// ---------- EXPERIMENTAL FEATURES ----------
   /// -------------------------------------------
