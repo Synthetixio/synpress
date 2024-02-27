@@ -29,7 +29,9 @@ export async function addNetwork(page: Page, network: Network) {
   // We have to wait for the RPC URL error to appear.
   const rpcUrlErrorLocator = page.locator(Selectors.settings.networks.newNetworkForm.rpcUrlError)
   if (await waitFor(() => rpcUrlErrorLocator.isVisible(), 1_000, false)) {
-    const rpcUrlErrorText = await rpcUrlErrorLocator.textContent({ timeout: 1_000 })
+    const rpcUrlErrorText = await rpcUrlErrorLocator.textContent({
+      timeout: 1_000
+    })
     throw new Error(`[AddNetwork] RPC URL error: ${rpcUrlErrorText}`)
   }
 
@@ -38,11 +40,19 @@ export async function addNetwork(page: Page, network: Network) {
   // We have to wait for the Chain ID error to appear.
   const chainIdErrorLocator = page.locator(Selectors.settings.networks.newNetworkForm.chainIdError)
   if (await waitFor(() => chainIdErrorLocator.isVisible(), 1_000, false)) {
-    const chainIdErrorText = await chainIdErrorLocator.textContent({ timeout: 1_000 })
+    const chainIdErrorText = await chainIdErrorLocator.textContent({
+      timeout: 1_000
+    })
     throw new Error(`[AddNetwork] Chain ID error: ${chainIdErrorText}`)
   }
 
   await page.locator(Selectors.settings.networks.newNetworkForm.symbolInput).fill(symbol)
+
+  await waitFor(
+    async () => page.locator(Selectors.settings.networks.newNetworkForm.symbolError).isVisible(),
+    1_000,
+    false
+  )
 
   if (blockExplorerUrl) {
     await page.locator(Selectors.settings.networks.newNetworkForm.blockExplorerUrlInput).fill(blockExplorerUrl)

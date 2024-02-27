@@ -11,7 +11,12 @@ const structuredMessage = {
   rejectButton: `.signature-request-footer ${createDataTestSelector('signature-cancel-button')}`
 }
 
+const riskModal = {
+  signButton: createDataTestSelector('signature-warning-sign-button')
+}
+
 export default {
   simpleMessage,
-  structuredMessage
+  structuredMessage,
+  riskModal
 }

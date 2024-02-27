@@ -25,7 +25,7 @@ const aggressiveGasFee = {
 }
 
 const editGasFeeMenu = {
-  editGasFeeButton: createDataTestSelector('edit-gas-fee-button'),
+  editGasFeeButton: createDataTestSelector('edit-gas-fee-icon'),
   editGasFeeButtonToolTip: '.edit-gas-fee-button .info-tooltip',
   lowGasFee,
   marketGasFee,

@@ -44,7 +44,9 @@ const accountMenu = {
 const threeDotsMenu = {
   threeDotsButton: createDataTestSelector('account-options-menu-button'),
   settingsButton: createDataTestSelector('global-menu-settings'),
-  lockButton: createDataTestSelector('global-menu-lock')
+  lockButton: createDataTestSelector('global-menu-lock'),
+  accountDetailsButton: createDataTestSelector('account-list-menu-details'),
+  accountDetailsCloseButton: '.mm-modal-content .mm-modal-header button.mm-button-icon.mm-button-icon--size-sm'
 }
 
 const popoverContainer = '.popover-container'
@@ -69,9 +71,12 @@ const networkDropdownContainer = '.multichain-network-list-menu-content-wrapper'
 const networkDropdown = {
   dropdownButton: createDataTestSelector('network-display'),
   closeDropdownButton: `${networkDropdownContainer} > section > div:nth-child(1) button`,
-  networks: `${networkDropdownContainer} .multichain-network-list-menu button`,
-  showTestNetworksToggle: `${networkDropdownContainer} > section > div:nth-child(3) .toggle-button`,
-  addNetworkButton: ` ${networkDropdownContainer} div.mm-box.mm-box--padding-4 > button`
+  networksList: `${networkDropdownContainer} .multichain-network-list-menu`,
+  networks: `${networkDropdownContainer} .multichain-network-list-item p`,
+  showTestNetworksToggle: `${networkDropdownContainer} > section > div > label.toggle-button`,
+  addNetworkButton: `${networkDropdownContainer} div.mm-box.mm-box--padding-4 > button`,
+  toggleOff: `${networkDropdownContainer} label.toggle-button.toggle-button--off`,
+  toggleOn: `${networkDropdownContainer} label.toggle-button.toggle-button--on`
 }
 
 const tabContainer = '.tabs__content'
@@ -82,12 +87,9 @@ const activityTab = {
   pendingUnapprovedTransactions: `${tabContainer} .transaction-list__pending-transactions .transaction-list-item .transaction-status-label--unapproved`,
   pendingApprovedTransactions: `${tabContainer} .transaction-list__pending-transactions .transaction-list-item .transaction-status-label--pending`,
   completedTransactions: `${tabContainer} .transaction-list__completed-transactions .transaction-list-item`
-
-  /// ---- Unused Selectors ----
-  // pendingTransactionsList: `${tabContainer} .transaction-list__pending-transactions`,
-  // pendingTransactions: `${tabContainer} .transaction-list__pending-transactions .transaction-list-item`,
-  // completedTransactionsList: `${tabContainer} .transaction-list__completed-transactions`,
 }
+
+const singleToken = '.multichain-token-list-item'
 
 export default {
   logo: `button${createDataTestSelector('app-header-logo')}`,
@@ -101,5 +103,8 @@ export default {
   recoveryPhraseReminder,
   popover,
   networkAddedPopover,
-  newNetworkInfoPopover
+  newNetworkInfoPopover,
+  portfolio: {
+    singleToken
+  }
 }

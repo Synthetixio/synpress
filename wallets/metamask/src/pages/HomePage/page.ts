@@ -2,6 +2,7 @@ import type { Page } from '@playwright/test'
 import {
   addNetwork,
   addNewAccount,
+  getAccountAddress,
   importWalletFromPrivateKey,
   lock,
   renameAccount,
@@ -41,6 +42,10 @@ export class HomePage {
     await renameAccount(this.page, newAccountName)
   }
 
+  async getAccountAddress() {
+    return await getAccountAddress(this.page)
+  }
+
   async importWalletFromPrivateKey(privateKey: string) {
     await importWalletFromPrivateKey(this.page, privateKey)
   }
@@ -69,8 +74,8 @@ export class HomePage {
     await settings.advanced.toggleDismissSecretRecoveryPhraseReminder(this.page)
   }
 
-  async switchNetwork(networkName: string) {
-    await switchNetwork(this.page, networkName)
+  async switchNetwork(networkName: string, isTestnet: boolean) {
+    await switchNetwork(this.page, networkName, isTestnet)
   }
 
   async addNetwork(network: Network) {

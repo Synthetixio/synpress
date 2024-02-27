@@ -450,7 +450,7 @@ Switches to the account with the given name.
 ### switchNetwork()
 
 ```ts
-switchNetwork(networkName): Promise<void>
+switchNetwork(networkName, isTestnet?): Promise<void>
 ```
 
 Switches to the network with the given name.
@@ -460,6 +460,7 @@ Switches to the network with the given name.
 | Parameter | Type | Description |
 | :------ | :------ | :------ |
 | `networkName` | `string` | The name of the network to switch to. |
+| `isTestnet`? | `boolean` | A flag indicating whether the network is a test network. |
 
 #### Returns
 
