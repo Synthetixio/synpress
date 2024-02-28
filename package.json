@@ -41,14 +41,16 @@
     "release:patch": "release-it patch --disable-metrics",
     "update:deps": "ncu -u -x 'node-fetch' && pnpm install",
     "start:server": "serve node_modules/@metamask/test-dapp/dist -p 3000",
-    "synpress:run": "SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js",
-    "test:e2e": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'pnpm synpress:run'",
+    "synpress:run:metamask": "EXTENSION=metamask SKIP_EXTENSION_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js",
+    "test:e2e:metamask": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'pnpm synpress:run:metamask'",
     "test:e2e:anvil": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'CYPRESS_USE_ANVIL=true pnpm synpress:run'",
     "test:e2e:headless": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'pnpm synpress:run --headless'",
     "test:e2e:headless:anvil": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'CYPRESS_USE_ANVIL=true pnpm synpress:run --headless'",
     "test:e2e:ci": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'pnpm synpress:run --record --group'",
     "test:e2e:ci:anvil": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'CYPRESS_USE_ANVIL=true pnpm synpress:run --record --group'",
-    "test:e2e:ci:cypress-action": "CYPRESS_USE_ANVIL=true pnpm synpress:run"
+    "test:e2e:ci:cypress-action": "CYPRESS_USE_ANVIL=true pnpm synpress:run",
+    "synpress:run:keplr": "EXTENSION=keplr SKIP_EXTENSION_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js",
+    "test:e2e:keplr": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'pnpm synpress:run:keplr'"
   },
   "dependencies": {
     "@cypress/code-coverage": "^3.11.0",
