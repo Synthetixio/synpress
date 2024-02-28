@@ -1,5 +1,5 @@
-import Selectors from '../selectors'
 import type { Page } from '@playwright/test'
+import Selectors from '../selectors'
 
 export async function providePublicEncryptionKey(notificationPage: Page) {
   await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()

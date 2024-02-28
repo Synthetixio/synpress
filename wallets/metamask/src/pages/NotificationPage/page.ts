@@ -5,13 +5,13 @@ import {
   type GasSetting,
   approvePermission,
   connectToDapp,
+  decryptMessage,
   network,
+  providePublicEncryptionKey,
   signSimpleMessage,
   signStructuredMessage,
   token,
-  transaction,
-  providePublicEncryptionKey,
-  decryptMessage
+  transaction
 } from './actions'
 import Selectors from './selectors'
 
