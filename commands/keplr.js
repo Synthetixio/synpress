@@ -34,7 +34,14 @@ const keplr = {
       extensionVersion,
     };
   },
-
+  async disconnectWalletFromDapp() {
+    await playwright.waitAndClickByText(
+      'Disconnect All',
+      playwright.keplrPermissionWindow(),
+      exact = false,
+    );
+    return true;
+  },
   async importWallet(secretWordsOrPrivateKey, password, newAccount) {
     await playwright.waitAndClickByText(
       newAccount

@@ -29,9 +29,18 @@ describe('Keplr', () => {
 
           cy.visit('/');
           cy.contains('Connect Wallet').click();
+          cy.contains('Make an Offer').click();
           cy.confirmTransaction().then(taskCompleted => {
             expect(taskCompleted).to.be.true;
           });
+        });
+      });
+    });
+
+    it(`should disconnect the wallet from all the connected DAPPs`, () => {
+      cy.switchToExtensionPermissionWindow().then(() => {
+        cy.disconnectWalletFromDapp().then(taskCompleted => {
+          expect(taskCompleted).to.be.true;
         });
       });
     });

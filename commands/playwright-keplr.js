@@ -8,6 +8,7 @@ let mainWindow;
 let keplrWindow;
 let keplrNotificationWindow;
 let keplrRegistrationWindow;
+let keplrPermissionWindow;
 let activeTabName;
 let extensionsData = {};
 let retries = 0;
@@ -21,6 +22,7 @@ module.exports = {
     activeTabName = undefined;
     keplrNotificationWindow = undefined;
     keplrRegistrationWindow = undefined;
+    keplrPermissionWindow = undefined;
     retries = 0;
     extensionsData = {};
   },
@@ -77,6 +79,20 @@ module.exports = {
 
   keplrNotificationWindow() {
     return keplrNotificationWindow;
+  },
+
+  keplrPermissionWindow() {
+    return keplrPermissionWindow;
+  },
+
+  async switchToKeplrPermissionWindow() {
+    const keplrExtensionData = (await module.exports.getExtensionsData()).keplr;
+    const browserContext = await browser.contexts()[0];
+    keplrPermissionWindow = await browserContext.newPage();
+    await keplrPermissionWindow.goto(
+      `chrome-extension://${keplrExtensionData.id}/popup.html#/setting/security/permission`,
+    );
+    return true;
   },
 
   async waitAndClickByText(text, page = keplrWindow, exact = false) {
