@@ -138,13 +138,14 @@ module.exports = {
       firstTimeFlowImportPageElements.confirmWordsButton,
     );
 
+    await playwright.waitFor(PROVIDER, firstTimeFlowImportPageElements.confirmWordsButton); // wait for continue button to be there
+
     // STEP: Wait for confirm input
     // shortcut confirmation
-    await new Promise(resolve => setTimeout(resolve, 200)); // the transitioning is too fast
+    await new Promise(resolve => setTimeout(resolve, 1000)); // the transitioning is too fast
     await playwright.waitAndClick(
       PROVIDER,
       firstTimeFlowImportPageElements.confirmWordsButton,
-      // 'button:text("Import Selected Accounts")',
     );
 
     // STEP: Input password, confirm and continue
