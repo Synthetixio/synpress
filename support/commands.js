@@ -444,3 +444,11 @@ Cypress.Commands.add('switchToExtensionWindow', () => {
 Cypress.Commands.add('switchToExtensionRegistrationWindow', () => {
   return cy.task('switchToExtensionRegistrationWindow');
 });
+
+Cypress.Commands.add('switchToExtensionPermissionWindow', () => {
+  return cy.task('switchToExtensionPermissionWindow');
+});
+
+Cypress.Commands.add('disconnectWalletFromDapp', () => {
+  return cy.task('disconnectWalletFromDapp');
+});
