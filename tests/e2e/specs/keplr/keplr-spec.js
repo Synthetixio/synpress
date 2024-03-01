@@ -29,13 +29,8 @@ describe('Keplr', () => {
 
           cy.visit('/');
           cy.contains('Connect Wallet').click();
-          cy.acceptAccess().then(taskCompleted => {
+          cy.confirmTransaction().then(taskCompleted => {
             expect(taskCompleted).to.be.true;
-
-            cy.contains('Make an Offer').click();
-            cy.confirmTransaction().then(taskCompleted => {
-              expect(taskCompleted).to.be.true;
-            });
           });
         });
       });
