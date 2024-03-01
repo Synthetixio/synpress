@@ -59,6 +59,7 @@ module.exports = (on, config) => {
     clearWindows: playwright.clearWindows,
     isCypressWindowActive: playwright.isCypressWindowActive,
     switchToExtensionWindow: playwright.switchToKeplrWindow,
+    switchToExtensionRegistrationWindow: playwright.switchToKeplrRegistrationWindow,
 
     // keplr commands
     importWallet: keplr.importWallet,
@@ -66,17 +67,13 @@ module.exports = (on, config) => {
     confirmTransaction: keplr.confirmTransaction,
     setupWallet: async ({
       secretWordsOrPrivateKey,
-      network,
       password,
-      enableAdvancedSettings,
-      enableExperimentalSettings,
+      newAccount,
     }) => {
       await keplr.initialSetup(null, {
         secretWordsOrPrivateKey,
-        network,
         password,
-        enableAdvancedSettings,
-        enableExperimentalSettings,
+        newAccount
       });
       return true;
     },
