@@ -582,6 +582,7 @@ const metamask = {
     return true;
   },
   async disconnectWalletFromDapp() {
+    await playwright.switchToKeplrWindow();
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.optionsMenu.button);
     await playwright.waitAndClick(

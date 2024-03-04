@@ -28,5 +28,14 @@ describe('Playwright', () => {
           expect(isActive).to.be.false;
         });
       });
+      it(`switchToExtensionWindow should properly switch active tab to keplr window`, () => {
+        cy.switchToExtensionWindow();
+        cy.isExtensionWindowActive().then(isActive => {
+          expect(isActive).to.be.true;
+        });
+        cy.isCypressWindowActive().then(isActive => {
+          expect(isActive).to.be.false;
+        });
+      });
     });
   });

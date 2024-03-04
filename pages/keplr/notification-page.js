@@ -1,4 +1,4 @@
-const approveButton = `button[type="button"]`;
+const approveButton = `button`;
 
 module.exports.notificationPageElements = {
   approveButton,
