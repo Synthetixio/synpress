@@ -1,0 +1,85 @@
+{
+  "name": "demo2-contract",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Offer Up Contract",
+  "type": "module",
+  "scripts": {
+    "start:docker": "docker compose up -d",
+    "docker:logs": "docker compose logs --tail 200 -f",
+    "docker:bash": "docker compose exec agd bash",
+    "docker:make": "docker compose exec agd make -C /workspace/contract",
+    "make:help": "make list",
+    "start": "yarn docker:make clean start-contract print-key",
+    "build": "agoric run scripts/build-contract-deployer.js",
+    "test": "ava --verbose",
+    "lint": "eslint '**/*.js'",
+    "lint:fix": "eslint --fix '**/*.js'"
+  },
+  "devDependencies": {
+    "@agoric/deploy-script-support": "^0.10.4-u12.0",
+    "@agoric/eslint-config": "dev",
+    "@endo/bundle-source": "^2.8.0",
+    "@endo/eslint-plugin": "^0.5.2",
+    "@endo/init": "^0.5.60",
+    "@endo/promise-kit": "0.2.56",
+    "@endo/ses-ava": "^0.2.44",
+    "@jessie.js/eslint-plugin": "^0.4.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "agoric": "^0.21.2-u12.0",
+    "ava": "^5.3.0",
+    "eslint": "^8.47.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-jessie": "^0.0.6",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-ava": "^14.0.0",
+    "eslint-plugin-github": "^4.10.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsdoc": "^46.4.3",
+    "eslint-plugin-prettier": "^5.0.0",
+    "import-meta-resolve": "^2.2.1",
+    "prettier": "^3.0.3",
+    "prettier-plugin-jsdoc": "^1.0.0",
+    "type-coverage": "^2.26.3",
+    "typescript": "~5.2.2"
+  },
+  "dependencies": {
+    "@agoric/ertp": "^0.16.3-u12.0",
+    "@agoric/zoe": "^0.26.3-u12.0",
+    "@endo/far": "^0.2.22",
+    "@endo/marshal": "^0.8.9",
+    "@endo/patterns": "^0.2.5"
+  },
+  "ava": {
+    "files": [
+      "test/**/test-*.js"
+    ],
+    "timeout": "10m"
+  },
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Agoric/dapp-offer-up"
+  },
+  "author": "Agoric",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Agoric/dapp-offer-up/issues"
+  },
+  "homepage": "https://github.com/Agoric/dapp-offer-up#readme",
+  "eslintConfig": {
+    "parserOptions": {
+      "sourceType": "module",
+      "ecmaVersion": 2021
+    },
+    "extends": [
+      "@agoric"
+    ]
+  },
+  "prettier": {
+    "trailingComma": "all",
+    "arrowParens": "avoid",
+    "singleQuote": true
+  }
+}
