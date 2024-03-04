@@ -437,6 +437,10 @@ Cypress.Commands.add('confirmTransaction', () => {
   return cy.task('confirmTransaction');
 });
 
+Cypress.Commands.add('rejectTransaction', () => {
+  return cy.task('rejectTransaction');
+});
+
 Cypress.Commands.add('isExtensionWindowActive', () => {
   return cy.task('isExtensionWindowActive');
 });

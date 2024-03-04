@@ -69,6 +69,7 @@ module.exports = (on, config) => {
     acceptAccess: keplr.acceptAccess,
     rejectAccess: keplr.rejectAccess,
     confirmTransaction: keplr.confirmTransaction,
+    rejectTransaction: keplr.rejectTransaction,
     disconnectWalletFromDapp: keplr.disconnectWalletFromDapp,
     setupWallet: async ({ secretWordsOrPrivateKey, password, newAccount }) => {
       await keplr.initialSetup(null, {

@@ -208,6 +208,12 @@ const keplr = {
     return true;
   },
 
+  async rejectTransaction() {
+    const notificationPage = await playwright.switchToKeplrNotification();
+    await notificationPage.close();
+    return true;
+  },
+
   async initialSetup(
     playwrightInstance,
     { secretWordsOrPrivateKey, password, newAccount },

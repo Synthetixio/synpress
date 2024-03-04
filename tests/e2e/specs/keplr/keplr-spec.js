@@ -26,6 +26,20 @@ describe('Keplr', () => {
         expect(taskCompleted).to.be.true;
       });
     });
+    it(`should reject make an offer transaction`, () => {
+      const alertShown = cy.stub().as('alertShown');
+      cy.on('window:alert', alertShown);
+
+      cy.contains('Make an Offer').click();
+      cy.rejectTransaction().then(taskCompleted => {
+        expect(taskCompleted).to.be.true;
+      });
+
+      cy.get('@alertShown').should(
+        'have.been.calledOnceWith',
+        'Offer error: Error: Request rejected',
+      );
+    });
     it(`should confirm make an offer transaction`, () => {
       const alertShown = cy.stub().as('alertShown');
       cy.on('window:alert', alertShown);
