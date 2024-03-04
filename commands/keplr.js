@@ -114,7 +114,7 @@ const keplr = {
       onboardingElements.walletName,
     );
 
-    const passwordFieldExists = await playwright.doesElementExist(
+    const passwordFieldExists = await playwright.waitForAndCheckElementExistence(
       onboardingElements.passwordInput,
     );
 

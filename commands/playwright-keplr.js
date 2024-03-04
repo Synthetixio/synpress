@@ -263,7 +263,7 @@ module.exports = {
     await module.exports.waitUntilStable();
     return element;
   },
-  async doesElementExist(selector, timeout = 1000, page = keplrWindow) {
+  async waitForAndCheckElementExistence(selector, timeout = 1000, page = keplrWindow) {
     try {
       await page.waitForSelector(selector, { timeout });
       return true;
