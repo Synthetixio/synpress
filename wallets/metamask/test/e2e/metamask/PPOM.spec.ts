@@ -1,6 +1,6 @@
-import { testWithMetaMask } from '../testWithMetaMask'
-import { createDataTestSelector } from '../../../src/utils/selectors/createDataTestSelector'
 import { getNotificationPageAndWaitForLoad } from '../../../src/utils/getNotificationPageAndWaitForLoad'
+import { createDataTestSelector } from '../../../src/utils/selectors/createDataTestSelector'
+import { testWithMetaMask } from '../testWithMetaMask'
 
 const test = testWithMetaMask
 
@@ -13,7 +13,7 @@ describe('using PPOM security mechanism', () => {
   test('should prevent malicious ETH transfer', async ({ context, page, metamask }) => {
     await page.locator('#maliciousRawEthButton').click()
 
-    const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId!)
+    const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId || '')
 
     await expect(notificationPage.locator(createDataTestSelector('security-provider-banner-alert'))).toContainText(
       PPOM_ERROR
@@ -23,7 +23,7 @@ describe('using PPOM security mechanism', () => {
   test('should prevent malicious ERC20 transfer', async ({ context, page, metamask }) => {
     await page.locator('#maliciousERC20TransferButton').click()
 
-    const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId!)
+    const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId || '')
 
     await expect(notificationPage.locator(createDataTestSelector('security-provider-banner-alert'))).toContainText(
       PPOM_WARNING
@@ -33,7 +33,7 @@ describe('using PPOM security mechanism', () => {
   test('should prevent malicious ERC20 approval', async ({ context, page, metamask }) => {
     await page.locator('#maliciousApprovalButton').click()
 
-    const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId!)
+    const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId || '')
 
     await expect(notificationPage.locator(createDataTestSelector('security-provider-banner-alert'))).toContainText(
       PPOM_WARNING
@@ -43,7 +43,7 @@ describe('using PPOM security mechanism', () => {
   test('should prevent malicious approval for all', async ({ context, page, metamask }) => {
     await page.locator('#maliciousSetApprovalForAll').click()
 
-    const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId!)
+    const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId || '')
 
     await expect(notificationPage.locator(createDataTestSelector('security-provider-banner-alert'))).toContainText(
       PPOM_WARNING
@@ -53,7 +53,7 @@ describe('using PPOM security mechanism', () => {
   test('should prevent malicious permit', async ({ context, page, metamask }) => {
     await page.locator('#maliciousPermit').click()
 
-    const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId!)
+    const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId || '')
 
     await expect(notificationPage.locator(createDataTestSelector('security-provider-banner-alert'))).toContainText(
       PPOM_ERROR
@@ -63,7 +63,7 @@ describe('using PPOM security mechanism', () => {
   test('should prevent malicious trade order', async ({ context, page, metamask }) => {
     await page.locator('#maliciousTradeOrder').click()
 
-    const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId!)
+    const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId || '')
 
     await expect(notificationPage.locator(createDataTestSelector('security-provider-banner-alert'))).toContainText(
       PPOM_ERROR
@@ -73,7 +73,7 @@ describe('using PPOM security mechanism', () => {
   test('should prevent malicious seaport', async ({ context, page, metamask }) => {
     await page.locator('#maliciousSeaport').click()
 
-    const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId!)
+    const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId || '')
 
     await expect(notificationPage.locator(createDataTestSelector('security-provider-banner-alert'))).toContainText(
       PPOM_ERROR
