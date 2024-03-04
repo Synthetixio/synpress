@@ -279,3 +279,16 @@ describe('without gas limit', () => {
     await metamask.confirmTransaction()
   })
 })
+
+describe('using custom transaction form', () => {
+  test('should send defined amount', async ({ page, metamask, connectToAnvil }) => {
+    await connectToAnvil()
+
+    await page.locator('#toInput').fill('0x70997970C51812dc3A010C7d01b50e0d17dc79C8')
+    await page.locator('#amountInput').fill('3')
+    await page.locator('#gasInput').fill('1000000000')
+
+    await page.locator('#submitForm').click()
+    await metamask.confirmTransaction()
+  })
+})
