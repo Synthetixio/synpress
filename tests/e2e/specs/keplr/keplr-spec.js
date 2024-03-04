@@ -17,6 +17,13 @@ describe('Keplr', () => {
         });
       });
     });
+    it(`should disconnect the wallet from all the connected DAPPs`, () => {
+      cy.switchToExtensionWindow().then(() => {
+        cy.disconnectWalletFromDapp().then(taskCompleted => {
+          expect(taskCompleted).to.be.true;
+        });
+      });
+    });
     it(`should complete Keplr connect with wallet, and confirm transaction after creating a new wallet using 24 word phrase`, () => {
       cy.switchToExtensionWindow().then(() => {
         cy.setupWallet(
@@ -28,9 +35,13 @@ describe('Keplr', () => {
 
           cy.visit('/');
           cy.contains('Connect Wallet').click();
-          cy.contains('Make an Offer').click();
-          cy.confirmTransaction().then(taskCompleted => {
+          cy.acceptAccess().then(taskCompleted => {
             expect(taskCompleted).to.be.true;
+
+            cy.contains('Make an Offer').click();
+            cy.confirmTransaction().then(taskCompleted => {
+              expect(taskCompleted).to.be.true;
+            });
           });
         });
       });
@@ -41,13 +52,6 @@ describe('Keplr', () => {
           'A9C09B6E4AF70DE1F1B621CB1AA66CFD0B4AA977E4C18497C49132DD9E579485',
         ).then(setupFinished => {
           expect(setupFinished).to.be.true;
-        });
-      });
-    });
-    it(`should disconnect the wallet from all the connected DAPPs`, () => {
-      cy.switchToExtensionWindow().then(() => {
-        cy.disconnectWalletFromDapp().then(taskCompleted => {
-          expect(taskCompleted).to.be.true;
         });
       });
     });
