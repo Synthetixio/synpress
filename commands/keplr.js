@@ -37,7 +37,7 @@ const keplr = {
   async disconnectWalletFromDapp() {
     await playwright.waitAndClickByText(
       'Disconnect All',
-      playwright.keplrPermissionWindow()
+      playwright.keplrPermissionWindow(),
     );
     return true;
   },
@@ -163,6 +163,12 @@ const keplr = {
       notificationPage,
       { waitForEvent: 'close' },
     );
+    return true;
+  },
+
+  async rejectAccess() {
+    const notificationPage = await playwright.switchToKeplrNotification();
+    await notificationPage.close();
     return true;
   },
 

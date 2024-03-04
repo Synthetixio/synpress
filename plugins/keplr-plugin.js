@@ -32,7 +32,8 @@ module.exports = (on, config) => {
     if (!process.env.SKIP_KEPLR_INSTALL) {
       // NOTE: extensions cannot be loaded in headless Chrome
       const keplrPath = await helpers.prepareExtension(
-        process.env.KEPLR_VERSION || '0.12.68', process.env.EXTENSION
+        process.env.KEPLR_VERSION || '0.12.68',
+        process.env.EXTENSION,
       );
       arguments_.extensions.push(keplrPath);
     }
@@ -59,23 +60,21 @@ module.exports = (on, config) => {
     clearWindows: playwright.clearWindows,
     isCypressWindowActive: playwright.isCypressWindowActive,
     switchToExtensionWindow: playwright.switchToKeplrWindow,
-    switchToExtensionRegistrationWindow: playwright.switchToKeplrRegistrationWindow,
+    switchToExtensionRegistrationWindow:
+      playwright.switchToKeplrRegistrationWindow,
     switchToExtensionPermissionWindow: playwright.switchToKeplrPermissionWindow,
 
     // keplr commands
     importWallet: keplr.importWallet,
     acceptAccess: keplr.acceptAccess,
+    rejectAccess: keplr.rejectAccess,
     confirmTransaction: keplr.confirmTransaction,
     disconnectWalletFromDapp: keplr.disconnectWalletFromDapp,
-    setupWallet: async ({
-      secretWordsOrPrivateKey,
-      password,
-      newAccount,
-    }) => {
+    setupWallet: async ({ secretWordsOrPrivateKey, password, newAccount }) => {
       await keplr.initialSetup(null, {
         secretWordsOrPrivateKey,
         password,
-        newAccount
+        newAccount,
       });
       return true;
     },

@@ -1,23 +1,45 @@
 /* eslint-disable ui-testing/no-disabled-tests */
 describe('Keplr', () => {
   context('Test commands', () => {
-    it(`should complete Keplr connect with wallet, and confirm transaction after importing an existing wallet using 24 word phrase`, () => {
+    it(`should complete Keplr setup by  importing an existing wallet using 24 word phrase`, () => {
       cy.setupWallet().then(setupFinished => {
         expect(setupFinished).to.be.true;
+      });
+      cy.visit('/');
+    });
+    it(`should reject connect with wallet`, () => {
+      const alertShown = cy.stub().as('alertShown');
+      cy.on('window:alert', alertShown);
 
-        cy.visit('/');
-        cy.contains('Connect Wallet').click();
-        cy.acceptAccess().then(taskCompleted => {
-          expect(taskCompleted).to.be.true;
-
-          cy.contains('Make an Offer').click();
-          cy.confirmTransaction().then(taskCompleted => {
-            expect(taskCompleted).to.be.true;
-          });
-        });
+      cy.contains('Connect Wallet').click();
+      cy.rejectAccess().then(rejected => {
+        expect(rejected).to.be.true;
+      });
+      cy.get('@alertShown').should(
+        'have.been.calledOnceWith',
+        'Request rejected',
+      );
+    });
+    it(`should accept connection with wallet`, () => {
+      cy.contains('Connect Wallet').click();
+      cy.acceptAccess().then(taskCompleted => {
+        expect(taskCompleted).to.be.true;
       });
     });
+    it(`should confirm make an offer transaction`, () => {
+      const alertShown = cy.stub().as('alertShown');
+      cy.on('window:alert', alertShown);
 
+      cy.contains('Make an Offer').click();
+      cy.confirmTransaction().then(taskCompleted => {
+        expect(taskCompleted).to.be.true;
+      });
+
+      cy.get('@alertShown').should(
+        'have.been.calledOnceWith',
+        'Offer accepted',
+      );
+    });
     it(`should complete Keplr connect with wallet, and confirm transaction after creating a new wallet using 24 word phrase`, () => {
       cy.switchToExtensionRegistrationWindow().then(() => {
         cy.setupWallet(
