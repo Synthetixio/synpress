@@ -22,6 +22,9 @@ module.exports = {
     retries = 0;
     extensionsData = {};
   },
+  browser() {
+    return browser;
+  },
   mainWindow() {
     return mainWindow;
   },

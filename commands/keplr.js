@@ -7,41 +7,76 @@ const {
 
 let extensionId;
 let extensionVersion;
+let registrationUrl;
+let permissionsUrl;
 
 const keplr = {
   async resetState() {
     log('Resetting state of keplr');
     extensionId = undefined;
     extensionVersion = undefined;
+    registrationUrl = undefined;
+    permissionsUrl = undefined;
   },
   extensionId: () => {
     return extensionId;
   },
   extensionUrls: () => {
     return {
-      extensionImportAccountUrl,
+      registrationUrl,
+      permissionsUrl,
     };
   },
-
+  async goTo(url) {
+    await Promise.all([
+      playwright.keplrWindow().waitForNavigation(),
+      playwright.keplrWindow().goto(url),
+    ]);
+    await playwright.waitUntilStable();
+  },
+  async goToRegistration() {
+    await module.exports.goTo(registrationUrl);
+  },
+  async goToPermissions() {
+    await module.exports.goTo(permissionsUrl);
+  },
+  async switchToKeplrIfNotActive() {
+    if (await playwright.isCypressWindowActive()) {
+      await playwright.switchToKeplrWindow();
+      switchBackToCypressWindow = true;
+    }
+    return switchBackToCypressWindow;
+  },
   async getExtensionDetails() {
     const keplrExtensionData = (await playwright.getExtensionsData()).keplr;
 
     extensionId = keplrExtensionData.id;
     extensionVersion = keplrExtensionData.version;
+    registrationUrl = `chrome-extension://${extensionId}/register.html`;
+    permissionsUrl = `chrome-extension://${extensionId}/popup.html#/setting/security/permission`;
 
     return {
       extensionId,
       extensionVersion,
+      registrationUrl,
+      permissionsUrl,
     };
   },
   async disconnectWalletFromDapp() {
+    await module.exports.goToPermissions();
     await playwright.waitAndClickByText(
       'Disconnect All',
-      playwright.keplrPermissionWindow()
+      playwright.keplrWindow(),
     );
     return true;
   },
   async importWallet(secretWordsOrPrivateKey, password, newAccount) {
+    const keplrWindow = playwright.keplrWindow();
+    const currentUrl = await keplrWindow.url();
+    if (!currentUrl.includes('registr')) {
+      await module.exports.goToRegistration();
+    }
+
     await playwright.waitAndClickByText(
       newAccount
         ? onboardingElements.createWalletButton
@@ -112,12 +147,7 @@ const keplr = {
       await playwright.keplrWindow(),
     );
 
-    await playwright.waitAndClick(
-      onboardingElements.finishButton,
-      await playwright.keplrWindow(),
-      { dontWait: true },
-    );
-
+    await playwright.switchToCypressWindow();
     return true;
   },
   async importWalletWithPhrase(secretWords) {
