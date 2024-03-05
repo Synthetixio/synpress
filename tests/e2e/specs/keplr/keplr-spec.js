@@ -1,4 +1,5 @@
 /* eslint-disable ui-testing/no-disabled-tests */
+
 describe('Keplr', () => {
   context('Test commands', () => {
     it(`should complete Keplr setup by  importing an existing wallet using 24 word phrase`, () => {
@@ -83,6 +84,12 @@ describe('Keplr', () => {
     it(`should disconnect the wallet from all the connected DAPPs`, () => {
       cy.disconnectWalletFromDapp().then(taskCompleted => {
         expect(taskCompleted).to.be.true;
+      });
+    });
+
+    it(`should get wallet address`, () => {
+      cy.getWalletAddress().then(walletAddress => {
+        expect(walletAddress.length).to.be.equal(45);
       });
     });
   });

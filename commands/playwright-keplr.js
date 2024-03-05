@@ -44,6 +44,9 @@ module.exports = {
   isCypressWindowActive() {
     return activeTabName === 'cypress';
   },
+  activeTabName() {
+    return activeTabName;
+  },
   async switchToKeplrWindow() {
     await keplrWindow.bringToFront();
     module.exports.assignActiveTabName('keplr');

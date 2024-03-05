@@ -68,6 +68,7 @@ module.exports = (on, config) => {
     importWallet: keplr.importWallet,
     acceptAccess: keplr.acceptAccess,
     rejectAccess: keplr.rejectAccess,
+    getWalletAddress: keplr.getWalletAddress,
     confirmTransaction: keplr.confirmTransaction,
     rejectTransaction: keplr.rejectTransaction,
     disconnectWalletFromDapp: keplr.disconnectWalletFromDapp,

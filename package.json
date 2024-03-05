@@ -53,7 +53,6 @@
     "test:e2e:ci:cypress-action": "CYPRESS_USE_ANVIL=true pnpm synpress:run",
     "synpress:run:keplr": "EXTENSION=keplr SKIP_EXTENSION_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js",
     "test:e2e:keplr": "start-server-and-test 'pnpm start:ui' http-get://localhost:3000 'pnpm start:json-server' http-get://localhost:3004 'pnpm synpress:run:keplr'"
-    
   },
   "dependencies": {
     "@cypress/code-coverage": "^3.11.0",
@@ -73,6 +72,7 @@
     "babel-plugin-transform-react-qa-classes": "^1.6.0",
     "babel-plugin-transform-react-styled-components-qa": "^2.1.0",
     "bytes32": "^0.0.3",
+    "clipboardy": "^2.3.0",
     "commander": "^11.0.0",
     "cypress": "12.17.3",
     "cypress-wait-until": "^2.0.1",
