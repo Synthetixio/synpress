@@ -59,6 +59,7 @@ describe('Keplr', () => {
         'orbit bench unit task food shock brand bracket domain regular warfare company announce wheel grape trust sphere boy doctor half guard ritual three ecology',
         'Test1234',
         true,
+        'My Wallet 2',
       ).then(setupFinished => {
         expect(setupFinished).to.be.true;
       });
@@ -66,9 +67,18 @@ describe('Keplr', () => {
     it(`should complete Keplr setup by importing the wallet using private key`, () => {
       cy.setupWallet(
         'A9C09B6E4AF70DE1F1B621CB1AA66CFD0B4AA977E4C18497C49132DD9E579485',
+        null,
+        false,
+        'My wallet 3',
       ).then(setupFinished => {
         expect(setupFinished).to.be.true;
       });
+    });
+    it(`should switch to new wallet by name`, () => {
+      cy.switchWallet('My Wallet 2').then(taskCompleted => {
+        expect(taskCompleted).to.be.true;
+      });
+      // TODO: Add some more robust check later
     });
     it(`should disconnect the wallet from all the connected DAPPs`, () => {
       cy.disconnectWalletFromDapp().then(taskCompleted => {

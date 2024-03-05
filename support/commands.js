@@ -416,11 +416,13 @@ Cypress.Commands.add(
     secretWordsOrPrivateKey = 'orbit bench unit task food shock brand bracket domain regular warfare company announce wheel grape trust sphere boy doctor half guard ritual three ecology',
     password = 'Test1234',
     newAccount = false,
+    walletName = 'My Wallet',
   ) => {
     return cy.task('setupWallet', {
       secretWordsOrPrivateKey,
       password,
       newAccount,
+      walletName,
     });
   },
 );
@@ -451,4 +453,8 @@ Cypress.Commands.add('switchToExtensionWindow', () => {
 
 Cypress.Commands.add('disconnectWalletFromDapp', () => {
   return cy.task('disconnectWalletFromDapp');
+});
+
+Cypress.Commands.add('switchWallet', walletName => {
+  return cy.task('switchWallet', { walletName });
 });
