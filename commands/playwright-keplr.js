@@ -34,25 +34,25 @@ module.exports = {
   keplrNotificationWindow() {
     return keplrNotificationWindow;
   },
-  async assignActiveTabName(tabName) {
+  assignActiveTabName(tabName) {
     activeTabName = tabName;
     return true;
   },
-  async isKeplrWindowActive() {
+  isKeplrWindowActive() {
     return activeTabName === 'keplr';
   },
-  async isCypressWindowActive() {
+  isCypressWindowActive() {
     return activeTabName === 'cypress';
   },
   async switchToKeplrWindow() {
     await keplrWindow.bringToFront();
-    await module.exports.assignActiveTabName('keplr');
+    module.exports.assignActiveTabName('keplr');
     return true;
   },
   async switchToCypressWindow() {
     if (mainWindow) {
       await mainWindow.bringToFront();
-      await module.exports.assignActiveTabName('cypress');
+      module.exports.assignActiveTabName('cypress');
     }
     return true;
   },
