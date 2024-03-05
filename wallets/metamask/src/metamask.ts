@@ -393,6 +393,30 @@ export class MetaMask {
     await this.settingsPage.disableEthSign()
   }
 
+  async addNewToken() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.addNewToken(this.extensionId)
+  }
+
+  async providePublicEncryptionKey() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.providePublicEncryptionKey(this.extensionId)
+  }
+
+  async decrypt() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.decryptMessage(this.extensionId)
+  }
+
   /// -------------------------------------------
   /// ---------- EXPERIMENTAL FEATURES ----------
   /// -------------------------------------------
@@ -437,13 +461,5 @@ export class MetaMask {
    */
   async closeTransactionDetails() {
     await this.homePage.closeTransactionDetails()
-  }
-
-  async addNewToken() {
-    if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR
-    }
-
-    await this.notificationPage.addNewToken(this.extensionId)
   }
 }
