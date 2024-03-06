@@ -21,5 +21,5 @@ export default {
   WalletCreationSuccessPageSelectors,
 
   // 5th Page
-  PinExtensionPageSelectors
-}
+  PinExtensionPageSelectors,
+};

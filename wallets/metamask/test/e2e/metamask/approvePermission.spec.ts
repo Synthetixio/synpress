@@ -2,7 +2,7 @@ import { testWithMetaMask } from '../testWithMetaMask'
 
 const test = testWithMetaMask
 
-const { describe } = test
+const { describe, expect } = test
 
 describe('with default gas setting', () => {
   test('should approve tokens with the default limit by default', async ({ page, metamask, deployToken }) => {
@@ -77,4 +77,19 @@ describe('with custom gas setting', () => {
       }
     })
   })
+})
+
+test('should request permissions', async ({ page, metamask }) => {
+  await page.locator('#revokeAccountsPermission').click()
+  await page.locator('#getPermissions').click()
+
+  const noPermission = await page.locator('#permissionsResult').innerText()
+  expect(noPermission).toBe('No permissions found.')
+
+  await page.locator('#requestPermissions').click()
+
+  await metamask.connectToDapp()
+
+  const requestedPermissions = await page.locator('#permissionsResult').innerText()
+  expect(requestedPermissions).toBe('eth_accounts')
 })

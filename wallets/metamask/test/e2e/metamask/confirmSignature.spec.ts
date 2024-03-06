@@ -64,3 +64,26 @@ test('should confirm `eth_signTypedData_v4`', async ({ page, metamask }) => {
 
   await expect(page.locator('#signTypedDataV4VerifyResult')).toHaveText('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
 })
+
+test('should confirm `eth_sign`', async ({ page, metamask }) => {
+  await metamask.unsafe_enableEthSign()
+
+  await page.locator('#ethSign').click()
+
+  await metamask.confirmSignatureWithRisk()
+
+  await expect(page.locator('#ethSignResult')).toContainText(
+    '0xbfefd81020331aa2869403ba11711f082506b9c9313c29a212975067123ca222536ba40b17d8847356cc4ee448fb088231db98632e745e469f7e3d142e4256541b'
+  )
+})
+
+test('should not be permitted to confirm `eth_sign`', async ({ page, metamask }) => {
+  await metamask.unsafe_enableEthSign()
+  await metamask.disableEthSign()
+
+  await page.locator('#ethSign').click()
+
+  await expect(page.locator('#ethSign')).toContainText(
+    'Error: eth_sign has been disabled. You must enable it in the advanced settings'
+  )
+})

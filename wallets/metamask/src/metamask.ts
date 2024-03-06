@@ -3,6 +3,7 @@ import { CrashPage, HomePage, LockPage, NotificationPage, OnboardingPage } from 
 import type { Network } from './pages/HomePage/actions'
 import { SettingsSidebarMenus } from './pages/HomePage/selectors/settings'
 import type { GasSetting } from './pages/NotificationPage/actions'
+import { SettingsPage } from './pages/SettingsPage/page'
 
 const NO_EXTENSION_ID_ERROR = new Error('MetaMask extensionId is not set')
 
@@ -40,6 +41,7 @@ export class MetaMask {
    * @group Selectors
    */
   readonly notificationPage: NotificationPage
+  readonly settingsPage: SettingsPage
 
   /**
    * Class constructor.
@@ -75,6 +77,7 @@ export class MetaMask {
     this.lockPage = new LockPage(page)
     this.homePage = new HomePage(page)
     this.notificationPage = new NotificationPage(page)
+    this.settingsPage = new SettingsPage(page)
   }
 
   /**
@@ -128,6 +131,13 @@ export class MetaMask {
   }
 
   /**
+   * Retrieves the current account address.
+   */
+  async getAccountAddress() {
+    return await this.homePage.getAccountAddress()
+  }
+
+  /**
    * Switches to the network with the given name.
    *
    * @param networkName - The name of the network to switch to.
@@ -171,6 +181,17 @@ export class MetaMask {
     }
 
     await this.notificationPage.signMessage(this.extensionId)
+  }
+
+  /**
+   * Confirms a signature request with potential risk.
+   */
+  async confirmSignatureWithRisk() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.signMessageWithRisk(this.extensionId)
   }
 
   /**
@@ -346,6 +367,47 @@ export class MetaMask {
     await this.homePage.resetAccount()
   }
 
+  /**
+   * Enables the eth_sign feature in MetaMask advanced settings.
+   * This method is marked as unsafe because enabling eth_sign can have security implications.
+   */
+  async unsafe_enableEthSign() {
+    await this.homePage.openSettings()
+    await this.settingsPage.enableEthSign()
+  }
+
+  /**
+   * Disables the eth_sign feature in MetaMask advanced settings.
+   */
+  async disableEthSign() {
+    await this.homePage.openSettings()
+    await this.settingsPage.disableEthSign()
+  }
+
+  async addNewToken() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.addNewToken(this.extensionId)
+  }
+
+  async providePublicEncryptionKey() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.providePublicEncryptionKey(this.extensionId)
+  }
+
+  async decrypt() {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.decryptMessage(this.extensionId)
+  }
+
   /// -------------------------------------------
   /// ---------- EXPERIMENTAL FEATURES ----------
   /// -------------------------------------------
@@ -390,13 +452,5 @@ export class MetaMask {
    */
   async closeTransactionDetails() {
     await this.homePage.closeTransactionDetails()
-  }
-
-  async addNewToken() {
-    if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR
-    }
-
-    await this.notificationPage.addNewToken(this.extensionId)
   }
 }

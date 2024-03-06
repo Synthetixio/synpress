@@ -9,10 +9,14 @@ const rejectMessage = async (notificationPage: Page) => {
   await notificationPage.locator(Selectors.ActionFooter.rejectActionButton).click()
 }
 
-// Used for:
-// - `personal_sign`
-// - `eth_signTypedData`
+const signMessageWithRisk = async (notificationPage: Page) => {
+  await signMessage(notificationPage)
+
+  await notificationPage.locator(Selectors.SignaturePage.riskModal.signButton).click()
+}
+
 export const signSimpleMessage = {
   sign: signMessage,
-  reject: rejectMessage
+  reject: rejectMessage,
+  signWithRisk: signMessageWithRisk
 }

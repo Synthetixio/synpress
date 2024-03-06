@@ -35,7 +35,9 @@ const accountMenu = {
 const threeDotsMenu = {
   threeDotsButton: createDataTestSelector('account-options-menu-button'),
   settingsButton: createDataTestSelector('global-menu-settings'),
-  lockButton: createDataTestSelector('global-menu-lock')
+  lockButton: createDataTestSelector('global-menu-lock'),
+  accountDetailsButton: createDataTestSelector('account-list-menu-details'),
+  accountDetailsCloseButton: '.mm-modal-content .mm-modal-header button.mm-button-icon.mm-button-icon--size-sm'
 }
 
 const popoverContainer = '.popover-container'

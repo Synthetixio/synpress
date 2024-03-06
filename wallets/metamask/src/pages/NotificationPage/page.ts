@@ -5,7 +5,9 @@ import {
   type GasSetting,
   approvePermission,
   connectToDapp,
+  decryptMessage,
   network,
+  providePublicEncryptionKey,
   signSimpleMessage,
   signStructuredMessage,
   token,
@@ -55,6 +57,12 @@ export class NotificationPage {
     } else {
       await signSimpleMessage.sign(notificationPage)
     }
+  }
+
+  async signMessageWithRisk(extensionId: string) {
+    const { notificationPage } = await this.beforeMessageSignature(extensionId)
+
+    await signSimpleMessage.signWithRisk(notificationPage)
   }
 
   async rejectMessage(extensionId: string) {
@@ -132,5 +140,17 @@ export class NotificationPage {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
     await token.addNew(notificationPage)
+  }
+
+  async providePublicEncryptionKey(extensionId: string) {
+    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+
+    await providePublicEncryptionKey(notificationPage)
+  }
+
+  async decryptMessage(extensionId: string) {
+    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+
+    await decryptMessage(notificationPage)
   }
 }

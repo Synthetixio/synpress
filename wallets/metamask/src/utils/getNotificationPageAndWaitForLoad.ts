@@ -9,7 +9,9 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
   let notificationPage = context.pages().find(isNotificationPage)
 
   if (!notificationPage) {
-    notificationPage = await context.waitForEvent('page', { predicate: isNotificationPage })
+    notificationPage = await context.waitForEvent('page', {
+      predicate: isNotificationPage
+    })
   }
 
   // Set pop-up window viewport size to resemble the actual MetaMask pop-up window.
