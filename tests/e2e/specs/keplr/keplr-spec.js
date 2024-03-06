@@ -81,6 +81,18 @@ describe('Keplr', () => {
       });
       // TODO: Add some more robust check later
     });
+    it(`should get the accurate values for the tokens in the wallet`, () => {
+      cy.switchWallet('My Wallet').then(taskCompleted => {
+        expect(taskCompleted).to.be.true;
+      });
+      cy.addNewTokensFound();
+      cy.getTokenAmount('ATOM').then(tokenValue => {
+        expect(tokenValue).to.equal(0);
+      });
+      cy.getTokenAmount('BLD').then(tokenValue => {
+        expect(tokenValue).to.equal(331);
+      });
+    });
     it(`should disconnect the wallet from all the connected DAPPs`, () => {
       cy.disconnectWalletFromDapp().then(taskCompleted => {
         expect(taskCompleted).to.be.true;

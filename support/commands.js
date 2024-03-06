@@ -463,3 +463,11 @@ Cypress.Commands.add('getWalletAddress', () => {
 Cypress.Commands.add('switchWallet', walletName => {
   return cy.task('switchWallet', { walletName });
 });
+
+Cypress.Commands.add('addNewTokensFound', () => {
+  return cy.task('addNewTokensFound');
+});
+
+Cypress.Commands.add('getTokenAmount', tokenName => {
+  return cy.task('getTokenAmount', { tokenName });
+});

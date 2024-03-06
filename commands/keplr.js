@@ -4,8 +4,8 @@ const { onboardingElements } = require('../pages/keplr/first-time-flow-page');
 const {
   notificationPageElements,
 } = require('../pages/keplr/notification-page');
+const { homePageElements } = require('../pages/keplr/home-page');
 const clipboardy = require('clipboardy');
-
 
 let extensionId;
 let extensionVersion;
@@ -29,7 +29,6 @@ const keplr = {
   },
   walletAddress: () => {
     return walletAddress;
-    
   },
   extensionId: () => {
     return extensionId;
@@ -273,6 +272,7 @@ const keplr = {
   },
 
   async switchWallet({ walletName }) {
+    const originalURL = playwright.keplrWindow().url();
     await module.exports.switchToKeplrIfNotActive();
     await module.exports.goToWalletsPage();
 
@@ -281,9 +281,49 @@ const keplr = {
       playwright.keplrWindow(),
       true,
     );
+
+    await playwright.waitForURLLoad(originalURL);
     await playwright.switchToCypressWindow();
 
     return true;
+  },
+
+  async addNewTokensFound() {
+    module.exports.switchToKeplrIfNotActive();
+    await module.exports.goToHome();
+    await playwright.waitAndClickByText(homePageElements.newTokensFound);
+    await playwright.waitAndClick(
+      homePageElements.selectAllTokensCheck,
+      playwright.keplrWindow(),
+      { number: -1, force: true },
+    );
+    await playwright.waitAndClickByText(
+      homePageElements.addChainsButton,
+      playwright.keplrWindow(),
+      true,
+    );
+    await playwright.switchToCypressWindow();
+
+    return true;
+  },
+
+  async getTokenAmount({ tokenName }) {
+    await module.exports.switchToKeplrIfNotActive();
+    await module.exports.goToHome();
+
+    const tokenLabel = await playwright.waitFor(
+      homePageElements.tokenNameLabel(tokenName),
+    );
+    const parentElement = tokenLabel.locator(
+      homePageElements.tokenParentSelector,
+    );
+    const innerTexts = await parentElement.allInnerTexts();
+    const textArray = innerTexts[0].split('\n');
+    const tokenValue = Number(textArray[3]);
+
+    await playwright.switchToCypressWindow();
+
+    return tokenValue;
   },
 };
 

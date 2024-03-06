@@ -87,6 +87,8 @@ module.exports = (on, config) => {
       return true;
     },
     switchWallet: keplr.switchWallet,
+    addNewTokensFound: keplr.addNewTokensFound,
+    getTokenAmount: keplr.getTokenAmount,
   });
 
   return config;

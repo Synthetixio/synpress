@@ -52,7 +52,8 @@ module.exports = {
     module.exports.assignActiveTabName('keplr');
     return true;
   },
-  async switchToCypressWindow() {
+  async switchToCypressWindow(page = keplrWindow) {
+    await module.exports.waitUntilStable(page);
     if (mainWindow) {
       await mainWindow.bringToFront();
       module.exports.assignActiveTabName('cypress');
@@ -193,9 +194,9 @@ module.exports = {
     }
     return element;
   },
-  async waitForByText(text, page = keplrWindow) {
+  async waitForByText(text, page = keplrWindow, exact = false) {
     await module.exports.waitUntilStable(page);
-    const element = page.getByText(text).first();
+    const element = page.getByText(text, { exact: exact }).first();
     await element.waitFor();
     await element.focus();
     if (process.env.STABLE_MODE) {
@@ -208,7 +209,7 @@ module.exports = {
     return element;
   },
   async waitAndClickByText(text, page = keplrWindow, exact = false) {
-    await module.exports.waitForByText(text, page);
+    await module.exports.waitForByText(text, page, exact);
     const element = `:is(:text-is("${text}")${exact ? '' : `, :text("${text}")`})`;
     await page.click(element);
     await module.exports.waitUntilStable();
@@ -221,9 +222,7 @@ module.exports = {
     await module.exports.waitUntilStable(page);
   },
   async waitAndGetValue(selector, page = keplrWindow) {
-    const expect = expectInstance
-      ? expectInstance
-      : require('@playwright/test').expect;
+    const expect = require('@playwright/test').expect;
     const element = await module.exports.waitFor(selector, page);
     await expect(element).toHaveText(/[a-zA-Z0-9]/, {
       ignoreCase: true,
@@ -266,47 +265,17 @@ module.exports = {
     await module.exports.waitUntilStable();
     return element;
   },
-  async waitForAndCheckElementExistence(selector, timeout = 1000, page = keplrWindow) {
+  async waitForAndCheckElementExistence(
+    selector,
+    timeout = 1000,
+    page = keplrWindow,
+  ) {
     try {
       await page.waitForSelector(selector, { timeout });
       return true;
     } catch (error) {
       return false;
     }
-  },
-  async waitAndClick(selector, page = keplrWindow, args = {}) {
-    const element = await module.exports.waitFor(
-      selector,
-      page,
-      args.number || 0,
-    );
-    if (args.numberOfClicks && !args.waitForEvent) {
-      await element.click({
-        clickCount: args.numberOfClicks,
-        force: args.force,
-      });
-    } else if (args.numberOfClicks && args.waitForEvent) {
-      await Promise.all([
-        page.waitForEvent(args.waitForEvent),
-        element.click({ clickCount: args.numberOfClicks, force: args.force }),
-      ]);
-    } else if (args.waitForEvent) {
-      if (args.waitForEvent.includes('navi')) {
-        await Promise.all([
-          page.waitForNavigation(),
-          element.click({ force: args.force }),
-        ]);
-      } else {
-        await Promise.all([
-          page.waitForEvent(args.waitForEvent),
-          element.click({ force: args.force }),
-        ]);
-      }
-    } else {
-      await element.click({ force: args.force });
-    }
-    await module.exports.waitUntilStable();
-    return element;
   },
   async waitForByRole(role, number = 0, page = keplrWindow) {
     await module.exports.waitUntilStable(page);
@@ -365,5 +334,9 @@ module.exports = {
         '[switchToKeplrNotification] Max amount of retries to switch to keplr notification window has been reached. It was never found.',
       );
     }
+  },
+  async waitForURLLoad(url, page = keplrWindow) {
+    await page.waitForURL(url);
+    await module.exports.waitUntilStable(page);
   },
 };
