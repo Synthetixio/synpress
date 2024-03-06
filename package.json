@@ -3,6 +3,7 @@
   "scripts": {
     "build": "turbo build",
     "build:cache": "turbo build:cache --filter=@synthetixio/synpress-metamask",
+    "cypress:open": "cypress open",
     "docs:build": "turbo docs:build --filter=docs",
     "format": "biome format . --write",
     "format:check": "biome format . --error-on-warnings",
@@ -22,11 +23,15 @@
   "lint-staged": {
     "package.json": "sort-package-json"
   },
+  "dependencies": {
+    "@testing-library/cypress": "10.0.1"
+  },
   "devDependencies": {
     "@biomejs/biome": "1.2.2",
     "@changesets/cli": "2.27.1",
     "@metamask/test-dapp": "8.1.0",
     "commitlint-config-gitmoji": "2.3.1",
+    "cypress": "13.6.6",
     "husky": "9.0.10",
     "lint-staged": "15.2.2",
     "npm-check-updates": "16.14.15",
