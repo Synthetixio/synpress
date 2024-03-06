@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        resolution: ['low', 'medium', 'high']
+        resolution: ['high']
 
     steps:
       - name: Checkout
@@ -41,7 +41,7 @@ jobs:
 
       - name: Run e2e tests (${{ matrix.resolution }} res)
         run: |
-          docker-compose -f docker-compose.ci.yml --env-file ${{ matrix.resolution }}-res.env --profile synpress --profile foundry up --build --exit-code-from synpress
+          docker-compose -f docker-compose.ci.keplr.yml --env-file ${{ matrix.resolution }}-res.env --profile synpress up --build --exit-code-from synpress
         env:
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1

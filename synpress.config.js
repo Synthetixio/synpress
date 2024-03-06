@@ -11,16 +11,15 @@ const fixturesFolder = `${synpressPath}/fixtures`;
 log(`Detected synpress fixtures path is: ${fixturesFolder}`);
 const supportFile = 'tests/e2e/support.js';
 
-
 const specPattern = {
   metamask: 'tests/e2e/specs/metamask/**/*.{js,jsx,ts,tsx}',
-  keplr : 'tests/e2e/specs/keplr/**/*.{js,jsx,ts,tsx}'
-}
+  keplr: 'tests/e2e/specs/keplr/**/*.{js,jsx,ts,tsx}',
+};
 
 module.exports = defineConfig({
   userAgent: 'synpress',
   retries: {
-    runMode: process.env.CI ? 1 : 0,
+    runMode: 0,
     openMode: 0,
   },
   fixturesFolder,
