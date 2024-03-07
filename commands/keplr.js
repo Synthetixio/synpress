@@ -158,10 +158,7 @@ const keplr = {
       await playwright.keplrWindow(),
     );
 
-    await playwright.waitAndClick(
-      onboardingElements.submitChainButton,
-      await playwright.keplrWindow(),
-    );
+    await module.exports.handleSelectChain();
 
     await playwright.waitForByText(
       onboardingElements.phraseAccountCreated,
@@ -169,6 +166,38 @@ const keplr = {
     );
 
     return true;
+  },
+  async handleSelectChain() {
+    const chainNameExists = await playwright.waitForAndCheckElementExistence(
+      onboardingElements.chainNameSelector,
+    );
+
+    if (chainNameExists) {
+      await playwright.waitAndClickByText(
+        onboardingElements.chainName,
+        playwright.keplrWindow(),
+      );
+      await playwright.waitAndClick(
+        onboardingElements.submitChainButton,
+        playwright.keplrWindow(),
+      );
+      const importButtonExists =
+        await playwright.waitForAndCheckElementExistence(
+          onboardingElements.importButtonSelector,
+        );
+
+      if (importButtonExists) {
+        await playwright.waitAndClick(
+          onboardingElements.importButtonSelector,
+          playwright.keplrWindow(),
+        );
+      }
+    } else {
+      await playwright.waitAndClick(
+        onboardingElements.submitChainButton,
+        playwright.keplrWindow(),
+      );
+    }
   },
   async importWalletWithPhrase(secretWords) {
     await playwright.waitAndClickByText(
@@ -238,12 +267,20 @@ const keplr = {
     return true;
   },
 
-  async getWalletAddress() {
-    await playwright.switchToKeplrWindow();
+  async getWalletAddress(chainName) {
+    playwright.switchToKeplrWindow();
     await module.exports.goToHome();
-    const page = playwright.keplrWindow();
+    const newTokensSelctorExists = await playwright.waitForAndCheckElementExistence(
+      homePageElements.newTokensFoundSelector,
+    );
+
+    if (newTokensSelctorExists) {
+      await module.exports.addNewTokensFound(false);
+    }
+
     await playwright.waitAndClickByText(notificationPageElements.copyAddress);
-    await page.click(notificationPageElements.copyWalletAddressSelector);
+    await playwright.waitAndClick(notificationPageElements.walletSelectors(chainName))
+    
     walletAddress = clipboardy.readSync();
     await playwright.switchToCypressWindow();
     return walletAddress;
@@ -287,14 +324,14 @@ const keplr = {
 
     return true;
   },
-
-  async addNewTokensFound() {
-    module.exports.switchToKeplrIfNotActive();
-    await module.exports.goToHome();
+  async addNewTokensFound(switchScreens = true) {
+    if (switchScreens) {
+      module.exports.switchToKeplrIfNotActive();
+      await module.exports.goToHome();
+    }
     await playwright.waitAndClickByText(homePageElements.newTokensFound);
-    await playwright.waitAndClick(
+    await playwright.waitAndClickWithRetry(
       homePageElements.selectAllTokensCheck,
-      playwright.keplrWindow(),
       { number: -1, force: true },
     );
     await playwright.waitAndClickByText(
@@ -302,7 +339,10 @@ const keplr = {
       playwright.keplrWindow(),
       true,
     );
-    await playwright.switchToCypressWindow();
+
+    if (switchScreens) {
+      await playwright.switchToCypressWindow();
+    }
 
     return true;
   },
@@ -319,11 +359,11 @@ const keplr = {
     );
     const innerTexts = await parentElement.allInnerTexts();
     const textArray = innerTexts[0].split('\n');
-    const tokenValue = Number(textArray[3]);
 
+    const tokenValue = textArray[3];
+    const parsedTokenValue = Number(tokenValue.replace(/,/g, ''));
     await playwright.switchToCypressWindow();
-
-    return tokenValue;
+    return parsedTokenValue;
   },
 };
 

@@ -1,9 +1,9 @@
 const approveButton = `button`;
 const copyAddress = 'Copy Address';
-const copyWalletAddressSelector = 'div.sc-dkzDqf div.sc-hKMtZM.sc-kDDrLX.cyoEAq.dkJSBQ'
+const walletSelectors = chainName => `img[alt="${chainName}"]`;
 
 module.exports.notificationPageElements = {
   approveButton,
   copyAddress,
-  copyWalletAddressSelector
+  walletSelectors
 };

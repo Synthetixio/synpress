@@ -271,6 +271,7 @@ module.exports = {
     page = keplrWindow,
   ) {
     try {
+      await module.exports.waitUntilStable(page);
       await page.waitForSelector(selector, { timeout });
       return true;
     } catch (error) {
@@ -306,6 +307,30 @@ module.exports = {
     const element = await module.exports.waitForByRole(selector, number, page);
     await element.type(value);
     await module.exports.waitUntilStable(page);
+  },
+  async waitAndClickWithRetry(selector, options) {
+    const maxRetries = 5;
+    let retries = 0;
+
+    while (retries < maxRetries) {
+      try {
+        await module.exports.waitAndClick(
+          selector,
+          module.exports.keplrWindow(),
+          options,
+        );
+        return;
+      } catch (error) {
+        retries++;
+      }
+    }
+
+    throw new Error(`Failed to click element after ${maxRetries} attempts`);
+  },
+  async waitAndClickWithDelay(selector, options, delay) {
+    const page = module.exports.keplrWindow()
+    await page.waitForTimeout(delay)
+    await module.exports.waitAndClick(selector, page, options);
   },
   async switchToKeplrNotification() {
     const keplrExtensionData = (await module.exports.getExtensionsData()).keplr;

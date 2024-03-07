@@ -3,6 +3,7 @@ const tokenParentSelector = '../../../..';
 const selectAllTokensCheck = 'input[type="checkbox"]:enabled';
 const newTokensFound = 'new token(s) found';
 const addChainsButton = 'Add Chains';
+const newTokensFoundSelector = 'text=new token(s) found'
 
 module.exports.homePageElements = {
   tokenNameLabel,
@@ -10,4 +11,5 @@ module.exports.homePageElements = {
   selectAllTokensCheck,
   newTokensFound,
   addChainsButton,
+  newTokensFoundSelector
 };
