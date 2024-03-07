@@ -1,0 +1,9 @@
+.github
+.env
+.dockerignore
+docker
+docs
+downloads
+images
+tests
+tools

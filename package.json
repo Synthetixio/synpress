@@ -1,6 +1,6 @@
 {
-  "name": "@synthetixio/synpress",
-  "version": "3.7.2-beta.9",
+  "name": "@agoric/synpress",
+  "version": "3.7.2-dev",
   "description": "Synpress is e2e testing framework based around Cypress.io & playwright with included MetaMask support. Test your dapps with ease.",
   "keywords": [
     "Synpress",
@@ -9,17 +9,17 @@
     "testing",
     "e2e"
   ],
-  "homepage": "https://github.com/synthetixio/synpress#readme",
+  "homepage": "https://github.com/agoric-labs/synpress#readme",
   "bugs": {
-    "url": "https://github.com/synthetixio/synpress/issues"
+    "url": "https://github.com/agoric-labs/synpress/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/synthetixio/synpress.git"
+    "url": "git+https://github.com/agoric-labs/synpress.git"
   },
   "license": "MIT",
   "author": {
-    "name": "Synthetix"
+    "name": "agoric-labs"
   },
   "type": "commonjs",
   "main": "launcher.js",
@@ -43,7 +43,7 @@
     "start:contract": "cd tools/contract && pnpm start",
     "start:ui": "cd tools/ui && pnpm dev",
     "start:json-server": "json-server tools/json-server-db.json --port 3004",
-    "synpress:run:metamask": "EXTENSION=metamask SKIP_EXTENSION_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js",
+    "synpress:run:metamask": "CYPRESS_SPEC_PATTERN=tests/e2e/specs/metamask/** EXTENSION=metamask SKIP_EXTENSION_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js",
     "test:e2e:metamask": "start-server-and-test 'pnpm start:server' http-get://localhost:3000 'pnpm synpress:run:metamask'",
     "test:e2e:anvil": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'CYPRESS_USE_ANVIL=true pnpm synpress:run'",
     "test:e2e:headless": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'pnpm synpress:run --headless'",
@@ -52,7 +52,7 @@
     "test:e2e:ci:keplr": "start-server-and-test 'VITE_RUN_ENV=agoric_chain pnpm start:ui' http-get://localhost:3000 'pnpm start:json-server' http-get://localhost:3004 'pnpm synpress:run:keplr'",
     "test:e2e:ci:anvil": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'CYPRESS_USE_ANVIL=true pnpm synpress:run --record --group'",
     "test:e2e:ci:cypress-action": "CYPRESS_USE_ANVIL=true pnpm synpress:run",
-    "synpress:run:keplr": "EXTENSION=keplr SKIP_EXTENSION_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js",
+    "synpress:run:keplr": "CYPRESS_SPEC_PATTERN=tests/e2e/specs/keplr/** EXTENSION=keplr SKIP_EXTENSION_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js",
     "test:e2e:keplr": "start-server-and-test 'pnpm start:ui' http-get://localhost:3000 'pnpm start:json-server' http-get://localhost:3004 'pnpm synpress:run:keplr'"
   },
   "dependencies": {
