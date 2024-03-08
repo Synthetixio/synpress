@@ -410,22 +410,24 @@ Cypress.Commands.add(
 );
 
 // Keplr Commands
-Cypress.Commands.add(
-  'setupWallet',
-  (
-    secretWordsOrPrivateKey = 'orbit bench unit task food shock brand bracket domain regular warfare company announce wheel grape trust sphere boy doctor half guard ritual three ecology',
+Cypress.Commands.add('setupWallet', (args = {}) => {
+  const {
+    secretWords,
+    privateKey,
     password = 'Test1234',
     newAccount = false,
     walletName = 'My Wallet',
-  ) => {
-    return cy.task('setupWallet', {
-      secretWordsOrPrivateKey,
-      password,
-      newAccount,
-      walletName,
-    });
-  },
-);
+  } = args;
+  return cy.task('setupWallet', {
+    secretWordsOrPrivateKey:
+      secretWords ||
+      privateKey ||
+      'orbit bench unit task food shock brand bracket domain regular warfare company announce wheel grape trust sphere boy doctor half guard ritual three ecology',
+    password,
+    newAccount,
+    walletName,
+  });
+});
 
 Cypress.Commands.add('acceptAccess', () => {
   return cy.task('acceptAccess');

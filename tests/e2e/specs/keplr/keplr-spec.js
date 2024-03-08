@@ -56,22 +56,22 @@ describe('Keplr', () => {
       );
     });
     it(`should create a new wallet using 24 word phrase`, () => {
-      cy.setupWallet(
-        'orbit bench unit task food shock brand bracket domain regular warfare company announce wheel grape trust sphere boy doctor half guard ritual three ecology',
-        'Test1234',
-        true,
-        'My Wallet 2',
-      ).then(setupFinished => {
+      cy.setupWallet({
+        secretWords:
+          'orbit bench unit task food shock brand bracket domain regular warfare company announce wheel grape trust sphere boy doctor half guard ritual three ecology',
+        password: 'Test1234',
+        newAccount: true,
+        walletName: 'My Wallet 2',
+      }).then(setupFinished => {
         expect(setupFinished).to.be.true;
       });
     });
     it(`should complete Keplr setup by importing the wallet using private key`, () => {
-      cy.setupWallet(
-        'A9C09B6E4AF70DE1F1B621CB1AA66CFD0B4AA977E4C18497C49132DD9E579485',
-        null,
-        false,
-        'My wallet 3',
-      ).then(setupFinished => {
+      cy.setupWallet({
+        privateKey:
+          'A9C09B6E4AF70DE1F1B621CB1AA66CFD0B4AA977E4C18497C49132DD9E579485',
+        walletName: 'My wallet 3',
+      }).then(setupFinished => {
         expect(setupFinished).to.be.true;
       });
     });

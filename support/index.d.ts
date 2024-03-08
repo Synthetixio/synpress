@@ -505,5 +505,23 @@ declare namespace Cypress {
       viewportWidth: number,
       viewportHeight: number,
     ): Chainable<Subject>;
+    /**
+     * Generic method to setup wallet (works for keplr only)
+     * @example
+     * cy.setupWallet();
+     * cy.setupWallet({
+     *   secretWords: 'test test test test test test test test test test test junk',
+     *   password: 'Password123',
+     * });
+     */
+    setupWallet(
+      args: {
+        secretWords?: String;
+        privateKey?: String;
+        password?: String;
+        newAccount?: Boolean;
+        walletName?: String;
+      }
+    ): Chainable<Subject>;
   }
 }
