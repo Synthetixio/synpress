@@ -123,11 +123,17 @@ importers:
       '@microsoft/eslint-formatter-sarif':
         specifier: ^3.0.0
         version: 3.0.0
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^6.0.0
+        version: 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)(typescript@5.3.3)
+      '@typescript-eslint/parser':
+        specifier: ^6.0.0
+        version: 6.21.0(eslint@8.57.0)(typescript@5.3.3)
       eslint:
         specifier: ^8.47.0
         version: 8.57.0
       eslint-config-prettier:
-        specifier: ^9.0.0
+        specifier: ^9.1.0
         version: 9.1.0(eslint@8.57.0)
       eslint-config-standard:
         specifier: ^17.1.0
@@ -143,7 +149,7 @@ importers:
         version: 2.15.1(eslint@8.57.0)
       eslint-plugin-import:
         specifier: ^2.28.0
-        version: 2.29.1(eslint@8.57.0)
+        version: 2.29.1(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)
       eslint-plugin-node:
         specifier: ^11.1.0
         version: 11.1.0(eslint@8.57.0)
@@ -165,14 +171,20 @@ importers:
       eslint-plugin-unicorn:
         specifier: ^48.0.1
         version: 48.0.1(eslint@8.57.0)
+      husky:
+        specifier: ^9.0.11
+        version: 9.0.11
       json-server:
         specifier: 1.0.0-alpha.23
         version: 1.0.0-alpha.23
+      lint-staged:
+        specifier: ^15.2.2
+        version: 15.2.2
       npm-check-updates:
         specifier: ^16.12.2
         version: 16.14.15
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.2.5
         version: 3.2.5
       release-it:
         specifier: ^16.1.5
@@ -204,7 +216,7 @@ importers:
         version: 0.14.1
       '@agoric/notifier':
         specifier: ^0.6.2
-        version: 0.6.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+        version: 0.6.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/rpc':
         specifier: 0.9.1-dev-f471a83.0
         version: 0.9.1-dev-f471a83.0(ava@5.3.1)(debug@4.3.4)(typescript@5.3.3)
@@ -213,10 +225,10 @@ importers:
         version: 0.9.2(ava@5.3.1)
       '@agoric/ui-components':
         specifier: ^0.9.0
-        version: 0.9.0(@endo/ses-ava@0.2.40)(ava@5.3.1)
+        version: 0.9.0(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/web-components':
         specifier: ^0.15.0
-        version: 0.15.0(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)(eslint@8.57.0)
+        version: 0.15.0(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)(eslint@8.57.0)
       '@testing-library/react':
         specifier: ^14.1.2
         version: 14.2.1(react-dom@18.2.0)(react@18.2.0)
@@ -317,15 +329,15 @@ packages:
       source-map: 0.5.7
     dev: true
 
-  /@agoric/cache@0.3.2(@endo/ses-ava@0.2.40)(ava@5.3.1):
+  /@agoric/cache@0.3.2(@endo/ses-ava@0.2.44)(ava@5.3.1):
     resolution: {integrity: sha512-cFLMiY9OI2Xp7aOAlAmZF/4H6rwaxhtzCfOJ8UiMIKE+4JXkhMLO2FtvGBUWFw40/Q9JsWRWziPs7otuFVQ6Ng==}
     engines: {node: '>=14.15.0'}
     dependencies:
       '@agoric/internal': 0.3.2(ava@5.3.1)
-      '@agoric/notifier': 0.6.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/notifier': 0.6.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/store': 0.9.2(ava@5.3.1)
       '@agoric/vat-data': 0.5.2(ava@5.3.1)
-      '@endo/far': 0.2.18(ava@5.3.1)
+      '@endo/far': 0.2.22(ava@5.3.1)
       '@endo/marshal': 0.8.9(ava@5.3.1)
     transitivePeerDependencies:
       - '@endo/ses-ava'
@@ -333,23 +345,23 @@ packages:
       - supports-color
     dev: true
 
-  /@agoric/casting@0.4.2(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4):
+  /@agoric/casting@0.4.2(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4):
     resolution: {integrity: sha512-TiCG7hIg9Wp8Ud0PF7XSrTlqQWdczDac7QdSUWuBDodrlk3qw/5Ktcb5BoD0vFyARNZsB9PZq0cBRNYtjHj/Bg==}
     engines: {node: '>=14.15.0'}
     dependencies:
       '@agoric/internal': 0.3.2(ava@5.3.1)
-      '@agoric/notifier': 0.6.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/notifier': 0.6.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/spawner': 0.6.8(ava@5.3.1)
       '@agoric/store': 0.9.2(ava@5.3.1)
       '@cosmjs/encoding': 0.30.1
       '@cosmjs/proto-signing': 0.30.1
       '@cosmjs/stargate': 0.30.1(debug@4.3.4)
       '@cosmjs/tendermint-rpc': 0.30.1(debug@4.3.4)
-      '@endo/far': 0.2.18(ava@5.3.1)
+      '@endo/far': 0.2.22(ava@5.3.1)
       '@endo/init': 0.5.60
       '@endo/lockdown': 0.1.32
       '@endo/marshal': 0.8.9(ava@5.3.1)
-      '@endo/promise-kit': 0.2.60
+      '@endo/promise-kit': 0.2.56
       node-fetch: 2.7.0
     transitivePeerDependencies:
       - '@endo/ses-ava'
@@ -394,20 +406,20 @@ packages:
       protobufjs: 7.2.6
     dev: true
 
-  /@agoric/ertp@0.16.2(@endo/ses-ava@0.2.40)(ava@5.3.1):
+  /@agoric/ertp@0.16.2(@endo/ses-ava@0.2.44)(ava@5.3.1):
     resolution: {integrity: sha512-4+CbrkWw2dCYlVAYH+31jFMlwWqw29bak+Rg6qkMuCAp5BpxyBc4DthdovOjwwOBqkBd3QBKrnvkoD9Ltc3YHQ==}
     engines: {node: '>=14.15.0'}
     dependencies:
       '@agoric/assert': 0.6.0
-      '@agoric/notifier': 0.6.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/notifier': 0.6.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/store': 0.9.2(ava@5.3.1)
-      '@agoric/swingset-vat': 0.32.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/swingset-vat': 0.32.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/vat-data': 0.5.2(ava@5.3.1)
       '@endo/eventual-send': 0.17.2
-      '@endo/far': 0.2.18(ava@5.3.1)
+      '@endo/far': 0.2.22(ava@5.3.1)
       '@endo/marshal': 0.8.9(ava@5.3.1)
       '@endo/nat': 4.1.31
-      '@endo/promise-kit': 0.2.60
+      '@endo/promise-kit': 0.2.56
     transitivePeerDependencies:
       - '@endo/ses-ava'
       - ava
@@ -418,26 +430,26 @@ packages:
     resolution: {integrity: sha512-E1gr1LhkN/imwiXIdjTQZ7pOao82avOIDsoSgjPwoFU1jrysRE8UIUGBogBn7GGFUEPogo16rrsfKzb35ZayOw==}
     dev: true
 
-  /@agoric/governance@0.10.3(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4):
+  /@agoric/governance@0.10.3(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4):
     resolution: {integrity: sha512-DmaZAJ7u5Tpsh3GscqLkxkZfVl5qg6fD905gdKx/b5xahzF65KIcOz48qUVFqZm/l4N4n1TzIazeAApsLpD7Pw==}
     engines: {node: '>=14.15.0'}
     dependencies:
       '@agoric/assert': 0.6.0
-      '@agoric/ertp': 0.16.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/ertp': 0.16.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/internal': 0.3.2(ava@5.3.1)
-      '@agoric/notifier': 0.6.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/notifier': 0.6.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/store': 0.9.2(ava@5.3.1)
-      '@agoric/swingset-vat': 0.32.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/swingset-vat': 0.32.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/time': 0.3.2(ava@5.3.1)
       '@agoric/vat-data': 0.5.2(ava@5.3.1)
-      '@agoric/vats': 0.15.1(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)
-      '@agoric/zoe': 0.26.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/vats': 0.15.1(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)
+      '@agoric/zoe': 0.26.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@endo/captp': 3.1.1(ava@5.3.1)
       '@endo/eventual-send': 0.17.2
-      '@endo/far': 0.2.18(ava@5.3.1)
+      '@endo/far': 0.2.22(ava@5.3.1)
       '@endo/marshal': 0.8.9(ava@5.3.1)
       '@endo/nat': 4.1.31
-      '@endo/promise-kit': 0.2.60
+      '@endo/promise-kit': 0.2.56
     transitivePeerDependencies:
       - '@endo/ses-ava'
       - ava
@@ -448,26 +460,26 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@agoric/inter-protocol@0.16.1(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4):
+  /@agoric/inter-protocol@0.16.1(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4):
     resolution: {integrity: sha512-1SJLBpeLsgXdJEK4CjzQ2QgLgCJg+OJv8M3dKy9MDMK+ajhQRCB2ySQtGbS9KXgwdpj4FFudKb0/+QaGhgfukg==}
     engines: {node: '>=14.15.0'}
     dependencies:
       '@agoric/assert': 0.6.0
-      '@agoric/ertp': 0.16.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
-      '@agoric/governance': 0.10.3(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)
+      '@agoric/ertp': 0.16.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
+      '@agoric/governance': 0.10.3(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)
       '@agoric/internal': 0.3.2(ava@5.3.1)
-      '@agoric/notifier': 0.6.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/notifier': 0.6.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/store': 0.9.2(ava@5.3.1)
       '@agoric/time': 0.3.2(ava@5.3.1)
       '@agoric/vat-data': 0.5.2(ava@5.3.1)
-      '@agoric/vats': 0.15.1(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)
-      '@agoric/zoe': 0.26.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/vats': 0.15.1(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)
+      '@agoric/zoe': 0.26.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@endo/captp': 3.1.1(ava@5.3.1)
       '@endo/eventual-send': 0.17.2
-      '@endo/far': 0.2.18(ava@5.3.1)
+      '@endo/far': 0.2.22(ava@5.3.1)
       '@endo/marshal': 0.8.9(ava@5.3.1)
       '@endo/nat': 4.1.31
-      agoric: 0.21.1(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)
+      agoric: 0.21.1(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)
       jessie.js: 0.3.3(ava@5.3.1)
     transitivePeerDependencies:
       - '@endo/ses-ava'
@@ -484,10 +496,10 @@ packages:
     engines: {node: '>=14.15.0'}
     dependencies:
       '@agoric/zone': 0.2.2(ava@5.3.1)
-      '@endo/far': 0.2.18(ava@5.3.1)
+      '@endo/far': 0.2.22(ava@5.3.1)
       '@endo/marshal': 0.8.9(ava@5.3.1)
-      '@endo/patterns': 0.2.2(ava@5.3.1)
-      '@endo/promise-kit': 0.2.60
+      '@endo/patterns': 0.2.6(ava@5.3.1)
+      '@endo/promise-kit': 0.2.56
       '@endo/stream': 0.3.25
       anylogger: 0.21.0
       jessie.js: 0.3.3(ava@5.3.1)
@@ -511,7 +523,7 @@ packages:
       - ava
     dev: true
 
-  /@agoric/notifier@0.6.2(@endo/ses-ava@0.2.40)(ava@5.3.1):
+  /@agoric/notifier@0.6.2(@endo/ses-ava@0.2.44)(ava@5.3.1):
     resolution: {integrity: sha512-2Hi8u2TXtsk9Ix0L8xfRMGut1c+w7jiM8Wt4Ys2bgfI/ybdJ4FtDIBvHF1hFU0rSbhUicuKAN85Sok+MkDNcug==}
     engines: {node: '>=14.15.0'}
     dependencies:
@@ -519,11 +531,11 @@ packages:
       '@agoric/internal': 0.3.2(ava@5.3.1)
       '@agoric/store': 0.9.2(ava@5.3.1)
       '@agoric/swing-store': 0.9.1(ava@5.3.1)
-      '@agoric/swingset-vat': 0.32.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/swingset-vat': 0.32.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/vat-data': 0.5.2(ava@5.3.1)
-      '@endo/far': 0.2.18(ava@5.3.1)
+      '@endo/far': 0.2.22(ava@5.3.1)
       '@endo/marshal': 0.8.9(ava@5.3.1)
-      '@endo/promise-kit': 0.2.60
+      '@endo/promise-kit': 0.2.56
     transitivePeerDependencies:
       - '@endo/ses-ava'
       - ava
@@ -580,24 +592,24 @@ packages:
       - ava
     dev: true
 
-  /@agoric/smart-wallet@0.5.3(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4):
+  /@agoric/smart-wallet@0.5.3(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4):
     resolution: {integrity: sha512-2L7sHmUL/BINuuHv+6A1kYLjidqCNJ2V3GqXm3R6oTeFtzscSzOo3LeOoQ2uPridkZ+fTXxinNfpJ/gRu2pl7g==}
     dependencies:
       '@agoric/assert': 0.6.0
-      '@agoric/casting': 0.4.2(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)
-      '@agoric/ertp': 0.16.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/casting': 0.4.2(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)
+      '@agoric/ertp': 0.16.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/internal': 0.3.2(ava@5.3.1)
-      '@agoric/notifier': 0.6.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/notifier': 0.6.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/store': 0.9.2(ava@5.3.1)
-      '@agoric/swingset-vat': 0.32.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/swingset-vat': 0.32.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/vat-data': 0.5.2(ava@5.3.1)
-      '@agoric/vats': 0.15.1(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)
-      '@agoric/zoe': 0.26.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/vats': 0.15.1(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)
+      '@agoric/zoe': 0.26.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@endo/eventual-send': 0.17.2
-      '@endo/far': 0.2.18(ava@5.3.1)
+      '@endo/far': 0.2.22(ava@5.3.1)
       '@endo/marshal': 0.8.9(ava@5.3.1)
       '@endo/nat': 4.1.31
-      '@endo/promise-kit': 0.2.60
+      '@endo/promise-kit': 0.2.56
     transitivePeerDependencies:
       - '@endo/ses-ava'
       - ava
@@ -642,11 +654,11 @@ packages:
       '@agoric/internal': 0.3.2(ava@5.3.1)
       '@endo/eventual-send': 0.17.2
       '@endo/exo': 0.2.2(ava@5.3.1)
-      '@endo/far': 0.2.18(ava@5.3.1)
+      '@endo/far': 0.2.22(ava@5.3.1)
       '@endo/marshal': 0.8.9(ava@5.3.1)
       '@endo/pass-style': 0.1.7(ava@5.3.1)
-      '@endo/patterns': 0.2.2(ava@5.3.1)
-      '@endo/promise-kit': 0.2.60
+      '@endo/patterns': 0.2.6(ava@5.3.1)
+      '@endo/promise-kit': 0.2.56
       '@fast-check/ava': 1.2.1(ava@5.3.1)
     transitivePeerDependencies:
       - ava
@@ -695,7 +707,7 @@ packages:
       - supports-color
     dev: true
 
-  /@agoric/swingset-liveslots@0.10.2(@endo/far@0.2.18)(@endo/ses-ava@0.2.40)(ava@5.3.1):
+  /@agoric/swingset-liveslots@0.10.2(@endo/far@0.2.22)(@endo/ses-ava@0.2.44)(ava@5.3.1):
     resolution: {integrity: sha512-jp05WNHEUH5K8MgiIoHhNrWu7ozKqStyIe0Ex6ejSInFFo/NhJLVL7QLyUgRjD74RbUSuvbR8v8PaQ/pslVI0Q==}
     engines: {node: '>=14.15.0'}
     peerDependencies:
@@ -709,14 +721,14 @@ packages:
       '@agoric/vat-data': 0.5.2(ava@5.3.1)
       '@endo/eventual-send': 0.17.2
       '@endo/exo': 0.2.2(ava@5.3.1)
-      '@endo/far': 0.2.18(ava@5.3.1)
+      '@endo/far': 0.2.22(ava@5.3.1)
       '@endo/init': 0.5.60
       '@endo/marshal': 0.8.9(ava@5.3.1)
       '@endo/nat': 4.1.31
       '@endo/pass-style': 0.1.7(ava@5.3.1)
-      '@endo/patterns': 0.2.2(ava@5.3.1)
-      '@endo/promise-kit': 0.2.60
-      '@endo/ses-ava': 0.2.40
+      '@endo/patterns': 0.2.6(ava@5.3.1)
+      '@endo/promise-kit': 0.2.56
+      '@endo/ses-ava': 0.2.44
       ava: 5.3.1
     dev: true
 
@@ -741,7 +753,7 @@ packages:
       - ava
     dev: true
 
-  /@agoric/swingset-vat@0.32.2(@endo/ses-ava@0.2.40)(ava@5.3.1):
+  /@agoric/swingset-vat@0.32.2(@endo/ses-ava@0.2.44)(ava@5.3.1):
     resolution: {integrity: sha512-aYIhyYCuI7Oi47DBqn8wqMFnQOeOxSB7GU69wOQcQIoJVWRhOECDuFzoEqdV6G8xwGIsGpX/fMtXT9A1YAy6ZA==}
     engines: {node: '>=14.15.0'}
     hasBin: true
@@ -753,7 +765,7 @@ packages:
       '@agoric/internal': 0.3.2(ava@5.3.1)
       '@agoric/store': 0.9.2(ava@5.3.1)
       '@agoric/swing-store': 0.9.1(ava@5.3.1)
-      '@agoric/swingset-liveslots': 0.10.2(@endo/far@0.2.18)(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/swingset-liveslots': 0.10.2(@endo/far@0.2.22)(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/swingset-xsnap-supervisor': 0.10.2
       '@agoric/time': 0.3.2(ava@5.3.1)
       '@agoric/vat-data': 0.5.2(ava@5.3.1)
@@ -765,13 +777,13 @@ packages:
       '@endo/check-bundle': 0.2.18
       '@endo/compartment-mapper': 0.8.4
       '@endo/eventual-send': 0.17.2
-      '@endo/far': 0.2.18(ava@5.3.1)
+      '@endo/far': 0.2.22(ava@5.3.1)
       '@endo/import-bundle': 0.3.4
       '@endo/init': 0.5.60
       '@endo/marshal': 0.8.9(ava@5.3.1)
       '@endo/nat': 4.1.31
-      '@endo/promise-kit': 0.2.60
-      '@endo/ses-ava': 0.2.40
+      '@endo/promise-kit': 0.2.56
+      '@endo/ses-ava': 0.2.44
       '@endo/zip': 0.2.35
       ansi-styles: 6.2.1
       anylogger: 0.21.0
@@ -856,11 +868,11 @@ packages:
       - ava
     dev: true
 
-  /@agoric/ui-components@0.9.0(@endo/ses-ava@0.2.40)(ava@5.3.1):
+  /@agoric/ui-components@0.9.0(@endo/ses-ava@0.2.44)(ava@5.3.1):
     resolution: {integrity: sha512-Ed8ZS1sprma+DLx1gBcCczIFlZ5jxLVUXqZPp32R5QnuOn9IfeDK4B+xhm7BJYr+0Lr2BNof9yqkvmWBmUEvNQ==}
     dependencies:
       '@agoric/assert': 0.6.0
-      '@agoric/ertp': 0.16.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/ertp': 0.16.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@endo/eventual-send': 0.17.2
       '@endo/init': 0.5.60
       '@endo/nat': 4.1.31
@@ -893,29 +905,29 @@ packages:
       - ava
     dev: true
 
-  /@agoric/vats@0.15.1(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4):
+  /@agoric/vats@0.15.1(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4):
     resolution: {integrity: sha512-uYV+f3+RJ/KM9O5+7HcsGqLfvhtj9V1e7u1y8TZeTs2zJXVRVuGi/xQaMSGwf3CBBgBtyj8hFUCCYCeHxB1qRQ==}
     engines: {node: '>=14.15.0'}
     dependencies:
       '@agoric/assert': 0.6.0
-      '@agoric/ertp': 0.16.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
-      '@agoric/governance': 0.10.3(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)
-      '@agoric/inter-protocol': 0.16.1(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)
+      '@agoric/ertp': 0.16.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
+      '@agoric/governance': 0.10.3(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)
+      '@agoric/inter-protocol': 0.16.1(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)
       '@agoric/internal': 0.3.2(ava@5.3.1)
-      '@agoric/notifier': 0.6.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/notifier': 0.6.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/sharing-service': 0.2.11(ava@5.3.1)
       '@agoric/store': 0.9.2(ava@5.3.1)
-      '@agoric/swingset-vat': 0.32.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/swingset-vat': 0.32.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/time': 0.3.2(ava@5.3.1)
       '@agoric/vat-data': 0.5.2(ava@5.3.1)
-      '@agoric/zoe': 0.26.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/zoe': 0.26.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/zone': 0.2.2(ava@5.3.1)
-      '@endo/far': 0.2.18(ava@5.3.1)
+      '@endo/far': 0.2.22(ava@5.3.1)
       '@endo/import-bundle': 0.3.4
       '@endo/init': 0.5.60
       '@endo/marshal': 0.8.9(ava@5.3.1)
       '@endo/nat': 4.1.31
-      '@endo/promise-kit': 0.2.60
+      '@endo/promise-kit': 0.2.56
       jessie.js: 0.3.3(ava@5.3.1)
     transitivePeerDependencies:
       - '@endo/ses-ava'
@@ -931,11 +943,11 @@ packages:
     resolution: {integrity: sha512-NbhCrTH9u2af+6ituM99M8Mo10VOP1nQRTZoYEXW+esBwJId/7cRniMmAC7qmkbXs8POA31S8EQ5gAhkWq08WA==}
     dev: true
 
-  /@agoric/wallet@0.18.3(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)(eslint@8.57.0):
+  /@agoric/wallet@0.18.3(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)(eslint@8.57.0):
     resolution: {integrity: sha512-Pgk5uh2ZA3sg3hP+gpQ4jpg+qhIu5diKzzVnD5g4o2JeVYjDqsR/xpcOt7r7i8zNbNutCAgGu5/qDDYEMIV6zQ==}
     dependencies:
       '@agoric/wallet-ui': 0.1.3-solo.0
-      agoric: 0.21.1(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)
+      agoric: 0.21.1(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)
       babel-eslint: 10.1.0(eslint@8.57.0)
       eslint-plugin-eslint-comments: 3.2.0(eslint@8.57.0)
       import-meta-resolve: 2.2.2
@@ -950,20 +962,20 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@agoric/web-components@0.15.0(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)(eslint@8.57.0):
+  /@agoric/web-components@0.15.0(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)(eslint@8.57.0):
     resolution: {integrity: sha512-G1hl0NSgOuXE+9+SsyUpCHubhFJsrmFO7zo832EeJDUcO5d/V4M0YyrtIwFHKR2bH+IUl7JouasDO4fYEE8WYA==}
     dependencies:
       '@agoric/assert': 0.6.0
-      '@agoric/cache': 0.3.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/cache': 0.3.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/casting': 0.4.3-u14.0(ava@5.3.1)(debug@4.3.4)
-      '@agoric/ertp': 0.16.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/ertp': 0.16.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/notifier': 0.6.3-u14.0(ava@5.3.1)
-      '@agoric/smart-wallet': 0.5.3(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)
-      '@agoric/wallet': 0.18.3(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)(eslint@8.57.0)
+      '@agoric/smart-wallet': 0.5.3(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)
+      '@agoric/wallet': 0.18.3(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)(eslint@8.57.0)
       '@endo/captp': 3.1.1(ava@5.3.1)
       '@endo/eventual-send': 0.17.2
       '@endo/marshal': 0.8.9(ava@5.3.1)
-      '@endo/promise-kit': 0.2.60
+      '@endo/promise-kit': 0.2.56
       '@lit-labs/react': 1.2.1
       lit: 2.0.2
     transitivePeerDependencies:
@@ -1007,27 +1019,27 @@ packages:
       - supports-color
     dev: true
 
-  /@agoric/zoe@0.26.2(@endo/ses-ava@0.2.40)(ava@5.3.1):
+  /@agoric/zoe@0.26.2(@endo/ses-ava@0.2.44)(ava@5.3.1):
     resolution: {integrity: sha512-xFZQ0Rz4UmHNWCUeLWFqtGgKNBPVvfb5IEmh+nSnbgJK45Y4Kcci77XkciO//e6xQo8dacrNhTELke3iAEISAA==}
     engines: {node: '>=14.15.0'}
     dependencies:
       '@agoric/assert': 0.6.0
-      '@agoric/ertp': 0.16.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/ertp': 0.16.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/internal': 0.3.2(ava@5.3.1)
-      '@agoric/notifier': 0.6.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/notifier': 0.6.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/store': 0.9.2(ava@5.3.1)
-      '@agoric/swingset-vat': 0.32.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/swingset-vat': 0.32.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/time': 0.3.2(ava@5.3.1)
       '@agoric/vat-data': 0.5.2(ava@5.3.1)
       '@endo/bundle-source': 2.8.0(ava@5.3.1)
       '@endo/captp': 3.1.1(ava@5.3.1)
       '@endo/eventual-send': 0.17.2
-      '@endo/far': 0.2.18(ava@5.3.1)
+      '@endo/far': 0.2.22(ava@5.3.1)
       '@endo/import-bundle': 0.3.4
       '@endo/marshal': 0.8.9(ava@5.3.1)
       '@endo/nat': 4.1.31
-      '@endo/patterns': 0.2.2(ava@5.3.1)
-      '@endo/promise-kit': 0.2.60
+      '@endo/patterns': 0.2.6(ava@5.3.1)
+      '@endo/promise-kit': 0.2.56
     transitivePeerDependencies:
       - '@endo/ses-ava'
       - ava
@@ -1040,7 +1052,7 @@ packages:
     dependencies:
       '@agoric/store': 0.9.2(ava@5.3.1)
       '@agoric/vat-data': 0.5.2(ava@5.3.1)
-      '@endo/far': 0.2.18(ava@5.3.1)
+      '@endo/far': 0.2.22(ava@5.3.1)
     transitivePeerDependencies:
       - ava
     dev: true
@@ -2603,7 +2615,7 @@ packages:
       '@endo/base64': 0.2.35
       '@endo/compartment-mapper': 0.8.4
       '@endo/init': 0.5.60
-      '@endo/promise-kit': 0.2.60
+      '@endo/promise-kit': 0.2.56
       '@rollup/plugin-commonjs': 19.0.2(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
       acorn: 8.11.3
@@ -2644,7 +2656,7 @@ packages:
       '@endo/eventual-send': 0.17.2
       '@endo/marshal': 0.8.9(ava@5.3.1)
       '@endo/nat': 4.1.31
-      '@endo/promise-kit': 0.2.60
+      '@endo/promise-kit': 0.2.56
     transitivePeerDependencies:
       - ava
     dev: true
@@ -2694,14 +2706,23 @@ packages:
   /@endo/exo@0.2.2(ava@5.3.1):
     resolution: {integrity: sha512-4787jRJe7nQLV02mCCd1fQ8Ai25ParaIzLBUrxl7UKtsP98LcTlQKAON+OQmnSbV6jjXINa/wHdUeoi8/0xZDA==}
     dependencies:
-      '@endo/far': 0.2.18(ava@5.3.1)
-      '@endo/patterns': 0.2.2(ava@5.3.1)
+      '@endo/far': 0.2.22(ava@5.3.1)
+      '@endo/patterns': 0.2.6(ava@5.3.1)
     transitivePeerDependencies:
       - ava
     dev: true
 
   /@endo/far@0.2.18(ava@5.3.1):
     resolution: {integrity: sha512-NJPz5x11AOsFgxZNSIW4+llQtSUNQtcYCrvxpMwhofti3hncMjhIiUUrMVggw99pdHNmXEBr0gl16H3n/1X0sw==}
+    dependencies:
+      '@endo/eventual-send': 0.17.2
+      '@endo/pass-style': 0.1.7(ava@5.3.1)
+    transitivePeerDependencies:
+      - ava
+    dev: true
+
+  /@endo/far@0.2.22(ava@5.3.1):
+    resolution: {integrity: sha512-LFOicqyHslKOSk/H5EfGOcw347ftDSwYHARPasnrG4UJOEkcU1ZG5bN/BmfONtcidB776gWZKrV/tNl4WLIlyw==}
     dependencies:
       '@endo/eventual-send': 0.17.2
       '@endo/pass-style': 0.1.7(ava@5.3.1)
@@ -2725,7 +2746,7 @@ packages:
       '@endo/base64': 0.2.35
       '@endo/eventual-send': 0.17.2
       '@endo/lockdown': 0.1.32
-      '@endo/promise-kit': 0.2.60
+      '@endo/promise-kit': 0.2.56
     dev: true
 
   /@endo/init@0.5.60:
@@ -2755,7 +2776,7 @@ packages:
       '@endo/eventual-send': 0.17.2
       '@endo/nat': 4.1.31
       '@endo/pass-style': 0.1.7(ava@5.3.1)
-      '@endo/promise-kit': 0.2.60
+      '@endo/promise-kit': 0.2.56
     transitivePeerDependencies:
       - ava
     dev: true
@@ -2790,7 +2811,7 @@ packages:
   /@endo/pass-style@0.1.3(ava@5.3.1):
     resolution: {integrity: sha512-V2FLPBUJXsJYWjMSoZW2IopOuggEX14pm8AHfOVXUceF3uvHbdJj7qwKAuIIOhPApZ/TV+6nWYi86eb393Ic2w==}
     dependencies:
-      '@endo/promise-kit': 0.2.60
+      '@endo/promise-kit': 0.2.56
       '@fast-check/ava': 1.2.1(ava@5.3.1)
     transitivePeerDependencies:
       - ava
@@ -2807,6 +2828,16 @@ packages:
 
   /@endo/patterns@0.2.2(ava@5.3.1):
     resolution: {integrity: sha512-rbS4BLRohZQhB+0aEPBoxmzOfOie9nAu8Qx55Fxe8xFQKS4k9acafeIYmKh9nvslEJISYQmogy5Lewm5mgdSjg==}
+    dependencies:
+      '@endo/eventual-send': 0.17.2
+      '@endo/marshal': 0.8.9(ava@5.3.1)
+      '@endo/promise-kit': 0.2.56
+    transitivePeerDependencies:
+      - ava
+    dev: true
+
+  /@endo/patterns@0.2.6(ava@5.3.1):
+    resolution: {integrity: sha512-FbayXMv9sY4qP5vSaPhq9RSJmsTykImbCy0FN1YmZzaChGwOfSPOJw4898xVLDK5Xi6f+6zV02uXjuMTuZt6UA==}
     dependencies:
       '@endo/eventual-send': 0.17.2
       '@endo/marshal': 0.8.9(ava@5.3.1)
@@ -2831,6 +2862,12 @@ packages:
 
   /@endo/ses-ava@0.2.40:
     resolution: {integrity: sha512-YIiAPuUfjS5dzyqeiV36FASv4YiSdkRzdxXbntNTBdOvdDymbT37SMkG0mUxD5YZRQuKMTu9xQyaGYSRqf8zaw==}
+    dependencies:
+      ses: 1.3.0
+    dev: true
+
+  /@endo/ses-ava@0.2.44:
+    resolution: {integrity: sha512-Pp0os/ZN7r0L94eCxWFYhSWt+DIdIASIVlY4oYCwMLxLa28cuswCjRQvPKLINBpZezogCKKptEWJTyHhGWpVQw==}
     dependencies:
       ses: 1.3.0
     dev: true
@@ -2871,7 +2908,7 @@ packages:
     resolution: {integrity: sha512-qSl9Q9o20/4nKdXlXYCs6KJfeANMKBLrsi7JIxWV1jP9YzIDdq/PkEJsMNq89Z/HWXtPRfEQ4JEMd3O1WBYU5Q==}
     dependencies:
       '@endo/eventual-send': 0.17.2
-      '@endo/promise-kit': 0.2.60
+      '@endo/promise-kit': 0.2.56
       ses: 1.3.0
     dev: true
 
@@ -5056,23 +5093,23 @@ packages:
       indent-string: 5.0.0
     dev: true
 
-  /agoric@0.21.1(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4):
+  /agoric@0.21.1(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4):
     resolution: {integrity: sha512-couQBRaYLY9S5cXm0uUmf/022+Zy6EHH9tbZLOFYGzdFQeTMZCvYbxdklKGVzLWcoe8CHc/YMemnpaBghkPG4A==}
     hasBin: true
     dependencies:
       '@agoric/access-token': 0.4.21
       '@agoric/assert': 0.6.0
-      '@agoric/cache': 0.3.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
-      '@agoric/casting': 0.4.2(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)
+      '@agoric/cache': 0.3.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
+      '@agoric/casting': 0.4.2(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)
       '@agoric/cosmic-proto': 0.3.0
-      '@agoric/ertp': 0.16.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
-      '@agoric/inter-protocol': 0.16.1(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)
+      '@agoric/ertp': 0.16.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
+      '@agoric/inter-protocol': 0.16.1(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)
       '@agoric/internal': 0.3.2(ava@5.3.1)
-      '@agoric/smart-wallet': 0.5.3(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)
+      '@agoric/smart-wallet': 0.5.3(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)
       '@agoric/store': 0.9.2(ava@5.3.1)
-      '@agoric/swingset-vat': 0.32.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
-      '@agoric/vats': 0.15.1(@endo/ses-ava@0.2.40)(ava@5.3.1)(debug@4.3.4)
-      '@agoric/zoe': 0.26.2(@endo/ses-ava@0.2.40)(ava@5.3.1)
+      '@agoric/swingset-vat': 0.32.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
+      '@agoric/vats': 0.15.1(@endo/ses-ava@0.2.44)(ava@5.3.1)(debug@4.3.4)
+      '@agoric/zoe': 0.26.2(@endo/ses-ava@0.2.44)(ava@5.3.1)
       '@agoric/zone': 0.2.2(ava@5.3.1)
       '@confio/relayer': 0.9.0(debug@4.3.4)
       '@cosmjs/crypto': 0.30.1
@@ -5084,11 +5121,11 @@ packages:
       '@endo/bundle-source': 2.8.0(ava@5.3.1)
       '@endo/captp': 3.1.1(ava@5.3.1)
       '@endo/compartment-mapper': 0.8.4
-      '@endo/far': 0.2.18(ava@5.3.1)
+      '@endo/far': 0.2.22(ava@5.3.1)
       '@endo/init': 0.5.60
       '@endo/marshal': 0.8.9(ava@5.3.1)
       '@endo/nat': 4.1.31
-      '@endo/promise-kit': 0.2.60
+      '@endo/promise-kit': 0.2.56
       '@iarna/toml': 2.2.5
       anylogger: 0.21.0
       chalk: 5.3.0
@@ -5188,6 +5225,13 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       type-fest: 0.21.3
+
+  /ansi-escapes@6.2.0:
+    resolution: {integrity: sha512-kzRaCqXnpzWs+3z5ABPQiVke+iq0KXkHo8xiWV4RPTi5Yli0l97BEQuhXV1s7+aSU/fu1kUuxgS4MsQ0fRuygw==}
+    engines: {node: '>=14.16'}
+    dependencies:
+      type-fest: 3.13.1
+    dev: true
 
   /ansi-html-community@0.0.8:
     resolution: {integrity: sha512-1APHAyr3+PCamwNw3bXCPp4HFLONZt/yIH0sZp0/469KWNTEy+qN5jQ3GVX6DMZ1UXAi34yVwtTeaG/HpBuuzw==}
@@ -6315,6 +6359,14 @@ packages:
       string-width: 5.1.2
     dev: true
 
+  /cli-truncate@4.0.0:
+    resolution: {integrity: sha512-nPdaFdQ0h/GEigbPClz11D0v/ZJEwxmeVZGeMo3Z5StPtUTkA9o1lD6QwoirYiSDzbcwn2XcjwmCp68W1IS4TA==}
+    engines: {node: '>=18'}
+    dependencies:
+      slice-ansi: 5.0.0
+      string-width: 7.1.0
+    dev: true
+
   /cli-width@3.0.0:
     resolution: {integrity: sha512-FxqpkPPwu1HjuN93Omfm4h8uIanXofW0RxVEW3k5RKx+mJJYSthzNhp32Kzxxy3YAEZ/Dc/EWN1vZRY0+kOhbw==}
     engines: {node: '>= 10'}
@@ -6430,7 +6482,6 @@ packages:
 
   /colorette@2.0.20:
     resolution: {integrity: sha512-IfEDxwoWIjkeXL1eXcDiow4UbKjhLdq6/EuSVR9GMN7KVH3r9gQ83e73hsz1Nd1T3ijd5xv1wcWRYO+D6kCI2w==}
-    dev: false
 
   /colorspace@1.1.4:
     resolution: {integrity: sha512-BgvKJiuVu1igBUF2kEjRCZXol6wiiGbY5ipL/oVPwm0BL9sIpMIzM8IK7vwuxIIzOXMV3Ey5w+vxhm0rR/TN8w==}
@@ -6457,7 +6508,6 @@ packages:
   /commander@11.1.0:
     resolution: {integrity: sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==}
     engines: {node: '>=16'}
-    dev: false
 
   /commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
@@ -7613,7 +7663,7 @@ packages:
       eslint-plugin-promise: ^6.0.0
     dependencies:
       eslint: 8.57.0
-      eslint-plugin-import: 2.29.1(eslint@8.57.0)
+      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)
       eslint-plugin-n: 16.6.2(eslint@8.57.0)
       eslint-plugin-promise: 6.1.1(eslint@8.57.0)
     dev: true
@@ -7637,7 +7687,7 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-module-utils@2.8.1(eslint-import-resolver-node@0.3.9)(eslint@8.57.0):
+  /eslint-module-utils@2.8.1(@typescript-eslint/parser@6.21.0)(eslint-import-resolver-node@0.3.9)(eslint@8.57.0):
     resolution: {integrity: sha512-rXDXR3h7cs7dy9RNpUlQf80nX31XWJEyGq1tRMo+6GsO5VmTe4UTwtmonAD4ZkAsrfMVDA2wlGJ3790Ys+D49Q==}
     engines: {node: '>=4'}
     peerDependencies:
@@ -7658,6 +7708,7 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
+      '@typescript-eslint/parser': 6.21.0(eslint@8.57.0)(typescript@5.3.3)
       debug: 3.2.7(supports-color@8.1.1)
       eslint: 8.57.0
       eslint-import-resolver-node: 0.3.9
@@ -7717,7 +7768,7 @@ packages:
       ignore: 5.3.1
     dev: true
 
-  /eslint-plugin-import@2.29.1(eslint@8.57.0):
+  /eslint-plugin-import@2.29.1(@typescript-eslint/parser@6.21.0)(eslint@8.57.0):
     resolution: {integrity: sha512-BbPC0cuExzhiMo4Ff1BTVwHpjjv28C5R+btTOGaCRC7UEz801up0JadwkeSk5Ued6TG34uaczuVuH6qyy5YUxw==}
     engines: {node: '>=4'}
     peerDependencies:
@@ -7727,6 +7778,7 @@ packages:
       '@typescript-eslint/parser':
         optional: true
     dependencies:
+      '@typescript-eslint/parser': 6.21.0(eslint@8.57.0)(typescript@5.3.3)
       array-includes: 3.1.7
       array.prototype.findlastindex: 1.2.4
       array.prototype.flat: 1.3.2
@@ -7735,7 +7787,7 @@ packages:
       doctrine: 2.1.0
       eslint: 8.57.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.8.1(eslint-import-resolver-node@0.3.9)(eslint@8.57.0)
+      eslint-module-utils: 2.8.1(@typescript-eslint/parser@6.21.0)(eslint-import-resolver-node@0.3.9)(eslint@8.57.0)
       hasown: 2.0.1
       is-core-module: 2.13.1
       is-glob: 4.0.3
@@ -8091,6 +8143,10 @@ packages:
   /eventemitter3@4.0.7:
     resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
     dev: false
+
+  /eventemitter3@5.0.1:
+    resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
+    dev: true
 
   /events@3.3.0:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
@@ -8706,6 +8762,11 @@ packages:
   /get-caller-file@2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
     engines: {node: 6.* || 8.* || >= 10.*}
+
+  /get-east-asian-width@1.2.0:
+    resolution: {integrity: sha512-2nk+7SIVb14QrgXFHcm84tD4bKQz0RxPuMT8Ag5KPOq7J5fEmAg0UbXdTOSHqNuHSU28k55qnceesxXRZGzKWA==}
+    engines: {node: '>=18'}
+    dev: true
 
   /get-func-name@2.0.2:
     resolution: {integrity: sha512-8vXOvuE167CtIc3OyItco7N/dpRtBbYOsPsXCz7X/PMnlGjYjSGuZJgM1Y7mmew7BKf9BqvLX2tnOVy1BBUsxQ==}
@@ -9384,6 +9445,12 @@ packages:
       ms: 2.1.3
     dev: true
 
+  /husky@9.0.11:
+    resolution: {integrity: sha512-AB6lFlbwwyIqMdHYhwPe+kjOC3Oc5P3nThEoW/AaO2BX3vJDjWPFxYLxokUZOo6RNX20He3AaT8sESs9NJcmEw==}
+    engines: {node: '>=18'}
+    hasBin: true
+    dev: true
+
   /iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
     engines: {node: '>=0.10.0'}
@@ -9676,6 +9743,13 @@ packages:
   /is-fullwidth-code-point@4.0.0:
     resolution: {integrity: sha512-O4L094N2/dZ7xqVdrXhh9r1KODPJpFms8B5sGdJLPy664AgvXsreZUyCQQNItZRDlYug4xStLjNp/sz3HvBowQ==}
     engines: {node: '>=12'}
+    dev: true
+
+  /is-fullwidth-code-point@5.0.0:
+    resolution: {integrity: sha512-OVa3u9kkBbw7b8Xw5F9P+D/T9X+Z4+JruYVNapTjPYZYUznQ5YfWeFkOj606XYYW8yugTfC8Pj0hYqvi4ryAhA==}
+    engines: {node: '>=18'}
+    dependencies:
+      get-east-asian-width: 1.2.0
     dev: true
 
   /is-glob@4.0.3:
@@ -10059,7 +10133,7 @@ packages:
   /jessie.js@0.3.3(ava@5.3.1):
     resolution: {integrity: sha512-qtm2JSB/ZeH9xNNPjVkeTFH+Hoq9BxAzakgf6WK1PLarIoXJ9roSi+Z5UF65K47rT7QteWrP8b6RPBVquvIwsg==}
     dependencies:
-      '@endo/far': 0.2.18(ava@5.3.1)
+      '@endo/far': 0.2.22(ava@5.3.1)
     transitivePeerDependencies:
       - ava
     dev: true
@@ -10340,12 +10414,36 @@ packages:
     resolution: {integrity: sha512-mK8ju0fnrKXXfleL53vtp9xiPq5hKM0zbDQtcxQIsSmxNgSxqCj6R7Hl9PkrNe2j29T4yoDaF7DJLK9/i5iWUw==}
     dev: true
 
+  /lilconfig@3.0.0:
+    resolution: {integrity: sha512-K2U4W2Ff5ibV7j7ydLr+zLAkIg5JJ4lPn1Ltsdt+Tz/IjQ8buJ55pZAxoP34lqIiwtF9iAvtLv3JGv7CAyAg+g==}
+    engines: {node: '>=14'}
+    dev: true
+
   /limiter@1.1.5:
     resolution: {integrity: sha512-FWWMIEOxz3GwUI4Ts/IvgVy6LPvoMPgjMdQ185nN6psJyBJ4yOpzqm695/h5umdLJg2vW3GR5iG11MAkR2AzJA==}
     dev: true
 
   /lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
+    dev: true
+
+  /lint-staged@15.2.2:
+    resolution: {integrity: sha512-TiTt93OPh1OZOsb5B7k96A/ATl2AjIZo+vnzFZ6oHK5FuTk63ByDtxGQpHm+kFETjEWqgkF95M8FRXKR/LEBcw==}
+    engines: {node: '>=18.12.0'}
+    hasBin: true
+    dependencies:
+      chalk: 5.3.0
+      commander: 11.1.0
+      debug: 4.3.4(supports-color@8.1.1)
+      execa: 8.0.1
+      lilconfig: 3.0.0
+      listr2: 8.0.1
+      micromatch: 4.0.5
+      pidtree: 0.6.0
+      string-argv: 0.3.2
+      yaml: 2.3.4
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /listr2@3.14.0(enquirer@2.4.1):
@@ -10367,6 +10465,18 @@ packages:
       through: 2.3.8
       wrap-ansi: 7.0.0
     dev: false
+
+  /listr2@8.0.1:
+    resolution: {integrity: sha512-ovJXBXkKGfq+CwmKTjluEqFi3p4h8xvkxGQQAQan22YCgef4KZ1mKGjzfGh6PL6AW5Csw0QiQPNuQyH+6Xk3hA==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      cli-truncate: 4.0.0
+      colorette: 2.0.20
+      eventemitter3: 5.0.1
+      log-update: 6.0.0
+      rfdc: 1.3.1
+      wrap-ansi: 9.0.0
+    dev: true
 
   /lit-element@3.3.3:
     resolution: {integrity: sha512-XbeRxmTHubXENkV4h8RIPyr8lXc+Ff28rkcQzw3G6up2xg5E8Zu1IgOWIwBLEQsu3cOVFqdYwiVi0hv0SlpqUA==}
@@ -10527,6 +10637,17 @@ packages:
       slice-ansi: 4.0.0
       wrap-ansi: 6.2.0
     dev: false
+
+  /log-update@6.0.0:
+    resolution: {integrity: sha512-niTvB4gqvtof056rRIrTZvjNYE4rCUzO6X/X+kYjd7WFxXeJ0NwEFnRxX6ehkvv3jTwrXnNdtAak5XYZuIyPFw==}
+    engines: {node: '>=18'}
+    dependencies:
+      ansi-escapes: 6.2.0
+      cli-cursor: 4.0.0
+      slice-ansi: 7.1.0
+      strip-ansi: 7.1.0
+      wrap-ansi: 9.0.0
+    dev: true
 
   /logform@2.6.0:
     resolution: {integrity: sha512-1ulHeNPp6k/LD8H91o7VYFBng5i1BDE7HoKxVbZiGFidS1Rj65qcywLxX+pVfAPoQJEjRdvKcusKwOupHCVOVQ==}
@@ -11928,6 +12049,12 @@ packages:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
 
+  /pidtree@0.6.0:
+    resolution: {integrity: sha512-eG2dWTVw5bzqGRztnHExczNxt5VGsE6OwTeCG3fdUf9KBsZzO3R5OIIIzWR+iZA0NtZ+RDVdaoE2dK1cn6jH4g==}
+    engines: {node: '>=0.10'}
+    hasBin: true
+    dev: true
+
   /pify@2.3.0:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
     engines: {node: '>=0.10.0'}
@@ -12796,7 +12923,6 @@ packages:
 
   /rfdc@1.3.1:
     resolution: {integrity: sha512-r5a3l5HzYlIC68TpmYKlxWjmOP6wiPJ1vWv2HeLhNsRZMrCkxeqxiHlQ21oXmQ4F3SiryXBHhAD7JZqvOJjFmg==}
-    dev: false
 
   /rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
@@ -13257,6 +13383,14 @@ packages:
       is-fullwidth-code-point: 4.0.0
     dev: true
 
+  /slice-ansi@7.1.0:
+    resolution: {integrity: sha512-bSiSngZ/jWeX93BqeIAbImyTbEihizcwNjFoRUIY/T1wWQsfsm2Vw1agPKylXvQTU7iASGdHhyqRlqQzfz+Htg==}
+    engines: {node: '>=18'}
+    dependencies:
+      ansi-styles: 6.2.1
+      is-fullwidth-code-point: 5.0.0
+    dev: true
+
   /smart-buffer@4.2.0:
     resolution: {integrity: sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==}
     engines: {node: '>= 6.0.0', npm: '>= 3.0.0'}
@@ -13562,6 +13696,11 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
+  /string-argv@0.3.2:
+    resolution: {integrity: sha512-aqD2Q0144Z+/RqG52NeHEkZauTAUWJO8c6yTftGJKO3Tja5tUgIfmIl6kExvhtxSDP7fXB6DvzkfMpCd/F3G+Q==}
+    engines: {node: '>=0.6.19'}
+    dev: true
+
   /string-width@4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
     engines: {node: '>=8'}
@@ -13584,6 +13723,15 @@ packages:
     dependencies:
       eastasianwidth: 0.2.0
       emoji-regex: 10.3.0
+      strip-ansi: 7.1.0
+    dev: true
+
+  /string-width@7.1.0:
+    resolution: {integrity: sha512-SEIJCWiX7Kg4c129n48aDRwLbFb2LJmXXFrWBG4NGaRtMQ3myKPKbwrD1BKqQn74oCoNMBVrfDEr5M9YxCsrkw==}
+    engines: {node: '>=18'}
+    dependencies:
+      emoji-regex: 10.3.0
+      get-east-asian-width: 1.2.0
       strip-ansi: 7.1.0
     dev: true
 
@@ -15020,6 +15168,15 @@ packages:
       string-width: 5.1.2
       strip-ansi: 7.1.0
 
+  /wrap-ansi@9.0.0:
+    resolution: {integrity: sha512-G8ura3S+3Z2G+mkgNRq8dqaFZAuxfsxpBB8OCTGRTCtp+l/v9nbFNmCUP1BZMts3G1142MsZfn6eeUKrr4PD1Q==}
+    engines: {node: '>=18'}
+    dependencies:
+      ansi-styles: 6.2.1
+      string-width: 7.1.0
+      strip-ansi: 7.1.0
+    dev: true
+
   /wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
@@ -15121,6 +15278,11 @@ packages:
 
   /yallist@4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
+
+  /yaml@2.3.4:
+    resolution: {integrity: sha512-8aAvwVUSHpfEqTQ4w/KMlf3HcRdt50E5ODIQJBw1fQ5RL34xabzxtUlzTXVqc4rkZsPbvrXKWnABCD7kWSmocA==}
+    engines: {node: '>= 14'}
+    dev: true
 
   /yargs-parser@18.1.3:
     resolution: {integrity: sha512-o50j0JeToy/4K6OZcaQmW6lyXXKhq7csREXcDwk2omFPJEwUNOVtJKvmDr9EI1fAJZUyZcRF7kxGBWmRXudrCQ==}

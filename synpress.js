@@ -3,7 +3,7 @@ const log = require('debug')('synpress:cli');
 const program = require('commander');
 const { run, open } = require('./launcher');
 const { version } = require('./package.json');
-const SUPPORTED_EXTENSIONS = ['metamask', 'keplr']
+const SUPPORTED_EXTENSIONS = ['metamask', 'keplr'];
 
 if (process.env.DEBUG && process.env.DEBUG.includes('synpress')) {
   log('DEBUG mode is enabled');

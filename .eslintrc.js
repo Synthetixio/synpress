@@ -37,4 +37,26 @@ module.exports = {
     'testing-library/prefer-screen-queries': 0,
     'turbo/no-undeclared-env-vars': 0,
   },
+
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      parser: '@typescript-eslint/parser',
+      plugins: ['@typescript-eslint'],
+      extends: [
+        'eslint:recommended',
+        'prettier',
+        'plugin:prettier/recommended',
+        'plugin:import/errors',
+        'plugin:import/warnings',
+        'plugin:import/typescript',
+        'plugin:cypress/recommended',
+        'plugin:ui-testing/cypress',
+        'plugin:testing-library/react',
+        'turbo',
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended',
+      ],
+    },
+  ],
 };

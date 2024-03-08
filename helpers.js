@@ -278,9 +278,8 @@ module.exports = {
       release.tagName,
       'manifest.json',
     );
-    const extensionManifestFileExists = await module.exports.checkDirOrFileExist(
-      extensionManifestFilePath,
-    );
+    const extensionManifestFileExists =
+      await module.exports.checkDirOrFileExist(extensionManifestFilePath);
     if (!extensionDirectoryExists && !extensionManifestFileExists) {
       await module.exports.download(release.downloadUrl, extensionDirectory);
     } else {

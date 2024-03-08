@@ -5,5 +5,5 @@ const walletSelectors = chainName => `img[alt="${chainName}"]`;
 module.exports.notificationPageElements = {
   approveButton,
   copyAddress,
-  walletSelectors
+  walletSelectors,
 };

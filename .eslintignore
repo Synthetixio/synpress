@@ -8,3 +8,5 @@ coverage
 downloads
 # dont lint examples
 examples
+# don't lint the contract folder since we dont want to mess with it
+/tools/contract/

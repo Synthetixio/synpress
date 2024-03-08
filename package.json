@@ -26,13 +26,21 @@
   "bin": {
     "synpress": "synpress.js"
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --quiet --fix"
+    ],
+    "*.{json,js,ts,jsx,tsx,html}": [
+      "prettier --write --ignore-unknown"
+    ]
+  },
   "scripts": {
     "fix": "turbo fix:eslint fix:prettier --concurrency 1",
-    "fix:eslint": "eslint --fix **/*.js",
-    "fix:prettier": "prettier --write **/*.js",
+    "fix:eslint": "eslint . --ext .js,.ts,.jsx,.tsx --fix",
+    "fix:prettier": "prettier --write **/*.{js,json,ts,tsx,html}",
     "lint": "turbo lint:eslint lint:prettier",
-    "lint:eslint": "eslint . --ext js",
-    "lint:prettier": "prettier --check **/*.js",
+    "lint:eslint": "eslint . --ext .js,.ts,.jsx,.tsx",
+    "lint:prettier": "prettier --check **/*.{js,json,ts,tsx,html}",
     "lint:sarif": "node lint.js . --ext js",
     "release": "release-it --disable-metrics",
     "release:major": "release-it major --disable-metrics",
@@ -53,7 +61,8 @@
     "test:e2e:ci:anvil": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'CYPRESS_USE_ANVIL=true pnpm synpress:run --record --group'",
     "test:e2e:ci:cypress-action": "CYPRESS_USE_ANVIL=true pnpm synpress:run",
     "synpress:run:keplr": "CYPRESS_SPEC_PATTERN=tests/e2e/specs/keplr/** EXTENSION=keplr SKIP_EXTENSION_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js",
-    "test:e2e:keplr": "start-server-and-test 'pnpm start:ui' http-get://localhost:3000 'pnpm start:json-server' http-get://localhost:3004 'pnpm synpress:run:keplr'"
+    "test:e2e:keplr": "start-server-and-test 'pnpm start:ui' http-get://localhost:3000 'pnpm start:json-server' http-get://localhost:3004 'pnpm synpress:run:keplr'",
+    "prepare": "husky"
   },
   "dependencies": {
     "@cypress/code-coverage": "^3.11.0",
@@ -93,8 +102,10 @@
   "devDependencies": {
     "@metamask/test-dapp": "^7.0.1",
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.47.0",
-    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-config-turbo": "^1.10.12",
     "eslint-plugin-chai-friendly": "^0.7.2",
@@ -107,9 +118,11 @@
     "eslint-plugin-testing-library": "^6.0.0",
     "eslint-plugin-ui-testing": "^2.0.1",
     "eslint-plugin-unicorn": "^48.0.1",
+    "husky": "^9.0.11",
     "json-server": "1.0.0-alpha.23",
+    "lint-staged": "^15.2.2",
     "npm-check-updates": "^16.12.2",
-    "prettier": "^3.0.2",
+    "prettier": "^3.2.5",
     "release-it": "^16.1.5",
     "serve": "^14.2.0",
     "start-server-and-test": "^2.0.0",

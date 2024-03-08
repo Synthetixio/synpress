@@ -1,13 +1,12 @@
 {
-    "agoric_chain":{
-        "chainName": "agoriclocal",
-        "rpcAddrs": ["http://agoric_chain:26657"],
-        "dappInterJumperBanner": "A Chrome update is affecting some users' dapp-wallet connection. If you're affected by this issue, please use Brave with shields down until the fix completes."
-    },
-    "localhost":{
-        "chainName": "agoriclocal",
-        "rpcAddrs": ["http://localhost:26657"],
-        "dappInterJumperBanner": "A Chrome update is affecting some users' dapp-wallet connection. If you're affected by this issue, please use Brave with shields down until the fix completes."
-    }
-    
+  "agoric_chain": {
+    "chainName": "agoriclocal",
+    "rpcAddrs": ["http://agoric_chain:26657"],
+    "dappInterJumperBanner": "A Chrome update is affecting some users' dapp-wallet connection. If you're affected by this issue, please use Brave with shields down until the fix completes."
+  },
+  "localhost": {
+    "chainName": "agoriclocal",
+    "rpcAddrs": ["http://localhost:26657"],
+    "dappInterJumperBanner": "A Chrome update is affecting some users' dapp-wallet connection. If you're affected by this issue, please use Brave with shields down until the fix completes."
+  }
 }
