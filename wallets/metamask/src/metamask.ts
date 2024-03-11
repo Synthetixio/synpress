@@ -99,6 +99,15 @@ export class MetaMask {
   }
 
   /**
+   * Renames the currently selected account.
+   *
+   * @param newAccountName - The new name for the account.
+   */
+  async renameAccount(newAccountName: string) {
+    await this.homePage.renameAccount(newAccountName)
+  }
+
+  /**
    * Imports a wallet using the given private key.
    *
    * @param privateKey - The private key to import.
