@@ -1,7 +1,7 @@
 import { testWithSynpress } from '@synthetixio/synpress-fixtures'
 import { z } from 'zod'
-import { MetaMask, unlockForFixture } from '../../../src'
-import { waitFor } from '../../../src/utils/waitFor'
+import { MetaMask, unlockForFixture } from '../../../../src'
+import { waitFor } from '../../../../src/utils/waitFor'
 
 import basicSetup from '../wallet-setup/basic.setup'
 

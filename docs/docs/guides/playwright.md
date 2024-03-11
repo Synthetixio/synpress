@@ -7,7 +7,7 @@ Let's digest a simple test step by step:
 ::: code-group
 ```typescript [example.spec.ts]
 import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress'
-import BasicSetup from '../wallet-setup/basic.setup'
+import BasicSetup from '../playwright/wallet-setup/basic.setup'
 
 const test = testWithSynpress(BasicSetup, unlockForFixture)
 
@@ -34,7 +34,7 @@ First, you need to import the `testWithSynpress` function from `@synthetixio/syn
 
 ```typescript
 import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress'
-import BasicSetup from '../wallet-setup/basic.setup'
+import BasicSetup from '../playwright/wallet-setup/basic.setup'
 
 const test = testWithSynpress(BasicSetup, unlockForFixture)
 ```
@@ -98,7 +98,7 @@ export const testWithMetaMask = testWithSynpress(connectedSetup, unlockForFixtur
 ```
 
 ```typescript [basic.spec.ts]
-import {testWithMetaMask as test} from './testWithMetaMask'
+import {testWithMetaMask as test} from './playwright/testWithMetaMask'
 
 const { expect } = test
 
@@ -114,7 +114,7 @@ test('should connect wallet to dapp', async ({ context, page, extensionId, metam
 })
 ```
 ```typescript [basic.spec.ts]
-import { testWithMetaMask as test } from './testWithMetaMask';
+import { testWithMetaMask as test } from './playwright/testWithMetaMask';
 
 const { expect } = test;
 

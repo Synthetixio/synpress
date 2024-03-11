@@ -2,7 +2,9 @@
   "extends": "./tsconfig.build.json",
   "compilerOptions": {
     "rootDir": ".",
-    "exactOptionalPropertyTypes": false // Allows for `undefined` in `playwright.config.ts`
+    "exactOptionalPropertyTypes": false, // Allows for `undefined` in `playwright.config.ts`
+    "types": ["cypress"],
+    "sourceMap": false
   },
   "include": [
     "src",

@@ -1,5 +1,5 @@
 import { testWithSynpress } from '@synthetixio/synpress-fixtures'
-import { MetaMask, unlockForFixture } from '../../src'
+import { MetaMask, unlockForFixture } from '../../../src'
 
 import { expect } from '@playwright/test'
 import connectedSetup from './wallet-setup/connected.setup'

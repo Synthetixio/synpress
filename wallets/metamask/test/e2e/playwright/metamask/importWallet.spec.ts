@@ -1,6 +1,6 @@
 import { type Page, chromium, test as base } from '@playwright/test'
-import { MetaMask } from '../../../src'
-import { prepareExtension } from '../../../src/prepareExtension'
+import { MetaMask } from '../../../../src'
+import { prepareExtension } from '../../../../src/prepareExtension'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'
 const PASSWORD = 'Tester@1234'
