@@ -1,6 +1,9 @@
+.git
+.husky
 .github
 .env
 .dockerignore
+.pnpm-store
 docker
 docs
 downloads
