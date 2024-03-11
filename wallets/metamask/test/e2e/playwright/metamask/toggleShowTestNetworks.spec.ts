@@ -1,7 +1,7 @@
 import { testWithSynpress } from '@synthetixio/synpress-fixtures'
-import { MetaMask, unlockForFixture } from '../../../src'
+import { MetaMask, unlockForFixture } from '../../../../src'
 
-import Selectors from '../../../src/pages/HomePage/selectors'
+import Selectors from '../../../../src/pages/HomePage/selectors'
 import basicSetup from '../wallet-setup/basic.setup'
 
 const test = testWithSynpress(basicSetup, unlockForFixture)

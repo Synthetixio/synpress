@@ -1,6 +1,6 @@
-import { getNotificationPageAndWaitForLoad } from '../../../src/utils/getNotificationPageAndWaitForLoad'
-import { createDataTestSelector } from '../../../src/utils/selectors/createDataTestSelector'
-import { testWithMetaMask } from '../testWithMetaMask'
+import { getNotificationPageAndWaitForLoad } from '../../../../src/utils/getNotificationPageAndWaitForLoad'
+import { createDataTestSelector } from '../../../../src/utils/selectors/createDataTestSelector'
+import { testWithMetaMask } from '..//testWithMetaMask'
 
 const test = testWithMetaMask
 
