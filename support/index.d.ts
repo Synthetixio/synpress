@@ -514,14 +514,12 @@ declare namespace Cypress {
      *   password: 'Password123',
      * });
      */
-    setupWallet(
-      args: {
-        secretWords?: String;
-        privateKey?: String;
-        password?: String;
-        newAccount?: Boolean;
-        walletName?: String;
-      }
-    ): Chainable<Subject>;
+    setupWallet(args: {
+      secretWords?: string;
+      privateKey?: string;
+      password?: string;
+      newAccount?: boolean;
+      walletName?: string;
+    }): Chainable<Subject>;
   }
 }
