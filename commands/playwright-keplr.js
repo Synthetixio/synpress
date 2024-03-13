@@ -340,7 +340,8 @@ module.exports = {
       if (
         page
           .url()
-          .includes(`chrome-extension://${keplrExtensionData.id}/popup.html`)
+          .includes(`chrome-extension://${keplrExtensionData.id}/popup.html`) &&
+        page !== keplrWindow
       ) {
         keplrNotificationWindow = page;
         retries = 0;
