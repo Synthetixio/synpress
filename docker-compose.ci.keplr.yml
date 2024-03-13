@@ -1,0 +1,126 @@
+version: '3.9'
+
+services:
+  synpress:
+    profiles:
+      - synpress
+    container_name: synpress
+    build: .
+    environment:
+      - DISPLAY=display:0.0
+      - CYPRESS_PRIVATE_KEY_WITH_FUNDS=${CYPRESS_PRIVATE_KEY_WITH_FUNDS}
+      - DEBUG=${DEBUG}
+      - CYPRESS_DOCKER_RUN=true
+      - GH_PAT=${GH_PAT}
+      - GH_USERNAME=${GH_USERNAME}
+      - CI=${CI}
+      # cypress dashboard
+      - CYPRESS_GROUP=${CYPRESS_GROUP}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - CYPRESS_PROJECT_ID=${CYPRESS_PROJECT_ID}
+      - CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}
+      - COMMIT_INFO_MESSAGE=${COMMIT_INFO_MESSAGE}
+      - COMMIT_INFO_SHA=${COMMIT_INFO_SHA}
+      # passing required CI variables
+      - GITHUB_ACTIONS=${GITHUB_ACTIONS}
+      - GITHUB_WORKFLOW=${GITHUB_WORKFLOW}
+      - GITHUB_ACTION=${GITHUB_ACTION}
+      - GITHUB_EVENT_NAME=${GITHUB_EVENT_NAME}
+      - GITHUB_RUN_ID=${GITHUB_RUN_ID}
+      - GITHUB_RUN_ATTEMPT=${GITHUB_RUN_ATTEMPT}
+      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
+      - GH_BRANCH=${GH_BRANCH}
+      - GITHUB_SHA=${GITHUB_SHA}
+      - GITHUB_REF=${GITHUB_REF}
+      - GITHUB_BASE_REF=${GITHUB_BASE_REF}
+      - GITHUB_HEAD_REF=${GITHUB_HEAD_REF}
+    depends_on:
+      - display
+      - video
+      - agd
+    entrypoint: []
+    working_dir: /app
+    volumes:
+      - ./docker/videos:/app/tests/e2e/videos
+      - ./docker/screenshots:/app/tests/e2e/screenshots
+    command: >
+      bash -c 'echo -n "======> local noVNC URL: http://localhost:8080/vnc.html?autoconnect=true " && pnpm wait-on http://display:8080 && echo -n "======> remote noVNC URL: " && curl -s ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && pnpm test:e2e:ci:keplr'
+    networks:
+      - x11
+
+  display:
+    profiles:
+      - synpress
+    container_name: display
+    image: synthetixio/display:016121eafdfff448414894d0ca5a50b1d72b62eb-base
+    environment:
+      - RUN_XTERM=no
+      - DISPLAY_WIDTH=${DISPLAY_WIDTH}
+      - DISPLAY_HEIGHT=${DISPLAY_HEIGHT}
+    ports:
+      - '8080:8080'
+    networks:
+      - x11
+
+  ngrok:
+    profiles:
+      - ngrok
+    container_name: ngrok
+    image: synthetixio/ngrok:016121eafdfff448414894d0ca5a50b1d72b62eb-base
+    ports:
+      - '4040:4040'
+    command:
+      [
+        'ngrok',
+        'http',
+        'display:8080',
+        '--authtoken',
+        '${NGROK_AUTH}'
+      ]
+    environment:
+      - NGROK_AUTH=${NGROK_AUTH}
+      - NGROK_BASIC_AUTH=${NGROK_BASIC_AUTH}
+    depends_on:
+      - display
+    networks:
+      - x11
+
+  video:
+    profiles:
+      - synpress
+    container_name: video
+    image: synthetixio/video:457bb48776c3b14de232d9dda620ba9188dc40ac-base
+    volumes:
+      - ./docker/videos-ci:/videos
+    environment:
+      - FILE_NAME=CI-full-video.mp4
+      - SE_SCREEN_WIDTH=${SE_SCREEN_WIDTH}
+      - SE_SCREEN_HEIGHT=${SE_SCREEN_HEIGHT}
+    depends_on:
+      - display
+    networks:
+      - x11
+
+  agd:
+    profiles:
+      - synpress
+    container_name: agoric_chain
+    image: frazarshad/offerup-test-chain:1.0.0
+    logging:
+      driver: none
+    platform: linux/amd64
+    ports:
+      - 26656:26656
+      - 26657:26657
+      - 1317:1317
+    environment:
+      DEST: 1
+      DEBUG: "SwingSet:ls,SwingSet:vat"
+    volumes:
+      - ./tools/contract:/workspace
+    entrypoint: /workspace/scripts/run-chain.sh
+    networks:
+      - x11
+
+networks:
+  x11:

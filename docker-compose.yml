@@ -15,13 +15,14 @@ services:
     depends_on:
       - display
       - video
+      - agd
     entrypoint: []
     working_dir: /app
     volumes:
       - ./docker/videos:/app/tests/e2e/videos
       - ./docker/screenshots:/app/tests/e2e/screenshots
     command: >
-      bash -c 'echo -n "======> local noVNC URL: http://localhost:8080/vnc.html?autoconnect=true " && pnpm wait-on http://display:8080 && echo -n "======> remote noVNC URL: " && curl -s ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && nginx && pnpm test:e2e:anvil'
+      bash -c 'echo -n "======> local noVNC URL: http://localhost:8080/vnc.html?autoconnect=true " && echo -n "======> remote noVNC URL: " && curl -s ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && VITE_RUN_ENV=agoric_chain pnpm test:e2e:keplr'
     networks:
       - x11
 
@@ -71,32 +72,25 @@ services:
     networks:
       - x11
 
-  foundry:
+  agd:
     profiles:
-      - foundry
-    container_name: foundry
-    image: synthetixio/foundry:457bb48776c3b14de232d9dda620ba9188dc40ac-base
-    command: [ 'anvil --no-cors --fork-url ${ANVIL_FORK_URL}' ]
-    environment:
-      - ANVIL_IP_ADDR=0.0.0.0
+      - synpress
+    container_name: agoric_chain
+    image: frazarshad/offerup-test-chain:1.0.0
+    platform: linux/amd64
     ports:
-      - '8545:8545'
+      - 26656:26656
+      - 26657:26657
+      - 1317:1317
+    environment:
+      DEST: 1
+      DEBUG: "SwingSet:ls,SwingSet:vat"
+    volumes:
+      - ./tools/contract:/workspace
+    entrypoint: /workspace/scripts/run-chain.sh
     networks:
       - x11
 
-  foundry-metamask-test-dapp:
-    profiles:
-      - foundry
-    container_name: foundry-metamask-test-dapp
-    image: synthetixio/foundry:457bb48776c3b14de232d9dda620ba9188dc40ac-base
-    # Port and chain id as required by the MetaMask Test Dapp
-    command: [ 'anvil --no-cors --port 8546 --chain-id 1338' ]
-    environment:
-      - ANVIL_IP_ADDR=0.0.0.0
-    ports:
-      - '8546:8546'
-    networks:
-      - x11
 
 networks:
   x11:

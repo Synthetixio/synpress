@@ -13,9 +13,6 @@ concurrency:
 
 jobs:
   e2e:
-    if:
-      github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' ||
-      github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
     steps:
@@ -24,6 +21,8 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@d882d12c64e032187b2edb46d3a0d003b7a43598 # pin@v2.4.0
+        with:
+          version: 8.15.3
 
       - name: Setup node
         uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # pin@v3.8.1
@@ -32,9 +31,7 @@ jobs:
 
       - name: Run anvil
         run: |
-          docker-compose -f docker-compose.ci.yml --profile foundry up --build --detach
-        env:
-          ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}
+          docker-compose -f docker-compose.yml --profile synpress up --build --detach
 
       - name: Set pnpm cache directory
         run: pnpm config set store-dir .pnpm-store
@@ -79,7 +76,7 @@ jobs:
           echo -n "======> remote noVNC URL: "
           sleep 5
           curl -s localhost:4040/api/tunnels | jq -r .tunnels[0].public_url
-          pnpm test:e2e:anvil
+          pnpm test:e2e:keplr
         env:
           NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
           NGROK_BASIC_AUTH: ${{ secrets.NGROK_BASIC_AUTH }}

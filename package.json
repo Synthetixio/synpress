@@ -1,7 +1,6 @@
 {
-  "name": "@synthetixio/synpress",
+  "name": "@agoric/synpress",
   "version": "3.7.2-beta.10",
-  "packageManager": "pnpm@8.4.0",
   "description": "Synpress is e2e testing framework based around Cypress.io & playwright with included MetaMask support. Test your dapps with ease.",
   "keywords": [
     "Synpress",
@@ -10,30 +9,38 @@
     "testing",
     "e2e"
   ],
-  "homepage": "https://github.com/synthetixio/synpress#readme",
+  "homepage": "https://github.com/agoric-labs/synpress#readme",
   "bugs": {
-    "url": "https://github.com/synthetixio/synpress/issues"
+    "url": "https://github.com/agoric-labs/synpress/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/synthetixio/synpress.git"
+    "url": "git+https://github.com/agoric-labs/synpress.git"
   },
   "license": "MIT",
   "author": {
-    "name": "Synthetix"
+    "name": "agoric-labs"
   },
   "type": "commonjs",
   "main": "launcher.js",
   "bin": {
     "synpress": "synpress.js"
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --quiet --fix"
+    ],
+    "*.{json,js,ts,jsx,tsx,html}": [
+      "prettier --write --ignore-unknown"
+    ]
+  },
   "scripts": {
     "fix": "turbo fix:eslint fix:prettier --concurrency 1",
-    "fix:eslint": "eslint --fix **/*.js",
-    "fix:prettier": "prettier --write **/*.js",
+    "fix:eslint": "eslint . --ext .js,.ts,.jsx,.tsx --fix",
+    "fix:prettier": "prettier --write **/*.{js,json,ts,tsx,html}",
     "lint": "turbo lint:eslint lint:prettier",
-    "lint:eslint": "eslint . --ext js",
-    "lint:prettier": "prettier --check **/*.js",
+    "lint:eslint": "eslint . --ext .js,.ts,.jsx,.tsx",
+    "lint:prettier": "prettier --check **/*.{js,json,ts,tsx,html}",
     "lint:sarif": "node lint.js . --ext js",
     "release": "release-it --disable-metrics",
     "release:major": "release-it major --disable-metrics",
@@ -41,14 +48,21 @@
     "release:patch": "release-it patch --disable-metrics",
     "update:deps": "ncu -u -x 'node-fetch' && pnpm install",
     "start:server": "serve node_modules/@metamask/test-dapp/dist -p 3000",
-    "synpress:run": "SKIP_METAMASK_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js",
-    "test:e2e": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'pnpm synpress:run'",
+    "start:contract": "cd tools/contract && pnpm start",
+    "start:ui": "cd tools/ui && pnpm dev",
+    "start:json-server": "json-server tools/json-server-db.json --port 3004",
+    "synpress:run:metamask": "CYPRESS_SPEC_PATTERN=tests/e2e/specs/metamask/** EXTENSION=metamask SKIP_EXTENSION_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js",
+    "test:e2e:metamask": "start-server-and-test 'pnpm start:server' http-get://localhost:3000 'pnpm synpress:run:metamask'",
     "test:e2e:anvil": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'CYPRESS_USE_ANVIL=true pnpm synpress:run'",
     "test:e2e:headless": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'pnpm synpress:run --headless'",
     "test:e2e:headless:anvil": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'CYPRESS_USE_ANVIL=true pnpm synpress:run --headless'",
-    "test:e2e:ci": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'pnpm synpress:run --record --group'",
+    "test:e2e:ci": "start-server-and-test 'VITE_RUN_ENV=agoric_chain pnpm start:ui' http-get://localhost:3000 'pnpm start:json-server' http-get://localhost:3004 'pnpm synpress:run --record --group'",
+    "test:e2e:ci:keplr": "start-server-and-test 'VITE_RUN_ENV=agoric_chain pnpm start:ui' http-get://localhost:3000 'pnpm start:json-server' http-get://localhost:3004 'pnpm synpress:run:keplr'",
     "test:e2e:ci:anvil": "start-server-and-test 'turbo start:server' http-get://localhost:3000 'CYPRESS_USE_ANVIL=true pnpm synpress:run --record --group'",
-    "test:e2e:ci:cypress-action": "CYPRESS_USE_ANVIL=true pnpm synpress:run"
+    "test:e2e:ci:cypress-action": "CYPRESS_USE_ANVIL=true pnpm synpress:run",
+    "synpress:run:keplr": "CYPRESS_SPEC_PATTERN=tests/e2e/specs/keplr/** EXTENSION=keplr SKIP_EXTENSION_SETUP=true SYNPRESS_LOCAL_TEST=true node synpress.js run --configFile=synpress.config.js",
+    "test:e2e:keplr": "start-server-and-test 'pnpm start:ui' http-get://localhost:3000 'pnpm start:json-server' http-get://localhost:3004 'pnpm synpress:run:keplr'",
+    "prepare": "husky"
   },
   "dependencies": {
     "@cypress/code-coverage": "^3.11.0",
@@ -68,6 +82,7 @@
     "babel-plugin-transform-react-qa-classes": "^1.6.0",
     "babel-plugin-transform-react-styled-components-qa": "^2.1.0",
     "bytes32": "^0.0.3",
+    "clipboardy": "^2.3.0",
     "commander": "^11.0.0",
     "cypress": "12.17.3",
     "cypress-wait-until": "^2.0.1",
@@ -87,8 +102,10 @@
   "devDependencies": {
     "@metamask/test-dapp": "^7.0.1",
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.47.0",
-    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-config-turbo": "^1.10.12",
     "eslint-plugin-chai-friendly": "^0.7.2",
@@ -101,8 +118,11 @@
     "eslint-plugin-testing-library": "^6.0.0",
     "eslint-plugin-ui-testing": "^2.0.1",
     "eslint-plugin-unicorn": "^48.0.1",
+    "husky": "^9.0.11",
+    "json-server": "1.0.0-alpha.23",
+    "lint-staged": "^15.2.2",
     "npm-check-updates": "^16.12.2",
-    "prettier": "^3.0.2",
+    "prettier": "^3.2.5",
     "release-it": "^16.1.5",
     "serve": "^14.2.0",
     "start-server-and-test": "^2.0.0",
@@ -112,7 +132,10 @@
     "gh-pages": "5.0.0",
     "http-cache-semantics": "4.1.1",
     "ansi-regex": "5.0.1",
-    "@testing-library/dom": "8.20.0"
+    "@testing-library/dom": "8.20.0",
+    "ses": "1.3.0",
+    "@endo/eventual-send": "0.17.2",
+    "@agoric/xsnap": "0.14.3-u13.0"
   },
   "engines": {
     "node": ">=14"

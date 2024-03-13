@@ -25,7 +25,14 @@ Cypress.on('window:before:load', win => {
 });
 
 before(() => {
-  if (!Cypress.env('SKIP_METAMASK_SETUP')) {
-    cy.setupMetamask();
+  if (!Cypress.env('SKIP_EXTENSION_SETUP')) {
+    switch (Cypress.env('EXTENSION')) {
+      case 'metamask':
+        cy.setupMetamask();
+        break;
+      case 'keplr':
+        cy.setupWallet();
+        break;
+    }
   }
 });

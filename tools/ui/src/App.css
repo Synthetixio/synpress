@@ -1,0 +1,109 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+}
+
+.logo {
+  height: 2em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+.logo.agoric:hover {
+  filter: drop-shadow(0 0 2em #fa4a49aa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 1em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.piece {
+  width: 6em;
+  border-radius: 10%;
+}
+
+.coin {
+  width: 2em;
+  margin: 10px;
+}
+
+.trade {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #171717;
+  border-radius: 25px;
+  margin-bottom: 15px;
+}
+
+.item-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 15px 25px 15px;
+  margin: 5px;
+}
+
+.row-center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+input {
+  border: none;
+  background: #242424;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 1.2rem;
+  width: 75px;
+}
+
+@media (prefers-color-scheme: light) {
+  .trade {
+    background: #fafafa;
+    border: 1px solid #e5e5e5;
+  }
+  input {
+    background: #e5e5e5;
+  }
+}
+
+.error {
+  background-color: #E11D48;
+  color: #fff;
+}
+
+/* increment/decrement arrows always visible */
+input[type=number]::-webkit-inner-spin-button {
+  opacity: 1
+}

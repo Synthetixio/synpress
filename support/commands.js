@@ -408,3 +408,69 @@ Cypress.Commands.add(
     return subject;
   },
 );
+
+// Keplr Commands
+Cypress.Commands.add('setupWallet', (args = {}) => {
+  const {
+    secretWords,
+    privateKey,
+    password = 'Test1234',
+    newAccount = false,
+    walletName = 'My Wallet',
+  } = args;
+  return cy.task('setupWallet', {
+    secretWordsOrPrivateKey:
+      secretWords ||
+      privateKey ||
+      'orbit bench unit task food shock brand bracket domain regular warfare company announce wheel grape trust sphere boy doctor half guard ritual three ecology',
+    password,
+    newAccount,
+    walletName,
+  });
+});
+
+Cypress.Commands.add('acceptAccess', () => {
+  return cy.task('acceptAccess');
+});
+
+Cypress.Commands.add('rejectAccess', () => {
+  return cy.task('rejectAccess');
+});
+
+Cypress.Commands.add('confirmTransaction', () => {
+  return cy.task('confirmTransaction');
+});
+
+Cypress.Commands.add('rejectTransaction', () => {
+  return cy.task('rejectTransaction');
+});
+
+Cypress.Commands.add('isExtensionWindowActive', () => {
+  return cy.task('isExtensionWindowActive');
+});
+
+Cypress.Commands.add('switchToExtensionWindow', () => {
+  return cy.task('switchToExtensionWindow');
+});
+
+Cypress.Commands.add('disconnectWalletFromDapp', () => {
+  return cy.task('disconnectWalletFromDapp');
+});
+
+Cypress.Commands.add('getWalletAddress', chainName => {
+  cy.task('getWalletAddress', chainName).then(address => {
+    return address;
+  });
+});
+
+Cypress.Commands.add('switchWallet', walletName => {
+  return cy.task('switchWallet', { walletName });
+});
+
+Cypress.Commands.add('addNewTokensFound', () => {
+  return cy.task('addNewTokensFound');
+});
+
+Cypress.Commands.add('getTokenAmount', tokenName => {
+  return cy.task('getTokenAmount', { tokenName });
+});

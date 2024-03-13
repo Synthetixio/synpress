@@ -8,11 +8,7 @@ RUN apt update && apt install -y nginx
 
 COPY nginx.conf /etc/nginx/sites-available/default
 
-COPY package.json ./
-COPY pnpm-lock.yaml ./
-
-FROM base as test
+COPY . .
 
 RUN pnpm install --frozen-lockfile --prefer-offline
 
-COPY . .

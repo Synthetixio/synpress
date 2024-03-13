@@ -276,8 +276,8 @@ declare namespace Cypress {
      * cy.confirmMetamaskPermissionToSpend({ spendLimit: '999999999', shouldWaitForPopupClosure: false })
      */
     confirmMetamaskPermissionToSpend(options: {
-      spendLimit?: string
-      shouldWaitForPopupClosure?: boolean
+      spendLimit?: string;
+      shouldWaitForPopupClosure?: boolean;
     }): Chainable<string>;
     /**
      * Confirm metamask permission to access all elements (example: collectibles)
@@ -339,19 +339,19 @@ declare namespace Cypress {
     confirmMetamaskTransaction(options: {
       gasConfig:
         | {
-          gasLimit?: number;
-          baseFee?: number;
-          priorityFee?: number;
-        }
+            gasLimit?: number;
+            baseFee?: number;
+            priorityFee?: number;
+          }
         | {
-          gasLimit?: number;
-          gasPrice?: number;
-        }
+            gasLimit?: number;
+            gasPrice?: number;
+          }
         | 'low'
         | 'market'
         | 'aggressive'
-        | 'site',
-      shouldWaitForPopupClosure?: boolean
+        | 'site';
+      shouldWaitForPopupClosure?: boolean;
     }): Chainable<Subject>;
     /**
      * Confirm metamask transaction (auto-detects eip-1559 and legacy transactions) and wait for ALL pending transactions to be mined
@@ -505,5 +505,21 @@ declare namespace Cypress {
       viewportWidth: number,
       viewportHeight: number,
     ): Chainable<Subject>;
+    /**
+     * Generic method to setup wallet (works for keplr only)
+     * @example
+     * cy.setupWallet();
+     * cy.setupWallet({
+     *   secretWords: 'test test test test test test test test test test test junk',
+     *   password: 'Password123',
+     * });
+     */
+    setupWallet(args: {
+      secretWords?: string;
+      privateKey?: string;
+      password?: string;
+      newAccount?: boolean;
+      walletName?: string;
+    }): Chainable<Subject>;
   }
 }

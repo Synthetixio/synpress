@@ -3,6 +3,7 @@ const log = require('debug')('synpress:cli');
 const program = require('commander');
 const { run, open } = require('./launcher');
 const { version } = require('./package.json');
+const SUPPORTED_EXTENSIONS = ['metamask', 'keplr'];
 
 if (process.env.DEBUG && process.env.DEBUG.includes('synpress')) {
   log('DEBUG mode is enabled');
@@ -11,6 +12,15 @@ if (process.env.DEBUG && process.env.DEBUG.includes('synpress')) {
     log('Enabling stable mode');
     process.env.STABLE_MODE = true;
   }
+}
+
+if (!process.env.EXTENSION) {
+  throw new Error('Please provide EXTENSION environment variable');
+}
+if (!SUPPORTED_EXTENSIONS.includes(process.env.EXTENSION)) {
+  throw new Error(
+    `Invalid EXTENSION value. EXTENSION can have the following values: ${SUPPORTED_EXTENSIONS.toString()}`,
+  );
 }
 
 if (process.env.SYNPRESS_LOCAL_TEST) {
@@ -27,7 +37,7 @@ if (process.env.SYNPRESS_LOCAL_TEST) {
 }
 
 // if user skips metamask install or setup
-if (!process.env.SKIP_METAMASK_INSTALL && !process.env.SKIP_METAMASK_SETUP) {
+if (!process.env.SKIP_METAMASK_INSTALL && !process.env.SKIP_EXTENSION_SETUP) {
   // we don't want to check for presence of SECRET_WORDS or PRIVATE_KEY
   if (!process.env.SECRET_WORDS && !process.env.PRIVATE_KEY) {
     throw new Error(
@@ -36,7 +46,7 @@ if (!process.env.SKIP_METAMASK_INSTALL && !process.env.SKIP_METAMASK_SETUP) {
   }
 } else {
   log(
-    'Skipping check for SECRET_WORDS and PRIVATE_KEY as SKIP_METAMASK_INSTALL or SKIP_METAMASK_SETUP is set',
+    'Skipping check for SECRET_WORDS and PRIVATE_KEY as SKIP_EXTENSION_SETUP or SKIP_METAMASK_SETUP is set',
   );
 }
 

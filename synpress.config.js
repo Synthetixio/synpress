@@ -14,7 +14,7 @@ const supportFile = 'tests/e2e/support.js';
 module.exports = defineConfig({
   userAgent: 'synpress',
   retries: {
-    runMode: process.env.CI ? 1 : 0,
+    runMode: 0,
     openMode: 0,
   },
   fixturesFolder,
@@ -33,7 +33,7 @@ module.exports = defineConfig({
     testIsolation: false,
     setupNodeEvents,
     baseUrl: 'http://localhost:3000',
-    specPattern: 'tests/e2e/specs/**/*.{js,jsx,ts,tsx}',
+    specPattern: 'tests/e2e/specs/**/*spec.{js,jsx,ts,tsx}',
     supportFile,
   },
   component: {
