@@ -103,6 +103,16 @@ describe('Keplr', () => {
         expect(tokenValue).to.equal(331);
       });
     });
+    it(`should differntiate between keplrWindow and keplrNotificationWindow when they have the same URL`, () => {
+      cy.getTokenAmount('ATOM').then(tokenValue => {
+        expect(tokenValue).to.equal(0);
+      });
+
+      cy.contains('Make an Offer').click();
+      cy.confirmTransaction().then(taskCompleted => {
+        expect(taskCompleted).to.be.true;
+      });
+    });
     it(`should disconnect the wallet from all the connected DAPPs`, () => {
       cy.disconnectWalletFromDapp().then(taskCompleted => {
         expect(taskCompleted).to.be.true;

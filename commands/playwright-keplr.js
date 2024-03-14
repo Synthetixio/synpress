@@ -327,7 +327,7 @@ module.exports = {
 
     throw new Error(`Failed to click element after ${maxRetries} attempts`);
   },
-  async waitAndClickWithDelay(selector, options, delay) {
+  async waitAndClickWithDelay(selector, delay, options) {
     const page = module.exports.keplrWindow();
     await page.waitForTimeout(delay);
     await module.exports.waitAndClick(selector, page, options);
@@ -340,7 +340,8 @@ module.exports = {
       if (
         page
           .url()
-          .includes(`chrome-extension://${keplrExtensionData.id}/popup.html`)
+          .includes(`chrome-extension://${keplrExtensionData.id}/popup.html`) &&
+        page !== keplrWindow
       ) {
         keplrNotificationWindow = page;
         retries = 0;
