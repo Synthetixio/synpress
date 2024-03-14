@@ -333,8 +333,9 @@ const keplr = {
       await module.exports.goToHome();
     }
     await playwright.waitAndClickByText(homePageElements.newTokensFound);
-    await playwright.waitAndClickWithRetry(
+    await playwright.waitAndClickWithDelay(
       homePageElements.selectAllTokensCheck,
+      2000,
       { number: -1, force: true },
     );
     await playwright.waitAndClickByText(
