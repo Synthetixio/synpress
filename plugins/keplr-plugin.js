@@ -77,12 +77,14 @@ module.exports = (on, config) => {
       password,
       newAccount,
       walletName,
+      selectedChains,
     }) => {
       await keplr.initialSetup(null, {
         secretWordsOrPrivateKey,
         password,
         newAccount,
         walletName,
+        selectedChains,
       });
       return true;
     },

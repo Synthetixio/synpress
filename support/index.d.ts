@@ -520,6 +520,7 @@ declare namespace Cypress {
       password?: string;
       newAccount?: boolean;
       walletName?: string;
+      selectedChains?: Array<string>;
     }): Chainable<Subject>;
   }
 }
