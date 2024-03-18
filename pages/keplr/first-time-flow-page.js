@@ -14,8 +14,6 @@ const phraseAccountCreated = 'Account Created!';
 const finishButton = 'button[type="button"]';
 const textAreaSelector = 'textbox';
 const submitPhraseButton = 'button[type="submit"]';
-const chainName = 'Agoric local';
-const chainNameSelector = 'text=Agoric local';
 const importButtonSelector = 'button:has-text("Import")';
 
 module.exports.onboardingElements = {
@@ -23,7 +21,6 @@ module.exports.onboardingElements = {
   createWalletButton,
   importRecoveryPhraseButton,
   useRecoveryPhraseButton,
-  chainNameSelector,
   importButtonSelector,
   phraseCount24,
   phrasePrivateKey,
@@ -37,5 +34,4 @@ module.exports.onboardingElements = {
   finishButton,
   textAreaSelector,
   submitPhraseButton,
-  chainName,
 };

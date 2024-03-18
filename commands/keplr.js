@@ -98,6 +98,7 @@ const keplr = {
     password,
     newAccount,
     walletName,
+    selectedChains,
   ) {
     await module.exports.goToRegistration();
     await playwright.waitAndClickByText(
@@ -158,7 +159,7 @@ const keplr = {
       await playwright.keplrWindow(),
     );
 
-    await module.exports.handleSelectChain();
+    await module.exports.handleSelectChain(selectedChains);
 
     await playwright.waitForByText(
       onboardingElements.phraseAccountCreated,
@@ -167,20 +168,22 @@ const keplr = {
 
     return true;
   },
-  async handleSelectChain() {
-    const chainNameExists = await playwright.waitForAndCheckElementExistence(
-      onboardingElements.chainNameSelector,
+  async handleSelectChain(selectedChains) {
+    for (const chain of selectedChains) {
+      await playwright.waitAndClickByText(
+        chain,
+        playwright.keplrWindow(),
+        true,
+      );
+    }
+
+    await playwright.waitAndClick(
+      onboardingElements.submitChainButton,
+      playwright.keplrWindow(),
     );
 
-    if (chainNameExists) {
-      await playwright.waitAndClickByText(
-        onboardingElements.chainName,
-        playwright.keplrWindow(),
-      );
-      await playwright.waitAndClick(
-        onboardingElements.submitChainButton,
-        playwright.keplrWindow(),
-      );
+    // eslint-disable-next-line no-unused-vars
+    for (const _ of selectedChains) {
       const importButtonExists =
         await playwright.waitForAndCheckElementExistence(
           onboardingElements.importButtonSelector,
@@ -191,12 +194,9 @@ const keplr = {
           onboardingElements.importButtonSelector,
           playwright.keplrWindow(),
         );
+      } else {
+        break;
       }
-    } else {
-      await playwright.waitAndClick(
-        onboardingElements.submitChainButton,
-        playwright.keplrWindow(),
-      );
     }
   },
   async importWalletWithPhrase(secretWords) {
@@ -291,7 +291,13 @@ const keplr = {
 
   async initialSetup(
     playwrightInstance,
-    { secretWordsOrPrivateKey, password, newAccount, walletName },
+    {
+      secretWordsOrPrivateKey,
+      password,
+      newAccount,
+      walletName,
+      selectedChains,
+    },
   ) {
     if (playwrightInstance) {
       await playwright.init(playwrightInstance);
@@ -307,6 +313,7 @@ const keplr = {
       password,
       newAccount,
       walletName,
+      selectedChains,
     );
     await playwright.switchToCypressWindow();
   },
