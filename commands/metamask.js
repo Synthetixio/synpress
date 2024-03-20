@@ -857,11 +857,13 @@ const metamask = {
         .locator(notificationPageElements.customSpendingLimitInput)
         .count()) > 0
     ) {
-      await playwright.waitAndSetValue(
-        spendLimit,
-        notificationPageElements.customSpendingLimitInput,
-        notificationPage,
-      );
+      if (spendLimit) {
+        await playwright.waitAndSetValue(
+          spendLimit,
+          notificationPageElements.customSpendingLimitInput,
+          notificationPage,
+        );
+      }
       await playwright.waitAndClick(
         notificationPageElements.allowToSpendButton,
         notificationPage,
