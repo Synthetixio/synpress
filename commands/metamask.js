@@ -34,6 +34,7 @@ const {
   confirmationPageElements,
 } = require('../pages/metamask/confirmation-page');
 const {
+  resetState,
   setNetwork,
   addNetwork,
   findNetwork,
@@ -462,22 +463,18 @@ const metamask = {
     if (typeof network === 'string') {
       network = await findNetwork(network);
     }
-
     // handle a case if network is already changed
     const currentNetwork = getCurrentNetwork();
     if (network === currentNetwork) {
       return false;
     }
-
     const networkAdded = await checkNetworkAdded(network);
     if (!networkAdded) {
       await module.exports.addNetwork(network);
       return true;
     }
-
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
-
     await playwright.waitAndClickByText(
       mainPageElements.networkSwitcher.dropdownMenuItem,
       network.name,
@@ -1492,6 +1489,7 @@ const metamask = {
     await module.exports.getExtensionDetails();
     await playwright.fixBlankPage();
     await playwright.fixCriticalError();
+    await resetState();
     if (
       (await playwright
         .metamaskWindow()
