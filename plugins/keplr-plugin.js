@@ -50,6 +50,10 @@ module.exports = (on, config) => {
       console.warn('\u001B[33m', 'WARNING:', message, '\u001B[0m');
       return true;
     },
+    info(message) {
+      console.log('\u001B[36m', 'INFO:', message, '\u001B[0m');
+      return true;
+    },
     // playwright commands for Keplr
     initPlaywright: playwright.init,
     assignWindows: playwright.assignWindows,
