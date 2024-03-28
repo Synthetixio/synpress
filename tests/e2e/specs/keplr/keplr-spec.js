@@ -2,6 +2,16 @@
 
 describe('Keplr', () => {
   context('Test commands', () => {
+    it('Executes a command and verifies stdout and stderr', () => {
+      const command = 'echo "Hello, stdout!" && echo "Error occurred" >&2';
+
+      cy.execute(command).then(({ stdout, stderr, error }) => {
+        expect(stdout.trim()).to.equal('Hello, stdout!');
+        expect(stderr.trim()).to.equal('Error occurred');
+        expect(error).to.be.undefined;
+      });
+    });
+
     it(`should complete Keplr setup by  importing an existing wallet using 24 word phrase`, () => {
       cy.setupWallet().then(setupFinished => {
         expect(setupFinished).to.be.true;

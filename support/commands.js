@@ -476,3 +476,7 @@ Cypress.Commands.add('addNewTokensFound', () => {
 Cypress.Commands.add('getTokenAmount', tokenName => {
   return cy.task('getTokenAmount', { tokenName });
 });
+
+Cypress.Commands.add('execute', command => {
+  return cy.task('execute', command);
+});
