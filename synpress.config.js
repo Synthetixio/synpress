@@ -20,6 +20,7 @@ module.exports = defineConfig({
   fixturesFolder,
   screenshotsFolder: 'tests/e2e/screenshots',
   videosFolder: 'tests/e2e/videos',
+  bashScriptsFolder: process.cwd() +'/bin',
   chromeWebSecurity: true,
   viewportWidth: 1920,
   viewportHeight: 1080,
