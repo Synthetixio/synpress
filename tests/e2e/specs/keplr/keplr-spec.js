@@ -2,6 +2,16 @@
 
 describe('Keplr', () => {
   context('Test commands', () => {
+    it('Executes a command and verifies stdout and stderr', () => {
+      const command = 'echo "Hello, stdout!" && echo "Error occurred" >&2';
+
+      cy.execute(command).then(({ stdout, stderr, error }) => {
+        expect(stdout.trim()).to.equal('Hello, stdout!');
+        expect(stderr.trim()).to.equal('Error occurred');
+        expect(error).to.be.undefined;
+      });
+    });
+
     it(`should complete Keplr setup by  importing an existing wallet using 24 word phrase`, () => {
       cy.setupWallet().then(setupFinished => {
         expect(setupFinished).to.be.true;
@@ -62,6 +72,7 @@ describe('Keplr', () => {
         password: 'Test1234',
         newAccount: true,
         walletName: 'My Wallet 2',
+        selectedChains: ['Agoric localhost', 'Secret Network'],
       }).then(setupFinished => {
         expect(setupFinished).to.be.true;
       });
@@ -71,6 +82,7 @@ describe('Keplr', () => {
         privateKey:
           'A9C09B6E4AF70DE1F1B621CB1AA66CFD0B4AA977E4C18497C49132DD9E579485',
         walletName: 'My wallet 3',
+        selectedChains: ['Agoric localhost'],
       }).then(setupFinished => {
         expect(setupFinished).to.be.true;
       });

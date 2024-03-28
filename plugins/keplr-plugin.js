@@ -1,3 +1,4 @@
+const { exec, execSync } = require('child_process');
 const helpers = require('../helpers');
 const playwright = require('../commands/playwright-keplr');
 const keplr = require('../commands/keplr');
@@ -50,6 +51,23 @@ module.exports = (on, config) => {
       console.warn('\u001B[33m', 'WARNING:', message, '\u001B[0m');
       return true;
     },
+    info(message) {
+      console.log('\u001B[36m', 'INFO:', message, '\u001B[0m');
+      return true;
+    },
+
+    async execute(command) {
+      return new Promise((resolve, reject) => {
+        exec(command, (error, stdout, stderr) => {
+          if (error) {
+            reject({ error, stdout, stderr });
+          } else {
+            resolve({ stdout, stderr });
+          }
+        });
+      });
+    },
+
     // playwright commands for Keplr
     initPlaywright: playwright.init,
     assignWindows: playwright.assignWindows,
@@ -77,12 +95,14 @@ module.exports = (on, config) => {
       password,
       newAccount,
       walletName,
+      selectedChains,
     }) => {
       await keplr.initialSetup(null, {
         secretWordsOrPrivateKey,
         password,
         newAccount,
         walletName,
+        selectedChains,
       });
       return true;
     },
