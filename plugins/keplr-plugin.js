@@ -1,4 +1,3 @@
-const { exec, execSync } = require('child_process');
 const helpers = require('../helpers');
 const playwright = require('../commands/playwright-keplr');
 const keplr = require('../commands/keplr');
@@ -58,13 +57,18 @@ module.exports = (on, config) => {
 
     async execute(command) {
       return new Promise((resolve, reject) => {
-        exec(command, (error, stdout, stderr) => {
-          if (error) {
-            reject({ error, stdout, stderr });
-          } else {
-            resolve({ stdout, stderr });
-          }
-        });
+        const { exec } = require('child_process');
+        try {
+          exec(command, (error, stdout, stderr) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve({ stdout, stderr });
+            }
+          });
+        } catch (e) {
+          reject(e);
+        }
       });
     },
 

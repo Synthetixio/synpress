@@ -2,6 +2,7 @@
 
 describe('Keplr', () => {
   context('Test commands', () => {
+    const scriptsFolder = Cypress.config('bashScriptsFolder');
     it('Executes a command and verifies stdout and stderr', () => {
       const command = 'echo "Hello, stdout!" && echo "Error occurred" >&2';
 
@@ -10,6 +11,18 @@ describe('Keplr', () => {
         expect(stderr.trim()).to.equal('Error occurred');
         expect(error).to.be.undefined;
       });
+    });
+
+    it('Executes a commands from a file and verifies stdout and stderr', () => {
+      const fileName = 'script.sh';
+
+      cy.execute(`sh ${scriptsFolder}/${fileName}`).then(
+        ({ stdout, stderr, error }) => {
+          expect(stdout.trim()).to.equal('Hello, stdout!');
+          expect(stderr.trim()).to.equal('Error occurred');
+          expect(error).to.be.undefined;
+        },
+      );
     });
 
     it(`should complete Keplr setup by  importing an existing wallet using 24 word phrase`, () => {
