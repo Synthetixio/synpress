@@ -93,6 +93,88 @@ const keplr = {
     );
     return true;
   },
+  async createWallet(password, walletName, selectedChains) {
+    await module.exports.goToRegistration();
+    await playwright.waitAndClickByText(
+      onboardingElements.createWalletButton,
+      playwright.keplrWindow(),
+    );
+
+    await playwright.waitAndClickByText(
+      onboardingElements.createNewRecoveryPhraseButton,
+      playwright.keplrWindow(),
+    );
+    await playwright.waitAndClickByText(
+      onboardingElements.showMyPhraseButton,
+      playwright.keplrWindow(),
+      true,
+    );
+
+    await playwright.waitAndClickByText(
+      onboardingElements.phraseCount24,
+      playwright.keplrWindow(),
+    );
+    await playwright.waitAndClickByText(
+      onboardingElements.copyToClipboardButton,
+      playwright.keplrWindow(),
+    );
+
+    const mnemonicPhraseArray = clipboardy.readSync().split(' ');
+    await playwright.waitAndClickByText(
+      onboardingElements.nextButton,
+      playwright.keplrWindow(),
+    );
+
+    const wordLabels = await playwright.waitForElementsByText(
+      /Word #\d+/,
+      playwright.keplrWindow(),
+      true,
+    );
+
+    await playwright.waitFor(onboardingElements.focusedInput);
+    for (const wordLabel of wordLabels) {
+      const wordLabelText = await wordLabel.innerText();
+      const wordNumber = Number(wordLabelText.split('Word #')[1]) - 1;
+      const wordInputElement = wordLabel.locator('..').locator('input').first();
+      await playwright.waitAndType(
+        wordInputElement,
+        mnemonicPhraseArray[wordNumber],
+      );
+    }
+
+    await playwright.waitAndType(onboardingElements.walletInput, walletName);
+    const passwordFieldExists =
+      await playwright.waitForAndCheckElementExistence(
+        onboardingElements.passwordInput,
+      );
+
+    if (passwordFieldExists) {
+      await playwright.waitAndType(onboardingElements.passwordInput, password);
+      await playwright.waitAndType(
+        onboardingElements.confirmPasswordInput,
+        password,
+      );
+    }
+
+    await playwright.waitAndClick(
+      onboardingElements.submitWalletDataButton,
+      playwright.keplrWindow(),
+    );
+
+    await playwright.waitForByText(
+      onboardingElements.phraseSelectChain,
+      playwright.keplrWindow(),
+    );
+
+    await module.exports.handleSelectChain(selectedChains);
+
+    await playwright.waitForByText(
+      onboardingElements.phraseAccountCreated,
+      playwright.keplrWindow(),
+    );
+
+    return true;
+  },
   async importWallet(
     secretWordsOrPrivateKey,
     password,
@@ -133,6 +215,7 @@ const keplr = {
       );
     }
 
+    await playwright.waitFor(onboardingElements.focusedInput);
     await playwright.waitAndType(onboardingElements.walletInput, walletName);
 
     const passwordFieldExists =
@@ -297,6 +380,7 @@ const keplr = {
       newAccount,
       walletName,
       selectedChains,
+      createNewWallet,
     },
   ) {
     if (playwrightInstance) {
@@ -308,13 +392,18 @@ const keplr = {
     await playwright.assignWindows();
     await playwright.switchToKeplrWindow();
     await module.exports.getExtensionDetails();
-    await module.exports.importWallet(
-      secretWordsOrPrivateKey,
-      password,
-      newAccount,
-      walletName,
-      selectedChains,
-    );
+    if (createNewWallet) {
+      await module.exports.createWallet(password, walletName, selectedChains);
+    } else {
+      await module.exports.importWallet(
+        secretWordsOrPrivateKey,
+        password,
+        newAccount,
+        walletName,
+        selectedChains,
+      );
+    }
+
     await playwright.switchToCypressWindow();
   },
 

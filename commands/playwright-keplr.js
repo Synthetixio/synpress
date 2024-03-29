@@ -194,6 +194,19 @@ module.exports = {
     }
     return element;
   },
+  async waitForElementsByText(text, page = keplrWindow, exact = false) {
+    await module.exports.waitUntilStable(page);
+    const elements = await page.getByText(text, { exact: exact }).all();
+    await Promise.all(elements.map(element => element.waitFor()));
+    if (process.env.STABLE_MODE) {
+      if (!isNaN(process.env.STABLE_MODE)) {
+        await page.waitForTimeout(Number(process.env.STABLE_MODE));
+      } else {
+        await page.waitForTimeout(300);
+      }
+    }
+    return elements;
+  },
   async waitForByText(text, page = keplrWindow, exact = false) {
     await module.exports.waitUntilStable(page);
     const element = page.getByText(text, { exact: exact }).first();
@@ -296,7 +309,15 @@ module.exports = {
     if (typeof value === 'number') {
       value = value.toString();
     }
-    const element = await module.exports.waitFor(selector, page);
+    let element;
+    if (typeof selector === 'string') {
+      element = await module.exports.waitFor(selector, page);
+    } else {
+      // for locator element
+      element = selector;
+      await element.waitFor();
+    }
+
     await element.type(value);
     await module.exports.waitUntilStable(page);
   },

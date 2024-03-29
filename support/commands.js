@@ -418,6 +418,7 @@ Cypress.Commands.add('setupWallet', (args = {}) => {
     newAccount = false,
     walletName = 'My Wallet',
     selectedChains = [],
+    createNewWallet = false,
   } = args;
   return cy.task('setupWallet', {
     secretWordsOrPrivateKey:
@@ -428,6 +429,7 @@ Cypress.Commands.add('setupWallet', (args = {}) => {
     newAccount,
     walletName,
     selectedChains,
+    createNewWallet,
   });
 });
 

@@ -25,6 +25,14 @@ describe('Keplr', () => {
       );
     });
 
+    it(`should create a brand new wallet`, () => {
+      cy.setupWallet({
+        createNewWallet: true,
+        walletName: 'my created wallet',
+      }).then(setupFinished => {
+        expect(setupFinished).to.be.true;
+      });
+    });
     it(`should complete Keplr setup by  importing an existing wallet using 24 word phrase`, () => {
       cy.setupWallet().then(setupFinished => {
         expect(setupFinished).to.be.true;
@@ -151,6 +159,11 @@ describe('Keplr', () => {
 
       cy.getWalletAddress('Cosmos Hub').then(walletAddress => {
         expect(walletAddress.length).to.be.equal(45);
+      });
+    });
+    it(`should create a brand new wallet without password input`, () => {
+      cy.setupWallet({ createNewWallet: true }).then(setupFinished => {
+        expect(setupFinished).to.be.true;
       });
     });
   });

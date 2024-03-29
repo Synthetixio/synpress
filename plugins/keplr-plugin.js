@@ -100,6 +100,7 @@ module.exports = (on, config) => {
       newAccount,
       walletName,
       selectedChains,
+      createNewWallet,
     }) => {
       await keplr.initialSetup(null, {
         secretWordsOrPrivateKey,
@@ -107,6 +108,7 @@ module.exports = (on, config) => {
         newAccount,
         walletName,
         selectedChains,
+        createNewWallet,
       });
       return true;
     },
