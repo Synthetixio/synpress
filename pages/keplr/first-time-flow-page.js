@@ -1,10 +1,15 @@
 const createWalletButton = 'Create a new wallet';
 const existingWalletButton = 'Import an existing wallet';
 const importRecoveryPhraseButton = 'Import existing recovery phrase';
+const createNewRecoveryPhraseButton = 'Create new recovery phrase';
+const showMyPhraseButton = 'I understood. Show my phrase.';
+const copyToClipboardButton = 'Copy to clipboard';
+const nextButton = 'Next';
+const focusedInput = 'input:focus';
 const useRecoveryPhraseButton = 'Use recovery phrase or private key';
 const phraseCount24 = '24 words';
 const phrasePrivateKey = 'Private key';
-const walletInput = 'input[name="name"]:focus';
+const walletInput = 'input[name="name"]';
 const passwordInput = 'input[name="password"]';
 const confirmPasswordInput = 'input[name="confirmPassword"]';
 const submitWalletDataButton = 'button[type="submit"]';
@@ -20,6 +25,11 @@ module.exports.onboardingElements = {
   existingWalletButton,
   createWalletButton,
   importRecoveryPhraseButton,
+  createNewRecoveryPhraseButton,
+  showMyPhraseButton,
+  copyToClipboardButton,
+  nextButton,
+  focusedInput,
   useRecoveryPhraseButton,
   importButtonSelector,
   phraseCount24,
