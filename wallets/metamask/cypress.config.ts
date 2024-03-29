@@ -1,30 +1,16 @@
-import { defineConfig } from 'cypress'
-import { prepareExtension } from './src/prepareExtension'
+import { defineConfig } from "cypress";
+import { installSynpress } from "./src/cypress";
 
 export default defineConfig({
+  chromeWebSecurity: false,
   e2e: {
-    baseUrl: 'http://localhost:9999',
-    supportFile: 'src/support/e2e.{js,jsx,ts,tsx}',
-    specPattern: 'test/**/*.cy.{js,jsx,ts,tsx}',
-    fixturesFolder: 'src/fixture-actions',
+    baseUrl: "http://localhost:9999",
+    supportFile: "src/cypress/support/e2e.{js,jsx,ts,tsx}",
+    specPattern: "test/**/*.cy.{js,jsx,ts,tsx}",
+    fixturesFolder: "src/cypress/fixtures",
     testIsolation: false,
-    setupNodeEvents(on, config) {
-      const browsers = config.browsers.filter((b) => b.name === 'chrome')
-      if (browsers.length === 0) {
-        throw new Error('No Chrome browser found in the configuration')
-      }
-
-      on('before:browser:launch', async (browser, launchOptions) => {
-        const metamasExtensionPath = await prepareExtension()
-        launchOptions.extensions.push(metamasExtensionPath)
-
-        return launchOptions
-      })
-
-      return {
-        ...config,
-        browsers
-      }
-    }
-  }
-})
+    async setupNodeEvents(on, config) {
+      return installSynpress(on, config);
+    },
+  },
+});

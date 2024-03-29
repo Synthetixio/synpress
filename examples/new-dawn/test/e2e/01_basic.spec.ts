@@ -1,5 +1,5 @@
 import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress'
-import BasicSetup from '../playwright/wallet-setup/basic.setup'
+import BasicSetup from '../wallet-setup/basic.setup';
 
 const test = testWithSynpress(BasicSetup, unlockForFixture)
 
