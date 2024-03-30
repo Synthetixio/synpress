@@ -15,11 +15,13 @@ module.exports.metametricsPageElements = {
 };
 
 const firstTimeFlowPage = '.first-time-flow';
-const importWalletButton = `[data-testid="import-recovery-phrase-button"]`;
+const importWalletButton = `[data-testid="import-wallet-button"]`;
+const importRecoveryPhraseButton = `[data-testid="import-seed-phrase-button"]`;
 const createWalletButton = `${firstTimeFlowPage} [data-testid="create-wallet-button"]`;
 module.exports.firstTimeFlowPageElements = {
   firstTimeFlowPage,
   importWalletButton,
+  importRecoveryPhraseButton,
   createWalletButton,
 };
 

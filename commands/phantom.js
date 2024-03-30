@@ -124,6 +124,10 @@ module.exports = {
       PROVIDER,
       firstTimeFlowPageElements.importWalletButton,
     );
+    await playwright.waitAndClick(
+      PROVIDER,
+      firstTimeFlowPageElements.importRecoveryPhraseButton,
+    );
     // STEP: Input mnemonic words and click Import
     // todo: add support for more secret words (15/18/21/24)
     for (const [index, word] of secretWords.split(' ').entries()) {
@@ -265,10 +269,10 @@ module.exports = {
 
     if (
       await playwright
-        .windows(PROVIDER)
-        .locator(firstTimeFlowPageElements.importWalletButton)
-        .isVisible()
-    ) {
+      .windows(PROVIDER)
+      .locator(firstTimeFlowPageElements.importWalletButton)
+      .isVisible()
+      ) {      
       /**
        * SEED PHRASE IMPORT
        */
@@ -386,18 +390,27 @@ module.exports = {
     );
     return true;
   },
-  unlock: async password => {
+  unlock: async (password, close = false) => {
+
+    const notificationPage = await playwright.switchToNotification(PROVIDER);
+
     await playwright.waitAndType(
       PROVIDER,
       unlockPageElements.passwordInput,
       password,
+      notificationPage,
     );
+      
     await playwright.waitAndClick(
       PROVIDER,
       unlockPageElements.unlockButton,
-      await playwright.windows(PROVIDER),
+      notificationPage,
     );
-    await module.exports.closePopupAndTooltips();
+
+    if(close) {
+      await module.exports.closePopupAndTooltips();
+    }
+    
     return true;
   },
   lock: async () => {
