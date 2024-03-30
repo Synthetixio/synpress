@@ -98,7 +98,7 @@ export const testWithMetaMask = testWithSynpress(connectedSetup, unlockForFixtur
 ```
 
 ```typescript [basic.spec.ts]
-import {testWithMetaMask as test} from './testWithMetaMask'
+import {testWithMetaMask as test} from './playwright/testWithMetaMask'
 
 const { expect } = test
 
@@ -114,7 +114,7 @@ test('should connect wallet to dapp', async ({ context, page, extensionId, metam
 })
 ```
 ```typescript [basic.spec.ts]
-import { testWithMetaMask as test } from './testWithMetaMask';
+import { testWithMetaMask as test } from './playwright/testWithMetaMask';
 
 const { expect } = test;
 

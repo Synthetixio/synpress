@@ -1,4 +1,4 @@
-import { testWithMetaMask } from '../testWithMetaMask'
+import { testWithMetaMask } from '..//testWithMetaMask'
 
 const test = testWithMetaMask
 
