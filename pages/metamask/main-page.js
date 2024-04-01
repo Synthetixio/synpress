@@ -1,7 +1,7 @@
-const networkSwitcherButtonSelector = '.network-display';
+const networkSwitcherButtonSelector = '[data-testid="network-display"]';
 const networkSwitcher = {
   button: networkSwitcherButtonSelector,
-  networkName: `${networkSwitcherButtonSelector} .typography`,
+  networkName: `${networkSwitcherButtonSelector} .mm-text--ellipsis`,
   dropdownMenu: '[data-testid="network-droppo"]',
   dropdownMenuItem: `[data-testid="network-droppo"] .dropdown-menu-item`,
   mainnetNetworkItem: `[data-testid="network-droppo"] [data-testid="mainnet-network-item"]`,
@@ -74,8 +74,8 @@ const accountMenu = {
 
 const optionsMenu = {
   button: '[data-testid=account-options-menu-button]',
-  accountDetailsButton: '[data-testid="account-options-menu__account-details"]',
-  connectedSitesButton: '[data-testid="account-options-menu__connected-sites"]',
+  accountDetailsButton: '[data-testid="account-list-menu-details"]',
+  connectedSitesButton: '[data-testid="global-menu-connected-sites"]',
 };
 
 const connectedSitesSelector = '.connected-sites';
@@ -87,10 +87,10 @@ const connectedSites = {
   closeButton: `${connectedSitesSelector} [data-testid="popover-close"]`,
 };
 
-const accountModalSelector = '.account-modal';
+const accountModalSelector = '.mm-modal-content__dialog';
 const accountModal = {
-  walletAddressInput: `${accountModalSelector} .qr-code__address`,
-  closeButton: '.account-modal__close',
+  walletAddressInput: `${accountModalSelector} [data-testid="address-copy-button-text"]`,
+  closeButton: '.mm-button-icon[aria-label="Close"]',
 };
 
 const renameAccount = {

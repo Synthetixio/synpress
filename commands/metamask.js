@@ -34,6 +34,7 @@ const {
   confirmationPageElements,
 } = require('../pages/metamask/confirmation-page');
 const {
+  resetState,
   setNetwork,
   addNetwork,
   findNetwork,
@@ -462,22 +463,18 @@ const metamask = {
     if (typeof network === 'string') {
       network = await findNetwork(network);
     }
-
     // handle a case if network is already changed
     const currentNetwork = getCurrentNetwork();
     if (network === currentNetwork) {
       return false;
     }
-
     const networkAdded = await checkNetworkAdded(network);
     if (!networkAdded) {
       await module.exports.addNetwork(network);
       return true;
     }
-
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
-
     await playwright.waitAndClickByText(
       mainPageElements.networkSwitcher.dropdownMenuItem,
       network.name,
@@ -641,13 +638,6 @@ const metamask = {
     await module.exports.closeModal();
     await switchToCypressIfNotActive();
     return true;
-  },
-  async activateAdvancedGasControl(skipSetup) {
-    return await activateAdvancedSetting(
-      advancedPageElements.advancedGasControlToggleOn,
-      advancedPageElements.advancedGasControlToggleOff,
-      skipSetup,
-    );
   },
   async activateShowHexData(skipSetup) {
     return await activateAdvancedSetting(
@@ -864,11 +854,13 @@ const metamask = {
         .locator(notificationPageElements.customSpendingLimitInput)
         .count()) > 0
     ) {
-      await playwright.waitAndSetValue(
-        spendLimit,
-        notificationPageElements.customSpendingLimitInput,
-        notificationPage,
-      );
+      if (spendLimit) {
+        await playwright.waitAndSetValue(
+          spendLimit,
+          notificationPageElements.customSpendingLimitInput,
+          notificationPage,
+        );
+      }
       await playwright.waitAndClick(
         notificationPageElements.allowToSpendButton,
         notificationPage,
@@ -1128,7 +1120,7 @@ const metamask = {
           confirmPageElements.recipientButton,
           notificationPage,
         );
-        txData.recipientPublicAddress = await playwright.waitAndGetValue(
+        txData.recipientPublicAddress = await playwright.waitAndGetInputValue(
           recipientPopupElements.recipientPublicAddress,
           notificationPage,
         );
@@ -1497,12 +1489,17 @@ const metamask = {
     await module.exports.getExtensionDetails();
     await playwright.fixBlankPage();
     await playwright.fixCriticalError();
+    await resetState();
     if (
       (await playwright
         .metamaskWindow()
         .locator(onboardingWelcomePageElements.onboardingWelcomePage)
         .count()) > 0
     ) {
+      await playwright.waitAndClick(
+        onboardingWelcomePageElements.onboardingTermsCheckbox,
+        await playwright.metamaskWindow(),
+      );
       if (secretWordsOrPrivateKey.includes(' ')) {
         // secret words
         await module.exports.importWallet(secretWordsOrPrivateKey, password);
@@ -1601,7 +1598,6 @@ async function setupSettings(
 ) {
   await switchToMetamaskIfNotActive();
   await metamask.goToAdvancedSettings();
-  await metamask.activateAdvancedGasControl(true);
   await metamask.activateShowHexData(true);
   await metamask.activateShowTestnetNetworks(true);
   await metamask.activateCustomNonce(true);
