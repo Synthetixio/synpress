@@ -309,6 +309,25 @@ module.exports = {
 
       walletAddress = await module.exports.getWalletAddress();
       await playwright.switchToCypressWindow();
+
+      // there are some interstitials sometimes...
+
+      // interstitials are triggered after locking/unlocking
+
+      // 1. lock the extension
+      await module.exports.lock();
+
+      // 3. unlock the extension
+      await module.exports.unlock(password);
+
+      // bitcoin interstitial
+      await new Promise(resolve => setTimeout(resolve, 1000)); // for animations it's still the most reliable way...
+      if (await playwright.windows(PROVIDER).locator("text=Welcome to Bitcoin").isVisible()) {
+        await playwright.windows(PROVIDER).locator(buttons.primaryButton).click();
+      }
+
+      await playwright.windows(PROVIDER).pause();
+
       return true;
     } else if (
       /**
@@ -390,21 +409,20 @@ module.exports = {
     );
     return true;
   },
-  unlock: async (password, close = false) => {
+  unlock: async (password, close = false, page = playwright.windows(PROVIDER)) => {
 
-    const notificationPage = await playwright.switchToNotification(PROVIDER);
 
     await playwright.waitAndType(
       PROVIDER,
       unlockPageElements.passwordInput,
       password,
-      notificationPage,
+      page,
     );
       
     await playwright.waitAndClick(
       PROVIDER,
       unlockPageElements.unlockButton,
-      notificationPage,
+      page,
     );
 
     if(close) {
