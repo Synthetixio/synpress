@@ -1509,6 +1509,7 @@ const metamask = {
       } else {
         // private key
         await module.exports.createWallet(password);
+        await sleep(1000);
         await module.exports.importAccount(secretWordsOrPrivateKey);
       }
 
