@@ -1,3 +1,3 @@
-export * from "./metamask-mock";
-export * from "./utils";
-export * from "./testWithMetaMaskMock";
+export * from './metamask-mock'
+export * from './utils'
+export * from './testWithMetaMaskMock'

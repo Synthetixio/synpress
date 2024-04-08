@@ -1,1 +1,1 @@
-export { default as mockEthereum } from "./mockEthereum";
+export { default as mockEthereum } from './mockEthereum'

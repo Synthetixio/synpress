@@ -1,30 +1,28 @@
-import { mnemonicToAccount, privateKeyToAccount } from "viem/accounts";
 // @ts-ignore
-import { connect } from "@depay/web3-mock";
-import type { Page } from "@playwright/test";
-import type { Network } from "./network/Network";
+import { connect } from '@depay/web3-mock'
+import type { Page } from '@playwright/test'
+import { mnemonicToAccount, privateKeyToAccount } from 'viem/accounts'
+import type { Network } from './network/Network'
 
-export const blockchain = "ethereum";
-export const wallet = "metamask";
+export const blockchain = 'ethereum'
+export const wallet = 'metamask'
 
 const networkConfig = {
   blockchain,
-  wallet,
-};
+  wallet
+}
 
-const BSC_NETWORK_ID = "0x38";
+const BSC_NETWORK_ID = '0x38'
 
-export const SEED_PHRASE =
-  "test test test test test test test test test test test junk";
+export const SEED_PHRASE = 'test test test test test test test test test test test junk'
 
-export const PRIVATE_KEY =
-  "ea084c575a01e2bbefcca3db101eaeab1d8af15554640a510c73692db24d0a6a";
+export const PRIVATE_KEY = 'ea084c575a01e2bbefcca3db101eaeab1d8af15554640a510c73692db24d0a6a'
 
 /**
  * This class is the heart of Synpress's MetaMask API.
  */
 export class MetaMaskMock {
-  seedPhrase = "";
+  seedPhrase = ''
 
   constructor(
     /**
@@ -32,7 +30,7 @@ export class MetaMaskMock {
      */
     readonly page: Page
   ) {
-    this.page = page;
+    this.page = page
   }
 
   /**
@@ -41,7 +39,7 @@ export class MetaMaskMock {
    * @param seedPhrase - The seed phrase to import.
    */
   importWallet(seedPhrase: string) {
-    this.seedPhrase = seedPhrase;
+    this.seedPhrase = seedPhrase
   }
 
   /**
@@ -49,31 +47,31 @@ export class MetaMaskMock {
    */
   async getAllAccounts(): Promise<string[]> {
     return this.page.evaluate(() => {
-      return window.ethereum.request({ method: "eth_requestAccounts" });
-    });
+      return window.ethereum.request({ method: 'eth_requestAccounts' })
+    })
   }
 
   /**
    * Adds a new account. This account is based on the initially imported seed phrase.
    */
   async addNewAccount() {
-    const accounts = await this.getAllAccounts();
+    const accounts = await this.getAllAccounts()
 
     const newAccount = mnemonicToAccount(this.seedPhrase, {
-      accountIndex: accounts.length,
-    });
+      accountIndex: accounts.length
+    })
 
     return this.page.evaluate(
       ([networkConfig, accounts]) => {
         return Web3Mock.mock({
           ...networkConfig,
           accounts: {
-            return: accounts,
-          },
-        });
+            return: accounts
+          }
+        })
       },
       [networkConfig, [newAccount.address, ...accounts]]
-    );
+    )
   }
 
   /**
@@ -82,19 +80,19 @@ export class MetaMaskMock {
    * @param privateKey - The private key to import.
    */
   async importWalletFromPrivateKey(privateKey: `0x${string}`) {
-    const newAccount = privateKeyToAccount(privateKey);
+    const newAccount = privateKeyToAccount(privateKey)
 
     return this.page.evaluate(
       ([networkConfig, account]) => {
         return Web3Mock.mock({
           ...networkConfig,
           accounts: {
-            return: account,
-          },
-        });
+            return: account
+          }
+        })
       },
       [networkConfig, [newAccount.address]]
-    );
+    )
   }
 
   /**
@@ -109,12 +107,12 @@ export class MetaMaskMock {
           // @ts-ignore
           ...networkConfig,
           accounts: {
-            return: [accountAddress],
-          },
-        });
+            return: [accountAddress]
+          }
+        })
       },
       [networkConfig, accountAddress]
-    );
+    )
   }
 
   /**
@@ -133,27 +131,27 @@ export class MetaMaskMock {
       chainName: network.name,
       nativeCurrency: network.nativeCurrency,
       rpcUrls: [network.rpcUrl],
-      blockExplorerUrls: [network.blockExplorerUrl],
-    };
+      blockExplorerUrls: [network.blockExplorerUrl]
+    }
 
     return this.page.evaluate(
       ([networkConfig, networkInfo]) => {
         return Web3Mock.mock({
           ...networkConfig,
           network: {
-            add: networkInfo,
-          },
-        });
+            add: networkInfo
+          }
+        })
       },
       [networkConfig, networkInfo]
-    );
+    )
   }
 
   /**
    * Retrieves the current account address.
    */
   async getAccountAddress() {
-    return (await this.getAllAccounts())[0];
+    return (await this.getAllAccounts())[0]
   }
 
   /**
@@ -168,24 +166,24 @@ export class MetaMaskMock {
           // @ts-ignore
           ...networkConfig,
           network: {
-            switchTo: networkName,
-          },
-        });
+            switchTo: networkName
+          }
+        })
 
         window.ethereum.request({
-          method: "wallet_switchEthereumChain",
+          method: 'wallet_switchEthereumChain',
           // Mock do not support custom network IDs
-          params: [{ chainId }],
-        });
+          params: [{ chainId }]
+        })
       },
       [networkConfig, networkName, BSC_NETWORK_ID]
-    );
+    )
   }
 
   /**
    * Connects to the dapp using the currently selected account.
    */
   async connectToDapp(network: string) {
-    connect(network);
+    connect(network)
   }
 }

@@ -1,18 +1,19 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      CI: boolean;
-      HEADLESS: boolean;
+      CI: boolean
+      HEADLESS: boolean
     }
   }
 }
 
 declare global {
   interface Window {
-    ethereum: any;
+    ethereum: import('ethers').Eip1193Provider
   }
 
-  const Web3Mock: any;
+  // biome-ignore lint/suspicious/noExplicitAny: Web3Mock is a mock object
+  const Web3Mock: any
 }
 
-export {};
+export {}

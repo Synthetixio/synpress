@@ -1,11 +1,11 @@
 export type Network = {
-  name: string;
-  rpcUrl: string;
-  chainId: number;
-  blockExplorerUrl?: string;
+  name: string
+  rpcUrl: string
+  chainId: number
+  blockExplorerUrl?: string
   nativeCurrency?: {
-    name: string;
-    symbol: string;
-    decimals: number;
-  };
-};
+    name: string
+    symbol: string
+    decimals: number
+  }
+}
