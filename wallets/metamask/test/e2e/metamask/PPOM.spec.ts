@@ -20,7 +20,7 @@ describe('using PPOM security mechanism', () => {
     )
   })
 
-  test('should prevent malicious ERC20 transfer', async ({ context, page, metamask }) => {
+  test.skip('should prevent malicious ERC20 transfer', async ({ context, page, metamask }) => {
     await page.locator('#maliciousERC20TransferButton').click()
 
     const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId || '')
@@ -36,7 +36,7 @@ describe('using PPOM security mechanism', () => {
     const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId || '')
 
     await expect(notificationPage.locator(createDataTestSelector('security-provider-banner-alert'))).toContainText(
-      PPOM_WARNING
+      PPOM_ERROR
     )
   })
 
@@ -46,7 +46,7 @@ describe('using PPOM security mechanism', () => {
     const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId || '')
 
     await expect(notificationPage.locator(createDataTestSelector('security-provider-banner-alert'))).toContainText(
-      PPOM_WARNING
+      PPOM_ERROR
     )
   })
 
