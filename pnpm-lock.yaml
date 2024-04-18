@@ -211,6 +211,9 @@ importers:
       '@playwright/test':
         specifier: 1.41.2
         version: 1.41.2
+      '@synthetixio/ethereum-wallet-mock':
+        specifier: 0.0.1-alpha.3
+        version: link:../wallets/ethereum-wallet-mock
       '@synthetixio/synpress-core':
         specifier: 0.0.1-alpha.3
         version: link:../packages/core
@@ -220,9 +223,6 @@ importers:
       '@synthetixio/synpress-metamask':
         specifier: 0.0.1-alpha.3
         version: link:../wallets/metamask
-      '@synthetixio/synpress-metamask-mock':
-        specifier: 0.0.1-alpha.3
-        version: link:../wallets/metamask-mock
     devDependencies:
       '@synthetixio/synpress-tsconfig':
         specifier: 0.0.1-alpha.3
@@ -230,6 +230,37 @@ importers:
       '@types/node':
         specifier: 20.11.17
         version: 20.11.17
+      rimraf:
+        specifier: 5.0.5
+        version: 5.0.5
+      tsup:
+        specifier: 8.0.2
+        version: 8.0.2(typescript@5.3.3)
+      typescript:
+        specifier: 5.3.3
+        version: 5.3.3
+
+  wallets/ethereum-wallet-mock:
+    dependencies:
+      '@depay/web3-mock':
+        specifier: 14.17.0
+        version: 14.17.0
+      '@playwright/test':
+        specifier: 1.41.2
+        version: 1.41.2
+      viem:
+        specifier: 2.9.9
+        version: 2.9.9(typescript@5.3.3)
+    devDependencies:
+      '@synthetixio/synpress-tsconfig':
+        specifier: 0.0.1-alpha.3
+        version: link:../../packages/tsconfig
+      '@types/node':
+        specifier: 20.11.17
+        version: 20.11.17
+      '@vitest/coverage-v8':
+        specifier: 1.2.2
+        version: 1.2.2(vitest@1.2.2)
       rimraf:
         specifier: 5.0.5
         version: 5.0.5
@@ -276,37 +307,6 @@ importers:
       vitest:
         specifier: 1.2.2
         version: 1.2.2(@types/node@20.11.17)
-
-  wallets/metamask-mock:
-    dependencies:
-      '@depay/web3-mock':
-        specifier: 14.17.0
-        version: 14.17.0
-      '@playwright/test':
-        specifier: 1.41.2
-        version: 1.41.2
-      viem:
-        specifier: 2.9.9
-        version: 2.9.9(typescript@5.3.3)
-    devDependencies:
-      '@synthetixio/synpress-tsconfig':
-        specifier: 0.0.1-alpha.3
-        version: link:../../packages/tsconfig
-      '@types/node':
-        specifier: 20.11.17
-        version: 20.11.17
-      '@vitest/coverage-v8':
-        specifier: 1.2.2
-        version: 1.2.2(vitest@1.2.2)
-      rimraf:
-        specifier: 5.0.5
-        version: 5.0.5
-      tsup:
-        specifier: 8.0.2
-        version: 8.0.2(typescript@5.3.3)
-      typescript:
-        specifier: 5.3.3
-        version: 5.3.3
 
 packages:
 

@@ -1,18 +1,28 @@
-import { defineWalletSetup } from '@synthetixio/synpress-core'
-import { getExtensionId, testWithSynpress } from '@synthetixio/synpress-fixtures'
-import { MetaMask, homePageSelectors, unlockForFixture } from '@synthetixio/synpress-metamask'
-import { MetaMaskMock, testWithMetaMaskMock } from '@synthetixio/synpress-metamask-mock'
+import { defineWalletSetup } from "@synthetixio/synpress-core";
+import {
+  getExtensionId,
+  testWithSynpress,
+} from "@synthetixio/synpress-fixtures";
+import {
+  MetaMask,
+  homePageSelectors,
+  unlockForFixture,
+} from "@synthetixio/synpress-metamask";
+import {
+  EthereumWalletMock,
+  testWithEthereumWalletMock,
+} from "@synthetixio/ethereum-wallet-mock";
 
 export {
   // Framework fixtures
   testWithSynpress,
-  testWithMetaMaskMock,
+  testWithEthereumWalletMock,
   // API
   MetaMask,
-  MetaMaskMock,
+  EthereumWalletMock,
   // Helpers
   defineWalletSetup,
   getExtensionId,
   unlockForFixture,
-  homePageSelectors
-}
+  homePageSelectors,
+};
