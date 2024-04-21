@@ -32,6 +32,6 @@ test('should connect multiple wallets to dapp', async ({ context, page, metamask
   await metamask.connectToDapp(['Account x2', 'Account 1'])
 
   await expect(page.locator('#accounts')).toHaveText(
-    '0x976ea74026e726554db657fa54763abd0c3a0aa9,0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'
+    '0x70997970c51812dc3a010c7d01b50e0d17dc79c8,0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'
   )
 })

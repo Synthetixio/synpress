@@ -1,19 +1,16 @@
 import { readFileSync } from 'fs'
 import { createRequire } from 'node:module'
 import { test as base } from '@playwright/test'
-import { MetaMaskMock, SEED_PHRASE } from './metamask-mock'
+import { EthereumWalletMock } from './ethereum-wallet-mock'
 import type { Network } from './network/Network'
-import { mockEthereum } from './utils'
-
-const ANVIL_CHAIN_ID = 31337
-const ANVIL_URL_URL = 'http://anvil:5000'
+import { ANVIL_CHAIN_ID, ANVIL_URL_URL, SEED_PHRASE, mockEthereum } from './utils'
 
 const require = createRequire(import.meta.url)
 // Relative path to the web3-mock bundle
 const web3MockPath = require.resolve('@depay/web3-mock/dist/umd/index.bundle.js')
 
-export const testWithMetaMaskMock = base.extend<{
-  metamask: MetaMaskMock
+export const testWithEthereumWalletMock = base.extend<{
+  walletMock: EthereumWalletMock
   createAnvilNetwork: () => Network
   deployToken: () => Promise<void>
 }>({
@@ -34,12 +31,12 @@ export const testWithMetaMaskMock = base.extend<{
 
     await use(page)
   },
-  metamask: async ({ page }, use) => {
-    const metamask = new MetaMaskMock(page)
+  walletMock: async ({ page }, use) => {
+    const walletMock = new EthereumWalletMock(page)
 
-    metamask.importWallet(SEED_PHRASE)
+    await walletMock.importWallet(SEED_PHRASE)
 
-    await use(metamask)
+    await use(walletMock)
   },
   createAnvilNetwork: async ({ context: _ }, use) => {
     await use(() => {

@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
-  name: 'metamask',
+  name: 'ethereum-wallet-mock',
   entry: ['src/index.ts'],
   outDir: 'dist',
   format: 'esm',

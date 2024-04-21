@@ -1,35 +1,15 @@
-// @ts-ignore
-import { connect } from '@depay/web3-mock'
 import type { Page } from '@playwright/test'
 import { mnemonicToAccount, privateKeyToAccount } from 'viem/accounts'
 import type { Network } from './network/Network'
+import { ACCOUNT_MOCK, BLOCKCHAIN, BSC_NETWORK_ID } from './utils'
 
-export const blockchain = 'ethereum'
-export const wallet = 'metamask'
+export type WalletMock = 'metamask' | 'coinbase' | 'phantom' | 'walletconnect' | 'walletlink'
 
-const networkConfig = {
-  blockchain,
-  wallet
-}
-
-const BSC_NETWORK_ID = '0x38'
-
-export const SEED_PHRASE = 'test test test test test test test test test test test junk'
-
-export const PRIVATE_KEY = 'ea084c575a01e2bbefcca3db101eaeab1d8af15554640a510c73692db24d0a6a'
-
-/**
- * This class is the heart of Synpress's MetaMask API.
- */
-export class MetaMaskMock {
+export class EthereumWalletMock {
   seedPhrase = ''
+  wallet: WalletMock = 'metamask'
 
-  constructor(
-    /**
-     * The MetaMask tab page.
-     */
-    readonly page: Page
-  ) {
+  constructor(readonly page: Page) {
     this.page = page
   }
 
@@ -40,6 +20,19 @@ export class MetaMaskMock {
    */
   importWallet(seedPhrase: string) {
     this.seedPhrase = seedPhrase
+
+    return this.page.evaluate(
+      ([blockchain, wallet, accounts]) => {
+        return Web3Mock.mock({
+          blockchain,
+          wallet,
+          accounts: {
+            return: accounts
+          }
+        })
+      },
+      [BLOCKCHAIN, this.wallet, [ACCOUNT_MOCK]]
+    )
   }
 
   /**
@@ -62,15 +55,16 @@ export class MetaMaskMock {
     })
 
     return this.page.evaluate(
-      ([networkConfig, accounts]) => {
+      ([blockchain, wallet, accounts]) => {
         return Web3Mock.mock({
-          ...networkConfig,
+          blockchain,
+          wallet,
           accounts: {
             return: accounts
           }
         })
       },
-      [networkConfig, [newAccount.address, ...accounts]]
+      [BLOCKCHAIN, this.wallet, [newAccount.address, ...accounts]]
     )
   }
 
@@ -83,15 +77,16 @@ export class MetaMaskMock {
     const newAccount = privateKeyToAccount(privateKey)
 
     return this.page.evaluate(
-      ([networkConfig, account]) => {
+      ([blockchain, wallet, account]) => {
         return Web3Mock.mock({
-          ...networkConfig,
+          blockchain,
+          wallet,
           accounts: {
             return: account
           }
         })
       },
-      [networkConfig, [newAccount.address]]
+      [BLOCKCHAIN, this.wallet, [newAccount.address]]
     )
   }
 
@@ -102,16 +97,16 @@ export class MetaMaskMock {
    */
   async switchAccount(accountAddress: string) {
     return this.page.evaluate(
-      ([networkConfig, accountAddress]) => {
+      ([blockchain, wallet, accountAddress]) => {
         return Web3Mock.mock({
-          // @ts-ignore
-          ...networkConfig,
+          blockchain,
+          wallet,
           accounts: {
             return: [accountAddress]
           }
         })
       },
-      [networkConfig, accountAddress]
+      [BLOCKCHAIN, this.wallet, accountAddress]
     )
   }
 
@@ -135,15 +130,16 @@ export class MetaMaskMock {
     }
 
     return this.page.evaluate(
-      ([networkConfig, networkInfo]) => {
+      ([blockchain, wallet, networkInfo]) => {
         return Web3Mock.mock({
-          ...networkConfig,
+          blockchain,
+          wallet,
           network: {
             add: networkInfo
           }
         })
       },
-      [networkConfig, networkInfo]
+      [BLOCKCHAIN, this.wallet, networkInfo]
     )
   }
 
@@ -161,10 +157,10 @@ export class MetaMaskMock {
    */
   async switchNetwork(networkName: string) {
     return this.page.evaluate(
-      ([networkConfig, networkName, chainId]) => {
+      ([blockchain, wallet, networkName, chainId]) => {
         Web3Mock.mock({
-          // @ts-ignore
-          ...networkConfig,
+          blockchain,
+          wallet,
           network: {
             switchTo: networkName
           }
@@ -176,14 +172,36 @@ export class MetaMaskMock {
           params: [{ chainId }]
         })
       },
-      [networkConfig, networkName, BSC_NETWORK_ID]
+      [BLOCKCHAIN, this.wallet, networkName, BSC_NETWORK_ID]
     )
   }
 
   /**
-   * Connects to the dapp using the currently selected account.
+   * Connects wallet to the dapp.
    */
-  async connectToDapp(network: string) {
-    connect(network)
+  async connectToDapp(wallet: WalletMock = 'metamask') {
+    this.wallet = wallet
+    return this.page.evaluate(
+      ([blockchain, accounts, wallet]) => {
+        // Cannot pass custom class as an argument to `page.evaluate`
+        class WalletConnectStub {}
+
+        let connector: WalletConnectStub | undefined
+
+        if (wallet === 'walletconnect') {
+          connector = WalletConnectStub
+        }
+
+        return Web3Mock.mock({
+          blockchain,
+          wallet,
+          accounts: {
+            return: accounts
+          },
+          connector
+        })
+      },
+      [BLOCKCHAIN, [ACCOUNT_MOCK], wallet]
+    )
   }
 }
