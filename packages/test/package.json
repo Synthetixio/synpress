@@ -1,6 +1,6 @@
 {
-  "name": "@synthetixio/synpress",
-  "version": "4.0.0-alpha.3",
+  "name": "@synthetixio/synpress-test",
+  "version": "0.0.1-alpha.3",
   "type": "module",
   "exports": {
     "types": "./types/index.d.ts",
@@ -8,7 +8,6 @@
   },
   "main": "./dist/index.js",
   "types": "./types/index.d.ts",
-  "bin": "./dist/cli.js",
   "files": [
     "dist",
     "src",
@@ -17,19 +16,13 @@
   "scripts": {
     "build": "pnpm run clean && pnpm run build:dist && pnpm run build:types",
     "build:dist": "tsup",
+    "build:dist:watch": "tsup --watch",
     "build:types": "tsc --emitDeclarationOnly",
     "clean": "rimraf dist types",
     "lint": "biome check . --apply",
     "lint:check": "biome check . --verbose",
     "lint:unsafe": "biome check . --apply-unsafe",
-    "prepublishOnly": "pnpm run build",
     "types:check": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@synthetixio/ethereum-wallet-mock": "0.0.1-alpha.3",
-    "@synthetixio/synpress-core": "0.0.1-alpha.3",
-    "@synthetixio/synpress-metamask": "0.0.1-alpha.3",
-    "@synthetixio/synpress-test": "0.0.1-alpha.3"
   },
   "devDependencies": {
     "@synthetixio/synpress-tsconfig": "0.0.1-alpha.3",

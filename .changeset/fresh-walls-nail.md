@@ -1,7 +1,7 @@
 ---
 "@synthetixio/synpress": major
 "@synthetixio/synpress-core": patch
-"@synthetixio/synpress-fixtures": patch
+"@synthetixio/synpress-test": patch
 "@synthetixio/synpress-tsconfig": patch
 "@synthetixio/synpress-metamask": patch
 ---

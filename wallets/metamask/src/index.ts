@@ -1,3 +1,3 @@
-export * from './metamask'
-export * from './fixture-actions/unlockForFixture'
-export { default as homePageSelectors } from './pages/HomePage/selectors'
+export * from "./MetaMask";
+export * from "./fixtures/metaMaskFixtures";
+export * from "./fixture-actions";
