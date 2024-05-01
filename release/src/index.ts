@@ -22,5 +22,5 @@ export {
   defineWalletSetup,
   getExtensionId,
   unlockForFixture,
-  homePageSelectors
-}
+  homePageSelectors,
+};
