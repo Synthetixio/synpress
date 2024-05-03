@@ -1,1 +1,1 @@
-export { default as testWithSynpress } from "./testWithSynpress";
+export { default as testWithSynpress } from './testWithSynpress'

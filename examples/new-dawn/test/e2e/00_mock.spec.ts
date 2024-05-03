@@ -1,6 +1,6 @@
-import { EthereumWalletMock, testWithEthereumWalletMock } from '@synthetixio/synpress'
+import { EthereumWalletMock, ethereumWalletMockFixtures, testWithSynpress } from '@synthetixio/synpress'
 
-const test = testWithEthereumWalletMock
+const test = testWithSynpress(ethereumWalletMockFixtures)
 
 const { expect } = test
 
@@ -9,9 +9,7 @@ test('should mock MetaMask in the Test Dapp', async ({ page, walletMock }) => {
 
   await page.locator('#connectButton').click()
 
-  await expect(page.locator("#accounts")).toHaveText(
-    "0xd73b04b0e696b0945283defa3eee453814758f1a"
-  );
+  await expect(page.locator('#accounts')).toHaveText('0xd73b04b0e696b0945283defa3eee453814758f1a')
 })
 
 test('should add new account using MetaMask mock', async ({ page }) => {

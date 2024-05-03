@@ -1,6 +1,6 @@
 import Selectors from '../../src/pages/HomePage/selectors'
 
-import synpress from "../synpress";
+import synpress from '../synpress'
 
 const test = synpress
 

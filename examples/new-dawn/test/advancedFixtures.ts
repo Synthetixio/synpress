@@ -1,12 +1,7 @@
-import { test as base } from './simpleFixture'
+import { metaMaskFixtures } from '@synthetixio/synpress'
+import connectedSetup from './wallet-setup/connected.setup'
 
-/**
- * This fixture is further built upon the `simpleFixture`.
- * It will serve as a foundation for the tests in the `03_advanced.spec.ts` file.
- *
- * You can read more about Playwright fixtures here: https://playwright.dev/docs/test-fixtures
- */
-export const test = base.extend<{
+export const test = metaMaskFixtures(connectedSetup).extend<{
   deployToken: () => Promise<void>
   deployPiggyBank: () => Promise<void>
 }>({

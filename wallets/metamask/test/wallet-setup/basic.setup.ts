@@ -1,13 +1,12 @@
-import { defineWalletSetup } from "@synthetixio/synpress-core";
-import { MetaMask } from "../../src";
+import { defineWalletSetup } from '@synthetixio/synpress-core'
+import { MetaMask } from '../../src'
 
-const SEED_PHRASE =
-  "test test test test test test test test test test test junk";
+const SEED_PHRASE = 'test test test test test test test test test test test junk'
 
-const PASSWORD = "Tester@1234";
+const PASSWORD = 'Tester@1234'
 
 export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
-  const metamask = new MetaMask(context, walletPage, PASSWORD);
+  const metamask = new MetaMask(context, walletPage, PASSWORD)
 
-  await metamask.importWallet(SEED_PHRASE);
-});
+  await metamask.importWallet(SEED_PHRASE)
+})

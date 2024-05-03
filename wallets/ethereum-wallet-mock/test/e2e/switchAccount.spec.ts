@@ -1,4 +1,4 @@
-import test from "../synpress"
+import test from '../synpress'
 
 const { expect } = test
 

@@ -1,5 +1,5 @@
 import { type Page, chromium, test as base } from '@playwright/test'
-import { MetaMask, prepareExtension} from '../../src'
+import { MetaMask, prepareExtension } from '../../src'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'
 const PASSWORD = 'Tester@1234'
@@ -16,7 +16,7 @@ const test = base.extend<{
       `--load-extension=${metamaskPath}`
     ]
 
-    if (process.env.HEADLESS) {
+    if (process.env['HEADLESS']) {
       browserArgs.push('--headless=new')
     }
 

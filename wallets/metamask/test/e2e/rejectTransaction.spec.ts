@@ -1,20 +1,16 @@
-import synpress from "../synpress";
+import synpress from '../synpress'
 
-const test = synpress;
+const test = synpress
 
-const { expect } = test;
+const { expect } = test
 
-test("should reject contract deployment", async ({
-  page,
-  metamask,
-  connectToAnvil,
-}) => {
-  await connectToAnvil();
+test('should reject contract deployment', async ({ page, metamask, connectToAnvil }) => {
+  await connectToAnvil()
 
-  await expect(page.locator("#tokenAddresses")).toBeEmpty();
-  await page.locator("#createToken").click();
+  await expect(page.locator('#tokenAddresses')).toBeEmpty()
+  await page.locator('#createToken').click()
 
-  await metamask.rejectTransaction();
+  await metamask.rejectTransaction()
 
-  await expect(page.locator("#tokenAddresses")).toHaveText("Creation Failed");
-});
+  await expect(page.locator('#tokenAddresses')).toHaveText('Creation Failed')
+})

@@ -1,5 +1,5 @@
 import { testWithSynpress } from '@synthetixio/synpress-test'
-import { MetaMask, metaMaskFixtures } from '../../src';
+import { MetaMask, metaMaskFixtures } from '../../src'
 
 import Selectors from '../../src/pages/HomePage/selectors'
 import basicSetup from '../wallet-setup/basic.setup'

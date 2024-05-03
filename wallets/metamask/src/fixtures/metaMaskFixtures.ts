@@ -1,181 +1,155 @@
-import {
-  MetaMask,
-  unlockForFixture,
-  getExtensionId,
-  prepareExtension,
-} from "../../src";
+import { MetaMask, unlockForFixture, getExtensionId, prepareExtension } from '../../src'
 
-import { chromium, type Page } from "@playwright/test";
-import { test as base } from "@playwright/test";
+import { chromium, type Page } from '@playwright/test'
+import { test as base } from '@playwright/test'
 import {
   CACHE_DIR_NAME,
   createTempContextDir,
   defineWalletSetup,
-  removeTempContextDir,
-} from "@synthetixio/synpress-core";
-import path from "node:path";
-import fs from "fs-extra";
-import { type Anvil, type CreateAnvilOptions, createPool } from "@viem/anvil";
+  removeTempContextDir
+} from '@synthetixio/synpress-core'
+import path from 'node:path'
+import fs from 'fs-extra'
+import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 
 type MetaMaskFixtures = {
-  _contextPath: string;
-  metamask: MetaMask;
-  extensionId: string;
-  metamaskPage: Page;
-  createAnvilNode: (
-    options?: CreateAnvilOptions
-  ) => Promise<{ anvil: Anvil; rpcUrl: string; chainId: number }>;
-  connectToAnvil: () => Promise<void>;
-  deployToken: () => Promise<void>;
-  deployAndMintERC1155: () => Promise<void>;
-};
+  _contextPath: string
+  metamask: MetaMask
+  extensionId: string
+  metamaskPage: Page
+  createAnvilNode: (options?: CreateAnvilOptions) => Promise<{ anvil: Anvil; rpcUrl: string; chainId: number }>
+  connectToAnvil: () => Promise<void>
+  deployToken: () => Promise<void>
+  deployAndMintERC1155: () => Promise<void>
+}
 
 // If setup metamaskPage in a fixture, browser does not handle it properly (even if ethereum.isConnected() is true, it's not reflected on the page).
-let _metamaskPage: Page;
+let _metamaskPage: Page
 
-export const metaMaskFixtures = (
-  walletSetup: ReturnType<typeof defineWalletSetup>,
-  slowMo = 0
-) => {
+export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>, slowMo = 0) => {
   return base.extend<MetaMaskFixtures>({
     _contextPath: async ({ browserName }, use, testInfo) => {
-      const contextPath = await createTempContextDir(
-        browserName,
-        testInfo.testId
-      );
+      const contextPath = await createTempContextDir(browserName, testInfo.testId)
 
-      await use(contextPath);
+      await use(contextPath)
 
-      const error = await removeTempContextDir(contextPath);
+      const error = await removeTempContextDir(contextPath)
       if (error) {
-        console.error(error);
+        console.error(error)
       }
     },
     context: async ({ context: _, _contextPath }, use) => {
-      const cacheDirPath = path.join(
-        process.cwd(),
-        CACHE_DIR_NAME,
-        walletSetup.hash
-      );
+      const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, walletSetup.hash)
       if (!(await fs.exists(cacheDirPath))) {
-        throw new Error(
-          `Cache for ${walletSetup.hash} does not exist. Create it first!`
-        );
+        throw new Error(`Cache for ${walletSetup.hash} does not exist. Create it first!`)
       }
 
       // Copying the cache to the temporary context directory.
-      await fs.copy(cacheDirPath, _contextPath);
+      await fs.copy(cacheDirPath, _contextPath)
 
-      const metamaskPath = await prepareExtension();
+      const metamaskPath = await prepareExtension()
 
       // We don't need the `--load-extension` arg since the extension is already loaded in the cache.
-      const browserArgs = [`--disable-extensions-except=${metamaskPath}`];
+      const browserArgs = [`--disable-extensions-except=${metamaskPath}`]
 
-      if (process.env.HEADLESS) {
-        browserArgs.push("--headless=new");
+      if (process.env['HEADLESS']) {
+        browserArgs.push('--headless=new')
 
         if (slowMo > 0) {
-          console.warn(
-            "[WARNING] Slow motion makes no sense in headless mode. It will be ignored!"
-          );
+          console.warn('[WARNING] Slow motion makes no sense in headless mode. It will be ignored!')
         }
       }
 
       const context = await chromium.launchPersistentContext(_contextPath, {
         headless: false,
         args: browserArgs,
-        slowMo: process.env.HEADLESS ? 0 : slowMo,
-      });
+        slowMo: process.env['HEADLESS'] ? 0 : slowMo
+      })
 
       // TODO: This should be stored in a store to speed up the tests.
-      const extensionId = await getExtensionId(context, "MetaMask");
+      const extensionId = await getExtensionId(context, 'MetaMask')
 
       // TODO: Not sure if this is the best approach. Time will tell.
       // We're utilizing the blank page here.
-      _metamaskPage = context.pages()[0] as Page;
+      _metamaskPage = context.pages()[0] as Page
 
-      await _metamaskPage.goto(`chrome-extension://${extensionId}/home.html`);
+      await _metamaskPage.goto(`chrome-extension://${extensionId}/home.html`)
 
-      await unlockForFixture(_metamaskPage, walletSetup.walletPassword);
+      await unlockForFixture(_metamaskPage, walletSetup.walletPassword)
 
-      await use(context);
+      await use(context)
 
-      await context.close();
+      await context.close()
     },
     metamaskPage: async ({ context: _ }, use) => {
-      await use(_metamaskPage);
+      await use(_metamaskPage)
     },
     extensionId: async ({ context }, use) => {
-      const extensionId = await getExtensionId(context, "MetaMask");
+      const extensionId = await getExtensionId(context, 'MetaMask')
 
-      await use(extensionId);
+      await use(extensionId)
     },
     metamask: async ({ context, extensionId }, use) => {
-      const metamask = new MetaMask(
-        context,
-        _metamaskPage,
-        walletSetup.walletPassword,
-        extensionId
-      );
+      const metamask = new MetaMask(context, _metamaskPage, walletSetup.walletPassword, extensionId)
 
-      await use(metamask);
+      await use(metamask)
     },
     page: async ({ page }, use) => {
-      await page.goto("/");
+      await page.goto('/')
 
-      await use(page);
+      await use(page)
     },
     createAnvilNode: async ({ context: _ }, use) => {
-      const pool = createPool();
+      const pool = createPool()
 
       await use(async (options?: CreateAnvilOptions) => {
-        const nodeId = Array.from(pool.instances()).length;
-        const anvil = await pool.start(nodeId, options);
+        const nodeId = Array.from(pool.instances()).length
+        const anvil = await pool.start(nodeId, options)
 
-        const rpcUrl = `http://${anvil.host}:${anvil.port}`;
+        const rpcUrl = `http://${anvil.host}:${anvil.port}`
 
-        const DEFAULT_ANVIL_CHAIN_ID = 31337;
-        const chainId = options?.chainId ?? DEFAULT_ANVIL_CHAIN_ID;
+        const DEFAULT_ANVIL_CHAIN_ID = 31337
+        const chainId = options?.chainId ?? DEFAULT_ANVIL_CHAIN_ID
 
-        return { anvil, rpcUrl, chainId };
-      });
+        return { anvil, rpcUrl, chainId }
+      })
 
-      await pool.empty();
+      await pool.empty()
     },
     connectToAnvil: async ({ metamask, createAnvilNode }, use) => {
       await use(async () => {
         const { rpcUrl, chainId } = await createAnvilNode({
-          chainId: 1338,
-        });
+          chainId: 1338
+        })
 
         await metamask.addNetwork({
-          name: "Anvil",
+          name: 'Anvil',
           rpcUrl,
           chainId,
-          symbol: "ETH",
-          blockExplorerUrl: "https://etherscan.io/",
-        });
-      });
+          symbol: 'ETH',
+          blockExplorerUrl: 'https://etherscan.io/'
+        })
+      })
     },
     deployToken: async ({ page, metamask, connectToAnvil }, use) => {
       await use(async () => {
-        await connectToAnvil();
+        await connectToAnvil()
 
-        await page.locator("#createToken").click();
+        await page.locator('#createToken').click()
 
-        await metamask.confirmTransaction();
-      });
+        await metamask.confirmTransaction()
+      })
     },
     deployAndMintERC1155: async ({ page, metamask, connectToAnvil }, use) => {
       await use(async () => {
-        await connectToAnvil();
+        await connectToAnvil()
 
-        await page.locator("#deployERC1155Button").click();
-        await metamask.confirmTransaction();
+        await page.locator('#deployERC1155Button').click()
+        await metamask.confirmTransaction()
 
-        await page.locator("#batchMintButton").click();
-        await metamask.confirmTransactionAndWaitForMining();
-      });
-    },
-  });
-};
+        await page.locator('#batchMintButton').click()
+        await metamask.confirmTransactionAndWaitForMining()
+      })
+    }
+  })
+}

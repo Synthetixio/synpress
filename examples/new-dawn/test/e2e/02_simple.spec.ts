@@ -1,4 +1,8 @@
-import { expect, test } from '../simpleFixture'
+import synpress from '../synpress'
+
+const test = synpress
+
+const { expect } = test
 
 test('should confirm contract deployment', async ({ page, metamask, connectToAnvil }) => {
   await connectToAnvil()

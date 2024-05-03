@@ -1,21 +1,16 @@
-import type { Page } from "@playwright/test";
-import { mnemonicToAccount, privateKeyToAccount } from "viem/accounts";
-import type { Network } from "./network/Network";
-import { ACCOUNT_MOCK, BLOCKCHAIN, BSC_NETWORK_ID } from "./utils";
+import type { Page } from '@playwright/test'
+import { mnemonicToAccount, privateKeyToAccount } from 'viem/accounts'
+import type { Network } from './network/Network'
+import { ACCOUNT_MOCK, BLOCKCHAIN, BSC_NETWORK_ID } from './utils'
 
-export type WalletMock =
-  | "metamask"
-  | "coinbase"
-  | "phantom"
-  | "walletconnect"
-  | "walletlink";
+export type WalletMock = 'metamask' | 'coinbase' | 'phantom' | 'walletconnect' | 'walletlink'
 
 export class EthereumWalletMock {
-  seedPhrase = "";
-  wallet: WalletMock = "metamask";
+  seedPhrase = ''
+  wallet: WalletMock = 'metamask'
 
   constructor(readonly page: Page) {
-    this.page = page;
+    this.page = page
   }
 
   /**
@@ -24,7 +19,7 @@ export class EthereumWalletMock {
    * @param seedPhrase - The seed phrase to import.
    */
   importWallet(seedPhrase: string) {
-    this.seedPhrase = seedPhrase;
+    this.seedPhrase = seedPhrase
 
     return this.page.evaluate(
       ([blockchain, wallet, accounts]) => {
@@ -32,12 +27,12 @@ export class EthereumWalletMock {
           blockchain,
           wallet,
           accounts: {
-            return: accounts,
-          },
-        });
+            return: accounts
+          }
+        })
       },
       [BLOCKCHAIN, this.wallet, [ACCOUNT_MOCK]]
-    );
+    )
   }
 
   /**
@@ -45,19 +40,19 @@ export class EthereumWalletMock {
    */
   async getAllAccounts(): Promise<string[]> {
     return this.page.evaluate(() => {
-      return window.ethereum.request({ method: "eth_requestAccounts" });
-    });
+      return window.ethereum.request({ method: 'eth_requestAccounts' })
+    })
   }
 
   /**
    * Adds a new account. This account is based on the initially imported seed phrase.
    */
   async addNewAccount() {
-    const accounts = await this.getAllAccounts();
+    const accounts = await this.getAllAccounts()
 
     const newAccount = mnemonicToAccount(this.seedPhrase, {
-      accountIndex: accounts.length,
-    });
+      accountIndex: accounts.length
+    })
 
     return this.page.evaluate(
       ([blockchain, wallet, accounts]) => {
@@ -65,12 +60,12 @@ export class EthereumWalletMock {
           blockchain,
           wallet,
           accounts: {
-            return: accounts,
-          },
-        });
+            return: accounts
+          }
+        })
       },
       [BLOCKCHAIN, this.wallet, [newAccount.address, ...accounts]]
-    );
+    )
   }
 
   /**
@@ -79,7 +74,7 @@ export class EthereumWalletMock {
    * @param privateKey - The private key to import.
    */
   async importWalletFromPrivateKey(privateKey: `0x${string}`) {
-    const newAccount = privateKeyToAccount(privateKey);
+    const newAccount = privateKeyToAccount(privateKey)
 
     return this.page.evaluate(
       ([blockchain, wallet, account]) => {
@@ -87,12 +82,12 @@ export class EthereumWalletMock {
           blockchain,
           wallet,
           accounts: {
-            return: account,
-          },
-        });
+            return: account
+          }
+        })
       },
       [BLOCKCHAIN, this.wallet, [newAccount.address]]
-    );
+    )
   }
 
   /**
@@ -107,12 +102,12 @@ export class EthereumWalletMock {
           blockchain,
           wallet,
           accounts: {
-            return: [accountAddress],
-          },
-        });
+            return: [accountAddress]
+          }
+        })
       },
       [BLOCKCHAIN, this.wallet, accountAddress]
-    );
+    )
   }
 
   /**
@@ -131,8 +126,8 @@ export class EthereumWalletMock {
       chainName: network.name,
       nativeCurrency: network.nativeCurrency,
       rpcUrls: [network.rpcUrl],
-      blockExplorerUrls: [network.blockExplorerUrl],
-    };
+      blockExplorerUrls: [network.blockExplorerUrl]
+    }
 
     return this.page.evaluate(
       ([blockchain, wallet, networkInfo]) => {
@@ -140,19 +135,19 @@ export class EthereumWalletMock {
           blockchain,
           wallet,
           network: {
-            add: networkInfo,
-          },
-        });
+            add: networkInfo
+          }
+        })
       },
       [BLOCKCHAIN, this.wallet, networkInfo]
-    );
+    )
   }
 
   /**
    * Retrieves the current account address.
    */
   async getAccountAddress() {
-    return (await this.getAllAccounts())[0];
+    return (await this.getAllAccounts())[0]
   }
 
   /**
@@ -167,46 +162,46 @@ export class EthereumWalletMock {
           blockchain,
           wallet,
           network: {
-            switchTo: networkName,
-          },
-        });
+            switchTo: networkName
+          }
+        })
 
         window.ethereum.request({
-          method: "wallet_switchEthereumChain",
+          method: 'wallet_switchEthereumChain',
           // Mock do not support custom network IDs
-          params: [{ chainId }],
-        });
+          params: [{ chainId }]
+        })
       },
       [BLOCKCHAIN, this.wallet, networkName, BSC_NETWORK_ID]
-    );
+    )
   }
 
   /**
    * Connects wallet to the dapp.
    */
-  async connectToDapp(wallet: WalletMock = "metamask") {
-    this.wallet = wallet;
+  async connectToDapp(wallet: WalletMock = 'metamask') {
+    this.wallet = wallet
     return this.page.evaluate(
       ([blockchain, accounts, wallet]) => {
         // Cannot pass custom class as an argument to `page.evaluate`
         class WalletConnectStub {}
 
-        let connector: WalletConnectStub | undefined;
+        let connector: WalletConnectStub | undefined
 
-        if (wallet === "walletconnect") {
-          connector = WalletConnectStub;
+        if (wallet === 'walletconnect') {
+          connector = WalletConnectStub
         }
 
         return Web3Mock.mock({
           blockchain,
           wallet,
           accounts: {
-            return: accounts,
+            return: accounts
           },
-          connector,
-        });
+          connector
+        })
       },
       [BLOCKCHAIN, [ACCOUNT_MOCK], wallet]
-    );
+    )
   }
 }
