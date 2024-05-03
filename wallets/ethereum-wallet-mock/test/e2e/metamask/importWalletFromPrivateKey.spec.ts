@@ -1,6 +1,4 @@
-import { testWithEthereumWalletMock } from '../../../src'
-
-const test = testWithEthereumWalletMock
+import test from '../../synpress'
 
 const { expect } = test
 
