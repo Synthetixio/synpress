@@ -1,5 +1,5 @@
-import test from '../../synpress'
 import { ANVIL_CHAIN_ID, ANVIL_URL_URL } from '../../../src'
+import test from '../../synpress'
 
 const { expect } = test
 
