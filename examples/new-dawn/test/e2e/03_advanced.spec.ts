@@ -31,7 +31,7 @@ describe('Token', () => {
 
     await metamask.addNewToken()
 
-    await expect(metamaskPage.locator(".multichain-token-list-item").nth(1)).toContainText('TST')
+    await expect(metamaskPage.locator('.multichain-token-list-item').nth(1)).toContainText('TST')
   })
 })
 
