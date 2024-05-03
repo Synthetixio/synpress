@@ -2,7 +2,7 @@ import { readFileSync } from 'fs'
 import { createRequire } from 'node:module'
 import { test as base } from '@playwright/test'
 import { EthereumWalletMock } from '../EthereumWalletMock'
-import { mockEthereum, SEED_PHRASE } from '../utils'
+import { SEED_PHRASE, mockEthereum } from '../utils'
 
 export const ANVIL_CHAIN_ID = 31337
 export const ANVIL_URL_URL = 'http://anvil:5000'

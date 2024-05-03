@@ -42,12 +42,12 @@ export const cliEntrypoint = async () => {
   const flags: CliFlags = program.opts()
 
   if (flags.headless) {
-    process.env['HEADLESS'] = true
+    process.env.HEADLESS = true
   }
 
   if (flags.debug) {
     console.log('[DEBUG] Running with the following options:')
-    console.log({ cacheDir: walletSetupDir, ...flags, headless: Boolean(process.env['HEADLESS']) ?? false }, '\n')
+    console.log({ cacheDir: walletSetupDir, ...flags, headless: Boolean(process.env.HEADLESS) ?? false }, '\n')
   }
 
   if (os.platform() === 'win32') {

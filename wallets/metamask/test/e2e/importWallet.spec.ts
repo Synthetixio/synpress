@@ -16,7 +16,7 @@ const test = base.extend<{
       `--load-extension=${metamaskPath}`
     ]
 
-    if (process.env['HEADLESS']) {
+    if (process.env.HEADLESS) {
       browserArgs.push('--headless=new')
     }
 

@@ -1,6 +1,7 @@
-import { MetaMask, unlockForFixture, getExtensionId, prepareExtension } from '../../src'
+import { MetaMask, getExtensionId, prepareExtension, unlockForFixture } from '../../src'
 
-import { chromium, type Page } from '@playwright/test'
+import path from 'node:path'
+import { type Page, chromium } from '@playwright/test'
 import { test as base } from '@playwright/test'
 import {
   CACHE_DIR_NAME,
@@ -8,9 +9,8 @@ import {
   defineWalletSetup,
   removeTempContextDir
 } from '@synthetixio/synpress-core'
-import path from 'node:path'
-import fs from 'fs-extra'
 import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
+import fs from 'fs-extra'
 
 type MetaMaskFixtures = {
   _contextPath: string
@@ -52,7 +52,7 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
       // We don't need the `--load-extension` arg since the extension is already loaded in the cache.
       const browserArgs = [`--disable-extensions-except=${metamaskPath}`]
 
-      if (process.env['HEADLESS']) {
+      if (process.env.HEADLESS) {
         browserArgs.push('--headless=new')
 
         if (slowMo > 0) {
@@ -63,7 +63,7 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
       const context = await chromium.launchPersistentContext(_contextPath, {
         headless: false,
         args: browserArgs,
-        slowMo: process.env['HEADLESS'] ? 0 : slowMo
+        slowMo: process.env.HEADLESS ? 0 : slowMo
       })
 
       // TODO: This should be stored in a store to speed up the tests.

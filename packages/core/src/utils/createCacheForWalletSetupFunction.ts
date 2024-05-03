@@ -14,7 +14,7 @@ export async function createCacheForWalletSetupFunction(
   // TODO: Extract & Make a constant.
   const browserArgs = [`--disable-extensions-except=${extensionPath}`, `--load-extension=${extensionPath}`]
 
-  if (process.env['HEADLESS']) {
+  if (process.env.HEADLESS) {
     browserArgs.push('--headless=new')
   }
 
