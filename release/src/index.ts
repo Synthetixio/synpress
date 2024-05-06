@@ -1,5 +1,5 @@
 import { EthereumWalletMock, ethereumWalletMockFixtures } from '@synthetixio/ethereum-wallet-mock'
-import { defineWalletSetup } from '@synthetixio/synpress-core'
+import { defineWalletSetup } from '../../packages/cache'
 import { MetaMask, getExtensionId, metaMaskFixtures } from '@synthetixio/synpress-metamask'
 import { testWithSynpress } from '@synthetixio/synpress-test'
 

@@ -6,7 +6,7 @@
 
 - Alpha Release
 - Updated dependencies
-  - @synthetixio/synpress-core@0.0.1-alpha.3
+  - @synthetixio/synpress-cache@0.0.1-alpha.3
 
 ## 0.0.1-alpha.2
 
@@ -14,7 +14,7 @@
 
 - Alpha Release
 - Updated dependencies
-  - @synthetixio/synpress-core@0.0.1-alpha.2
+  - @synthetixio/synpress-cache@0.0.1-alpha.2
 
 ## 0.0.1-alpha.1
 
@@ -22,7 +22,7 @@
 
 - Alpha Release
 - Updated dependencies
-  - @synthetixio/synpress-core@0.0.1-alpha.1
+  - @synthetixio/synpress-cache@0.0.1-alpha.1
 
 ## 0.0.1-alpha.0
 

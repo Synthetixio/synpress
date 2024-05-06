@@ -1,4 +1,4 @@
-import { defineWalletSetup } from '@synthetixio/synpress-core'
+import { defineWalletSetup } from '../../../../packages/cache'
 import { MetaMask, getExtensionId } from '../../src'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'

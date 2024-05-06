@@ -1,5 +1,5 @@
 ---
-"@synthetixio/synpress-core": patch
+"@synthetixio/synpress-cache": patch
 "@synthetixio/synpress-test": patch
 "@synthetixio/synpress-tsconfig": patch
 "@synthetixio/synpress": patch
