@@ -5,7 +5,7 @@
     "docs": "0.0.0",
     "example-new-dawn": "0.0.0",
     "@synthetixio/synpress-cache": "0.0.0",
-    "@synthetixio/synpress-test": "0.0.0",
+    "@synthetixio/synpress-core": "0.0.0",
     "@synthetixio/synpress-tsconfig": "0.0.0",
     "@synthetixio/synpress": "3.0.0",
     "@synthetixio/synpress-metamask": "0.0.0"

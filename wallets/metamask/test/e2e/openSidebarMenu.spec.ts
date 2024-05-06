@@ -1,4 +1,4 @@
-import { testWithSynpress } from '@synthetixio/synpress-test'
+import { testWithSynpress } from '@synthetixio/synpress-core'
 import { MetaMask, metaMaskFixtures } from '../../src'
 
 import basicSetup from '../wallet-setup/basic.setup'

@@ -28,8 +28,8 @@
   "dependencies": {
     "@synthetixio/ethereum-wallet-mock": "0.0.1-alpha.3",
     "@synthetixio/synpress-cache": "0.0.1-alpha.3",
-    "@synthetixio/synpress-metamask": "0.0.1-alpha.3",
-    "@synthetixio/synpress-test": "0.0.1-alpha.3"
+    "@synthetixio/synpress-core": "0.0.1-alpha.3",
+    "@synthetixio/synpress-metamask": "0.0.1-alpha.3"
   },
   "devDependencies": {
     "@synthetixio/synpress-tsconfig": "0.0.1-alpha.3",

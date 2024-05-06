@@ -1,4 +1,4 @@
-import * as core from '../../../../packages/cache'
+import * as core from '@synthetixio/synpress-cache'
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
 import { DEFAULT_METAMASK_VERSION, EXTENSION_DOWNLOAD_URL, prepareExtension } from '../../src'
 
