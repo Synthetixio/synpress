@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
 import { mnemonicToAccount, privateKeyToAccount } from 'viem/accounts'
 import type { Network } from './network/Network'
-import { ACCOUNT_MOCK, BLOCKCHAIN, BSC_NETWORK_ID } from './utils'
+import { ACCOUNT_MOCK, BLOCKCHAIN, OPTIMISM_NETWORK_ID } from './utils'
 
 export type WalletMock = 'metamask' | 'coinbase' | 'phantom' | 'walletconnect' | 'walletlink'
 
@@ -172,7 +172,7 @@ export class EthereumWalletMock {
           params: [{ chainId }]
         })
       },
-      [BLOCKCHAIN, this.wallet, networkName, BSC_NETWORK_ID]
+      [BLOCKCHAIN, this.wallet, networkName, OPTIMISM_NETWORK_ID]
     )
   }
 

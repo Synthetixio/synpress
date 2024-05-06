@@ -6,6 +6,8 @@ const test = testWithSynpress(advancedFixtures)
 
 const { expect, describe } = test
 
+const tokenLocator = '.multichain-token-list-item'
+
 describe('Token', () => {
   test('should confirm tokens transfer', async ({ page, metamask, connectToAnvil, deployToken }) => {
     await connectToAnvil()
@@ -31,7 +33,7 @@ describe('Token', () => {
 
     await metamask.addNewToken()
 
-    await expect(metamaskPage.locator('.multichain-token-list-item').nth(1)).toContainText('TST')
+    await expect(metamaskPage.locator(tokenLocator).nth(1)).toContainText('TST')
   })
 })
 

@@ -12,7 +12,7 @@ const require = createRequire(import.meta.url)
 const web3MockPath = require.resolve('@depay/web3-mock/dist/umd/index.bundle.js')
 
 type EthereumWalletMockFixtures = {
-  walletMock: EthereumWalletMock
+  ethereumWalletMock: EthereumWalletMock
 }
 
 export const ethereumWalletMockFixtures = base.extend<EthereumWalletMockFixtures>({
@@ -33,11 +33,11 @@ export const ethereumWalletMockFixtures = base.extend<EthereumWalletMockFixtures
 
     await use(page)
   },
-  walletMock: async ({ page }, use) => {
-    const walletMock = new EthereumWalletMock(page)
+  ethereumWalletMock: async ({ page }, use) => {
+    const ethereumWalletMock = new EthereumWalletMock(page)
 
-    walletMock.importWallet(SEED_PHRASE)
+    await ethereumWalletMock.importWallet(SEED_PHRASE)
 
-    await use(walletMock)
+    await use(ethereumWalletMock)
   }
 })

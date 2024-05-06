@@ -18,17 +18,17 @@ function createAnvilNetwork() {
   }
 }
 
-test('should switch network', async ({ walletMock, page }) => {
+test('should switch network', async ({ ethereumWalletMock, page }) => {
   const network = createAnvilNetwork()
 
-  await walletMock.addNetwork(network)
+  await ethereumWalletMock.addNetwork(network)
 
-  await walletMock.switchNetwork(network.name)
+  await ethereumWalletMock.switchNetwork(network.name)
 
   const chainId = await page.evaluate(async () => {
     return await window.ethereum.request({ method: 'eth_chainId' })
   })
 
-  // Mocked BSC chain id due to https://github.com/DePayFi/web3-mock/issues/33
-  expect(chainId).toBe('0x38')
+  // Mocked Optimism chain id due to https://github.com/DePayFi/web3-mock/issues/33
+  expect(chainId).toBe('0xa')
 })

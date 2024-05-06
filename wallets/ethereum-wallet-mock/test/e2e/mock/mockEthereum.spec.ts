@@ -22,19 +22,19 @@ test('should connect to ethereum', async ({ page }) => {
   expect(currentChainId).toEqual('0x1')
 })
 
-test('should be able to connect to every supported ethereum wallet', async ({ page, walletMock }) => {
+test('should be able to connect to every supported ethereum wallet', async ({ page, ethereumWalletMock }) => {
   // Metamask
   let ethereum = await page.evaluate(() => window.ethereum)
   expect(ethereum.isMetaMask).toBe(true)
   expect(ethereum.isCoinbaseWallet).toBe(undefined)
 
   // Coinbase wallet
-  await walletMock.connectToDapp('coinbase')
+  await ethereumWalletMock.connectToDapp('coinbase')
   ethereum = await page.evaluate(() => window.ethereum)
   expect(ethereum.isCoinbaseWallet).toBe(true)
 
   // Walletconnect
-  await walletMock.connectToDapp('walletconnect')
+  await ethereumWalletMock.connectToDapp('walletconnect')
   ethereum = await page.evaluate(() => window.ethereum)
   expect(ethereum.isWalletLink).toBe(true)
 })
