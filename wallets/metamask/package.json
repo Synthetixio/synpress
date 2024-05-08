@@ -15,9 +15,9 @@
   ],
   "scripts": {
     "build": "pnpm run clean && pnpm run build:dist && pnpm run build:types",
-    "build:cache": "synpress-core test/e2e/wallet-setup",
-    "build:cache:headless": "synpress-core test/e2e/wallet-setup --headless",
-    "build:cache:headless:force": "synpress-core test/e2e/wallet-setup --headless --force",
+    "build:cache": "synpress-cache test/wallet-setup",
+    "build:cache:headless": "synpress-cache test/wallet-setup --headless",
+    "build:cache:headless:force": "synpress-cache test/wallet-setup --headless --force",
     "build:dist": "tsup --tsconfig tsconfig.build.json",
     "build:types": "tsc --emitDeclarationOnly --project tsconfig.build.json",
     "clean": "rimraf dist types",
@@ -30,12 +30,15 @@
     "types:check": "tsc --noEmit"
   },
   "dependencies": {
+    "@synthetixio/synpress-cache": "0.0.1-alpha.3",
     "@synthetixio/synpress-core": "0.0.1-alpha.3",
-    "@synthetixio/synpress-fixtures": "0.0.1-alpha.3",
+    "@viem/anvil": "0.0.7",
+    "fs-extra": "11.2.0",
     "zod": "3.22.4"
   },
   "devDependencies": {
     "@synthetixio/synpress-tsconfig": "0.0.1-alpha.3",
+    "@types/fs-extra": "11.0.4",
     "@types/node": "20.11.17",
     "@vitest/coverage-v8": "1.2.2",
     "rimraf": "5.0.5",

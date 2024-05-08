@@ -85,7 +85,7 @@ importers:
         specifier: 5.3.3
         version: 5.3.3
 
-  packages/core:
+  packages/cache:
     dependencies:
       axios:
         specifier: 1.6.7
@@ -109,8 +109,8 @@ importers:
         specifier: 2.0.2
         version: 2.0.2
       playwright-core:
-        specifier: 1.41.1
-        version: 1.41.1
+        specifier: 1.41.2
+        version: 1.41.2
       progress:
         specifier: 2.0.3
         version: 2.0.3
@@ -167,30 +167,15 @@ importers:
         specifier: 1.2.2
         version: 1.2.2(@types/node@20.11.17)
 
-  packages/fixtures:
+  packages/core:
     dependencies:
       '@playwright/test':
         specifier: 1.41.2
         version: 1.41.2
-      '@synthetixio/synpress-core':
-        specifier: 0.0.1-alpha.3
-        version: link:../core
-      '@viem/anvil':
-        specifier: 0.0.7
-        version: 0.0.7
-      fs-extra:
-        specifier: 11.2.0
-        version: 11.2.0
-      zod:
-        specifier: 3.22.4
-        version: 3.22.4
     devDependencies:
       '@synthetixio/synpress-tsconfig':
         specifier: 0.0.1-alpha.3
         version: link:../tsconfig
-      '@types/fs-extra':
-        specifier: 11.0.4
-        version: 11.0.4
       '@types/node':
         specifier: 20.11.17
         version: 20.11.17
@@ -214,12 +199,12 @@ importers:
       '@synthetixio/ethereum-wallet-mock':
         specifier: 0.0.1-alpha.3
         version: link:../wallets/ethereum-wallet-mock
+      '@synthetixio/synpress-cache':
+        specifier: 0.0.1-alpha.3
+        version: link:../packages/cache
       '@synthetixio/synpress-core':
         specifier: 0.0.1-alpha.3
         version: link:../packages/core
-      '@synthetixio/synpress-fixtures':
-        specifier: 0.0.1-alpha.3
-        version: link:../packages/fixtures
       '@synthetixio/synpress-metamask':
         specifier: 0.0.1-alpha.3
         version: link:../wallets/metamask
@@ -248,6 +233,9 @@ importers:
       '@playwright/test':
         specifier: 1.41.2
         version: 1.41.2
+      '@synthetixio/synpress-core':
+        specifier: 0.0.1-alpha.3
+        version: link:../../packages/core
       viem:
         specifier: 2.9.9
         version: 2.9.9(typescript@5.3.3)
@@ -276,12 +264,18 @@ importers:
       '@playwright/test':
         specifier: 1.41.2
         version: 1.41.2
+      '@synthetixio/synpress-cache':
+        specifier: 0.0.1-alpha.3
+        version: link:../../packages/cache
       '@synthetixio/synpress-core':
         specifier: 0.0.1-alpha.3
         version: link:../../packages/core
-      '@synthetixio/synpress-fixtures':
-        specifier: 0.0.1-alpha.3
-        version: link:../../packages/fixtures
+      '@viem/anvil':
+        specifier: 0.0.7
+        version: 0.0.7
+      fs-extra:
+        specifier: 11.2.0
+        version: 11.2.0
       zod:
         specifier: 3.22.4
         version: 3.22.4
@@ -289,6 +283,9 @@ importers:
       '@synthetixio/synpress-tsconfig':
         specifier: 0.0.1-alpha.3
         version: link:../../packages/tsconfig
+      '@types/fs-extra':
+        specifier: 11.0.4
+        version: 11.0.4
       '@types/node':
         specifier: 20.11.17
         version: 20.11.17
@@ -5869,12 +5866,6 @@ packages:
       mlly: 1.5.0
       pathe: 1.1.2
     dev: true
-
-  /playwright-core@1.41.1:
-    resolution: {integrity: sha512-/KPO5DzXSMlxSX77wy+HihKGOunh3hqndhqeo/nMxfigiKzogn8kfL0ZBDu0L1RKgan5XHCPmn6zXd2NUJgjhg==}
-    engines: {node: '>=16'}
-    hasBin: true
-    dev: false
 
   /playwright-core@1.41.2:
     resolution: {integrity: sha512-VaTvwCA4Y8kxEe+kfm2+uUUw5Lubf38RxF7FpBxLPmGe5sdNkSg5e3ChEigaGrX7qdqT3pt2m/98LiyvU2x6CA==}

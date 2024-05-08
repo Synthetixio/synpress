@@ -1,3 +1,3 @@
-export * from './ethereum-wallet-mock'
+export * from './EthereumWalletMock'
 export * from './utils'
-export * from './testWithEthereumWalletMock'
+export * from './fixtures/ethereumWalletMockFixtures'

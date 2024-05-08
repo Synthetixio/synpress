@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "lib": ["DOM"]
+  },
+  "include": [
+    "src",
+    "test"
+  ],
+  "files": ["environment.d.ts"]
+}

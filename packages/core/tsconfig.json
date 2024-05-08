@@ -1,12 +1,12 @@
 {
-  "extends": "./tsconfig.build.json",
+  "extends": "@synthetixio/synpress-tsconfig/base.json",
   "compilerOptions": {
-    "rootDir": ".",
-    "lib": ["DOM"]
+    "rootDir": "src",
+    "outDir": "types",
+    "declaration": true,
+    "sourceMap": true,
+    "declarationMap": true
   },
-  "include": [
-    "src",
-    "test"
-  ],
+  "include": ["src"],
   "files": ["environment.d.ts"]
 }

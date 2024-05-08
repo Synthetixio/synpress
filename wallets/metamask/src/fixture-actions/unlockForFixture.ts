@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
 import { errors as playwrightErrors } from '@playwright/test'
-import { MetaMask } from '../metamask'
+import { MetaMask } from '..'
 import { CrashPage, HomePage } from '../pages'
 import { closePopover, closeRecoveryPhraseReminder } from '../pages/HomePage/actions'
 import { waitForSpinnerToVanish } from '../utils/waitForSpinnerToVanish'

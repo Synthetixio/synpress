@@ -14,6 +14,9 @@
     "test:e2e:headful": {
       "dependsOn": ["build", "build:cache"]
     },
+    "test:e2e:headless": {
+      "dependsOn": ["build", "build:cache"]
+    },
     "docs:build": {
       "outputs": [".vitepress/dist/**"]
     }

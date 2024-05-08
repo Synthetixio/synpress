@@ -6,8 +6,8 @@
 
 - Alpha Release
 - Updated dependencies
+  - @synthetixio/synpress-cache@0.0.1-alpha.3
   - @synthetixio/synpress-core@0.0.1-alpha.3
-  - @synthetixio/synpress-fixtures@0.0.1-alpha.3
   - @synthetixio/synpress-metamask@0.0.1-alpha.3
 
 ## 4.0.0-alpha.2
@@ -16,8 +16,8 @@
 
 - Alpha Release
 - Updated dependencies
+  - @synthetixio/synpress-cache@0.0.1-alpha.2
   - @synthetixio/synpress-core@0.0.1-alpha.2
-  - @synthetixio/synpress-fixtures@0.0.1-alpha.2
   - @synthetixio/synpress-metamask@0.0.1-alpha.2
 
 ## 4.0.0-alpha.1
@@ -26,8 +26,8 @@
 
 - Alpha Release
 - Updated dependencies
+  - @synthetixio/synpress-cache@0.0.1-alpha.1
   - @synthetixio/synpress-core@0.0.1-alpha.1
-  - @synthetixio/synpress-fixtures@0.0.1-alpha.1
   - @synthetixio/synpress-metamask@0.0.1-alpha.1
 
 ## 4.0.0-alpha.0

@@ -1,5 +1,12 @@
-import { homePageSelectors } from '@synthetixio/synpress'
-import { describe, expect, test } from '../advancedFixture'
+import { test as advancedFixtures } from '../advancedFixtures'
+
+import { testWithSynpress } from '@synthetixio/synpress'
+
+const test = testWithSynpress(advancedFixtures)
+
+const { expect, describe } = test
+
+const tokenLocator = '.multichain-token-list-item'
 
 describe('Token', () => {
   test('should confirm tokens transfer', async ({ page, metamask, connectToAnvil, deployToken }) => {
@@ -26,7 +33,7 @@ describe('Token', () => {
 
     await metamask.addNewToken()
 
-    await expect(metamaskPage.locator(homePageSelectors.portfolio.singleToken).nth(1)).toContainText('TST')
+    await expect(metamaskPage.locator(tokenLocator).nth(1)).toContainText('TST')
   })
 })
 
