@@ -8,14 +8,17 @@ export async function persistLocalStorage(
   context: BrowserContext
 ) {
   const newPage = await context.newPage()
+
   for (const { origin, localStorage } of origins) {
     const frame = newPage.mainFrame()
     await frame.goto(origin)
+
     await frame.evaluate((localStorageData) => {
       localStorageData.forEach(({ name, value }) => {
         window.localStorage.setItem(name, value)
       })
     }, localStorage)
   }
+
   await newPage.close()
 }

@@ -68,6 +68,7 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
       })
 
       const { cookies, origins } = await currentContext.storageState()
+
       if (cookies) {
         await context.addCookies(cookies)
       }
