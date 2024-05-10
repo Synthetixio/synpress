@@ -11,6 +11,7 @@ import {
 } from '@synthetixio/synpress-cache'
 import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import fs from 'fs-extra'
+import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
 
 type MetaMaskFixtures = {
   _contextPath: string
@@ -38,7 +39,7 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
         console.error(error)
       }
     },
-    context: async ({ context: _, _contextPath }, use) => {
+    context: async ({ context: currentContext, _contextPath }, use) => {
       const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, walletSetup.hash)
       if (!(await fs.exists(cacheDirPath))) {
         throw new Error(`Cache for ${walletSetup.hash} does not exist. Create it first!`)
@@ -65,6 +66,14 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
         args: browserArgs,
         slowMo: process.env.HEADLESS ? 0 : slowMo
       })
+
+      const { cookies, origins } = await currentContext.storageState()
+      if (cookies) {
+        await context.addCookies(cookies)
+      }
+      if (origins && origins.length > 0) {
+        await persistLocalStorage(origins, context)
+      }
 
       // TODO: This should be stored in a store to speed up the tests.
       const extensionId = await getExtensionId(context, 'MetaMask')
