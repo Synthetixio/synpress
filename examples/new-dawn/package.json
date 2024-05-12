@@ -13,7 +13,7 @@
     "test:e2e:headless:ui": "HEADLESS=true playwright test --ui"
   },
   "dependencies": {
-    "@playwright/test": "1.41.2",
+    "@playwright/test": "1.44.0",
     "@synthetixio/synpress": "4.0.0-alpha.5",
     "dotenv": "16.4.2"
   },

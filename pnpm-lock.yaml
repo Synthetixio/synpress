@@ -52,22 +52,22 @@ importers:
         version: 0.25.8(typescript@5.3.3)
       typedoc-plugin-markdown:
         specifier: 4.0.0-next.38
-        version: 4.0.0-next.38(typedoc@0.25.8)
+        version: 4.0.0-next.38(typedoc@0.25.8(typescript@5.3.3))
       typedoc-vitepress-theme:
         specifier: 1.0.0-next.9
-        version: 1.0.0-next.9(typedoc-plugin-markdown@4.0.0-next.38)
+        version: 1.0.0-next.9(typedoc-plugin-markdown@4.0.0-next.38(typedoc@0.25.8(typescript@5.3.3)))
       vitepress:
         specifier: 1.0.0-rc.42
-        version: 1.0.0-rc.42(@algolia/client-search@4.22.1)(search-insights@2.13.0)(typescript@5.3.3)
+        version: 1.0.0-rc.42(@algolia/client-search@4.22.1)(@types/node@20.11.17)(axios@1.6.7)(search-insights@2.13.0)(typescript@5.3.3)
 
   examples/new-dawn:
     dependencies:
       '@playwright/test':
-        specifier: 1.41.2
-        version: 1.41.2
+        specifier: 1.44.0
+        version: 1.44.0
       '@synthetixio/synpress':
-        specifier: 4.0.0-alpha.3
-        version: link:../../release
+        specifier: 4.0.0-alpha.5
+        version: 4.0.0-alpha.5(@playwright/test@1.44.0)(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)(zod@3.22.4)
       dotenv:
         specifier: 16.4.2
         version: 16.4.2
@@ -116,7 +116,7 @@ importers:
         version: 2.0.3
       tsup:
         specifier: 8.0.2
-        version: 8.0.2(typescript@5.3.3)
+        version: 8.0.2(postcss@8.4.33)(typescript@5.3.3)
       unzipper:
         specifier: 0.10.14
         version: 0.10.14
@@ -125,8 +125,8 @@ importers:
         version: 3.22.4
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: 0.0.1-alpha.3
-        version: link:../tsconfig
+        specifier: 0.0.1-alpha.5
+        version: 0.0.1-alpha.5
       '@types/archiver':
         specifier: 6.0.2
         version: 6.0.2
@@ -147,7 +147,7 @@ importers:
         version: 0.10.9
       '@vitest/coverage-v8':
         specifier: 1.2.2
-        version: 1.2.2(vitest@1.2.2)
+        version: 1.2.2(vitest@1.2.2(@types/node@20.11.17))
       archiver:
         specifier: 6.0.1
         version: 6.0.1
@@ -170,12 +170,12 @@ importers:
   packages/core:
     dependencies:
       '@playwright/test':
-        specifier: 1.41.2
-        version: 1.41.2
+        specifier: 1.44.0
+        version: 1.44.0
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: 0.0.1-alpha.3
-        version: link:../tsconfig
+        specifier: 0.0.1-alpha.5
+        version: 0.0.1-alpha.5
       '@types/node':
         specifier: 20.11.17
         version: 20.11.17
@@ -184,7 +184,7 @@ importers:
         version: 5.0.5
       tsup:
         specifier: 8.0.2
-        version: 8.0.2(typescript@5.3.3)
+        version: 8.0.2(postcss@8.4.33)(typescript@5.3.3)
       typescript:
         specifier: 5.3.3
         version: 5.3.3
@@ -194,24 +194,24 @@ importers:
   release:
     dependencies:
       '@playwright/test':
-        specifier: 1.41.2
-        version: 1.41.2
+        specifier: 1.44.0
+        version: 1.44.0
       '@synthetixio/ethereum-wallet-mock':
-        specifier: 0.0.1-alpha.3
-        version: link:../wallets/ethereum-wallet-mock
+        specifier: 0.0.1-alpha.5
+        version: 0.0.1-alpha.5(@playwright/test@1.44.0)(typescript@5.3.3)(zod@3.22.4)
       '@synthetixio/synpress-cache':
-        specifier: 0.0.1-alpha.3
-        version: link:../packages/cache
+        specifier: 0.0.1-alpha.5
+        version: 0.0.1-alpha.5(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
       '@synthetixio/synpress-core':
-        specifier: 0.0.1-alpha.3
-        version: link:../packages/core
+        specifier: 0.0.1-alpha.5
+        version: 0.0.1-alpha.5(@playwright/test@1.44.0)
       '@synthetixio/synpress-metamask':
-        specifier: 0.0.1-alpha.3
-        version: link:../wallets/metamask
+        specifier: 0.0.1-alpha.5
+        version: 0.0.1-alpha.5(@playwright/test@1.44.0)(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: 0.0.1-alpha.3
-        version: link:../packages/tsconfig
+        specifier: 0.0.1-alpha.5
+        version: 0.0.1-alpha.5
       '@types/node':
         specifier: 20.11.17
         version: 20.11.17
@@ -220,7 +220,7 @@ importers:
         version: 5.0.5
       tsup:
         specifier: 8.0.2
-        version: 8.0.2(typescript@5.3.3)
+        version: 8.0.2(postcss@8.4.33)(typescript@5.3.3)
       typescript:
         specifier: 5.3.3
         version: 5.3.3
@@ -231,30 +231,30 @@ importers:
         specifier: 14.17.0
         version: 14.17.0
       '@playwright/test':
-        specifier: 1.41.2
-        version: 1.41.2
+        specifier: 1.44.0
+        version: 1.44.0
       '@synthetixio/synpress-core':
-        specifier: 0.0.1-alpha.3
-        version: link:../../packages/core
+        specifier: 0.0.1-alpha.5
+        version: 0.0.1-alpha.5(@playwright/test@1.44.0)
       viem:
         specifier: 2.9.9
-        version: 2.9.9(typescript@5.3.3)
+        version: 2.9.9(typescript@5.3.3)(zod@3.22.4)
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: 0.0.1-alpha.3
-        version: link:../../packages/tsconfig
+        specifier: 0.0.1-alpha.5
+        version: 0.0.1-alpha.5
       '@types/node':
         specifier: 20.11.17
         version: 20.11.17
       '@vitest/coverage-v8':
         specifier: 1.2.2
-        version: 1.2.2(vitest@1.2.2)
+        version: 1.2.2(vitest@1.2.2(@types/node@20.11.17))
       rimraf:
         specifier: 5.0.5
         version: 5.0.5
       tsup:
         specifier: 8.0.2
-        version: 8.0.2(typescript@5.3.3)
+        version: 8.0.2(postcss@8.4.33)(typescript@5.3.3)
       typescript:
         specifier: 5.3.3
         version: 5.3.3
@@ -262,14 +262,14 @@ importers:
   wallets/metamask:
     dependencies:
       '@playwright/test':
-        specifier: 1.41.2
-        version: 1.41.2
+        specifier: 1.44.0
+        version: 1.44.0
       '@synthetixio/synpress-cache':
-        specifier: 0.0.1-alpha.3
-        version: link:../../packages/cache
+        specifier: 0.0.1-alpha.5
+        version: 0.0.1-alpha.5(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
       '@synthetixio/synpress-core':
-        specifier: 0.0.1-alpha.3
-        version: link:../../packages/core
+        specifier: 0.0.1-alpha.5
+        version: 0.0.1-alpha.5(@playwright/test@1.44.0)
       '@viem/anvil':
         specifier: 0.0.7
         version: 0.0.7
@@ -281,8 +281,8 @@ importers:
         version: 3.22.4
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: 0.0.1-alpha.3
-        version: link:../../packages/tsconfig
+        specifier: 0.0.1-alpha.5
+        version: 0.0.1-alpha.5
       '@types/fs-extra':
         specifier: 11.0.4
         version: 11.0.4
@@ -291,13 +291,13 @@ importers:
         version: 20.11.17
       '@vitest/coverage-v8':
         specifier: 1.2.2
-        version: 1.2.2(vitest@1.2.2)
+        version: 1.2.2(vitest@1.2.2(@types/node@20.11.17))
       rimraf:
         specifier: 5.0.5
         version: 5.0.5
       tsup:
         specifier: 8.0.2
-        version: 8.0.2(typescript@5.3.3)
+        version: 8.0.2(postcss@8.4.33)(typescript@5.3.3)
       typescript:
         specifier: 5.3.3
         version: 5.3.3
@@ -1053,8 +1053,8 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@playwright/test@1.41.2':
-    resolution: {integrity: sha512-qQB9h7KbibJzrDpkXkYvsmiDJK14FULCCZgEcoe2AvFAS64oCirWTwzTlAYEbKaRxWs5TFesE1Na6izMv3HfGg==}
+  '@playwright/test@1.44.0':
+    resolution: {integrity: sha512-rNX5lbNidamSUorBhB4XZ9SQTjAqfe5M+p37Z8ic0jPFBMo5iCtQz1kRWkEMg+rYOKSlVycpQmpqjSFq7LXOfg==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -1172,6 +1172,36 @@ packages:
   '@sindresorhus/is@5.6.0':
     resolution: {integrity: sha512-TV7t8GKYaJWsn00tFDqBw8+Uqmr8A0fRU1tvTQhyZzGv0sJCGRQL3JGMI3ucuKo3XIZdUP+Lx7/gh2t3lewy7g==}
     engines: {node: '>=14.16'}
+
+  '@synthetixio/ethereum-wallet-mock@0.0.1-alpha.5':
+    resolution: {integrity: sha512-Iz7/xKeDrXI5x8Q1NLaK6XEGuqRNZVZ6lEYMiZEjnsHSXH1OEkfxKKibxVhTzyBsDePeBk17DdK3jUfMmhuu6w==}
+    peerDependencies:
+      '@playwright/test': 1.41.2
+
+  '@synthetixio/synpress-cache@0.0.1-alpha.5':
+    resolution: {integrity: sha512-ubyzCihabTuSGXgya7njjAsj8jAfcVsdl5dYfbNtQ0gKSNbIoZX1xErkedSJgX196t3TgVkTKKvfayONiItQgA==}
+    hasBin: true
+    peerDependencies:
+      playwright-core: 1.41.2
+
+  '@synthetixio/synpress-core@0.0.1-alpha.5':
+    resolution: {integrity: sha512-5k0mEFR0O9YQ8hHm1wdCWOZ9sl/i+ANLuE19JpyyhVwXtuSjQs/hnVomNda1PFM7a4ads7sw7M/9y3W4Op4TOQ==}
+    peerDependencies:
+      '@playwright/test': 1.41.2
+
+  '@synthetixio/synpress-metamask@0.0.1-alpha.5':
+    resolution: {integrity: sha512-k3Pve3IwTisdy/Wp5fP8znUld5kh1W9fd8WB1KSL21bDqhx1ymkYnVznl8miWcMfRDHb54/uujREfamNMh3yuQ==}
+    peerDependencies:
+      '@playwright/test': 1.41.2
+
+  '@synthetixio/synpress-tsconfig@0.0.1-alpha.5':
+    resolution: {integrity: sha512-II3OrTW2fQd1lfMkcnG4+O+xytkdl0xf3gFkIPC62VtX2cSvM8xuQRrx0jPuS60Zb1vLDccPgpDNAfxPI1FYXQ==}
+
+  '@synthetixio/synpress@4.0.0-alpha.5':
+    resolution: {integrity: sha512-Y4GtAFqZB162Awlm72GDtMZQCamJSiU6ltcboCyyoL4vMkqidHojOhGUrslz+zWvgjCfBEqhD2pzcjQgSU2shA==}
+    hasBin: true
+    peerDependencies:
+      '@playwright/test': 1.41.2
 
   '@szmarczak/http-timer@5.0.1':
     resolution: {integrity: sha512-+PmQX0PiAYPMeVYe237LJAYvOMYW1j2rH5YROyS3b4CTVJum34HfRvKvAzozHAQG0TnHNdUfY9nCeUyRAs//cw==}
@@ -3290,8 +3320,13 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  playwright@1.41.2:
-    resolution: {integrity: sha512-v0bOa6H2GJChDL8pAeLa/LZC4feoAMbSQm1/jF/ySsWWoaNItvrMP7GEkvEEFyCTUYKMxjQKaTSg5up7nR6/8A==}
+  playwright-core@1.44.0:
+    resolution: {integrity: sha512-ZTbkNpFfYcGWohvTTl+xewITm7EOuqIqex0c7dNZ+aXsbrLj0qI8XlGKfPpipjm0Wny/4Lt4CJsWJk1stVS5qQ==}
+    engines: {node: '>=16'}
+    hasBin: true
+
+  playwright@1.44.0:
+    resolution: {integrity: sha512-F9b3GUCLQ3Nffrfb6dunPOkE5Mh68tR7zN32L4jCk4FjQamgesGay7/dAAe1WaMEGV04DkdJfcJzjoCKygUaRQ==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -4744,6 +4779,7 @@ snapshots:
       '@algolia/autocomplete-preset-algolia': 1.9.3(@algolia/client-search@4.22.1)(algoliasearch@4.22.1)
       '@docsearch/css': 3.5.2
       algoliasearch: 4.22.1
+    optionalDependencies:
       search-insights: 2.13.0
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -5318,9 +5354,9 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@playwright/test@1.41.2':
+  '@playwright/test@1.44.0':
     dependencies:
-      playwright: 1.41.2
+      playwright: 1.44.0
 
   '@pnpm/config.env-replace@1.1.0': {}
 
@@ -5417,6 +5453,87 @@ snapshots:
 
   '@sindresorhus/is@5.6.0': {}
 
+  '@synthetixio/ethereum-wallet-mock@0.0.1-alpha.5(@playwright/test@1.44.0)(typescript@5.3.3)(zod@3.22.4)':
+    dependencies:
+      '@depay/web3-mock': 14.17.0
+      '@playwright/test': 1.44.0
+      '@synthetixio/synpress-core': 0.0.1-alpha.5(@playwright/test@1.44.0)
+      viem: 2.9.9(typescript@5.3.3)(zod@3.22.4)
+    transitivePeerDependencies:
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - zod
+
+  '@synthetixio/synpress-cache@0.0.1-alpha.5(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)':
+    dependencies:
+      axios: 1.6.7
+      chalk: 5.3.0
+      commander: 12.0.0
+      esbuild: 0.20.0
+      fs-extra: 11.2.0
+      glob: 10.3.10
+      gradient-string: 2.0.2
+      playwright-core: 1.44.0
+      progress: 2.0.3
+      tsup: 8.0.2(postcss@8.4.33)(typescript@5.3.3)
+      unzipper: 0.10.14
+      zod: 3.22.4
+    transitivePeerDependencies:
+      - '@microsoft/api-extractor'
+      - '@swc/core'
+      - debug
+      - postcss
+      - supports-color
+      - ts-node
+      - typescript
+
+  '@synthetixio/synpress-core@0.0.1-alpha.5(@playwright/test@1.44.0)':
+    dependencies:
+      '@playwright/test': 1.44.0
+
+  '@synthetixio/synpress-metamask@0.0.1-alpha.5(@playwright/test@1.44.0)(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)':
+    dependencies:
+      '@playwright/test': 1.44.0
+      '@synthetixio/synpress-cache': 0.0.1-alpha.5(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
+      '@synthetixio/synpress-core': 0.0.1-alpha.5(@playwright/test@1.44.0)
+      '@viem/anvil': 0.0.7
+      fs-extra: 11.2.0
+      zod: 3.22.4
+    transitivePeerDependencies:
+      - '@microsoft/api-extractor'
+      - '@swc/core'
+      - bufferutil
+      - debug
+      - playwright-core
+      - postcss
+      - supports-color
+      - ts-node
+      - typescript
+      - utf-8-validate
+
+  '@synthetixio/synpress-tsconfig@0.0.1-alpha.5': {}
+
+  '@synthetixio/synpress@4.0.0-alpha.5(@playwright/test@1.44.0)(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)(zod@3.22.4)':
+    dependencies:
+      '@playwright/test': 1.44.0
+      '@synthetixio/ethereum-wallet-mock': 0.0.1-alpha.5(@playwright/test@1.44.0)(typescript@5.3.3)(zod@3.22.4)
+      '@synthetixio/synpress-cache': 0.0.1-alpha.5(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
+      '@synthetixio/synpress-core': 0.0.1-alpha.5(@playwright/test@1.44.0)
+      '@synthetixio/synpress-metamask': 0.0.1-alpha.5(@playwright/test@1.44.0)(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
+    transitivePeerDependencies:
+      - '@microsoft/api-extractor'
+      - '@swc/core'
+      - bufferutil
+      - debug
+      - playwright-core
+      - postcss
+      - supports-color
+      - ts-node
+      - typescript
+      - utf-8-validate
+      - zod
+
   '@szmarczak/http-timer@5.0.1':
     dependencies:
       defer-to-connect: 2.0.1
@@ -5511,12 +5628,12 @@ snapshots:
       - debug
       - utf-8-validate
 
-  '@vitejs/plugin-vue@5.0.3(vite@5.0.12)(vue@3.4.15)':
+  '@vitejs/plugin-vue@5.0.3(vite@5.0.12(@types/node@20.11.17))(vue@3.4.15(typescript@5.3.3))':
     dependencies:
       vite: 5.0.12(@types/node@20.11.17)
       vue: 3.4.15(typescript@5.3.3)
 
-  '@vitest/coverage-v8@1.2.2(vitest@1.2.2)':
+  '@vitest/coverage-v8@1.2.2(vitest@1.2.2(@types/node@20.11.17))':
     dependencies:
       '@ampproject/remapping': 2.2.1
       '@bcoe/v8-coverage': 0.2.3
@@ -5628,7 +5745,7 @@ snapshots:
       '@vue/shared': 3.4.15
       csstype: 3.1.3
 
-  '@vue/server-renderer@3.4.15(vue@3.4.15)':
+  '@vue/server-renderer@3.4.15(vue@3.4.15(typescript@5.3.3))':
     dependencies:
       '@vue/compiler-ssr': 3.4.15
       '@vue/shared': 3.4.15
@@ -5636,31 +5753,33 @@ snapshots:
 
   '@vue/shared@3.4.15': {}
 
-  '@vueuse/core@10.7.2(vue@3.4.15)':
+  '@vueuse/core@10.7.2(vue@3.4.15(typescript@5.3.3))':
     dependencies:
       '@types/web-bluetooth': 0.0.20
       '@vueuse/metadata': 10.7.2
-      '@vueuse/shared': 10.7.2(vue@3.4.15)
-      vue-demi: 0.14.7(vue@3.4.15)
+      '@vueuse/shared': 10.7.2(vue@3.4.15(typescript@5.3.3))
+      vue-demi: 0.14.7(vue@3.4.15(typescript@5.3.3))
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
 
-  '@vueuse/integrations@10.7.2(focus-trap@7.5.4)(vue@3.4.15)':
+  '@vueuse/integrations@10.7.2(axios@1.6.7)(focus-trap@7.5.4)(vue@3.4.15(typescript@5.3.3))':
     dependencies:
-      '@vueuse/core': 10.7.2(vue@3.4.15)
-      '@vueuse/shared': 10.7.2(vue@3.4.15)
+      '@vueuse/core': 10.7.2(vue@3.4.15(typescript@5.3.3))
+      '@vueuse/shared': 10.7.2(vue@3.4.15(typescript@5.3.3))
+      vue-demi: 0.14.7(vue@3.4.15(typescript@5.3.3))
+    optionalDependencies:
+      axios: 1.6.7
       focus-trap: 7.5.4
-      vue-demi: 0.14.7(vue@3.4.15)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
 
   '@vueuse/metadata@10.7.2': {}
 
-  '@vueuse/shared@10.7.2(vue@3.4.15)':
+  '@vueuse/shared@10.7.2(vue@3.4.15(typescript@5.3.3))':
     dependencies:
-      vue-demi: 0.14.7(vue@3.4.15)
+      vue-demi: 0.14.7(vue@3.4.15(typescript@5.3.3))
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -5669,9 +5788,10 @@ snapshots:
 
   abbrev@1.1.1: {}
 
-  abitype@1.0.0(typescript@5.3.3):
-    dependencies:
+  abitype@1.0.0(typescript@5.3.3)(zod@3.22.4):
+    optionalDependencies:
       typescript: 5.3.3
+      zod: 3.22.4
 
   accepts@1.3.8:
     dependencies:
@@ -7495,8 +7615,9 @@ snapshots:
       path-to-regexp: 6.2.1
       strict-event-emitter: 0.5.1
       type-fest: 4.10.2
-      typescript: 5.3.3
       yargs: 17.7.2
+    optionalDependencies:
+      typescript: 5.3.3
 
   mute-stream@1.0.0: {}
 
@@ -7800,16 +7921,20 @@ snapshots:
 
   playwright-core@1.41.2: {}
 
-  playwright@1.41.2:
+  playwright-core@1.44.0: {}
+
+  playwright@1.44.0:
     dependencies:
-      playwright-core: 1.41.2
+      playwright-core: 1.44.0
     optionalDependencies:
       fsevents: 2.3.2
 
-  postcss-load-config@4.0.2:
+  postcss-load-config@4.0.2(postcss@8.4.33):
     dependencies:
       lilconfig: 3.0.0
       yaml: 2.3.4
+    optionalDependencies:
+      postcss: 8.4.33
 
   postcss@8.4.33:
     dependencies:
@@ -8470,7 +8595,7 @@ snapshots:
 
   tslib@2.6.2: {}
 
-  tsup@8.0.2(typescript@5.3.3):
+  tsup@8.0.2(postcss@8.4.33)(typescript@5.3.3):
     dependencies:
       bundle-require: 4.0.2(esbuild@0.19.12)
       cac: 6.7.14
@@ -8480,12 +8605,14 @@ snapshots:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      postcss-load-config: 4.0.2
+      postcss-load-config: 4.0.2(postcss@8.4.33)
       resolve-from: 5.0.0
       rollup: 4.9.6
       source-map: 0.8.0-beta.0
       sucrase: 3.35.0
       tree-kill: 1.2.2
+    optionalDependencies:
+      postcss: 8.4.33
       typescript: 5.3.3
     transitivePeerDependencies:
       - supports-color
@@ -8585,13 +8712,13 @@ snapshots:
     dependencies:
       is-typedarray: 1.0.0
 
-  typedoc-plugin-markdown@4.0.0-next.38(typedoc@0.25.8):
+  typedoc-plugin-markdown@4.0.0-next.38(typedoc@0.25.8(typescript@5.3.3)):
     dependencies:
       typedoc: 0.25.8(typescript@5.3.3)
 
-  typedoc-vitepress-theme@1.0.0-next.9(typedoc-plugin-markdown@4.0.0-next.38):
+  typedoc-vitepress-theme@1.0.0-next.9(typedoc-plugin-markdown@4.0.0-next.38(typedoc@0.25.8(typescript@5.3.3))):
     dependencies:
-      typedoc-plugin-markdown: 4.0.0-next.38(typedoc@0.25.8)
+      typedoc-plugin-markdown: 4.0.0-next.38(typedoc@0.25.8(typescript@5.3.3))
 
   typedoc@0.25.8(typescript@5.3.3):
     dependencies:
@@ -8698,17 +8825,18 @@ snapshots:
 
   vary@1.1.2: {}
 
-  viem@2.9.9(typescript@5.3.3):
+  viem@2.9.9(typescript@5.3.3)(zod@3.22.4):
     dependencies:
       '@adraffy/ens-normalize': 1.10.0
       '@noble/curves': 1.2.0
       '@noble/hashes': 1.3.2
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
-      abitype: 1.0.0(typescript@5.3.3)
+      abitype: 1.0.0(typescript@5.3.3)(zod@3.22.4)
       isows: 1.0.3(ws@8.13.0)
-      typescript: 5.3.3
       ws: 8.13.0
+    optionalDependencies:
+      typescript: 5.3.3
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -8733,24 +8861,24 @@ snapshots:
 
   vite@5.0.12(@types/node@20.11.17):
     dependencies:
-      '@types/node': 20.11.17
       esbuild: 0.19.12
       postcss: 8.4.33
       rollup: 4.9.6
     optionalDependencies:
+      '@types/node': 20.11.17
       fsevents: 2.3.3
 
-  vitepress@1.0.0-rc.42(@algolia/client-search@4.22.1)(search-insights@2.13.0)(typescript@5.3.3):
+  vitepress@1.0.0-rc.42(@algolia/client-search@4.22.1)(@types/node@20.11.17)(axios@1.6.7)(search-insights@2.13.0)(typescript@5.3.3):
     dependencies:
       '@docsearch/css': 3.5.2
       '@docsearch/js': 3.5.2(@algolia/client-search@4.22.1)(search-insights@2.13.0)
       '@shikijs/core': 1.1.2
       '@shikijs/transformers': 1.1.2
       '@types/markdown-it': 13.0.7
-      '@vitejs/plugin-vue': 5.0.3(vite@5.0.12)(vue@3.4.15)
+      '@vitejs/plugin-vue': 5.0.3(vite@5.0.12(@types/node@20.11.17))(vue@3.4.15(typescript@5.3.3))
       '@vue/devtools-api': 7.0.14
-      '@vueuse/core': 10.7.2(vue@3.4.15)
-      '@vueuse/integrations': 10.7.2(focus-trap@7.5.4)(vue@3.4.15)
+      '@vueuse/core': 10.7.2(vue@3.4.15(typescript@5.3.3))
+      '@vueuse/integrations': 10.7.2(axios@1.6.7)(focus-trap@7.5.4)(vue@3.4.15(typescript@5.3.3))
       focus-trap: 7.5.4
       mark.js: 8.11.1
       minisearch: 6.3.0
@@ -8786,7 +8914,6 @@ snapshots:
 
   vitest@1.2.2(@types/node@20.11.17):
     dependencies:
-      '@types/node': 20.11.17
       '@vitest/expect': 1.2.2
       '@vitest/runner': 1.2.2
       '@vitest/snapshot': 1.2.2
@@ -8808,6 +8935,8 @@ snapshots:
       vite: 5.0.12(@types/node@20.11.17)
       vite-node: 1.2.2(@types/node@20.11.17)
       why-is-node-running: 2.2.2
+    optionalDependencies:
+      '@types/node': 20.11.17
     transitivePeerDependencies:
       - less
       - lightningcss
@@ -8821,7 +8950,7 @@ snapshots:
 
   vscode-textmate@8.0.0: {}
 
-  vue-demi@0.14.7(vue@3.4.15):
+  vue-demi@0.14.7(vue@3.4.15(typescript@5.3.3)):
     dependencies:
       vue: 3.4.15(typescript@5.3.3)
 
@@ -8830,8 +8959,9 @@ snapshots:
       '@vue/compiler-dom': 3.4.15
       '@vue/compiler-sfc': 3.4.15
       '@vue/runtime-dom': 3.4.15
-      '@vue/server-renderer': 3.4.15(vue@3.4.15)
+      '@vue/server-renderer': 3.4.15(vue@3.4.15(typescript@5.3.3))
       '@vue/shared': 3.4.15
+    optionalDependencies:
       typescript: 5.3.3
 
   wcwidth@1.0.1:
