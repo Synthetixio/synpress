@@ -8,12 +8,14 @@
     "@synthetixio/synpress-core": "0.0.0",
     "@synthetixio/synpress-tsconfig": "0.0.0",
     "@synthetixio/synpress": "3.0.0",
-    "@synthetixio/synpress-metamask": "0.0.0"
+    "@synthetixio/synpress-metamask": "0.0.0",
+    "@synthetixio/ethereum-wallet-mock": "0.0.1-alpha.3"
   },
   "changesets": [
     "fluffy-hornets-tell",
     "fresh-walls-nail",
     "poor-pianos-thank",
-    "quick-cups-breathe"
+    "quick-cups-breathe",
+    "warm-turtles-matter"
   ]
 }
