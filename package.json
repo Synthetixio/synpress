@@ -34,7 +34,6 @@
     "sort-package-json": "2.7.0",
     "turbo": "1.12.3"
   },
-  "packageManager": "pnpm@8.15.1",
   "engines": {
     "node": ">=18",
     "pnpm": ">=8"
