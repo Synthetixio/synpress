@@ -1,6 +1,6 @@
 {
   "name": "@synthetixio/synpress-metamask",
-  "version": "0.0.1-alpha.6",
+  "version": "0.0.1-alpha.7",
   "type": "module",
   "exports": {
     "types": "./types/index.d.ts",
@@ -30,14 +30,14 @@
     "types:check": "tsc --noEmit"
   },
   "dependencies": {
-    "@synthetixio/synpress-cache": "0.0.1-alpha.6",
-    "@synthetixio/synpress-core": "0.0.1-alpha.6",
+    "@synthetixio/synpress-cache": "0.0.1-alpha.7",
+    "@synthetixio/synpress-core": "0.0.1-alpha.7",
     "@viem/anvil": "0.0.7",
     "fs-extra": "11.2.0",
     "zod": "3.22.4"
   },
   "devDependencies": {
-    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.6",
+    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.7",
     "@types/fs-extra": "11.0.4",
     "@types/node": "20.11.17",
     "@vitest/coverage-v8": "1.2.2",

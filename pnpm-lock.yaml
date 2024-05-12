@@ -66,8 +66,8 @@ importers:
         specifier: 1.44.0
         version: 1.44.0
       '@synthetixio/synpress':
-        specifier: 4.0.0-alpha.5
-        version: 4.0.0-alpha.5(@playwright/test@1.44.0)(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)(zod@3.22.4)
+        specifier: 4.0.0-alpha.6
+        version: 4.0.0-alpha.6(@playwright/test@1.44.0)(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)(zod@3.22.4)
       dotenv:
         specifier: 16.4.2
         version: 16.4.2
@@ -109,8 +109,8 @@ importers:
         specifier: 2.0.2
         version: 2.0.2
       playwright-core:
-        specifier: 1.41.2
-        version: 1.41.2
+        specifier: 1.44.0
+        version: 1.44.0
       progress:
         specifier: 2.0.3
         version: 2.0.3
@@ -125,8 +125,8 @@ importers:
         version: 3.22.4
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: 0.0.1-alpha.5
-        version: 0.0.1-alpha.5
+        specifier: 0.0.1-alpha.6
+        version: 0.0.1-alpha.6
       '@types/archiver':
         specifier: 6.0.2
         version: 6.0.2
@@ -174,8 +174,8 @@ importers:
         version: 1.44.0
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: 0.0.1-alpha.5
-        version: 0.0.1-alpha.5
+        specifier: 0.0.1-alpha.6
+        version: 0.0.1-alpha.6
       '@types/node':
         specifier: 20.11.17
         version: 20.11.17
@@ -197,21 +197,21 @@ importers:
         specifier: 1.44.0
         version: 1.44.0
       '@synthetixio/ethereum-wallet-mock':
-        specifier: 0.0.1-alpha.5
-        version: 0.0.1-alpha.5(@playwright/test@1.44.0)(typescript@5.3.3)(zod@3.22.4)
+        specifier: 0.0.1-alpha.6
+        version: 0.0.1-alpha.6(@playwright/test@1.44.0)(typescript@5.3.3)(zod@3.22.4)
       '@synthetixio/synpress-cache':
-        specifier: 0.0.1-alpha.5
-        version: 0.0.1-alpha.5(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
+        specifier: 0.0.1-alpha.6
+        version: 0.0.1-alpha.6(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
       '@synthetixio/synpress-core':
-        specifier: 0.0.1-alpha.5
-        version: 0.0.1-alpha.5(@playwright/test@1.44.0)
+        specifier: 0.0.1-alpha.6
+        version: 0.0.1-alpha.6(@playwright/test@1.44.0)
       '@synthetixio/synpress-metamask':
-        specifier: 0.0.1-alpha.5
-        version: 0.0.1-alpha.5(@playwright/test@1.44.0)(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
+        specifier: 0.0.1-alpha.6
+        version: 0.0.1-alpha.6(@playwright/test@1.44.0)(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: 0.0.1-alpha.5
-        version: 0.0.1-alpha.5
+        specifier: 0.0.1-alpha.6
+        version: 0.0.1-alpha.6
       '@types/node':
         specifier: 20.11.17
         version: 20.11.17
@@ -234,15 +234,15 @@ importers:
         specifier: 1.44.0
         version: 1.44.0
       '@synthetixio/synpress-core':
-        specifier: 0.0.1-alpha.5
-        version: 0.0.1-alpha.5(@playwright/test@1.44.0)
+        specifier: 0.0.1-alpha.6
+        version: 0.0.1-alpha.6(@playwright/test@1.44.0)
       viem:
         specifier: 2.9.9
         version: 2.9.9(typescript@5.3.3)(zod@3.22.4)
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: 0.0.1-alpha.5
-        version: 0.0.1-alpha.5
+        specifier: 0.0.1-alpha.6
+        version: 0.0.1-alpha.6
       '@types/node':
         specifier: 20.11.17
         version: 20.11.17
@@ -265,11 +265,11 @@ importers:
         specifier: 1.44.0
         version: 1.44.0
       '@synthetixio/synpress-cache':
-        specifier: 0.0.1-alpha.5
-        version: 0.0.1-alpha.5(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
+        specifier: 0.0.1-alpha.6
+        version: 0.0.1-alpha.6(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
       '@synthetixio/synpress-core':
-        specifier: 0.0.1-alpha.5
-        version: 0.0.1-alpha.5(@playwright/test@1.44.0)
+        specifier: 0.0.1-alpha.6
+        version: 0.0.1-alpha.6(@playwright/test@1.44.0)
       '@viem/anvil':
         specifier: 0.0.7
         version: 0.0.7
@@ -281,8 +281,8 @@ importers:
         version: 3.22.4
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: 0.0.1-alpha.5
-        version: 0.0.1-alpha.5
+        specifier: 0.0.1-alpha.6
+        version: 0.0.1-alpha.6
       '@types/fs-extra':
         specifier: 11.0.4
         version: 11.0.4
@@ -1173,35 +1173,35 @@ packages:
     resolution: {integrity: sha512-TV7t8GKYaJWsn00tFDqBw8+Uqmr8A0fRU1tvTQhyZzGv0sJCGRQL3JGMI3ucuKo3XIZdUP+Lx7/gh2t3lewy7g==}
     engines: {node: '>=14.16'}
 
-  '@synthetixio/ethereum-wallet-mock@0.0.1-alpha.5':
-    resolution: {integrity: sha512-Iz7/xKeDrXI5x8Q1NLaK6XEGuqRNZVZ6lEYMiZEjnsHSXH1OEkfxKKibxVhTzyBsDePeBk17DdK3jUfMmhuu6w==}
+  '@synthetixio/ethereum-wallet-mock@0.0.1-alpha.6':
+    resolution: {integrity: sha512-1A48EmmRyiDoPlglXzRtqUPxNwG9vcEd9tEjjOlba8pSv5Y1TGWs+gCyNJpvdBXoF8MGBDDMQ1fVzfquLz7fDw==}
     peerDependencies:
-      '@playwright/test': 1.41.2
+      '@playwright/test': 1.44.0
 
-  '@synthetixio/synpress-cache@0.0.1-alpha.5':
-    resolution: {integrity: sha512-ubyzCihabTuSGXgya7njjAsj8jAfcVsdl5dYfbNtQ0gKSNbIoZX1xErkedSJgX196t3TgVkTKKvfayONiItQgA==}
+  '@synthetixio/synpress-cache@0.0.1-alpha.6':
+    resolution: {integrity: sha512-R+011szJPph3XkWhxGv+3Ci66uKu7ZIAlbFM4LPe5AT+J7u3PsKhaNz6cL4fZCxni680R4IMwrun7TALPpr8cw==}
     hasBin: true
     peerDependencies:
       playwright-core: 1.41.2
 
-  '@synthetixio/synpress-core@0.0.1-alpha.5':
-    resolution: {integrity: sha512-5k0mEFR0O9YQ8hHm1wdCWOZ9sl/i+ANLuE19JpyyhVwXtuSjQs/hnVomNda1PFM7a4ads7sw7M/9y3W4Op4TOQ==}
+  '@synthetixio/synpress-core@0.0.1-alpha.6':
+    resolution: {integrity: sha512-hHlLBU2Aeee1NWUlXn3a1RnWBwpYbREPR45coKwsng7erazDSCC8vxAzdHeBy8tbbec12zEy11J4iyuYOJ7gaw==}
     peerDependencies:
-      '@playwright/test': 1.41.2
+      '@playwright/test': 1.44.0
 
-  '@synthetixio/synpress-metamask@0.0.1-alpha.5':
-    resolution: {integrity: sha512-k3Pve3IwTisdy/Wp5fP8znUld5kh1W9fd8WB1KSL21bDqhx1ymkYnVznl8miWcMfRDHb54/uujREfamNMh3yuQ==}
+  '@synthetixio/synpress-metamask@0.0.1-alpha.6':
+    resolution: {integrity: sha512-RuWiJ4NA6/1VAwYBpBO/TrwVTOGtzh6oNqn2BLm0bDkX0PT2fTjDmOyWFbI144I2umbc5n4VcPAN9Z1+XcwzQw==}
     peerDependencies:
-      '@playwright/test': 1.41.2
+      '@playwright/test': 1.44.0
 
-  '@synthetixio/synpress-tsconfig@0.0.1-alpha.5':
-    resolution: {integrity: sha512-II3OrTW2fQd1lfMkcnG4+O+xytkdl0xf3gFkIPC62VtX2cSvM8xuQRrx0jPuS60Zb1vLDccPgpDNAfxPI1FYXQ==}
+  '@synthetixio/synpress-tsconfig@0.0.1-alpha.6':
+    resolution: {integrity: sha512-PBhL5V3GQm5jiY8zWzhQWFM349aZsqTac5gVHK390D3Lf2RTABZu36/exdIwfAzitsGVjCYrRGzcOBZlotROkA==}
 
-  '@synthetixio/synpress@4.0.0-alpha.5':
-    resolution: {integrity: sha512-Y4GtAFqZB162Awlm72GDtMZQCamJSiU6ltcboCyyoL4vMkqidHojOhGUrslz+zWvgjCfBEqhD2pzcjQgSU2shA==}
+  '@synthetixio/synpress@4.0.0-alpha.6':
+    resolution: {integrity: sha512-14tMCVps4VicL/qwiCuXN75Kz1KT5igRl3n5jxlHAsanwssk90iZVswq2xbH6rfLtymgsL+aPF6rHlItfgo4DQ==}
     hasBin: true
     peerDependencies:
-      '@playwright/test': 1.41.2
+      '@playwright/test': 1.44.0
 
   '@szmarczak/http-timer@5.0.1':
     resolution: {integrity: sha512-+PmQX0PiAYPMeVYe237LJAYvOMYW1j2rH5YROyS3b4CTVJum34HfRvKvAzozHAQG0TnHNdUfY9nCeUyRAs//cw==}
@@ -3314,11 +3314,6 @@ packages:
 
   pkg-types@1.0.3:
     resolution: {integrity: sha512-nN7pYi0AQqJnoLPC9eHFQ8AcyaixBUOwvqc5TDnIKCMEE6I0y8P7OKA7fPexsXGCGxQDl/cmrLAp26LhcwxZ4A==}
-
-  playwright-core@1.41.2:
-    resolution: {integrity: sha512-VaTvwCA4Y8kxEe+kfm2+uUUw5Lubf38RxF7FpBxLPmGe5sdNkSg5e3ChEigaGrX7qdqT3pt2m/98LiyvU2x6CA==}
-    engines: {node: '>=16'}
-    hasBin: true
 
   playwright-core@1.44.0:
     resolution: {integrity: sha512-ZTbkNpFfYcGWohvTTl+xewITm7EOuqIqex0c7dNZ+aXsbrLj0qI8XlGKfPpipjm0Wny/4Lt4CJsWJk1stVS5qQ==}
@@ -5453,11 +5448,11 @@ snapshots:
 
   '@sindresorhus/is@5.6.0': {}
 
-  '@synthetixio/ethereum-wallet-mock@0.0.1-alpha.5(@playwright/test@1.44.0)(typescript@5.3.3)(zod@3.22.4)':
+  '@synthetixio/ethereum-wallet-mock@0.0.1-alpha.6(@playwright/test@1.44.0)(typescript@5.3.3)(zod@3.22.4)':
     dependencies:
       '@depay/web3-mock': 14.17.0
       '@playwright/test': 1.44.0
-      '@synthetixio/synpress-core': 0.0.1-alpha.5(@playwright/test@1.44.0)
+      '@synthetixio/synpress-core': 0.0.1-alpha.6(@playwright/test@1.44.0)
       viem: 2.9.9(typescript@5.3.3)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
@@ -5465,7 +5460,7 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@synthetixio/synpress-cache@0.0.1-alpha.5(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)':
+  '@synthetixio/synpress-cache@0.0.1-alpha.6(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)':
     dependencies:
       axios: 1.6.7
       chalk: 5.3.0
@@ -5488,15 +5483,15 @@ snapshots:
       - ts-node
       - typescript
 
-  '@synthetixio/synpress-core@0.0.1-alpha.5(@playwright/test@1.44.0)':
+  '@synthetixio/synpress-core@0.0.1-alpha.6(@playwright/test@1.44.0)':
     dependencies:
       '@playwright/test': 1.44.0
 
-  '@synthetixio/synpress-metamask@0.0.1-alpha.5(@playwright/test@1.44.0)(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)':
+  '@synthetixio/synpress-metamask@0.0.1-alpha.6(@playwright/test@1.44.0)(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)':
     dependencies:
       '@playwright/test': 1.44.0
-      '@synthetixio/synpress-cache': 0.0.1-alpha.5(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
-      '@synthetixio/synpress-core': 0.0.1-alpha.5(@playwright/test@1.44.0)
+      '@synthetixio/synpress-cache': 0.0.1-alpha.6(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
+      '@synthetixio/synpress-core': 0.0.1-alpha.6(@playwright/test@1.44.0)
       '@viem/anvil': 0.0.7
       fs-extra: 11.2.0
       zod: 3.22.4
@@ -5512,15 +5507,15 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@synthetixio/synpress-tsconfig@0.0.1-alpha.5': {}
+  '@synthetixio/synpress-tsconfig@0.0.1-alpha.6': {}
 
-  '@synthetixio/synpress@4.0.0-alpha.5(@playwright/test@1.44.0)(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)(zod@3.22.4)':
+  '@synthetixio/synpress@4.0.0-alpha.6(@playwright/test@1.44.0)(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)(zod@3.22.4)':
     dependencies:
       '@playwright/test': 1.44.0
-      '@synthetixio/ethereum-wallet-mock': 0.0.1-alpha.5(@playwright/test@1.44.0)(typescript@5.3.3)(zod@3.22.4)
-      '@synthetixio/synpress-cache': 0.0.1-alpha.5(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
-      '@synthetixio/synpress-core': 0.0.1-alpha.5(@playwright/test@1.44.0)
-      '@synthetixio/synpress-metamask': 0.0.1-alpha.5(@playwright/test@1.44.0)(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
+      '@synthetixio/ethereum-wallet-mock': 0.0.1-alpha.6(@playwright/test@1.44.0)(typescript@5.3.3)(zod@3.22.4)
+      '@synthetixio/synpress-cache': 0.0.1-alpha.6(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
+      '@synthetixio/synpress-core': 0.0.1-alpha.6(@playwright/test@1.44.0)
+      '@synthetixio/synpress-metamask': 0.0.1-alpha.6(@playwright/test@1.44.0)(playwright-core@1.44.0)(postcss@8.4.33)(typescript@5.3.3)
     transitivePeerDependencies:
       - '@microsoft/api-extractor'
       - '@swc/core'
@@ -7918,8 +7913,6 @@ snapshots:
       jsonc-parser: 3.2.1
       mlly: 1.5.0
       pathe: 1.1.2
-
-  playwright-core@1.41.2: {}
 
   playwright-core@1.44.0: {}
 
