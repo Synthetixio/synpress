@@ -23,9 +23,13 @@ pnpm changeset version
 
 3. Verify all the `package.json` and `CHANGELOG.md` files that were changed by the previous command.
 
-4. Run `pnpm build`
+4. Run `pnpm build` in root
 
-5. Publish the packages by running:
+5. Run `pnpm build` in `./release/`
+
+6. Commit changes
+
+7. Publish the packages by running:
 
 ```bash
 # You might have to run this command twice if it fails to publish the `@synthetixio/synpress` package on the first run.
