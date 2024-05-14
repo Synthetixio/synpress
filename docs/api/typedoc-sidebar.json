@@ -1,31 +1,35 @@
 [
   {
     "text": "Classes",
+    "collapsed": true,
     "items": [
       {
-        "text": "MetaMask",
-        "link": "/api/classes/MetaMask.md"
-      }
+        "text": "EthereumWalletMock",
+        "link": "/api/classes/EthereumWalletMock.md"
+      },
+      { "text": "MetaMask", "link": "/api/classes/MetaMask.md" }
     ]
   },
   {
     "text": "Functions",
+    "collapsed": true,
     "items": [
       {
         "text": "defineWalletSetup",
         "link": "/api/functions/defineWalletSetup.md"
       },
       {
-        "text": "getExtensionId",
-        "link": "/api/functions/getExtensionId.md"
+        "text": "ethereumWalletMockFixtures",
+        "link": "/api/functions/ethereumWalletMockFixtures.md"
+      },
+      { "text": "getExtensionId", "link": "/api/functions/getExtensionId.md" },
+      {
+        "text": "metaMaskFixtures",
+        "link": "/api/functions/metaMaskFixtures.md"
       },
       {
         "text": "testWithSynpress",
         "link": "/api/functions/testWithSynpress.md"
-      },
-      {
-        "text": "unlockForFixture",
-        "link": "/api/functions/unlockForFixture.md"
       }
     ]
   }
