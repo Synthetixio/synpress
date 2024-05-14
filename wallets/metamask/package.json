@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "build": "pnpm run clean && pnpm run build:dist && pnpm run build:types",
-    "build:cache": "synpress-cache ./test/wallet-setup",
+    "build:cache": "synpress-cache test/wallet-setup",
     "build:cache:headless": "synpress-cache test/wallet-setup --headless",
     "build:cache:headless:force": "synpress-cache test/wallet-setup --headless --force",
     "build:dist": "tsup --tsconfig tsconfig.build.json",
