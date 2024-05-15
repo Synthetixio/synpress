@@ -1,34 +1,51 @@
 # Built-in Fixtures
 
-Synpress has a few built-in Playwright fixtures for you to use in your tests that make it easier to interact with wallets and dapps. Here's the list:
+Synpress has fixtures for `EthereumWalletMock` and `MetaMask` built-in. You can use them in your tests to interact with
+the wallet.
 
-## `extensionId`
+## EthereumWalletMock
 
-Returns the extension ID of MetaMask. This is required by the `MetaMask` class to interact with the MetaMask extension.
+`EthereumWalletMock` is a simple class that allows you to interact with the mocked wallet without any external
+dependencies.
 
-## `metamaskPage`
+### Usage
 
-Returns the `Page` object of the browser tab running the full-screen version of the MetaMask extension.
+```javascript
+import { ethereumWalletMockFixtures } from "@synthetixio/synpress";
 
-## `createAnvilNode`
+const test = testWithSynpress(ethereumWalletMockFixtures);
 
-This fixture allows you to create a new Anvil node on demand inside a test. It's a wrapper around the [AnvilJS](https://github.com/wevm/anvil.js). See the following usage example:
-
-```typescript
-test('create a new Anvil node', async ({ createAnvilNode }) => {
-  const { anvil, rpcUrl, chainId } = await createAnvilNode({
-    chainId: 1338
-  })
-})
+test("test", async ({ ethereumWalletMock }) => {
+  // Test code here
+});
 ```
 
-It's that simple! After the test is finished, the Anvil node is automatically stopped.
+## MetaMask
 
-You can specify any of the Anvil's options in the object you pass to the `createAnvilNode` function.
+`MetaMask` is a class that allows you to interact with the real MetaMask wallet using the MetaMask browser extension.
 
-This function returns an object that contains three properties:
-- `anvil` - the Anvil instance,
-- `rpcUrl` - the RPC URL of the node,
-- `chainId` - the chain ID of the node (useful when you're not passing `chainId` by hand to the `createAnvilNode` function).
+### Usage
 
-For advanced usages, see our example project [here](https://github.com/Synthetixio/synpress/tree/new-dawn/examples/new-dawn).
+```javascript
+import { metaMaskFixtures } from "@synthetixio/synpress";
+
+// Pick one
+import basicSetup from './wallet-setup/basic.setup'
+import connectedSetup from './wallet-setup/connected.setup'
+import customSetup from './wallet-setup/custom.setup'
+
+const testBasic = testWithSynpress(metaMaskFixtures(basicSetup));
+const testConnected = testWithSynpress(metaMaskFixtures(connectedSetup));
+const testCustom = testWithSynpress(metaMaskFixtures(customSetup));
+
+test("test", async ({
+  metamaskPage,
+  extensionId,
+  createAnvilNode,
+  connectToAnvil,
+  deployToken,
+  deployAndMintERC1155,
+}) => {
+  // Test code here
+});
+```

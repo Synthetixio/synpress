@@ -1,47 +1,10 @@
-# MetaMask
+# Class: MetaMask
 
 This class is the heart of Synpress's MetaMask API.
 
-## Contents
-
-- [Constructors](MetaMask.md#constructors)
-  - [new MetaMask(context, page, password, extensionId)](MetaMask.md#new-metamaskcontext-page-password-extensionid)
-- [Properties](MetaMask.md#properties)
-- [Methods](MetaMask.md#methods)
-  - [addNetwork()](MetaMask.md#addnetwork)
-  - [addNewAccount()](MetaMask.md#addnewaccount)
-  - [approveNewNetwork()](MetaMask.md#approvenewnetwork)
-  - [approveSwitchNetwork()](MetaMask.md#approveswitchnetwork)
-  - [approveTokenPermission()](MetaMask.md#approvetokenpermission)
-  - [confirmSignature()](MetaMask.md#confirmsignature)
-  - [confirmTransaction()](MetaMask.md#confirmtransaction)
-  - [connectToDapp()](MetaMask.md#connecttodapp)
-  - [goBackToHomePage()](MetaMask.md#gobacktohomepage)
-  - [importWallet()](MetaMask.md#importwallet)
-  - [importWalletFromPrivateKey()](MetaMask.md#importwalletfromprivatekey)
-  - [lock()](MetaMask.md#lock)
-  - [openSettings()](MetaMask.md#opensettings)
-  - [openSidebarMenu()](MetaMask.md#opensidebarmenu)
-  - [rejectNewNetwork()](MetaMask.md#rejectnewnetwork)
-  - [rejectSignature()](MetaMask.md#rejectsignature)
-  - [rejectSwitchNetwork()](MetaMask.md#rejectswitchnetwork)
-  - [rejectTokenPermission()](MetaMask.md#rejecttokenpermission)
-  - [rejectTransaction()](MetaMask.md#rejecttransaction)
-  - [resetAccount()](MetaMask.md#resetaccount)
-  - [switchAccount()](MetaMask.md#switchaccount)
-  - [switchNetwork()](MetaMask.md#switchnetwork)
-  - [toggleDismissSecretRecoveryPhraseReminder()](MetaMask.md#toggledismisssecretrecoveryphrasereminder)
-  - [toggleShowTestNetworks()](MetaMask.md#toggleshowtestnetworks)
-  - [unlock()](MetaMask.md#unlock)
-- [Experimental Methods](MetaMask.md#experimental-methods)
-  - [closeTransactionDetails()](MetaMask.md#closetransactiondetails)
-  - [confirmTransactionAndWaitForMining()](MetaMask.md#confirmtransactionandwaitformining)
-  - [openTransactionDetails()](MetaMask.md#opentransactiondetails)
-- [Selectors](MetaMask.md#selectors)
-
 ## Constructors
 
-### new MetaMask(context, page, password, extensionId)
+### new MetaMask()
 
 ```ts
 new MetaMask(
@@ -70,12 +33,13 @@ A new instance of the MetaMask class.
 
 ## Properties
 
-| Modifier | Property | Type | Description |
+| Property | Modifier | Type | Description |
 | :------ | :------ | :------ | :------ |
-| `readonly` | `context` | `BrowserContext` | The browser context. |
-| `readonly` | `extensionId?` | `string` | The extension ID of the MetaMask extension. Optional if no interaction with the dapp is required. |
-| `readonly` | `page` | `Page` | The MetaMask tab page. |
-| `readonly` | `password` | `string` | The password of the MetaMask wallet. |
+| `context` | `readonly` | `BrowserContext` | The browser context. |
+| `extensionId?` | `readonly` | `string` | The extension ID of the MetaMask extension. Optional if no interaction with the dapp is required. |
+| `page` | `readonly` | `Page` | The MetaMask tab page. |
+| `password` | `readonly` | `string` | The password of the MetaMask wallet. |
+| `settingsPage` | `readonly` | `SettingsPage` | - |
 
 ## Methods
 
@@ -91,7 +55,7 @@ Adds a new network.
 
 | Parameter | Type | Description |
 | :------ | :------ | :------ |
-| `network` | \{   `blockExplorerUrl`: `string`;   `chainId`: `number`;   `name`: `string`;   `rpcUrl`: `string`;   `symbol`: `string`;   } | The network object to use for adding the new network. |
+| `network` | `object` | The network object to use for adding the new network. |
 | `network.blockExplorerUrl`? | `string` | The block explorer URL of the network. |
 | `network.chainId` | `number` | The chain ID of the network. |
 | `network.name` | `string` | The name of the network. |
@@ -117,6 +81,18 @@ Adds a new account with the given name. This account is based on the initially i
 | Parameter | Type | Description |
 | :------ | :------ | :------ |
 | `accountName` | `string` | The name of the new account. |
+
+#### Returns
+
+`Promise`\<`void`\>
+
+***
+
+### addNewToken()
+
+```ts
+addNewToken(): Promise<void>
+```
 
 #### Returns
 
@@ -168,8 +144,8 @@ For NFT approvals, use `confirmTransaction` method.
 
 | Parameter | Type | Description |
 | :------ | :------ | :------ |
-| `options`? | \{   `gasSetting`:   \| `"low"`      \| `"market"`      \| `"aggressive"`      \| `"site"`      \| \{      `gasLimit`: `number`;      `maxBaseFee`: `number`;      `priorityFee`: `number`;      };   `spendLimit`: `number` \| `"max"`;   } | The permission options. |
-| `options.gasSetting`? |    \| `"low"`   \| `"market"`   \| `"aggressive"`   \| `"site"`   \| \{   `gasLimit`: `number`;   `maxBaseFee`: `number`;   `priorityFee`: `number`;   } | The gas setting to use for the approval transaction. |
+| `options`? | `object` | The permission options. |
+| `options.gasSetting`? |  \| `"low"` \| `"market"` \| `"aggressive"` \| `"site"` \| \{ `"gasLimit"`: `number`; `"maxBaseFee"`: `number`; `"priorityFee"`: `number`; \} | The gas setting to use for the approval transaction. |
 | `options.spendLimit`? | `number` \| `"max"` | The spend limit to use for the permission. |
 
 #### Returns
@@ -192,6 +168,20 @@ Confirms a signature request. This function supports all types of commonly used 
 
 ***
 
+### confirmSignatureWithRisk()
+
+```ts
+confirmSignatureWithRisk(): Promise<void>
+```
+
+Confirms a signature request with potential risk.
+
+#### Returns
+
+`Promise`\<`void`\>
+
+***
+
 ### confirmTransaction()
 
 ```ts
@@ -204,8 +194,8 @@ Confirms a transaction request.
 
 | Parameter | Type | Description |
 | :------ | :------ | :------ |
-| `options`? | \{   `gasSetting`:   \| `"low"`      \| `"market"`      \| `"aggressive"`      \| `"site"`      \| \{      `gasLimit`: `number`;      `maxBaseFee`: `number`;      `priorityFee`: `number`;      };   } | The transaction options. |
-| `options.gasSetting`? |    \| `"low"`   \| `"market"`   \| `"aggressive"`   \| `"site"`   \| \{   `gasLimit`: `number`;   `maxBaseFee`: `number`;   `priorityFee`: `number`;   } | The gas setting to use for the transaction. |
+| `options`? | `object` | The transaction options. |
+| `options.gasSetting`? |  \| `"low"` \| `"market"` \| `"aggressive"` \| `"site"` \| \{ `"gasLimit"`: `number`; `"maxBaseFee"`: `number`; `"priorityFee"`: `number`; \} | The gas setting to use for the transaction. |
 
 #### Returns
 
@@ -219,17 +209,57 @@ Confirms a transaction request.
 connectToDapp(accounts?): Promise<void>
 ```
 
-Connects to the dapp using the currently selected accounts.
+Connects to the dapp using the currently selected account.
 
 #### Parameters
 
-| Parameter  | Type       | Description    |
-|:-----------|:-----------|:---------------|
-| `accounts` | `string[]` | Accounts list. |
+| Parameter | Type |
+| :------ | :------ |
+| `accounts`? | `string`[] |
 
 #### Returns
 
 `Promise`\<`void`\>
+
+***
+
+### decrypt()
+
+```ts
+decrypt(): Promise<void>
+```
+
+#### Returns
+
+`Promise`\<`void`\>
+
+***
+
+### disableEthSign()
+
+```ts
+disableEthSign(): Promise<void>
+```
+
+Disables the eth_sign feature in MetaMask advanced settings.
+
+#### Returns
+
+`Promise`\<`void`\>
+
+***
+
+### getAccountAddress()
+
+```ts
+getAccountAddress(): Promise<string>
+```
+
+Retrieves the current account address.
+
+#### Returns
+
+`Promise`\<`string`\>
 
 ***
 
@@ -328,6 +358,18 @@ Opens a given menu in the sidebar.
 | Parameter | Type | Description |
 | :------ | :------ | :------ |
 | `menu` | `SettingsSidebarMenus` | The menu to open. |
+
+#### Returns
+
+`Promise`\<`void`\>
+
+***
+
+### providePublicEncryptionKey()
+
+```ts
+providePublicEncryptionKey(): Promise<void>
+```
 
 #### Returns
 
@@ -460,7 +502,7 @@ Switches to the network with the given name.
 | Parameter | Type | Description |
 | :------ | :------ | :------ |
 | `networkName` | `string` | The name of the network to switch to. |
-| `isTestnet`? | `boolean` | A flag indicating whether the network is a test network. |
+| `isTestnet`? | `boolean` | If switch to a test network. |
 
 #### Returns
 
@@ -516,9 +558,26 @@ Unlocks MetaMask.
 
 `Promise`\<`void`\>
 
+***
+
+### unsafe\_enableEthSign()
+
+```ts
+unsafe_enableEthSign(): Promise<void>
+```
+
+Enables the eth_sign feature in MetaMask advanced settings.
+This method is marked as unsafe because enabling eth_sign can have security implications.
+
+#### Returns
+
+`Promise`\<`void`\>
+
 ## Experimental Methods
 
 ### closeTransactionDetails()
+
+`Experimental`
 
 ```ts
 closeTransactionDetails(): Promise<void>
@@ -534,6 +593,8 @@ Closes the currently opened transaction details.
 
 ### confirmTransactionAndWaitForMining()
 
+`Experimental`
+
 ```ts
 confirmTransactionAndWaitForMining(options?): Promise<void>
 ```
@@ -545,8 +606,8 @@ This function utilizes the "Activity" tab of the MetaMask tab.
 
 | Parameter | Type | Description |
 | :------ | :------ | :------ |
-| `options`? | \{   `gasSetting`:   \| `"low"`      \| `"market"`      \| `"aggressive"`      \| `"site"`      \| \{      `gasLimit`: `number`;      `maxBaseFee`: `number`;      `priorityFee`: `number`;      };   } | The transaction options. |
-| `options.gasSetting`? |    \| `"low"`   \| `"market"`   \| `"aggressive"`   \| `"site"`   \| \{   `gasLimit`: `number`;   `maxBaseFee`: `number`;   `priorityFee`: `number`;   } | The gas setting to use for the transaction. |
+| `options`? | `object` | The transaction options. |
+| `options.gasSetting`? |  \| `"low"` \| `"market"` \| `"aggressive"` \| `"site"` \| \{ `"gasLimit"`: `number`; `"maxBaseFee"`: `number`; `"priorityFee"`: `number`; \} | The gas setting to use for the transaction. |
 
 #### Returns
 
@@ -555,6 +616,8 @@ This function utilizes the "Activity" tab of the MetaMask tab.
 ***
 
 ### openTransactionDetails()
+
+`Experimental`
 
 ```ts
 openTransactionDetails(txIndex): Promise<void>
@@ -574,10 +637,10 @@ Opens the transaction details.
 
 ## Selectors
 
-| Modifier | Property | Type | Description |
+| Property | Modifier | Type | Description |
 | :------ | :------ | :------ | :------ |
-| `readonly` | `crashPage` | `CrashPage` | This property can be used to access selectors for a given page. |
-| `readonly` | `homePage` | `HomePage` | This property can be used to access selectors for a given page. |
-| `readonly` | `lockPage` | `LockPage` | This property can be used to access selectors for a given page. |
-| `readonly` | `notificationPage` | `NotificationPage` | This property can be used to access selectors for a given page. |
-| `readonly` | `onboardingPage` | `OnboardingPage` | This property can be used to access selectors for a given page. |
+| `crashPage` | `readonly` | `CrashPage` | This property can be used to access selectors for a given page. |
+| `homePage` | `readonly` | `HomePage` | This property can be used to access selectors for a given page. |
+| `lockPage` | `readonly` | `LockPage` | This property can be used to access selectors for a given page. |
+| `notificationPage` | `readonly` | `NotificationPage` | This property can be used to access selectors for a given page. |
+| `onboardingPage` | `readonly` | `OnboardingPage` | This property can be used to access selectors for a given page. |

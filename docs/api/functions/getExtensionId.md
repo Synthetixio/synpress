@@ -1,7 +1,7 @@
-# getExtensionId()
+# Function: getExtensionId()
 
 ```ts
-getExtensionId(context, extensionName): Promise<string>
+function getExtensionId(context, extensionName): Promise<string>
 ```
 
 Returns the extension ID for the given extension name. The ID is fetched from the `chrome://extensions` page.

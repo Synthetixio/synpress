@@ -114,11 +114,6 @@ export class EthereumWalletMock {
    * Adds a new network.
    *
    * @param network - The network object to use for adding the new network.
-   * @param network.name - The name of the network.
-   * @param network.rpcUrl - The RPC URL of the network.
-   * @param network.chainId - The chain ID of the network.
-   * @param network.symbol - The currency symbol of the network.
-   * @param network.blockExplorerUrl - The block explorer URL of the network.
    */
   async addNetwork(network: Network) {
     const networkInfo = {
@@ -178,6 +173,8 @@ export class EthereumWalletMock {
 
   /**
    * Connects wallet to the dapp.
+   *
+   * @param wallet - The wallet to connect to the dapp.
    */
   async connectToDapp(wallet: WalletMock = 'metamask') {
     this.wallet = wallet

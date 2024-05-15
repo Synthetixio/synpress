@@ -1,10 +1,10 @@
-# defineWalletSetup()
+# Function: defineWalletSetup()
 
 ```ts
-defineWalletSetup(walletPassword, fn): {
-  fn: WalletSetupFunction;
-  hash: string;
-  walletPassword: string;
+function defineWalletSetup(walletPassword, fn): {
+  "fn": WalletSetupFunction;
+  "hash": string;
+  "walletPassword": string;
 }
 ```
 
@@ -20,13 +20,18 @@ Based on the contents of this function, a browser with the wallet extension is s
 
 ## Returns
 
-`Object`
+```ts
+{
+  "fn": WalletSetupFunction;
+  "hash": string;
+  "walletPassword": string;
+}
+```
 
 An object containing the hash of the function, the function itself, and the wallet password. The `testWithWalletSetup` function uses this object.
 
-> | Member | Type | Description |
-> | :------ | :------ | :------ |
-> | `fn` | `WalletSetupFunction` | - |
-> | `hash` | `string` | - |
-> | `walletPassword` | `string` | - |
->
+| Member | Type |
+| :------ | :------ |
+| `fn` | `WalletSetupFunction` |
+| `hash` | `string` |
+| `walletPassword` | `string` |
