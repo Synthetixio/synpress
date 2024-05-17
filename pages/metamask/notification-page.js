@@ -2,12 +2,12 @@ const notificationPage = '.notification';
 const notificationAppContent = `${notificationPage} #app-content .app`;
 const loadingLogo = `${notificationPage} #loading__logo`;
 const loadingSpinner = `${notificationPage} #loading__spinner`;
-const nextButton = `${notificationPage} .permissions-connect-choose-account__bottom-buttons .btn-primary`;
+const nextButton = `${notificationPage} [data-testid="page-container-footer-next"]`;
 const cancelButton = `${notificationPage} .permissions-connect-choose-account__bottom-buttons .btn-secondary`;
 const customSpendingLimitInput = `${notificationPage} [data-testid="custom-spending-cap-input"]`;
 const allowToSpendButton = `${notificationPage} [data-testid="page-container-footer-next"]`;
 const rejectToSpendButton = `${notificationPage} [data-testid="page-container-footer-cancel"]`;
-const selectAllCheckbox = `${notificationPage} .choose-account-list__header-check-box`;
+const selectAllCheckbox = `${notificationPage} [data-testid="choose-account-list-operate-all-check-box"]`;
 const approveWarningToSpendButton = `${notificationPage} .set-approval-for-all-warning__footer__approve-button`;
 const rejectWarningToSpendButton = `${notificationPage} .btn-secondary.set-approval-for-all-warning__footer__cancel-button`;
 
@@ -50,10 +50,10 @@ module.exports.permissionsPageElements = {
   connectButton,
 };
 
-const popupContainer = '.popover-container';
-const popupCloseButton = `${popupContainer} .popover-header__button`;
-const popupCopyRecipientPublicAddressButton = `${popupContainer} .nickname-popover__public-address button`;
-const recipientPublicAddress = `${popupContainer} .nickname-popover__public-address__constant`;
+const popupContainer = '.mm-modal';
+const popupCloseButton = `${popupContainer} [aria-label="Close"]`;
+const popupCopyRecipientPublicAddressButton = `${popupContainer} [aria-label="Copy address to clipboard"]`;
+const recipientPublicAddress = `${popupContainer} .mm-text-field--disabled input`;
 module.exports.recipientPopupElements = {
   popupContainer,
   popupCloseButton,
