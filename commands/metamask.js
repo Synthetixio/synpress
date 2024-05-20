@@ -642,13 +642,6 @@ const metamask = {
     await switchToCypressIfNotActive();
     return true;
   },
-  async activateAdvancedGasControl(skipSetup) {
-    return await activateAdvancedSetting(
-      advancedPageElements.advancedGasControlToggleOn,
-      advancedPageElements.advancedGasControlToggleOff,
-      skipSetup,
-    );
-  },
   async activateShowHexData(skipSetup) {
     return await activateAdvancedSetting(
       advancedPageElements.showHexDataToggleOn,
@@ -864,11 +857,13 @@ const metamask = {
         .locator(notificationPageElements.customSpendingLimitInput)
         .count()) > 0
     ) {
-      await playwright.waitAndSetValue(
-        spendLimit,
-        notificationPageElements.customSpendingLimitInput,
-        notificationPage,
-      );
+      if (spendLimit) {
+        await playwright.waitAndSetValue(
+          spendLimit,
+          notificationPageElements.customSpendingLimitInput,
+          notificationPage,
+        );
+      }
       await playwright.waitAndClick(
         notificationPageElements.allowToSpendButton,
         notificationPage,
@@ -1128,7 +1123,7 @@ const metamask = {
           confirmPageElements.recipientButton,
           notificationPage,
         );
-        txData.recipientPublicAddress = await playwright.waitAndGetValue(
+        txData.recipientPublicAddress = await playwright.waitAndGetInputValue(
           recipientPopupElements.recipientPublicAddress,
           notificationPage,
         );
@@ -1503,6 +1498,10 @@ const metamask = {
         .locator(onboardingWelcomePageElements.onboardingWelcomePage)
         .count()) > 0
     ) {
+      // check terms checkbox
+      await playwright.waitAndClick(
+        onboardingWelcomePageElements.onboardingTermsCheckbox,
+      );
       if (secretWordsOrPrivateKey.includes(' ')) {
         // secret words
         await module.exports.importWallet(secretWordsOrPrivateKey, password);
@@ -1512,6 +1511,10 @@ const metamask = {
         await module.exports.importAccount(secretWordsOrPrivateKey);
       }
 
+      // Enhanced Transaction Protection
+      await playwright.waitAndClick(
+        mainPageElements.accountModal.primaryButton,
+      );
       await setupSettings(enableAdvancedSettings, enableExperimentalSettings);
 
       await module.exports.changeNetwork(network);
@@ -1601,7 +1604,6 @@ async function setupSettings(
 ) {
   await switchToMetamaskIfNotActive();
   await metamask.goToAdvancedSettings();
-  await metamask.activateAdvancedGasControl(true);
   await metamask.activateShowHexData(true);
   await metamask.activateShowTestnetNetworks(true);
   await metamask.activateCustomNonce(true);
