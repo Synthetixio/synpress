@@ -1,65 +1,76 @@
-import { type BrowserContext, chromium, type Page } from "@playwright/test";
-import { MISSING_INIT, NO_CONTEXT, NO_PAGE } from "./errors";
-import { EthereumWalletMock } from "../EthereumWalletMock";
-import { SEED_PHRASE } from "../utils";
+import { type BrowserContext, chromium, type Page } from '@playwright/test'
+import { MISSING_INIT, NO_CONTEXT, NO_PAGE } from './errors'
+import { EthereumWalletMock } from '../EthereumWalletMock'
+import { mockEthereum, SEED_PHRASE, web3MockPath } from '../utils'
+import { readFileSync } from 'fs'
 
-let context: BrowserContext | undefined;
-let page: Page | undefined;
-let ethereumWalletMock: EthereumWalletMock | undefined;
+let context: BrowserContext | undefined
+let cypressPage: Page | undefined
+let ethereumWalletMock: EthereumWalletMock | undefined
 
-const getPage = async () => {
+let ethereumObjectLoaded = false
+
+const getCypressPage = async () => {
   if (!context) {
-    console.error(NO_CONTEXT);
-    return;
+    console.error(NO_CONTEXT)
+    return
   }
 
-  page = await context.newPage();
+  cypressPage = context.pages()[0]
 
-  return page;
-};
+  return cypressPage
+}
 
 export async function connectPlaywrightToChrome(port: number) {
-  const debuggerDetails = await fetch(`http://127.0.0.1:${port}/json/version`);
+  const debuggerDetails = await fetch(`http://127.0.0.1:${port}/json/version`)
 
   const debuggerDetailsConfig = (await debuggerDetails.json()) as {
-    webSocketDebuggerUrl: string;
-  };
+    webSocketDebuggerUrl: string
+  }
 
-  const browser = await chromium.connectOverCDP(
-    debuggerDetailsConfig.webSocketDebuggerUrl
-  );
+  const browser = await chromium.connectOverCDP(debuggerDetailsConfig.webSocketDebuggerUrl)
 
-  context = browser.contexts()[0];
+  context = browser.contexts()[0]
 
-  return browser.isConnected();
+  return browser.isConnected()
 }
 
 export async function initEthereumWalletMock(port: number) {
-  await connectPlaywrightToChrome(port);
+  await connectPlaywrightToChrome(port)
 
   if (!context) {
-    console.error(NO_CONTEXT);
-    return;
+    console.error(NO_CONTEXT)
+    return
   }
 
-  await getPage();
+  await getCypressPage()
 
-  if (!page) {
-    console.error(NO_PAGE);
-    return;
+  if (!cypressPage) {
+    console.error(NO_PAGE)
+    return
   }
 
-  ethereumWalletMock = new EthereumWalletMock(page);
-  await ethereumWalletMock.importWallet(SEED_PHRASE);
+  await context.addInitScript({
+    content: `${readFileSync(web3MockPath, 'utf-8')}\n(${mockEthereum.toString()})();`
+  })
+
+  // As we want to refresh the page after mocking the ethereum object
+  if (!ethereumObjectLoaded) {
+    await cypressPage.reload()
+    ethereumObjectLoaded = true
+  }
+
+  ethereumWalletMock = new EthereumWalletMock(cypressPage)
+  await ethereumWalletMock.importWallet(SEED_PHRASE)
 }
 
 export function getEthereumWalletMock() {
-  if (!context || !page || !ethereumWalletMock) {
-    console.error(MISSING_INIT);
-    return;
+  if (!context || !cypressPage || !ethereumWalletMock) {
+    console.error(MISSING_INIT)
+    return
   }
 
-  if (ethereumWalletMock) return ethereumWalletMock;
+  if (ethereumWalletMock) return ethereumWalletMock
 
-  return new EthereumWalletMock(page);
+  return new EthereumWalletMock(cypressPage)
 }

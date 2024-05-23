@@ -1,1 +1,1 @@
-export { default as installSynpress } from "./installSynpress"
+export { default as installSynpress } from './installSynpress'

@@ -1,11 +1,7 @@
-it("should add new MetaMask account", () => {
-  cy.addNewAccount("Synpress with Cypress test");
+it('should add new MetaMask account', () => {
+  cy.getAllAccounts().should('have.length', 1)
 
-  cy.wait(10000);
-});
+  cy.addNewAccount()
 
-it("should open MetaMask settings", () => {
-  cy.openSettings();
-
-  cy.wait(10000);
-});
+  cy.getAllAccounts().should('have.length', 2)
+})

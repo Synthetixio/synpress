@@ -1,34 +1,27 @@
-import { getEthereumWalletMock } from './initEthereumWalletMock';
+import { getEthereumWalletMock } from './initEthereumWalletMock'
 
 export default function setupTasks(on: Cypress.PluginEvents) {
-  on("task", {
+  on('task', {
     importWallet: async function (seedPhrase: string) {
-      const ethereumWalletMock = getEthereumWalletMock();
+      const ethereumWalletMock = getEthereumWalletMock()
       if (ethereumWalletMock) {
-        await ethereumWalletMock.importWallet(seedPhrase);
+        await ethereumWalletMock.importWallet(seedPhrase)
       }
-      return true;
+      return true
     },
-    addNewAccount: async function (accountName: string) {
-      const ethereumWalletMock = getEthereumWalletMock();
+    addNewAccount: async function () {
+      const ethereumWalletMock = getEthereumWalletMock()
       if (ethereumWalletMock) {
-        await ethereumWalletMock.addNewAccount(accountName);
+        await ethereumWalletMock.addNewAccount()
       }
-      return true;
+      return true
     },
-    importWalletFromPrivateKey: async function (privateKey: string) {
-      const ethereumWalletMock = getEthereumWalletMock();
+    getAllAccounts: async function () {
+      const ethereumWalletMock = getEthereumWalletMock()
       if (ethereumWalletMock) {
-        await ethereumWalletMock.importWalletFromPrivateKey(privateKey);
+        return await ethereumWalletMock.getAllAccounts()
       }
-      return true;
-    },
-    openSettings: async function () {
-      const ethereumWalletMock = getEthereumWalletMock();
-      if (ethereumWalletMock) {
-        await ethereumWalletMock.openSettings();
-      }
-      return true;
-    },
-  });
+      return []
+    }
+  })
 }
