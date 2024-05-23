@@ -1,8 +1,8 @@
 import { readFileSync } from 'fs'
-import { type BrowserContext, chromium, type Page } from '@playwright/test'
+import { type BrowserContext, type Page, chromium } from '@playwright/test'
 
 import { EthereumWalletMock } from '../EthereumWalletMock'
-import { mockEthereum, SEED_PHRASE, web3MockPath } from '../utils'
+import { SEED_PHRASE, mockEthereum, web3MockPath } from '../utils'
 import { MISSING_INIT, NO_CONTEXT, NO_PAGE } from './errors'
 
 let context: BrowserContext | undefined
