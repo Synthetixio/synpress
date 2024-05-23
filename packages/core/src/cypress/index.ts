@@ -1,1 +1,1 @@
-export { default as ensureRdpPort } from "./ensureRdpPort"
+export { default as ensureRdpPort } from './ensureRdpPort'
