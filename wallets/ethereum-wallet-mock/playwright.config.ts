@@ -5,7 +5,7 @@ import { defineConfig, devices } from '@playwright/test'
  */
 export default defineConfig({
   // Look for test files in the "test/e2e" directory, relative to this configuration file.
-  testDir: './test/e2e/playwright',
+  testDir: './test/playwright',
 
   // We're increasing the timeout to 60 seconds to allow all traces to be recorded.
   // Sometimes it threw an error saying that traces were not recorded in the 30 seconds timeout limit.
