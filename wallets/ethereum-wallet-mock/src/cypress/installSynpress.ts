@@ -1,6 +1,7 @@
+import { ensureRdpPort } from '@synthetixio/synpress-core'
+
 import { initEthereumWalletMock } from './initEthereumWalletMock'
 import setupTasks from './setupTasks'
-import { ensureRdpPort } from '@synthetixio/synpress-core'
 
 let port: number
 

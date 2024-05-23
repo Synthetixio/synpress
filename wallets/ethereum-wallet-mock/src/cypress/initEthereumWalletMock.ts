@@ -1,8 +1,9 @@
+import { readFileSync } from 'fs'
 import { type BrowserContext, chromium, type Page } from '@playwright/test'
-import { MISSING_INIT, NO_CONTEXT, NO_PAGE } from './errors'
+
 import { EthereumWalletMock } from '../EthereumWalletMock'
 import { mockEthereum, SEED_PHRASE, web3MockPath } from '../utils'
-import { readFileSync } from 'fs'
+import { MISSING_INIT, NO_CONTEXT, NO_PAGE } from './errors'
 
 let context: BrowserContext | undefined
 let cypressPage: Page | undefined
