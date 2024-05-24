@@ -320,14 +320,6 @@ module.exports = {
       // 3. unlock the extension
       await module.exports.unlock(password);
 
-      // bitcoin interstitial
-      await new Promise(resolve => setTimeout(resolve, 1000)); // for animations it's still the most reliable way...
-      if (await playwright.windows(PROVIDER).locator("text=Welcome to Bitcoin").isVisible()) {
-        await playwright.windows(PROVIDER).locator(buttons.primaryButton).click();
-      }
-
-      await playwright.windows(PROVIDER).pause();
-
       return true;
     } else if (
       /**
