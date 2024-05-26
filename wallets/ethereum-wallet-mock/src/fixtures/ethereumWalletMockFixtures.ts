@@ -1,15 +1,10 @@
 import { readFileSync } from 'fs'
-import { createRequire } from 'node:module'
 import { test as base } from '@playwright/test'
 import { EthereumWalletMock } from '../EthereumWalletMock'
-import { SEED_PHRASE, mockEthereum } from '../utils'
+import { SEED_PHRASE, mockEthereum, web3MockPath } from '../utils'
 
 export const ANVIL_CHAIN_ID = 31337
 export const ANVIL_URL_URL = 'http://anvil:5000'
-
-const require = createRequire(import.meta.url)
-// Relative path to the web3-mock bundle
-const web3MockPath = require.resolve('@depay/web3-mock/dist/umd/index.bundle.js')
 
 type EthereumWalletMockFixtures = {
   ethereumWalletMock: EthereumWalletMock

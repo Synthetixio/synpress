@@ -9,8 +9,9 @@ export class EthereumWalletMock {
   seedPhrase = ''
   wallet: WalletMock = 'metamask'
 
-  constructor(readonly page: Page) {
+  constructor(readonly page: Page, wallet: WalletMock = 'metamask') {
     this.page = page
+    this.wallet = wallet
   }
 
   /**
@@ -21,14 +22,25 @@ export class EthereumWalletMock {
   importWallet(seedPhrase: string) {
     this.seedPhrase = seedPhrase
 
+    console.log(this.wallet)
+
     return this.page.evaluate(
       ([blockchain, wallet, accounts]) => {
+        class WalletConnectStub {}
+
+        let connector: WalletConnectStub | undefined
+
+        if (wallet === 'walletconnect') {
+          connector = WalletConnectStub
+        }
+
         return Web3Mock.mock({
           blockchain,
           wallet,
           accounts: {
             return: accounts
-          }
+          },
+          connector
         })
       },
       [BLOCKCHAIN, this.wallet, [ACCOUNT_MOCK]]
@@ -178,6 +190,7 @@ export class EthereumWalletMock {
    */
   async connectToDapp(wallet: WalletMock = 'metamask') {
     this.wallet = wallet
+
     return this.page.evaluate(
       ([blockchain, accounts, wallet]) => {
         // Cannot pass custom class as an argument to `page.evaluate`
