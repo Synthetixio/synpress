@@ -61,7 +61,7 @@ export async function initEthereumWalletMock(port: number) {
     ethereumObjectLoaded = true
   }
 
-  ethereumWalletMock = new EthereumWalletMock(cypressPage)
+  ethereumWalletMock = new EthereumWalletMock(cypressPage, 'coinbase')
   await ethereumWalletMock.importWallet(SEED_PHRASE)
 }
 
