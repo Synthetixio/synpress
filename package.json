@@ -1,7 +1,6 @@
 {
   "name": "@synthetixio/synpress",
   "version": "3.7.2-beta.11",
-  "packageManager": "pnpm@9.0.4",
   "description": "Synpress is e2e testing framework based around Cypress.io & playwright with included MetaMask support. Test your dapps with ease.",
   "keywords": [
     "Synpress",

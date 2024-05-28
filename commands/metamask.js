@@ -964,6 +964,9 @@ const metamask = {
   } = {}) {
     let txData = {};
     const notificationPage = await playwright.switchToMetamaskNotification();
+
+    await proceedAnyway();
+
     if (gasConfig) {
       log(
         '[confirmTransaction] gasConfig is present, determining transaction type..',
@@ -1183,6 +1186,9 @@ const metamask = {
     //     notificationPage,
     //   );
     // }
+
+    await proceedAnyway();
+
     log('[confirmTransaction] Confirming transaction..');
     await playwright.waitAndClick(
       confirmPageElements.confirmButton,
@@ -1192,6 +1198,31 @@ const metamask = {
     txData.confirmed = true;
     log('[confirmTransaction] Transaction confirmed!');
     return txData;
+
+    async function proceedAnyway() {
+      // click on i want to proceed anyway when transaction gas estimation error is thrown
+      let proceedAnywayButton1 =
+        'div.transaction-detail > div > div > div > div > button';
+      let proceedAnywayButton2 =
+        'div.transaction-alerts > div.mm-box.mm-banner-base.mm-banner-alert.mm-banner-alert--severity-danger.mm-box--padding-3.mm-box--padding-left-2.mm-box--display-flex.mm-box--gap-2.mm-box--background-color-error-muted.mm-box--rounded-sm > div > button';
+
+      if (
+        (await playwright
+          .metamaskNotificationWindow()
+          .locator(proceedAnywayButton1)
+          .count()) > 0
+      ) {
+        await playwright.waitAndClick(proceedAnywayButton1, notificationPage);
+      }
+      if (
+        (await playwright
+          .metamaskNotificationWindow()
+          .locator(proceedAnywayButton2)
+          .count()) > 0
+      ) {
+        await playwright.waitAndClick(proceedAnywayButton2, notificationPage);
+      }
+    }
   },
   async confirmTransactionAndWaitForMining(gasConfig) {
     // Before we switch to MetaMask tab we have to make sure the notification window has opened.
