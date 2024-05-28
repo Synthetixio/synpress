@@ -33,7 +33,7 @@ module.exports = (on, config) => {
     if (!process.env.SKIP_METAMASK_INSTALL) {
       // NOTE: extensions cannot be loaded in headless Chrome
       const metamaskPath = await helpers.prepareMetamask(
-        process.env.METAMASK_VERSION || '10.25.0',
+        process.env.METAMASK_VERSION || '11.15.0',
       );
       arguments_.extensions.push(metamaskPath);
     }

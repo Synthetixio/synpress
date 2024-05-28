@@ -33,8 +33,8 @@ describe('Metamask', () => {
       cy.acceptMetamaskAccess().then(connected => {
         expect(connected).to.be.true;
       });
-      cy.get('#network').contains('5');
-      cy.get('#chainId').contains('0x5');
+      cy.get('#network').contains('59140');
+      cy.get('#chainId').contains('0xe704');
       cy.get('#accounts').should(
         'have.text',
         '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
@@ -296,7 +296,7 @@ describe('Metamask', () => {
         expect(rejected).to.be.true;
       });
       cy.get('#cleartextDisplay').contains(
-        'Error: MetaMask Decryption: User denied message decryption.',
+        'Error: MetaMask DecryptMessage: User denied message decryption.',
       );
     });
     it(`rejectMetamaskSignatureRequest should reject signature request`, () => {
@@ -304,7 +304,7 @@ describe('Metamask', () => {
       cy.rejectMetamaskSignatureRequest().then(rejected => {
         expect(rejected).to.be.true;
       });
-      cy.get('#personalSign').contains('User denied message signature');
+      cy.get('#personalSign').contains('Error: User rejected the request.');
     });
     it(`rejectMetamaskDataSignatureRequest should confirm data signature request`, () => {
       cy.get('#signTypedDataV4').click();
@@ -312,7 +312,7 @@ describe('Metamask', () => {
         expect(rejected).to.be.true;
       });
       cy.get('#signTypedDataV4Result').contains(
-        'User denied message signature',
+        'Error: User rejected the request.',
       );
     });
     it(`rejectMetamaskTransaction should reject transaction`, () => {
@@ -513,27 +513,27 @@ describe('Metamask', () => {
     });
     it(`importMetamaskToken should import token to metamask`, () => {
       const tetherContractAddressOnGoerli =
-        '0x509Ee0d083DdF8AC028f2a56731412edD63223B9';
+        '0xf7c13feff0b098ee55a58683a54509fde40ecbaa'; // Linea Goerli network
       cy.importMetamaskToken(tetherContractAddressOnGoerli).then(tokenData => {
         expect(tokenData.tokenContractAddress).to.be.equal(
           tetherContractAddressOnGoerli,
         );
         expect(tokenData.tokenSymbol).to.be.equal('USDT');
-        expect(tokenData.tokenDecimals).to.be.equal('6');
+        expect(tokenData.tokenDecimals).to.be.equal('18');
         expect(tokenData.imported).to.be.true;
       });
     });
     it(`importMetamaskToken should import token to metamask using advanced token settings`, () => {
       const daiContractAddressOnGoerli =
-        '0x5233d9FeA273A88c3c8672910042E63850ddF9aa';
+        '0xc9f5882b1f513ae962fef465900f1adb0703b6fa'; // Linea Goerli network
       cy.importMetamaskToken({
         address: daiContractAddressOnGoerli,
-        symbol: 'xDAI',
+        symbol: 'DAI',
       }).then(tokenData => {
         expect(tokenData.tokenContractAddress).to.be.equal(
           daiContractAddressOnGoerli,
         );
-        expect(tokenData.tokenSymbol).to.be.equal('xDAI');
+        expect(tokenData.tokenSymbol).to.be.equal('DAI');
         expect(tokenData.tokenDecimals).to.be.equal('18');
         expect(tokenData.imported).to.be.true;
       });
@@ -546,7 +546,23 @@ describe('Metamask', () => {
     });
     it(`confirmMetamaskPermissionToSpend should approve permission to spend token`, () => {
       cy.get('#approveTokens').click();
-      cy.confirmMetamaskPermissionToSpend().then(approved => {
+      cy.confirmMetamaskPermissionToSpend({
+        shouldWaitForPopupClosure: true,
+      }).then(approved => {
+        expect(approved).to.be.true;
+      });
+    });
+    it(`confirmMetamaskPermissionToSpend should work for serial transactions`, () => {
+      cy.get('#approveTokens').click();
+      cy.get('#approveTokens').click();
+      cy.confirmMetamaskPermissionToSpend({
+        shouldWaitForPopupClosure: true,
+      }).then(approved => {
+        expect(approved).to.be.true;
+      });
+      cy.confirmMetamaskPermissionToSpend({
+        shouldWaitForPopupClosure: true,
+      }).then(approved => {
         expect(approved).to.be.true;
       });
     });
