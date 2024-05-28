@@ -351,25 +351,36 @@ const metamask = {
   },
   async importAccount(privateKey) {
     await switchToMetamaskIfNotActive();
-    await module.exports.goToImportAccount();
+    await module.exports.goToHome();
+    await module.exports.closePopupAndTooltips();
+    await playwright.waitAndClick(mainPageElements.accountMenu.button);
+    await playwright.waitAndClick(
+      mainPageElements.accountMenu.addAccountButton,
+    );
+    await playwright.waitAndClickByText(
+      mainPageElements.accountMenu.addNewAccountButton,
+      'Import account',
+    );
     await playwright.waitAndType(
       mainPageElements.importAccount.input,
       privateKey,
     );
-    await playwright.waitAndClick(
-      mainPageElements.importAccount.importButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
+    await playwright.waitAndClick(mainPageElements.importAccount.importButton);
     await module.exports.closePopupAndTooltips();
     await switchToCypressIfNotActive();
     return true;
   },
   async createAccount(accountName) {
     await switchToMetamaskIfNotActive();
-    await module.exports.goToNewAccount();
+    await module.exports.goToHome();
+    await module.exports.closePopupAndTooltips();
+    await playwright.waitAndClick(mainPageElements.accountMenu.button);
+    await playwright.waitAndClick(
+      mainPageElements.accountMenu.addAccountButton,
+    );
+    await playwright.waitAndClick(
+      mainPageElements.accountMenu.addNewAccountButton,
+    );
     if (accountName) {
       accountName = accountName.toLowerCase();
       await playwright.waitAndType(
@@ -409,6 +420,7 @@ const metamask = {
     );
 
     await playwright.waitAndClick(mainPageElements.renameAccount.invokeInput);
+
     await playwright.waitClearAndType(
       newAccountName,
       mainPageElements.renameAccount.input,
@@ -477,11 +489,12 @@ const metamask = {
 
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
-
-    await playwright.waitAndClickByText(
+    const metamaskPage = await playwright.metamaskWindow();
+    await playwright.waitFor(
       mainPageElements.networkSwitcher.dropdownMenuItem,
-      network.name,
+      metamaskPage,
     );
+    await playwright.waitAndClick(`[data-testid*="${network.name}"]`);
     await playwright.waitForText(
       mainPageElements.networkSwitcher.networkName,
       network.name,
@@ -546,6 +559,7 @@ const metamask = {
       addNetworkPageElements.networkNameInput,
       network.name,
     );
+
     await playwright.waitAndType(
       addNetworkPageElements.rpcUrlInput,
       network.rpcUrls.default.http[0],
@@ -571,6 +585,7 @@ const metamask = {
         waitForEvent: 'navi',
       },
     );
+    await playwright.waitAndClick(addNetworkPageElements.switchButton);
     await module.exports.closePopupAndTooltips();
     await playwright.waitForText(
       mainPageElements.networkSwitcher.networkName,
@@ -769,7 +784,10 @@ const metamask = {
   async importToken(tokenConfig) {
     let tokenData = {};
     await switchToMetamaskIfNotActive();
-    await module.exports.goToImportToken();
+    await module.exports.goToHome();
+    await module.exports.closePopupAndTooltips();
+    await playwright.waitAndClick(mainPageElements.importToken.tokenTab);
+    await playwright.waitAndClick(mainPageElements.importToken.button);
     if (typeof tokenConfig === 'string') {
       await playwright.waitAndType(
         mainPageElements.importToken.tokenContractAddressInput,
@@ -785,13 +803,6 @@ const metamask = {
         tokenConfig.address,
       );
       tokenData.tokenContractAddress = tokenConfig.address;
-      await playwright.waitAndClick(
-        mainPageElements.importToken.tokenEditButton,
-        await playwright.metamaskWindow(),
-        {
-          force: true,
-        },
-      );
       await playwright.waitClearAndType(
         tokenConfig.symbol,
         mainPageElements.importToken.tokenSymbolInput,
@@ -804,23 +815,10 @@ const metamask = {
     await playwright.waitAndClick(
       mainPageElements.importToken.addCustomTokenButton,
       await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
     );
     await playwright.waitAndClick(
-      mainPageElements.importToken.importTokensButton,
+      mainPageElements.importToken.confirmImportTokenContent,
       await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
-    );
-    await playwright.waitAndClick(
-      mainPageElements.asset.backButton,
-      await playwright.metamaskWindow(),
-      {
-        waitForEvent: 'navi',
-      },
     );
     await module.exports.closePopupAndTooltips();
     await switchToCypressIfNotActive();
@@ -881,7 +879,6 @@ const metamask = {
     await playwright.waitAndClick(
       notificationPageElements.rejectToSpendButton,
       notificationPage,
-      { waitForEvent: 'close' },
     );
     return true;
   },
@@ -1090,7 +1087,7 @@ const metamask = {
             );
           }
           await playwright.waitAndClick(
-            confirmPageElements.saveCustomGasFeeButton,
+            confirmPageElements.saveAdvanceCustomGasFeeButton,
             notificationPage,
           );
         }
@@ -1278,20 +1275,17 @@ const metamask = {
 
     let visibleTxs = await playwright
       .metamaskWindow()
-      .locator(
-        `${mainPageElements.activityTab.completedTransactionsList} > div`,
-      )
+      .locator(mainPageElements.activityTab.completedTransactionsList)
       .filter({
-        has: playwright.metamaskWindow().locator('div.list-item__heading'),
+        has: playwright.metamaskWindow().locator('div.transaction-list-item'),
       })
       .all();
-
     while (txIndex >= visibleTxs.length) {
       try {
         await playwright
           .metamaskWindow()
           .locator(
-            `${mainPageElements.activityTab.completedTransactionsList} > button`,
+            `${mainPageElements.activityTab.completedTransactionsList} > div`,
           )
           .click();
       } catch (error) {
@@ -1359,7 +1353,6 @@ const metamask = {
     await playwright.waitAndClick(
       decryptPageElements.rejectDecryptionRequestButton,
       notificationPage,
-      { waitForEvent: 'close' },
     );
     return true;
   },

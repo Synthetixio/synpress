@@ -77,6 +77,7 @@ const chainIdInput = `${addNetworkForm} .form-field:nth-child(3) input`;
 const symbolInput = `${addNetworkForm} [data-testid="network-form-ticker"] input`;
 const blockExplorerInput = `${addNetworkForm} .form-field:nth-child(5) input`;
 const saveButton = '.networks-tab__add-network-form-footer .btn-primary';
+const switchButton = '.home__new-network-added__switch-to-button';
 module.exports.addNetworkPageElements = {
   addNetworkForm,
   networkNameInput,
@@ -85,4 +86,5 @@ module.exports.addNetworkPageElements = {
   symbolInput,
   blockExplorerInput,
   saveButton,
+  switchButton,
 };
