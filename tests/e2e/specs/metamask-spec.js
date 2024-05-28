@@ -566,6 +566,18 @@ describe('Metamask', () => {
         expect(approved).to.be.true;
       });
     });
+    it(`confirmMetamaskPermissionToSpend should work for serial transactions`, () => {
+      cy.get('#approveTokens').click();
+      cy.get('#approveTokens').click();
+      cy.confirmMetamaskPermissionToSpend({
+        shouldWaitForPopupClosure: true,
+      }).then(approved => {
+        expect(approved).to.be.true;
+      });
+      cy.confirmMetamaskPermissionToSpend().then(approved => {
+        expect(approved).to.be.true;
+      });
+    });
     it(`rejectMetamaskToAddNetwork should reject permission to add network`, () => {
       cy.get('#addEthereumChain').click();
       cy.rejectMetamaskToAddNetwork().then(rejected => {
