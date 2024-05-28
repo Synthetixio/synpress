@@ -1,13 +1,16 @@
-const networkSwitcherButtonSelector = '.network-display';
+const networkSwitcherButtonSelector = '[data-testid="network-display"]';
+const dropdownMenu = '.multichain-network-list-menu-content-wrapper';
 const networkSwitcher = {
   button: networkSwitcherButtonSelector,
-  networkName: `${networkSwitcherButtonSelector} .typography`,
-  dropdownMenu: '[data-testid="network-droppo"]',
-  dropdownMenuItem: `[data-testid="network-droppo"] .dropdown-menu-item`,
-  mainnetNetworkItem: `[data-testid="network-droppo"] [data-testid="mainnet-network-item"]`,
-  goerliNetworkItem: `[data-testid="network-droppo"] [data-testid="goerli-network-item"]`,
-  sepoliaNetworkItem: `[data-testid="network-droppo"] [data-testid="sepolia-network-item"]`,
-  localhostNetworkItem: `[data-testid="network-droppo"] [data-testid="Localhost 8545-network-item"]`,
+  networkName: `${networkSwitcherButtonSelector} .mm-text--ellipsis.mm-box--color-text-default`,
+  dropdownMenu,
+  dropdownMenuItem: `${dropdownMenu} .multichain-network-list-item`,
+  showTestNetworksToggle: `${dropdownMenu} > section > div > label.toggle-button`,
+  showTestNetworksOff: '.toggle-button--off',
+  mainnetNetworkItem: `${dropdownMenu} [data-testid="Ethereum Mainnet"]`,
+  goerliNetworkItem: `${dropdownMenu} [data-testid="goerli-network-item"]`,
+  sepoliaNetworkItem: `${dropdownMenu} [data-testid="Sepolia"]`,
+  localhostNetworkItem: `${dropdownMenu} [data-testid="Localhost 8545-network-item"]`,
   networkButton: number =>
     `[data-testid="network-droppo"] .dropdown-menu-item:nth-child(${
       3 + number
@@ -74,8 +77,8 @@ const accountMenu = {
 
 const optionsMenu = {
   button: '[data-testid=account-options-menu-button]',
-  accountDetailsButton: '[data-testid="account-options-menu__account-details"]',
-  connectedSitesButton: '[data-testid="account-options-menu__connected-sites"]',
+  accountDetailsButton: '[data-testid="account-list-menu-details"]',
+  connectedSitesButton: '[data-testid="global-menu-connected-sites"]',
 };
 
 const connectedSitesSelector = '.connected-sites';
@@ -87,17 +90,16 @@ const connectedSites = {
   closeButton: `${connectedSitesSelector} [data-testid="popover-close"]`,
 };
 
-const accountModalSelector = '.account-modal';
 const accountModal = {
-  walletAddressInput: `${accountModalSelector} .qr-code__address`,
-  closeButton: '.account-modal__close',
+  walletAddressInput: `[data-testid="address-copy-button-text"]`,
+  closeButton: '[aria-label="Close"]',
 };
 
 const renameAccount = {
-  invokeInput: `${accountModalSelector} [data-testid="editable-label-button"]`,
-  input: `${accountModalSelector} [data-testid="editable-input"]`,
-  confirmButton: `${accountModalSelector} .editable-label__icon-button`,
-  error: `${accountModalSelector} .editable-label__error`,
+  invokeInput: `[data-testid="editable-label-button"]`,
+  input: `[data-testid="editable-input"]`,
+  confirmButton: `.editable-label__icon-button`,
+  error: `.editable-label__error`,
 };
 
 const importAccountSelector = '.new-account';

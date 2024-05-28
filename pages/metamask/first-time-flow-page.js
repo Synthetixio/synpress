@@ -10,11 +10,13 @@ const app = '#app-content .app';
 const onboardingWelcomePage = `${onboardingFlow} [data-testid="onboarding-welcome"]`;
 const importWalletButton = `${onboardingWelcomePage} [data-testid="onboarding-import-wallet"]`;
 const createWalletButton = `${onboardingWelcomePage} [data-testid="onboarding-create-wallet"]`;
+const onboardingTermsCheckbox = `${onboardingWelcomePage} [data-testid="onboarding-terms-checkbox"]`;
 module.exports.onboardingWelcomePageElements = {
   app,
   onboardingWelcomePage,
   importWalletButton,
   createWalletButton,
+  onboardingTermsCheckbox,
 };
 
 const firstTimeFlowImportPage = `${onboardingFlow} [data-testid="import-srp"]`;

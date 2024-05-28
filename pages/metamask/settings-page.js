@@ -11,22 +11,10 @@ module.exports.settingsPageElements = {
 
 const resetAccountButton =
   '[data-testid="advanced-setting-reset-account"] button';
-const advancedGasControlToggleOn =
-  '[data-testid="advanced-setting-advanced-gas-inline"] .toggle-button--on';
-const advancedGasControlToggleOff =
-  '[data-testid="advanced-setting-advanced-gas-inline"] .toggle-button--off';
 const showHexDataToggleOn =
   '[data-testid="advanced-setting-hex-data"] .toggle-button--on';
 const showHexDataToggleOff =
   '[data-testid="advanced-setting-hex-data"] .toggle-button--off';
-const showTestnetConversionOn =
-  '[data-testid="advanced-setting-show-testnet-conversion"]:nth-child(6) .toggle-button--on';
-const showTestnetConversionOff =
-  '[data-testid="advanced-setting-show-testnet-conversion"]:nth-child(6) .toggle-button--off';
-const showTestnetNetworksOn =
-  '[data-testid="advanced-setting-show-testnet-conversion"]:nth-child(7) .toggle-button--on';
-const showTestnetNetworksOff =
-  '[data-testid="advanced-setting-show-testnet-conversion"]:nth-child(7) .toggle-button--off';
 const customNonceToggleOn =
   '[data-testid="advanced-setting-custom-nonce"] .toggle-button--on';
 const customNonceToggleOff =
@@ -41,14 +29,8 @@ const ethSignRequestsToggleOff =
   '[data-testid="advanced-setting-toggle-ethsign"] .toggle-button--off';
 module.exports.advancedPageElements = {
   resetAccountButton,
-  advancedGasControlToggleOn,
-  advancedGasControlToggleOff,
   showHexDataToggleOn,
   showHexDataToggleOff,
-  showTestnetConversionOn,
-  showTestnetConversionOff,
-  showTestnetNetworksOn,
-  showTestnetNetworksOff,
   dismissBackupReminderOn,
   dismissBackupReminderOff,
   customNonceToggleOn,
@@ -80,9 +62,11 @@ const addNetworkForm = '.networks-tab__add-network-form-body';
 const networkNameInput = `${addNetworkForm} .form-field:nth-child(1) input`;
 const rpcUrlInput = `${addNetworkForm} .form-field:nth-child(2) input`;
 const chainIdInput = `${addNetworkForm} .form-field:nth-child(3) input`;
-const symbolInput = `${addNetworkForm} .form-field:nth-child(4) input`;
-const blockExplorerInput = `${addNetworkForm} .form-field:nth-child(5) input`;
+const symbolInput = `${addNetworkForm} [data-testid="network-form-ticker-input"]`;
+const blockExplorerInput = `${addNetworkForm} [data-testid="network-form-block-explorer-url"]`;
 const saveButton = '.networks-tab__add-network-form-footer .btn-primary';
+const switchToButton =
+  '.button.btn--rounded.btn-primary.home__new-network-added__switch-to-button';
 module.exports.addNetworkPageElements = {
   addNetworkForm,
   networkNameInput,
@@ -91,4 +75,5 @@ module.exports.addNetworkPageElements = {
   symbolInput,
   blockExplorerInput,
   saveButton,
+  switchToButton,
 };

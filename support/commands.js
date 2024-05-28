@@ -277,16 +277,14 @@ Cypress.Commands.add(
   'setupMetamask',
   (
     secretWordsOrPrivateKey = 'test test test test test test test test test test test junk',
-    network = 'goerli',
+    network = 'sepolia',
     password = 'Tester@1234',
-    enableAdvancedSettings = false,
     enableExperimentalSettings = false,
   ) => {
     return cy.task('setupMetamask', {
       secretWordsOrPrivateKey,
       network,
       password,
-      enableAdvancedSettings,
       enableExperimentalSettings,
     });
   },
