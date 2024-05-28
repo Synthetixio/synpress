@@ -29,6 +29,9 @@ jobs:
           fetch-depth: 0
           ref: master
 
+      - name: Update pnpm
+        run: npm install -g pnpm
+
       - name: Set pnpm cache directory
         run: pnpm config set store-dir .pnpm-store
         continue-on-error: true
@@ -39,9 +42,9 @@ jobs:
           path: |
             .pnpm-store
             node_modules
-          key: ${{ runner.os }}-pnpm-v1-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-pnpm-v2-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-pnpm-v1-
+            ${{ runner.os }}-pnpm-v2-
         continue-on-error: true
 
       # fixes permission issues on docker
