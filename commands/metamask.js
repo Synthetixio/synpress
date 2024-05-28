@@ -478,12 +478,19 @@ const metamask = {
     await switchToMetamaskIfNotActive();
     await playwright.waitAndClick(mainPageElements.networkSwitcher.button);
 
+    if (
+      (await playwright
+        .metamaskWindow()
+        .locator(mainPageElements.networkSwitcher.showTestNetworksOff)
+        .count()) > 0
+    ) {
+      await playwright.waitAndClick(
+        mainPageElements.networkSwitcher.showTestNetworksOff,
+      );
+    }
+
     await playwright.waitAndClickByText(
       mainPageElements.networkSwitcher.dropdownMenuItem,
-      network.name,
-    );
-    await playwright.waitForText(
-      mainPageElements.networkSwitcher.networkName,
       network.name,
     );
 
@@ -571,6 +578,7 @@ const metamask = {
         waitForEvent: 'navi',
       },
     );
+    await playwright.waitAndClick(addNetworkPageElements.switchToButton);
     await module.exports.closePopupAndTooltips();
     await playwright.waitForText(
       mainPageElements.networkSwitcher.networkName,
@@ -642,31 +650,10 @@ const metamask = {
     await switchToCypressIfNotActive();
     return true;
   },
-  async activateAdvancedGasControl(skipSetup) {
-    return await activateAdvancedSetting(
-      advancedPageElements.advancedGasControlToggleOn,
-      advancedPageElements.advancedGasControlToggleOff,
-      skipSetup,
-    );
-  },
   async activateShowHexData(skipSetup) {
     return await activateAdvancedSetting(
       advancedPageElements.showHexDataToggleOn,
       advancedPageElements.showHexDataToggleOff,
-      skipSetup,
-    );
-  },
-  async activateTestnetConversion(skipSetup) {
-    return await activateAdvancedSetting(
-      advancedPageElements.showTestnetConversionOn,
-      advancedPageElements.showTestnetConversionOff,
-      skipSetup,
-    );
-  },
-  async activateShowTestnetNetworks(skipSetup) {
-    return await activateAdvancedSetting(
-      advancedPageElements.showTestnetNetworksOn,
-      advancedPageElements.showTestnetNetworksOff,
       skipSetup,
     );
   },
@@ -972,6 +959,19 @@ const metamask = {
   } = {}) {
     let txData = {};
     const notificationPage = await playwright.switchToMetamaskNotification();
+
+    if (
+      (await playwright
+        .metamaskNotificationWindow()
+        .locator(addNetworkPageElements.saveButton)
+        .count()) > 0
+    ) {
+      await playwright.waitAndClick(
+        addNetworkPageElements.saveButton,
+        notificationPage,
+      );
+    }
+
     if (gasConfig) {
       log(
         '[confirmTransaction] gasConfig is present, determining transaction type..',
@@ -1479,13 +1479,7 @@ const metamask = {
   },
   async initialSetup(
     playwrightInstance,
-    {
-      secretWordsOrPrivateKey,
-      network,
-      password,
-      enableAdvancedSettings,
-      enableExperimentalSettings,
-    },
+    { secretWordsOrPrivateKey, network, password, enableExperimentalSettings },
   ) {
     if (playwrightInstance) {
       await playwright.init(playwrightInstance);
@@ -1503,6 +1497,10 @@ const metamask = {
         .locator(onboardingWelcomePageElements.onboardingWelcomePage)
         .count()) > 0
     ) {
+      await playwright.waitAndClick(
+        onboardingWelcomePageElements.onboardingTermsCheckbox,
+      );
+
       if (secretWordsOrPrivateKey.includes(' ')) {
         // secret words
         await module.exports.importWallet(secretWordsOrPrivateKey, password);
@@ -1512,7 +1510,7 @@ const metamask = {
         await module.exports.importAccount(secretWordsOrPrivateKey);
       }
 
-      await setupSettings(enableAdvancedSettings, enableExperimentalSettings);
+      await setupSettings(enableExperimentalSettings);
 
       await module.exports.changeNetwork(network);
 
@@ -1595,20 +1593,12 @@ async function activateAdvancedSetting(
   return true;
 }
 
-async function setupSettings(
-  enableAdvancedSettings,
-  enableExperimentalSettings,
-) {
+async function setupSettings(enableExperimentalSettings) {
   await switchToMetamaskIfNotActive();
   await metamask.goToAdvancedSettings();
-  await metamask.activateAdvancedGasControl(true);
   await metamask.activateShowHexData(true);
-  await metamask.activateShowTestnetNetworks(true);
   await metamask.activateCustomNonce(true);
   await metamask.activateDismissBackupReminder(true);
-  if (enableAdvancedSettings) {
-    await metamask.activateTestnetConversion(true);
-  }
   if (enableExperimentalSettings) {
     await metamask.goToExperimentalSettings();
     await metamask.activateImprovedTokenAllowance(true);

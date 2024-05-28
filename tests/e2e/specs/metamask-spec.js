@@ -5,7 +5,7 @@ describe('Metamask', () => {
     it(`setupMetamask should finish metamask setup using secret words`, () => {
       cy.setupMetamask(
         'test test test test test test test test test test test junk',
-        'goerli',
+        'sepolia',
         'Tester@1234',
       ).then(setupFinished => {
         expect(setupFinished).to.be.true;
@@ -34,7 +34,7 @@ describe('Metamask', () => {
         expect(connected).to.be.true;
       });
       cy.get('#network').contains('5');
-      cy.get('#chainId').contains('0x5');
+      cy.get('#chainId').contains('0xaa36a7');
       cy.get('#accounts').should(
         'have.text',
         '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
@@ -49,8 +49,8 @@ describe('Metamask', () => {
     });
     it(`getCurrentNetwork should return network by default`, () => {
       cy.getCurrentNetwork().then(network => {
-        expect(network.name).to.match(/goerli/i);
-        expect(network.id).to.be.equal(5);
+        expect(network.name).to.match(/sepolia/i);
+        expect(network.id).to.be.equal(11155111);
         expect(network.testnet).to.be.true;
       });
     });
@@ -59,12 +59,12 @@ describe('Metamask', () => {
         cy.addMetamaskNetwork({
           networkName: 'anvil',
           rpcUrl: 'http://127.0.0.1:8545',
-          chainId: 5,
+          chainId: 1338,
           symbol: 'aETH',
           isTestnet: true,
         });
-        cy.get('#network').contains('5');
-        cy.get('#chainId').contains('0x5');
+        cy.get('#network').contains('0x53a');
+        cy.get('#chainId').contains('0x53a');
       } else {
         cy.addMetamaskNetwork({
           networkName: 'Optimism Network',
@@ -84,7 +84,7 @@ describe('Metamask', () => {
       cy.getCurrentNetwork().then(network => {
         if (Cypress.env('USE_ANVIL')) {
           expect(network.name).to.be.equal('anvil');
-          expect(network.id).to.be.equal(5);
+          expect(network.id).to.be.equal(1338);
           expect(network.testnet).to.be.true;
         } else {
           expect(network.name).to.match(/optimism network/i);
@@ -117,15 +117,15 @@ describe('Metamask', () => {
         cy.changeMetamaskNetwork('anvil').then(networkChanged => {
           expect(networkChanged).to.be.true;
         });
-        cy.get('#network').contains('0x5');
-        cy.get('#chainId').contains('0x5');
+        cy.get('#network').contains('0x53a');
+        cy.get('#chainId').contains('0x53a');
       } else {
         cy.changeMetamaskNetwork('optimism network').then(networkChanged => {
           expect(networkChanged).to.be.true;
         });
         cy.get('#network').contains('0xa');
         cy.get('#chainId').contains('0xa');
-        cy.changeMetamaskNetwork('goerli');
+        cy.changeMetamaskNetwork('sepolia');
       }
     });
     it(`rejectMetamaskPermissionToApproveAll should reject permission to approve all NFTs upon warning`, () => {

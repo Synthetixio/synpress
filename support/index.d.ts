@@ -463,7 +463,6 @@ declare namespace Cypress {
             isTestnet: boolean;
           },
       password?: string,
-      enableAdvancedSettings?: boolean,
       enableExperimentalSettings?: boolean,
     ): Chainable<Subject>;
     /**
