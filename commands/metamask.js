@@ -150,6 +150,15 @@ const metamask = {
     // note: this is required for fast execution of e2e tests to avoid flakiness
     // otherwise popup may not be detected properly and not closed
     await playwright.metamaskWindow().waitForTimeout(1000);
+
+    let smartTxOptInBtn =
+      '.mm-smart-transactions-opt-in-modal .mm-box--rounded-pill';
+    if (
+      (await playwright.metamaskWindow().locator(smartTxOptInBtn).count()) > 0
+    ) {
+      await playwright.waitAndClick(smartTxOptInBtn);
+    }
+
     if (
       (await playwright
         .metamaskWindow()
@@ -1535,10 +1544,6 @@ const metamask = {
         await module.exports.importAccount(secretWordsOrPrivateKey);
       }
 
-      // Enhanced Transaction Protection
-      await playwright.waitAndClick(
-        mainPageElements.accountModal.primaryButton,
-      );
       await setupSettings(enableAdvancedSettings, enableExperimentalSettings);
 
       await module.exports.changeNetwork(network);
