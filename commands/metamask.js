@@ -1489,7 +1489,7 @@ const metamask = {
   },
   async allowToAddAndSwitchNetwork() {
     await module.exports.allowToAddNetwork();
-    await module.exports.allowToSwitchNetwork();
+    await allowToSwitchNetworkIfNeeded();
     return true;
   },
   async getWalletAddress() {
@@ -1594,6 +1594,14 @@ async function switchToCypressIfNotActive() {
     switchBackToCypressWindow = false;
   }
   return switchBackToCypressWindow;
+}
+
+async function allowToSwitchNetworkIfNeeded() {
+  await playwright.assignWindows().then(async () => {
+    if (await playwright.isNotificationOpen()) {
+      await module.exports.allowToSwitchNetwork();
+    }
+  });
 }
 
 async function activateAdvancedSetting(

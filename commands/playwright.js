@@ -488,4 +488,14 @@ module.exports = {
 
     return extensionsData;
   },
+  async isNotificationOpen() {
+    await sleep(200);
+    let pages = browser.contexts()[0].pages();
+    for (const page of pages) {
+      if (page.url().includes('notification')) {
+        return true;
+      }
+    }
+    return false;
+  },
 };
