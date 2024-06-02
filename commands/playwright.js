@@ -165,6 +165,7 @@ module.exports = {
     return true;
   },
   async switchToMetamaskNotification() {
+    const maxRetries =  process.env?.RETRIES_SWITCH_TO_METAMASK_NOTIFICATION??50;
     const metamaskExtensionId = await module.exports.metamaskExtensionId();
 
     let pages = await browser.contexts()[0].pages();
@@ -188,10 +189,10 @@ module.exports = {
       }
     }
     await sleep(200);
-    if (retries < 50) {
+    if (retries < maxRetries) {
       retries++;
       return await module.exports.switchToMetamaskNotification();
-    } else if (retries >= 50) {
+    } else if (retries >= maxRetries) {
       retries = 0;
       throw new Error(
         '[switchToMetamaskNotification] Max amount of retries to switch to metamask notification window has been reached. It was never found.',
@@ -200,7 +201,7 @@ module.exports = {
   },
   async waitFor(selector, page = metamaskWindow) {
     await module.exports.waitUntilStable(page);
-    await page.waitForSelector(selector, { strict: false });
+    await page.waitForSelector(selector, { strict: false,timeout:60000 });
     const element = page.locator(selector).first();
     await element.waitFor();
     await element.focus();
@@ -323,14 +324,15 @@ module.exports = {
     await element.waitFor();
   },
   async waitToBeHidden(selector, page = metamaskWindow) {
+    const maxRetries =  process.env?.RETRIES_WAIT_TO_BE_HIDDEN??300;
     // info: waits for 60 seconds
     const locator = page.locator(selector);
     for (const element of await locator.all()) {
-      if ((await element.count()) > 0 && retries < 300) {
+      if ((await element.count()) > 0 && retries < maxRetries) {
         retries++;
         await page.waitForTimeout(200);
         await module.exports.waitToBeHidden(selector, page);
-      } else if (retries >= 300) {
+      } else if (retries >= maxRetries) {
         retries = 0;
         throw new Error(
           `[waitToBeHidden] Max amount of retries reached while waiting for ${selector} to disappear.`,
