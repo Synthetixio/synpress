@@ -77,11 +77,10 @@ Curious and want to learn more? 🤓
 
 [Read this Twitter thread 🧵](https://twitter.com/0xDuckception/status/1712961542176596054) and do not forget to check out the attached document there!
 
-# Table of content
+# Table of contents
 
-- [](#)
-- [](#-1)
-- [Table of content](#table-of-content)
+- [Table of contents](#table-of-content)
+  
   - [🧑‍🤝‍🧑 Community](#-community)
   - [🖥️ Install](#️-install)
   - [⚙️ Supported frameworks](#️-supported-frameworks)
