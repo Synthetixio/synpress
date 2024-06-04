@@ -80,7 +80,6 @@ Curious and want to learn more? 🤓
 # Table of contents
 
 - [Table of contents](#table-of-content)
-  
   - [🧑‍🤝‍🧑 Community](#-community)
   - [🖥️ Install](#️-install)
   - [⚙️ Supported frameworks](#️-supported-frameworks)
