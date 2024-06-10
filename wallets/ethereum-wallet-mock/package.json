@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@depay/web3-mock": "14.17.0",
-    "@synthetixio/synpress-core": "0.0.1-alpha.7",
+    "@synthetixio/synpress-core": "workspace:*",
     "viem": "2.9.9"
   },
   "devDependencies": {

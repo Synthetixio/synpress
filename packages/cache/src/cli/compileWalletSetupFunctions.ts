@@ -1,3 +1,4 @@
+import os from 'node:os'
 import path from 'node:path'
 import { glob } from 'glob'
 import { build } from 'tsup'
@@ -10,8 +11,13 @@ const createGlobPattern = (walletSetupDir: string) => path.join(walletSetupDir, 
 
 export async function compileWalletSetupFunctions(walletSetupDir: string, debug: boolean) {
   const outDir = path.join(ensureCacheDirExists(), OUT_DIR_NAME)
-
-  const globPattern = createGlobPattern(walletSetupDir)
+  let globPattern
+  if (os.platform() === 'win32') {
+    globPattern = createGlobPattern('\test\wallet-setup')
+  } else {
+    globPattern = createGlobPattern(walletSetupDir)
+  }
+  
   const fileList = await glob(globPattern)
 
   if (debug) {
