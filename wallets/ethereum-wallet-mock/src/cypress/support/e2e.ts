@@ -14,4 +14,10 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import "./commands";
+import "./mockEthereum";
+
+Cypress.on("uncaught:exception", () => {
+  // failing the test
+  return false;
+});
