@@ -1,9 +1,9 @@
-import EthereumWalletMock from "../EthereumWalletMock";
+import EthereumWalletMock from '../EthereumWalletMock'
 
-let ethereumWalletMock: EthereumWalletMock | undefined;
+let ethereumWalletMock: EthereumWalletMock | undefined
 
 export default function getEthereumWalletMock() {
-  if (ethereumWalletMock) return ethereumWalletMock;
+  if (ethereumWalletMock) return ethereumWalletMock
 
-  return new EthereumWalletMock();
+  return new EthereumWalletMock()
 }

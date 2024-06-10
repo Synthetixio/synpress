@@ -1,10 +1,10 @@
 before(() => {
-  cy.visit("/", {
+  cy.visit('/', {
     onBeforeLoad: (window) => {
       window.Web3Mock.mock({
-        blockchain: "ethereum",
-        wallet: "metamask",
-      });
-    },
-  });
-});
+        blockchain: 'ethereum',
+        wallet: 'metamask'
+      })
+    }
+  })
+})

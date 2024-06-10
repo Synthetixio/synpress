@@ -1,6 +1,1 @@
-export type WalletMock =
-  | "metamask"
-  | "coinbase"
-  | "phantom"
-  | "walletconnect"
-  | "walletlink";
+export type WalletMock = 'metamask' | 'coinbase' | 'phantom' | 'walletconnect' | 'walletlink'
