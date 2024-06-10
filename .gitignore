@@ -44,3 +44,8 @@ playwright/.cache
 ### Vercel
 
 .vercel
+
+### Cypress
+
+**/ethereum-wallet-mock/cypress
+**/metamask/cypress

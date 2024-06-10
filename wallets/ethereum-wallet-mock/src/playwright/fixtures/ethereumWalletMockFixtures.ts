@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs'
 import { test as base } from '@playwright/test'
-import { EthereumWalletMock } from '../api/playwright/EthereumWalletMock'
+import { EthereumWalletMock } from '../EthereumWalletMock'
 import { SEED_PHRASE, mockEthereum, web3MockPath } from '../utils'
 
 export const ANVIL_CHAIN_ID = 31337

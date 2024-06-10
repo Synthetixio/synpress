@@ -9,21 +9,21 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
-import { type WalletMock } from "../../api/EthereumWalletMockAbstract";
-import type { Network } from "../../network/Network";
-import { EthereumWalletMock } from "../EthereumWalletMock";
+// import type { Network } from "../../type/Network";
+import getEthereumWalletMock from "../utils/getEthereumWalletMock";
+import type { WalletMock } from "../../type/WalletMock";
 
 declare global {
   namespace Cypress {
     interface Chainable {
       importWallet(seedPhrase: string): Chainable<void>;
       importWalletFromPrivateKey(privateKey: `0x${string}`): Chainable<void>;
-      addNewAccount(): Chainable<void>;
-      getAllAccounts(): Chainable<Array<`0x${string}`>>;
-      switchAccount(accountAddress: string): Chainable<void>;
-      addNetwork(network: Network): Chainable<void>;
-      getAccountAddress(): Chainable<`0x${string}`>;
-      switchNetwork(networkName: string): Chainable<void>;
+      // addNewAccount(): Chainable<void>;
+      // getAllAccounts(): Chainable<Array<`0x${string}`>>;
+      // switchAccount(accountAddress: string): Chainable<void>;
+      // addNetwork(network: Network): Chainable<void>;
+      // getAccountAddress(): Chainable<`0x${string}`>;
+      // switchNetwork(networkName: string): Chainable<void>;
       connectToDapp(wallet?: WalletMock): Chainable<void>;
     }
 
@@ -39,11 +39,13 @@ declare global {
   }
 }
 
-Cypress.Commands.add("importWallet", (seedPhrase) =>
-  cy.task("importWallet", seedPhrase)
-);
+Cypress.Commands.add("importWallet", (seedPhrase) => {
+  const ethereumWalletMock = getEthereumWalletMock();
+  ethereumWalletMock.importWallet(seedPhrase);
+});
+
 Cypress.Commands.add("importWalletFromPrivateKey", (privateKey) => {
-  const ethereumWalletMock = new EthereumWalletMock();
+  const ethereumWalletMock = getEthereumWalletMock();
   ethereumWalletMock.importWalletFromPrivateKey(privateKey);
 });
 
@@ -57,6 +59,8 @@ Cypress.Commands.add("importWalletFromPrivateKey", (privateKey) => {
 // Cypress.Commands.add("switchNetwork", (networkName) =>
 //   cy.task("switchNetwork", networkName)
 // );
-// Cypress.Commands.add("connectToDapp", (wallet) =>
-//   cy.task("connectToDapp", wallet)
-// );
+
+Cypress.Commands.add("connectToDapp", (wallet) => {
+  const ethereumWalletMock = getEthereumWalletMock();
+  ethereumWalletMock.connectToDapp(wallet);
+});

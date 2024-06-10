@@ -5,7 +5,7 @@ export default defineConfig({
   chromeWebSecurity: false,
   e2e: {
     baseUrl: 'http://localhost:9999',
-    specPattern: 'test/cypress/metamask/importWalletFromPrivateKey.cy.ts',
+    specPattern: 'test/cypress/mock/mockEthereum.cy.ts',
     supportFile: 'src/cypress/support/e2e.{js,jsx,ts,tsx}',
     fixturesFolder: 'src/cypress/fixtures',
     testIsolation: false,

@@ -1,8 +1,8 @@
 import { readFileSync } from "fs";
 import { type BrowserContext, type Page, chromium } from "@playwright/test";
 
-import { mockEthereum, web3MockPath } from "../utils";
-import { NO_CONTEXT, NO_PAGE } from "./errors";
+import { mockEthereum, web3MockPath } from "../../playwright/utils";
+import { NO_CONTEXT, NO_PAGE } from "../const/errors";
 
 let context: BrowserContext | undefined;
 let cypressPage: Page | undefined;

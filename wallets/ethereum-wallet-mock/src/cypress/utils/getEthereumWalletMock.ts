@@ -1,4 +1,4 @@
-import { EthereumWalletMock } from "../EthereumWalletMock";
+import EthereumWalletMock from "../EthereumWalletMock";
 
 let ethereumWalletMock: EthereumWalletMock | undefined;
 

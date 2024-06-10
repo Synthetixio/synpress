@@ -1,11 +1,5 @@
-import type { Network } from "../network/Network";
-
-export type WalletMock =
-  | "metamask"
-  | "coinbase"
-  | "phantom"
-  | "walletconnect"
-  | "walletlink";
+import type { Network } from "./Network";
+import type { WalletMock } from "./WalletMock";
 
 export abstract class EthereumWalletMockAbstract {
   seedPhrase: string | undefined;
@@ -25,7 +19,7 @@ export abstract class EthereumWalletMockAbstract {
   /**
    * Retrieves the current account address.
    */
-  abstract getAllAccounts(): Promise<`0x${string}`[]>;
+  abstract getAllAccounts(): Promise<`0x${string}`[] | undefined>;
 
   /**
    * Adds a new account. This account is based on the initially imported seed phrase.
@@ -56,7 +50,7 @@ export abstract class EthereumWalletMockAbstract {
   /**
    * Retrieves the current account address.
    */
-  abstract getAccountAddress(): Promise<`0x${string}`>;
+  abstract getAccountAddress(): Promise<`0x${string}` | undefined>;
 
   /**
    * Switches to the network with the given name.

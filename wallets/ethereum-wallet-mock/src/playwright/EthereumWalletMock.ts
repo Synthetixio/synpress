@@ -1,11 +1,11 @@
 import type { Page } from "@playwright/test";
 import { mnemonicToAccount, privateKeyToAccount } from "viem/accounts";
-import type { Network } from "../../network/Network";
-import { ACCOUNT_MOCK, BLOCKCHAIN, OPTIMISM_NETWORK_ID } from "../../utils";
+import type { Network } from "../type/Network";
+import { ACCOUNT_MOCK, BLOCKCHAIN, OPTIMISM_NETWORK_ID } from "./utils";
 import {
   EthereumWalletMockAbstract,
   type WalletMock,
-} from "../EthereumWalletMockAbstract";
+} from "../type/EthereumWalletMockAbstract";
 
 export class EthereumWalletMock extends EthereumWalletMockAbstract {
   page: Page;
@@ -50,7 +50,7 @@ export class EthereumWalletMock extends EthereumWalletMockAbstract {
   /**
    * Retrieves the current account address.
    */
-  async getAllAccounts(): Promise<`0x${string}`[]> {
+  async getAllAccounts(): Promise<Promise<`0x${string}` | undefined>[]> {
     return this.page.evaluate(() => {
       return window.ethereum.request({ method: "eth_requestAccounts" });
     });
@@ -153,7 +153,7 @@ export class EthereumWalletMock extends EthereumWalletMockAbstract {
   /**
    * Retrieves the current account address.
    */
-  async getAccountAddress(): Promise<`0x${string}`> {
+  async getAccountAddress(): Promise<`0x${string}` | undefined> {
     return (await this.getAllAccounts())[0];
   }
 
@@ -188,7 +188,7 @@ export class EthereumWalletMock extends EthereumWalletMockAbstract {
    *
    * @param wallet - The wallet to connect to the dapp.
    */
-  async connectToDapp(wallet: WalletMock = "metamask") {
+  connectToDapp(wallet: WalletMock = "metamask") {
     this.wallet = wallet;
 
     return this.page.evaluate(
