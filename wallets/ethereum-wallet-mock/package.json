@@ -28,12 +28,12 @@
   },
   "dependencies": {
     "@depay/web3-mock": "14.17.0",
-    "@synthetixio/synpress-core": "0.0.1-alpha.7",
+    "@synthetixio/synpress-core": "workspace:*",
     "viem": "2.9.9"
   },
   "devDependencies": {
     "@depay/web3-mock": "14.17.0",
-    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.7",
+    "@synthetixio/synpress-tsconfig": "workspace:*",
     "@types/node": "20.11.17",
     "@vitest/coverage-v8": "1.2.2",
     "cypress": "13.9.0",
