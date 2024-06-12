@@ -1,0 +1,46 @@
+{
+  "name": "@synthetixio/keplr",
+  "version": "0.0.1-alpha.0",
+  "type": "module",
+  "exports": {
+    "types": "./types/index.d.ts",
+    "default": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./types/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "types"
+  ],
+  "scripts": {
+    "build": "pnpm run clean && pnpm run build:dist && pnpm run build:types",
+    "build:dist": "tsup --tsconfig tsconfig.build.json",
+    "build:types": "tsc --emitDeclarationOnly --project tsconfig.build.json",
+    "clean": "rimraf dist types",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e:headful": "playwright test",
+    "test:e2e:headless": "HEADLESS=true playwright test",
+    "test:e2e:headless:ui": "HEADLESS=true playwright test --ui",
+    "test:watch": "vitest watch",
+    "types:check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@synthetixio/synpress-cache": "workspace:*",
+    "@synthetixio/synpress-core": "workspace:*"
+  },
+  "devDependencies": {
+    "@synthetixio/synpress-tsconfig": "workspace:*",
+    "@types/node": "20.11.17",
+    "@vitest/coverage-v8": "1.2.2",
+    "cypress": "13.9.0",
+    "rimraf": "5.0.5",
+    "tsup": "8.0.2",
+    "typescript": "5.3.3",
+    "vitest": "1.2.2"
+  },
+  "peerDependencies": {
+    "@playwright/test": "1.44.0"
+  }
+}
