@@ -1,0 +1,5 @@
+export const SEED_PHRASE = 'seed phrase'
+export const PASSWORD = 'password'
+export const NO_CONTEXT = 'No context found'
+export const NO_PAGE = 'No page found'
+export const MISSING_INIT = 'Keplr not initialized'

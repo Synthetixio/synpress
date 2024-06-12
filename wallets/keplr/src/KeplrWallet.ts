@@ -4,9 +4,26 @@ export type Keplr = 'keplr'
 export class KeplrWallet {
   seedPhrase = ''
   wallet: Keplr = 'keplr'
+  retries: number
+  browser: any
+  mainWindow: any
+  keplrWindow: any
+  keplrNotification: any
+  activeTabName: string
+  extensionData: any
+  
 
-  constructor(readonly page: Page) {
+  constructor(
+    readonly page: Page
+  ) {
     this.page = page
+    this.browser = undefined
+    this.mainWindow = undefined
+    this.keplrWindow = undefined
+    this.keplrNotification = undefined
+    this.activeTabName = undefined
+    this.extensionData = undefined
+    this.retries = 0
   }
 
   /**
