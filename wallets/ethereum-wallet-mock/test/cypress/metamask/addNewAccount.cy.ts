@@ -1,12 +1,19 @@
-it('should add a new account with specified name', () => {
-  cy.getAllAccounts().should('have.length', 1)
+it('should add a new accounts', () => {
+  cy.getAllAccounts().then((accounts) => {
+    expect(accounts).to.have.length(1)
+  })
 
-  cy.addNewAccount()
+  cy.addNewAccount().then(() => {
+    cy.getAllAccounts().then((accounts) => {
+      expect(accounts).to.have.length(2)
+    })
+  })
 
-  cy.getAllAccounts().should('have.length', 2)
-
-  cy.addNewAccount()
-  cy.addNewAccount()
-
-  cy.getAllAccounts().should('have.length', 4)
+  cy.addNewAccount().then(() => {
+    cy.addNewAccount().then(() => {
+      cy.getAllAccounts().then((accounts) => {
+        expect(accounts).to.have.length(4)
+      })
+    })
+  })
 })

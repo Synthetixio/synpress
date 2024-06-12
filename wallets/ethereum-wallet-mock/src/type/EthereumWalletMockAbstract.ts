@@ -19,7 +19,7 @@ export abstract class EthereumWalletMockAbstract {
   /**
    * Retrieves the current account address.
    */
-  abstract getAllAccounts(): Promise<`0x${string}`[] | undefined>
+  abstract getAllAccounts(): Cypress.Chainable<`0x${string}`[]> | Promise<`0x${string}`[] | undefined>
 
   /**
    * Adds a new account. This account is based on the initially imported seed phrase.
@@ -50,7 +50,7 @@ export abstract class EthereumWalletMockAbstract {
   /**
    * Retrieves the current account address.
    */
-  abstract getAccountAddress(): Promise<`0x${string}` | undefined>
+  abstract getAccountAddress(): Cypress.Chainable<`0x${string}`> | Promise<`0x${string}` | undefined>
 
   /**
    * Switches to the network with the given name.

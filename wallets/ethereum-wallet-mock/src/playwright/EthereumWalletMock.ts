@@ -1,10 +1,12 @@
 import type { Page } from '@playwright/test'
 import { mnemonicToAccount, privateKeyToAccount } from 'viem/accounts'
 import type { Network } from '../type/Network'
-import { ACCOUNT_MOCK, BLOCKCHAIN, OPTIMISM_NETWORK_ID } from './utils'
-import { EthereumWalletMockAbstract, type WalletMock } from '../type/EthereumWalletMockAbstract'
+import { OPTIMISM_NETWORK_ID } from './utils'
+import { EthereumWalletMockAbstract } from '../type/EthereumWalletMockAbstract'
+import type { WalletMock } from '../type/WalletMock'
+import { ACCOUNT_MOCK, BLOCKCHAIN } from '../constants'
 
-export class EthereumWalletMock extends EthereumWalletMockAbstract {
+export default class EthereumWalletMock extends EthereumWalletMockAbstract {
   page: Page
 
   constructor(page: Page, wallet: WalletMock = 'metamask') {
@@ -47,7 +49,7 @@ export class EthereumWalletMock extends EthereumWalletMockAbstract {
   /**
    * Retrieves the current account address.
    */
-  async getAllAccounts(): Promise<Promise<`0x${string}` | undefined>[]> {
+  async getAllAccounts(): Promise<`0x${string}`[] | undefined> {
     return this.page.evaluate(() => {
       return window.ethereum.request({ method: 'eth_requestAccounts' })
     })
@@ -60,7 +62,7 @@ export class EthereumWalletMock extends EthereumWalletMockAbstract {
     const accounts = await this.getAllAccounts()
 
     const newAccount = mnemonicToAccount(this.seedPhrase || '', {
-      accountIndex: accounts.length
+      accountIndex: accounts?.length
     })
 
     return this.page.evaluate(
@@ -73,7 +75,7 @@ export class EthereumWalletMock extends EthereumWalletMockAbstract {
           }
         })
       },
-      [BLOCKCHAIN, this.wallet, [newAccount.address, ...accounts]]
+      [BLOCKCHAIN, this.wallet, [newAccount.address, ...(accounts || [])]]
     )
   }
 
@@ -151,7 +153,7 @@ export class EthereumWalletMock extends EthereumWalletMockAbstract {
    * Retrieves the current account address.
    */
   async getAccountAddress(): Promise<`0x${string}` | undefined> {
-    return (await this.getAllAccounts())[0]
+    return (await this.getAllAccounts())?.[0]
   }
 
   /**
