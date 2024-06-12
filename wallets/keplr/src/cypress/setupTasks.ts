@@ -1,27 +1,13 @@
-import { getEthereumWalletMock } from './initEthereumWalletMock'
+import { getKeplrWallet } from "./initKeplrWallet"
 
 export default function setupTasks(on: Cypress.PluginEvents) {
   on('task', {
-    importWallet: async function (seedPhrase: string) {
-      const ethereumWalletMock = getEthereumWalletMock()
-      if (ethereumWalletMock) {
-        await ethereumWalletMock.importWallet(seedPhrase)
+    importWallet: async function (seedPhrase: string, password: string) {
+      const keplrWallet = getKeplrWallet()
+      if (keplrWallet) {
+        await keplrWallet.importWallet(seedPhrase, password)
       }
       return true
     },
-    addNewAccount: async function () {
-      const ethereumWalletMock = getEthereumWalletMock()
-      if (ethereumWalletMock) {
-        await ethereumWalletMock.addNewAccount()
-      }
-      return true
-    },
-    getAllAccounts: async function () {
-      const ethereumWalletMock = getEthereumWalletMock()
-      if (ethereumWalletMock) {
-        return await ethereumWalletMock.getAllAccounts()
-      }
-      return []
-    }
   })
 }

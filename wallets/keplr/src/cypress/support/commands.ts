@@ -9,9 +9,6 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
-import type { WalletMock } from '../../EthereumWalletMock'
-import type { Network } from '../../network/Network'
-
 declare global {
   namespace Cypress {
     interface Chainable {
