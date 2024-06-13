@@ -1,10 +1,9 @@
 import type { Page } from '@playwright/test'
-import { unlock } from './actions'
-import Selectors from './selectors'
+import { onboardingElements } from './selectors'
 
 export class LockPage {
-  static readonly selectors = Selectors
-  readonly selectors = Selectors
+  static readonly selectors = onboardingElements
+  readonly selectors = onboardingElements
 
   readonly page: Page
 
@@ -12,7 +11,7 @@ export class LockPage {
     this.page = page
   }
 
-  async unlock(password: string) {
-    await unlock(this.page, password)
-  }
+  // async unlock(password: string) {
+  //   await unlock(this.page, password)
+  // }
 }

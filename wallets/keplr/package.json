@@ -30,11 +30,13 @@
     "@synthetixio/synpress-cache": "workspace:*",
     "@synthetixio/synpress-core": "workspace:*",
     "node-fetch": "3.3.2",
-    "underscore": "1.13.6"
+    "underscore": "1.13.6",
+    "zod": "3.22.4"
   },
   "devDependencies": {
     "@synthetixio/synpress-tsconfig": "workspace:*",
     "@types/node": "20.11.17",
+    "@types/underscore": "1.11.15",
     "@vitest/coverage-v8": "1.2.2",
     "cypress": "13.9.0",
     "rimraf": "5.0.5",

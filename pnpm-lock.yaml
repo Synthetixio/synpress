@@ -279,6 +279,9 @@ importers:
       underscore:
         specifier: 1.13.6
         version: 1.13.6
+      zod:
+        specifier: 3.22.4
+        version: 3.22.4
     devDependencies:
       '@synthetixio/synpress-tsconfig':
         specifier: workspace:*
@@ -286,6 +289,9 @@ importers:
       '@types/node':
         specifier: 20.11.17
         version: 20.11.17
+      '@types/underscore':
+        specifier: 1.11.15
+        version: 1.11.15
       '@vitest/coverage-v8':
         specifier: 1.2.2
         version: 1.2.2(vitest@1.2.2)
@@ -2485,6 +2491,10 @@ packages:
 
   /@types/tinycolor2@1.4.6:
     resolution: {integrity: sha512-iEN8J0BoMnsWBqjVbWH/c0G0Hh7O21lpR2/+PrvAVgWdzL7eexIFm4JN/Wn10PTcmNdtS6U67r499mlWMXOxNw==}
+
+  /@types/underscore@1.11.15:
+    resolution: {integrity: sha512-HP38xE+GuWGlbSRq9WrZkousaQ7dragtZCruBVMi0oX1migFZavZ3OROKHSkNp/9ouq82zrWtZpg18jFnVN96g==}
+    dev: true
 
   /@types/unzipper@0.10.9:
     resolution: {integrity: sha512-vHbmFZAw8emNAOVkHVbS3qBnbr0x/qHQZ+ei1HE7Oy6Tyrptl+jpqnOX+BF5owcu/HZLOV0nJK+K9sjs1Ox2JA==}

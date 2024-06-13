@@ -2,7 +2,7 @@ import { test as base } from '@playwright/test'
 import { KeplrWallet } from '../KeplrWallet'
 import { SEED_PHRASE } from '../utils'
 
-export const test = base.extend<{ keplrWallet: KeplrWallet }>({
+export const keplrFixtures = base.extend<{ keplrWallet: KeplrWallet }>({
   page: async ({ context }, use) => {
     const page = await context.newPage()
 

@@ -1,11 +1,14 @@
 import fetch from 'node-fetch';
 import _ from 'underscore'
+import { expect } from '@playwright/test';
+import type { Page } from '@playwright/test';
+import { sleep } from './utils/helpers';
 
-let browser;
-let mainWindow;
-let keplrWindow;
-let keplrNotificationWindow;
-let activeTabName;
+let browser: any;
+let mainWindow: any;
+let keplrWindow: any;
+let keplrNotificationWindow: any;
+let activeTabName: string | undefined;
 let extensionsData = {};
 let retries = 0;
 
@@ -21,16 +24,18 @@ export const playwright = {
     extensionsData = {};
   },
 
-  async init(playwrightInstance) {
+  async init(playwrightInstance: any) {
     const chromium = playwrightInstance
       ? playwrightInstance
       : null
     if (!chromium) return;
     const debuggerDetails = await fetch('http://127.0.0.1:9222/json/version'); //DevSkim: ignore DS137138
+
     const debuggerDetailsConfig = await debuggerDetails.json();
+        // @ts-ignore
     const webSocketDebuggerUrl = debuggerDetailsConfig.webSocketDebuggerUrl;
     if (process.env.SLOW_MODE) {
-      if (!isNaN(process.env.SLOW_MODE)) {
+      if (!isNaN(Number(process.env.SLOW_MODE))) {
         browser = await chromium.connectOverCDP(webSocketDebuggerUrl, {
           slowMo: Number(process.env.SLOW_MODE),
         });
@@ -63,7 +68,7 @@ export const playwright = {
     }
     return true;
   },
-  async assignActiveTabName(tabName) {
+  async assignActiveTabName(tabName: string) {
     activeTabName = tabName;
     return true;
   },
@@ -76,26 +81,23 @@ export const playwright = {
     return keplrNotificationWindow;
   },
 
-  async waitAndClickByText(text, page = keplrWindow) {
-    await module.exports.waitForByText(text, page);
+  async waitAndClickByText(text: string, page = keplrWindow) {
+    await this.waitForByText(text, page);
     const element = `:is(:text-is("${text}"), :text("${text}"))`;
     await page.click(element);
-    await module.exports.waitUntilStable();
+    await this.waitUntilStable(page);
   },
 
-  async waitAndSetValue(text, selector, page = keplrWindow) {
-    const element = await module.exports.waitFor(selector, page);
+  async waitAndSetValue(text: string, selector: string, page = keplrWindow) {
+    const element = await this.waitFor(selector, page);
     await element.fill('');
-    await module.exports.waitUntilStable(page);
+    await this.waitUntilStable(page);
     await element.fill(text);
-    await module.exports.waitUntilStable(page);
+    await this.waitUntilStable(page);
   },
 
-  async waitAndGetValue(selector, page = keplrWindow) {
-    const expect = expectInstance
-      ? expectInstance
-      : require('@playwright/test').expect;
-    const element = await module.exports.waitFor(selector, page);
+  async waitAndGetValue(selector: string, page = keplrWindow) {
+    const element = await this.waitFor(selector, page);
     await expect(element).toHaveText(/[a-zA-Z0-9]/, {
       ignoreCase: true,
       useInnerText: true,
@@ -104,8 +106,8 @@ export const playwright = {
     return value;
   },
 
-  async waitAndClick(selector, page = keplrWindow, args = {}) {
-    const element = await module.exports.waitFor(
+  async waitAndClick(selector: string, page = keplrWindow, args: any = {}) {
+    const element = await this.waitFor(
       selector,
       page,
       args.number || 0,
@@ -135,14 +137,14 @@ export const playwright = {
     } else {
       await element.click({ force: args.force });
     }
-    await module.exports.waitUntilStable();
+    await this.waitUntilStable(page);
     return element;
   },
 
   async switchToCypressWindow() {
     if (mainWindow) {
       await mainWindow.bringToFront();
-      await module.exports.assignActiveTabName('cypress');
+      await this.assignActiveTabName('cypress');
     }
     return true;
   },
@@ -164,19 +166,21 @@ export const playwright = {
 
   async switchToKeplrWindow() {
     await keplrWindow.bringToFront();
-    await module.exports.assignActiveTabName('keplr');
+    await this.assignActiveTabName('keplr');
     return true;
   },
 
-  async waitUntilStable(page) {
-    const keplrExtensionData = (await module.exports.getExtensionsData())
-      .keplr;
+  async waitUntilStable(page: Page) {
+
+    // @ts-ignore
+    const keplrExtensionData = (await this.getExtensionsData())
 
     if (
       page &&
       page
         .url()
         .includes(
+          // @ts-ignore
           `chrome-extension://${keplrExtensionData.id}/register.html`,
         )
     ) {
@@ -200,14 +204,14 @@ export const playwright = {
     return keplrWindow;
   },
 
-  async waitFor(selector, page = keplrWindow, number = 0) {
-    await module.exports.waitUntilStable(page);
+  async waitFor(selector: string, page = keplrWindow, number = 0) {
+    await this.waitUntilStable(page);
     await page.waitForSelector(selector, { strict: false });
     const element = page.locator(selector).nth(number);
     await element.waitFor();
     await element.focus();
     if (process.env.STABLE_MODE) {
-      if (!isNaN(process.env.STABLE_MODE)) {
+      if (!isNaN(Number(process.env.STABLE_MODE))) {
         await page.waitForTimeout(Number(process.env.STABLE_MODE));
       } else {
         await page.waitForTimeout(300);
@@ -215,14 +219,14 @@ export const playwright = {
     }
     return element;
   },
-  async waitForByText(text, page = keplrWindow) {
+  async waitForByText(text: string, page = keplrWindow) {
     await module.exports.waitUntilStable(page);
     // await page.waitForSelector(selector, { strict: false });
     const element = page.getByText(text).first();
     await element.waitFor();
     await element.focus();
     if (process.env.STABLE_MODE) {
-      if (!isNaN(process.env.STABLE_MODE)) {
+      if (!isNaN(Number(process.env.STABLE_MODE))) {
         await page.waitForTimeout(Number(process.env.STABLE_MODE));
       } else {
         await page.waitForTimeout(300);
@@ -231,48 +235,13 @@ export const playwright = {
     return element;
   },
 
-  async waitAndClick(selector, page = keplrWindow, args = {}) {
-    const element = await module.exports.waitFor(
-      selector,
-      page,
-      args.number || 0,
-    );
-    if (args.numberOfClicks && !args.waitForEvent) {
-      await element.click({
-        clickCount: args.numberOfClicks,
-        force: args.force,
-      });
-    } else if (args.numberOfClicks && args.waitForEvent) {
-      await Promise.all([
-        page.waitForEvent(args.waitForEvent),
-        element.click({ clickCount: args.numberOfClicks, force: args.force }),
-      ]);
-    } else if (args.waitForEvent) {
-      if (args.waitForEvent.includes('navi')) {
-        await Promise.all([
-          page.waitForNavigation(),
-          element.click({ force: args.force }),
-        ]);
-      } else {
-        await Promise.all([
-          page.waitForEvent(args.waitForEvent),
-          element.click({ force: args.force }),
-        ]);
-      }
-    } else {
-      await element.click({ force: args.force });
-    }
-    await module.exports.waitUntilStable();
-    return element;
-  },
-
-  async waitForByRole(role, number = 0, page = keplrWindow) {
-    await module.exports.waitUntilStable(page);
+  async waitForByRole(role: any, number = 0, page = keplrWindow) {
+    await this.waitUntilStable(page);
     const element = page.getByRole(role).nth(number);
     await element.waitFor();
     await element.focus();
     if (process.env.STABLE_MODE) {
-      if (!isNaN(process.env.STABLE_MODE)) {
+      if (!isNaN(Number(process.env.STABLE_MODE))) {
         await page.waitForTimeout(Number(process.env.STABLE_MODE));
       } else {
         await page.waitForTimeout(300);
@@ -281,22 +250,22 @@ export const playwright = {
     return element;
   },
 
-  async waitAndType(selector, value, page = keplrWindow) {
+  async waitAndType(selector: string, value: any, page = keplrWindow) {
     if (typeof value === 'number') {
       value = value.toString();
     }
-    const element = await module.exports.waitFor(selector, page);
+    const element = await this.waitFor(selector, page);
     await element.type(value);
-    await module.exports.waitUntilStable(page);
+    await this.waitUntilStable(page);
   },
 
-  async waitAndTypeByLocator(selector, value, number = 0, page = keplrWindow) {
+  async waitAndTypeByLocator(selector: string, value: any, number = 0, page = keplrWindow) {
     if (typeof value === 'number') {
       value = value.toString();
     }
-    const element = await module.exports.waitForByRole(selector, number, page);
+    const element = await this.waitForByRole(selector, number, page);
     await element.type(value);
-    await module.exports.waitUntilStable(page);
+    await this.waitUntilStable(page);
   },
 
   async getExtensionsData() {
@@ -316,7 +285,7 @@ export const playwright = {
     await devModeButton.focus();
     await devModeButton.click();
 
-    const extensionDataItems = await page.locator('extensions-item').all();
+    const extensionDataItems: any = await page.locator('extensions-item').all();
     for (const extensionData of extensionDataItems) {
       const extensionName = (
         await extensionData
@@ -335,7 +304,7 @@ export const playwright = {
       const extensionId = (
         await extensionData.locator('#extension-id').textContent()
       ).replace('ID: ', '');
-
+      // @ts-ignore
       extensionsData[extensionName] = {
         version: extensionVersion,
         id: extensionId,

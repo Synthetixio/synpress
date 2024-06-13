@@ -1,8 +1,7 @@
-import { readFileSync } from 'fs'
 import { type BrowserContext, type Page, chromium } from '@playwright/test'
 
 import { KeplrWallet } from '../KeplrWallet'
-import { SEED_PHRASE, mockEthereum, web3MockPath } from '../utils'
+import { SEED_PHRASE, PASSWORD } from '../utils'
 import { MISSING_INIT, NO_CONTEXT, NO_PAGE } from './errors'
 
 let context: BrowserContext | undefined
@@ -51,9 +50,9 @@ export async function initKeplrWallet(port: number) {
     return
   }
 
-  await context.addInitScript({
-    content: `${readFileSync(web3MockPath, 'utf-8')}\n(${mockEthereum.toString()})();`
-  })
+  // await context.addInitScript({
+  //   content: `${readFileSync(web3MockPath, 'utf-8')}\n(${mockEthereum.toString()})();`
+  // })
 
   // As we want to refresh the page after mocking the ethereum object
   if (!keplrLoaded) {
@@ -62,7 +61,7 @@ export async function initKeplrWallet(port: number) {
   }
 
   keplrWallet = new KeplrWallet(cypressPage)
-  await keplrWallet.setupWallet(SEED_PHRASE, PASSWORD)
+  await keplrWallet.setupWallet(null, { secretWordsOrPrivateKey: SEED_PHRASE, password: PASSWORD })
 }
 
 export function getKeplrWallet() {

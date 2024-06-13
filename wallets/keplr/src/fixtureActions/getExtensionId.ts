@@ -28,14 +28,14 @@ export async function getExtensionId(context: BrowserContext, extensionName: str
 
   const allExtensions = Extensions.parse(unparsedExtensions)
   const targetExtension = allExtensions.find(
-    (extension) => extension.name.toLowerCase() === extensionName.toLowerCase()
+    (extension: any) => extension.name.toLowerCase() === extensionName.toLowerCase()
   )
 
   if (!targetExtension) {
     throw new Error(
       [
         `[GetExtensionId] Extension with name ${extensionName} not found.`,
-        `Available extensions: ${allExtensions.map((extension) => extension.name).join(', ')}`
+        `Available extensions: ${allExtensions.map((extension: { name: string }) => extension.name).join(', ')}`
       ].join('\n')
     )
   }

@@ -12,10 +12,10 @@ export class KeplrWallet {
   mainWindow: any
   keplrWindow: any
   keplrNotification: any
-  activeTabName: string
+  activeTabName: string | undefined
   extensionData: any
-  extensionId: string
-  extensionVersion: string
+  extensionId: string | undefined
+  extensionVersion: string | undefined
 
   constructor(
     readonly page: Page
@@ -53,7 +53,7 @@ export class KeplrWallet {
    * 
    * @returns true if the wallet was imported successfully.
    */
-  async importWallet(secretWords, password) {
+  async importWallet(secretWords: string, password: string) {
     await playwright.waitAndClickByText(
       onboardingElements.createWalletButton,
       await playwright.keplrWindow(),
@@ -162,8 +162,8 @@ export class KeplrWallet {
    * @param password. The password to set.
    */
   async setupWallet(
-    playwrightInstance,
-    { secretWordsOrPrivateKey, password },
+    playwrightInstance: any,
+    { secretWordsOrPrivateKey, password }: { secretWordsOrPrivateKey: string; password: string },
   ) {
     if (playwrightInstance) {
       await playwright.init(playwrightInstance);
