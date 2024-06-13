@@ -29,6 +29,8 @@
   "dependencies": {
     "@synthetixio/synpress-cache": "workspace:*",
     "@synthetixio/synpress-core": "workspace:*",
+    "@viem/anvil": "0.0.7",
+    "fs-extra": "11.2.0",
     "node-fetch": "3.3.2",
     "underscore": "1.13.6",
     "zod": "3.22.4"

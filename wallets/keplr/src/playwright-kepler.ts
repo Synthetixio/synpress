@@ -220,7 +220,7 @@ export const playwright = {
     return element;
   },
   async waitForByText(text: string, page = keplrWindow) {
-    await module.exports.waitUntilStable(page);
+    await this.waitUntilStable(page);
     // await page.waitForSelector(selector, { strict: false });
     const element = page.getByText(text).first();
     await element.waitFor();

@@ -273,6 +273,12 @@ importers:
       '@synthetixio/synpress-core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@viem/anvil':
+        specifier: 0.0.7
+        version: 0.0.7
+      fs-extra:
+        specifier: 11.2.0
+        version: 11.2.0
       node-fetch:
         specifier: 3.3.2
         version: 3.3.2

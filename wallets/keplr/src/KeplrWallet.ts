@@ -1,12 +1,11 @@
-import type { Page } from '@playwright/test'
+import type { BrowserContext, Page } from '@playwright/test'
 import { playwright } from './playwright-kepler'
 import { onboardingElements } from './pages/LockPage/selectors/index'
 import { notificationPageElements } from './pages/NotificationPage/selectors/index'
-export type Keplr = 'keplr'
 
 export class KeplrWallet {
   seedPhrase = ''
-  wallet: Keplr = 'keplr'
+  wallet: 'keplr'
   retries: number
   browser: any
   mainWindow: any
@@ -14,11 +13,13 @@ export class KeplrWallet {
   keplrNotification: any
   activeTabName: string | undefined
   extensionData: any
-  extensionId: string | undefined
   extensionVersion: string | undefined
 
   constructor(
-    readonly page: Page
+    readonly page: Page,
+    readonly context: BrowserContext,
+    readonly password: string,
+    readonly extensionId: string | undefined,
   ) {
     this.page = page
     this.browser = undefined
@@ -35,12 +36,10 @@ export class KeplrWallet {
   async getExtensionDetails() {
     // @ts-ignore
     const keplrExtensionData: any = (await playwright.getExtensionsData()).keplr;
-
-    this.extensionId = keplrExtensionData.id;
     this.extensionVersion = keplrExtensionData.version;
 
     return {
-      extensionId: this.extensionId,
+      extensionId: keplrExtensionData.id,
       extensionVersion: this.extensionVersion,
     };
   }
