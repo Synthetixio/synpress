@@ -1,6 +1,5 @@
 import type { Page } from '@playwright/test'
 import { getNotificationPageAndWaitForLoad } from '../../utils/getNotificationPageAndWaitForLoad'
-import { waitFor } from '../../utils/waitFor'
 import {
   type GasSetting,
   approvePermission,
@@ -31,17 +30,22 @@ export class NotificationPage {
     await connectToDapp(notificationPage, accounts)
   }
 
-  // TODO: Revisit this logic in the future to see if we can increase the performance by utilizing `Promise.race`.
   private async beforeMessageSignature(extensionId: string) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+    const scrollDownButton = notificationPage.locator(Selectors.SignaturePage.structuredMessage.scrollDownButton)
 
-    // TODO: Make this configurable.
-    // Most of the time, this function will be used to sign structured messages, so we check for the scroll button first.
-    const isScrollButtonVisible = await waitFor(
-      () => notificationPage.locator(Selectors.SignaturePage.structuredMessage.scrollDownButton).isVisible(),
-      1_500,
-      false
-    )
+    let isScrollButtonVisible = false
+
+    const scrollButtonPromise = scrollDownButton
+      .waitFor({ state: 'visible' })
+      .then(async () => {
+        isScrollButtonVisible = true
+        await scrollDownButton.click()
+        return true
+      })
+      .catch(() => false)
+
+    await Promise.race([scrollButtonPromise, notificationPage.waitForLoadState('load').then(() => false)])
 
     return {
       notificationPage,
