@@ -28,7 +28,9 @@
   },
   "dependencies": {
     "@synthetixio/synpress-cache": "workspace:*",
-    "@synthetixio/synpress-core": "workspace:*"
+    "@synthetixio/synpress-core": "workspace:*",
+    "node-fetch": "3.3.2",
+    "underscore": "1.13.6"
   },
   "devDependencies": {
     "@synthetixio/synpress-tsconfig": "workspace:*",

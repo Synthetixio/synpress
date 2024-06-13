@@ -1,5 +1,4 @@
 import { test as base } from '@playwright/test'
-import { readFileSync } from 'fs'
 import { KeplrWallet } from '../KeplrWallet'
 import { SEED_PHRASE } from '../utils'
 
