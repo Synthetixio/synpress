@@ -1,0 +1,17 @@
+export default {
+  createWalletButton: 'Create a new wallet',
+  importRecoveryPhraseButton: 'Import existing recovery phrase',
+  useRecoveryPhraseButton: 'Use recovery phrase or private key',
+  phraseCount24: '24 words',
+  walletName: 'My wallet',
+  phraseSelectChain: 'Select Chains',
+  phraseAccountCreated: 'Account Created!',
+  walletInput: 'input[name="name"]:focus',
+  passwordInput: 'input[name="password"]',
+  confirmPasswordInput: 'input[name="confirmPassword"]',
+  submitWalletDataButton: 'button[type="submit"]',
+  submitChainButton: 'button[type="button"]',
+  finishButton: 'button[type="button"]',
+  textAreaSelector: 'textbox',
+  submitPhraseButton: 'button[type="submit"]',
+};
