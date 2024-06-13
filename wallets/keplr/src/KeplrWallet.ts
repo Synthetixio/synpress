@@ -1,4 +1,7 @@
 import type { Page } from '@playwright/test'
+import { playwright } from './playwright-kepler'
+import { onboardingElements } from './pages/LockPage/selectors/index'
+import { notificationPageElements } from './pages/NotificationPage/selectors/index'
 export type Keplr = 'keplr'
 
 export class KeplrWallet {
@@ -11,7 +14,8 @@ export class KeplrWallet {
   keplrNotification: any
   activeTabName: string
   extensionData: any
-  
+  extensionId: string
+  extensionVersion: string
 
   constructor(
     readonly page: Page
@@ -24,6 +28,21 @@ export class KeplrWallet {
     this.activeTabName = undefined
     this.extensionData = undefined
     this.retries = 0
+    this.extensionId = undefined
+    this.extensionVersion = undefined
+  }
+
+  async getExtensionDetails() {
+    // @ts-ignore
+    const keplrExtensionData: any = (await playwright.getExtensionsData()).keplr;
+
+    this.extensionId = keplrExtensionData.id;
+    this.extensionVersion = keplrExtensionData.version;
+
+    return {
+      extensionId: this.extensionId,
+      extensionVersion: this.extensionVersion,
+    };
   }
 
   /**
@@ -148,13 +167,11 @@ export class KeplrWallet {
   ) {
     if (playwrightInstance) {
       await playwright.init(playwrightInstance);
-    } else {
-      await playwright.init();
     }
 
     await playwright.assignWindows();
     await playwright.assignActiveTabName('keplr');
-    await module.exports.getExtensionDetails();
-    await module.exports.importWallet(secretWordsOrPrivateKey, password);
+    await this.getExtensionDetails();
+    await this.importWallet(secretWordsOrPrivateKey, password);
   }
 }

@@ -1,4 +1,4 @@
-export default {
+export const onboardingElements = {
   createWalletButton: 'Create a new wallet',
   importRecoveryPhraseButton: 'Import existing recovery phrase',
   useRecoveryPhraseButton: 'Use recovery phrase or private key',
