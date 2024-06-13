@@ -1,5 +1,7 @@
 import type { Page } from '@playwright/test'
 import { onboardingElements } from './selectors'
+import { importWallet } from './actions'
+import { SEED_PHRASE } from '../../utils'
 
 export class LockPage {
   static readonly selectors = onboardingElements
@@ -11,7 +13,7 @@ export class LockPage {
     this.page = page
   }
 
-  // async unlock(password: string) {
-  //   await unlock(this.page, password)
-  // }
+  async unlock(password: string) {
+    await importWallet(SEED_PHRASE, password)
+  }
 }

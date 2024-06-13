@@ -1,5 +1,5 @@
 {
-  "name": "@synthetixio/keplr",
+  "name": "@synthetixio/synpress-keplr",
   "version": "0.0.1-alpha.0",
   "type": "module",
   "exports": {
@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@synthetixio/synpress-tsconfig": "workspace:*",
+    "@types/fs-extra": "11.0.4",
     "@types/node": "20.11.17",
     "@types/underscore": "1.11.15",
     "@vitest/coverage-v8": "1.2.2",

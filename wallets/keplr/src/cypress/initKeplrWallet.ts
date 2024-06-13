@@ -1,7 +1,7 @@
 import { type BrowserContext, type Page, chromium } from '@playwright/test'
 
 import { KeplrWallet } from '../KeplrWallet'
-import { SEED_PHRASE, PASSWORD } from '../utils'
+// import { SEED_PHRASE, PASSWORD } from '../utils'
 import { MISSING_INIT, NO_CONTEXT, NO_PAGE } from './errors'
 
 let context: BrowserContext | undefined
@@ -59,9 +59,9 @@ export async function initKeplrWallet(port: number) {
     await cypressPage.reload()
     keplrLoaded = true
   }
-
-  keplrWallet = new KeplrWallet(cypressPage)
-  await keplrWallet.setupWallet(null, { secretWordsOrPrivateKey: SEED_PHRASE, password: PASSWORD })
+  return {}
+  // keplrWallet = new KeplrWallet(cypressPage)
+  // await keplrWallet.setupWallet(null, { secretWordsOrPrivateKey: SEED_PHRASE, password: PASSWORD })
 }
 
 export function getKeplrWallet() {
@@ -71,6 +71,6 @@ export function getKeplrWallet() {
   }
 
   if (keplrWallet) return keplrWallet
-
-  return new KeplrWallet(cypressPage)
+  return null
+  // return new KeplrWallet(cypressPage)
 }

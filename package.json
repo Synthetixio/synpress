@@ -3,6 +3,7 @@
   "scripts": {
     "build": "turbo build",
     "build:cache": "turbo build:cache --filter=@synthetixio/synpress-metamask",
+    "build:cache:keplr": "turbo build:cache --filter=@synthetixio/synpress-keplr",
     "docs:build": "turbo docs:build --filter=docs",
     "format": "biome format . --write",
     "format:check": "biome format . --error-on-warnings",
@@ -16,6 +17,7 @@
     "sort-package-json:check": "sort-package-json 'package.json' '{packages,wallets,examples}/*/package.json' --check",
     "test": "turbo test",
     "test:e2e:headful": "turbo test:e2e:headful --filter=@synthetixio/synpress-metamask --filter=@synthetixio/ethereum-wallet-mock",
+    "test:e2e:headful:keplr": "turbo test:e2e:headful --filter=@synthetixio/synpress-keplr",
     "test:e2e:headless": "turbo test:e2e:headless --filter=@synthetixio/synpress-metamask --filter=@synthetixio/ethereum-wallet-mock",
     "update:deps": "ncu -u -ws --root"
   },

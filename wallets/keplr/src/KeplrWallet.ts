@@ -5,7 +5,6 @@ import { notificationPageElements } from './pages/NotificationPage/selectors/ind
 
 export class KeplrWallet {
   seedPhrase = ''
-  wallet: 'keplr'
   retries: number
   browser: any
   mainWindow: any

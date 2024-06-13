@@ -1,7 +1,8 @@
 import type { Page } from '@playwright/test'
 import { notificationPageElements } from './selectors'
+import { confirmTransaction, acceptAccess } from './actions'
 
-export class LockPage {
+export class NotificationPage {
   static readonly selectors = notificationPageElements
   readonly selectors = notificationPageElements
 
@@ -11,7 +12,11 @@ export class LockPage {
     this.page = page
   }
 
-  // async unlock(password: string) {
-  //   await unlock(this.page, password)
-  // }
+  async confirmTransaction() {
+    await confirmTransaction()
+  }
+
+  async acceptAccess() {
+    await acceptAccess()
+  }
 }

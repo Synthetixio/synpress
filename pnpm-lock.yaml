@@ -292,6 +292,9 @@ importers:
       '@synthetixio/synpress-tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
+      '@types/fs-extra':
+        specifier: 11.0.4
+        version: 11.0.4
       '@types/node':
         specifier: 20.11.17
         version: 20.11.17

@@ -10,10 +10,10 @@ import {
   defineWalletSetup,
   removeTempContextDir
 } from '@synthetixio/synpress-cache'
-import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
+import { type Anvil, type CreateAnvilOptions } from '@viem/anvil'
 import fs from 'fs-extra'
 import { persistLocalStorage } from '../fixtureActions/persistLocalStorage'
-import { prepareExtension, getExtensionId } from '../fixtureActions'
+import { prepareExtension, getExtensionId, unlockForFixture } from '../fixtureActions'
 
 type KeplrFixtures = {
   _contextPath: string
@@ -72,7 +72,7 @@ export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
 
       const extensionId = await getExtensionId(context, 'keplr')
 
-      _keplrPage = await context.newPage()[0] as Page
+      _keplrPage = await context.newPage() as Page
 
       await _keplrPage.goto('chrome-extension://' + extensionId + '/popup.html')
 
@@ -89,8 +89,11 @@ export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
 
       await use(page)
     },
-    keplrWallet: async ({ page }, use) => {
-      const keplrWallet = new KeplrWallet(page, context, extensionId, PASSWORD)
+    keplrPage: async ({ context: _ }, use) => {
+      await use(_keplrPage)
+    },
+    keplr: async ({ context, extensionId }, use) => {
+      const keplrWallet = new KeplrWallet(_keplrPage, context, extensionId, PASSWORD)
       await keplrWallet.importWallet(SEED_PHRASE, 'password')
       await use(keplrWallet)
     },
