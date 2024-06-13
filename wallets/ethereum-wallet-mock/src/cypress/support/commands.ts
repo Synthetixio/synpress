@@ -9,10 +9,10 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
+import type { Network } from '../../type/Network'
+import type { WalletMock } from '../../type/WalletMock'
 // import type { Network } from "../../type/Network";
 import getEthereumWalletMock from '../utils/getEthereumWalletMock'
-import type { WalletMock } from '../../type/WalletMock'
-import type { Network } from '../../type/Network'
 
 declare global {
   namespace Cypress {

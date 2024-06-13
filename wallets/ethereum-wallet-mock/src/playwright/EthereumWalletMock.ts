@@ -1,10 +1,10 @@
 import type { Page } from '@playwright/test'
 import { mnemonicToAccount, privateKeyToAccount } from 'viem/accounts'
-import type { Network } from '../type/Network'
-import { OPTIMISM_NETWORK_ID } from './utils'
-import { EthereumWalletMockAbstract } from '../type/EthereumWalletMockAbstract'
-import type { WalletMock } from '../type/WalletMock'
 import { ACCOUNT_MOCK, BLOCKCHAIN } from '../constants'
+import { EthereumWalletMockAbstract } from '../type/EthereumWalletMockAbstract'
+import type { Network } from '../type/Network'
+import type { WalletMock } from '../type/WalletMock'
+import { OPTIMISM_NETWORK_ID } from './utils'
 
 export default class EthereumWalletMock extends EthereumWalletMockAbstract {
   page: Page

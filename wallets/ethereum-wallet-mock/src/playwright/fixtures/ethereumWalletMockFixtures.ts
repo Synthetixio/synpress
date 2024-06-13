@@ -1,8 +1,8 @@
 import { readFileSync } from 'fs'
 import { test as base } from '@playwright/test'
+import { SEED_PHRASE } from '../../constants'
 import EthereumWalletMock from '../EthereumWalletMock'
 import { mockEthereum, web3MockPath } from '../utils'
-import { SEED_PHRASE } from '../../constants'
 
 type EthereumWalletMockFixtures = {
   ethereumWalletMock: EthereumWalletMock

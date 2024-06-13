@@ -1,8 +1,8 @@
 import { mnemonicToAccount, privateKeyToAccount } from 'viem/accounts'
-import { EthereumWalletMockAbstract } from '../type/EthereumWalletMockAbstract'
-import type { WalletMock } from '../type/WalletMock'
 import { ACCOUNT_MOCK, BLOCKCHAIN } from '../constants'
+import { EthereumWalletMockAbstract } from '../type/EthereumWalletMockAbstract'
 import type { Network } from '../type/Network'
+import type { WalletMock } from '../type/WalletMock'
 
 export default class EthereumWalletMock extends EthereumWalletMockAbstract {
   constructor(wallet: WalletMock = 'metamask') {
