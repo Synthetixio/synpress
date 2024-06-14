@@ -7,14 +7,9 @@ const PASSWORD = 'Test1234'
 
 export default defineWalletSetup(PASSWORD, async (context, lockPage) => {
   await prepareExtension()
-  console.log('Extension', context)
   const extensionId = await getExtensionId(context, 'keplr')
   const keplr = new KeplrWallet(lockPage, context, PASSWORD, extensionId)
-  console.log('SEEDP', SEED_PHRASE, PASSWORD)
   const page = await context.newPage()
-  await page.goto(`chrome-extension://${extensionId}/home.html`)
-  const wallet = await keplr.setupWallet(page, { secretWordsOrPrivateKey: SEED_PHRASE, password: PASSWORD})
-  console.log('in here2', wallet)
-  // const page = await context.newPage()
-  // await page.close()
+  await page.goto(`chrome-extension://${extensionId}/register.html`)
+  await keplr.setupWallet(page, { secretWordsOrPrivateKey: SEED_PHRASE, password: PASSWORD})
 })

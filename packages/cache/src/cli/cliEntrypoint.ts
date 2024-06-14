@@ -5,7 +5,7 @@ import { Command } from 'commander'
 import { rimraf } from 'rimraf'
 import { WALLET_SETUP_DIR_NAME } from '../constants'
 import { createCache } from '../createCache'
-import { prepareExtension } from '../prepareExtension'
+import { prepareKeplrExtension, prepareMetamaskExtension } from '../prepareExtension'
 import { compileWalletSetupFunctions } from './compileWalletSetupFunctions'
 import { footer } from './footer'
 
@@ -65,8 +65,8 @@ export const cliEntrypoint = async () => {
   const compiledWalletSetupDirPath = await compileWalletSetupFunctions(walletSetupDir, flags.debug)
 
   // TODO: We should be using `prepareExtension` function from the wallet itself!
-  await createCache(compiledWalletSetupDirPath, prepareExtension, flags.force)
-
+  await createCache(compiledWalletSetupDirPath, prepareKeplrExtension, flags.force)
+  await createCache(compiledWalletSetupDirPath, prepareMetamaskExtension, flags.force)
   if (!flags.debug) {
     await rimraf(compiledWalletSetupDirPath)
   }

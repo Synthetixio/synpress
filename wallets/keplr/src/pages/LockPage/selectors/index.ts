@@ -1,7 +1,8 @@
 export const onboardingElements = {
   createWalletButton: 'Create a new wallet',
-  importRecoveryPhraseButton: 'Import existing recovery phrase',
+  importRecoveryPhraseButton: 'Import an existing wallet',
   useRecoveryPhraseButton: 'Use recovery phrase or private key',
+  phraseInput: '.sc-iAvgwm.kEpgcC',
   phraseCount24: '24 words',
   walletName: 'My wallet',
   phraseSelectChain: 'Select Chains',

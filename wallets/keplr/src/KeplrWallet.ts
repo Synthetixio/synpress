@@ -1,4 +1,4 @@
-import { chromium, type BrowserContext, type Page } from '@playwright/test'
+import { type BrowserContext, type Page } from '@playwright/test'
 import { playwright } from './playwright-kepler'
 import { onboardingElements } from './pages/LockPage/selectors/index'
 import { notificationPageElements } from './pages/NotificationPage/selectors/index'
@@ -169,18 +169,8 @@ export class KeplrWallet {
     page: any,
     { secretWordsOrPrivateKey, password }: { secretWordsOrPrivateKey: string; password: string },
   ) {
-    console.log('in', 1)
-    const playwright = chromium
-    console.log('in', 2)
     const lockpage = new LockPage(page)
-    console.log('in', 3, secretWordsOrPrivateKey, password, lockpage)
     const wallet = await lockpage.unlock(secretWordsOrPrivateKey, password)
-    console.log('in', 4)
-    console.log('chromium', playwright,'wallet', wallet)
-    // await playwright.assignWindows();
-    // await playwright.assignActiveTabName('keplr');
-    // await this.getExtensionDetails();
-    // await this.importWallet(secretWordsOrPrivateKey, password);
     return wallet;
   }
 }

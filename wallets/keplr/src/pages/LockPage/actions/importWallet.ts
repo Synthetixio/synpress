@@ -1,77 +1,38 @@
-// import { playwright } from "../../../playwright-kepler";
-// import { onboardingElements } from "../selectors";
+import { onboardingElements } from "../selectors";
 import type { Page } from "@playwright/test";
 
 export async function importWallet(page: Page, secretWords: string, password: string) {
-
-  await page.waitForSelector('button.submit-button');
-  console.log(secretWords, password)
-  // await playwright.waitAndClickByText(
-  //   onboardingElements.createWalletButton,
-  //   await playwright.keplrWindow(),
-  // );
-  // await playwright.waitAndClickByText(
-  //   onboardingElements.importRecoveryPhraseButton,
-  //   await playwright.keplrWindow(),
-  // );
-  // await playwright.waitAndClickByText(
-  //   onboardingElements.useRecoveryPhraseButton,
-  //   await playwright.keplrWindow(),
-  // );
-  // await playwright.waitAndClickByText(
-  //   onboardingElements.phraseCount24,
-  //   await playwright.keplrWindow(),
-  // );
-
-  // for (const [index, word] of secretWords.split(' ').entries()) {
-  //   await playwright.waitAndTypeByLocator(
-  //     onboardingElements.textAreaSelector,
-  //     word,
-  //     index,
-  //   );
-  // }
-
-  // await playwright.waitAndClick(
-  //   onboardingElements.submitPhraseButton,
-  //   await playwright.keplrWindow(),
-  // );
-
-  // await playwright.waitAndType(
-  //   onboardingElements.walletInput,
-  //   onboardingElements.walletName,
-  // );
-  // await playwright.waitAndType(onboardingElements.passwordInput, password);
-  // await playwright.waitAndType(
-  //   onboardingElements.confirmPasswordInput,
-  //   password,
-  // );
-
-  // await playwright.waitAndClick(
-  //   onboardingElements.submitWalletDataButton,
-  //   await playwright.keplrWindow(),
-  //   { number: 1 },
-  // );
-
-  // await playwright.waitForByText(
-  //   onboardingElements.phraseSelectChain,
-  //   await playwright.keplrWindow(),
-  // );
-
-  // await playwright.waitAndClick(
-  //   onboardingElements.submitChainButton,
-  //   await playwright.keplrWindow(),
-  // );
-
-  // await playwright.waitForByText(
-  //   onboardingElements.phraseAccountCreated,
-  //   await playwright.keplrWindow(),
-  // );
-
-  // await playwright.waitAndClick(
-  //   onboardingElements.finishButton,
-  //   await playwright.keplrWindow(),
-  //   { dontWait: true },
-  // );
-
-  // return true;
+  await page.waitForLoadState('domcontentloaded');
+  const importButton = await page.getByText(onboardingElements.importRecoveryPhraseButton);
+  await importButton.click();
+  const useButton = await page.getByText(onboardingElements.useRecoveryPhraseButton);
+  await useButton.click();
+  const phraseCount = await page.getByText(onboardingElements.phraseCount24);
+  await phraseCount.click();
+  const wordsArray = secretWords.split(' ');
+  const inputFields = page.locator(onboardingElements.phraseInput);
+  const inputCount = await inputFields.count();
+  for (let i = 0; i < inputCount; i++) {
+    if (!wordsArray[i]) {
+      return;
+    }
+    const inputField = inputFields.nth(i);
+    await inputField.fill(wordsArray[i]!);
+  }
+  const submitPhraseButton = await page.getByText(onboardingElements.submitPhraseButton);
+  await submitPhraseButton.click();
+  const walletInput = await page.locator(onboardingElements.walletInput);
+  await walletInput.fill(onboardingElements.walletName);
+  const passwordInput = await page.locator(onboardingElements.passwordInput);
+  await passwordInput.fill(password);
+  const confirmPasswordInput = await page.locator(onboardingElements.confirmPasswordInput);
+  await confirmPasswordInput.fill(password);
+  const submitWalletDataButton = await page.getByText(onboardingElements.submitWalletDataButton);
+  await submitWalletDataButton.click();
+  const submitChainButton = await page.getByText(onboardingElements.submitChainButton);
+  await submitChainButton.click();
+  const phraseAccountCreated = await page.getByText(onboardingElements.phraseAccountCreated);
+  await phraseAccountCreated.click();
+  const finishButton = await page.getByText(onboardingElements.finishButton);
+  await finishButton.click();
 }
