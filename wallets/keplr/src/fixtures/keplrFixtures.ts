@@ -10,7 +10,6 @@ import {
   defineWalletSetup,
   removeTempContextDir
 } from '@synthetixio/synpress-cache'
-import { type Anvil, type CreateAnvilOptions } from '@viem/anvil'
 import fs from 'fs-extra'
 import { persistLocalStorage } from '../fixtureActions/persistLocalStorage'
 import { prepareExtension, getExtensionId, unlockForFixture } from '../fixtureActions'
@@ -20,8 +19,6 @@ type KeplrFixtures = {
   keplr: KeplrWallet
   extensionId: string
   keplrPage: Page
-  createAnvilNode: (options?: CreateAnvilOptions) => Promise<{ anvil: Anvil; rpcUrl: string; chainId: number }>
-  connectToAnvil: () => Promise<void>
 }
 
 let _keplrPage: Page
@@ -45,7 +42,7 @@ export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
       const keplrPath = await prepareExtension()
       // We don't need the `--load-extension` arg since the extension is already loaded in the cache.
       const browserArgs = [`--disable-extensions-except=${keplrPath}`]
-
+      console.log('keplrPath', keplrPath)
       if (process.env.HEADLESS) {
         browserArgs.push('--headless=new')
 

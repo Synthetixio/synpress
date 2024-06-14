@@ -1,7 +1,8 @@
-import type { BrowserContext, Page } from '@playwright/test'
+import { chromium, type BrowserContext, type Page } from '@playwright/test'
 import { playwright } from './playwright-kepler'
 import { onboardingElements } from './pages/LockPage/selectors/index'
 import { notificationPageElements } from './pages/NotificationPage/selectors/index'
+import { LockPage } from './pages/LockPage/page'
 
 export class KeplrWallet {
   seedPhrase = ''
@@ -52,23 +53,27 @@ export class KeplrWallet {
    * @returns true if the wallet was imported successfully.
    */
   async importWallet(secretWords: string, password: string) {
+    console.log('im', 1, playwright)
     await playwright.waitAndClickByText(
       onboardingElements.createWalletButton,
       await playwright.keplrWindow(),
     );
+    console.log('im', 2)
     await playwright.waitAndClickByText(
       onboardingElements.importRecoveryPhraseButton,
       await playwright.keplrWindow(),
     );
+    console.log('im', 3)
     await playwright.waitAndClickByText(
       onboardingElements.useRecoveryPhraseButton,
       await playwright.keplrWindow(),
     );
+    console.log('im', 4)
     await playwright.waitAndClickByText(
       onboardingElements.phraseCount24,
       await playwright.keplrWindow(),
     );
-
+    console.log('im', 5)
     for (const [index, word] of secretWords.split(' ').entries()) {
       await playwright.waitAndTypeByLocator(
         onboardingElements.textAreaSelector,
@@ -76,49 +81,50 @@ export class KeplrWallet {
         index,
       );
     }
-
+    console.log('im', 6)
     await playwright.waitAndClick(
       onboardingElements.submitPhraseButton,
       await playwright.keplrWindow(),
     );
-
+    console.log('im', 7)
     await playwright.waitAndType(
       onboardingElements.walletInput,
       onboardingElements.walletName,
     );
+    console.log('im', 8)
     await playwright.waitAndType(onboardingElements.passwordInput, password);
     await playwright.waitAndType(
       onboardingElements.confirmPasswordInput,
       password,
     );
-
+    console.log('im', 9)
     await playwright.waitAndClick(
       onboardingElements.submitWalletDataButton,
       await playwright.keplrWindow(),
       { number: 1 },
     );
-
+    console.log('im', 10)
     await playwright.waitForByText(
       onboardingElements.phraseSelectChain,
       await playwright.keplrWindow(),
     );
-
+    console.log('im', 11)
     await playwright.waitAndClick(
       onboardingElements.submitChainButton,
       await playwright.keplrWindow(),
     );
-
+    console.log('im', 12)
     await playwright.waitForByText(
       onboardingElements.phraseAccountCreated,
       await playwright.keplrWindow(),
     );
-
+    console.log('im', 13)
     await playwright.waitAndClick(
       onboardingElements.finishButton,
       await playwright.keplrWindow(),
       { dontWait: true },
     );
-
+    console.log('im', 14)
     return true;
   }
 
@@ -160,16 +166,21 @@ export class KeplrWallet {
    * @param password. The password to set.
    */
   async setupWallet(
-    playwrightInstance: any,
+    page: any,
     { secretWordsOrPrivateKey, password }: { secretWordsOrPrivateKey: string; password: string },
   ) {
-    if (playwrightInstance) {
-      await playwright.init(playwrightInstance);
-    }
-
-    await playwright.assignWindows();
-    await playwright.assignActiveTabName('keplr');
-    await this.getExtensionDetails();
-    await this.importWallet(secretWordsOrPrivateKey, password);
+    console.log('in', 1)
+    const playwright = chromium
+    console.log('in', 2)
+    const lockpage = new LockPage(page)
+    console.log('in', 3, secretWordsOrPrivateKey, password, lockpage)
+    const wallet = await lockpage.unlock(secretWordsOrPrivateKey, password)
+    console.log('in', 4)
+    console.log('chromium', playwright,'wallet', wallet)
+    // await playwright.assignWindows();
+    // await playwright.assignActiveTabName('keplr');
+    // await this.getExtensionDetails();
+    // await this.importWallet(secretWordsOrPrivateKey, password);
+    return wallet;
   }
 }
