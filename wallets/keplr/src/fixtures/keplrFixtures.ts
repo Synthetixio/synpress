@@ -12,7 +12,7 @@ import {
 } from '@synthetixio/synpress-cache'
 import fs from 'fs-extra'
 import { persistLocalStorage } from '../fixtureActions/persistLocalStorage'
-import { prepareExtension, getExtensionId, unlockForFixture } from '../fixtureActions'
+import { prepareExtension, getExtensionId } from '../fixtureActions'
 
 type KeplrFixtures = {
   _contextPath: string
@@ -73,8 +73,6 @@ export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
 
       await _keplrPage.goto('chrome-extension://' + extensionId + '/popup.html')
 
-      await unlockForFixture(_keplrPage, PASSWORD)
-
       await use(context)
 
       await context.close()
@@ -91,7 +89,7 @@ export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
     },
     keplr: async ({ context, extensionId }, use) => {
       const keplrWallet = new KeplrWallet(_keplrPage, context, extensionId, PASSWORD)
-      await keplrWallet.importWallet(SEED_PHRASE, 'password')
+      await keplrWallet.setupWallet(_keplrPage, { secretWordsOrPrivateKey: SEED_PHRASE, password: PASSWORD })
       await use(keplrWallet)
     },
   })

@@ -1,3 +1,5 @@
 export const notificationPageElements = {
-  approveButton: 'button[type="button"]',
+  approveButton: 'button',
+  copyAddress: 'Copy Address',
+  walletSelectors: (chainName: string) => `img[alt="${chainName}"]`,
 };

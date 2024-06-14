@@ -6,7 +6,7 @@ export default function setupTasks(on: Cypress.PluginEvents) {
     importWallet: async function () {
       const keplrWallet = getKeplrWallet()
       if (keplrWallet) {
-        await keplrWallet.importWallet(SEED_PHRASE, PASSWORD)
+        await keplrWallet.setupWallet(null, { secretWordsOrPrivateKey: SEED_PHRASE, password: PASSWORD })
       }
       return true
     }
