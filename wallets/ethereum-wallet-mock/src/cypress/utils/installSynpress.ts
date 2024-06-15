@@ -1,7 +1,6 @@
 import { ensureRdpPort } from '@synthetixio/synpress-core'
 
 import { initEthereumWalletMock } from './initEthereumWalletMock'
-import setupTasks from './setupTasks'
 
 let port: number
 
@@ -20,8 +19,6 @@ export default function installSynpress(on: Cypress.PluginEvents, config: Cypres
   on('before:spec', async () => {
     await initEthereumWalletMock(port)
   })
-
-  setupTasks(on)
 
   return {
     ...config,

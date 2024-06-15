@@ -1,15 +1,11 @@
 import { readFileSync } from 'fs'
 import { type BrowserContext, type Page, chromium } from '@playwright/test'
 
-import { EthereumWalletMock } from '../EthereumWalletMock'
-import { SEED_PHRASE, mockEthereum, web3MockPath } from '../utils'
-import { MISSING_INIT, NO_CONTEXT, NO_PAGE } from './errors'
+import { mockEthereum, web3MockPath } from '../../playwright/utils'
+import { NO_CONTEXT, NO_PAGE } from '../constants/errors'
 
 let context: BrowserContext | undefined
 let cypressPage: Page | undefined
-let ethereumWalletMock: EthereumWalletMock | undefined
-
-let ethereumObjectLoaded = false
 
 const getCypressPage = async () => {
   if (!context) {
@@ -54,24 +50,4 @@ export async function initEthereumWalletMock(port: number) {
   await context.addInitScript({
     content: `${readFileSync(web3MockPath, 'utf-8')}\n(${mockEthereum.toString()})();`
   })
-
-  // As we want to refresh the page after mocking the ethereum object
-  if (!ethereumObjectLoaded) {
-    await cypressPage.reload()
-    ethereumObjectLoaded = true
-  }
-
-  ethereumWalletMock = new EthereumWalletMock(cypressPage)
-  await ethereumWalletMock.importWallet(SEED_PHRASE)
-}
-
-export function getEthereumWalletMock() {
-  if (!context || !cypressPage || !ethereumWalletMock) {
-    console.error(MISSING_INIT)
-    return
-  }
-
-  if (ethereumWalletMock) return ethereumWalletMock
-
-  return new EthereumWalletMock(cypressPage)
 }
