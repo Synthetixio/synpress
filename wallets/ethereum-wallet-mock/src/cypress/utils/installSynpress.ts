@@ -20,9 +20,6 @@ export default function installSynpress(on: Cypress.PluginEvents, config: Cypres
     await initEthereumWalletMock(port)
   })
 
-  // TODO: Implement tasks if needed
-  // setupTasks(on);
-
   return {
     ...config,
     browsers
