@@ -20,5 +20,5 @@ export const onboardingElements = {
   submitChainButton: 'button[type="button"]',
   finishButton: 'button[type="button"]',
   textAreaSelector: 'textbox',
-  submitPhraseButton: 'button[type="submit"]',
+  submitPhraseButton: '.sc-bZkfAO jGdbNJ',
 };

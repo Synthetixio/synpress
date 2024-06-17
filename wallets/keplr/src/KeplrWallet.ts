@@ -50,7 +50,6 @@ export class KeplrWallet {
     page: Page,
   ) {
     const homePage = new HomePage(page)
-    console.log('homePage', homePage, 1)
     const walletAddress = await homePage.getWalletAddress()
     return walletAddress;
   }

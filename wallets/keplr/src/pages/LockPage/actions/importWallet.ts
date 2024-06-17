@@ -1,9 +1,12 @@
 import { onboardingElements } from "../selectors";
 import type { Page } from "@playwright/test";
+import { sleep } from "../../../utils/helpers";
 
 export async function importWallet(page: Page, secretWords: string, password: string) {
   await page.waitForLoadState('domcontentloaded');
+
   const importButton = await page.getByText(onboardingElements.importRecoveryPhraseButton);
+
   await importButton.click();
   const useButton = await page.getByText(onboardingElements.useRecoveryPhraseButton);
   await useButton.click();
@@ -13,13 +16,12 @@ export async function importWallet(page: Page, secretWords: string, password: st
   const inputFields = page.locator(onboardingElements.phraseInput);
   const inputCount = await inputFields.count();
   for (let i = 0; i < inputCount; i++) {
-    if (!wordsArray[i]) {
-      return;
-    }
     const inputField = inputFields.nth(i);
-    await inputField.fill(wordsArray[i]!);
+    if (wordsArray[i]){
+      await inputField.fill(wordsArray[i]!);
+    }
   }
-  const submitPhraseButton = await page.getByText(onboardingElements.submitPhraseButton);
+  const submitPhraseButton = await page.getByRole('button', { name: 'Import', exact: true });
   await submitPhraseButton.click();
   const walletInput = await page.locator(onboardingElements.walletInput);
   await walletInput.fill(onboardingElements.walletName);
@@ -27,12 +29,11 @@ export async function importWallet(page: Page, secretWords: string, password: st
   await passwordInput.fill(password);
   const confirmPasswordInput = await page.locator(onboardingElements.confirmPasswordInput);
   await confirmPasswordInput.fill(password);
-  const submitWalletDataButton = await page.getByText(onboardingElements.submitWalletDataButton);
+  const submitWalletDataButton = await page.getByRole('button', { name: 'Next', exact: true });
   await submitWalletDataButton.click();
-  const submitChainButton = await page.getByText(onboardingElements.submitChainButton);
-  await submitChainButton.click();
-  const phraseAccountCreated = await page.getByText(onboardingElements.phraseAccountCreated);
-  await phraseAccountCreated.click();
-  const finishButton = await page.getByText(onboardingElements.finishButton);
-  await finishButton.click();
-}
+  const submitChainButton = await page.getByRole('button', { name: 'Save', exact: true });
+  await submitChainButton.click(); 
+  sleep(2000);
+  await page.close();
+} 
+
