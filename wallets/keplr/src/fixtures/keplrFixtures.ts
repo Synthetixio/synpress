@@ -32,7 +32,8 @@ export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
     },
     context: async ({ context: currentContext, _contextPath }, use) => {
       console.log('walletSetup', walletSetup, process.cwd(), CACHE_DIR_NAME)
-      const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, walletSetup.hash, 'context')
+      const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, '3dbe6a44c47cff706d19', 'context')
+      console.log('cacheDirPath', cacheDirPath)
       if (!(await fs.exists(cacheDirPath))) {
         throw new Error(`Cache for ${walletSetup.hash} does not exist. Create it first!`)
       }
