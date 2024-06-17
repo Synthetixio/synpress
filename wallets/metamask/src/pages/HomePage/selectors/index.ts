@@ -13,7 +13,7 @@ const renameAccountMenu = {
   listItemDetailButton: `${createDataTestSelector('account-list-menu-details')}`,
   renameButton: `${createDataTestSelector('editable-label-button')}`,
   confirmRenameButton: 'div.editable-label button.mm-button-icon',
-  renameInput: 'input'
+  renameInput: '.mm-text-field .mm-box--padding-right-4'
 }
 
 const importAccountMenu = {
