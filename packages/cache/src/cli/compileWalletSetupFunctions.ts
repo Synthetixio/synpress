@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { glob } from 'glob'
 import { build } from 'tsup'
-import { ensureCacheDirExists } from '../ensureCacheDirExists'
+import { ensureCacheDirExists } from '@synthetixio/synpress-utils'
 import { FIXES_BANNER } from './compilationFixes'
 
 const OUT_DIR_NAME = 'wallet-setup-dist'

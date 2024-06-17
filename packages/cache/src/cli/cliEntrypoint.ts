@@ -3,9 +3,9 @@ import path from 'node:path'
 import chalk from 'chalk'
 import { Command } from 'commander'
 import { rimraf } from 'rimraf'
-import { WALLET_SETUP_DIR_NAME } from '../constants'
+import { WALLET_SETUP_DIR_NAME } from '@synthetixio/synpress-utils'
 import { createCache } from '../createCache'
-import { prepareExtension } from '../prepareExtension'
+import { prepareExtension } from '@synthetixio/synpress-utils'
 import { compileWalletSetupFunctions } from './compileWalletSetupFunctions'
 import { footer } from './footer'
 
@@ -37,7 +37,6 @@ export const cliEntrypoint = async () => {
     .helpOption(undefined, 'Display help for command')
     .addHelpText('afterAll', `\n${footer}\n`)
     .parse(process.argv)
-  console.log(WALLET_SETUP_DIR_NAME, program.args[0])
   let walletSetupDir = program.args[0]
   if (!walletSetupDir) {
     walletSetupDir = path.join(process.cwd(), 'test', WALLET_SETUP_DIR_NAME)

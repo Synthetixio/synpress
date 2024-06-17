@@ -33,7 +33,7 @@ export default defineConfig({
   // See https://playwright.dev/docs/api/class-testoptions.
   use: {
     // We are using locally deployed MetaMask Test Dapp.
-    baseURL: 'http://localhost:9999',
+    baseURL: 'https://wallet.keplr.app/',
 
     // Collect all traces on CI, and only traces for failed tests when running locally.
     // See https://playwright.dev/docs/trace-viewer.

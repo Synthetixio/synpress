@@ -1,17 +1,12 @@
 import { type BrowserContext, type Page } from '@playwright/test'
 import { LockPage } from './pages/LockPage/page'
 import { HomePage } from './pages/HomePage/page'
+import { NotificationPage } from './pages/NotificationPage/page'
 
 export class KeplrWallet {
-  seedPhrase = ''
-  retries: number
-  browser: any
-  mainWindow: any
-  keplrWindow: any
-  keplrNotification: any
-  activeTabName: string | undefined
-  extensionData: any
-  extensionVersion: string | undefined
+  readonly lockPage: LockPage
+  readonly homePage: HomePage
+  readonly notificationPage: NotificationPage
 
   constructor(
     readonly page: Page,
@@ -19,16 +14,9 @@ export class KeplrWallet {
     readonly password: string,
     readonly extensionId: string | undefined,
   ) {
-    this.page = page
-    this.browser = undefined
-    this.mainWindow = undefined
-    this.keplrWindow = undefined
-    this.keplrNotification = undefined
-    this.activeTabName = undefined
-    this.extensionData = undefined
-    this.retries = 0
-    this.extensionId = undefined
-    this.extensionVersion = undefined
+    this.lockPage = new LockPage(page)
+    this.homePage = new HomePage(page)
+    this.notificationPage = new NotificationPage(page)
   }
   /**
    * Does initial setup for the wallet.
@@ -38,19 +26,15 @@ export class KeplrWallet {
    * @param password. The password to set.
    */
   async setupWallet(
-    page: Page,
     { secretWordsOrPrivateKey, password }: { secretWordsOrPrivateKey: string; password: string },
   ) {
-    const lockpage = new LockPage(page)
-    const wallet = await lockpage.unlock(secretWordsOrPrivateKey, password)
+    
+    const wallet = await this.lockPage.unlock(secretWordsOrPrivateKey, password)
     return wallet;
   }
 
-  async getWalletAddress(
-    page: Page,
-  ) {
-    const homePage = new HomePage(page)
-    const walletAddress = await homePage.getWalletAddress()
+  async getWalletAddress() {
+    const walletAddress = await this.homePage.getWalletAddress()
     return walletAddress;
   }
 }

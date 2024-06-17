@@ -41,6 +41,7 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
     },
     context: async ({ context: currentContext, _contextPath }, use) => {
       const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, walletSetup.hash)
+
       if (!(await fs.exists(cacheDirPath))) {
         throw new Error(`Cache for ${walletSetup.hash} does not exist. Create it first!`)
       }

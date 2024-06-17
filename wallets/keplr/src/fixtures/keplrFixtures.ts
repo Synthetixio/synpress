@@ -3,7 +3,7 @@ import { type Page, chromium } from '@playwright/test'
 
 import { test as base } from '@playwright/test'
 import { KeplrWallet } from '../KeplrWallet'
-import { PASSWORD } from '../utils'
+import { PASSWORD, SEED_PHRASE } from '../utils'
 import {
   CACHE_DIR_NAME,
   createTempContextDir,
@@ -25,7 +25,8 @@ type KeplrFixtures = {
 let _keplrPage: Page
 
 export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>, slowMo = 0) => {
-  console.log('walletSetup', walletSetup)
+  const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, walletSetup.hash)
+  console.log(cacheDirPath, 'ee')
   return base.extend<KeplrFixtures>({
     _contextPath: async ({ browserName }, use, testInfo) => {
       const contextDir = await createTempContextDir(browserName, testInfo.testId)
@@ -33,7 +34,7 @@ export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
       await removeTempContextDir(contextDir)
     },
     context: async ({ context: currentContext, _contextPath }, use) => {
-      const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, 'dbfc33f5185f468a2b25')
+      const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, walletSetup.hash)
       if (!(await fs.exists(cacheDirPath))) {
         throw new Error(`Cache for ${cacheDirPath} does not exist. Create it first!`)
       }
@@ -41,7 +42,7 @@ export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
       // Copying the cache to the temporary context directory.
       await fs.copy(cacheDirPath, _contextPath)
 
-      const keplrPath = await prepareExtension()
+      const keplrPath = await prepareExtension('Keplr')
       // We don't need the `--load-extension` arg since the extension is already loaded in the cache.
       const browserArgs = [`--disable-extensions-except=${keplrPath}`]
       if (process.env.HEADLESS) {
@@ -55,38 +56,34 @@ export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
       const context = await chromium.launchPersistentContext(_contextPath, {
         headless: false,
         args: browserArgs,
-        slowMo: process.env.HEADLESS ? 0 : 100000,
+        slowMo: process.env.HEADLESS ? 0 : 1000,
       })
 
-      console.log("Cookies before login:", await context.cookies());
-      console.log('1')
       const { cookies, origins } = await currentContext.storageState()
-      console.log('2')
       if (cookies) {
         await context.addCookies(cookies)
       }
-      console.log('3', use)
       if (origins && origins.length > 0) {
         await persistLocalStorage(origins, context)
       }
-      // console.log('4')
-      // // console.log('context', context, origins, cookies, currentContext, walletSetup)
-      // await use(context)
-      // console.log('5')
-      // await context.close()
-      // console.log('6')
+      const extensionId = await getExtensionId(context, 'keplr')
+      _keplrPage = context.pages()[0] as Page
+      await _keplrPage.goto('chrome-extension://' + extensionId + '/register.html')
+      await use(context)
+      await context.close()
     },
     page: async ({ context }, use) => {
       const page = await context.newPage()
       await use(page)
     },
-    keplrPage: async ({ context }, use) => {
-      const keplrPage = await context.newPage();
-      await use(keplrPage);
+    keplrPage: async ({ context: _ }, use) => {
+      await use(_keplrPage!);
     },
     keplr: async ({ context }, use) => {
       const extensionId = await getExtensionId(context, 'keplr')
       const keplrWallet = new KeplrWallet(_keplrPage, context, extensionId, PASSWORD)
+
+      await keplrWallet.setupWallet({ secretWordsOrPrivateKey: SEED_PHRASE, password: PASSWORD })
       await use(keplrWallet)
     },
   })

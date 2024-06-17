@@ -1,5 +1,5 @@
 {
-  "name": "@synthetixio/synpress-cache",
+  "name": "@synthetixio/synpress-utils",
   "version": "0.0.1-alpha.7",
   "type": "module",
   "exports": {
@@ -8,7 +8,6 @@
   },
   "main": "./dist/index.js",
   "types": "./types/index.d.ts",
-  "bin": "./dist/cli/index.js",
   "files": [
     "dist",
     "src",
@@ -16,20 +15,15 @@
   ],
   "scripts": {
     "build": "pnpm run clean && pnpm run build:dist && pnpm run build:types",
-    "build:dist": "tsup --tsconfig tsconfig.build.json",
-    "build:types": "tsc --emitDeclarationOnly --project tsconfig.build.json",
+    "build:dist": "tsup",
+    "build:types": "tsc --emitDeclarationOnly --declaration --declarationMap --outDir types",
     "clean": "rimraf dist types",
     "lint": "biome check . --apply",
     "lint:check": "biome check . --verbose",
     "lint:unsafe": "biome check . --apply-unsafe",
-    "prepare": "pnpm run build",
-    "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "test:watch": "vitest watch",
     "types:check": "tsc --noEmit"
   },
   "dependencies": {
-    "@synthetixio/synpress-utils": "workspace:*",
     "axios": "1.6.7",
     "chalk": "5.3.0",
     "commander": "12.0.0",
@@ -44,22 +38,9 @@
   },
   "devDependencies": {
     "@synthetixio/synpress-tsconfig": "0.0.1-alpha.7",
-    "@synthetixio/synpress-utils": "workspace:*",
-    "@types/archiver": "6.0.2",
-    "@types/fs-extra": "11.0.4",
-    "@types/gradient-string": "1.1.5",
     "@types/node": "20.11.17",
-    "@types/progress": "2.0.7",
-    "@types/unzipper": "0.10.9",
-    "@vitest/coverage-v8": "1.2.2",
-    "archiver": "6.0.1",
-    "memfs": "4.6.0",
-    "msw": "2.2.0",
     "rimraf": "5.0.5",
-    "typescript": "5.3.3",
-    "vitest": "1.2.2"
-  },
-  "peerDependencies": {
-    "playwright-core": "1.44.0"
+    "tsup": "8.0.2",
+    "typescript": "5.3.3"
   }
 }

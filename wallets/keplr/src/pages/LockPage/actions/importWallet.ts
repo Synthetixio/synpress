@@ -33,7 +33,7 @@ export async function importWallet(page: Page, secretWords: string, password: st
   await submitWalletDataButton.click();
   const submitChainButton = await page.getByRole('button', { name: 'Save', exact: true });
   await submitChainButton.click(); 
-  sleep(2000);
+  await sleep(5000);
   await page.close();
 } 
 
