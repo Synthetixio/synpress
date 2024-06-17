@@ -1,5 +1,6 @@
 import { type BrowserContext, type Page } from '@playwright/test'
 import { LockPage } from './pages/LockPage/page'
+import { HomePage } from './pages/HomePage/page'
 
 export class KeplrWallet {
   seedPhrase = ''
@@ -37,11 +38,20 @@ export class KeplrWallet {
    * @param password. The password to set.
    */
   async setupWallet(
-    page: any,
+    page: Page,
     { secretWordsOrPrivateKey, password }: { secretWordsOrPrivateKey: string; password: string },
   ) {
     const lockpage = new LockPage(page)
     const wallet = await lockpage.unlock(secretWordsOrPrivateKey, password)
     return wallet;
+  }
+
+  async getWalletAddress(
+    page: Page,
+  ) {
+    const homePage = new HomePage(page)
+    console.log('homePage', homePage, 1)
+    const walletAddress = await homePage.getWalletAddress()
+    return walletAddress;
   }
 }

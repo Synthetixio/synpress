@@ -37,7 +37,7 @@ export const cliEntrypoint = async () => {
     .helpOption(undefined, 'Display help for command')
     .addHelpText('afterAll', `\n${footer}\n`)
     .parse(process.argv)
-
+  console.log(WALLET_SETUP_DIR_NAME, program.args[0])
   let walletSetupDir = program.args[0]
   if (!walletSetupDir) {
     walletSetupDir = path.join(process.cwd(), 'test', WALLET_SETUP_DIR_NAME)
@@ -67,8 +67,8 @@ export const cliEntrypoint = async () => {
   }
   let extensionNames = extensionsToSetup()
 
-  if (!extensionNames) {
-    extensionNames = ['MetaMask']
+  if (!extensionNames.length) {
+    extensionNames = ['Keplr']
   }
 
   if (os.platform() === 'win32') {
@@ -84,7 +84,7 @@ export const cliEntrypoint = async () => {
   }
 
   const compiledWalletSetupDirPath = await compileWalletSetupFunctions(walletSetupDir, flags.debug)
-
+  console.log('force', flags.force, 'compiledWalletSetupDirPath', compiledWalletSetupDirPath, 'extensionNames', extensionNames)
   for (const extensionName of extensionNames) {
     await createCache(compiledWalletSetupDirPath, () => prepareExtension(extensionName), flags.force); // Pass extensionName
   }

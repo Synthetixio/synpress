@@ -1,25 +1,16 @@
 import type { Page } from '@playwright/test';
+import { homePageElements } from '../selectors';
 
 export const getWalletAddress = async (page: Page) => {
-  console.log('getWalletAddress', page);
-  // return await playwright.waitAndGetValue(homePageElements.walletAddress);
-  // playwright.switchToKeplrWindow();
-  //   await module.exports.goToHome();
-  //   const newTokensSelctorExists =
-  //     await playwright.waitForAndCheckElementExistence(
-  //       homePageElements.newTokensFoundSelector,
-  //     );
-
-  //   if (newTokensSelctorExists) {
-  //     await module.exports.addNewTokensFound(false);
-  //   }
-
-  //   await playwright.waitAndClickByText(notificationPageElements.copyAddress);
-  //   await playwright.waitAndClick(
-  //     notificationPageElements.walletSelectors(chainName),
-  //   );
-
-  //   walletAddress = clipboardy.readSync();
-  //   await playwright.switchToCypressWindow();
-  //   return walletAddress;
+  await page.waitForLoadState('domcontentloaded');
+  console.log(3)
+  const newTokensFoundSelector = await page.waitForSelector(homePageElements.newTokensFoundSelector);
+  console.log('New tokens found', newTokensFoundSelector);
+  if (newTokensFoundSelector) {
+    await page.waitForSelector(homePageElements.newTokensFoundSelector);
+  }
+  await page.waitForSelector(homePageElements.copyAddress);
+  const walletAddress = await page.click(homePageElements.copyAddress);
+  console.log('Wallet address copied', walletAddress);
+  return walletAddress;
 }

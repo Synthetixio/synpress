@@ -17,8 +17,8 @@ import { prepareExtension, getExtensionId } from '../fixtureActions'
 type KeplrFixtures = {
   _contextPath: string
   keplr: KeplrWallet
-  extensionId: string
   keplrPage: Page
+  extensionId: string
 }
 
 let _keplrPage: Page
@@ -31,7 +31,8 @@ export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
       await removeTempContextDir(contextDir)
     },
     context: async ({ context: currentContext, _contextPath }, use) => {
-      const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, walletSetup.hash)
+      console.log('walletSetup', walletSetup, process.cwd(), CACHE_DIR_NAME)
+      const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, walletSetup.hash, 'context')
       if (!(await fs.exists(cacheDirPath))) {
         throw new Error(`Cache for ${walletSetup.hash} does not exist. Create it first!`)
       }
@@ -79,15 +80,16 @@ export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
     },
     page: async ({ context }, use) => {
       const page = await context.newPage()
-
-      await page.goto('/')
+      const extensionId = await getExtensionId(context, 'keplr')
+      await page.goto(`chrome-extension://${extensionId}/register.html`)
 
       await use(page)
     },
     keplrPage: async ({ context: _ }, use) => {
       await use(_keplrPage)
     },
-    keplr: async ({ context, extensionId }, use) => {
+    keplr: async ({ context }, use) => {
+      const extensionId = await getExtensionId(context, 'keplr')
       const keplrWallet = new KeplrWallet(_keplrPage, context, extensionId, PASSWORD)
       await keplrWallet.setupWallet(_keplrPage, { secretWordsOrPrivateKey: SEED_PHRASE, password: PASSWORD })
       await use(keplrWallet)

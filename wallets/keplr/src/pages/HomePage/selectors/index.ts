@@ -5,4 +5,5 @@ export const homePageElements = {
   newTokensFound: 'new token(s) found',
   addChainsButton: 'Add Chains',
   newTokensFoundSelector: 'text=new token(s) found',
+  copyAddress: 'Copy Address',
 }

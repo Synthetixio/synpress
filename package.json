@@ -2,8 +2,8 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "build:cache": "turbo build:cache --filter=@synthetixio/synpress-metamask -- -m",
-    "build:cache:keplr": "turbo build:cache --filter=@synthetixio/synpress-keplr -- -k",
+    "build:cache": "turbo build:cache --filter=@synthetixio/synpress-metamask",
+    "build:cache:keplr": "turbo build:cache --filter=@synthetixio/synpress-keplr",
     "docs:build": "turbo docs:build --filter=docs",
     "format": "biome format . --write",
     "format:check": "biome format . --error-on-warnings",
