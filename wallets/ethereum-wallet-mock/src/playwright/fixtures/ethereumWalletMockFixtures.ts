@@ -1,10 +1,8 @@
 import { readFileSync } from 'fs'
 import { test as base } from '@playwright/test'
-import { EthereumWalletMock } from '../EthereumWalletMock'
-import { SEED_PHRASE, mockEthereum, web3MockPath } from '../utils'
-
-export const ANVIL_CHAIN_ID = 31337
-export const ANVIL_URL_URL = 'http://anvil:5000'
+import { SEED_PHRASE } from '../../constants'
+import EthereumWalletMock from '../EthereumWalletMock'
+import { mockEthereum, web3MockPath } from '../utils'
 
 type EthereumWalletMockFixtures = {
   ethereumWalletMock: EthereumWalletMock
