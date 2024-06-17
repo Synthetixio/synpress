@@ -1,40 +1,47 @@
 import { downloadFile, ensureCacheDirExists, unzipArchive } from '.'
 
-export const DEFAULT_METAMASK_VERSION = '11.9.1'
-export const EXTENSION_DOWNLOAD_URL = `https://github.com/MetaMask/metamask-extension/releases/download/v${DEFAULT_METAMASK_VERSION}/metamask-chrome-${DEFAULT_METAMASK_VERSION}.zip`
-
-export const DEFAULT_KEPLR_VERSION = '0.12.102'
-export const EXTENSION_KEPLR_DOWNLOAD_URL = `https://github.com/chainapsis/keplr-wallet/releases/download/v${DEFAULT_KEPLR_VERSION}/keplr-extension-manifest-v2-v${DEFAULT_KEPLR_VERSION}.zip`;
-
-// NOTE: This function is copied from `wallets/metamask/src/prepareExtension.ts` only TEMPORARILY!
-export async function prepareKeplrExtension() {
-  const cacheDirPath = ensureCacheDirExists()
-
-  const downloadResult = await downloadFile({
-    url: EXTENSION_KEPLR_DOWNLOAD_URL,
-    outputDir: cacheDirPath,
-    fileName: `keplr-chrome-${DEFAULT_KEPLR_VERSION}.zip`
-  })
-
-  const unzipResult = await unzipArchive({
-    archivePath: downloadResult.filePath
-  })
-
-  return unzipResult.outputPath
+interface ExtensionConfig {
+  name: string;
+  version: string;
+  downloadUrl: string;
 }
 
-export async function prepareMetamaskExtension() {
-  const cacheDirPath = ensureCacheDirExists()
+async function getExtensionConfig(name: string): Promise<ExtensionConfig> {
+  const config = {
+    "extensions": [
+      {
+        "name": "MetaMask",
+        "version": "11.9.1",
+        "downloadUrl": "https://github.com/MetaMask/metamask-extension/releases/download/v11.9.1/metamask-chrome-11.9.1.zip"
+      },
+      {
+        "name": "Keplr",
+        "version": "0.12.102",
+        "downloadUrl": "https://github.com/chainapsis/keplr-wallet/releases/download/v0.12.102/keplr-extension-manifest-v2-v0.12.102.zip" 
+      }
+    ]
+  }
+
+  const extension = config.extensions.find((ext: { name: string }) => ext.name === name);
+  if (!extension) {
+    throw new Error(`Extension configuration not found for ${name}`);
+  }
+  return extension;
+}
+
+export async function prepareExtension(extensionName: string) {
+  const cacheDirPath = ensureCacheDirExists();
+  const extensionConfig = await getExtensionConfig(extensionName); // Get config
 
   const downloadResult = await downloadFile({
-    url: EXTENSION_DOWNLOAD_URL,
+    url: extensionConfig.downloadUrl,
     outputDir: cacheDirPath,
-    fileName: `metamask-chrome-${DEFAULT_METAMASK_VERSION}.zip`
-  })
+    fileName: `${extensionConfig.name.toLowerCase()}-chrome-${extensionConfig.version}.zip`
+  });
 
   const unzipResult = await unzipArchive({
     archivePath: downloadResult.filePath
-  })
+  });
 
-  return unzipResult.outputPath
+  return unzipResult.outputPath;
 }
