@@ -1,4 +1,4 @@
-import test from '../../synpress'
+import test from '../../../src/playwright/synpress'
 
 const { expect } = test
 

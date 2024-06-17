@@ -1,16 +1,18 @@
 import type { Page } from '@playwright/test'
 import { mnemonicToAccount, privateKeyToAccount } from 'viem/accounts'
-import type { Network } from './network/Network'
-import { ACCOUNT_MOCK, BLOCKCHAIN, OPTIMISM_NETWORK_ID } from './utils'
+import { ACCOUNT_MOCK, BLOCKCHAIN } from '../constants'
+import { EthereumWalletMockAbstract } from '../type/EthereumWalletMockAbstract'
+import type { Network } from '../type/Network'
+import type { WalletMock } from '../type/WalletMock'
+import { OPTIMISM_NETWORK_ID } from './utils'
 
-export type WalletMock = 'metamask' | 'coinbase' | 'phantom' | 'walletconnect' | 'walletlink'
+export default class EthereumWalletMock extends EthereumWalletMockAbstract {
+  page: Page
 
-export class EthereumWalletMock {
-  seedPhrase = ''
-  wallet: WalletMock = 'metamask'
-
-  constructor(readonly page: Page) {
+  constructor(page: Page, wallet: WalletMock = 'metamask') {
+    super(wallet)
     this.page = page
+    this.wallet = wallet
   }
 
   /**
@@ -23,12 +25,21 @@ export class EthereumWalletMock {
 
     return this.page.evaluate(
       ([blockchain, wallet, accounts]) => {
+        class WalletConnectStub {}
+
+        let connector: WalletConnectStub | undefined
+
+        if (wallet === 'walletconnect') {
+          connector = WalletConnectStub
+        }
+
         return Web3Mock.mock({
           blockchain,
           wallet,
           accounts: {
             return: accounts
-          }
+          },
+          connector
         })
       },
       [BLOCKCHAIN, this.wallet, [ACCOUNT_MOCK]]
@@ -38,7 +49,7 @@ export class EthereumWalletMock {
   /**
    * Retrieves the current account address.
    */
-  async getAllAccounts(): Promise<string[]> {
+  async getAllAccounts(): Promise<`0x${string}`[] | undefined> {
     return this.page.evaluate(() => {
       return window.ethereum.request({ method: 'eth_requestAccounts' })
     })
@@ -50,8 +61,8 @@ export class EthereumWalletMock {
   async addNewAccount() {
     const accounts = await this.getAllAccounts()
 
-    const newAccount = mnemonicToAccount(this.seedPhrase, {
-      accountIndex: accounts.length
+    const newAccount = mnemonicToAccount(this.seedPhrase || '', {
+      accountIndex: accounts?.length
     })
 
     return this.page.evaluate(
@@ -64,7 +75,7 @@ export class EthereumWalletMock {
           }
         })
       },
-      [BLOCKCHAIN, this.wallet, [newAccount.address, ...accounts]]
+      [BLOCKCHAIN, this.wallet, [newAccount.address, ...(accounts || [])]]
     )
   }
 
@@ -141,8 +152,8 @@ export class EthereumWalletMock {
   /**
    * Retrieves the current account address.
    */
-  async getAccountAddress() {
-    return (await this.getAllAccounts())[0]
+  async getAccountAddress(): Promise<`0x${string}` | undefined> {
+    return (await this.getAllAccounts())?.[0]
   }
 
   /**
@@ -176,8 +187,9 @@ export class EthereumWalletMock {
    *
    * @param wallet - The wallet to connect to the dapp.
    */
-  async connectToDapp(wallet: WalletMock = 'metamask') {
+  connectToDapp(wallet: WalletMock = 'metamask') {
     this.wallet = wallet
+
     return this.page.evaluate(
       ([blockchain, accounts, wallet]) => {
         // Cannot pass custom class as an argument to `page.evaluate`
