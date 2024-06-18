@@ -1,10 +1,14 @@
 {
+  "extends": "./tsconfig.build.json",
   "compilerOptions": {
     "rootDir": ".",
-    "lib": ["DOM"]
+    "exactOptionalPropertyTypes": false, // Allows for `undefined` in `playwright.config.ts`
   },
   "include": [
     "src",
     "test"
+  ],
+  "files": [
+    "environment.d.ts",
   ]
 }

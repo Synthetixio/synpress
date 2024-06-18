@@ -29,7 +29,8 @@
     "@synthetixio/ethereum-wallet-mock": "0.0.1-alpha.7",
     "@synthetixio/synpress-cache": "0.0.1-alpha.7",
     "@synthetixio/synpress-core": "0.0.1-alpha.7",
-    "@synthetixio/synpress-metamask": "0.0.1-alpha.7"
+    "@synthetixio/synpress-metamask": "0.0.1-alpha.7",
+    "@synthetixio/synpress-utils": "workspace:*"
   },
   "devDependencies": {
     "@synthetixio/synpress-tsconfig": "0.0.1-alpha.7",
