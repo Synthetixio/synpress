@@ -31,8 +31,7 @@ export async function importWallet(page: Page, secretWords: string, password: st
   const submitWalletDataButton = await page.getByRole('button', { name: 'Next', exact: true });
   await submitWalletDataButton.click();
   const submitChainButton = await page.getByRole('button', { name: 'Save', exact: true });
-  await submitChainButton.click(); 
-  await page.waitForLoadState('domcontentloaded');
+  await submitChainButton.click();
   await page.close();
 } 
 
