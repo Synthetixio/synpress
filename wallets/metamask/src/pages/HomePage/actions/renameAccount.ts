@@ -12,12 +12,11 @@ const Account = z.object({
 export type Account = z.infer<typeof Account>
 
 export async function renameAccount(page: Page, newAccountName: Account['name']) {
-  Account.parse({ name: newAccountName }) // Validate newAccountName against Account schema
+  Account.parse({ name: newAccountName })
 
   await page.locator(Selectors.accountMenu.accountButton).click()
-
   await page.locator(Selectors.accountMenu.renameAccountMenu.listItemButton).nth(0).click()
-  await page.locator(Selectors.accountMenu.renameAccountMenu.listItemDetailButton).click()
+  await page.locator(Selectors.threeDotsMenu.accountDetailsButton).click()
   await page.locator(Selectors.accountMenu.renameAccountMenu.renameButton).click()
   await page.locator(Selectors.accountMenu.renameAccountMenu.renameInput).fill(newAccountName)
   await page.locator(Selectors.accountMenu.renameAccountMenu.confirmRenameButton).click()

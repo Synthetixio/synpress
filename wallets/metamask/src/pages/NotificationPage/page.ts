@@ -45,7 +45,7 @@ export class NotificationPage {
       })
       .catch(() => false)
 
-    await Promise.race([scrollButtonPromise, notificationPage.waitForLoadState('load').then(() => false)])
+    await Promise.race([notificationPage.waitForLoadState('load').then(() => false), scrollButtonPromise])
 
     return {
       notificationPage,

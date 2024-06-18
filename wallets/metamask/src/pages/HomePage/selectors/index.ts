@@ -10,7 +10,6 @@ const addNewAccountMenu = {
 
 const renameAccountMenu = {
   listItemButton: `${accountMenuContainer} ${createDataTestSelector('account-list-item-menu-button')}`,
-  listItemDetailButton: `${createDataTestSelector('account-list-menu-details')}`,
   renameButton: `${createDataTestSelector('editable-label-button')}`,
   confirmRenameButton: 'div.editable-label button.mm-button-icon',
   renameInput: '.mm-text-field .mm-box--padding-right-4'
