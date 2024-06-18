@@ -41,7 +41,7 @@ export const cliEntrypoint = async () => {
   if (!walletSetupDir) {
     walletSetupDir = path.join(process.cwd(), 'test', WALLET_SETUP_DIR_NAME)
   }
-  
+
   const flags: CliFlags = program.opts()
 
   if (flags.headless) {
@@ -81,7 +81,7 @@ export const cliEntrypoint = async () => {
     )
     process.exit(1)
   }
-
+  console.log('extensions', extensionNames, 'walletSetupDir', walletSetupDir, 'flags', flags)
   const compiledWalletSetupDirPath = await compileWalletSetupFunctions(walletSetupDir, flags.debug)
   for (const extensionName of extensionNames) {
     await createCache(compiledWalletSetupDirPath, () => prepareExtension(extensionName), flags.force); // Pass extensionName

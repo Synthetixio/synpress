@@ -28,7 +28,6 @@ export class KeplrWallet {
   async setupWallet(
     { secretWordsOrPrivateKey, password }: { secretWordsOrPrivateKey: string; password: string },
   ) {
-    
     const wallet = await this.lockPage.unlock(secretWordsOrPrivateKey, password)
     return wallet;
   }

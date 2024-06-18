@@ -3,7 +3,7 @@ import { triggerCacheCreation } from '@synthetixio/synpress-utils'
 
 export async function createCache(walletSetupDirPath: string, downloadExtension: () => Promise<string>, force = false) {
   const setupFunctions = await getUniqueWalletSetupFunctions(walletSetupDirPath)
-
+  console.log(walletSetupDirPath, setupFunctions, 'ee 2')
   const cacheCreationPromises = await triggerCacheCreation(setupFunctions, downloadExtension, force)
 
   if (cacheCreationPromises.length === 0) {

@@ -1,10 +1,11 @@
+import { BrowserContext, Page } from '@playwright/test'
 import { MetaMask, defineWalletSetup, getExtensionId } from '@synthetixio/synpress'
 import 'dotenv/config'
 
 const SEED_PHRASE = process.env.SEED_PHRASE
 const PASSWORD = process.env.WALLET_PASSWORD
 
-export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
+export default defineWalletSetup(PASSWORD, async (context: BrowserContext, walletPage: Page) => {
   // This is a workaround for the fact that the MetaMask extension ID changes.
   // This workaround won't be needed in the near future! 😁
   const extensionId = await getExtensionId(context, 'MetaMask')

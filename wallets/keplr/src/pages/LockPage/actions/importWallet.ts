@@ -1,6 +1,5 @@
 import { onboardingElements } from "../selectors";
 import type { Page } from "@playwright/test";
-import { sleep } from "../../../utils/helpers";
 
 export async function importWallet(page: Page, secretWords: string, password: string) {
   await page.waitForLoadState('domcontentloaded');
@@ -33,7 +32,7 @@ export async function importWallet(page: Page, secretWords: string, password: st
   await submitWalletDataButton.click();
   const submitChainButton = await page.getByRole('button', { name: 'Save', exact: true });
   await submitChainButton.click(); 
-  await sleep(5000);
+  await page.waitForLoadState('domcontentloaded');
   await page.close();
 } 
 

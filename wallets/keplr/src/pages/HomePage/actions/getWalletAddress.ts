@@ -4,7 +4,6 @@ import { homePageElements } from '../selectors';
 export const getWalletAddress = async (page: Page) => {
   await page.waitForLoadState('domcontentloaded');
   const newTokensFoundSelector = await page.waitForSelector(homePageElements.newTokensFoundSelector);
-  console.log('New tokens found', newTokensFoundSelector);
   if (newTokensFoundSelector) {
     await page.waitForSelector(homePageElements.newTokensFoundSelector);
   }
