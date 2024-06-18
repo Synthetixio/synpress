@@ -1,7 +1,9 @@
 import * as core from '@synthetixio/synpress-cache'
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
-import { DEFAULT_METAMASK_VERSION, EXTENSION_DOWNLOAD_URL, prepareExtension } from '../../src'
+import { prepareExtension } from '@synthetixio/synpress-utils'
 
+const DEFAULT_METAMASK_VERSION = '11.9.1'
+const EXTENSION_DOWNLOAD_URL = `https://github.com/MetaMask/metamask-extension/releases/download/v${DEFAULT_METAMASK_VERSION}/metamask-chrome-${DEFAULT_METAMASK_VERSION}.zip`
 const MOCK_CACHE_DIR_PATH = 'mockCacheDirPath'
 const MOCK_EXTENSION_ARCHIVE_PATH = 'mockExtensionArchivePath'
 const MOCK_EXTENSION_FINAL_PATH = 'mockExtensionFinalPath'
@@ -35,7 +37,7 @@ describe('prepareExtension', () => {
   it('creates cache directory', async () => {
     const ensureCacheDirExistsSpy = vi.spyOn(core, 'ensureCacheDirExists')
 
-    await prepareExtension()
+    await prepareExtension('MetaMask')
 
     expect(ensureCacheDirExistsSpy).toHaveBeenCalledOnce()
     expect(ensureCacheDirExistsSpy).toReturnWith(MOCK_CACHE_DIR_PATH)
@@ -44,7 +46,7 @@ describe('prepareExtension', () => {
   it('downloads MetaMask extension archive', async () => {
     const downloadFileSpy = vi.spyOn(core, 'downloadFile')
 
-    await prepareExtension()
+    await prepareExtension('MetaMask')
 
     expect(downloadFileSpy).toHaveBeenCalledOnce()
     expect(downloadFileSpy).toHaveBeenCalledWith({
@@ -60,7 +62,7 @@ describe('prepareExtension', () => {
   it('unzips MetaMask extension archive', async () => {
     const unzipArchiveSpy = vi.spyOn(core, 'unzipArchive')
 
-    await prepareExtension()
+    await prepareExtension('MetaMask')
 
     expect(unzipArchiveSpy).toHaveBeenCalledOnce()
     expect(unzipArchiveSpy).toHaveBeenCalledWith({
@@ -72,7 +74,7 @@ describe('prepareExtension', () => {
   })
 
   it('returns correct unzipped extension path', async () => {
-    const extensionPath = await prepareExtension()
+    const extensionPath = await prepareExtension('MetaMask')
     expect(extensionPath).toEqual(MOCK_EXTENSION_FINAL_PATH)
   })
 })

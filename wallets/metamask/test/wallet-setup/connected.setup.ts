@@ -1,11 +1,12 @@
-import { defineWalletSetup } from '@synthetixio/synpress-cache'
+import { defineWalletSetup } from '@synthetixio/synpress-utils'
 import { MetaMask, getExtensionId } from '../../src'
+import type { BrowserContext, Page } from '@playwright/test'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'
 
 const PASSWORD = 'Tester@1234'
 
-export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
+const connectedSetup = defineWalletSetup(PASSWORD, async (context: BrowserContext, walletPage: Page) => {
   const extensionId = await getExtensionId(context, 'MetaMask')
 
   const metamask = new MetaMask(context, walletPage, PASSWORD, extensionId)
@@ -29,3 +30,5 @@ export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
 
   await page.close()
 })
+
+export default connectedSetup

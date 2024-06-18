@@ -7,7 +7,7 @@ const test = synpress
 
 const { expect } = test
 
-test('should add network and close network added popup', async ({ metamaskPage, createAnvilNode,  }) => {
+test('should add network and close network added popup', async ({ metamaskPage, createAnvilNode, metamask }) => {
   const { rpcUrl, chainId } = await createAnvilNode()
 
   const network = {

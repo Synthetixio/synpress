@@ -1,5 +1,6 @@
 import { type Page, chromium, test as base } from '@playwright/test'
-import { MetaMask, prepareExtension } from '../../src'
+import { MetaMask } from '../../src'
+import { prepareExtension } from '@synthetixio/synpress-utils'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'
 const PASSWORD = 'Tester@1234'
@@ -8,7 +9,7 @@ const test = base.extend<{
   metamaskPage: Page
 }>({
   context: async ({ context: _ }, use) => {
-    const metamaskPath = await prepareExtension()
+    const metamaskPath = await prepareExtension('MetaMask')
 
     // biome-ignore format: the array should not be formatted
     const browserArgs = [

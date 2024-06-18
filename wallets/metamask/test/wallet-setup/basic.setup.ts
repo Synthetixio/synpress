@@ -1,12 +1,15 @@
-import { defineWalletSetup } from '@synthetixio/synpress-cache'
+import { defineWalletSetup } from '@synthetixio/synpress-utils'
 import { MetaMask } from '../../src'
+import type { BrowserContext, Page } from '@playwright/test'
 
 export const SEED_PHRASE = 'test test test test test test test test test test test junk'
 
 export const PASSWORD = 'Tester@1234'
 
-export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
+const basicSetup = defineWalletSetup(PASSWORD, async (context: BrowserContext, walletPage: Page) => {
   const metamask = new MetaMask(context, walletPage, PASSWORD)
 
   await metamask.importWallet(SEED_PHRASE)
 })
+
+export default basicSetup
