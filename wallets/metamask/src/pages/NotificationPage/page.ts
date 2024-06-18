@@ -35,7 +35,7 @@ export class NotificationPage {
     const scrollDownButton = notificationPage.locator(Selectors.SignaturePage.structuredMessage.scrollDownButton)
 
     let isScrollButtonVisible = false
-    
+
     const scrollButtonPromise = scrollDownButton
       .waitFor({ state: 'visible' })
       .then(async () => {
@@ -45,7 +45,7 @@ export class NotificationPage {
       })
       .catch(() => false)
 
-    await Promise.race([notificationPage.waitForLoadState('load').then(() => false), scrollButtonPromise]);
+    await Promise.race([notificationPage.waitForLoadState('load').then(() => false), scrollButtonPromise])
 
     return {
       notificationPage,
