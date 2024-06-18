@@ -1,4 +1,4 @@
-import { test as advancedFixtures } from '../advancedFixtures'
+import { test as advancedFixtures } from './advancedFixtures'
 
 import { testWithSynpress } from '@synthetixio/synpress'
 

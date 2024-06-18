@@ -1,4 +1,4 @@
 import { testWithSynpress } from '@synthetixio/synpress-core'
-import { ethereumWalletMockFixtures } from '../index'
+import { ethereumWalletMockFixtures } from '.'
 
 export default testWithSynpress(ethereumWalletMockFixtures)
