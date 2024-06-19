@@ -23,6 +23,7 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e:headful": "playwright test",
     "test:e2e:headless": "HEADLESS=true playwright test",
+    "test:e2e:headless:cypress": "cypress run --headless --browser chrome",
     "test:e2e:headless:ui": "HEADLESS=true playwright test --ui",
     "test:watch": "vitest watch",
     "types:check": "tsc --noEmit"

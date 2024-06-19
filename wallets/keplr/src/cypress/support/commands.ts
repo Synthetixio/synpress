@@ -12,10 +12,11 @@
 declare global {
   namespace Cypress {
     interface Chainable {
-      setupWallet(secretWordsOnPrivateKeys: string, password: string): any
+      setupWallet({secretWordsOnPrivateKeys, password}: { secretWordsOnPrivateKeys: string, password: string }): any
     }
   }
 }
 
-// @ts-ignore
-Cypress.Commands.add('setupWallet', (seedPhrase, password) => cy.task('setupWallet', seedPhrase, password))
+Cypress.Commands.add('setupWallet', ({ secretWordsOnPrivateKeys, password }) => {
+  cy.task('setupWallet', { secretWordsOnPrivateKeys, password })
+})
