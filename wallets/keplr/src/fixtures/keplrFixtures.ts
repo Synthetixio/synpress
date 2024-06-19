@@ -14,6 +14,7 @@ import fs from 'fs-extra'
 import { persistLocalStorage } from '../fixtureActions/persistLocalStorage'
 import { getExtensionId } from '../fixtureActions'
 import { prepareExtension } from '@synthetixio/synpress-utils'
+import unlockForFixtures from '../fixtureActions/unlockForFixtures'
 
 type KeplrFixtures = {
   _contextPath: string
@@ -78,28 +79,29 @@ export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
 
       _keplrPage = context.pages()[0] as Page
       
-      await _keplrPage.goto('chrome-extension://' + extensionId + '/register.html')
-      
+      await _keplrPage.goto(`chrome-extension://${extensionId}/popup.html`)
+      await unlockForFixtures(_keplrPage, PASSWORD)
+    
       await use(context)
       
-      await context.close()
+    },
+    keplrPage: async ({ context: _ }, use) => {
+      await use(_keplrPage);
     },
     extensionId: async ({ context }, use) => {
       const extensionId = await getExtensionId(context, 'Keplr')
 
       await use(extensionId)
     },
-    page: async ({ page }, use) => {
-      await page.goto('https://wallet.keplr.app/')
-      await use(page)
-    },
     keplr: async ({ context, extensionId }, use) => {
       const keplrWallet = new KeplrWallet(_keplrPage, context, PASSWORD, extensionId)
 
       await use(keplrWallet)
     },
-    keplrPage: async ({ context: _ }, use) => {
-      await use(_keplrPage!);
+
+    page: async ({ page }, use) => {
+      await page.goto('https://wallet.keplr.app/')
+      await use(page)
     },
   })
 }
