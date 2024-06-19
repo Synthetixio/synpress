@@ -1,6 +1,6 @@
 import { type BrowserContext, type Page } from '@playwright/test'
-import { LockPage } from './pages/LockPage/page'
 import { HomePage } from './pages/HomePage/page'
+import { LockPage } from './pages/LockPage/page'
 import { NotificationPage } from './pages/NotificationPage/page'
 
 export class KeplrWallet {
@@ -12,7 +12,7 @@ export class KeplrWallet {
     readonly page: Page,
     readonly context?: BrowserContext,
     readonly password?: string,
-    readonly extensionId?: string | undefined,
+    readonly extensionId?: string | undefined
   ) {
     this.lockPage = new LockPage(page)
     this.homePage = new HomePage(page)
@@ -20,20 +20,18 @@ export class KeplrWallet {
   }
   /**
    * Does initial setup for the wallet.
-   * 
+   *
    * @param playwrightInstance. The playwright instance to use.
    * @param secretWordsOrPrivateKey. The secret words or private key to import.
    * @param password. The password to set.
    */
-  async setupWallet(
-    { secretWordsOrPrivateKey, password }: { secretWordsOrPrivateKey: string; password: string },
-  ) {
+  async setupWallet({ secretWordsOrPrivateKey, password }: { secretWordsOrPrivateKey: string; password: string }) {
     const wallet = await this.lockPage.importWallet(secretWordsOrPrivateKey, password)
-    return wallet;
+    return wallet
   }
 
   async getWalletAddress(wallet: string) {
     const walletAddress = await this.homePage.getWalletAddress(wallet)
-    return walletAddress;
+    return walletAddress
   }
 }

@@ -17,6 +17,3 @@ export * from './utils/onDownloadProgress'
 export * from './utils/triggerCacheCreation'
 export * from './utils/waitForExtensionOnLoadPage'
 export * from './utils/removeTempContextDir'
-
-
-

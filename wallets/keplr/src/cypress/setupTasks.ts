@@ -1,5 +1,5 @@
-import { PASSWORD, SEED_PHRASE } from "../utils"
-import { getKeplrWallet } from "./initKeplrWallet"
+import { PASSWORD, SEED_PHRASE } from '../utils'
+import { getKeplrWallet } from './initKeplrWallet'
 
 export default function setupTasks(on: Cypress.PluginEvents) {
   on('task', {

@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest'
 import { defineWalletSetup } from '@synthetixio/synpress-utils'
+import { describe, expect, it } from 'vitest'
 
 const PASSWORD = 'Quack Quack! 🦆'
 const EXPECTED_HASH = 'f9c5ea5bb2c3aac96ff4'

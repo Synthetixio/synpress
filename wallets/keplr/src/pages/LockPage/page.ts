@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
-import { onboardingElements } from './selectors'
 import { importWallet } from './actions'
 import { unlockWallet } from './actions'
+import { onboardingElements } from './selectors'
 
 export class LockPage {
   static readonly selectors = onboardingElements

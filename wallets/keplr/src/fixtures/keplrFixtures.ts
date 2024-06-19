@@ -2,19 +2,19 @@ import path from 'node:path'
 import { type Page, chromium } from '@playwright/test'
 
 import { test as base } from '@playwright/test'
-import { KeplrWallet } from '../KeplrWallet'
-import { PASSWORD } from '../utils'
 import {
   CACHE_DIR_NAME,
   createTempContextDir,
   defineWalletSetup,
   removeTempContextDir
 } from '@synthetixio/synpress-utils'
-import fs from 'fs-extra'
-import { persistLocalStorage } from '../fixtureActions/persistLocalStorage'
-import { getExtensionId } from '../fixtureActions'
 import { prepareExtension } from '@synthetixio/synpress-utils'
+import fs from 'fs-extra'
+import { KeplrWallet } from '../KeplrWallet'
+import { getExtensionId } from '../fixtureActions'
+import { persistLocalStorage } from '../fixtureActions/persistLocalStorage'
 import unlockForFixtures from '../fixtureActions/unlockForFixtures'
+import { PASSWORD } from '../utils'
 
 type KeplrFixtures = {
   _contextPath: string
@@ -26,12 +26,11 @@ type KeplrFixtures = {
 let _keplrPage: Page
 
 export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>, slowMo = 0) => {
-
   console.log(walletSetup, 'ee')
   return base.extend<KeplrFixtures>({
     _contextPath: async ({ browserName }, use, testInfo) => {
       const contextDir = await createTempContextDir(browserName, testInfo.testId)
-      
+
       await use(contextDir)
 
       const error = await removeTempContextDir(contextDir)
@@ -78,16 +77,15 @@ export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
       const extensionId = await getExtensionId(context, 'Keplr')
 
       _keplrPage = context.pages()[0] as Page
-      
+
       await _keplrPage.goto(`chrome-extension://${extensionId}/popup.html`)
 
       await unlockForFixtures(_keplrPage, PASSWORD)
-    
+
       await use(context)
-      
     },
     keplrPage: async ({ context: _ }, use) => {
-      await use(_keplrPage);
+      await use(_keplrPage)
     },
     extensionId: async ({ context }, use) => {
       const extensionId = await getExtensionId(context, 'Keplr')
@@ -103,6 +101,6 @@ export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
     page: async ({ page }, use) => {
       await page.goto('https://wallet.keplr.app/')
       await use(page)
-    },
+    }
   })
 }

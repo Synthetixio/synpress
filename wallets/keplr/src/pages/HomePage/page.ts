@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
+import { addNewTokensFound, getTokenAmount, getWalletAddress } from './actions'
 import { homePageElements } from './selectors'
-import { getTokenAmount, getWalletAddress, addNewTokensFound } from './actions'
 
 export class HomePage {
   static readonly selectors = homePageElements
@@ -15,7 +15,7 @@ export class HomePage {
   async getTokenAmount() {
     return await getTokenAmount(this.page, 'token name')
   }
-  
+
   async getWalletAddress(wallet: string) {
     return await getWalletAddress(this.page, wallet)
   }

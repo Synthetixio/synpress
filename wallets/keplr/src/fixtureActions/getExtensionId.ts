@@ -28,7 +28,7 @@ export async function getExtensionId(context: BrowserContext, extensionName: str
   const allExtensions = Extensions.parse(unparsedExtensions)
 
   const targetExtension = allExtensions.find(
-    (extension: any) => extension.name.toLowerCase() === extensionName.toLowerCase()
+    (extension: { name: string }) => extension.name.toLowerCase() === extensionName.toLowerCase()
   )
 
   if (!targetExtension) {

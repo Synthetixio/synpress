@@ -12,7 +12,7 @@
 declare global {
   namespace Cypress {
     interface Chainable {
-      setupWallet({secretWordsOnPrivateKeys, password}: { secretWordsOnPrivateKeys: string, password: string }): any
+      setupWallet({ secretWordsOnPrivateKeys, password }: { secretWordsOnPrivateKeys: string; password: string }): Chainable<void>
     }
   }
 }

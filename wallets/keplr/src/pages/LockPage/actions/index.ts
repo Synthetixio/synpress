@@ -1,2 +1,2 @@
-export * from './importWallet';
-export * from './unlockWallet';
+export * from './importWallet'
+export * from './unlockWallet'

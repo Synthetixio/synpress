@@ -1,8 +1,7 @@
-import { MetaMask, getExtensionId, unlockForFixture } from '../../src'
-import { prepareExtension } from '@synthetixio/synpress-utils'
 import path from 'node:path'
 import { type Page, chromium } from '@playwright/test'
 import { test as base } from '@playwright/test'
+import { prepareExtension } from '@synthetixio/synpress-utils'
 import {
   CACHE_DIR_NAME,
   createTempContextDir,
@@ -11,6 +10,7 @@ import {
 } from '@synthetixio/synpress-utils'
 import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import fs from 'fs-extra'
+import { MetaMask, getExtensionId, unlockForFixture } from '../../src'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
 
 type MetaMaskFixtures = {

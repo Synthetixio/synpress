@@ -1,7 +1,7 @@
-import type { Page } from "@playwright/test";
+import type { Page } from '@playwright/test'
 
 export const getTokenAmount = async (page: Page, tokenName: string) => {
-  console.log('getTokenAmount', tokenName, page);
+  console.log('getTokenAmount', tokenName, page)
   // await module.exports.switchToKeplrIfNotActive();
   // await module.exports.goToHome();
 

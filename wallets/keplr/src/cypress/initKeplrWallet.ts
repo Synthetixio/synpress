@@ -1,7 +1,7 @@
 import { type BrowserContext, type Page, chromium } from '@playwright/test'
 
 import { KeplrWallet } from '../KeplrWallet'
-import { SEED_PHRASE, PASSWORD } from '../utils'
+import { PASSWORD, SEED_PHRASE } from '../utils'
 import { MISSING_INIT, NO_CONTEXT, NO_PAGE } from './errors'
 
 let context: BrowserContext | undefined

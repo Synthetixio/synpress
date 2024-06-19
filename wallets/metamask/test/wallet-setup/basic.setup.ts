@@ -1,6 +1,6 @@
+import type { BrowserContext, Page } from '@playwright/test'
 import { defineWalletSetup } from '@synthetixio/synpress-utils'
 import { MetaMask } from '../../src'
-import type { BrowserContext, Page } from '@playwright/test'
 
 export const SEED_PHRASE = 'test test test test test test test test test test test junk'
 

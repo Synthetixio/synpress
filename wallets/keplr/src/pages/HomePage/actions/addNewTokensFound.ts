@@ -1,12 +1,12 @@
-import type { Page } from "@playwright/test";
+import type { Page } from '@playwright/test'
 
 export const addNewTokensFound = async (page: Page, switchScreens = true) => {
-  console.log('addNewTokensFound', switchScreens, page);
+  console.log('addNewTokensFound', switchScreens, page)
   // if (switchScreens) {
   //   module.exports.switchToKeplrIfNotActive();
   //   await module.exports.goToHome();
   // }
-  
+
   // await page.waitAndClickByText(homePageElements.newTokensFound);
   // await playwright.waitAndClickWithDelay(
   //   homePageElements.selectAllTokensCheck,

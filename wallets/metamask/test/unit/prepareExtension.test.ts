@@ -1,6 +1,6 @@
 import * as core from '@synthetixio/synpress-cache'
-import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
 import { prepareExtension } from '@synthetixio/synpress-utils'
+import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
 
 const DEFAULT_METAMASK_VERSION = '11.9.1'
 const EXTENSION_DOWNLOAD_URL = `https://github.com/MetaMask/metamask-extension/releases/download/v${DEFAULT_METAMASK_VERSION}/metamask-chrome-${DEFAULT_METAMASK_VERSION}.zip`

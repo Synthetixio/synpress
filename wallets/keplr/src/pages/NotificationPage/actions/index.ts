@@ -1,2 +1,2 @@
-export * from './acceptAccess';
-export * from './confirmAccess';
+export * from './acceptAccess'
+export * from './confirmAccess'

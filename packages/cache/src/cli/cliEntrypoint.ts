@@ -1,11 +1,11 @@
 import os from 'node:os'
 import path from 'node:path'
+import { WALLET_SETUP_DIR_NAME } from '@synthetixio/synpress-utils'
+import { prepareExtension } from '@synthetixio/synpress-utils'
 import chalk from 'chalk'
 import { Command } from 'commander'
 import { rimraf } from 'rimraf'
-import { WALLET_SETUP_DIR_NAME } from '@synthetixio/synpress-utils'
 import { createCache } from '../createCache'
-import { prepareExtension } from '@synthetixio/synpress-utils'
 import { compileWalletSetupFunctions } from './compileWalletSetupFunctions'
 import { footer } from './footer'
 
@@ -53,7 +53,6 @@ export const cliEntrypoint = async () => {
     console.log({ cacheDir: walletSetupDir, ...flags, headless: Boolean(process.env.HEADLESS) ?? false }, '\n')
   }
 
-
   const extensionsToSetup = () => {
     const extensions = []
     if (flags.keplr) {
@@ -84,10 +83,10 @@ export const cliEntrypoint = async () => {
   console.log('extensions', extensionNames, 'walletSetupDir', walletSetupDir, 'flags', flags)
   const compiledWalletSetupDirPath = await compileWalletSetupFunctions(walletSetupDir, flags.debug)
   for (const extensionName of extensionNames) {
-    await createCache(compiledWalletSetupDirPath, () => prepareExtension(extensionName), flags.force); // Pass extensionName
+    await createCache(compiledWalletSetupDirPath, () => prepareExtension(extensionName), flags.force) // Pass extensionName
   }
   // TODO: We should be using `prepareExtension` function from the wallet itself!
-  
+
   if (!flags.debug) {
     await rimraf(compiledWalletSetupDirPath)
   }
