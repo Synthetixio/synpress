@@ -51,7 +51,7 @@ export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
 
       const keplrPath = await prepareExtension('Keplr')
       // We don't need the `--load-extension` arg since the extension is already loaded in the cache.
-      const browserArgs = [`--disable-extensions-except=${keplrPath}`]
+      const browserArgs = [`--disable-extensions-except=${keplrPath}`, '--enable-features=SharedClipboardUI']
       if (process.env.HEADLESS) {
         browserArgs.push('--headless=new')
 

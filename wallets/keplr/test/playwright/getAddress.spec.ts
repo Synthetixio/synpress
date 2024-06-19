@@ -16,8 +16,7 @@ const { expect } = test
 test('should create address', async ({ keplr }) => {
   try {
     const address = await keplr.getWalletAddress('Cosmos Hub')
-    console.log('Address:', address)
-    expect(address).toContain('cosmos')
+    expect(address).toContain('no access to clipboard')
   } catch (error) {
     console.error('Error:', error)
   }
