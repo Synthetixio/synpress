@@ -3,6 +3,8 @@ import synpress from '../synpress'
 
 const test = synpress
 
+const { expect } = test
+
 // test('should import wallet', async ({ keplr }) => {
 //   try {
 //     await keplr.setupWallet({ secretWordsOrPrivateKey: SEED_PHRASE, password: PASSWORD })
@@ -13,7 +15,9 @@ const test = synpress
 
 test('should create address', async ({ keplr }) => {
   try {
-    await keplr.getWalletAddress()
+    const address = await keplr.getWalletAddress('Cosmos Hub')
+    console.log('Address:', address)
+    expect(address).toContain('cosmos')
   } catch (error) {
     console.error('Error:', error)
   }

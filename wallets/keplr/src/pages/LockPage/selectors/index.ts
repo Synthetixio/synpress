@@ -4,7 +4,7 @@ export const onboardingElements = {
   useRecoveryPhraseButton: 'Use recovery phrase or private key',
   createNewRecoveryPhraseButton: 'Create new recovery phrase',
   showMyPhraseButton: 'I understood. Show my phrase.',
-  copyToClipboardButton: 'Copy to clipboard',
+  copyToClipboardButton: 'Copy Address',
   nextButton: 'Next',
   focusedInput: 'input:focus',
   phrasePrivateKey: 'Private key',

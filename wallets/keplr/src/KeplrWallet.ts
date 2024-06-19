@@ -32,8 +32,8 @@ export class KeplrWallet {
     return wallet;
   }
 
-  async getWalletAddress() {
-    const walletAddress = await this.homePage.getWalletAddress()
+  async getWalletAddress(wallet: string) {
+    const walletAddress = await this.homePage.getWalletAddress(wallet)
     return walletAddress;
   }
 }

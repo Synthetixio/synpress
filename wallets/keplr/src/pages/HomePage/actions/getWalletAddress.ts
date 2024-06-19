@@ -1,14 +1,12 @@
 import type { Page } from '@playwright/test';
 import { homePageElements } from '../selectors';
 
-export const getWalletAddress = async (page: Page) => {
+export const getWalletAddress = async (page: Page, wallet: string) => {
   await page.waitForLoadState('domcontentloaded');
-  const newTokensFoundSelector = await page.waitForSelector(homePageElements.newTokensFoundSelector);
-  if (newTokensFoundSelector) {
-    await page.waitForSelector(homePageElements.newTokensFoundSelector);
-  }
-  await page.waitForSelector(homePageElements.copyAddress);
-  const walletAddress = await page.click(homePageElements.copyAddress);
-  console.log('Wallet address copied', walletAddress);
-  return walletAddress;
+  await page.getByText(homePageElements.copyAddress).click();
+  const chain = await page.waitForSelector(homePageElements.walletSelectors(wallet));
+  chain.click();
+  await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+  const clipboardText = await page.evaluate(() => navigator.clipboard.readText());
+  return clipboardText;
 }

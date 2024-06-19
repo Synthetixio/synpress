@@ -16,8 +16,8 @@ export class HomePage {
     return await getTokenAmount(this.page, 'token name')
   }
   
-  async getWalletAddress() {
-    return await getWalletAddress(this.page)
+  async getWalletAddress(wallet: string) {
+    return await getWalletAddress(this.page, wallet)
   }
 
   async addNewTokensFound() {

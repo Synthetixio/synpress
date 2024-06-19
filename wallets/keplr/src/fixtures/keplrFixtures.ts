@@ -80,6 +80,7 @@ export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
       _keplrPage = context.pages()[0] as Page
       
       await _keplrPage.goto(`chrome-extension://${extensionId}/popup.html`)
+
       await unlockForFixtures(_keplrPage, PASSWORD)
     
       await use(context)
