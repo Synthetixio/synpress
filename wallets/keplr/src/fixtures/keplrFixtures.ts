@@ -13,7 +13,6 @@ import {
 import fs from 'fs-extra'
 import { persistLocalStorage } from '../fixtureActions/persistLocalStorage'
 import { getExtensionId } from '../fixtureActions'
-//import unlockForFixtures from '../fixtureActions/unlockForFixtures'
 import { prepareExtension } from '@synthetixio/synpress-utils'
 
 type KeplrFixtures = {

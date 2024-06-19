@@ -10,9 +10,9 @@ export class KeplrWallet {
 
   constructor(
     readonly page: Page,
-    readonly context: BrowserContext,
-    readonly password: string,
-    readonly extensionId: string | undefined,
+    readonly context?: BrowserContext,
+    readonly password?: string,
+    readonly extensionId?: string | undefined,
   ) {
     this.lockPage = new LockPage(page)
     this.homePage = new HomePage(page)
