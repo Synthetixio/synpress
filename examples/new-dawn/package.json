@@ -9,6 +9,7 @@
     "build:cache:headless": "synpress --headless",
     "serve:test-dapp": "serve node_modules/@metamask/test-dapp/dist -p 9999",
     "test:e2e:headful": "playwright test",
+    "test:e2e:headful:cypress": "cypress run --browser chrome --headed",
     "test:e2e:headless": "HEADLESS=true playwright test",
     "test:e2e:headless:ui": "HEADLESS=true playwright test --ui"
   },
@@ -20,6 +21,7 @@
   "devDependencies": {
     "@metamask/test-dapp": "8.1.0",
     "@types/node": "20.11.17",
+    "cypress": "13.9.0",
     "serve": "14.2.1",
     "typescript": "5.3.3"
   }

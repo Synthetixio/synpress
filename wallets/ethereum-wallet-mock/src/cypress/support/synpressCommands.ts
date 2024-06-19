@@ -11,7 +11,6 @@
 
 import type { Network } from '../../type/Network'
 import type { WalletMock } from '../../type/WalletMock'
-// import type { Network } from "../../type/Network";
 import getEthereumWalletMock from '../utils/getEthereumWalletMock'
 
 declare global {
@@ -54,48 +53,50 @@ declare global {
   }
 }
 
-Cypress.Commands.add('importWallet', (seedPhrase) => {
-  const ethereumWalletMock = getEthereumWalletMock()
-  ethereumWalletMock.importWallet(seedPhrase)
-})
+export default function synpressCommands() {
+  Cypress.Commands.add('importWallet', (seedPhrase) => {
+    const ethereumWalletMock = getEthereumWalletMock()
+    ethereumWalletMock.importWallet(seedPhrase)
+  })
 
-Cypress.Commands.add('importWalletFromPrivateKey', (privateKey) => {
-  const ethereumWalletMock = getEthereumWalletMock()
-  ethereumWalletMock.importWalletFromPrivateKey(privateKey)
-})
+  Cypress.Commands.add('importWalletFromPrivateKey', (privateKey) => {
+    const ethereumWalletMock = getEthereumWalletMock()
+    ethereumWalletMock.importWalletFromPrivateKey(privateKey)
+  })
 
-Cypress.Commands.add('addNewAccount', () => {
-  const ethereumWalletMock = getEthereumWalletMock()
-  return ethereumWalletMock.addNewAccount()
-})
+  Cypress.Commands.add('addNewAccount', () => {
+    const ethereumWalletMock = getEthereumWalletMock()
+    return ethereumWalletMock.addNewAccount()
+  })
 
-Cypress.Commands.add('getAllAccounts', () => {
-  const ethereumWalletMock = getEthereumWalletMock()
+  Cypress.Commands.add('getAllAccounts', () => {
+    const ethereumWalletMock = getEthereumWalletMock()
 
-  return ethereumWalletMock.getAllAccounts()
-})
+    return ethereumWalletMock.getAllAccounts()
+  })
 
-Cypress.Commands.add('getAccountAddress', () => {
-  const ethereumWalletMock = getEthereumWalletMock()
-  return ethereumWalletMock.getAccountAddress()
-})
+  Cypress.Commands.add('getAccountAddress', () => {
+    const ethereumWalletMock = getEthereumWalletMock()
+    return ethereumWalletMock.getAccountAddress()
+  })
 
-Cypress.Commands.add('switchAccount', (accountAddress) => {
-  const ethereumWalletMock = getEthereumWalletMock()
-  ethereumWalletMock.switchAccount(accountAddress)
-})
+  Cypress.Commands.add('switchAccount', (accountAddress) => {
+    const ethereumWalletMock = getEthereumWalletMock()
+    ethereumWalletMock.switchAccount(accountAddress)
+  })
 
-Cypress.Commands.add('addNetwork', (network) => {
-  const ethereumWalletMock = getEthereumWalletMock()
-  ethereumWalletMock.addNetwork(network)
-})
+  Cypress.Commands.add('addNetwork', (network) => {
+    const ethereumWalletMock = getEthereumWalletMock()
+    ethereumWalletMock.addNetwork(network)
+  })
 
-Cypress.Commands.add('switchNetwork', (networkName) => {
-  const ethereumWalletMock = getEthereumWalletMock()
-  ethereumWalletMock.switchNetwork(networkName)
-})
+  Cypress.Commands.add('switchNetwork', (networkName) => {
+    const ethereumWalletMock = getEthereumWalletMock()
+    ethereumWalletMock.switchNetwork(networkName)
+  })
 
-Cypress.Commands.add('connectToDapp', (wallet) => {
-  const ethereumWalletMock = getEthereumWalletMock()
-  ethereumWalletMock.connectToDapp(wallet)
-})
+  Cypress.Commands.add('connectToDapp', (wallet) => {
+    const ethereumWalletMock = getEthereumWalletMock()
+    ethereumWalletMock.connectToDapp(wallet)
+  })
+}

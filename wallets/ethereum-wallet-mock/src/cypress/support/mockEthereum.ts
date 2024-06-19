@@ -1,10 +1,12 @@
-before(() => {
-  cy.visit('/', {
-    onBeforeLoad: (window) => {
-      window.Web3Mock.mock({
-        blockchain: 'ethereum',
-        wallet: 'metamask'
-      })
-    }
+export default function mockEthereum() {
+  before(() => {
+    cy.visit('/', {
+      onBeforeLoad: (window) => {
+        window.Web3Mock.mock({
+          blockchain: 'ethereum',
+          wallet: 'metamask'
+        })
+      }
+    })
   })
-})
+}
