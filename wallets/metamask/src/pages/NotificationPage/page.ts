@@ -32,20 +32,9 @@ export class NotificationPage {
 
   private async beforeMessageSignature(extensionId: string) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
-    const scrollDownButton = notificationPage.locator(Selectors.SignaturePage.structuredMessage.scrollDownButton)
-
-    let isScrollButtonVisible = false
-
-    const scrollButtonPromise = scrollDownButton
-      .waitFor({ state: 'visible' })
-      .then(async () => {
-        isScrollButtonVisible = true
-        await scrollDownButton.click()
-        return true
-      })
-      .catch(() => false)
-
-    await Promise.race([scrollButtonPromise, notificationPage.waitForLoadState('load').then(() => false)])
+    notificationPage.waitForLoadState('load')
+    const isScrollButtonVisible =
+      (await notificationPage.locator(Selectors.SignaturePage.structuredMessage.scrollDownButton).count()) > 0
 
     return {
       notificationPage,
