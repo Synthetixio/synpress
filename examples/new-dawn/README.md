@@ -11,7 +11,7 @@ The New Dawn version of Synpress differs in one major way from all previous vers
 - We set up the browser only once, and we cache it. Thanks to this, tests not only run faster, but it also allows to use
   **ALL FEATURES** of [Playwright](https://playwright.dev/), such as parallel testing 🚀
 
-You can define how a browser should be set up yourself. You can find setup file examples [here](./test/wallet-setup).
+You can define how a browser should be set up yourself. You can find setup file examples [here](test/playwright/wallet-setup).
 All setup files must have the following naming structure: `*.setup.{js,ts}`.
 
 Once you define a setup file, you can build a cache with our CLI. By default, the cache is built in a headed mode and
