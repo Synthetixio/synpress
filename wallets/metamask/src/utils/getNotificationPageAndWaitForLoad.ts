@@ -11,13 +11,13 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
   // Check if notification page is already open.
   let notificationPage = context.pages().find(isNotificationPage)
 
-  await waitUntilStable(notificationPage as Page)
-
   if (!notificationPage) {
     notificationPage = await context.waitForEvent('page', {
       predicate: isNotificationPage
     })
   }
+
+  await waitUntilStable(notificationPage as Page)
 
   // Set pop-up window viewport size to resemble the actual MetaMask pop-up window.
   await notificationPage.setViewportSize({
@@ -27,7 +27,7 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
 
   await Promise.all(
     LoadingSelectors.loadingIndicators.map(async (selector) => {
-      await waitForSelector(selector, notificationPage, 1000)
+      await waitForSelector(selector, notificationPage as Page, 5000)
     })
   )
     .then(() => {
