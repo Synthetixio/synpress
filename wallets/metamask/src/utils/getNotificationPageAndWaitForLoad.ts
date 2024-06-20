@@ -1,4 +1,7 @@
 import type { BrowserContext, Page } from '@playwright/test'
+import { LoadingSelectors } from '../selectors'
+import { waitUntilStable } from './waitFor'
+import { waitForSelector } from './waitFor'
 
 export async function getNotificationPageAndWaitForLoad(context: BrowserContext, extensionId: string) {
   const notificationPageUrl = `chrome-extension://${extensionId}/notification.html`
@@ -7,6 +10,8 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
 
   // Check if notification page is already open.
   let notificationPage = context.pages().find(isNotificationPage)
+
+  await waitUntilStable(notificationPage as Page)
 
   if (!notificationPage) {
     notificationPage = await context.waitForEvent('page', {
@@ -20,7 +25,17 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
     height: 592
   })
 
-  await notificationPage.waitForLoadState('load')
+  await Promise.all(
+    LoadingSelectors.loadingIndicators.map(async (selector) => {
+      await waitForSelector(selector, notificationPage, 1000)
+    })
+  )
+    .then(() => {
+      console.log('All loading indicators are hidden')
+    })
+    .catch((error) => {
+      console.error('Error: ', error)
+    })
 
   return notificationPage
 }

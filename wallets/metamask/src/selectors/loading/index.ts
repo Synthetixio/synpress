@@ -1,3 +1,16 @@
 export const LoadingSelectors = {
-  spinner: '.spinner'
+  spinner: '.spinner',
+  loadingIndicators: [
+    '.loading-logo',
+    '.loading-spinner',
+    '.loading-overlay',
+    '.loading-overlay__spinner',
+    '.loading-span',
+    '.loading-indicator',
+    '#loading__logo',
+    '#loading__spinner',
+    '.mm-button-base__icon-loading',
+    '.loading-swaps-quotes',
+    '.loading-heartbeat'
+  ]
 }

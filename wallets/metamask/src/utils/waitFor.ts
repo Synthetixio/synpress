@@ -1,3 +1,16 @@
+import type { Page } from '@playwright/test'
+
+export const waitUntilStable = async (page: Page) => {
+  await page.waitForLoadState('load')
+  await page.waitForLoadState('domcontentloaded')
+  await page.waitForLoadState('networkidle')
+}
+
+export const waitForSelector = async (selector: string, page: Page, timeout: number) => {
+  await waitUntilStable(page)
+  await page.waitForSelector(selector, { state: 'hidden', timeout })
+}
+
 // Inlining the sleep function here cause this is one of the few places in the entire codebase where sleep should be used!
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
