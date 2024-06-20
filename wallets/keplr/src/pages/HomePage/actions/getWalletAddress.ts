@@ -1,4 +1,5 @@
 import type { Page } from '@playwright/test'
+import clipboardy from 'clipboardy'
 import { homePageElements } from '../selectors'
 
 export const getWalletAddress = async (page: Page, wallet: string) => {
@@ -6,6 +7,6 @@ export const getWalletAddress = async (page: Page, wallet: string) => {
   await page.getByText(homePageElements.copyAddress).click()
   const chain = await page.waitForSelector(homePageElements.walletSelectors(wallet))
   await chain.click()
-
-  return 'no access to clipboard!'
+  const address = clipboardy.readSync()
+  return address;
 }

@@ -33,6 +33,7 @@
     "@synthetixio/synpress-core": "workspace:*",
     "@synthetixio/synpress-utils": "workspace:*",
     "@viem/anvil": "0.0.7",
+    "clipboardy": "4.0.0",
     "fs-extra": "11.2.0",
     "node-fetch": "3.3.2",
     "underscore": "1.13.6",

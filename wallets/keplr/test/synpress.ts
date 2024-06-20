@@ -1,5 +1,5 @@
 import { testWithSynpress } from '@synthetixio/synpress-core'
 import { keplrFixtures } from '../src'
-import connectedKeplrSetup from './wallet-setup/connected-keplr.setup'
+import importWalletKeplr from './wallet-setup/import-wallet.setup'
 
-export default testWithSynpress(keplrFixtures(connectedKeplrSetup))
+export default testWithSynpress(keplrFixtures(importWalletKeplr))

@@ -30,6 +30,11 @@ export class KeplrWallet {
     return wallet
   }
 
+  async createWallet(password: string) {
+    const wallet = await this.lockPage.createWallet(password)
+    return wallet
+  }
+
   async getWalletAddress(wallet: string) {
     const walletAddress = await this.homePage.getWalletAddress(wallet)
     return walletAddress

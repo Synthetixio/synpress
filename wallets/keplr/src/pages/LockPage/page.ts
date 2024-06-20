@@ -1,6 +1,7 @@
 import type { Page } from '@playwright/test'
 import { importWallet } from './actions'
 import { unlockWallet } from './actions'
+import { createWallet } from './actions'
 import { onboardingElements } from './selectors'
 
 export class LockPage {
@@ -19,5 +20,9 @@ export class LockPage {
 
   async importWallet(secretWordsOrPrivateKey: string, password: string) {
     await importWallet(this.page, secretWordsOrPrivateKey, password)
+  }
+
+  async createWallet(password: string) {
+    await createWallet(this.page, password)
   }
 }

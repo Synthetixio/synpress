@@ -16,6 +16,7 @@ export const onboardingElements = {
   walletInput: 'input[name="name"]:focus',
   passwordInput: 'input[name="password"]',
   confirmPasswordInput: 'input[name="confirmPassword"]',
+  createNextButton: 'sc-bZkfAO.jGdbNJ',
   unlockPasswordInput: '.sc-kLLXSd.aOXjF',
   unlockConfirmPasswordInput: 'button[type="submit"].sc-ciZhAO.kaxPjU',
   submitWalletDataButton: 'button[type="submit"]',
