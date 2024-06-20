@@ -7,7 +7,7 @@ const test = testWithSynpress(metaMaskFixtures(basicSetup))
 
 const { expect } = test
 
-test.only('should rename current account with specified name', async ({ context, metamaskPage }) => {
+test('should rename current account with specified name', async ({ context, metamaskPage }) => {
   const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
 
   const accountName = 'Test Account'
