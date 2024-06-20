@@ -40,7 +40,6 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
   const timeout = 5000
   for (const selector of loadingIndicators) {
     try {
-      console.log(`Loading indicator '${selector}' found, waiting for it to disappear`)
       await notificationPage.waitForSelector(selector, { state: 'hidden', timeout })
     } catch (error) {
       if (error instanceof errors.TimeoutError) {
