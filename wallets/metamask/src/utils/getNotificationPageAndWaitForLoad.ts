@@ -20,7 +20,7 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
     height: 592
   })
 
-  await notificationPage.waitForLoadState('load')
+  await notificationPage.waitForLoadState('domcontentloaded')
 
   return notificationPage
 }
