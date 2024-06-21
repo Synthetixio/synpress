@@ -4,6 +4,6 @@ import { getExtensionId } from '../../../fixtureActions'
 
 export const rejectAccess = async (page: Page) => {
   const extensionId = await getExtensionId(page.context(), 'keplr')
-  const notificationPage = await getNotificationPageAndWaitForLoad(context, extensionId)
+  const notificationPage = await getNotificationPageAndWaitForLoad(page.context(), extensionId)
   await notificationPage.close()
 }
