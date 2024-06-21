@@ -4,6 +4,7 @@ export * from './unzipArchive'
 export * from './ensureCacheDirExists'
 export * from './defineWalletSetup'
 export * from './prepareExtension'
+export * from './getNotificationPageAndWaitForLoad'
 
 export * from './utils/bytesToMegabytes'
 export * from './utils/createCacheForWalletSetupFunction'

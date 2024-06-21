@@ -41,10 +41,18 @@ export class KeplrWallet {
   }
 
   async addNewTokensFound() {
-    await this.homePage.addNewTokensFound()
+    return await this.homePage.addNewTokensFound()
   }
 
   async disconnectWalletFromDapps() {
     return await this.homePage.disconnectWalletFromDapps()
+  }
+
+  async acceptAccess() {
+    return await this.notificationPage.acceptAccess()
+  }
+
+  async rejectAccess() {
+    return await this.notificationPage.rejectAccess()
   }
 }

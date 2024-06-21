@@ -31,7 +31,7 @@ export async function createWallet(page: Page, password: string) {
     const wordLabelText = await wordLabel.innerText()
     const wordNumber = Number(wordLabelText.split('Word #')[1]) - 1
     const wordInputElement = wordLabel.locator('..').locator('input').first()
-    await wordInputElement.fill(mnemonicPhraseArray[wordNumber])
+    await wordInputElement.fill(mnemonicPhraseArray[wordNumber] || '')
   }
 
   const walletInput = await page.locator(onboardingElements.walletInput)

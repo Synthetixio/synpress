@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import { getNotificationPageAndWaitForLoad } from '../../utils/getNotificationPageAndWaitForLoad'
+import { getNotificationPageAndWaitForLoad } from '@synthetixio/synpress-utils'
 import {
   type GasSetting,
   approvePermission,

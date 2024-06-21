@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import { acceptAccess, confirmTransaction } from './actions'
+import { acceptAccess, rejectAccess } from './actions'
 import { notificationPageElements } from './selectors'
 
 export class NotificationPage {
@@ -12,11 +12,11 @@ export class NotificationPage {
     this.page = page
   }
 
-  async confirmTransaction() {
-    await confirmTransaction()
+  async acceptAccess() {
+    await acceptAccess(this.page)
   }
 
-  async acceptAccess() {
-    await acceptAccess()
+  async rejectAccess() {
+    await rejectAccess(this.page)
   }
 }

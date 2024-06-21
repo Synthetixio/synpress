@@ -9,11 +9,6 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
-import synpress from '../../../test/synpress'
-;('../../../test/synpress')
-
-const test = synpress
-
 declare global {
   namespace Cypress {
     interface Chainable {
