@@ -1,4 +1,5 @@
 import type { Page } from '@playwright/test'
+import { errors } from '@playwright/test'
 
 export const waitUntilStable = async (page: Page) => {
   await page.waitForLoadState('domcontentloaded')
@@ -7,7 +8,17 @@ export const waitUntilStable = async (page: Page) => {
 
 export const waitForSelector = async (selector: string, page: Page, timeout: number) => {
   await waitUntilStable(page)
-  await page.waitForSelector(selector, { state: 'hidden', timeout })
+
+  try {
+    await page.waitForSelector(selector, { state: 'hidden', timeout })
+  } catch (error) {
+    if (error instanceof errors.TimeoutError) {
+      console.log(`Loading indicator '${selector}' not found - continuing.`)
+    } else {
+      console.log(`Error while waiting for loading indicator '${selector}' to disappear`)
+      throw error
+    }
+  }
 }
 
 // Inlining the sleep function here cause this is one of the few places in the entire codebase where sleep should be used!
