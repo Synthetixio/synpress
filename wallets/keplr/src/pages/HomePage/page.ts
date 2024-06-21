@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import { addNewTokensFound, getTokenAmount, getWalletAddress } from './actions'
+import { addNewTokensFound, getTokenAmount, getWalletAddress, disconnectWalletFromDapps } from './actions'
 import { homePageElements } from './selectors'
 
 export class HomePage {
@@ -22,5 +22,11 @@ export class HomePage {
 
   async addNewTokensFound() {
     return await addNewTokensFound(this.page)
+  }
+
+  async disconnectWalletFromDapps() {
+    const currentUrl = this.page.url();
+    await this.page.goto(currentUrl + '#/setting/security/permission');
+    return await disconnectWalletFromDapps(this.page)
   }
 }

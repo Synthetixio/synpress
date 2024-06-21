@@ -26,7 +26,6 @@ type KeplrFixtures = {
 let _keplrPage: Page
 
 export const keplrFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>, slowMo = 0) => {
-  console.log(walletSetup, 'ee')
   return base.extend<KeplrFixtures>({
     _contextPath: async ({ browserName }, use, testInfo) => {
       const contextDir = await createTempContextDir(browserName, testInfo.testId)

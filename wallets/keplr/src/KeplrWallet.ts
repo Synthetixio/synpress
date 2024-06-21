@@ -39,4 +39,12 @@ export class KeplrWallet {
     const walletAddress = await this.homePage.getWalletAddress(wallet)
     return walletAddress
   }
+
+  async addNewTokensFound() {
+    await this.homePage.addNewTokensFound()
+  }
+
+  async disconnectWalletFromDapps() {
+    return await this.homePage.disconnectWalletFromDapps()
+  }
 }

@@ -1,4 +1,3 @@
-// import { PASSWORD, SEED_PHRASE } from '../../src'
 import synpress from '../synpress'
 
 const test = synpress

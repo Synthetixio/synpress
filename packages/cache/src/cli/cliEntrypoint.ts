@@ -80,7 +80,7 @@ export const cliEntrypoint = async () => {
     )
     process.exit(1)
   }
-  console.log('extensions', extensionNames, 'walletSetupDir', walletSetupDir, 'flags', flags)
+
   const compiledWalletSetupDirPath = await compileWalletSetupFunctions(walletSetupDir, flags.debug)
   for (const extensionName of extensionNames) {
     await createCache(compiledWalletSetupDirPath, () => prepareExtension(extensionName), flags.force) // Pass extensionName
