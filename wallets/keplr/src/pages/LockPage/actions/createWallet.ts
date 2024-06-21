@@ -16,27 +16,26 @@ export async function createWallet(page: Page, password: string) {
   const copyToClipboardButton = await page.getByText(onboardingElements.copyToClipboardButton)
   await copyToClipboardButton.click()
 
-  const mnemonicPhraseArray = clipboardy.readSync().split(' ');
+  const mnemonicPhraseArray = clipboardy.readSync().split(' ')
 
   const nextButton = await page.getByRole('button', { name: 'Next', exact: true })
   await nextButton.click()
 
-  const elements = await page.getByText(/Word #\d+/, { exact: true }).all();
-  const wordLabels = await Promise.all(elements.map(element => element));
+  const elements = await page.getByText(/Word #\d+/, { exact: true }).all()
+  const wordLabels = await Promise.all(elements.map((element) => element))
 
-  await page.waitForSelector(onboardingElements.focusedInput);
+  await page.waitForSelector(onboardingElements.focusedInput)
 
   // match the requested phrase words with the copied mnemonic phrase
   for (const wordLabel of wordLabels) {
-    const wordLabelText = await wordLabel.innerText();
-    const wordNumber = Number(wordLabelText.split('Word #')[1]) - 1;
-    const wordInputElement = wordLabel.locator('..').locator('input').first();
-    await wordInputElement.fill(mnemonicPhraseArray[wordNumber]);
+    const wordLabelText = await wordLabel.innerText()
+    const wordNumber = Number(wordLabelText.split('Word #')[1]) - 1
+    const wordInputElement = wordLabel.locator('..').locator('input').first()
+    await wordInputElement.fill(mnemonicPhraseArray[wordNumber])
   }
 
   const walletInput = await page.locator(onboardingElements.walletInput)
   await walletInput.fill(onboardingElements.walletName)
-
 
   const passwordInput = await page.locator(onboardingElements.passwordInput)
   await passwordInput.fill(password)

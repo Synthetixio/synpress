@@ -27,9 +27,7 @@ export async function connectPlaywrightToChrome(port: number) {
   const debuggerDetailsConfig = (await debuggerDetails.json()) as {
     webSocketDebuggerUrl: string
   }
-
   const browser = await chromium.connectOverCDP(debuggerDetailsConfig.webSocketDebuggerUrl)
-
   context = browser.contexts()[0]
 
   return browser.isConnected()
@@ -54,7 +52,6 @@ export async function initKeplrWallet(port: number) {
     await cypressPage.reload()
     keplrLoaded = true
   }
-
   keplrWallet = new KeplrWallet(cypressPage)
   await keplrWallet.setupWallet({ secretWordsOrPrivateKey: SEED_PHRASE, password: PASSWORD })
 }
@@ -64,7 +61,7 @@ export function getKeplrWallet() {
     console.error(MISSING_INIT)
     return
   }
-
   if (keplrWallet) return keplrWallet
+
   return new KeplrWallet(cypressPage)
 }

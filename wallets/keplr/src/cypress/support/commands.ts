@@ -9,14 +9,31 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
+import synpress from '../../../test/synpress'
+;('../../../test/synpress')
+
+const test = synpress
+
 declare global {
   namespace Cypress {
     interface Chainable {
-      setupWallet({ secretWordsOnPrivateKeys, password }: { secretWordsOnPrivateKeys: string; password: string }): Chainable<void>
+      setupWallet({
+        secretWordsOnPrivateKeys,
+        password
+      }: { secretWordsOnPrivateKeys: string; password: string }): Chainable<void>
+      setupPlaywrightContext(): Chainable<void>
     }
   }
 }
 
 Cypress.Commands.add('setupWallet', ({ secretWordsOnPrivateKeys, password }) => {
   cy.task('setupWallet', { secretWordsOnPrivateKeys, password })
+})
+
+Cypress.Commands.add('setupPlaywrightContext', () => {
+  cy.task('setupPlaywrightContext')
+})
+
+before(() => {
+  cy.setupPlaywrightContext()
 })
