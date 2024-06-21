@@ -18,34 +18,35 @@ export async function createWallet(page: Page, password: string) {
 
   const mnemonicPhraseArray = clipboardy.readSync().split(' ');
 
-  const nextButton = await page.getByText(onboardingElements.createNextButton)
+  const nextButton = await page.getByRole('button', { name: 'Next', exact: true })
   await nextButton.click()
 
-  const inputFields = page.locator(onboardingElements.phraseInput)
-  const inputCount = await inputFields.count()
+  const elements = await page.getByText(/Word #\d+/, { exact: true }).all();
+  const wordLabels = await Promise.all(elements.map(element => element));
 
-  for (let i = 0; i < inputCount; i++) {
-    const inputField = inputFields.nth(i)
-    if (mnemonicPhraseArray[i]) {
-      await inputField.fill(mnemonicPhraseArray[i] || '')
-    }
+  await page.waitForSelector(onboardingElements.focusedInput);
+
+  // match the requested phrase words with the copied mnemonic phrase
+  for (const wordLabel of wordLabels) {
+    const wordLabelText = await wordLabel.innerText();
+    const wordNumber = Number(wordLabelText.split('Word #')[1]) - 1;
+    const wordInputElement = wordLabel.locator('..').locator('input').first();
+    await wordInputElement.fill(mnemonicPhraseArray[wordNumber]);
   }
 
-  // @todo: There is a security feature with Keplr that requires you to input numbers from your mnemonic phrase.
   const walletInput = await page.locator(onboardingElements.walletInput)
   await walletInput.fill(onboardingElements.walletName)
 
-  const confirmCopyNext = await page.getByRole('button', { name: 'Next', exact: true })
-  await confirmCopyNext.click()
-  await page.close()
+
   const passwordInput = await page.locator(onboardingElements.passwordInput)
   await passwordInput.fill(password)
 
   const confirmPasswordInput = await page.locator(onboardingElements.confirmPasswordInput)
   await confirmPasswordInput.fill(password)
 
-  const submitWalletDataButton = await page.getByRole('button', { name: 'Next', exact: true })
+  const submitWalletDataButton = await page.locator(onboardingElements.createNextButton)
   await submitWalletDataButton.click()
+
   const submitChainButton = await page.getByRole('button', { name: 'Save', exact: true })
   await submitChainButton.click()
 
