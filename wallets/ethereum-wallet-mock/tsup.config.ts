@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig({
   name: 'ethereum-wallet-mock',
-  entry: ['src/index.ts'],
+  entry: ['src/index.ts', 'src/playwright/index.ts', 'src/cypress/index.ts', 'src/cypress/support/index.ts'],
   outDir: 'dist',
   format: 'esm',
   splitting: false,

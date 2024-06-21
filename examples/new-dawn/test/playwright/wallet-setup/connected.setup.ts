@@ -1,6 +1,6 @@
-import { BrowserContext, Page } from '@playwright/test'
-import { MetaMask, defineWalletSetup, getExtensionId } from '@synthetixio/synpress'
-import 'dotenv/config'
+import type { BrowserContext, Page } from '@playwright/test'
+import { defineWalletSetup } from '@synthetixio/synpress-utils'
+import { MetaMask, getExtensionId } from '@synthetixio/synpress'
 
 const SEED_PHRASE = process.env.SEED_PHRASE
 const PASSWORD = process.env.WALLET_PASSWORD

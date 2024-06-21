@@ -1,4 +1,4 @@
-import synpress from '../synpress'
+import synpress from './synpress'
 
 const test = synpress
 

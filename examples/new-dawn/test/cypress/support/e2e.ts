@@ -13,9 +13,8 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-import mockEthereum from './mockEthereum'
 // Import commands.js using ES2015 syntax:
-import synpressCommands from './synpressCommands'
+import { mockEthereum, synpressCommands } from '@synthetixio/synpress/cypress/support'
 
 synpressCommands()
 mockEthereum()

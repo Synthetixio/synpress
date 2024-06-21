@@ -3,11 +3,23 @@
   "version": "4.0.0-alpha.7",
   "type": "module",
   "exports": {
-    "types": "./types/index.d.ts",
-    "default": "./dist/index.js"
+    ".": {
+      "default": "./dist/index.js",
+      "types": "./types/index.d.ts"
+    },
+    "./cypress": {
+      "types": "./types/cypress/index.d.ts",
+      "default": "./dist/cypress/index.js"
+    },
+    "./cypress/support": {
+      "types": "./types/cypress/support.d.ts",
+      "default": "./dist/cypress/support.js"
+    },
+    "./playwright": {
+      "types": "./types/playwright/index.d.ts",
+      "default": "./dist/playwright/index.js"
+    }
   },
-  "main": "./dist/index.js",
-  "types": "./types/index.d.ts",
   "bin": "./dist/cli.js",
   "files": [
     "dist",
