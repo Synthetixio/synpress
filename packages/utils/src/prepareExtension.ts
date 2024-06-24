@@ -6,7 +6,7 @@ interface ExtensionConfig {
   downloadUrl: string
 }
 
-async function getExtensionConfig(name: string): Promise<ExtensionConfig> {
+export async function getExtensionConfig(name: string): Promise<ExtensionConfig> {
   const config = {
     extensions: [
       {
