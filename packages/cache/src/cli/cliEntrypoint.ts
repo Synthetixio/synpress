@@ -1,11 +1,11 @@
 import os from 'node:os'
 import path from 'node:path'
-import { WALLET_SETUP_DIR_NAME } from '../constants'
-import { prepareExtension } from '../prepareExtension'
 import chalk from 'chalk'
 import { Command } from 'commander'
 import { rimraf } from 'rimraf'
+import { WALLET_SETUP_DIR_NAME } from '../constants'
 import { createCache } from '../createCache'
+import { prepareExtension } from '../prepareExtension'
 import { compileWalletSetupFunctions } from './compileWalletSetupFunctions'
 import { footer } from './footer'
 

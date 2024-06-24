@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
-import { getNotificationPageAndWaitForLoad } from '../../../getNotificationPageAndWaitForLoad'
 import { getExtensionId } from '../../../fixtureActions'
+import { getNotificationPageAndWaitForLoad } from '../../../getNotificationPageAndWaitForLoad'
 
 export const rejectAccess = async (page: Page) => {
   const extensionId = await getExtensionId(page.context(), 'keplr')

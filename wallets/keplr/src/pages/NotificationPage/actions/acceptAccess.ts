@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
-import { getNotificationPageAndWaitForLoad } from '../../../getNotificationPageAndWaitForLoad'
 import { getExtensionId } from '../../../fixtureActions'
+import { getNotificationPageAndWaitForLoad } from '../../../getNotificationPageAndWaitForLoad'
 import { notificationPageElements } from '../selectors'
 
 export const acceptAccess = async (page: Page) => {
