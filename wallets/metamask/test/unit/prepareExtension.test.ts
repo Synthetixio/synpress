@@ -1,5 +1,5 @@
-import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
 import { prepareExtension } from '@synthetixio/synpress-cache'
+import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
 
 const MOCK_CACHE_DIR_PATH = 'mockCacheDirPath'
 const MOCK_EXTENSION_FINAL_PATH = 'mockExtensionFinalPath'
