@@ -35,7 +35,7 @@ export default defineConfig({
     baseURL: 'http://localhost:9999',
     // Collect all traces on CI, and only traces for failed tests when running locally.
     // See https://playwright.dev/docs/trace-viewer.
-    trace: process.env.CI ? 'on' : 'retain-on-failure',
+    trace: process.env.CI ? 'on' : 'retain-on-failure'
   },
 
   // Configure projects for major browsers.
