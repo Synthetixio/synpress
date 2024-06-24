@@ -1,4 +1,4 @@
-import { removeTempContextDir } from '@synthetixio/synpress-cache'
+import { removeTempContextDir } from "../../src"
 import { afterAll, describe, expect, it, vi } from 'vitest'
 
 const PATH = 'Happy Quack Path'

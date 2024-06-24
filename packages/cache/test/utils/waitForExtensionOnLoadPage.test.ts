@@ -1,4 +1,4 @@
-import { waitForExtensionOnLoadPage } from '@synthetixio/synpress-cache'
+import { waitForExtensionOnLoadPage } from '../../src/utils/waitForExtensionOnLoadPage'
 import { errors as playwrightErrors } from 'playwright-core'
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
 

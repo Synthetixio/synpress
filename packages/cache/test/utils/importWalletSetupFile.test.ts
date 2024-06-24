@@ -1,4 +1,4 @@
-import { importWalletSetupFile } from '@synthetixio/synpress-cache'
+import { importWalletSetupFile } from "../../src"
 import { afterAll, describe, expect, it, vi } from 'vitest'
 
 vi.mock('../../src/ensureCacheDirExists', async () => {

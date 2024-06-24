@@ -1,10 +1,10 @@
 import path from 'node:path'
-import { downloadFile } from '@synthetixio/synpress-cache'
 import axios from 'axios'
 import { fs, vol } from 'memfs'
 import { http, HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import { downloadFile } from '../src'
 
 const ROOT_DIR = '/tmp'
 const FILE_NAME = 'duck.txt'

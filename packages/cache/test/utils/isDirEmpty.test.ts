@@ -1,7 +1,7 @@
 import path from 'node:path'
-import { isDirEmpty } from '@synthetixio/synpress-cache'
 import { fs, vol } from 'memfs'
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { isDirEmpty } from '../../src/utils/isDirEmpty'
 
 const ROOT_DIR = '/tmp'
 const FILE_PATH = path.join(ROOT_DIR, 'file.txt')

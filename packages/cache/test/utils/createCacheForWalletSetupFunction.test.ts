@@ -1,5 +1,5 @@
-import { createCacheForWalletSetupFunction } from '@synthetixio/synpress-cache'
-import * as WaitForExtensionOnLoadPage from '@synthetixio/synpress-cache'
+import { createCacheForWalletSetupFunction } from '../../src'
+import * as WaitForExtensionOnLoadPage from '../../src/utils/waitForExtensionOnLoadPage'
 import { chromium } from 'playwright-core'
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
 

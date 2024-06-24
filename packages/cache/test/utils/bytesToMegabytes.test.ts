@@ -1,4 +1,4 @@
-import { bytesToMegabytes } from '@synthetixio/synpress-cache'
+import { bytesToMegabytes } from "../../src"
 import { describe, expect, it } from 'vitest'
 
 describe('bytesToMegabytes', () => {
