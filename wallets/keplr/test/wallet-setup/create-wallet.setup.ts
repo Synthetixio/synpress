@@ -1,5 +1,5 @@
 import type { BrowserContext, Page } from '@playwright/test'
-import { defineWalletSetup } from '@synthetixio/synpress-utils'
+import { defineWalletSetup } from '@synthetixio/synpress-cache'
 import { KeplrWallet } from '../../src'
 import { getExtensionId } from '../../src/fixtureActions'
 

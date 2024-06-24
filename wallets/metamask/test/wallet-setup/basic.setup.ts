@@ -1,5 +1,5 @@
 import type { BrowserContext, Page } from '@playwright/test'
-import { defineWalletSetup } from '@synthetixio/synpress-utils'
+import { defineWalletSetup } from '@synthetixio/synpress-cache'
 import { MetaMask } from '../../src'
 
 export const SEED_PHRASE = 'test test test test test test test test test test test junk'

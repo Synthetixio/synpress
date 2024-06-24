@@ -7,8 +7,8 @@ import {
   createTempContextDir,
   defineWalletSetup,
   removeTempContextDir
-} from '@synthetixio/synpress-utils'
-import { prepareExtension } from '@synthetixio/synpress-utils'
+} from '@synthetixio/synpress-cache'
+import { prepareExtension } from '@synthetixio/synpress-cache'
 import fs from 'fs-extra'
 import { KeplrWallet } from '../KeplrWallet'
 import { getExtensionId } from '../fixtureActions'

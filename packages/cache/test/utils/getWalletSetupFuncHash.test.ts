@@ -1,4 +1,4 @@
-import { WALLET_SETUP_FUNC_HASH_LENGTH, getWalletSetupFuncHash } from '@synthetixio/synpress-utils'
+import { WALLET_SETUP_FUNC_HASH_LENGTH, getWalletSetupFuncHash } from '@synthetixio/synpress-cache'
 import { describe, expect, it } from 'vitest'
 
 const EXPECTED_HASH = 'b940c886be3c1a041ddd'

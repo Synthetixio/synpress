@@ -1,6 +1,6 @@
 import { BrowserContext, Page } from '@playwright/test'
 import { MetaMask } from '@synthetixio/synpress'
-import { defineWalletSetup } from '@synthetixio/synpress-utils'
+import { defineWalletSetup } from '@synthetixio/synpress'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'
 const PASSWORD = 'SynpressIsAwesomeNow!!!'

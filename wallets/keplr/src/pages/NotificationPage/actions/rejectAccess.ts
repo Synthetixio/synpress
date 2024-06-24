@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import { getNotificationPageAndWaitForLoad } from '@synthetixio/synpress-utils'
+import { getNotificationPageAndWaitForLoad } from '../../../getNotificationPageAndWaitForLoad'
 import { getExtensionId } from '../../../fixtureActions'
 
 export const rejectAccess = async (page: Page) => {

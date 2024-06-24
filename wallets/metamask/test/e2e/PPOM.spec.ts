@@ -1,4 +1,4 @@
-import { getNotificationPageAndWaitForLoad } from '@synthetixio/synpress-utils'
+import { getNotificationPageAndWaitForLoad } from '../../src/utils/getNotificationPageAndWaitForLoad'
 import { createDataTestSelector } from '../../src/utils/selectors/createDataTestSelector'
 import synpress from '../synpress'
 

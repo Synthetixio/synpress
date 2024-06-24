@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { unzipArchive } from '@synthetixio/synpress-utils'
+import { unzipArchive } from '@synthetixio/synpress-cache'
 import { fs, vol } from 'memfs'
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import {

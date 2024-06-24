@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { ensureCacheDirExists } from '@synthetixio/synpress-utils'
+import { ensureCacheDirExists } from '../ensureCacheDirExists'
 import { glob } from 'glob'
 import { build } from 'tsup'
 import { FIXES_BANNER } from './compilationFixes'

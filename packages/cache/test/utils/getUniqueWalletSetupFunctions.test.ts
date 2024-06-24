@@ -1,4 +1,4 @@
-import { getUniqueWalletSetupFunctions } from '@synthetixio/synpress-utils'
+import { getUniqueWalletSetupFunctions } from '@synthetixio/synpress-cache'
 import { afterAll, describe, expect, it, vi } from 'vitest'
 
 vi.mock('../../src/utils/getWalletSetupFiles', async () => {

@@ -1,5 +1,5 @@
-import { getUniqueWalletSetupFunctions } from '@synthetixio/synpress-utils'
-import { triggerCacheCreation } from '@synthetixio/synpress-utils'
+import { getUniqueWalletSetupFunctions } from './utils/getUniqueWalletSetupFunctions'
+import { triggerCacheCreation } from './utils/triggerCacheCreation'
 
 //@TODO: Make it so createCache can handle only one wallet setup function
 export async function createCache(walletSetupDirPath: string, downloadExtension: () => Promise<string>, force = false) {

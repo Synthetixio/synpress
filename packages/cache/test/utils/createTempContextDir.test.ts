@@ -1,6 +1,6 @@
 import os from 'node:os'
 import path from 'node:path'
-import { createTempContextDir } from '@synthetixio/synpress-utils'
+import { createTempContextDir } from '@synthetixio/synpress-cache'
 import { fs, vol } from 'memfs'
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 

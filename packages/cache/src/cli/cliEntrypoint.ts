@@ -1,7 +1,7 @@
 import os from 'node:os'
 import path from 'node:path'
-import { WALLET_SETUP_DIR_NAME } from '@synthetixio/synpress-utils'
-import { prepareExtension } from '@synthetixio/synpress-utils'
+import { WALLET_SETUP_DIR_NAME } from '../constants'
+import { prepareExtension } from '../prepareExtension'
 import chalk from 'chalk'
 import { Command } from 'commander'
 import { rimraf } from 'rimraf'
@@ -44,13 +44,9 @@ export const cliEntrypoint = async () => {
 
   const flags: CliFlags = program.opts()
 
-  if (flags.headless) {
-    process.env.HEADLESS = true
-  }
-
   if (flags.debug) {
     console.log('[DEBUG] Running with the following options:')
-    console.log({ cacheDir: walletSetupDir, ...flags, headless: Boolean(process.env.HEADLESS) ?? false }, '\n')
+    console.log({ cacheDir: walletSetupDir, ...flags, headless: flags.headless ?? false }, '\n')
   }
 
   const extensionsToSetup = () => {

@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { downloadFile } from '@synthetixio/synpress-utils'
+import { downloadFile } from '@synthetixio/synpress-cache'
 import axios from 'axios'
 import { fs, vol } from 'memfs'
 import { http, HttpResponse } from 'msw'

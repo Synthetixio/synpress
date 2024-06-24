@@ -1,8 +1,8 @@
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
 
 import path from 'node:path'
-import * as GetUniqueWalletSetupFunctions from '@synthetixio/synpress-utils'
-import * as TriggerCacheCreation from '@synthetixio/synpress-utils'
+import * as GetUniqueWalletSetupFunctions from '@synthetixio/synpress-cache'
+import * as TriggerCacheCreation from '@synthetixio/synpress-cache'
 import type { BrowserContext, Page } from 'playwright-core'
 import { createCache } from '../src/createCache'
 

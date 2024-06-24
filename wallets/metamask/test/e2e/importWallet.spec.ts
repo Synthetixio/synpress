@@ -1,5 +1,5 @@
 import { type Page, chromium, test as base } from '@playwright/test'
-import { prepareExtension } from '@synthetixio/synpress-utils'
+import { prepareExtension } from '@synthetixio/synpress-cache'
 import { MetaMask } from '../../src'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'

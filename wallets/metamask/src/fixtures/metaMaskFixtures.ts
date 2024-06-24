@@ -1,13 +1,13 @@
 import path from 'node:path'
 import { type Page, chromium } from '@playwright/test'
 import { test as base } from '@playwright/test'
-import { prepareExtension } from '@synthetixio/synpress-utils'
+import { prepareExtension } from '@synthetixio/synpress-cache'
 import {
   CACHE_DIR_NAME,
   createTempContextDir,
   defineWalletSetup,
   removeTempContextDir
-} from '@synthetixio/synpress-utils'
+} from '@synthetixio/synpress-cache'
 import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import fs from 'fs-extra'
 import { MetaMask, getExtensionId, unlockForFixture } from '../../src'

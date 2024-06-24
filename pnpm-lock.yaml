@@ -90,9 +90,6 @@ importers:
 
   packages/cache:
     dependencies:
-      '@synthetixio/synpress-utils':
-        specifier: workspace:*
-        version: link:../utils
       axios:
         specifier: 1.6.7
         version: 1.6.7
@@ -197,91 +194,6 @@ importers:
 
   packages/tsconfig: {}
 
-  packages/utils:
-    dependencies:
-      '@playwright/test':
-        specifier: 1.44.0
-        version: 1.44.0
-      axios:
-        specifier: 1.6.7
-        version: 1.6.7
-      chalk:
-        specifier: 5.3.0
-        version: 5.3.0
-      commander:
-        specifier: 12.0.0
-        version: 12.0.0
-      esbuild:
-        specifier: 0.20.0
-        version: 0.20.0
-      fs-extra:
-        specifier: 11.2.0
-        version: 11.2.0
-      glob:
-        specifier: 10.3.10
-        version: 10.3.10
-      gradient-string:
-        specifier: 2.0.2
-        version: 2.0.2
-      playwright-core:
-        specifier: 1.44.0
-        version: 1.44.0
-      progress:
-        specifier: 2.0.3
-        version: 2.0.3
-      tsup:
-        specifier: 8.0.2
-        version: 8.0.2(typescript@5.3.3)
-      unzipper:
-        specifier: 0.10.14
-        version: 0.10.14
-      zod:
-        specifier: 3.22.4
-        version: 3.22.4
-    devDependencies:
-      '@synthetixio/synpress-tsconfig':
-        specifier: 0.0.1-alpha.7
-        version: link:../tsconfig
-      '@types/archiver':
-        specifier: 6.0.2
-        version: 6.0.2
-      '@types/fs-extra':
-        specifier: 11.0.4
-        version: 11.0.4
-      '@types/gradient-string':
-        specifier: 1.1.5
-        version: 1.1.5
-      '@types/node':
-        specifier: 20.11.17
-        version: 20.11.17
-      '@types/progress':
-        specifier: 2.0.7
-        version: 2.0.7
-      '@types/unzipper':
-        specifier: 0.10.9
-        version: 0.10.9
-      '@vitest/coverage-v8':
-        specifier: 1.2.2
-        version: 1.2.2(vitest@1.2.2)
-      archiver:
-        specifier: 6.0.1
-        version: 6.0.1
-      memfs:
-        specifier: 4.6.0
-        version: 4.6.0(quill-delta@5.1.0)(rxjs@7.8.1)(tslib@2.6.2)
-      msw:
-        specifier: 2.2.0
-        version: 2.2.0(typescript@5.3.3)
-      rimraf:
-        specifier: 5.0.5
-        version: 5.0.5
-      typescript:
-        specifier: 5.3.3
-        version: 5.3.3
-      vitest:
-        specifier: 1.2.2
-        version: 1.2.2(@types/node@20.11.17)
-
   release:
     dependencies:
       '@playwright/test':
@@ -299,9 +211,6 @@ importers:
       '@synthetixio/synpress-metamask':
         specifier: 0.0.1-alpha.7
         version: link:../wallets/metamask
-      '@synthetixio/synpress-utils':
-        specifier: workspace:*
-        version: link:../packages/utils
     devDependencies:
       '@synthetixio/synpress-tsconfig':
         specifier: 0.0.1-alpha.7
@@ -373,9 +282,6 @@ importers:
       '@synthetixio/synpress-core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@synthetixio/synpress-utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
       '@viem/anvil':
         specifier: 0.0.7
         version: 0.0.7
@@ -437,9 +343,6 @@ importers:
       '@synthetixio/synpress-core':
         specifier: 0.0.1-alpha.7
         version: link:../../packages/core
-      '@synthetixio/synpress-utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
       '@viem/anvil':
         specifier: 0.0.7
         version: 0.0.7

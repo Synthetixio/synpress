@@ -1,4 +1,4 @@
-import { defineWalletSetup } from '@synthetixio/synpress-utils'
+import { defineWalletSetup } from "../src"
 import { describe, expect, it } from 'vitest'
 
 const PASSWORD = 'Quack Quack! 🦆'
