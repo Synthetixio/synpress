@@ -1,7 +1,7 @@
-import { createCacheForWalletSetupFunction } from '../../src'
-import * as WaitForExtensionOnLoadPage from '../../src/utils/waitForExtensionOnLoadPage'
 import { chromium } from 'playwright-core'
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
+import { createCacheForWalletSetupFunction } from '../../src'
+import * as WaitForExtensionOnLoadPage from '../../src/utils/waitForExtensionOnLoadPage'
 
 const EXTENSION_PATH = '/tmp/extension'
 const CONTEXT_PATH = '/tmp/context'

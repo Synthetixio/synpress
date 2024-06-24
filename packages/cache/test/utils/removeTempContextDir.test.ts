@@ -1,5 +1,5 @@
-import { removeTempContextDir } from "../../src"
 import { afterAll, describe, expect, it, vi } from 'vitest'
+import { removeTempContextDir } from '../../src'
 
 const PATH = 'Happy Quack Path'
 const MAX_RETRIES = 10

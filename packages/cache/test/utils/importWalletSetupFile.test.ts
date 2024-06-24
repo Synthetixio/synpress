@@ -1,5 +1,5 @@
-import { importWalletSetupFile } from "../../src"
 import { afterAll, describe, expect, it, vi } from 'vitest'
+import { importWalletSetupFile } from '../../src'
 
 vi.mock('../../src/ensureCacheDirExists', async () => {
   return {

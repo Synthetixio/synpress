@@ -1,10 +1,10 @@
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
 
 import path from 'node:path'
-import * as GetUniqueWalletSetupFunctions from '../src/utils/getUniqueWalletSetupFunctions'
-import * as TriggerCacheCreation from '../src/utils/triggerCacheCreation'
 import type { BrowserContext, Page } from 'playwright-core'
 import { createCache } from '../src/createCache'
+import * as GetUniqueWalletSetupFunctions from '../src/utils/getUniqueWalletSetupFunctions'
+import * as TriggerCacheCreation from '../src/utils/triggerCacheCreation'
 
 const ROOT_DIR = '/tmp'
 

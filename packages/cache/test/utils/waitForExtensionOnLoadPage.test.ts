@@ -1,6 +1,6 @@
-import { waitForExtensionOnLoadPage } from '../../src/utils/waitForExtensionOnLoadPage'
 import { errors as playwrightErrors } from 'playwright-core'
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
+import { waitForExtensionOnLoadPage } from '../../src/utils/waitForExtensionOnLoadPage'
 
 const createContext = vi.fn().mockReturnValue({
   waitForEvent: vi.fn().mockResolvedValue(undefined)
