@@ -1,12 +1,11 @@
-import { fs, vol } from 'memfs'
-import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-
 import path from 'node:path'
+import * as EnsureCacheDirExists from '@synthetixio/synpress-utils'
+import * as CreateCacheForWalletSetupFunction from '@synthetixio/synpress-utils'
+import { triggerCacheCreation } from '@synthetixio/synpress-utils'
 import fsExtra from 'fs-extra'
-import type { WalletSetupFunction } from '../../src'
-import * as EnsureCacheDirExists from '../../src/ensureCacheDirExists'
-import * as CreateCacheForWalletSetupFunction from '../../src/utils/createCacheForWalletSetupFunction'
-import { triggerCacheCreation } from '../../src/utils/triggerCacheCreation'
+import { fs, vol } from 'memfs'
+import type { BrowserContext, Page } from 'playwright-core'
+import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const ROOT_DIR = '/tmp'
 const EXTENSION_PATH = path.join(ROOT_DIR, 'extension')
@@ -58,7 +57,10 @@ describe('triggerCacheCreation', () => {
   const testSetupFunction = vi.fn()
 
   function prepareSetupFunctions(hashes: string[]) {
-    const setupFunctions = new Map<string, { fileName: string; setupFunction: WalletSetupFunction }>()
+    const setupFunctions = new Map<
+      string,
+      { fileName: string; setupFunction: (context: BrowserContext, walletPage: Page) => Promise<void> }
+    >()
 
     for (const hash of hashes) {
       setupFunctions.set(hash, { fileName: path.join(ROOT_DIR, `${hash}.ts`), setupFunction: testSetupFunction })

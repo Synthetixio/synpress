@@ -1,7 +1,7 @@
 import path from 'node:path'
+import { getWalletSetupFiles } from '@synthetixio/synpress-utils'
 import { fs, vol } from 'memfs'
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { getWalletSetupFiles } from '../../src/utils/getWalletSetupFiles'
 
 const ROOT_DIR = '/tmp'
 const DUMMY_CONTENT = 'Hello world! 👋'

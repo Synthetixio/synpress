@@ -1,8 +1,8 @@
 import os from 'node:os'
 import path from 'node:path'
+import { createTempContextDir } from '@synthetixio/synpress-utils'
 import { fs, vol } from 'memfs'
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createTempContextDir } from '../../src/utils/createTempContextDir'
 
 const BROWSER_NAME = 'chromium'
 const TEST_ID = 'test-id'

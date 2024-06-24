@@ -1,14 +1,17 @@
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
 
 import path from 'node:path'
+import * as GetUniqueWalletSetupFunctions from '@synthetixio/synpress-utils'
+import * as TriggerCacheCreation from '@synthetixio/synpress-utils'
+import type { BrowserContext, Page } from 'playwright-core'
 import { createCache } from '../src/createCache'
-import type { WalletSetupFunction } from '../src/defineWalletSetup'
-import * as GetUniqueWalletSetupFunctions from '../src/utils/getUniqueWalletSetupFunctions'
-import * as TriggerCacheCreation from '../src/utils/triggerCacheCreation'
 
 const ROOT_DIR = '/tmp'
 
-const setupFunctions = new Map<string, { fileName: string; setupFunction: WalletSetupFunction }>()
+const setupFunctions = new Map<
+  string,
+  { fileName: string; setupFunction: (context: BrowserContext, walletPage: Page) => Promise<void> }
+>()
 
 setupFunctions.set('hash1', { fileName: path.join(ROOT_DIR, 'hash1'), setupFunction: vi.fn() })
 setupFunctions.set('hash2', { fileName: path.join(ROOT_DIR, 'hash2'), setupFunction: vi.fn() })

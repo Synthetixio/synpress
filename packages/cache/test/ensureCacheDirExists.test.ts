@@ -1,8 +1,8 @@
 import path from 'node:path'
+import { CACHE_DIR_NAME } from '@synthetixio/synpress-utils'
+import { ensureCacheDirExists } from '@synthetixio/synpress-utils'
 import fs from 'fs-extra'
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
-import { CACHE_DIR_NAME } from '../src/constants'
-import { ensureCacheDirExists } from '../src/ensureCacheDirExists'
 
 vi.mock('fs-extra', async () => {
   return {
