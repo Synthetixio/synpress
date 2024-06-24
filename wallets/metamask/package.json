@@ -21,7 +21,6 @@
     "build:dist": "tsup --tsconfig tsconfig.build.json",
     "build:types": "tsc --emitDeclarationOnly --project tsconfig.build.json",
     "clean": "rimraf dist types",
-    "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:e2e:headful": "playwright test",
     "test:e2e:headless": "HEADLESS=true playwright test",
