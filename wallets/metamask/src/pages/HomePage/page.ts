@@ -5,6 +5,7 @@ import {
   getAccountAddress,
   importWalletFromPrivateKey,
   lock,
+  renameAccount,
   settings,
   switchAccount,
   switchNetwork,
@@ -35,6 +36,10 @@ export class HomePage {
 
   async addNewAccount(accountName: string) {
     await addNewAccount(this.page, accountName)
+  }
+
+  async renameAccount(newAccountName: string) {
+    await renameAccount(this.page, newAccountName)
   }
 
   async getAccountAddress() {
