@@ -11,7 +11,9 @@ import {
 } from '@synthetixio/synpress-cache'
 import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import fs from 'fs-extra'
+import { cachelessSetupMetaMask } from './noCacheMetaMaskFixtures'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
+import { SEED_PHRASE } from '../../test/wallet-setup/basic.setup'
 
 const USECACHE = false;
 
@@ -32,15 +34,13 @@ let _metamaskPage: Page
 export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>, slowMo = 0) => {
   return base.extend<MetaMaskFixtures>({
     _contextPath: async ({ browserName }, use, testInfo) => {
-      if (USECACHE) {
-        const contextPath = await createTempContextDir(browserName, testInfo.testId)
+      const contextPath = await createTempContextDir(browserName, testInfo.testId)
 
-        await use(contextPath)
+      await use(contextPath)
 
-        const error = await removeTempContextDir(contextPath)
-        if (error) {
-          console.error(error)
-        }
+      const error = await removeTempContextDir(contextPath)
+      if (error) {
+        console.error(error)
       }
     },
     context: async ({ context: currentContext, _contextPath }, use) => {
@@ -83,7 +83,13 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
         }
   
       }
-      if (!context) return;
+      if (!USECACHE) {
+        const cacheDirPath = path.join(process.cwd())
+        // Copying the cache to the temporary context directory.
+        await fs.copy(cacheDirPath, _contextPath)
+        context = await cachelessSetupMetaMask(SEED_PHRASE, walletSetup.walletPassword)
+      }
+      if (!context) return
       // TODO: This should be stored in a store to speed up the tests.
       const extensionId = await getExtensionId(context, 'MetaMask')
 

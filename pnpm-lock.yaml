@@ -288,6 +288,9 @@ importers:
       fs-extra:
         specifier: 11.2.0
         version: 11.2.0
+      unzipper:
+        specifier: 0.10.14
+        version: 0.10.14
       zod:
         specifier: 3.22.4
         version: 3.22.4
@@ -4662,6 +4665,7 @@ packages:
   /fstream@1.0.12:
     resolution: {integrity: sha512-WvJ193OHa0GHPEL+AycEJgxvBEwyfRkN1vhjca23OaPVMCaLCXTd5qAu82AjTcgP1UJmytkOKb63Ypde7raDIg==}
     engines: {node: '>=0.6'}
+    deprecated: This package is no longer supported.
     dependencies:
       graceful-fs: 4.2.11
       inherits: 2.0.4
