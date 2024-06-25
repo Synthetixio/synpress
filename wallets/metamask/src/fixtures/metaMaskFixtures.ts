@@ -13,6 +13,8 @@ import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import fs from 'fs-extra'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
 
+const USECACHE = false;
+
 type MetaMaskFixtures = {
   _contextPath: string
   metamask: MetaMask
@@ -30,53 +32,58 @@ let _metamaskPage: Page
 export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>, slowMo = 0) => {
   return base.extend<MetaMaskFixtures>({
     _contextPath: async ({ browserName }, use, testInfo) => {
-      
-      const contextPath = await createTempContextDir(browserName, testInfo.testId)
+      if (USECACHE) {
+        const contextPath = await createTempContextDir(browserName, testInfo.testId)
 
-      await use(contextPath)
+        await use(contextPath)
 
-      const error = await removeTempContextDir(contextPath)
-      if (error) {
-        console.error(error)
+        const error = await removeTempContextDir(contextPath)
+        if (error) {
+          console.error(error)
+        }
       }
     },
     context: async ({ context: currentContext, _contextPath }, use) => {
-      const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, walletSetup.hash)
-      if (!(await fs.exists(cacheDirPath))) {
-        throw new Error(`Cache for ${walletSetup.hash} does not exist. Create it first!`)
-      }
-
-      // Copying the cache to the temporary context directory.
-      await fs.copy(cacheDirPath, _contextPath)
-
-      const metamaskPath = await prepareExtension()
-
-      // We don't need the `--load-extension` arg since the extension is already loaded in the cache.
-      const browserArgs = [`--disable-extensions-except=${metamaskPath}`]
-
-      if (process.env.HEADLESS) {
-        browserArgs.push('--headless=new')
-
-        if (slowMo > 0) {
-          console.warn('[WARNING] Slow motion makes no sense in headless mode. It will be ignored!')
+      let context
+      if (USECACHE) {
+        const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, walletSetup.hash)
+        if (!(await fs.exists(cacheDirPath))) {
+          throw new Error(`Cache for ${walletSetup.hash} does not exist. Create it first!`)
         }
+  
+        // Copying the cache to the temporary context directory.
+        await fs.copy(cacheDirPath, _contextPath)
+  
+        const metamaskPath = await prepareExtension()
+  
+        // We don't need the `--load-extension` arg since the extension is already loaded in the cache.
+        const browserArgs = [`--disable-extensions-except=${metamaskPath}`]
+  
+        if (process.env.HEADLESS) {
+          browserArgs.push('--headless=new')
+  
+          if (slowMo > 0) {
+            console.warn('[WARNING] Slow motion makes no sense in headless mode. It will be ignored!')
+          }
+        }
+  
+          context = await chromium.launchPersistentContext(_contextPath, {
+          headless: false,
+          args: browserArgs,
+          slowMo: process.env.HEADLESS ? 0 : slowMo
+        })
+  
+        const { cookies, origins } = await currentContext.storageState()
+  
+        if (cookies) {
+          await context.addCookies(cookies)
+        }
+        if (origins && origins.length > 0) {
+          await persistLocalStorage(origins, context)
+        }
+  
       }
-
-      const context = await chromium.launchPersistentContext(_contextPath, {
-        headless: false,
-        args: browserArgs,
-        slowMo: process.env.HEADLESS ? 0 : slowMo
-      })
-
-      const { cookies, origins } = await currentContext.storageState()
-
-      if (cookies) {
-        await context.addCookies(cookies)
-      }
-      if (origins && origins.length > 0) {
-        await persistLocalStorage(origins, context)
-      }
-
+      if (!context) return;
       // TODO: This should be stored in a store to speed up the tests.
       const extensionId = await getExtensionId(context, 'MetaMask')
 

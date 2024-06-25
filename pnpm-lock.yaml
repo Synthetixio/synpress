@@ -280,7 +280,7 @@ importers:
         specifier: 0.0.1-alpha.7
         version: link:../../packages/cache
       '@synthetixio/synpress-core':
-        specifier: 0.0.1-alpha.7
+        specifier: workspace:*
         version: link:../../packages/core
       '@viem/anvil':
         specifier: 0.0.7
