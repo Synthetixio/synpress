@@ -30,6 +30,7 @@ let _metamaskPage: Page
 export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>, slowMo = 0) => {
   return base.extend<MetaMaskFixtures>({
     _contextPath: async ({ browserName }, use, testInfo) => {
+      
       const contextPath = await createTempContextDir(browserName, testInfo.testId)
 
       await use(contextPath)
