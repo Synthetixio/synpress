@@ -37,6 +37,9 @@ test-results
 playwright-report
 playwright/.cache
 
+### Cypress
+cypress/downloads
+
 ### Synpress
 
 .cache-synpress
