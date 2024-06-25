@@ -34,14 +34,17 @@ let _metamaskPage: Page
 export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>, slowMo = 0) => {
   return base.extend<MetaMaskFixtures>({
     _contextPath: async ({ browserName }, use, testInfo) => {
-      const contextPath = await createTempContextDir(browserName, testInfo.testId)
+      if (USECACHE) {
+        const contextPath = await createTempContextDir(browserName, testInfo.testId)
 
-      await use(contextPath)
+        await use(contextPath)
 
-      const error = await removeTempContextDir(contextPath)
-      if (error) {
-        console.error(error)
+        const error = await removeTempContextDir(contextPath)
+        if (error) {
+          console.error(error)
+        }
       }
+      await use('')
     },
     context: async ({ context: currentContext, _contextPath }, use) => {
       let context
@@ -84,10 +87,7 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
   
       }
       if (!USECACHE) {
-        const cacheDirPath = path.join(process.cwd())
-        // Copying the cache to the temporary context directory.
-        await fs.copy(cacheDirPath, _contextPath)
-        context = await cachelessSetupMetaMask(SEED_PHRASE, walletSetup.walletPassword)
+        context = await cachelessSetupMetaMask(SEED_PHRASE, walletSetup.walletPassword, '11.9.1')
       }
       if (!context) return
       // TODO: This should be stored in a store to speed up the tests.
