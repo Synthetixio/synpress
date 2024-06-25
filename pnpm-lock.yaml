@@ -304,6 +304,9 @@ importers:
       '@vitest/coverage-v8':
         specifier: 1.2.2
         version: 1.2.2(vitest@1.2.2)
+      cypress:
+        specifier: 13.9.0
+        version: 13.9.0
       rimraf:
         specifier: 5.0.5
         version: 5.0.5

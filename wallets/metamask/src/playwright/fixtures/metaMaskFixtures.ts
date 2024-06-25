@@ -1,5 +1,3 @@
-import { MetaMask, getExtensionId, prepareExtension, unlockForFixture } from '../../src'
-
 import path from 'node:path'
 import { type Page, chromium } from '@playwright/test'
 import { test as base } from '@playwright/test'
@@ -12,6 +10,9 @@ import {
 import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import fs from 'fs-extra'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
+import type { MetaMask } from '../MetaMask'
+import { prepareExtension } from '../../extensionSetup/prepareExtension'
+import { getExtensionId, unlockForFixture } from '../fixture-actions'
 
 type MetaMaskFixtures = {
   _contextPath: string
