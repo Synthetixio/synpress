@@ -307,6 +307,9 @@ importers:
       '@types/node':
         specifier: 20.11.17
         version: 20.11.17
+      '@types/unzipper':
+        specifier: 0.10.9
+        version: 0.10.9
       '@vitest/coverage-v8':
         specifier: 1.2.2
         version: 1.2.2(vitest@1.2.2)
