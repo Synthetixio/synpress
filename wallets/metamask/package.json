@@ -42,6 +42,7 @@
     "@synthetixio/synpress-tsconfig": "0.0.1-alpha.7",
     "@types/fs-extra": "11.0.4",
     "@types/node": "20.11.17",
+    "@types/unzipper": "0.10.9",
     "@vitest/coverage-v8": "1.2.2",
     "rimraf": "5.0.5",
     "tsup": "8.0.2",

@@ -13,6 +13,7 @@ import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import fs from 'fs-extra'
 import { cachelessSetupMetaMask } from './noCacheMetaMaskFixtures'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
+import { importForFixtures } from '../fixture-actions/importForFixtures'
 import { SEED_PHRASE } from '../../test/wallet-setup/basic.setup'
 
 const USECACHE = false;
@@ -87,7 +88,7 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
   
       }
       if (!USECACHE) {
-        context = await cachelessSetupMetaMask(SEED_PHRASE, walletSetup.walletPassword, '11.9.1')
+        context = await cachelessSetupMetaMask()
       }
       if (!context) return
       // TODO: This should be stored in a store to speed up the tests.
@@ -98,8 +99,8 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
       _metamaskPage = context.pages()[0] as Page
 
       await _metamaskPage.goto(`chrome-extension://${extensionId}/home.html`)
-
-      await unlockForFixture(_metamaskPage, walletSetup.walletPassword)
+      if (!USECACHE) await importForFixtures(_metamaskPage, SEED_PHRASE, walletSetup.walletPassword, extensionId)
+      if (USECACHE) await unlockForFixture(_metamaskPage, walletSetup.walletPassword)
 
       await use(context)
 
