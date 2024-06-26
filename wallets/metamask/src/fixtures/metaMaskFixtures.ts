@@ -11,7 +11,7 @@ import {
 } from '@synthetixio/synpress-cache'
 import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import fs from 'fs-extra'
-import { cachelessSetupMetaMask } from './noCacheMetaMaskFixtures'
+import { cachelessSetupMetaMask } from '../fixture-actions/noCachMetaMaskSetup'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
 import { importForFixtures } from '../fixture-actions/importForFixtures'
 import { SEED_PHRASE } from '../../test/wallet-setup/basic.setup'

@@ -53,9 +53,9 @@ export const cliEntrypoint = async () => {
   if (os.platform() === 'win32') {
     console.log(
       [
-        chalk.redBright('🚨 Sorry, Windows is currently not supported. Please use WSL instead! 🚨'),
+        chalk.redBright('🚨 Sorry, building cach on Windows is currently not supported. Please use WSL instead! 🚨'),
         chalk.gray(
-          'If you want to give it a crack over a hot cup of coffee and add Windows support yourself, please get in touch with the team on Discord so we can offer some guidance! 😇'
+          'You can still run tests on windows without cache using <Insert command here>! 😇'
         )
       ].join('\n')
     )
