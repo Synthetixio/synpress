@@ -33,8 +33,10 @@
     "@synthetixio/synpress-cache": "0.0.1-alpha.7",
     "@synthetixio/synpress-core": "workspace:*",
     "@viem/anvil": "0.0.7",
+    "app-root-path": "3.1.0",
     "axios": "1.6.7",
     "fs-extra": "11.2.0",
+    "os": "0.1.2",
     "unzipper": "0.10.14",
     "zod": "3.22.4"
   },

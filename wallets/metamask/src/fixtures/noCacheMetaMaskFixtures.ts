@@ -3,13 +3,22 @@ import fs from 'fs-extra';
 import path from 'node:path';
 import axios from 'axios';
 import unzipper from 'unzipper';
+import appRoot from 'app-root-path';
+import os from 'os';
 
 const DEFAULT_METAMASK_VERSION = '11.9.1';
 const EXTENSION_DOWNLOAD_URL = `https://github.com/MetaMask/metamask-extension/releases/download/v${DEFAULT_METAMASK_VERSION}/metamask-chrome-${DEFAULT_METAMASK_VERSION}.zip`;
 
 // Function to prepare MetaMask extension (download and unzip)
 async function prepareMetaMask(version: string = DEFAULT_METAMASK_VERSION): Promise<string> {
-  const downloadsDirectory = path.join(process.cwd(), 'downloads');
+  // const downloadsDirectory = path.join(process.cwd(), 'downloads');
+  let downloadsDirectory;
+  if (os.platform() === 'win32') {
+    downloadsDirectory = appRoot.resolve('/node_modules');
+  } else {
+    downloadsDirectory = path.join(process.cwd(), 'downloads');
+  }
+
   await fs.ensureDir(downloadsDirectory); 
 
   const metamaskDirectory = path.join(downloadsDirectory, `metamask-chrome-${version}.zip`);
