@@ -14,17 +14,17 @@ const EXTENSION_DOWNLOAD_URL = `https://github.com/MetaMask/metamask-extension/r
 // Function to prepare MetaMask extension (download and unzip)
 async function prepareMetaMask(version: string = DEFAULT_METAMASK_VERSION): Promise<string> {
   const downloadsDirectory = path.join(process.cwd(), 'downloads');
-  await fs.ensureDir(downloadsDirectory); // Create the directory if it doesn't exist
+  await fs.ensureDir(downloadsDirectory); 
 
-  const metamaskDirectory = path.join(downloadsDirectory, `metamask-chrome-${version}`);
+  const metamaskDirectory = path.join(downloadsDirectory, `metamask-chrome-${version}.zip`);
   const metamaskManifestPath = path.join(metamaskDirectory, 'manifest.json');
 
-  // Download and unzip only if not already present
   if (!fs.existsSync(metamaskManifestPath)) {
     await downloadAndExtract(EXTENSION_DOWNLOAD_URL, metamaskDirectory);
   }
-
-  return metamaskDirectory;
+  const archiveFileExtension = path.extname(metamaskDirectory);
+  const outputPath = metamaskDirectory.replace(archiveFileExtension, '');
+  return outputPath;
 }
 
 // Function to download and unzip the MetaMask extension
@@ -37,12 +37,12 @@ async function downloadAndExtract(url: string, destination: string): Promise<voi
   await unzipArchive(destination);
 }
 
-// Function to unzip the archive
-async function unzipArchive(archivePath: string): Promise<void> {
-  const archiveFileExtension = archivePath.split('.').slice(-1);
-  const outputPath = archivePath.replace(`.${archiveFileExtension}`, '');
 
-  await fs.ensureDir(outputPath); 
+async function unzipArchive(archivePath: string): Promise<void> {
+  const archiveFileExtension = path.extname(archivePath);
+  const outputPath = archivePath.replace(archiveFileExtension, '');
+
+  await fs.ensureDir(outputPath);
 
   try {
     await new Promise((resolve, reject) => {
@@ -64,7 +64,7 @@ async function unzipArchive(archivePath: string): Promise<void> {
         .on('finish', () => resolve())
         .on('error', (error: Error) => reject(error)); 
     });
-  } catch (error) {
+  } catch (error: any) {
     // Handle errors here
     console.error(`[unzipArchive] Error unzipping archive: ${error.message}`);
     // You might want to implement retries or other error handling logic 
@@ -73,26 +73,25 @@ async function unzipArchive(archivePath: string): Promise<void> {
 }
 // The main function to set up MetaMask without caching
 export async function cachelessSetupMetaMask(
-  seedPhrase: string,
-  password: string,
+  // seedPhrase: string,
+  // password: string,
   metamaskVersion?: string
 ): Promise<BrowserContext> {
   const metamaskPath = await prepareMetaMask(metamaskVersion || DEFAULT_METAMASK_VERSION);
-  const browser = await chromium.launch({ args: [`--load-extension=${metamaskPath}`] });
-  const context = await browser.newContext();
-  // await new Promise((resolve) => setTimeout(resolve, 3000));
+  console.log(metamaskPath)
+  const context = await chromium.launchPersistentContext('', {
+    args: [`--load-extension=${metamaskPath}`, `--disable-extensions-except=${metamaskPath}`]
+  });
 
   // const extensionId = await getExtensionId(context, 'MetaMask');
 
   // console.log(`[MetaMask] Extension ID: ${extensionId}`);
   // const metamaskPage = await context.newPage();
   // await metamaskPage.goto(`chrome-extension://${extensionId}/home.html`, { waitUntil: 'networkidle' });
-  const metamaskPage = context.pages()[0] as Page
-  await metamaskPage.goto('chrome://extensions')
 
-  const metamask = new MetaMask(context, metamaskPage, password);
-  await metamask.importWallet(seedPhrase);
-  await unlockForFixture(metamaskPage, password);
+  // const metamask = new MetaMask(context, metamaskPage, password);
+  // await metamask.importWallet(seedPhrase);
+  // await unlockForFixture(metamaskPage, password);
 
   return context;
 }
