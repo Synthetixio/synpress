@@ -6,6 +6,6 @@ export default function testWithSynpress<CustomFixtures extends Fixtures>(
   useCache?: boolean
 ) {
   return mergeTests(base, customFixtures, {
-    useCache: useCache ?? true,
+    useCache: useCache ?? true
   })
 }

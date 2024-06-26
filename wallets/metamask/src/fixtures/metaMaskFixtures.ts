@@ -11,12 +11,12 @@ import {
 } from '@synthetixio/synpress-cache'
 import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import fs from 'fs-extra'
+import { SEED_PHRASE } from '../../test/wallet-setup/basic.setup'
+import { importForFixtures } from '../fixture-actions/importForFixtures'
 import { cachelessSetupMetaMask } from '../fixture-actions/noCachMetaMaskSetup'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
-import { importForFixtures } from '../fixture-actions/importForFixtures'
-import { SEED_PHRASE } from '../../test/wallet-setup/basic.setup'
 
-const USECACHE = false;
+const USECACHE = false
 
 type MetaMaskFixtures = {
   _contextPath: string
@@ -54,38 +54,37 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
         if (!(await fs.exists(cacheDirPath))) {
           throw new Error(`Cache for ${walletSetup.hash} does not exist. Create it first!`)
         }
-  
+
         // Copying the cache to the temporary context directory.
         await fs.copy(cacheDirPath, _contextPath)
-  
+
         const metamaskPath = await prepareExtension()
-  
+
         // We don't need the `--load-extension` arg since the extension is already loaded in the cache.
         const browserArgs = [`--disable-extensions-except=${metamaskPath}`]
-  
+
         if (process.env.HEADLESS) {
           browserArgs.push('--headless=new')
-  
+
           if (slowMo > 0) {
             console.warn('[WARNING] Slow motion makes no sense in headless mode. It will be ignored!')
           }
         }
-  
-          context = await chromium.launchPersistentContext(_contextPath, {
+
+        context = await chromium.launchPersistentContext(_contextPath, {
           headless: false,
           args: browserArgs,
           slowMo: process.env.HEADLESS ? 0 : slowMo
         })
-  
+
         const { cookies, origins } = await currentContext.storageState()
-  
+
         if (cookies) {
           await context.addCookies(cookies)
         }
         if (origins && origins.length > 0) {
           await persistLocalStorage(origins, context)
         }
-  
       }
       if (!USECACHE) {
         context = await cachelessSetupMetaMask()

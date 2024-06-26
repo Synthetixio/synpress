@@ -5,5 +5,4 @@ export async function importForFixtures(page: Page, seedPhrase: string, password
   const metamask = new MetaMask(page.context(), page, password, extensionId)
 
   await metamask.importWallet(seedPhrase)
-  
 }

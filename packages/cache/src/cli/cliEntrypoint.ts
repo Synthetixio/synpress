@@ -54,9 +54,7 @@ export const cliEntrypoint = async () => {
     console.log(
       [
         chalk.redBright('🚨 Sorry, building cach on Windows is currently not supported. Please use WSL instead! 🚨'),
-        chalk.gray(
-          'You can still run tests on windows without cache using <Insert command here>! 😇'
-        )
+        chalk.gray('You can still run tests on windows without cache using <Insert command here>! 😇')
       ].join('\n')
     )
     process.exit(1)
