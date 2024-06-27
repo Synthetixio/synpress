@@ -11,12 +11,13 @@ import {
 } from '@synthetixio/synpress-cache'
 import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import fs from 'fs-extra'
-import { SEED_PHRASE } from '../../test/wallet-setup/basic.setup'
+import { SEED_PHRASE } from '../utils/constants'
 import { importForFixtures } from '../fixture-actions/importForFixtures'
 import { cachelessSetupMetaMask } from '../fixture-actions/noCachMetaMaskSetup'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
 
-const USECACHE = false
+const USECACHE = (process.env.SYNPRESS_USE_CACHE === 'true' || process.platform === 'win32');
+console.log(process.env.SYNPRESS_USE_CACHE, USECACHE, process.platform)
 
 type MetaMaskFixtures = {
   _contextPath: string
@@ -49,7 +50,9 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
     },
     context: async ({ context: currentContext, _contextPath }, use) => {
       let context
+      console.log('is USING CACHE?', USECACHE)
       if (USECACHE) {
+        console.log('running with cache')
         const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, walletSetup.hash)
         if (!(await fs.exists(cacheDirPath))) {
           throw new Error(`Cache for ${walletSetup.hash} does not exist. Create it first!`)

@@ -13,6 +13,7 @@ const EXTENSION_DOWNLOAD_URL = `https://github.com/MetaMask/metamask-extension/r
 async function prepareMetaMask(version: string = DEFAULT_METAMASK_VERSION): Promise<string> {
   // const downloadsDirectory = path.join(process.cwd(), 'downloads');
   let downloadsDirectory
+  // @TODO: we can use node's process instead of a third party library
   if (os.platform() === 'win32') {
     downloadsDirectory = appRoot.resolve('/node_modules')
   } else {

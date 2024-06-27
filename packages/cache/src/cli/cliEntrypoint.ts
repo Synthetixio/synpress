@@ -49,7 +49,7 @@ export const cliEntrypoint = async () => {
     console.log('[DEBUG] Running with the following options:')
     console.log({ cacheDir: walletSetupDir, ...flags, headless: Boolean(process.env.HEADLESS) ?? false }, '\n')
   }
-
+  // @TODO: we can use node's process instead of a third party library
   if (os.platform() === 'win32') {
     console.log(
       [
