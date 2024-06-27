@@ -1,10 +1,10 @@
 import path from 'node:path'
-import { DEFAULT_METAMASK_VERSION, EXTENSION_DOWNLOAD_URL } from '../utils/constants'
 import { type BrowserContext, chromium } from '@playwright/test'
 import appRoot from 'app-root-path'
 import axios from 'axios'
 import fs from 'fs-extra'
 import unzipper from 'unzipper'
+import { DEFAULT_METAMASK_VERSION, EXTENSION_DOWNLOAD_URL } from '../utils/constants'
 
 async function prepareMetaMask(version: string = DEFAULT_METAMASK_VERSION): Promise<string> {
   let downloadsDirectory
@@ -46,28 +46,31 @@ async function unzipArchive(archivePath: string): Promise<void> {
   try {
     await new Promise<void>((resolve, reject) => {
       const stream = fs.createReadStream(archivePath).pipe(unzipper.Parse())
-      stream.on('entry', async (entry: { path: string; type: string; pipe: (arg: unknown) => void, autodrain: () => void }) => {
+      stream.on(
+        'entry',
+        async (entry: { path: string; type: string; pipe: (arg: unknown) => void; autodrain: () => void }) => {
           const fileName = entry.path
           const type = entry.type as 'Directory' | 'File'
 
           if (type === 'Directory') {
-            await fs.mkdir(path.join(outputPath, fileName), { recursive: true });
-            entry.autodrain();
-            return;
+            await fs.mkdir(path.join(outputPath, fileName), { recursive: true })
+            entry.autodrain()
+            return
           }
 
           if (type === 'File') {
-            const writeStream = fs.createWriteStream(path.join(outputPath, fileName));
-            entry.pipe(writeStream);
-  
+            const writeStream = fs.createWriteStream(path.join(outputPath, fileName))
+            entry.pipe(writeStream)
+
             await new Promise<void>((res, rej) => {
-              writeStream.on('finish', res);
-              writeStream.on('error', rej);
-            });
+              writeStream.on('finish', res)
+              writeStream.on('error', rej)
+            })
           }
-        })
-        stream.on('finish', resolve);
-        stream.on('error', reject); 
+        }
+      )
+      stream.on('finish', resolve)
+      stream.on('error', reject)
     })
   } catch (error: unknown) {
     console.error(`[unzipArchive] Error unzipping archive: ${(error as { message: string }).message}`)

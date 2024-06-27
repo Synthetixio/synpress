@@ -12,9 +12,12 @@ test('should connect wallet to dapp', async ({ context, page, extensionId }) => 
 
   await page.goto('/')
 
-  await page.locator('#connectButton').click()
+  const disabled = await page.locator('#connectButton').isDisabled()
 
-  await metamask.connectToDapp()
+  if (!disabled) {
+    await page.locator('#connectButton').click()
+    await metamask.connectToDapp()
+  }
 
   await expect(page.locator('#accounts')).toHaveText('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
 })
@@ -26,6 +29,7 @@ test('should connect multiple wallets to dapp', async ({ context, page, metamask
   await metamask.addNewAccount('Account x3')
 
   await page.goto('/')
+
   await page.locator('#connectButton').click()
 
   // "accounts" param is order agnostic

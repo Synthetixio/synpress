@@ -11,13 +11,13 @@ import {
 } from '@synthetixio/synpress-cache'
 import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import fs from 'fs-extra'
-import { SEED_PHRASE } from '../utils/constants'
 import { importAndConnectForFixtures } from '../fixture-actions/importAndConnectForFixtures'
 import { cachelessSetupMetaMask } from '../fixture-actions/noCachMetaMaskSetup'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
+import { SEED_PHRASE } from '../utils/constants'
 
 // console.log(process.env.SYNPRESS_USE_CACHE, process.platform)
-const USECACHE = (false || process.platform === 'win32');
+const USECACHE = false || process.platform === 'win32'
 
 type MetaMaskFixtures = {
   _contextPath: string
@@ -100,7 +100,8 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
       _metamaskPage = context.pages()[0] as Page
 
       await _metamaskPage.goto(`chrome-extension://${extensionId}/home.html`)
-      if (!USECACHE) await importAndConnectForFixtures(_metamaskPage, SEED_PHRASE, walletSetup.walletPassword, extensionId)
+      if (!USECACHE)
+        await importAndConnectForFixtures(_metamaskPage, SEED_PHRASE, walletSetup.walletPassword, extensionId)
       if (USECACHE) await unlockForFixture(_metamaskPage, walletSetup.walletPassword)
 
       await use(context)
