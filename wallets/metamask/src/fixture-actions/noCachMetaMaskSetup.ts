@@ -17,13 +17,14 @@ async function prepareMetaMask(version: string = DEFAULT_METAMASK_VERSION): Prom
   await fs.ensureDir(downloadsDirectory)
 
   const metamaskDirectory = path.join(downloadsDirectory, `metamask-chrome-${version}.zip`)
-  const metamaskManifestPath = path.join(metamaskDirectory, 'manifest.json')
+  const archiveFileExtension = path.extname(metamaskDirectory)
+  const outputPath = metamaskDirectory.replace(archiveFileExtension, '')
+  const metamaskManifestPath = path.join(outputPath, 'manifest.json')
 
   if (!fs.existsSync(metamaskManifestPath)) {
     await downloadAndExtract(EXTENSION_DOWNLOAD_URL, metamaskDirectory)
   }
-  const archiveFileExtension = path.extname(metamaskDirectory)
-  const outputPath = metamaskDirectory.replace(archiveFileExtension, '')
+
   return outputPath
 }
 
@@ -44,23 +45,29 @@ async function unzipArchive(archivePath: string): Promise<void> {
 
   try {
     await new Promise<void>((resolve, reject) => {
-      fs.createReadStream(archivePath)
-        .pipe(unzipper.Parse())
-        .on('entry', (entry: { path: string; type: string; pipe: (arg: unknown) => void }) => {
+      const stream = fs.createReadStream(archivePath).pipe(unzipper.Parse())
+      stream.on('entry', async (entry: { path: string; type: string; pipe: (arg: unknown) => void, autodrain: () => void }) => {
           const fileName = entry.path
           const type = entry.type as 'Directory' | 'File'
 
           if (type === 'Directory') {
-            fs.mkdirSync(path.join(outputPath, fileName), { recursive: true })
-            return
+            await fs.mkdir(path.join(outputPath, fileName), { recursive: true });
+            entry.autodrain();
+            return;
           }
 
           if (type === 'File') {
-            entry.pipe(fs.createWriteStream(path.join(outputPath, fileName)))
+            const writeStream = fs.createWriteStream(path.join(outputPath, fileName));
+            entry.pipe(writeStream);
+  
+            await new Promise<void>((res, rej) => {
+              writeStream.on('finish', res);
+              writeStream.on('error', rej);
+            });
           }
         })
-        .on('finish', () => resolve(void 0))
-        .on('error', (error: Error) => reject(error))
+        stream.on('finish', resolve);
+        stream.on('error', reject); 
     })
   } catch (error: unknown) {
     console.error(`[unzipArchive] Error unzipping archive: ${(error as { message: string }).message}`)
