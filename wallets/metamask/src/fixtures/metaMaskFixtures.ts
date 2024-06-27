@@ -12,12 +12,12 @@ import {
 import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import fs from 'fs-extra'
 import { SEED_PHRASE } from '../utils/constants'
-import { importForFixtures } from '../fixture-actions/importForFixtures'
+import { importAndConnectForFixtures } from '../fixture-actions/importAndConnectForFixtures'
 import { cachelessSetupMetaMask } from '../fixture-actions/noCachMetaMaskSetup'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
 
-const USECACHE = (process.env.SYNPRESS_USE_CACHE === 'true' || process.platform === 'win32');
-console.log(process.env.SYNPRESS_USE_CACHE, USECACHE, process.platform)
+// console.log(process.env.SYNPRESS_USE_CACHE, process.platform)
+const USECACHE = (false || process.platform === 'win32');
 
 type MetaMaskFixtures = {
   _contextPath: string
@@ -45,14 +45,13 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
         if (error) {
           console.error(error)
         }
+      } else {
+        await use('')
       }
-      await use('')
     },
     context: async ({ context: currentContext, _contextPath }, use) => {
       let context
-      console.log('is USING CACHE?', USECACHE)
       if (USECACHE) {
-        console.log('running with cache')
         const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, walletSetup.hash)
         if (!(await fs.exists(cacheDirPath))) {
           throw new Error(`Cache for ${walletSetup.hash} does not exist. Create it first!`)
@@ -101,7 +100,7 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
       _metamaskPage = context.pages()[0] as Page
 
       await _metamaskPage.goto(`chrome-extension://${extensionId}/home.html`)
-      if (!USECACHE) await importForFixtures(_metamaskPage, SEED_PHRASE, walletSetup.walletPassword, extensionId)
+      if (!USECACHE) await importAndConnectForFixtures(_metamaskPage, SEED_PHRASE, walletSetup.walletPassword, extensionId)
       if (USECACHE) await unlockForFixture(_metamaskPage, walletSetup.walletPassword)
 
       await use(context)

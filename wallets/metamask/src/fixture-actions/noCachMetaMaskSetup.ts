@@ -1,20 +1,14 @@
 import path from 'node:path'
-import os from 'os'
+import { DEFAULT_METAMASK_VERSION, EXTENSION_DOWNLOAD_URL } from '../utils/constants'
 import { type BrowserContext, chromium } from '@playwright/test'
 import appRoot from 'app-root-path'
 import axios from 'axios'
 import fs from 'fs-extra'
 import unzipper from 'unzipper'
 
-const DEFAULT_METAMASK_VERSION = '11.9.1'
-const EXTENSION_DOWNLOAD_URL = `https://github.com/MetaMask/metamask-extension/releases/download/v${DEFAULT_METAMASK_VERSION}/metamask-chrome-${DEFAULT_METAMASK_VERSION}.zip`
-
-// Function to prepare MetaMask extension (download and unzip)
 async function prepareMetaMask(version: string = DEFAULT_METAMASK_VERSION): Promise<string> {
-  // const downloadsDirectory = path.join(process.cwd(), 'downloads');
   let downloadsDirectory
-  // @TODO: we can use node's process instead of a third party library
-  if (os.platform() === 'win32') {
+  if (process.platform === 'win32') {
     downloadsDirectory = appRoot.resolve('/node_modules')
   } else {
     downloadsDirectory = path.join(process.cwd(), 'downloads')
@@ -77,7 +71,7 @@ async function unzipArchive(archivePath: string): Promise<void> {
 export async function cachelessSetupMetaMask(metamaskVersion?: string): Promise<BrowserContext> {
   const metamaskPath = await prepareMetaMask(metamaskVersion || DEFAULT_METAMASK_VERSION)
   const browserArgs = [`--load-extension=${metamaskPath}`, `--disable-extensions-except=${metamaskPath}`]
-  console.log(metamaskPath)
+
   if (process.env.HEADLESS) {
     browserArgs.push('--headless=new')
   }
