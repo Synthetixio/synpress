@@ -7,13 +7,8 @@ import unzipper from 'unzipper'
 import { DEFAULT_METAMASK_VERSION, EXTENSION_DOWNLOAD_URL } from '../utils/constants'
 
 async function prepareMetaMask(version: string = DEFAULT_METAMASK_VERSION): Promise<string> {
-  let downloadsDirectory
-  if (process.platform === 'win32') {
-    downloadsDirectory = appRoot.resolve('/node_modules')
-  } else {
-    downloadsDirectory = path.join(process.cwd(), 'downloads')
-  }
-
+  const downloadsDirectory =
+    process.platform === 'win32' ? appRoot.resolve('/node_modules') : path.join(process.cwd(), 'downloads')
   await fs.ensureDir(downloadsDirectory)
 
   const metamaskDirectory = path.join(downloadsDirectory, `metamask-chrome-${version}.zip`)
@@ -46,10 +41,12 @@ async function unzipArchive(archivePath: string): Promise<void> {
   try {
     await new Promise<void>((resolve, reject) => {
       const stream = fs.createReadStream(archivePath).pipe(unzipper.Parse())
+
       stream.on(
         'entry',
         async (entry: { path: string; type: string; pipe: (arg: unknown) => void; autodrain: () => void }) => {
-          const fileName = entry.path
+          const normalizedPath = path.resolve(archivePath, entry.path)
+          const fileName = normalizedPath
           const type = entry.type as 'Directory' | 'File'
 
           if (type === 'Directory') {

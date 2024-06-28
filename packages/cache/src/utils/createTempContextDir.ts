@@ -10,6 +10,5 @@ import fs from 'fs-extra'
  * https://github.com/microsoft/playwright/blob/d1d5fc67dc684a5d4b682749e59bba8cc0ad14de/packages/playwright-core/src/server/browserType.ts#L161
  */
 export async function createTempContextDir(browserName: string, testId: string) {
-  // @TODO: we can use node's process instead of a third party library
   return await fs.mkdtemp(path.join(os.tmpdir(), `synpress_${browserName}_${testId}_`))
 }

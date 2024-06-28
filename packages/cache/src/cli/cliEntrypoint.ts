@@ -49,12 +49,14 @@ export const cliEntrypoint = async () => {
     console.log('[DEBUG] Running with the following options:')
     console.log({ cacheDir: walletSetupDir, ...flags, headless: Boolean(process.env.HEADLESS) ?? false }, '\n')
   }
-  // @TODO: we can use node's process instead of a third party library
+
   if (os.platform() === 'win32') {
     console.log(
       [
         chalk.redBright('🚨 Sorry, building cach on Windows is currently not supported. Please use WSL instead! 🚨'),
-        chalk.gray('You can still run tests on windows without cache using <Insert command here>! 😇')
+        chalk.gray(
+          'You can still run tests on windows without cache by setting the USECACHE flag to false in the wallet fixture 😇'
+        )
       ].join('\n')
     )
     process.exit(1)

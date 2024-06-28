@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@synthetixio/synpress-cache": "0.0.1-alpha.7",
-    "@synthetixio/synpress-core": "workspace:*",
+    "@synthetixio/synpress-core": "0.0.1-alpha.7",
     "@viem/anvil": "0.0.7",
     "app-root-path": "3.1.0",
     "axios": "1.6.7",

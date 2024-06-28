@@ -16,8 +16,7 @@ import { cachelessSetupMetaMask } from '../fixture-actions/noCachMetaMaskSetup'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
 import { SEED_PHRASE } from '../utils/constants'
 
-// console.log(process.env.SYNPRESS_USE_CACHE, process.platform)
-const USECACHE = true || process.platform === 'win32'
+const USECACHE = process.env.SYNPRESS_USE_CACHE === true && process.platform !== 'win32'
 
 type MetaMaskFixtures = {
   _contextPath: string
