@@ -22,7 +22,8 @@ test('should connect wallet to dapp', async ({ context, page, extensionId }) => 
   await expect(page.locator('#accounts')).toHaveText('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
 })
 
-test('should connect multiple wallets to dapp', async ({ context, page, metamaskPage, extensionId }) => {
+test('should connect multiple wallets to dapp', async ({ context, page, metamaskPage, extensionId, useCache }) => {
+  if (!useCache) return
   const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword, extensionId)
 
   await metamask.addNewAccount('Account x2')

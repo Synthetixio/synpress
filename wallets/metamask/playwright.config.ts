@@ -9,7 +9,7 @@ export default defineConfig({
 
   // We're increasing the timeout to 60 seconds to allow all traces to be recorded.
   // Sometimes it threw an error saying that traces were not recorded in the 30 seconds timeout limit.
-  timeout: 90_000,
+  timeout: 60_000,
 
   // Run all tests in parallel.
   fullyParallel: true,

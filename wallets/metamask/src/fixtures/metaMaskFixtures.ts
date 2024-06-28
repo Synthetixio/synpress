@@ -17,13 +17,14 @@ import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
 import { SEED_PHRASE } from '../utils/constants'
 
 // console.log(process.env.SYNPRESS_USE_CACHE, process.platform)
-const USECACHE = false || process.platform === 'win32'
+const USECACHE = true || process.platform === 'win32'
 
 type MetaMaskFixtures = {
   _contextPath: string
   metamask: MetaMask
   extensionId: string
   metamaskPage: Page
+  useCache: boolean
   createAnvilNode: (options?: CreateAnvilOptions) => Promise<{ anvil: Anvil; rpcUrl: string; chainId: number }>
   connectToAnvil: () => Promise<void>
   deployToken: () => Promise<void>
@@ -177,6 +178,7 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
         await page.locator('#batchMintButton').click()
         await metamask.confirmTransactionAndWaitForMining()
       })
-    }
+    },
+    useCache: USECACHE
   })
 }

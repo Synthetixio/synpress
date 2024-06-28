@@ -4,7 +4,9 @@ const test = synpress
 
 const { expect } = test
 
-test('should add a new network', async ({ page, metamask, createAnvilNode }) => {
+test('should add a new network', async ({ page, metamask, createAnvilNode, useCache }) => {
+  if (!useCache) return
+
   await createAnvilNode({
     chainId: 1338,
     port: 8546
