@@ -45,8 +45,7 @@ async function unzipArchive(archivePath: string): Promise<void> {
       stream.on(
         'entry',
         async (entry: { path: string; type: string; pipe: (arg: unknown) => void; autodrain: () => void }) => {
-          const normalizedPath = path.resolve(archivePath, entry.path)
-          const fileName = normalizedPath
+          const fileName = entry.path
           const type = entry.type as 'Directory' | 'File'
 
           if (type === 'Directory') {
