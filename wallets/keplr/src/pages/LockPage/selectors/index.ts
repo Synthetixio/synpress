@@ -8,7 +8,6 @@ export const onboardingElements = {
   nextButton: 'Next',
   focusedInput: 'input:focus',
   phrasePrivateKey: 'Private key',
-  phraseInput: '.sc-iAvgwm.kEpgcC',
   phraseCount24: '24 words',
   walletName: 'My wallet',
   phraseSelectChain: 'Select Chains',
@@ -17,11 +16,12 @@ export const onboardingElements = {
   passwordInput: 'input[name="password"]',
   confirmPasswordInput: 'input[name="confirmPassword"]',
   createNextButton: 'button[type="submit"]',
-  unlockPasswordInput: '.sc-kLLXSd.aOXjF',
   unlockConfirmPasswordInput: 'button[type="submit"].sc-ciZhAO.kaxPjU',
   submitWalletDataButton: 'button[type="submit"]',
   submitChainButton: 'button[type="button"]',
   finishButton: 'button[type="button"]',
   textAreaSelector: 'textbox',
-  submitPhraseButton: '.sc-bZkfAO jGdbNJ'
+  submitPhraseButton: 'button[type="submit"]',
+  unlockPasswordInput: 'input',
+  phraseInput: 'input',
 }
