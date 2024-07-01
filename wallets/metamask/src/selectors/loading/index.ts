@@ -1,5 +1,6 @@
 export const LoadingSelectors = {
   spinner: '.spinner',
+  loadingOverlay: '.loading-overlay',
   loadingIndicators: [
     '.loading-logo',
     '.loading-spinner',
