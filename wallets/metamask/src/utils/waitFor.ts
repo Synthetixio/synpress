@@ -56,7 +56,8 @@ export const fixCriticalError = async (page: Page) => {
         await page.reload()
         await waitForMetaMaskWindowToBeStable(page)
       } else if (times === 4) {
-        await module.exports.waitAndClick(ErrorSelectors.criticalErrorRestartButton)
+        const restartButton = await page.locator(ErrorSelectors.criticalErrorRestartButton)
+        await restartButton.click()
         await waitForMetaMaskWindowToBeStable(page)
       } else {
         throw new Error('[fixCriticalError] Max amount of retries to fix critical metamask error has been reached.')
