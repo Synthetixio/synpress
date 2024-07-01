@@ -23,7 +23,5 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
     height: 592
   })
 
-  await waitForMetaMaskLoad(notificationPage)
-
-  return notificationPage
+  return await waitForMetaMaskLoad(notificationPage)
 }
