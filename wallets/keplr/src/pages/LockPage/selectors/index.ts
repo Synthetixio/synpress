@@ -23,5 +23,5 @@ export const onboardingElements = {
   textAreaSelector: 'textbox',
   submitPhraseButton: 'button[type="submit"]',
   unlockPasswordInput: 'input',
-  phraseInput: 'input',
+  phraseInput: 'input'
 }
