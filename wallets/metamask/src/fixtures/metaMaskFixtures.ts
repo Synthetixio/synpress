@@ -11,15 +11,15 @@ import {
 } from '@synthetixio/synpress-cache'
 import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import fs from 'fs-extra'
+import { loadEnv } from '../config'
 import { importAndConnectForFixtures } from '../fixture-actions/importAndConnectForFixtures'
-import { cachelessSetupMetaMask } from '../fixture-actions/noCachMetaMaskSetup'
+import { cachelessSetupMetaMask } from '../fixture-actions/noCacheMetaMaskSetup'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
 import { SEED_PHRASE } from '../utils/constants'
 
-// This is a workaround for the issue with the cache on Windows.
-// The cache is not supported on Windows, so we need to disable it.
-// process.env.SYNPRESS_USE_CACHE === true will enable the cache.
-const USECACHE = true && process.platform !== 'win32'
+loadEnv()
+
+const USECACHE: boolean = process.env.SYNPRESS_USE_CACHE === undefined || process.env.SYNPRESS_USE_CACHE === 'true'
 
 type MetaMaskFixtures = {
   _contextPath: string

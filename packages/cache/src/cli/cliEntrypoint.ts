@@ -53,10 +53,8 @@ export const cliEntrypoint = async () => {
   if (os.platform() === 'win32') {
     console.log(
       [
-        chalk.redBright('🚨 Sorry, building cach on Windows is currently not supported. Please use WSL instead! 🚨'),
-        chalk.gray(
-          'You can still run tests on windows without cache by setting the USECACHE flag to false in the wallet fixture 😇'
-        )
+        chalk.redBright('🚨 Sorry, building cache on Windows is currently not supported. Please use WSL instead! 🚨'),
+        chalk.gray('You can still run tests on windows without cache by setting SYNPRESS_USE_CACHE=FALSE in your ENV')
       ].join('\n')
     )
     process.exit(1)
