@@ -7,6 +7,6 @@ export const getWalletAddress = async (page: Page, wallet: string) => {
   await page.getByText(homePageElements.copyAddress).click()
   const chain = await page.waitForSelector(homePageElements.walletSelectors(wallet))
   await chain.click()
-  const address = clipboardy.readSync()
+  const address = await clipboardy.readSync()
   return address
 }
