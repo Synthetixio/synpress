@@ -1,8 +1,7 @@
-import { MetaMask, getExtensionId, prepareExtension, unlockForFixture } from '../../src'
-
 import path from 'node:path'
 import { type Page, chromium } from '@playwright/test'
 import { test as base } from '@playwright/test'
+import { prepareExtension } from '@synthetixio/synpress-cache'
 import {
   CACHE_DIR_NAME,
   createTempContextDir,
@@ -11,6 +10,7 @@ import {
 } from '@synthetixio/synpress-cache'
 import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import fs from 'fs-extra'
+import { MetaMask, getExtensionId, unlockForFixture } from '../../src'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
 
 type MetaMaskFixtures = {
@@ -41,6 +41,7 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
     },
     context: async ({ context: currentContext, _contextPath }, use) => {
       const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, walletSetup.hash)
+
       if (!(await fs.exists(cacheDirPath))) {
         throw new Error(`Cache for ${walletSetup.hash} does not exist. Create it first!`)
       }
@@ -48,7 +49,7 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
       // Copying the cache to the temporary context directory.
       await fs.copy(cacheDirPath, _contextPath)
 
-      const metamaskPath = await prepareExtension()
+      const metamaskPath = await prepareExtension('MetaMask')
 
       // We don't need the `--load-extension` arg since the extension is already loaded in the cache.
       const browserArgs = [`--disable-extensions-except=${metamaskPath}`]

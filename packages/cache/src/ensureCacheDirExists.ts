@@ -1,6 +1,6 @@
 import path from 'node:path'
 import fs from 'fs-extra'
-import { CACHE_DIR_NAME } from './constants'
+import { CACHE_DIR_NAME } from '../../cache/src/constants'
 
 export function ensureCacheDirExists() {
   const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME)

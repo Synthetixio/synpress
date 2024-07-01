@@ -1,5 +1,5 @@
 import { afterAll, describe, expect, it, vi } from 'vitest'
-import { getUniqueWalletSetupFunctions } from '../../src/utils/getUniqueWalletSetupFunctions'
+import { getUniqueWalletSetupFunctions } from '../../src'
 
 vi.mock('../../src/utils/getWalletSetupFiles', async () => {
   return {

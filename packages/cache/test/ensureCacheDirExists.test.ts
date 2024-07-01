@@ -1,7 +1,7 @@
 import path from 'node:path'
 import fs from 'fs-extra'
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
-import { CACHE_DIR_NAME } from '../src/constants'
+import { CACHE_DIR_NAME } from '../src'
 import { ensureCacheDirExists } from '../src/ensureCacheDirExists'
 
 vi.mock('fs-extra', async () => {

@@ -1,16 +1,44 @@
 import { downloadFile, ensureCacheDirExists, unzipArchive } from '.'
 
-export const DEFAULT_METAMASK_VERSION = '11.9.1'
-export const EXTENSION_DOWNLOAD_URL = `https://github.com/MetaMask/metamask-extension/releases/download/v${DEFAULT_METAMASK_VERSION}/metamask-chrome-${DEFAULT_METAMASK_VERSION}.zip`
+interface ExtensionConfig {
+  name: string
+  version: string
+  downloadUrl: string
+}
 
-// NOTE: This function is copied from `wallets/metamask/src/prepareExtension.ts` only TEMPORARILY!
-export async function prepareExtension() {
+export async function getExtensionConfig(name: string): Promise<ExtensionConfig> {
+  const config = {
+    extensions: [
+      {
+        name: 'MetaMask',
+        version: '11.9.1',
+        downloadUrl:
+          'https://github.com/MetaMask/metamask-extension/releases/download/v11.9.1/metamask-chrome-11.9.1.zip'
+      },
+      {
+        name: 'Keplr',
+        version: '0.12.102',
+        downloadUrl:
+          'https://github.com/chainapsis/keplr-wallet/releases/download/v0.12.102/keplr-extension-manifest-v2-v0.12.102.zip'
+      }
+    ]
+  }
+
+  const extension = config.extensions.find((ext: { name: string }) => ext.name === name)
+  if (!extension) {
+    throw new Error(`Extension configuration not found for ${name}`)
+  }
+  return extension
+}
+
+export async function prepareExtension(extensionName: string) {
   const cacheDirPath = ensureCacheDirExists()
+  const extensionConfig = await getExtensionConfig(extensionName) // Get config
 
   const downloadResult = await downloadFile({
-    url: EXTENSION_DOWNLOAD_URL,
+    url: extensionConfig.downloadUrl,
     outputDir: cacheDirPath,
-    fileName: `metamask-chrome-${DEFAULT_METAMASK_VERSION}.zip`
+    fileName: `${extensionConfig.name.toLowerCase()}-chrome-${extensionConfig.version}.zip`
   })
 
   const unzipResult = await unzipArchive({

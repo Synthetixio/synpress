@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { WALLET_SETUP_FUNC_HASH_LENGTH, getWalletSetupFuncHash } from '../../src/utils/getWalletSetupFuncHash'
+import { WALLET_SETUP_FUNC_HASH_LENGTH, getWalletSetupFuncHash } from '../../src'
 
 const EXPECTED_HASH = 'b940c886be3c1a041ddd'
 

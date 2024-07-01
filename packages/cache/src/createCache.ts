@@ -1,6 +1,7 @@
 import { getUniqueWalletSetupFunctions } from './utils/getUniqueWalletSetupFunctions'
 import { triggerCacheCreation } from './utils/triggerCacheCreation'
 
+//@TODO: Make it so createCache can handle only one wallet setup function
 export async function createCache(walletSetupDirPath: string, downloadExtension: () => Promise<string>, force = false) {
   const setupFunctions = await getUniqueWalletSetupFunctions(walletSetupDirPath)
 

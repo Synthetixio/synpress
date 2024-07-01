@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { bytesToMegabytes } from '../../src/utils/bytesToMegabytes'
+import { bytesToMegabytes } from '../../src'
 
 describe('bytesToMegabytes', () => {
   it('converts bytes to megabytes and rounds the result', async () => {

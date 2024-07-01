@@ -10,6 +10,8 @@ import { compileWalletSetupFunctions } from './compileWalletSetupFunctions'
 import { footer } from './footer'
 
 interface CliFlags {
+  keplr: boolean
+  metamask: boolean
   headless: boolean
   force: boolean
   debug: boolean
@@ -30,10 +32,11 @@ export const cliEntrypoint = async () => {
     )
     .option('-f, --force', 'Force the creation of cache even if it already exists', false)
     .option('-d, --debug', 'If this flag is present, the compilation files are not going to be deleted', false)
+    .option('-k, --keplr', 'Prepare the Keplr extension', false)
+    .option('-m, --metamask', 'Prepare the MetaMask extension', false)
     .helpOption(undefined, 'Display help for command')
     .addHelpText('afterAll', `\n${footer}\n`)
     .parse(process.argv)
-
   let walletSetupDir = program.args[0]
   if (!walletSetupDir) {
     walletSetupDir = path.join(process.cwd(), 'test', WALLET_SETUP_DIR_NAME)
@@ -41,13 +44,25 @@ export const cliEntrypoint = async () => {
 
   const flags: CliFlags = program.opts()
 
-  if (flags.headless) {
-    process.env.HEADLESS = true
-  }
-
   if (flags.debug) {
     console.log('[DEBUG] Running with the following options:')
-    console.log({ cacheDir: walletSetupDir, ...flags, headless: Boolean(process.env.HEADLESS) ?? false }, '\n')
+    console.log({ cacheDir: walletSetupDir, ...flags, headless: flags.headless ?? false }, '\n')
+  }
+
+  const extensionsToSetup = () => {
+    const extensions = []
+    if (flags.keplr) {
+      extensions.push('Keplr')
+    }
+    if (flags.metamask) {
+      extensions.push('MetaMask')
+    }
+    return extensions
+  }
+  let extensionNames = extensionsToSetup()
+
+  if (!extensionNames.length) {
+    extensionNames = ['Keplr']
   }
 
   if (os.platform() === 'win32') {
@@ -63,9 +78,10 @@ export const cliEntrypoint = async () => {
   }
 
   const compiledWalletSetupDirPath = await compileWalletSetupFunctions(walletSetupDir, flags.debug)
-
+  for (const extensionName of extensionNames) {
+    await createCache(compiledWalletSetupDirPath, () => prepareExtension(extensionName), flags.force) // Pass extensionName
+  }
   // TODO: We should be using `prepareExtension` function from the wallet itself!
-  await createCache(compiledWalletSetupDirPath, prepareExtension, flags.force)
 
   if (!flags.debug) {
     await rimraf(compiledWalletSetupDirPath)
