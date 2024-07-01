@@ -1,7 +1,5 @@
 import { downloadFile, ensureCacheDirExists, unzipArchive } from '@synthetixio/synpress-cache'
-
-export const DEFAULT_METAMASK_VERSION = '11.9.1'
-export const EXTENSION_DOWNLOAD_URL = `https://github.com/MetaMask/metamask-extension/releases/download/v${DEFAULT_METAMASK_VERSION}/metamask-chrome-${DEFAULT_METAMASK_VERSION}.zip`
+import { DEFAULT_METAMASK_VERSION, EXTENSION_DOWNLOAD_URL } from '../utils/constants'
 
 export async function prepareExtension() {
   const cacheDirPath = ensureCacheDirExists()

@@ -12,7 +12,8 @@
       "**/test-results",
       "**/playwright-report",
       "**/.cache-synpress",
-      "**/.vitepress/cache"
+      "**/.vitepress/cache",
+      "**/downloads"
     ]
   },
   "formatter": {

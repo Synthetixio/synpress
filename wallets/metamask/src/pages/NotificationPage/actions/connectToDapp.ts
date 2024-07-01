@@ -21,7 +21,6 @@ async function connectMultipleAccounts(notificationPage: Page, accounts: string[
 
   const accountLocators = await notificationPage.locator(Selectors.ConnectPage.accountOption).all()
   const accountNames = await allTextContents(accountLocators)
-
   await selectAccounts(accounts, accountLocators, accountNames)
 }
 

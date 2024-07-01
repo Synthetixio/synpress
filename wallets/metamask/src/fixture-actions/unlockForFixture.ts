@@ -40,7 +40,7 @@ async function unlockWalletButReloadIfSpinnerDoesNotVanish(metamask: MetaMask) {
   }
 }
 
-async function retryIfMetaMaskCrashAfterUnlock(page: Page) {
+export async function retryIfMetaMaskCrashAfterUnlock(page: Page) {
   const homePageLogoLocator = page.locator(HomePage.selectors.logo)
 
   const isHomePageLogoVisible = await homePageLogoLocator.isVisible()
