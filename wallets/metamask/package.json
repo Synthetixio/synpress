@@ -30,8 +30,8 @@
     "types:check": "tsc --noEmit"
   },
   "dependencies": {
-    "@synthetixio/synpress-cache": "0.0.1-alpha.7",
-    "@synthetixio/synpress-core": "0.0.1-alpha.7",
+    "@synthetixio/synpress-cache": "workspace:*",
+    "@synthetixio/synpress-core": "workspace:*",
     "@viem/anvil": "0.0.7",
     "fs-extra": "11.2.0",
     "zod": "3.22.4"
