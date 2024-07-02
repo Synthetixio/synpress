@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { glob } from 'glob'
+import { globSync } from 'glob'
 import { build } from 'tsup'
 import { ensureCacheDirExists } from '../ensureCacheDirExists'
 import { FIXES_BANNER } from './compilationFixes'
@@ -9,14 +9,24 @@ const OUT_DIR_NAME = 'wallet-setup-dist'
 const createGlobPattern = (walletSetupDir: string) => path.join(walletSetupDir, '**', '*.setup.{ts,js,mjs}')
 
 export async function compileWalletSetupFunctions(walletSetupDir: string, debug: boolean) {
+  const escapeWindowsFilePath = (filePath: string) => {
+    filePath.replace(/\//g, '\\')
+    const n = filePath.replace(/\\/g, '\\\\')
+    console.log(n, 'n', filePath)
+    return n
+  }
   const outDir = path.join(ensureCacheDirExists(), OUT_DIR_NAME)
-
-  const globPattern = createGlobPattern(walletSetupDir)
-  const fileList = await glob(globPattern)
-
+  console.log(process.platform, 'platform')
+  const setupPath = process.platform === 'win32' ? escapeWindowsFilePath(walletSetupDir) : walletSetupDir
+  console.log(setupPath, 'setupPath')
+  const globPattern = createGlobPattern(setupPath)
+  const fullPath = path.join(process.cwd(), globPattern)
+  console.log(fullPath, 'fp')
+  const fileList = globSync('*.setup.{ts,js,mjs}')
+  console.log(fileList, 'fl')
   if (debug) {
     console.log('[DEBUG] Found the following wallet setup files:')
-    console.log(fileList, '\n')
+    console.log(fileList, globPattern, outDir, '\n')
   }
 
   // TODO: This error message is copied over from another function. Refactor this.
