@@ -1,4 +1,4 @@
-import os from 'node:os'
+// import os from 'node:os'
 import path from 'node:path'
 import chalk from 'chalk'
 import { Command } from 'commander'
@@ -50,17 +50,17 @@ export const cliEntrypoint = async () => {
     console.log({ cacheDir: walletSetupDir, ...flags, headless: Boolean(process.env.HEADLESS) ?? false }, '\n')
   }
 
-  if (os.platform() === 'win32') {
-    console.log(
-      [
-        chalk.redBright('🚨 Sorry, Windows is currently not supported. Please use WSL instead! 🚨'),
-        chalk.gray(
-          'If you want to give it a crack over a hot cup of coffee and add Windows support yourself, please get in touch with the team on Discord so we can offer some guidance! 😇'
-        )
-      ].join('\n')
-    )
-    process.exit(1)
-  }
+  // if (os.platform() === 'win32') {
+  //   console.log(
+  //     [
+  //       chalk.redBright('🚨 Sorry, Windows is currently not supported. Please use WSL instead! 🚨'),
+  //       chalk.gray(
+  //         'If you want to give it a crack over a hot cup of coffee and add Windows support yourself, please get in touch with the team on Discord so we can offer some guidance! 😇'
+  //       )
+  //     ].join('\n')
+  //   )
+  //   process.exit(1)
+  // }
 
   const compiledWalletSetupDirPath = await compileWalletSetupFunctions(walletSetupDir, flags.debug)
 
