@@ -22,16 +22,6 @@ export async function compileWalletSetupFunctions(
     console.log('[DEBUG] Found the following wallet setup files:');
     console.log(fileList, '\n');
   }
-
-  // TODO: This error message is copied over from another function. Refactor this.
-  if (!fileList.length) {
-    throw new Error(
-      [
-        `No wallet setup files found at ${walletSetupDir}`,
-        'Remember that all wallet setup files must end with `.setup.{ts,js,mjs}` extension!'
-      ].join('\n')
-    );
-  }
   // TODO: This error message is copied over from another function. Refactor this.
   if (!fileList.length) {
     throw new Error(
