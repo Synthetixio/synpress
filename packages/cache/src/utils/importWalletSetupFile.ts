@@ -10,8 +10,8 @@ const WalletSetupModule = z.object({
 })
 
 export async function importWalletSetupFile(walletSetupFilePath: string) {
-  const walletSetupModule = await import(walletSetupFilePath)
-
+  const fileToImport = process.platform === 'win32' ? 'file:\\\\\\' + walletSetupFilePath : walletSetupFilePath
+  const walletSetupModule = await import(fileToImport)
   const result = WalletSetupModule.safeParse(walletSetupModule)
   if (!result.success) {
     throw new Error(

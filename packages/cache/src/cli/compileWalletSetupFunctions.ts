@@ -1,4 +1,4 @@
-import path from 'node:path'
+import path, { posix, win32 } from 'node:path'
 import { glob } from 'glob'
 import { build } from 'tsup'
 import { ensureCacheDirExists } from '../ensureCacheDirExists'
@@ -16,7 +16,7 @@ export async function compileWalletSetupFunctions(
   const globPattern = path.join(walletSetupDir, '**', '*.setup.{ts,js,mjs}');
   
   // Use glob to find files, ensuring proper path handling
-  const fileList = await glob(globPattern, { absolute: true, windowsPathsNoEscape: true });
+  const fileList: string[] = await glob(globPattern, { absolute: false, windowsPathsNoEscape: true });
 
   if (debug) {
     console.log('[DEBUG] Found the following wallet setup files:');
@@ -32,23 +32,16 @@ export async function compileWalletSetupFunctions(
       ].join('\n')
     );
   }
-  // TODO: This error message is copied over from another function. Refactor this.
-  if (!fileList.length) {
-    throw new Error(
-      [
-        `No wallet setup files found at ${walletSetupDir}`,
-        'Remember that all wallet setup files must end with `.setup.{ts,js,mjs}` extension!'
-      ].join('\n')
-    )
-  }
 
-
+  const normalized = fileList.map((file) => {
+    return file.split(win32.sep).join(posix.sep)
+  })
 
   try {
     await build({
       name: 'cli-build',
       silent: true,
-      entry: fileList,
+      entry: normalized,
       clean: true,
       outDir,
       format: 'esm',
@@ -67,7 +60,7 @@ export async function compileWalletSetupFunctions(
       }
     })
   } catch (e) {
-    console.log(e)
+    console.log('error within compile', e)
   }
   return outDir
 }

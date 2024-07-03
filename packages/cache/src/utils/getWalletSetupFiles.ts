@@ -26,6 +26,5 @@ export async function getWalletSetupFiles(walletSetupDirPath: string) {
       ].join('\n')
     )
   }
-
   return fileList
 }
