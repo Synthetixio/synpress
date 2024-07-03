@@ -2,6 +2,7 @@ import { getUniqueWalletSetupFunctions } from './utils/getUniqueWalletSetupFunct
 import { triggerCacheCreation } from './utils/triggerCacheCreation'
 
 export async function createCache(walletSetupDirPath: string, downloadExtension: () => Promise<string>, force = false) {
+  console.log('made it in createCache', walletSetupDirPath, downloadExtension)
   const setupFunctions = await getUniqueWalletSetupFunctions(walletSetupDirPath)
 
   const cacheCreationPromises = await triggerCacheCreation(setupFunctions, downloadExtension, force)

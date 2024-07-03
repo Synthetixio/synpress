@@ -1,4 +1,5 @@
-import path from 'node:path'
+import path, { posix, win32 } from 'node:path'
+import fs from 'fs-extra'
 import { glob } from 'glob'
 import { build } from 'tsup'
 import { ensureCacheDirExists } from '../ensureCacheDirExists'
@@ -6,29 +7,18 @@ import { FIXES_BANNER } from './compilationFixes'
 
 const OUT_DIR_NAME = 'wallet-setup-dist'
 
-function escapeWindowsFilePath(filePath: string, platform: string) {
-  if (platform !== 'win32') return filePath;
-  filePath.replace(/\//g, '\\')
-  return filePath.replace(/\\/g, '\\\\')
-}
-
 export async function compileWalletSetupFunctions(
   walletSetupDir: string,
   debug: boolean
 ) {
   const outDir = path.join(ensureCacheDirExists(), OUT_DIR_NAME);
 
-  // **Refined Glob Pattern:** 
+  // Use a normalized glob pattern
   const globPattern = path.join(walletSetupDir, '**', '*.setup.{ts,js,mjs}');
+  
+  // Use glob to find files, ensuring proper path handling
+  const fileList: string[] = await glob(globPattern, { absolute: false, windowsPathsNoEscape: true });
 
-  const platform = process.platform
-  // Get file paths using glob, ensuring proper path handling
-  const p = escapeWindowsFilePath(globPattern, platform)
-  console.log('path', p)
-  // const fileList = globSync(escapeWindowsFilePath(globPattern, ''));
-  // const fileList = await glob(escapeWindowsFilePath(globPattern, platform))
-  const fileList = [new URL('file:\\' + path.join(process.cwd(), 'test/wallet-setup/connected.setup.ts')), new URL('file:\\' + path.join(process.cwd(), 'test/wallet-setup/basic.setup.ts'))]
-  // const fileList = ['test/wallet-setup/connected.setup.ts', 'test/wallet-setup/basic.setup.ts']
   if (debug) {
     console.log('[DEBUG] Found the following wallet setup files:');
     console.log(fileList, '\n');
@@ -43,23 +33,17 @@ export async function compileWalletSetupFunctions(
       ].join('\n')
     );
   }
-  // TODO: This error message is copied over from another function. Refactor this.
-  if (!fileList.length) {
-    throw new Error(
-      [
-        `No wallet setup files found at ${walletSetupDir}`,
-        'Remember that all wallet setup files must end with `.setup.{ts,js,mjs}` extension!'
-      ].join('\n')
-    )
-  }
 
-
-
+  const normalized = fileList.map((file) => {
+    console.log(fs.existsSync(file), 'exists')
+    return file.split(win32.sep).join(posix.sep)
+  })
+  console.log(normalized)
   try {
     await build({
       name: 'cli-build',
       silent: true,
-      entry: fileList,
+      entry: normalized,
       clean: true,
       outDir,
       format: 'esm',
@@ -78,7 +62,7 @@ export async function compileWalletSetupFunctions(
       }
     })
   } catch (e) {
-    console.log(e)
+    console.log('error within compile', e)
   }
   return outDir
 }
