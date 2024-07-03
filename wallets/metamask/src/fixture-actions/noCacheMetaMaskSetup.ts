@@ -6,7 +6,7 @@ import fs from 'fs-extra'
 import unzipper from 'unzipper'
 import { DEFAULT_METAMASK_VERSION, EXTENSION_DOWNLOAD_URL } from '../utils/constants'
 
-async function prepareMetaMask(version: string = DEFAULT_METAMASK_VERSION): Promise<string> {
+async function prepareDownloadDirectory(version: string = DEFAULT_METAMASK_VERSION): Promise<string> {
   const downloadsDirectory =
     process.platform === 'win32' ? appRoot.resolve('/node_modules') : path.join(process.cwd(), 'downloads')
   await fs.ensureDir(downloadsDirectory)
@@ -75,7 +75,7 @@ async function unzipArchive(archivePath: string): Promise<void> {
 }
 
 export async function cachelessSetupMetaMask(metamaskVersion?: string): Promise<BrowserContext> {
-  const metamaskPath = await prepareMetaMask(metamaskVersion || DEFAULT_METAMASK_VERSION)
+  const metamaskPath = await prepareDownloadDirectory(metamaskVersion || DEFAULT_METAMASK_VERSION)
   const browserArgs = [`--load-extension=${metamaskPath}`, `--disable-extensions-except=${metamaskPath}`]
 
   if (process.env.HEADLESS) {

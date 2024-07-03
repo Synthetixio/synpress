@@ -19,7 +19,7 @@ import { SEED_PHRASE } from '../utils/constants'
 
 loadEnv()
 
-const USECACHE: boolean = process.env.SYNPRESS_USE_CACHE === undefined || process.env.SYNPRESS_USE_CACHE === 'true'
+const USECACHE: boolean = process.env.USE_CACHE === undefined || process.env.USE_CACHE === 'true'
 
 type MetaMaskFixtures = {
   _contextPath: string

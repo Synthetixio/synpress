@@ -5,7 +5,7 @@ const test = synpress
 const { expect } = test
 
 test('should add a new network', async ({ page, metamask, createAnvilNode, useCache }) => {
-  if (!useCache) return
+  test.skip(!useCache, 'This test requires useCache to be true')
 
   await createAnvilNode({
     chainId: 1338,

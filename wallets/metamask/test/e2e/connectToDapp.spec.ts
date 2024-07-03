@@ -23,7 +23,7 @@ test('should connect wallet to dapp', async ({ context, page, extensionId }) => 
 })
 
 test('should connect multiple wallets to dapp', async ({ context, page, metamaskPage, extensionId, useCache }) => {
-  if (!useCache) return
+  test.skip(!useCache, 'This test requires useCache to be true')
   const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword, extensionId)
 
   await metamask.addNewAccount('Account x2')

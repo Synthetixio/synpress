@@ -16,7 +16,7 @@ test('should reject `personal_sign`', async ({ page, metamask }) => {
 })
 
 test('should reject `eth_signTypedData`', async ({ page, metamask, useCache }) => {
-  if (!useCache) return
+  test.skip(!useCache, 'This test requires useCache to be true')
   await page.locator('#signTypedData').click()
 
   await metamask.rejectSignature()
@@ -27,7 +27,7 @@ test('should reject `eth_signTypedData`', async ({ page, metamask, useCache }) =
 })
 
 test('should reject `eth_signTypedData_v3`', async ({ page, metamask, useCache }) => {
-  if (!useCache) return
+  test.skip(!useCache, 'This test requires useCache to be true')
   await page.locator('#signTypedDataV3').click()
 
   await metamask.rejectSignature()
@@ -38,7 +38,7 @@ test('should reject `eth_signTypedData_v3`', async ({ page, metamask, useCache }
 })
 
 test('should reject `eth_signTypedData_v4`', async ({ page, metamask, useCache }) => {
-  if (!useCache) return
+  test.skip(!useCache, 'This test requires useCache to be true')
   await page.locator('#signTypedDataV4').click()
 
   await metamask.rejectSignature()

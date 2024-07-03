@@ -54,7 +54,7 @@ export const cliEntrypoint = async () => {
     console.log(
       [
         chalk.redBright('🚨 Sorry, building cache on Windows is currently not supported. Please use WSL instead! 🚨'),
-        chalk.gray('You can still run tests on windows without cache by setting SYNPRESS_USE_CACHE=FALSE in your ENV')
+        chalk.gray('You can still run tests on windows without cache by setting USE_CACHE=FALSE in your ENV')
       ].join('\n')
     )
     process.exit(1)

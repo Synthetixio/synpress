@@ -4,7 +4,7 @@ import { getWalletSetupFuncHash } from './utils/getWalletSetupFuncHash'
 // TODO: Should we export this type in the `release` package?
 export type WalletSetupFunction = (context: BrowserContext, walletPage: Page) => Promise<void>
 
-// TODO: Is this still true? -> This runs at least twice. Should we cache it somehow?
+// This runs once for each setup file on building cache and setting up fixtures, then it runs once for each worker on e2e:test. Should we cache it somehow?
 /**
  * This function is used to define how a wallet should be set up.
  * Based on the contents of this function, a browser with the wallet extension is set up and cached so that it can be used by the tests later.
