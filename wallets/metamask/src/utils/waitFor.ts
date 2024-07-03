@@ -2,6 +2,8 @@ import type { Page } from '@playwright/test'
 import { errors } from '@playwright/test'
 import { ErrorSelectors, LoadingSelectors } from '../selectors'
 
+const DEFAULT_TIMEOUT = 2000
+
 export const waitUntilStable = async (page: Page) => {
   await page.waitForLoadState('domcontentloaded')
   await page.waitForLoadState('networkidle')
@@ -25,7 +27,7 @@ export const waitForSelector = async (selector: string, page: Page, timeout: num
 export const waitForMetaMaskLoad = async (page: Page) => {
   await Promise.all(
     LoadingSelectors.loadingIndicators.map(async (selector) => {
-      await waitForSelector(selector, page, 5000)
+      await waitForSelector(selector, page, DEFAULT_TIMEOUT)
     })
   )
     .then(() => {
@@ -43,7 +45,7 @@ export const waitForMetaMaskWindowToBeStable = async (page: Page) => {
   if ((await page.locator(ErrorSelectors.loadingOverlayErrorButtons).count()) > 0) {
     const retryButton = await page.locator(ErrorSelectors.loadingOverlayErrorButtonsRetryButton)
     await retryButton.click()
-    await waitForSelector(LoadingSelectors.loadingOverlay, page, 300)
+    await waitForSelector(LoadingSelectors.loadingOverlay, page, DEFAULT_TIMEOUT)
   }
   await fixCriticalError(page)
 }
