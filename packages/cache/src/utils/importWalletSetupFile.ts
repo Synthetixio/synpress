@@ -10,8 +10,9 @@ const WalletSetupModule = z.object({
 })
 
 export async function importWalletSetupFile(walletSetupFilePath: string) {
-  const walletSetupModule = await import(walletSetupFilePath)
-
+  console.log('import wallet setup files', walletSetupFilePath)
+  const walletSetupModule = await import('file:\\\\\\' + walletSetupFilePath)
+  console.log('2.2. walletsetup module', walletSetupModule)
   const result = WalletSetupModule.safeParse(walletSetupModule)
   if (!result.success) {
     throw new Error(
