@@ -2,11 +2,15 @@ import { type BrowserContext, type Page } from '@playwright/test'
 import { HomePage } from './pages/HomePage/page'
 import { LockPage } from './pages/LockPage/page'
 import { NotificationPage } from './pages/NotificationPage/page'
+import { SettingsPage } from './pages/SettingsPage/page'
+import { ConfirmationPage } from './pages/ConfirmationPage/page'
 
-export class KeplrWallet {
+export class PhantomWallet {
   readonly lockPage: LockPage
   readonly homePage: HomePage
   readonly notificationPage: NotificationPage
+  readonly settingsPage: SettingsPage
+  readonly confirmationPage: ConfirmationPage
 
   constructor(
     readonly page: Page,
@@ -17,6 +21,8 @@ export class KeplrWallet {
     this.lockPage = new LockPage(page)
     this.homePage = new HomePage(page)
     this.notificationPage = new NotificationPage(page)
+    this.settingsPage = new SettingsPage(page)
+    this.confirmationPage = new ConfirmationPage(page)
   }
   /**
    * Does initial setup for the wallet.
@@ -26,33 +32,30 @@ export class KeplrWallet {
    * @param password. The password to set.
    */
   async setupWallet({ secretWordsOrPrivateKey, password }: { secretWordsOrPrivateKey: string; password: string }) {
-    const wallet = await this.lockPage.importWallet(secretWordsOrPrivateKey, password)
-    return wallet
+    console.log(secretWordsOrPrivateKey, password)
   }
 
   async createWallet(password: string) {
-    const wallet = await this.lockPage.createWallet(password)
-    return wallet
+    console.log(password)
   }
 
   async getWalletAddress(wallet: string) {
-    const walletAddress = await this.homePage.getWalletAddress(wallet)
-    return walletAddress
+    console.log(wallet)
   }
 
   async addNewTokensFound() {
-    return await this.homePage.addNewTokensFound()
+    console.log('')
   }
 
   async disconnectWalletFromDapps() {
-    return await this.homePage.disconnectWalletFromDapps()
+    console.log('')
   }
 
   async acceptAccess() {
-    return await this.notificationPage.acceptAccess()
+    console.log('')
   }
 
   async rejectAccess() {
-    return await this.notificationPage.rejectAccess()
+    console.log('')
   }
 }

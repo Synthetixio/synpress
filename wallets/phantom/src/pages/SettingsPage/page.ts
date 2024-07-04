@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
 import { settingsPageElements } from './selectors'
 
-export class LockPage {
+export class SettingsPage {
   static readonly selectors = settingsPageElements
   readonly selectors = settingsPageElements
 

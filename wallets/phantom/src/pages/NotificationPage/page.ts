@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
 import { notificationPageElements } from './selectors'
 
-export class LockPage {
+export class NotificationPage {
   static readonly selectors = notificationPageElements
   readonly selectors = notificationPageElements
 
