@@ -28,11 +28,11 @@ export class PhantomWallet {
    * Does initial setup for the wallet.
    *
    * @param playwrightInstance. The playwright instance to use.
-   * @param secretWordsOrPrivateKey. The secret words or private key to import.
+   * @param secretWords. The secret words or private key to import.
    * @param password. The password to set.
    */
-  async setupWallet({ secretWordsOrPrivateKey, password }: { secretWordsOrPrivateKey: string; password: string }) {
-    console.log(secretWordsOrPrivateKey, password)
+  async importWallet({ secretWords, password }: { secretWords: string; password: string }) {
+    this.lockPage.importWallet(secretWords, password)
   }
 
   async createWallet(password: string) {
