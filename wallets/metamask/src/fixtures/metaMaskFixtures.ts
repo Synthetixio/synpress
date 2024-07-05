@@ -15,6 +15,7 @@ import { loadEnv } from '../config'
 import { importAndConnectForFixtures } from '../fixture-actions/importAndConnectForFixtures'
 import { cachelessSetupMetaMask } from '../fixture-actions/noCacheMetaMaskSetup'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
+import { waitForMetaMaskWindowToBeStable } from '../utils/waitFor'
 import { SEED_PHRASE } from '../utils/constants'
 
 loadEnv()
@@ -103,9 +104,13 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
       _metamaskPage = context.pages()[0] as Page
 
       await _metamaskPage.goto(`chrome-extension://${extensionId}/home.html`)
+
       if (!USECACHE)
         await importAndConnectForFixtures(_metamaskPage, SEED_PHRASE, walletSetup.walletPassword, extensionId)
-      if (USECACHE) await unlockForFixture(_metamaskPage, walletSetup.walletPassword)
+      if (USECACHE) {
+        await waitForMetaMaskWindowToBeStable(_metamaskPage)
+        await unlockForFixture(_metamaskPage, walletSetup.walletPassword)
+      }
 
       await use(context)
 
