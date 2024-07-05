@@ -15,8 +15,8 @@ import { loadEnv } from '../config'
 import { importAndConnectForFixtures } from '../fixture-actions/importAndConnectForFixtures'
 import { cachelessSetupMetaMask } from '../fixture-actions/noCacheMetaMaskSetup'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
-import { SEED_PHRASE } from '../utils/constants'
 import { waitForMetaMaskWindowToBeStable } from '../utils/waitFor'
+import { SEED_PHRASE } from '../utils/constants'
 
 loadEnv()
 
