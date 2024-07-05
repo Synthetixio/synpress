@@ -1,3 +1,4 @@
+// import download from 'download'
 import { downloadFile, ensureCacheDirExists, unzipArchive } from '.'
 
 interface ExtensionConfig {
@@ -20,6 +21,12 @@ export async function getExtensionConfig(name: string): Promise<ExtensionConfig>
         version: '0.12.102',
         downloadUrl:
           'https://github.com/chainapsis/keplr-wallet/releases/download/v0.12.102/keplr-extension-manifest-v2-v0.12.102.zip'
+      },
+      {
+        name: 'Phantom',
+        version: 'phantom-chrome-latest',
+        downloadUrl:
+          'https://crx-backup.phantom.dev/latest.crx'
       }
     ]
   }
@@ -34,13 +41,22 @@ export async function getExtensionConfig(name: string): Promise<ExtensionConfig>
 export async function prepareExtension(extensionName: string) {
   const cacheDirPath = ensureCacheDirExists()
   const extensionConfig = await getExtensionConfig(extensionName) // Get config
-
-  const downloadResult = await downloadFile({
+  let downloadResult
+  // if (extensionConfig.name === 'Phantom') {
+  //   downloadResult = await download(extensionConfig.downloadUrl, cacheDirPath, {
+  //     headers: {
+  //       Accept: 'application/octet-stream',
+  //     },
+  //   });
+  // }
+  // else {
+    
+  // }
+  downloadResult = await downloadFile({
     url: extensionConfig.downloadUrl,
     outputDir: cacheDirPath,
-    fileName: `${extensionConfig.name.toLowerCase()}-chrome-${extensionConfig.version}.zip`
+    fileName: extensionName === 'Phantom' ? 'latest.crx' : `${extensionConfig.name.toLowerCase()}-chrome-${extensionConfig.version}.zip`
   })
-
   const unzipResult = await unzipArchive({
     archivePath: downloadResult.filePath
   })

@@ -9,7 +9,7 @@ const networkSwitcher = {
   goerliNetworkItem: `[data-testid="network-droppo"] [data-testid="goerli-network-item"]`,
   sepoliaNetworkItem: `[data-testid="network-droppo"] [data-testid="sepolia-network-item"]`,
   localhostNetworkItem: `[data-testid="network-droppo"] [data-testid="Localhost 8545-network-item"]`,
-  networkButton: number =>
+  networkButton: (number: number) =>
     `[data-testid="network-droppo"] .dropdown-menu-item:nth-child(${
       3 + number
     })`,
@@ -62,7 +62,7 @@ const actionableMessage = {
 };
 
 const accountMenu = {
-  accountButton: number => `[data-testid="account-menu"] [data-testid="tooltip_interactive-wrapper"]:nth-child(${number})`,
+  accountButton: (number: number) => `[data-testid="account-menu"] [data-testid="tooltip_interactive-wrapper"]:nth-child(${number})`,
 };
 
 const settingsMenu = {

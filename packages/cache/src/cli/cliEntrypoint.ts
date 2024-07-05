@@ -12,6 +12,7 @@ import { footer } from './footer'
 interface CliFlags {
   keplr: boolean
   metamask: boolean
+  phantom: boolean
   headless: boolean
   force: boolean
   debug: boolean
@@ -34,6 +35,7 @@ export const cliEntrypoint = async () => {
     .option('-d, --debug', 'If this flag is present, the compilation files are not going to be deleted', false)
     .option('-k, --keplr', 'Prepare the Keplr extension', false)
     .option('-m, --metamask', 'Prepare the MetaMask extension', false)
+    .option('-p, --phantom', 'Prepare the Phantom extension', false)
     .helpOption(undefined, 'Display help for command')
     .addHelpText('afterAll', `\n${footer}\n`)
     .parse(process.argv)
@@ -57,12 +59,15 @@ export const cliEntrypoint = async () => {
     if (flags.metamask) {
       extensions.push('MetaMask')
     }
+    if (flags.phantom) {
+      extensions.push('Phantom')
+    }
     return extensions
   }
   let extensionNames = extensionsToSetup()
 
   if (!extensionNames.length) {
-    extensionNames = ['Keplr']
+    extensionNames = ['Metamask']
   }
 
   if (os.platform() === 'win32') {
@@ -81,7 +86,6 @@ export const cliEntrypoint = async () => {
   for (const extensionName of extensionNames) {
     await createCache(compiledWalletSetupDirPath, () => prepareExtension(extensionName), flags.force) // Pass extensionName
   }
-  // TODO: We should be using `prepareExtension` function from the wallet itself!
 
   if (!flags.debug) {
     await rimraf(compiledWalletSetupDirPath)

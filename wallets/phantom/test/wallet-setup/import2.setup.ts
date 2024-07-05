@@ -7,10 +7,10 @@ const PASSWORD = 'Test1234'
 
 const importPhantomWallet = defineWalletSetup(PASSWORD, async (context: BrowserContext, phantomPage: Page) => {
   const extensionId = await getExtensionId(context, 'phantom')
-  const phantom = new PhantomWallet(phantomPage, context, PASSWORD, extensionId)
+  const phantom2 = new PhantomWallet(phantomPage, context, PASSWORD, extensionId)
 
   try {
-    await phantom.importWallet({ secretWords: '', password: PASSWORD })
+    await phantom2.importWallet({ secretWords: '', password: PASSWORD })
   } catch (e) {
     console.log('Error creating Keplr wallet:', e)
   }

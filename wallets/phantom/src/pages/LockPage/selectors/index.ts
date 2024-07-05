@@ -29,7 +29,7 @@ const firstTimeFlowPageElements = {
 
 const firstTimeFlowImportPage = '.first-time-flow__import';
 const newVaultForm = `${firstTimeFlowImportPage} .create-new-vault__form`;
-const secretWordsInput = number =>
+const secretWordsInput = (number: number) =>
   `[data-testid="secret-recovery-phrase-word-input-${number}"]`;
 const confirmWordsButton = `[data-testid="onboarding-form-submit-button"]`;
 const passwordInput = `[data-testid="onboarding-form-password-input"]`;

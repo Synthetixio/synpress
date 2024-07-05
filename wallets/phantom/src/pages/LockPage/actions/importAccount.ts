@@ -6,7 +6,7 @@ export const importWallet = async (page: Page, secretWords: string, password: st
   await page.click(lockPageElements.firstTimeFlowPageElements.importRecoveryPhraseButton)
 
   for (const [index, word] of secretWords.split(' ').entries()) {
-    const inputField = await page.selectors(lockPageElements.firstTimeFlowImportPageElements.secretWordsInput(index))
+    const inputField = await page.locator(lockPageElements.firstTimeFlowImportPageElements.secretWordsInput(index))
     await inputField.fill(word)
   }
   await page.click(lockPageElements.firstTimeFlowImportPageElements.confirmWordsButton)

@@ -14,7 +14,8 @@ import { PhantomWallet } from '../PhantomWallet'
 import { getExtensionId } from '../fixtureActions'
 import { persistLocalStorage } from '../fixtureActions/persistLocalStorage'
 // import unlockForFixtures from '../fixtureActions/unlockForFixtures'
-import { PASSWORD } from '../utils'
+
+const PASSWORD = '12345678'
 
 type PhantomFixtures = {
   _contextPath: string
