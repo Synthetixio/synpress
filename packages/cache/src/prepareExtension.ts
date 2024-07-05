@@ -1,4 +1,5 @@
-// import download from 'download'
+import download from 'download'
+import unzipCrx from 'unzip-crx-3';
 import { downloadFile, ensureCacheDirExists, unzipArchive } from '.'
 
 interface ExtensionConfig {
@@ -42,24 +43,24 @@ export async function prepareExtension(extensionName: string) {
   const cacheDirPath = ensureCacheDirExists()
   const extensionConfig = await getExtensionConfig(extensionName) // Get config
   let downloadResult
-  // if (extensionConfig.name === 'Phantom') {
-  //   downloadResult = await download(extensionConfig.downloadUrl, cacheDirPath, {
-  //     headers: {
-  //       Accept: 'application/octet-stream',
-  //     },
-  //   });
-  // }
-  // else {
-    
-  // }
-  downloadResult = await downloadFile({
-    url: extensionConfig.downloadUrl,
-    outputDir: cacheDirPath,
-    fileName: extensionName === 'Phantom' ? 'latest.crx' : `${extensionConfig.name.toLowerCase()}-chrome-${extensionConfig.version}.zip`
-  })
-  const unzipResult = await unzipArchive({
-    archivePath: downloadResult.filePath
-  })
-
-  return unzipResult.outputPath
+  if (extensionConfig.name === 'Phantom') {
+    downloadResult = await download(extensionConfig.downloadUrl, cacheDirPath, {
+      headers: {
+        Accept: 'application/octet-stream',
+      },
+    });
+    return unzipCrx('.cache-synpress/latest.zip', cacheDirPath)
+  }
+  else {
+    downloadResult = await downloadFile({
+      url: extensionConfig.downloadUrl,
+      outputDir: cacheDirPath,
+      fileName: `${extensionConfig.name.toLowerCase()}-chrome-${extensionConfig.version}.zip`
+    })
+    const unzipResult = await unzipArchive({
+      archivePath: downloadResult.filePath
+    })
+  
+    return unzipResult.outputPath
+  }
 }

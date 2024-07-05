@@ -39,6 +39,7 @@
     "gradient-string": "2.0.2",
     "progress": "2.0.3",
     "tsup": "8.0.2",
+    "unzip-crx-3": "0.2.0",
     "unzipper": "0.10.14",
     "zod": "3.22.4"
   },
