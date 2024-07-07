@@ -1,4 +1,4 @@
-import { createDataTestSelector } from '../../../utils/selectors/createDataTestSelector'
+import { createDataTestSelector } from '../../../../selectors/createDataTestSelector'
 
 export enum SettingsSidebarMenus {
   General = 1,

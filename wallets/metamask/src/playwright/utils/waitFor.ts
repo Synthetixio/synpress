@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
 import { errors } from '@playwright/test'
-import { ErrorSelectors, LoadingSelectors } from '../selectors'
+import { ErrorSelectors, LoadingSelectors } from '../../selectors'
 
 const DEFAULT_TIMEOUT = 2000
 

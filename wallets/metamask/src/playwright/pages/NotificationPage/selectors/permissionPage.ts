@@ -1,4 +1,4 @@
-import { createDataTestSelector } from '../../../utils/selectors/createDataTestSelector'
+import { createDataTestSelector } from '../../../../selectors/createDataTestSelector'
 
 const approve = {
   maxButton: createDataTestSelector('custom-spending-cap-max-button'),

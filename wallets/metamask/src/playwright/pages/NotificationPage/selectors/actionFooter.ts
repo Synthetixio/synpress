@@ -1,4 +1,4 @@
-import { createDataTestSelector } from '../../../utils/selectors/createDataTestSelector'
+import { createDataTestSelector } from '../../../../selectors/createDataTestSelector'
 
 export default {
   confirmActionButton: `.page-container__footer ${createDataTestSelector('page-container-footer-next')}`,

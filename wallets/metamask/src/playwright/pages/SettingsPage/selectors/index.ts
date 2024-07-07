@@ -1,4 +1,4 @@
-import { createDataTestSelector } from '../../../utils/selectors/createDataTestSelector'
+import { createDataTestSelector } from '../../../../selectors/createDataTestSelector'
 
 const menuOption = '.settings-page__content__tabs .tab-bar .tab-bar__tab'
 

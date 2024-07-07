@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import { LoadingSelectors } from '../selectors'
+import { LoadingSelectors } from '../../selectors'
 
 // TODO: Should we decrease the timeout?
 // TODO: Not sure if hard coding the timeout is a good idea but must be enough for now.

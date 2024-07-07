@@ -15,7 +15,7 @@ declare global {
   namespace Cypress {
     interface Chainable {
 
-      // importWallet(seedPhrase: string): Chainable<void>
+      importWallet(seedPhrase: string): Chainable<void>
       // importWalletFromPrivateKey(privateKey: `0x${string}`): Chainable<void>
       // addNewAccount(): Chainable<void>
       // getAllAccounts(): Chainable<Array<`0x${string}`>>

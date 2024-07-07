@@ -13,13 +13,13 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-// import mockEthereum from './mockEthereum'
 // Import commands.js using ES2015 syntax:
 // import synpressCommands from './synpressCommands'
 
-// synpressCommands()
-// mockEthereum()
-//
+before(() => {
+  cy.visit('/')
+})
+
 // Cypress.on('uncaught:exception', () => {
 //   // failing the test
 //   return false

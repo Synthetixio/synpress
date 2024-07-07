@@ -1,4 +1,4 @@
-import { createDataTestSelector } from '../../../utils/selectors/createDataTestSelector'
+import { createDataTestSelector } from '../../../../selectors/createDataTestSelector'
 import settings from './settings'
 
 const accountMenuContainer = '.multichain-account-menu-popover'
