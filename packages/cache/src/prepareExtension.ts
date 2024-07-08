@@ -44,12 +44,14 @@ export async function prepareExtension(extensionName: string) {
   const extensionConfig = await getExtensionConfig(extensionName) // Get config
   let downloadResult
   if (extensionConfig.name === 'Phantom') {
+    const outputPath = `${cacheDirPath}/latest`
     downloadResult = await download(extensionConfig.downloadUrl, cacheDirPath, {
       headers: {
         Accept: 'application/octet-stream',
       },
     });
-    return unzipCrx('.cache-synpress/latest.zip', cacheDirPath)
+    await unzipCrx('.cache-synpress/latest.crx', outputPath)
+    return outputPath
   }
   else {
     downloadResult = await downloadFile({
