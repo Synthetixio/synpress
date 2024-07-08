@@ -12,6 +12,7 @@ import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import fs from 'fs-extra'
 import { MetaMask, getExtensionId, unlockForFixture } from '../../src'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
+import { waitForMetaMaskWindowToBeStable } from '../utils/waitFor'
 
 type MetaMaskFixtures = {
   _contextPath: string
@@ -85,7 +86,7 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
       _metamaskPage = context.pages()[0] as Page
 
       await _metamaskPage.goto(`chrome-extension://${extensionId}/home.html`)
-
+      await waitForMetaMaskWindowToBeStable(_metamaskPage)
       await unlockForFixture(_metamaskPage, walletSetup.walletPassword)
 
       await use(context)

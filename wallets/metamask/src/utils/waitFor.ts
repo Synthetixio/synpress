@@ -1,5 +1,8 @@
 import type { Page } from '@playwright/test'
 import { errors } from '@playwright/test'
+import { ErrorSelectors, LoadingSelectors } from '../selectors'
+
+const DEFAULT_TIMEOUT = 2000
 
 export const waitUntilStable = async (page: Page) => {
   await page.waitForLoadState('domcontentloaded')
@@ -17,6 +20,60 @@ export const waitForSelector = async (selector: string, page: Page, timeout: num
     } else {
       console.log(`Error while waiting for loading indicator '${selector}' to disappear`)
       throw error
+    }
+  }
+}
+
+export const waitForMetaMaskLoad = async (page: Page) => {
+  await Promise.all(
+    LoadingSelectors.loadingIndicators.map(async (selector) => {
+      await waitForSelector(selector, page, DEFAULT_TIMEOUT)
+    })
+  )
+    .then(() => {
+      console.log('All loading indicators are hidden')
+    })
+    .catch((error) => {
+      console.error('Error: ', error)
+    })
+
+  return page
+}
+
+export const waitForMetaMaskWindowToBeStable = async (page: Page) => {
+  await waitForMetaMaskLoad(page)
+  if ((await page.locator(ErrorSelectors.loadingOverlayErrorButtons).count()) > 0) {
+    const retryButton = await page.locator(ErrorSelectors.loadingOverlayErrorButtonsRetryButton)
+    await retryButton.click()
+    await waitForSelector(LoadingSelectors.loadingOverlay, page, DEFAULT_TIMEOUT)
+  }
+  await fixCriticalError(page)
+}
+
+export const fixCriticalError = async (page: Page) => {
+  for (let times = 0; times < 5; times++) {
+    if ((await page.locator(ErrorSelectors.criticalError).count()) > 0) {
+      console.log('[fixCriticalError] Metamask crashed with critical error, refreshing..')
+      if (times <= 3) {
+        await page.reload()
+        await waitForMetaMaskWindowToBeStable(page)
+      } else if (times === 4) {
+        const restartButton = await page.locator(ErrorSelectors.criticalErrorRestartButton)
+        await restartButton.click()
+        await waitForMetaMaskWindowToBeStable(page)
+      } else {
+        throw new Error('[fixCriticalError] Max amount of retries to fix critical metamask error has been reached.')
+      }
+    } else if ((await page.locator(ErrorSelectors.errorPage).count()) > 0) {
+      console.log('[fixCriticalError] Metamask crashed with error, refreshing..')
+      if (times <= 4) {
+        await page.reload()
+        await waitForMetaMaskWindowToBeStable(page)
+      } else {
+        throw new Error('[fixCriticalError] Max amount of retries to fix critical metamask error has been reached.')
+      }
+    } else {
+      break
     }
   }
 }
