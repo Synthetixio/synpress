@@ -1,8 +1,10 @@
 import assert from 'node:assert'
 import type { Page } from '@playwright/test'
+
+import HomePageSelectors from '../../../../selectors/pages/HomePage'
+import Selectors from '../../../../selectors/pages/OnboardingPage'
+
 import { closePopover } from '../../HomePage/actions'
-import HomePageSelectors from '../../HomePage/selectors'
-import Selectors from '../selectors'
 import { confirmSecretRecoveryPhrase, createPassword } from './helpers'
 
 export async function importWallet(page: Page, seedPhrase: string, password: string) {

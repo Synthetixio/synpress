@@ -1,5 +1,0 @@
-export * from './OnboardingPage/page'
-export * from './CrashPage/page'
-export * from './LockPage/page'
-export * from './HomePage/page'
-export * from './NotificationPage/page'

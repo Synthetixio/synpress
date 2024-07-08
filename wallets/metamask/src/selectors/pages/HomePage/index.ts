@@ -1,5 +1,5 @@
-import settings from './settings'
 import { createDataTestSelector } from '../../createDataTestSelector'
+import settings from './settings'
 
 const accountMenuContainer = '.multichain-account-menu-popover'
 

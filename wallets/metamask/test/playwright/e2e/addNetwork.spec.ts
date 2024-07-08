@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { waitFor } from '../../src/utils/waitFor'
+import { waitFor } from '../../../src/playwright/utils/waitFor'
 
 import synpress from '../synpress'
 

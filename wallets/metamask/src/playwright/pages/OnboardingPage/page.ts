@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
+import Selectors from '../../../selectors/pages/OnboardingPage'
 import { importWallet } from './actions'
-import Selectors from './selectors'
 
 export class OnboardingPage {
   static readonly selectors = Selectors

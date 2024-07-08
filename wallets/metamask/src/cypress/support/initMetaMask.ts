@@ -1,4 +1,4 @@
-import { prepareExtension } from '../../extensionSetup/prepareExtension'
+import { prepareExtension } from '../../prepareExtension'
 
 export async function initMetaMask() {
   const metamaskPath = await prepareExtension(false)

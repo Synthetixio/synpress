@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
 import { z } from 'zod'
+import Selectors from '../../../../selectors/pages/HomePage'
 import { waitFor } from '../../../utils/waitFor'
-import Selectors from '../selectors'
 import { closeNetworkAddedPopover, closeNewNetworkInfoPopover } from './popups'
 
 const Network = z.object({

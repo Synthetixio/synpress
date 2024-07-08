@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import Selectors from '../selectors'
+import Selectors from '../../../../selectors/pages/NotificationPage'
 
 const approveNewNetwork = async (notificationPage: Page) => {
   await notificationPage.locator(Selectors.NetworkPage.addNetwork.approveButton).click()

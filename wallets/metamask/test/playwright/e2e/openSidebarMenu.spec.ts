@@ -1,5 +1,5 @@
 import { testWithSynpress } from '@synthetixio/synpress-core'
-import { MetaMask, metaMaskFixtures } from '../../src'
+import { MetaMask, metaMaskFixtures } from '../../../src/playwright'
 
 import basicSetup from '../wallet-setup/basic.setup'
 

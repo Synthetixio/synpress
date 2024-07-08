@@ -1,5 +1,4 @@
-import { createDataTestSelector } from '../../createDataTestSelector';
-
+import { createDataTestSelector } from '../../createDataTestSelector'
 
 const simpleMessage = {
   signButton: `.request-signature__footer ${createDataTestSelector('request-signature__sign')}`,

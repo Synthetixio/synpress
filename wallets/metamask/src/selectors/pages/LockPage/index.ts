@@ -1,6 +1,6 @@
-import { createDataTestSelector } from "../../createDataTestSelector";
+import { createDataTestSelector } from '../../createDataTestSelector'
 
 export default {
-  passwordInput: createDataTestSelector("unlock-password"),
-  submitButton: createDataTestSelector("unlock-submit"),
-};
+  passwordInput: createDataTestSelector('unlock-password'),
+  submitButton: createDataTestSelector('unlock-submit')
+}

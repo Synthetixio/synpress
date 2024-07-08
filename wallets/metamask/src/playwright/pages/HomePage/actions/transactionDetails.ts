@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
+import Selectors from '../../../../selectors/pages/HomePage'
 import { waitFor } from '../../../utils/waitFor'
-import Selectors from '../selectors'
 
 const openTransactionDetails = async (page: Page, txIndex: number) => {
   await page.locator(Selectors.activityTab.activityTabButton).click()

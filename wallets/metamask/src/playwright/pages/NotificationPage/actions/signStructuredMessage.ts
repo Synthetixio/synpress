@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import Selectors from '../selectors'
+import Selectors from '../../../../selectors/pages/NotificationPage'
 
 const signMessage = async (notificationPage: Page) => {
   const scrollDownButton = notificationPage.locator(Selectors.SignaturePage.structuredMessage.scrollDownButton)

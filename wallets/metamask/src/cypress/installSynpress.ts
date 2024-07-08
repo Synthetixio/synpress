@@ -1,6 +1,6 @@
 import { ensureRdpPort } from '@synthetixio/synpress-core'
+import importMetaMaskWallet from './support/importMetaMaskWallet'
 import { initMetaMask } from './support/initMetaMask'
-import setupMetaMaskWallet from './support/setupMetaMaskWallet'
 
 let port: number
 
@@ -21,7 +21,7 @@ export default function installSynpress(on: Cypress.PluginEvents, config: Cypres
   })
 
   on('before:spec', async () => {
-    await setupMetaMaskWallet(port)
+    await importMetaMaskWallet(port)
   })
 
   return {

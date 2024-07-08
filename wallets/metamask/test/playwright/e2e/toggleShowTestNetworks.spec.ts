@@ -1,7 +1,7 @@
 import { testWithSynpress } from '@synthetixio/synpress-core'
-import { MetaMask, metaMaskFixtures } from '../../src'
+import { MetaMask, metaMaskFixtures } from '../../../src/playwright'
 
-import Selectors from '../../src/pages/HomePage/selectors'
+import Selectors from '../../../src/selectors/pages/HomePage'
 import basicSetup from '../wallet-setup/basic.setup'
 
 const test = testWithSynpress(metaMaskFixtures(basicSetup))

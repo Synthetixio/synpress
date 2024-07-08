@@ -1,4 +1,6 @@
 import type { Page } from '@playwright/test'
+import Selectors from '../../../selectors/pages/HomePage'
+import type { SettingsSidebarMenus } from '../../../selectors/pages/HomePage/settings'
 import {
   addNetwork,
   addNewAccount,
@@ -13,8 +15,6 @@ import {
   transactionDetails
 } from './actions'
 import type { Network } from './actions'
-import Selectors from './selectors'
-import type { SettingsSidebarMenus } from './selectors/settings'
 
 export class HomePage {
   static readonly selectors = Selectors

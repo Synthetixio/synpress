@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
+import Selectors from '../../../../selectors/pages/HomePage'
 import { waitFor } from '../../../utils/waitFor'
-import Selectors from '../selectors'
 
 export async function importWalletFromPrivateKey(page: Page, privateKey: string) {
   await page.locator(Selectors.accountMenu.accountButton).click()

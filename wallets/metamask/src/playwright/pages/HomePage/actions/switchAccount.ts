@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
+import Selectors from '../../../../selectors/pages/HomePage'
 import { allTextContents } from '../../../utils/allTextContents'
-import Selectors from '../selectors'
 
 export async function switchAccount(page: Page, accountName: string) {
   await page.locator(Selectors.accountMenu.accountButton).click()

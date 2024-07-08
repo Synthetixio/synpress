@@ -1,9 +1,9 @@
-import type { Network } from './pages/HomePage/actions'
-import { SettingsSidebarMenus } from './pages/HomePage/selectors/settings'
-import type { GasSetting } from './pages/NotificationPage/actions'
-import { MetaMaskAbstract } from '../type/MetaMaskAbstract'
 import type { BrowserContext, Page } from '@playwright/test'
+import { SettingsSidebarMenus } from '../selectors/pages/HomePage/settings'
+import { MetaMaskAbstract } from '../type/MetaMaskAbstract'
 import { CrashPage, HomePage, LockPage, NotificationPage, OnboardingPage } from './pages'
+import type { Network } from './pages/HomePage/actions'
+import type { GasSetting } from './pages/NotificationPage/actions'
 import { SettingsPage } from './pages/SettingsPage/page'
 
 const NO_EXTENSION_ID_ERROR = new Error('MetaMask extensionId is not set')

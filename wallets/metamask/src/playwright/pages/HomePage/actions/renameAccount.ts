@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import Selectors from '../selectors'
+import Selectors from '../../../../selectors/pages/HomePage'
 
 export async function renameAccount(page: Page, newAccountName: string) {
   await page.locator(Selectors.accountMenu.accountButton).click()

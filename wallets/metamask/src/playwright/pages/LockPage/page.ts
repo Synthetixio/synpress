@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
+import Selectors from '../../../selectors/pages/LockPage'
 import { unlock } from './actions'
-import Selectors from './selectors'
 
 export class LockPage {
   static readonly selectors = Selectors

@@ -9,11 +9,11 @@ import {
 } from '@synthetixio/synpress-cache'
 import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import fs from 'fs-extra'
+import { prepareExtension } from '../../prepareExtension'
+import { MetaMask } from '../MetaMask'
+import { getExtensionId, unlockForFixture } from '../fixture-actions'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
 import { waitForMetaMaskWindowToBeStable } from '../utils/waitFor'
-import type { MetaMask } from '../MetaMask'
-import { prepareExtension } from '../../extensionSetup/prepareExtension'
-import { getExtensionId, unlockForFixture } from '../fixture-actions'
 
 type MetaMaskFixtures = {
   _contextPath: string

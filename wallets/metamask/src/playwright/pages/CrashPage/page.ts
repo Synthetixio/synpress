@@ -1,4 +1,4 @@
-import Selectors from './selectors'
+import Selectors from '../../../selectors/pages/CrashPage'
 
 export class CrashPage {
   static readonly selectors = Selectors

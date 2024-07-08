@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test'
+import Selectors from '../../../../selectors/pages/NotificationPage'
 import { allTextContents } from '../../../utils/allTextContents'
-import Selectors from '../selectors'
 
 async function selectAccounts(accountsToSelect: string[], accountLocators: Locator[], availableAccountNames: string[]) {
   for (const account of accountsToSelect) {

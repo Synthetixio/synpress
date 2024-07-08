@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
+import Selectors from '../../../../selectors/pages/HomePage'
+import type { SettingsSidebarMenus } from '../../../../selectors/pages/HomePage/settings'
 import { toggle } from '../../../utils/toggle'
-import Selectors from '../selectors'
-import type { SettingsSidebarMenus } from '../selectors/settings'
 
 async function openSettings(page: Page) {
   await page.locator(Selectors.threeDotsMenu.threeDotsButton).click()

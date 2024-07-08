@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import Selectors from '../selectors'
+import Selectors from '../../../../selectors/pages/HomePage'
 
 export async function addNewAccount(page: Page, accountName: string) {
   // TODO: Use zod to validate this.

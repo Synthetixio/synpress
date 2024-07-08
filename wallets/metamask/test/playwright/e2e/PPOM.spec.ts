@@ -1,5 +1,5 @@
-import { getNotificationPageAndWaitForLoad } from '../../src/utils/getNotificationPageAndWaitForLoad'
-import { createDataTestSelector } from '../../src/utils/selectors/createDataTestSelector'
+import { getNotificationPageAndWaitForLoad } from '../../../src/playwright/utils/getNotificationPageAndWaitForLoad'
+import { createDataTestSelector } from '../../../src/selectors/createDataTestSelector'
 import synpress from '../synpress'
 
 const test = synpress

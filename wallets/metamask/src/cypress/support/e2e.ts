@@ -14,13 +14,15 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-// import synpressCommands from './synpressCommands'
+import synpressCommands from './synpressCommands'
 
 before(() => {
   cy.visit('/')
 })
 
-// Cypress.on('uncaught:exception', () => {
-//   // failing the test
-//   return false
-// })
+Cypress.on('uncaught:exception', () => {
+  // failing the test
+  return false
+})
+
+synpressCommands()

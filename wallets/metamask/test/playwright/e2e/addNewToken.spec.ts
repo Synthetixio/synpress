@@ -1,4 +1,4 @@
-import Selectors from '../../src/pages/HomePage/selectors'
+import Selectors from '../../../src/selectors/pages/HomePage'
 
 import synpress from '../synpress'
 

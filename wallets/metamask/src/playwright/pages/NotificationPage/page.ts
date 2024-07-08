@@ -1,4 +1,5 @@
 import type { Page } from '@playwright/test'
+import Selectors from '../../../selectors/pages/NotificationPage'
 import { getNotificationPageAndWaitForLoad } from '../../utils/getNotificationPageAndWaitForLoad'
 import {
   type GasSetting,
@@ -12,7 +13,6 @@ import {
   token,
   transaction
 } from './actions'
-import Selectors from './selectors'
 
 export class NotificationPage {
   static readonly selectors = Selectors

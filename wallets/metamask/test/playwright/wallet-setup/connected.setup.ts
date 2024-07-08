@@ -1,5 +1,5 @@
 import { defineWalletSetup } from '@synthetixio/synpress-cache'
-import { MetaMask, getExtensionId } from '../../src'
+import { MetaMask, getExtensionId } from '../../../src/playwright'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'
 

@@ -1,8 +1,8 @@
 import type { Page } from '@playwright/test'
 import { z } from 'zod'
+import HomePageSelectors from '../../../../selectors/pages/HomePage'
+import Selectors from '../../../../selectors/pages/NotificationPage'
 import { waitFor } from '../../../utils/waitFor'
-import HomePageSelectors from '../../HomePage/selectors'
-import Selectors from '../selectors'
 
 const GasSetting = z.union([
   z.literal('low'),

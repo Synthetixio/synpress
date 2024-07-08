@@ -1,5 +1,4 @@
-import { createDataTestSelector } from '../../createDataTestSelector';
-
+import { createDataTestSelector } from '../../createDataTestSelector'
 
 const recoveryStep = {
   selectNumberOfWordsDropdown: '.import-srp__number-of-words-dropdown > .dropdown__select',

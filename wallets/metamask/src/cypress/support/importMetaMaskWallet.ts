@@ -1,9 +1,9 @@
-import { type BrowserContext, chromium, type Page } from '@playwright/test'
+import { type BrowserContext, type Page, chromium } from '@playwright/test'
 import { importWallet } from '../../playwright/pages/OnboardingPage/actions'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'
 
-export default async function setupMetaMaskWallet(port: number) {
+export default async function importMetaMaskWallet(port: number) {
   const debuggerDetails = await fetch(`http://127.0.0.1:${port}/json/version`)
 
   const debuggerDetailsConfig = (await debuggerDetails.json()) as {

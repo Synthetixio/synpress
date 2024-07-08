@@ -1,5 +1,4 @@
-import { createDataTestSelector } from '../../createDataTestSelector';
-
+import { createDataTestSelector } from '../../createDataTestSelector'
 
 export default {
   optIn: createDataTestSelector('metametrics-i-agree'),

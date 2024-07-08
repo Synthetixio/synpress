@@ -1,5 +1,4 @@
-import { createDataTestSelector } from '../../createDataTestSelector';
-
+import { createDataTestSelector } from '../../createDataTestSelector'
 
 const advancedGasFeeMenu = {
   maxBaseFeeInput: createDataTestSelector('base-fee-input'),

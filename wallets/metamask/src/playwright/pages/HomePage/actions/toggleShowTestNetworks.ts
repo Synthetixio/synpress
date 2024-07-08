@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
+import Selectors from '../../../../selectors/pages/HomePage'
 import { toggle } from '../../../utils/toggle'
-import Selectors from '../selectors'
 
 // Toggling this through the network dropdown instead of the settings page is a better approach.
 // This is in most cases the faster approach, but it's also more reliable.
