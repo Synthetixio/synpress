@@ -38,7 +38,7 @@ playwright-report
 playwright/.cache
 
 ### Cypress
-cypress/downloads
+wallets/metamask/downloads
 
 ### Synpress
 
