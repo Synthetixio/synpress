@@ -90,6 +90,9 @@ importers:
 
   packages/cache:
     dependencies:
+      app-root-path:
+        specifier: 3.1.0
+        version: 3.1.0
       axios:
         specifier: 1.6.7
         version: 1.6.7
@@ -177,7 +180,7 @@ importers:
         version: 1.44.0
     devDependencies:
       '@synthetixio/synpress-tsconfig':
-        specifier: 0.0.1-alpha.7
+        specifier: workspace:*
         version: link:../tsconfig
       '@types/node':
         specifier: 20.11.17
@@ -203,10 +206,10 @@ importers:
         specifier: 0.0.1-alpha.7
         version: link:../wallets/ethereum-wallet-mock
       '@synthetixio/synpress-cache':
-        specifier: 0.0.1-alpha.7
+        specifier: workspace:*
         version: link:../packages/cache
       '@synthetixio/synpress-core':
-        specifier: 0.0.1-alpha.7
+        specifier: workspace:*
         version: link:../packages/core
       '@synthetixio/synpress-metamask':
         specifier: 0.0.1-alpha.7
@@ -277,10 +280,10 @@ importers:
         specifier: 1.44.0
         version: 1.44.0
       '@synthetixio/synpress-cache':
-        specifier: 0.0.1-alpha.7
+        specifier: workspace:*
         version: link:../../packages/cache
       '@synthetixio/synpress-core':
-        specifier: 0.0.1-alpha.7
+        specifier: workspace:*
         version: link:../../packages/core
       '@viem/anvil':
         specifier: 0.0.7

@@ -1,4 +1,3 @@
-import os from 'node:os'
 import path from 'node:path'
 import chalk from 'chalk'
 import { Command } from 'commander'
@@ -48,16 +47,6 @@ export const cliEntrypoint = async () => {
   if (flags.debug) {
     console.log('[DEBUG] Running with the following options:')
     console.log({ cacheDir: walletSetupDir, ...flags, headless: Boolean(process.env.HEADLESS) ?? false }, '\n')
-  }
-
-  if (os.platform() === 'win32') {
-    console.log(
-      [
-        chalk.redBright('🚨 Sorry, building cache on Windows is currently not supported. Please use WSL instead! 🚨'),
-        chalk.gray('You can still run tests on windows without cache by setting USE_CACHE=FALSE in your ENV')
-      ].join('\n')
-    )
-    process.exit(1)
   }
 
   const compiledWalletSetupDirPath = await compileWalletSetupFunctions(walletSetupDir, flags.debug)
