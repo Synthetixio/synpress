@@ -29,13 +29,9 @@ export const waitForMetaMaskLoad = async (page: Page) => {
     LoadingSelectors.loadingIndicators.map(async (selector) => {
       await waitForSelector(selector, page, DEFAULT_TIMEOUT)
     })
-  )
-    .then(() => {
-      console.log('All loading indicators are hidden')
-    })
-    .catch((error) => {
-      console.error('Error: ', error)
-    })
+  ).catch((error) => {
+    console.error('Error: ', error)
+  })
 
   return page
 }
