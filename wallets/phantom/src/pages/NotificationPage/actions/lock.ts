@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
 import { closePopupAndTooltips } from '../../HomePage/actions/closePopupAndTooltips'
-import { settingsPageElements } from '../../SettingsPage/selectors'
+import { settingsPageElements } from '../selectors'
 import { notificationPageElements } from '../selectors'
 
 export const lock = async (page: Page, extensionId: string) => {

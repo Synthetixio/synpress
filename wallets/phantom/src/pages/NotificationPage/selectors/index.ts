@@ -174,6 +174,13 @@ const signaturePageElements = {
   }
 }
 
+export const settingsPageElements = {
+  buttons: {
+    lockWallet: '[data-testid="lock-menu-item"]'
+  }
+}
+
+
 const transactionPageElements = {
   buttons: {
     confirmTransaction: '[data-testid="primary-button"]',

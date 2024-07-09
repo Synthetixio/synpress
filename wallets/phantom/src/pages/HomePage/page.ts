@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import { changeAccount, closePopupAndTooltips, disconnectFromApp, getWalletAddress } from './actions'
+import { changeAccount, closePopupAndTooltips, disconnectFromApp, getWalletAddress, selectDefaultWallet, backToMain } from './actions'
 import { homePageElements } from './selectors'
 
 export class HomePage {
@@ -26,5 +26,13 @@ export class HomePage {
 
   async disconnectFromApp(extensionId: string) {
     await disconnectFromApp(this.page, extensionId)
+  }
+
+  async selectDefaultWallet(extensionId: string, wallet: string) {
+    await selectDefaultWallet(this.page, extensionId, wallet)
+  }
+
+  async backToMain() {
+    await backToMain(this.page)
   }
 }

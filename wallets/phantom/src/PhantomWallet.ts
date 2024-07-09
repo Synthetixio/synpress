@@ -1,16 +1,12 @@
 import { type BrowserContext, type Page } from '@playwright/test'
-import { ConfirmationPage } from './pages/ConfirmationPage/page'
 import { HomePage } from './pages/HomePage/page'
 import { LockPage } from './pages/LockPage/page'
 import { NotificationPage } from './pages/NotificationPage/page'
-import { SettingsPage } from './pages/SettingsPage/page'
 
 export class PhantomWallet {
   readonly lockPage: LockPage
   readonly homePage: HomePage
   readonly notificationPage: NotificationPage
-  readonly settingsPage: SettingsPage
-  readonly confirmationPage: ConfirmationPage
 
   constructor(
     readonly page: Page,
@@ -21,8 +17,6 @@ export class PhantomWallet {
     this.lockPage = new LockPage(page)
     this.homePage = new HomePage(page)
     this.notificationPage = new NotificationPage(page)
-    this.settingsPage = new SettingsPage(page)
-    this.confirmationPage = new ConfirmationPage(page)
   }
   /**
    * Does initial setup for the wallet.
@@ -85,5 +79,13 @@ export class PhantomWallet {
 
   async rejectTransaction() {
     await this.notificationPage.rejectTransaction(this.extensionId!)
+  }
+
+  async backToMain() {
+    await this.homePage.backToMain()
+  }
+
+  async selectDefaultWallet() {
+    await this.homePage.selectDefaultWallet(this.extensionId!, 'phantom')
   }
 }
