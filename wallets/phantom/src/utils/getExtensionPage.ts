@@ -1,7 +1,7 @@
-import type { Page } from "@playwright/test";
+import type { Page } from '@playwright/test'
 
 export const getExtensionPage = async (page: Page, extensionId: string, route: string) => {
-  const extensionHomeUrl = `chrome-extension://${extensionId}/notification.html`;
+  const extensionHomeUrl = `chrome-extension://${extensionId}/notification.html`
 
   const routes: any = {
     advanced: `${extensionHomeUrl}#settings/advanced`,
@@ -10,7 +10,7 @@ export const getExtensionPage = async (page: Page, extensionId: string, route: s
     addNetwork: `${extensionHomeUrl}#settings/networks/add-network`,
     newAccount: `${extensionHomeUrl}#new-account`,
     importAccount: `${extensionHomeUrl}#new-account/import`,
-    importToken: `${extensionHomeUrl}#import-token`,
+    importToken: `${extensionHomeUrl}#import-token`
   }
 
   page.goto(routes[route])

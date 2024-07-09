@@ -1,1 +1,1 @@
-declare module 'unzip-crx-3';
+declare module 'unzip-crx-3'

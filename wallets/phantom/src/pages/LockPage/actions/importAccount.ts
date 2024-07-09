@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import { lockPageElements } from "../selectors";
+import { lockPageElements } from '../selectors'
 
 export const importWallet = async (page: Page, secretWords: string, password: string) => {
   await page.click(lockPageElements.firstTimeFlowPageElements.importWalletButton)
@@ -26,7 +26,7 @@ export const importWallet = async (page: Page, secretWords: string, password: st
 
   await page.click(lockPageElements.firstTimeFlowImportPageElements.continueAfterPasswordButton)
 
-  await page.click(lockPageElements.firstTimeFlowImportPageElements.getStartedButton);
+  await page.click(lockPageElements.firstTimeFlowImportPageElements.getStartedButton)
 
-  return true;
+  return true
 }

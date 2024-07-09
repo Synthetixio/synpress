@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
+import { changeAccount, closePopupAndTooltips, disconnectFromApp, getWalletAddress } from './actions'
 import { homePageElements } from './selectors'
-import { changeAccount, getWalletAddress, closePopupAndTooltips, disconnectFromApp } from './actions'
 
 export class HomePage {
   static readonly selectors = homePageElements
@@ -16,7 +16,7 @@ export class HomePage {
     return await changeAccount(this.page, accountIndex)
   }
 
-  async getWalletAddress(extensionId: string, chainId: string){
+  async getWalletAddress(extensionId: string, chainId: string) {
     return await getWalletAddress(this.page, extensionId, chainId)
   }
 

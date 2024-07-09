@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
+import { createAccount, importWallet, unlock } from './actions'
 import { lockPageElements } from './selectors'
-import { importWallet, createAccount, unlock } from './actions'
 
 export class LockPage {
   static readonly selectors = lockPageElements
@@ -19,7 +19,7 @@ export class LockPage {
   //@todo: get this written
   async createWallet(password: string) {
     await createAccount(this.page, password)
-  } 
+  }
 
   async unlock(extensionId: string, password: string) {
     await unlock(this.page, extensionId, password, true)

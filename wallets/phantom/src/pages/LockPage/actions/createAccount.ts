@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import { lockPageElements } from "../selectors";
+import { lockPageElements } from '../selectors'
 
 export const createAccount = async (page: Page, password: string) => {
   console.log(lockPageElements, page, password)

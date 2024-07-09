@@ -1,6 +1,15 @@
 import type { Page } from '@playwright/test'
+import {
+  acceptAccess,
+  confirmIncorrectNetwork,
+  confirmSignatureRequest,
+  confirmTransaction,
+  lock,
+  rejectSignatureRequest,
+  rejectTransaction,
+  selectWallet
+} from './actions'
 import { notificationPageElements } from './selectors'
-import { acceptAccess, confirmIncorrectNetwork, confirmSignatureRequest, confirmTransaction, rejectSignatureRequest, rejectTransaction, lock, selectWallet } from './actions'
 
 export class NotificationPage {
   static readonly selectors = notificationPageElements

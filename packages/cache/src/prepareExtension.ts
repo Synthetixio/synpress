@@ -1,5 +1,5 @@
 import download from 'download'
-import unzipCrx from 'unzip-crx-3';
+import unzipCrx from 'unzip-crx-3'
 import { downloadFile, ensureCacheDirExists, unzipArchive } from '.'
 
 interface ExtensionConfig {
@@ -26,8 +26,7 @@ export async function getExtensionConfig(name: string): Promise<ExtensionConfig>
       {
         name: 'Phantom',
         version: 'phantom-chrome-latest',
-        downloadUrl:
-          'https://crx-backup.phantom.dev/latest.crx'
+        downloadUrl: 'https://crx-backup.phantom.dev/latest.crx'
       }
     ]
   }
@@ -47,13 +46,12 @@ export async function prepareExtension(extensionName: string) {
     const outputPath = `${cacheDirPath}/latest`
     downloadResult = await download(extensionConfig.downloadUrl, cacheDirPath, {
       headers: {
-        Accept: 'application/octet-stream',
-      },
-    });
+        Accept: 'application/octet-stream'
+      }
+    })
     await unzipCrx('.cache-synpress/latest.crx', outputPath)
     return outputPath
-  }
-  else {
+  } else {
     downloadResult = await downloadFile({
       url: extensionConfig.downloadUrl,
       outputDir: cacheDirPath,
@@ -62,7 +60,7 @@ export async function prepareExtension(extensionName: string) {
     const unzipResult = await unzipArchive({
       archivePath: downloadResult.filePath
     })
-  
+
     return unzipResult.outputPath
   }
 }

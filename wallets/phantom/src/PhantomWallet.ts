@@ -1,9 +1,9 @@
 import { type BrowserContext, type Page } from '@playwright/test'
+import { ConfirmationPage } from './pages/ConfirmationPage/page'
 import { HomePage } from './pages/HomePage/page'
 import { LockPage } from './pages/LockPage/page'
 import { NotificationPage } from './pages/NotificationPage/page'
 import { SettingsPage } from './pages/SettingsPage/page'
-import { ConfirmationPage } from './pages/ConfirmationPage/page'
 
 export class PhantomWallet {
   readonly lockPage: LockPage
