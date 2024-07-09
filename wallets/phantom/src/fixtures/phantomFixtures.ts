@@ -62,7 +62,7 @@ export const phantomFixtures = (walletSetup: ReturnType<typeof defineWalletSetup
       const context = await chromium.launchPersistentContext(_contextPath, {
         headless: false,
         args: browserArgs,
-        slowMo: process.env.HEADLESS ? 0 : slowMo
+        slowMo: process.env.HEADLESS ? 0 : 2000
       })
 
       const { cookies, origins } = await currentContext.storageState()

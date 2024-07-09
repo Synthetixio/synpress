@@ -32,30 +32,58 @@ export class PhantomWallet {
    * @param password. The password to set.
    */
   async importWallet({ secretWords, password }: { secretWords: string; password: string }) {
-    this.lockPage.importWallet(secretWords, password)
+    await this.lockPage.importWallet(secretWords, password)
   }
 
   async createWallet(password: string) {
-    console.log(password)
+    await this.lockPage.createWallet(password)
   }
 
   async getWalletAddress(wallet: string) {
-    console.log(wallet)
+    await this.homePage.getWalletAddress(this.extensionId!, wallet)
   }
 
-  async addNewTokensFound() {
-    console.log('')
+  async changeAccount(accountIndex: number) {
+    await this.homePage.changeAccount(accountIndex)
   }
 
-  async disconnectWalletFromDapps() {
-    console.log('')
+  async closePopupAndTooltips() {
+    await this.homePage.closePopupAndTooltips(this.extensionId!)
+  }
+
+  async disconnectFromApp() {
+    await this.homePage.disconnectFromApp(this.extensionId!)
+  }
+
+  async selectWallet(wallet: string) {
+    await this.notificationPage.selectWallet(this.extensionId!, wallet)
+  }
+
+  async lock() {
+    await this.notificationPage.lock(this.extensionId!)
   }
 
   async acceptAccess() {
-    console.log('')
+    await this.notificationPage.acceptAccess(this.extensionId!)
   }
 
-  async rejectAccess() {
-    console.log('')
+  async confirmIncorrectNetwork() {
+    await this.notificationPage.confirmIncorrectNetwork(this.extensionId!)
+  }
+
+  async confirmSignature() {
+    await this.notificationPage.confirmSignatureRequest(this.extensionId!)
+  }
+
+  async confirmTransaction() {
+    await this.notificationPage.confirmTransaction(this.extensionId!)
+  }
+
+  async rejectSignature() {
+    await this.notificationPage.rejectSignatureRequest(this.extensionId!)
+  }
+
+  async rejectTransaction() {
+    await this.notificationPage.rejectTransaction(this.extensionId!)
   }
 }

@@ -1,8 +1,8 @@
 import type { Page } from '@playwright/test'
 import { lockPageElements } from "../selectors";
 
-export const createAccount = async (page: Page, secretWords: string, password: string) => {
-  console.log(lockPageElements, page, secretWords, password)
+export const createAccount = async (page: Page, password: string) => {
+  console.log(lockPageElements, page, password)
   // await page.click(lockPageElements.firstTimeFlowPageElements.importWalletButton)
   // await page.click(lockPageElements.firstTimeFlowPageElements.importRecoveryPhraseButton)
 
