@@ -1,7 +1,7 @@
 import * as core from '@synthetixio/synpress-cache'
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
 
-import { prepareExtension, DEFAULT_METAMASK_VERSION, EXTENSION_DOWNLOAD_URL } from '../../src/prepareExtension'
+import { DEFAULT_METAMASK_VERSION, EXTENSION_DOWNLOAD_URL, prepareExtension } from '../../src/prepareExtension'
 
 const MOCK_CACHE_DIR_PATH = 'mockCacheDirPath'
 const MOCK_EXTENSION_ARCHIVE_PATH = 'mockExtensionArchivePath'
