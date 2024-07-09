@@ -28,5 +28,7 @@ export const importWallet = async (page: Page, secretWords: string, password: st
 
   await page.click(lockPageElements.firstTimeFlowImportPageElements.getStartedButton)
 
+  await page.click(lockPageElements.firstTimeFlowImportPageElements.confirmWordsButton)
+
   return true
 }

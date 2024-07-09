@@ -1,5 +1,5 @@
 import { testWithSynpress } from '@synthetixio/synpress-core'
 import { phantomFixtures } from '../src'
-import importPhantom from './wallet-setup/import.setup'
+import createPhantom from './wallet-setup/create.setup'
 
-export default testWithSynpress(phantomFixtures(importPhantom))
+export default testWithSynpress(phantomFixtures(createPhantom))

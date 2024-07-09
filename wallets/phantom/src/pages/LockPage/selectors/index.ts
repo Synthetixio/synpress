@@ -16,15 +16,17 @@ const metametricsPageElements = {
 }
 
 const firstTimeFlowPage = '.first-time-flow'
-const importWalletButton = `[data-testid="import-wallet-button"]`
+const importWalletButton = '[data-testid="import-wallet-button"]'
 const importRecoveryPhraseButton = `[data-testid="import-seed-phrase-button"]`
-const createWalletButton = `${firstTimeFlowPage} [data-testid="create-wallet-button"]`
+const createWalletButton = `[data-testid="create-wallet-button"]`
+const hiddenXPath = 'xpath=//*[@id="root"]/main/div[2]/form/div[1]/div[2]/div'
 
 const firstTimeFlowPageElements = {
   firstTimeFlowPage,
   importWalletButton,
   importRecoveryPhraseButton,
-  createWalletButton
+  createWalletButton,
+  hiddenXPath
 }
 
 const firstTimeFlowImportPage = '.first-time-flow__import'
@@ -34,6 +36,7 @@ const confirmWordsButton = `[data-testid="onboarding-form-submit-button"]`
 const passwordInput = `[data-testid="onboarding-form-password-input"]`
 const confirmPasswordInput = `[data-testid="onboarding-form-confirm-password-input"]`
 const termsCheckbox = `[data-testid="onboarding-form-terms-of-service-checkbox"]`
+const savedWordsCheckbox = '[data-testid="onboarding-form-saved-secret-recovery-phrase-checkbox"]'
 const continueAfterPasswordButton = '[data-testid="onboarding-form-submit-button"]'
 const getStartedButton = '[data-testid="onboarding-form-submit-button"]'
 const importButton = `${newVaultForm} .create-new-vault__submit-button`
@@ -46,6 +49,7 @@ const firstTimeFlowImportPageElements = {
   confirmPasswordInput,
   termsCheckbox,
   importButton,
+  savedWordsCheckbox,
   confirmWordsButton,
   continueAfterPasswordButton,
   getStartedButton
