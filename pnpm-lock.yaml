@@ -79,8 +79,8 @@ importers:
         specifier: 20.11.17
         version: 20.11.17
       cypress:
-        specifier: 13.9.0
-        version: 13.9.0
+        specifier: 13.13.0
+        version: 13.13.0
       serve:
         specifier: 14.2.1
         version: 14.2.1
