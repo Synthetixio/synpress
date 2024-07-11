@@ -11,14 +11,23 @@ import {
 } from '@synthetixio/synpress-cache'
 import { type Anvil, type CreateAnvilOptions, createPool } from '@viem/anvil'
 import fs from 'fs-extra'
+import { loadEnv } from '../config'
+import { importAndConnectForFixtures } from '../fixture-actions/importAndConnectForFixtures'
+import { cachelessSetupMetaMask } from '../fixture-actions/noCacheMetaMaskSetup'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
+import { SEED_PHRASE } from '../utils/constants'
 import { waitForMetaMaskWindowToBeStable } from '../utils/waitFor'
+
+loadEnv()
+
+const USECACHE: boolean = process.env.USE_CACHE === undefined || process.env.USE_CACHE === 'true'
 
 type MetaMaskFixtures = {
   _contextPath: string
   metamask: MetaMask
   extensionId: string
   metamaskPage: Page
+  useCache: boolean
   createAnvilNode: (options?: CreateAnvilOptions) => Promise<{ anvil: Anvil; rpcUrl: string; chainId: number }>
   connectToAnvil: () => Promise<void>
   deployToken: () => Promise<void>
@@ -31,52 +40,62 @@ let _metamaskPage: Page
 export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>, slowMo = 0) => {
   return base.extend<MetaMaskFixtures>({
     _contextPath: async ({ browserName }, use, testInfo) => {
-      const contextPath = await createTempContextDir(browserName, testInfo.testId)
+      if (USECACHE) {
+        const contextPath = await createTempContextDir(browserName, testInfo.testId)
 
-      await use(contextPath)
+        await use(contextPath)
 
-      const error = await removeTempContextDir(contextPath)
-      if (error) {
-        console.error(error)
+        const error = await removeTempContextDir(contextPath)
+        if (error) {
+          console.error(error)
+        }
+      } else {
+        await use('')
       }
     },
     context: async ({ context: currentContext, _contextPath }, use) => {
-      const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, walletSetup.hash)
-      if (!(await fs.exists(cacheDirPath))) {
-        throw new Error(`Cache for ${walletSetup.hash} does not exist. Create it first!`)
-      }
+      let context
+      if (USECACHE) {
+        const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, walletSetup.hash)
+        if (!(await fs.exists(cacheDirPath))) {
+          throw new Error(`Cache for ${walletSetup.hash} does not exist. Create it first!`)
+        }
 
-      // Copying the cache to the temporary context directory.
-      await fs.copy(cacheDirPath, _contextPath)
+        // Copying the cache to the temporary context directory.
+        await fs.copy(cacheDirPath, _contextPath)
 
-      const metamaskPath = await prepareExtension()
+        const metamaskPath = await prepareExtension()
 
-      // We don't need the `--load-extension` arg since the extension is already loaded in the cache.
-      const browserArgs = [`--disable-extensions-except=${metamaskPath}`]
+        // We don't need the `--load-extension` arg since the extension is already loaded in the cache.
+        const browserArgs = [`--disable-extensions-except=${metamaskPath}`]
 
-      if (process.env.HEADLESS) {
-        browserArgs.push('--headless=new')
+        if (process.env.HEADLESS) {
+          browserArgs.push('--headless=new')
 
-        if (slowMo > 0) {
-          console.warn('[WARNING] Slow motion makes no sense in headless mode. It will be ignored!')
+          if (slowMo > 0) {
+            console.warn('[WARNING] Slow motion makes no sense in headless mode. It will be ignored!')
+          }
+        }
+
+        context = await chromium.launchPersistentContext(_contextPath, {
+          headless: false,
+          args: browserArgs,
+          slowMo: process.env.HEADLESS ? 0 : slowMo
+        })
+
+        const { cookies, origins } = await currentContext.storageState()
+
+        if (cookies) {
+          await context.addCookies(cookies)
+        }
+        if (origins && origins.length > 0) {
+          await persistLocalStorage(origins, context)
         }
       }
-
-      const context = await chromium.launchPersistentContext(_contextPath, {
-        headless: false,
-        args: browserArgs,
-        slowMo: process.env.HEADLESS ? 0 : slowMo
-      })
-
-      const { cookies, origins } = await currentContext.storageState()
-
-      if (cookies) {
-        await context.addCookies(cookies)
+      if (!USECACHE) {
+        context = await cachelessSetupMetaMask()
       }
-      if (origins && origins.length > 0) {
-        await persistLocalStorage(origins, context)
-      }
-
+      if (!context) return
       // TODO: This should be stored in a store to speed up the tests.
       const extensionId = await getExtensionId(context, 'MetaMask')
 
@@ -85,8 +104,13 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
       _metamaskPage = context.pages()[0] as Page
 
       await _metamaskPage.goto(`chrome-extension://${extensionId}/home.html`)
-      await waitForMetaMaskWindowToBeStable(_metamaskPage)
-      await unlockForFixture(_metamaskPage, walletSetup.walletPassword)
+
+      if (!USECACHE)
+        await importAndConnectForFixtures(_metamaskPage, SEED_PHRASE, walletSetup.walletPassword, extensionId)
+      if (USECACHE) {
+        await waitForMetaMaskWindowToBeStable(_metamaskPage)
+        await unlockForFixture(_metamaskPage, walletSetup.walletPassword)
+      }
 
       await use(context)
 
@@ -161,6 +185,7 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
         await page.locator('#batchMintButton').click()
         await metamask.confirmTransactionAndWaitForMining()
       })
-    }
+    },
+    useCache: USECACHE
   })
 }
