@@ -4,8 +4,7 @@ const test = synpress
 
 const { expect } = test
 
-test('should provide public encryption key', async ({ page, metamask, useCache }) => {
-  test.skip(!useCache, 'This test requires useCache to be true')
+test('should provide public encryption key', async ({ page, metamask }) => {
   await page.locator('#getEncryptionKeyButton').click()
   await metamask.providePublicEncryptionKey()
 

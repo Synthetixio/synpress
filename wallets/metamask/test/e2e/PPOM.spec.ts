@@ -10,8 +10,7 @@ const PPOM_ERROR = 'This is a deceptive request'
 const PPOM_WARNING = 'Request may not be safe'
 
 describe('using PPOM security mechanism', () => {
-  test('should prevent malicious ETH transfer', async ({ context, page, metamask, useCache }) => {
-    test.skip(!useCache, 'This test requires useCache to be true')
+  test('should prevent malicious ETH transfer', async ({ context, page, metamask }) => {
     await page.locator('#maliciousRawEthButton').click()
 
     const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId || '')
@@ -31,8 +30,7 @@ describe('using PPOM security mechanism', () => {
     )
   })
 
-  test('should prevent malicious ERC20 approval', async ({ context, page, metamask, useCache }) => {
-    test.skip(!useCache, 'This test requires useCache to be true')
+  test('should prevent malicious ERC20 approval', async ({ context, page, metamask }) => {
     await page.locator('#maliciousApprovalButton').click()
 
     const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId || '')
@@ -42,8 +40,7 @@ describe('using PPOM security mechanism', () => {
     )
   })
 
-  test('should prevent malicious approval for all', async ({ context, page, metamask, useCache }) => {
-    test.skip(!useCache, 'This test requires useCache to be true')
+  test('should prevent malicious approval for all', async ({ context, page, metamask }) => {
     await page.locator('#maliciousSetApprovalForAll').click()
 
     const notificationPage = await getNotificationPageAndWaitForLoad(context, metamask.extensionId || '')

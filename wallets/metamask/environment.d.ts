@@ -3,7 +3,6 @@ declare global {
     interface ProcessEnv {
       CI: boolean
       HEADLESS: boolean
-      USE_CACHE: string
     }
   }
 }

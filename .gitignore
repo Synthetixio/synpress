@@ -49,7 +49,3 @@ playwright/.cache
 
 **/ethereum-wallet-mock/cypress
 **/metamask/cypress
-
-### Cacheless
-
-**/metamask/downloads

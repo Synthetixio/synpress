@@ -4,8 +4,7 @@ const test = synpress
 
 const { expect } = test
 
-test('should confirm `personal_sign`', async ({ page, metamask, useCache }) => {
-  test.skip(!useCache, 'This test requires useCache to be true')
+test('should confirm `personal_sign`', async ({ page, metamask }) => {
   await page.locator('#personalSign').click()
 
   await metamask.confirmSignature()
@@ -52,8 +51,7 @@ test('should confirm `eth_signTypedData_v3`', async ({ page, metamask }) => {
   await expect(page.locator('#signTypedDataV3VerifyResult')).toHaveText('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
 })
 
-test('should confirm `eth_signTypedData_v4`', async ({ page, metamask, useCache }) => {
-  test.skip(!useCache, 'This test requires useCache to be true')
+test('should confirm `eth_signTypedData_v4`', async ({ page, metamask }) => {
   await page.locator('#signTypedDataV4').click()
 
   await metamask.confirmSignature()

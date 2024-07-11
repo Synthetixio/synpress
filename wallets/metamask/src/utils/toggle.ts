@@ -11,6 +11,8 @@ export async function toggle(toggleLocator: Locator) {
 
   const isOn = classes.includes('toggle-button--on')
 
+  await toggleLocator.click()
+
   const waitForAction = async () => {
     const classes = await toggleLocator.getAttribute('class')
 
@@ -18,8 +20,8 @@ export async function toggle(toggleLocator: Locator) {
       throw new Error('[ToggleShowTestNetworks] Toggle class returned null inside waitFor')
     }
 
-    if (!isOn) {
-      await toggleLocator.click()
+    if (isOn) {
+      return classes.includes('toggle-button--off')
     }
 
     return classes.includes('toggle-button--on')
