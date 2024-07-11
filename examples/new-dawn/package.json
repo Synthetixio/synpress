@@ -8,10 +8,10 @@
     "build:cache:force": "synpress --force",
     "build:cache:headless": "synpress --headless",
     "serve:test-dapp": "serve node_modules/@metamask/test-dapp/dist -p 9999",
-    "test:e2e:headful": "playwright test",
-    "test:e2e:headful:cypress": "cypress run --browser chrome --headed",
-    "test:e2e:headless": "HEADLESS=true playwright test",
-    "test:e2e:headless:ui": "HEADLESS=true playwright test --ui"
+    "test:cypress:headful": "cypress run --browser chrome --headed",
+    "test:playwright:headful": "playwright test",
+    "test:playwright:headless": "HEADLESS=true playwright test",
+    "test:playwright:headless:ui": "HEADLESS=true playwright test --ui"
   },
   "dependencies": {
     "@playwright/test": "1.44.0",

@@ -11,6 +11,7 @@ export async function prepareExtension(forceCache = true) {
     outputDir = ensureCacheDirExists()
   } else {
     outputDir = path.resolve('./', 'downloads')
+    outputDir = process.platform === 'win32' ? `file:\\\\\\${outputDir}` : outputDir
 
     if (!(await fs.exists(outputDir))) {
       fs.mkdirSync(outputDir)

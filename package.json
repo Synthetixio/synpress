@@ -15,8 +15,8 @@
     "sort-package-json": "sort-package-json 'package.json' '{packages,wallets,examples}/*/package.json'",
     "sort-package-json:check": "sort-package-json 'package.json' '{packages,wallets,examples}/*/package.json' --check",
     "test": "turbo test",
-    "test:e2e:headful": "turbo test:e2e:headful --filter=@synthetixio/synpress-metamask --filter=@synthetixio/ethereum-wallet-mock",
-    "test:e2e:headless": "turbo test:e2e:headless --filter=@synthetixio/synpress-metamask --filter=@synthetixio/ethereum-wallet-mock",
+    "test:playwright:headful": "turbo test:playwright:headful --filter=@synthetixio/synpress-metamask --filter=@synthetixio/ethereum-wallet-mock",
+    "test:playwright:headless": "turbo test:playwright:headless --filter=@synthetixio/synpress-metamask --filter=@synthetixio/ethereum-wallet-mock",
     "update:deps": "ncu -u -ws --root"
   },
   "lint-staged": {

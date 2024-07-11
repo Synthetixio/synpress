@@ -1,5 +1,5 @@
 import { defineConfig } from 'cypress'
-import installSynpress from './src/cypress/installSynpress'
+import configureBeforeSynpress from './src/cypress/configureBeforeSynpress'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -9,7 +9,7 @@ export default defineConfig({
     supportFile: 'src/cypress/support/e2e.{js,jsx,ts,tsx}',
     testIsolation: false,
     async setupNodeEvents(on, config) {
-      return installSynpress(on, config)
+      return configureBeforeSynpress(on, config)
     }
   }
 })

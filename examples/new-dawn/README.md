@@ -66,9 +66,9 @@ pnpm run build:cache:headless
 
 ```bash
 # Use one of our scripts:
-pnpm run test:e2e:headful
-pnpm run test:e2e:headless
-pnpm run test:e2e:headless:ui
+pnpm run test:playwright:headful
+pnpm run test:playwright:headless
+pnpm run test:playwright:headless:ui
 
 # Or use Playwright directly:
 playwright test
