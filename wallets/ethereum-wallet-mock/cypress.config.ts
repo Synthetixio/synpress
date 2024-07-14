@@ -1,5 +1,5 @@
 import { defineConfig } from 'cypress'
-import { configureBeforeSynpress } from './src/cypress'
+import { configureSynpress } from './src/cypress'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -10,7 +10,7 @@ export default defineConfig({
     fixturesFolder: 'src/cypress/fixtures',
     testIsolation: false,
     async setupNodeEvents(on, config) {
-      return configureBeforeSynpress(on, config)
+      return configureSynpress(on, config)
     }
   }
 })

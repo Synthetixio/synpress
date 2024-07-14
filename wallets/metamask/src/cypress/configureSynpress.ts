@@ -4,7 +4,7 @@ import { initMetaMask } from './support/initMetaMask'
 
 let port: number
 
-export default function configureBeforeSynpress(on: Cypress.PluginEvents, config: Cypress.PluginConfigOptions) {
+export default function configureSynpress(on: Cypress.PluginEvents, config: Cypress.PluginConfigOptions) {
   const browsers = config.browsers.filter((b) => b.name === 'chrome')
   if (browsers.length === 0) {
     throw new Error('No Chrome browser found in the configuration')

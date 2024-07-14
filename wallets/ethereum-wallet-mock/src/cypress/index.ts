@@ -1,2 +1,2 @@
-export { default as configureBeforeSynpress } from './utils/configureBeforeSynpress'
+export { default as configureSynpress } from './utils/configureSynpress'
 export { default as EthereumWalletMock } from './EthereumWalletMock'
