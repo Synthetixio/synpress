@@ -13,12 +13,7 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-// Import commands.js using ES2015 syntax:
 import synpressCommands from './synpressCommands'
-
-before(() => {
-  cy.visit('/')
-})
 
 Cypress.on('uncaught:exception', () => {
   // failing the test
@@ -26,3 +21,7 @@ Cypress.on('uncaught:exception', () => {
 })
 
 synpressCommands()
+
+before(() => {
+  cy.visit('/')
+})
