@@ -9,19 +9,6 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
-// TODO: To be implemented
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//     }
-//   }
-// }
-
-// import { connectToDapp } from '../../playwright/pages/NotificationPage/actions'
-
-// import { MetaMask } from '../../playwright/MetaMask'
-// import type { BrowserContext, Page } from '@playwright/test'
-
 declare global {
   namespace Cypress {
     interface Chainable {
