@@ -1,8 +1,8 @@
-import { ensureRdpPort } from '@synthetixio/synpress-core'
-import { initMetaMask } from './support/initMetaMask'
 import type { BrowserContext, Page } from '@playwright/test'
+import { ensureRdpPort } from '@synthetixio/synpress-core'
 import { MetaMask } from '../playwright'
 import importMetaMaskWallet from './support/importMetaMaskWallet'
+import { initMetaMask } from './support/initMetaMask'
 
 let rdpPort: number
 let context: BrowserContext
