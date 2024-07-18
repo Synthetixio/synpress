@@ -11,10 +11,10 @@
     "build:cache": {
       "dependsOn": ["build"]
     },
-    "test:e2e:headful": {
+    "test:playwright:headful": {
       "dependsOn": ["build", "build:cache"]
     },
-    "test:e2e:headless": {
+    "test:playwright:headless": {
       "dependsOn": ["build", "build:cache"]
     },
     "docs:build": {

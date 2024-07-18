@@ -3,8 +3,14 @@
   "version": "0.0.1-alpha.7",
   "type": "module",
   "exports": {
-    "types": "./types/index.d.ts",
-    "default": "./dist/index.js"
+    "./cypress": {
+      "types": "./types/cypress/index.d.ts",
+      "default": "./dist/cypress/index.js"
+    },
+    "./playwright": {
+      "types": "./types/playwright/index.d.ts",
+      "default": "./dist/playwright/index.js"
+    }
   },
   "main": "./dist/index.js",
   "types": "./types/index.d.ts",
@@ -15,17 +21,18 @@
   ],
   "scripts": {
     "build": "pnpm run clean && pnpm run build:dist && pnpm run build:types",
-    "build:cache": "synpress-cache test/wallet-setup",
-    "build:cache:headless": "synpress-cache test/wallet-setup --headless",
-    "build:cache:headless:force": "synpress-cache test/wallet-setup --headless --force",
+    "build:cache": "synpress-cache test/playwright/wallet-setup",
+    "build:cache:headless": "synpress-cache test/playwright/wallet-setup --headless",
+    "build:cache:headless:force": "synpress-cache test/playwright/wallet-setup --headless --force",
     "build:dist": "tsup --tsconfig tsconfig.build.json",
     "build:types": "tsc --emitDeclarationOnly --project tsconfig.build.json",
     "clean": "rimraf dist types",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:e2e:headful": "playwright test",
-    "test:e2e:headless": "HEADLESS=true playwright test",
-    "test:e2e:headless:ui": "HEADLESS=true playwright test --ui",
+    "test:cypress:headful": "cypress run --browser chrome --headed",
+    "test:playwright:headful": "playwright test",
+    "test:playwright:headless": "HEADLESS=true playwright test",
+    "test:playwright:headless:ui": "HEADLESS=true playwright test --ui",
     "test:watch": "vitest watch",
     "types:check": "tsc --noEmit"
   },
@@ -41,6 +48,7 @@
     "@types/fs-extra": "11.0.4",
     "@types/node": "20.11.17",
     "@vitest/coverage-v8": "1.2.2",
+    "cypress": "13.13.0",
     "rimraf": "5.0.5",
     "tsup": "8.0.2",
     "typescript": "5.3.3",

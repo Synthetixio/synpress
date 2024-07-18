@@ -67,7 +67,7 @@ jobs:
 
       - name: Run E2E tests (headful)
         run: |
-          xvfb-run pnpm run test:e2e:headful
+          xvfb-run pnpm run test:playwright:headful
 
       - name: Archive Playwright report
         uses: actions/upload-artifact@v3
