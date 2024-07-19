@@ -62,6 +62,9 @@ module.exports = (on, config) => {
       process.env.CYPRESS_PROVIDERS = process.env.PROVIDERS;
       const providers = providersHelper.getProviders(process.env.PROVIDERS);
       for (const provider of providers) {
+        if(provider.name === 'metamask' && !process.env.SKIP_METAMASK_INSTALL) {
+          continue;
+        }
         const providerPath = await helpers.prepareProvider(
           provider.name,
           provider.version || 'latest',
@@ -140,8 +143,11 @@ module.exports = (on, config) => {
     rejectMetamaskAddToken: metamask.rejectAddToken,
     confirmMetamaskPermissionToSpend: metamask.confirmPermissionToSpend,
     rejectMetamaskPermissionToSpend: metamask.rejectPermissionToSpend,
-    confirmMetamaskPermisionToApproveAll: metamask.confirmPermisionToApproveAll,
-    rejectMetamaskPermisionToApproveAll: metamask.rejectPermisionToApproveAll,
+    confirmMetamaskPermissionToApproveAll:
+      metamask.confirmPermissionToApproveAll,
+    rejectMetamaskPermissionToApproveAll: metamask.rejectPermissionToApproveAll,
+    confirmMetamaskRevokePermissionToAll: metamask.confirmRevokePermissionToAll,
+    rejectMetamaskRevokePermissionToAll: metamask.rejectRevokePermissionToAll,
     acceptMetamaskAccess: metamask.acceptAccess,
     rejectMetamaskAccess: metamask.rejectAccess,
     confirmMetamaskTransaction: metamask.confirmTransaction,

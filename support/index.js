@@ -29,6 +29,9 @@ before(() => {
   if (!Cypress.env('SKIP_SETUP')) {
     const providers = providersHelper.getProviders(Cypress.env('PROVIDERS'));
     for (const provider of providers) {
+      if(provider.name === "metamask" && !Cypress.env('SKIP_METAMASK_SETUP')) {
+        continue;
+      }
       cy.setup({ provider: provider.name });
     }
   }

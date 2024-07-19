@@ -61,6 +61,11 @@ module.exports = {
   activeTabName() {
     return activeTabName;
   },
+  async metamaskExtensionId() {
+    const metamaskExtensionData = (await module.exports.getExtensionsData())
+      .metamask;
+    return metamaskExtensionData.id;
+  },
   async setExpectInstance(expect) {
     expectInstance = expect;
   },
