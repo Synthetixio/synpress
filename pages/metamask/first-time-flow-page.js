@@ -9,6 +9,7 @@ module.exports.metametricsPageElements = {
 const app = '#app-content .app';
 const onboardingWelcomePage = `${onboardingFlow} [data-testid="onboarding-welcome"]`;
 const importWalletButton = `${onboardingWelcomePage} [data-testid="onboarding-import-wallet"]`;
+const onboardingTermsCheckbox = `${onboardingWelcomePage} [data-testid="onboarding-terms-checkbox"]`;
 const createWalletButton = `${onboardingWelcomePage} [data-testid="onboarding-create-wallet"]`;
 const acceptTermsCheckbox = `[data-testid="onboarding-terms-checkbox"]`;
 const agreeMetricsButton = `[data-testid="metametrics-i-agree"]`;
@@ -18,8 +19,7 @@ module.exports.onboardingWelcomePageElements = {
   onboardingWelcomePage,
   importWalletButton,
   createWalletButton,
-  acceptTermsCheckbox,
-  agreeMetricsButton,
+  onboardingTermsCheckbox,
 };
 
 const firstTimeFlowImportPage = `${onboardingFlow} [data-testid="import-srp"]`;

@@ -194,8 +194,14 @@ Cypress.Commands.add('rejectMetamaskAddToken', () => {
 
 Cypress.Commands.add(
   'confirmMetamaskPermissionToSpend',
-  (spendLimit = '999999999999999999') => {
-    return cy.task('confirmMetamaskPermissionToSpend', spendLimit);
+  ({
+    spendLimit = '999999999999999999',
+    shouldWaitForPopupClosure = false,
+  } = {}) => {
+    return cy.task('confirmMetamaskPermissionToSpend', {
+      spendLimit,
+      shouldWaitForPopupClosure,
+    });
   },
 );
 
@@ -226,12 +232,20 @@ Cypress.Commands.add('closeMetamaskTransactionDetailsPopup', () => {
   return cy.task('closeMetamaskTransactionDetailsPopup');
 });
 
-Cypress.Commands.add('rejectMetamaskPermisionToApproveAll', () => {
-  return cy.task('rejectMetamaskPermisionToApproveAll');
+Cypress.Commands.add('rejectMetamaskPermissionToApproveAll', () => {
+  return cy.task('rejectMetamaskPermissionToApproveAll');
 });
 
-Cypress.Commands.add('confirmMetamaskPermisionToApproveAll', () => {
-  return cy.task('confirmMetamaskPermisionToApproveAll');
+Cypress.Commands.add('confirmMetamaskPermissionToApproveAll', () => {
+  return cy.task('confirmMetamaskPermissionToApproveAll');
+});
+
+Cypress.Commands.add('confirmMetamaskRevokePermissionToAll', () => {
+  return cy.task('confirmMetamaskRevokePermissionToAll');
+});
+
+Cypress.Commands.add('rejectMetamaskRevokePermissionToAll', () => {
+  return cy.task('rejectMetamaskRevokePermissionToAll');
 });
 
 Cypress.Commands.add('allowMetamaskToAddNetwork', waitForEvent => {

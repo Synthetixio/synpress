@@ -62,6 +62,21 @@ it directly. Check
 [usage examples](https://github.com/Synthetixio/synpress/#usage-examples) for
 more details.
 
+# ♨️ New release
+
+⚠️ This branch showcases the current stable release of Synpress which will receive **only** critical hotfixes. ⚠️
+
+Active development of the upcoming version of Synpress is happening on [this branch](https://github.com/Synthetixio/synpress/tree/new-dawn).
+The new release is a full rewrite of Synpress and will feature major breaking changes, and multitude of new features and improvements across the board such as:
+- ⭐ Full TypeScript support
+- ⭐ Multi-wallet support
+- ⭐ Full parallelism support
+- ⭐ Test runtime speed **faster** than any other Web3 alternative, and **equal** to native Web2 frameworks
+
+Curious and want to learn more? 🤓
+
+[Read this Twitter thread 🧵](https://twitter.com/0xDuckception/status/1712961542176596054) and do not forget to check out the attached document there!
+
 # Table of content
 
 - [](#)

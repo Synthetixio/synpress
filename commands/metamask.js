@@ -155,6 +155,15 @@ const metamask = {
     // note: this is required for fast execution of e2e tests to avoid flakiness
     // otherwise popup may not be detected properly and not closed
     await playwright.windows(PROVIDER).waitForTimeout(1000);
+
+    let smartTxOptInBtn =
+      '.mm-smart-transactions-opt-in-modal .mm-box--rounded-pill';
+    if (
+      (await playwright.windows(PROVIDER).locator(smartTxOptInBtn).count()) > 0
+    ) {
+      await playwright.waitAndClick(PROVIDER, smartTxOptInBtn);
+    }
+
     if (
       (await playwright
         .windows(PROVIDER)
@@ -412,7 +421,16 @@ const metamask = {
   },
   async importAccount(privateKey) {
     await switchToMetamaskIfNotActive();
-    await module.exports.goToImportAccount();
+    await module.exports.goToHome();
+    await module.exports.closePopupAndTooltips();
+    await playwright.waitAndClick(mainPageElements.accountMenu.button);
+    await playwright.waitAndClick(
+      mainPageElements.accountMenu.addAccountButton,
+    );
+    await playwright.waitAndClickByText(
+      mainPageElements.accountMenu.addNewAccountButton,
+      'Import account',
+    );
     await playwright.waitAndType(
       PROVIDER,
       mainPageElements.importAccount.input,
@@ -432,7 +450,15 @@ const metamask = {
   },
   async createAccount(accountName) {
     await switchToMetamaskIfNotActive();
-    await module.exports.goToNewAccount();
+    await module.exports.goToHome();
+    await module.exports.closePopupAndTooltips();
+    await playwright.waitAndClick(mainPageElements.accountMenu.button);
+    await playwright.waitAndClick(
+      mainPageElements.accountMenu.addAccountButton,
+    );
+    await playwright.waitAndClick(
+      mainPageElements.accountMenu.addNewAccountButton,
+    );
     if (accountName) {
       accountName = accountName.toLowerCase();
       await playwright.waitAndType(
@@ -476,12 +502,14 @@ const metamask = {
     );
 
     await playwright.waitAndClick(mainPageElements.renameAccount.invokeInput);
+
     await playwright.waitClearAndType(
       newAccountName,
       mainPageElements.renameAccount.input,
     );
 
     const formErrorEl = await playwright.waitFor(
+      PROVIDER,
       mainPageElements.renameAccount.error,
     );
     const formErrorTxt = await formErrorEl.innerText();
@@ -556,8 +584,9 @@ const metamask = {
     await playwright.waitAndClickByText(
       PROVIDER,
       mainPageElements.networkSwitcher.dropdownMenuItem,
-      network.name,
+      metamaskPage,
     );
+    await playwright.waitAndClick(`[data-testid*="${network.name}"]`);
     await playwright.waitForText(
       PROVIDER,
       mainPageElements.networkSwitcher.networkName,
@@ -624,6 +653,7 @@ const metamask = {
       addNetworkPageElements.networkNameInput,
       network.name,
     );
+
     await playwright.waitAndType(
       PROVIDER,
       addNetworkPageElements.rpcUrlInput,
@@ -653,6 +683,7 @@ const metamask = {
         waitForEvent: 'navi',
       },
     );
+    await playwright.waitAndClick(addNetworkPageElements.switchButton);
     await module.exports.closePopupAndTooltips();
     await playwright.waitForText(
       PROVIDER,
@@ -736,13 +767,6 @@ const metamask = {
     await module.exports.closeModal();
     await switchToCypressIfNotActive();
     return true;
-  },
-  async activateAdvancedGasControl(skipSetup) {
-    return await activateAdvancedSetting(
-      advancedPageElements.advancedGasControlToggleOn,
-      advancedPageElements.advancedGasControlToggleOff,
-      skipSetup,
-    );
   },
   async activateShowHexData(skipSetup) {
     return await activateAdvancedSetting(
@@ -884,7 +908,10 @@ const metamask = {
   async importToken(tokenConfig) {
     let tokenData = {};
     await switchToMetamaskIfNotActive();
-    await module.exports.goToImportToken();
+    await module.exports.goToHome();
+    await module.exports.closePopupAndTooltips();
+    await playwright.waitAndClick(mainPageElements.importToken.tokenTab);
+    await playwright.waitAndClick(mainPageElements.importToken.button);
     if (typeof tokenConfig === 'string') {
       await playwright.waitAndType(
         PROVIDER,
@@ -923,25 +950,10 @@ const metamask = {
       PROVIDER,
       mainPageElements.importToken.addCustomTokenButton,
       await playwright.windows(PROVIDER),
-      {
-        waitForEvent: 'navi',
-      },
     );
     await playwright.waitAndClick(
-      PROVIDER,
-      mainPageElements.importToken.importTokensButton,
+      mainPageElements.importToken.confirmImportTokenContent,
       await playwright.windows(PROVIDER),
-      {
-        waitForEvent: 'navi',
-      },
-    );
-    await playwright.waitAndClick(
-      PROVIDER,
-      mainPageElements.asset.backButton,
-      await playwright.windows(PROVIDER),
-      {
-        waitForEvent: 'navi',
-      },
     );
     await module.exports.closePopupAndTooltips();
     await switchToCypressIfNotActive();
@@ -968,8 +980,11 @@ const metamask = {
     );
     return true;
   },
-  async confirmPermissionToSpend(spendLimit) {
-    const notificationPage = await playwright.switchToNotification(PROVIDER);
+  async confirmPermissionToSpend({
+    spendLimit,
+    shouldWaitForPopupClosure = false,
+  } = {}) {
+    const notificationPage = playwright.switchToNotification(PROVIDER);
     // experimental mode on
     if (
       (await playwright
@@ -977,11 +992,13 @@ const metamask = {
         .locator(notificationPageElements.customSpendingLimitInput)
         .count()) > 0
     ) {
-      await playwright.waitAndSetValue(
-        spendLimit,
-        notificationPageElements.customSpendingLimitInput,
-        notificationPage,
-      );
+      if (spendLimit) {
+        await playwright.waitAndSetValue(
+          spendLimit,
+          notificationPageElements.customSpendingLimitInput,
+          notificationPage,
+        );
+      }
       await playwright.waitAndClick(
         PROVIDER,
         notificationPageElements.allowToSpendButton,
@@ -992,7 +1009,7 @@ const metamask = {
       PROVIDER,
       notificationPageElements.allowToSpendButton,
       notificationPage,
-      { waitForEvent: 'close' },
+      shouldWaitForPopupClosure ? undefined : { waitForEvent: 'close' },
     );
     return true;
   },
@@ -1002,7 +1019,6 @@ const metamask = {
       PROVIDER,
       notificationPageElements.rejectToSpendButton,
       notificationPage,
-      { waitForEvent: 'close' },
     );
     return true;
   },
@@ -1056,6 +1072,20 @@ const metamask = {
       return true;
     }
 
+    if (options && options.switchNetwork) {
+      await playwright.waitAndClick(
+        permissionsPageElements.connectButton,
+        notificationPage,
+        { waitForEvent: 'navi' },
+      );
+      await playwright.waitAndClick(
+        confirmationPageElements.footer.approveButton,
+        notificationPage,
+        { waitForEvent: 'close' },
+      );
+      return true;
+    }
+
     await playwright.waitAndClick(
       permissionsPageElements.connectButton,
       notificationPage,
@@ -1072,9 +1102,15 @@ const metamask = {
     );
     return true;
   },
-  async confirmTransaction(gasConfig) {
+  async confirmTransaction({
+    gasConfig,
+    shouldWaitForPopupClosure = false,
+  } = {}) {
     let txData = {};
     const notificationPage = await playwright.switchToNotification(PROVIDER);
+
+    await proceedAnyway();
+
     if (gasConfig) {
       log(
         '[confirmTransaction] gasConfig is present, determining transaction type..',
@@ -1209,7 +1245,7 @@ const metamask = {
           }
           await playwright.waitAndClick(
             PROVIDER,
-            confirmPageElements.saveCustomGasFeeButton,
+            confirmPageElements.saveAdvanceCustomGasFeeButton,
             notificationPage,
           );
         }
@@ -1243,7 +1279,7 @@ const metamask = {
           confirmPageElements.recipientButton,
           notificationPage,
         );
-        txData.recipientPublicAddress = await playwright.waitAndGetValue(
+        txData.recipientPublicAddress = await playwright.waitAndGetInputValue(
           recipientPopupElements.recipientPublicAddress,
           notificationPage,
         );
@@ -1308,16 +1344,44 @@ const metamask = {
     //     notificationPage,
     //   );
     // }
+
+    await proceedAnyway();
+
     log('[confirmTransaction] Confirming transaction..');
     await playwright.waitAndClick(
       PROVIDER,
       confirmPageElements.confirmButton,
       notificationPage,
-      { waitForEvent: 'close' },
+      shouldWaitForPopupClosure ? undefined : { waitForEvent: 'close' },
     );
     txData.confirmed = true;
     log('[confirmTransaction] Transaction confirmed!');
     return txData;
+
+    async function proceedAnyway() {
+      // click on i want to proceed anyway when transaction gas estimation error is thrown
+      let proceedAnywayButton1 =
+        'div.transaction-detail > div > div > div > div > button';
+      let proceedAnywayButton2 =
+        'div.transaction-alerts > div.mm-box.mm-banner-base.mm-banner-alert.mm-banner-alert--severity-danger.mm-box--padding-3.mm-box--padding-left-2.mm-box--display-flex.mm-box--gap-2.mm-box--background-color-error-muted.mm-box--rounded-sm > div > button';
+
+      if (
+        (await playwright
+          .metamaskNotificationWindow()
+          .locator(proceedAnywayButton1)
+          .count()) > 0
+      ) {
+        await playwright.waitAndClick(proceedAnywayButton1, notificationPage);
+      }
+      if (
+        (await playwright
+          .metamaskNotificationWindow()
+          .locator(proceedAnywayButton2)
+          .count()) > 0
+      ) {
+        await playwright.waitAndClick(proceedAnywayButton2, notificationPage);
+      }
+    }
   },
   async confirmTransactionAndWaitForMining(gasConfig) {
     // Before we switch to MetaMask tab we have to make sure the notification window has opened.
@@ -1406,16 +1470,15 @@ const metamask = {
         `${mainPageElements.activityTab.completedTransactionsList} > div`,
       )
       .filter({
-        has: playwright.windows(PROVIDER).locator('div.list-item__heading'),
+        has: playwright.windows(PROVIDER).locator('div.transaction-list-item'),
       })
       .all();
-
     while (txIndex >= visibleTxs.length) {
       try {
         await playwright
           .windows(PROVIDER)
           .locator(
-            `${mainPageElements.activityTab.completedTransactionsList} > button`,
+            `${mainPageElements.activityTab.completedTransactionsList} > div`,
           )
           .click();
       } catch (error) {
@@ -1487,12 +1550,11 @@ const metamask = {
       PROVIDER,
       decryptPageElements.rejectDecryptionRequestButton,
       notificationPage,
-      { waitForEvent: 'close' },
     );
     return true;
   },
-  async confirmPermisionToApproveAll() {
-    const notificationPage = await playwright.switchToNotification(PROVIDER);
+  async confirmPermissionToApproveAll() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       notificationPageElements.allowToSpendButton,
       notificationPage,
@@ -1504,14 +1566,32 @@ const metamask = {
     );
     return true;
   },
-  async rejectPermisionToApproveAll() {
-    const notificationPage = await playwright.switchToNotification(PROVIDER);
+  async rejectPermissionToApproveAll() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
     await playwright.waitAndClick(
       notificationPageElements.allowToSpendButton,
       notificationPage,
     );
     await playwright.waitAndClick(
       notificationPageElements.rejectWarningToSpendButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
+  async confirmRevokePermissionToAll() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      notificationPageElements.allowToSpendButton,
+      notificationPage,
+      { waitForEvent: 'close' },
+    );
+    return true;
+  },
+  async rejectRevokePermissionToAll() {
+    const notificationPage = await playwright.switchToMetamaskNotification();
+    await playwright.waitAndClick(
+      notificationPageElements.rejectToSpendButton,
       notificationPage,
       { waitForEvent: 'close' },
     );
@@ -1580,44 +1660,18 @@ const metamask = {
       PROVIDER,
       mainPageElements.optionsMenu.button,
     );
-
-    // metamask >= v11
-    if (
-      (await playwright
-        .windows(PROVIDER)
-        .locator(mainPageElements.optionsMenu.accountDetailsButtonV11)
-        .count()) > 0
-    ) {
-      await playwright.waitAndClick(
-        PROVIDER,
-        mainPageElements.optionsMenu.accountDetailsButtonV11,
-      );
-      walletAddress = await playwright.waitAndGetValue(
-        PROVIDER,
-        mainPageElements.accountModal.walletAddressInputV11,
-      );
-
-      // we still need to find the close button...
-      await playwright.waitAndClick(
-        PROVIDER,
-        mainPageElements.accountModal.closeButton,
-      );
-    } else {
-      // metamask < v11
-      await playwright.waitAndClick(
-        PROVIDER,
-        mainPageElements.optionsMenu.accountDetailsButton,
-      );
-      walletAddress = await playwright.waitAndGetValue(
-        PROVIDER,
-        mainPageElements.accountModal.walletAddressInput,
-      );
-      await playwright.waitAndClick(
-        PROVIDER,
-        mainPageElements.accountModal.closeButton,
-      );
-    }
-
+    await playwright.waitAndClick(
+      PROVIDER,
+      mainPageElements.optionsMenu.accountDetailsButton,
+    );
+    walletAddress = await playwright.waitAndGetValue(
+      PROVIDER,
+      mainPageElements.accountModal.walletAddressInput,
+    );
+    await playwright.waitAndClick(
+      PROVIDER,
+      mainPageElements.accountModal.closeButton,
+    );
     await switchToCypressIfNotActive();
     return walletAddress;
   },
@@ -1649,18 +1703,11 @@ const metamask = {
         .locator(onboardingWelcomePageElements.onboardingWelcomePage)
         .count()) > 0
     ) {
-      // metamask > v11
-      if (
-        (await playwright
-          .windows(PROVIDER)
-          .locator(onboardingWelcomePageElements.acceptTermsCheckbox)
-          .count()) > 0
-      ) {
-        await playwright
-          .windows(PROVIDER)
-          .click(onboardingWelcomePageElements.acceptTermsCheckbox);
-      }
-
+      // check terms checkbox
+      await playwright.waitAndClick(
+        PROVIDER,
+        onboardingWelcomePageElements.onboardingTermsCheckbox,
+      );
       if (secretWordsOrPrivateKey.includes(' ')) {
         // secret words
         await module.exports.importWallet(secretWordsOrPrivateKey, password);
@@ -1759,16 +1806,6 @@ async function setupSettings(
 ) {
   await switchToMetamaskIfNotActive();
   await metamask.goToAdvancedSettings();
-
-  // metamask < v11
-  if (
-    (await playwright
-      .windows(PROVIDER)
-      .locator(advancedPageElements.advancedGasControlToggleOn)
-      .count()) > 0
-  ) {
-    await metamask.activateAdvancedGasControl(true);
-  }
   await metamask.activateShowHexData(true);
 
   // metamask < v11

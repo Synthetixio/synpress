@@ -1,12 +1,12 @@
-const networkSwitcherButtonSelector = '.network-display';
+const networkSwitcherButtonSelector = '[data-testid="network-display"]';
 const networkSwitcher = {
   button: networkSwitcherButtonSelector,
-  networkName: `${networkSwitcherButtonSelector} .typography`,
+  networkName: `${networkSwitcherButtonSelector} .mm-text--ellipsis`,
   dropdownMenu: '[data-testid="network-droppo"]',
-  dropdownMenuItem: `[data-testid="network-droppo"] .dropdown-menu-item`,
-  mainnetNetworkItem: `[data-testid="network-droppo"] [data-testid="mainnet-network-item"]`,
+  dropdownMenuItem: `.multichain-network-list-menu-content-wrapper__dialog`,
+  mainnetNetworkItem: `.multichain-network-list-menu-content-wrapper__dialog [data-testid="Ethereum Mainnet"]`,
   goerliNetworkItem: `[data-testid="network-droppo"] [data-testid="goerli-network-item"]`,
-  sepoliaNetworkItem: `[data-testid="network-droppo"] [data-testid="sepolia-network-item"]`,
+  sepoliaNetworkItem: `.multichain-network-list-menu-content-wrapper__dialog [data-testid="Sepolia"]`,
   localhostNetworkItem: `[data-testid="network-droppo"] [data-testid="Localhost 8545-network-item"]`,
   networkButton: number =>
     `[data-testid="network-droppo"] .dropdown-menu-item:nth-child(${
@@ -64,20 +64,23 @@ const actionableMessage = {
 };
 
 const accountMenu = {
-  button: '.account-menu__icon',
-  accountButton: number => `.account-menu__account:nth-child(${number})`,
-  accountName: '.account-menu__name',
+  button: '[data-testid="account-menu-icon"]',
+  accountButton: number =>
+    `.multichain-account-menu-popover__list--menu-item:nth-child(${number})`,
+  accountName: '.multichain-account-menu-popover__list',
   createAccountButton: '.account-menu__item--clickable:nth-child(6)',
   importAccountButton: '.account-menu__item--clickable:nth-child(7)',
   settingsButton: '.account-menu__item--clickable:nth-child(11)',
-  lockButton: '.account_menu__lock-button',
+  addAccountButton:
+    '[data-testid="multichain-account-menu-popover-action-button"]',
+  addNewAccountButton:
+    '[data-testid="multichain-account-menu-popover-add-account"]',
 };
 
 const optionsMenu = {
   button: '[data-testid=account-options-menu-button]',
-  accountDetailsButton: '[data-testid="account-options-menu__account-details"]',
-  accountDetailsButtonV11: '[data-testid="account-list-menu-details"]',
-  connectedSitesButton: '[data-testid="account-options-menu__connected-sites"]',
+  accountDetailsButton: '[data-testid="account-list-menu-details"]',
+  connectedSitesButton: '[data-testid="global-menu-connected-sites"]',
 };
 
 const connectedSitesSelector = '.connected-sites';
@@ -89,45 +92,50 @@ const connectedSites = {
   closeButton: `${connectedSitesSelector} [data-testid="popover-close"]`,
 };
 
-const accountModalSelector = '.account-modal';
+const accountModalSelector = '.mm-modal-content__dialog';
+
 const accountModal = {
-  walletAddressInput: `${accountModalSelector} .qr-code__address`,
-  walletAddressInputV11: `[data-testid="address-copy-button-text"]`,
-  closeButton: '.account-modal__close',
+  walletAddressInput: `${accountModalSelector} [data-testid="address-copy-button-text"]`,
+  closeButton: `${accountModalSelector} .mm-button-icon[aria-label="Close"]`,
+  primaryButton: `${accountModalSelector} button.mm-button-primary`,
 };
 
+const renameAccountModalSelector = '[data-testid="account-details-modal"]';
 const renameAccount = {
-  invokeInput: `${accountModalSelector} [data-testid="editable-label-button"]`,
-  input: `${accountModalSelector} [data-testid="editable-input"]`,
-  confirmButton: `${accountModalSelector} .editable-label__icon-button`,
-  error: `${accountModalSelector} .editable-label__error`,
+  invokeInput: `${renameAccountModalSelector} [data-testid="editable-label-button"]`,
+  input: `${renameAccountModalSelector} [data-testid="editable-input"] input`,
+  confirmButton: `${renameAccountModalSelector} .mm-modal-body .mm-box--color-icon-default`,
+  error: `${renameAccountModalSelector} [data-testid="editable-input"] p.mm-text`,
 };
 
-const importAccountSelector = '.new-account';
+const importAccountSelector = '.multichain-account-menu-popover__dialog';
 const importAccount = {
   page: importAccountSelector,
   input: `${importAccountSelector} #private-key-box`,
-  cancelButton: `${importAccountSelector} .new-account-create-form__button:nth-child(1)`,
-  importButton: `${importAccountSelector} .new-account-create-form__button:nth-child(2)`,
+  cancelButton: `${importAccountSelector} .mm-button-secondary`,
+  importButton: `${importAccountSelector} [data-testid="import-account-confirm-button"]`,
 };
 
 const createAccount = {
   page: importAccountSelector,
-  input: `${importAccountSelector} .new-account-create-form__input`,
-  cancelButton: `${importAccountSelector} .new-account-create-form__button:nth-child(1)`,
-  createButton: `${importAccountSelector} .new-account-create-form__button:nth-child(2)`,
-  createAccountError: `${importAccountSelector} .new-account-create-form__error`,
+  input: `${importAccountSelector} #account-name`,
+  cancelButton: `${importAccountSelector} .mm-button-secondary`,
+  createButton: `${importAccountSelector} .mm-button-primary`,
+  createAccountError: `${importAccountSelector} .mm-form-text-field__help-text`,
 };
 
-const importTokenFormSelector = '.import-token__custom-token-form';
+const importTokenFormSelector = '.import-tokens-modal__modal-dialog-content';
 const importToken = {
   form: importTokenFormSelector,
-  tokenContractAddressInput: `${importTokenFormSelector} #custom-address`,
-  tokenSymbolInput: `${importTokenFormSelector} #custom-symbol`,
+  tokenTab: '[data-testid="home__asset-tab"]',
+  button: '[data-testid="import-token-button"]',
+  tokenContractAddressInput: `${importTokenFormSelector} [data-testid="import-tokens-modal-custom-address"]`,
+  tokenSymbolInput: `${importTokenFormSelector} [data-testid="import-tokens-modal-custom-symbol"]`,
   tokenEditButton: `${importTokenFormSelector} .import-token__custom-symbol__edit`,
-  tokenDecimalInput: `${importTokenFormSelector} #custom-decimals`,
-  addCustomTokenButton: `[data-testid="page-container-footer-next"]`,
-  confirmImportTokenContent: '.confirm-import-token',
+  tokenDecimalInput: `${importTokenFormSelector} [data-testid="import-tokens-modal-custom-decimals"]`,
+  addCustomTokenButton: `[data-testid="import-tokens-button-next"]`,
+  confirmImportTokenContent:
+    '[data-testid="import-tokens-modal-import-button"]',
   importTokensButton: `.btn-primary`,
 };
 
