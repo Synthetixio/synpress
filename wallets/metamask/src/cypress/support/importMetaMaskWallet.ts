@@ -1,6 +1,6 @@
 import { type BrowserContext, type Page, chromium } from '@playwright/test'
-import { MetaMask } from '../../playwright'
 import { getExtensionId } from '../../playwright'
+import getPlaywrightMetamask from '../getPlaywrightMetamask'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'
 
@@ -17,25 +17,27 @@ export default async function importMetaMaskWallet(port: number) {
 
   await context.waitForEvent('response')
 
-  let extensionPage: Page | undefined
   let metamaskExtensionId: string | undefined
+  let extensionPage: Page | undefined
+  let cypressPage: Page | undefined
 
   const extensionPageIndex = context.pages().findIndex((page) => page.url().includes('chrome-extension://'))
   if (extensionPageIndex !== -1) {
     extensionPage = context.pages()[extensionPageIndex] as Page
     metamaskExtensionId = await getExtensionId(context, 'MetaMask')
 
-    const metamask = new MetaMask(context, extensionPage, 'password', metamaskExtensionId)
+    const metamask = getPlaywrightMetamask(context, extensionPage, metamaskExtensionId)
 
     await metamask.importWallet(SEED_PHRASE)
 
-    const cypressPage = context.pages()[extensionPageIndex === 1 ? 0 : 1] as Page
+    cypressPage = context.pages()[extensionPageIndex === 1 ? 0 : 1] as Page
     await cypressPage.bringToFront()
   }
 
   return {
     context,
     extensionPage,
+    cypressPage,
     metamaskExtensionId
   }
 }
