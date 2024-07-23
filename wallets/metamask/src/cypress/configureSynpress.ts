@@ -13,7 +13,9 @@ let context: BrowserContext
 let metamaskExtensionId: string
 
 let metamaskExtensionPage: Page
-let cypressPage: Page
+
+// TODO: Implement if needed to change the focus between pages
+// let cypressPage: Page
 
 export default function configureSynpress(on: Cypress.PluginEvents, config: Cypress.PluginConfigOptions) {
   const browsers = config.browsers.filter((b) => b.name === 'chrome')
@@ -49,9 +51,10 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
         metamaskExtensionId = _metamaskExtensionId
         metamaskExtensionPage = _extensionPage
       }
-      if (_cypressPage) {
-        cypressPage = _cypressPage
-      }
+      // TODO: Implement if needed to change the focus between pages
+      // if (_cypressPage) {
+      //   cypressPage = _cypressPage
+      // }
       metamaskInitialized = true
     }
   })
