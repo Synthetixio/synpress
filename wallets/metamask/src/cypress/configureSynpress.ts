@@ -61,6 +61,18 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
 
   on('task', {
     // Synpress API
+    async getAccount() {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      return await metamaskExtensionPage.locator(metamask.homePage.selectors.accountMenu.accountButton).innerText()
+    },
+
+    async getNetwork() {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      return await metamaskExtensionPage.locator(metamask.homePage.selectors.currentNetwork).innerText()
+    },
+
     async connectToDapp() {
       const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
 
@@ -82,10 +94,35 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
       return true
     },
 
-    async getAccount() {
+    async switchAccount(accountName: string) {
       const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
 
-      return await metamaskExtensionPage.locator(metamask.homePage.selectors.accountMenu.accountButton).innerText()
+      await metamask.switchAccount(accountName)
+
+      await expect(metamaskExtensionPage.locator(metamask.homePage.selectors.accountMenu.accountButton)).toHaveText(
+        accountName
+      )
+
+      return true
+    },
+
+    async switchNetwork({
+      networkName,
+      isTestnet
+    }: {
+      networkName: string
+      isTestnet?: boolean
+    }) {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      return await metamask
+        .switchNetwork(networkName, isTestnet)
+        .then(() => {
+          return true
+        })
+        .catch(() => {
+          return false
+        })
     }
   })
 

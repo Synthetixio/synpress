@@ -12,21 +12,35 @@
 declare global {
   namespace Cypress {
     interface Chainable {
+      getAccount(): Chainable<string>
+      getNetwork(): Chainable<string>
+
       connectToDapp(): Chainable<void>
       addNewAccount(accountName: string): Chainable<void>
-      getAccount(): Chainable<string>
+      switchAccount(accountName: string): Chainable<void>
+      switchNetwork(networkName: string, isTestnet?: boolean): Chainable<void>
     }
   }
 }
 
 export default function synpressCommands() {
+  Cypress.Commands.add('getAccount', () => {
+    return cy.task('getAccount')
+  })
+  Cypress.Commands.add('getNetwork', () => {
+    return cy.task('getNetwork')
+  })
+
   Cypress.Commands.add('connectToDapp', () => {
     return cy.task('connectToDapp')
   })
   Cypress.Commands.add('addNewAccount', (accountName: string) => {
     return cy.task('addNewAccount', accountName)
   })
-  Cypress.Commands.add('getAccount', () => {
-    return cy.task('getAccount')
+  Cypress.Commands.add('switchAccount', (accountName: string) => {
+    return cy.task('switchAccount', accountName)
+  })
+  Cypress.Commands.add('switchNetwork', (networkName: string, isTestnet = false) => {
+    return cy.task('switchNetwork', { networkName, isTestnet })
   })
 }
