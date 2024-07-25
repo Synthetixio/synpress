@@ -1,6 +1,6 @@
 import { type BrowserContext, type Page, chromium } from '@playwright/test'
-import { importWallet } from '../../playwright/pages/OnboardingPage/actions'
-import { onboardingPage } from '../../selectors'
+import { getExtensionId } from '../../playwright'
+import getPlaywrightMetamask from '../getPlaywrightMetamask'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'
 
@@ -17,12 +17,27 @@ export default async function importMetaMaskWallet(port: number) {
 
   await context.waitForEvent('response')
 
-  // First page (index equal 0) is the cypress page, second one (index equal 1) is the extension page
-  const extensionPage = context.pages()[1] as Page
+  let metamaskExtensionId: string | undefined
+  let extensionPage: Page | undefined
+  let cypressPage: Page | undefined
 
-  await extensionPage.waitForSelector(onboardingPage.GetStartedPageSelectors.termsOfServiceCheckbox)
+  const extensionPageIndex = context.pages().findIndex((page) => page.url().includes('chrome-extension://'))
+  if (extensionPageIndex !== -1) {
+    extensionPage = context.pages()[extensionPageIndex] as Page
+    metamaskExtensionId = await getExtensionId(context, 'MetaMask')
 
-  await importWallet(extensionPage, SEED_PHRASE, 'password')
+    const metamask = getPlaywrightMetamask(context, extensionPage, metamaskExtensionId)
 
-  await extensionPage.close()
+    await metamask.importWallet(SEED_PHRASE)
+
+    cypressPage = context.pages()[extensionPageIndex === 1 ? 0 : 1] as Page
+    await cypressPage.bringToFront()
+  }
+
+  return {
+    context,
+    extensionPage,
+    cypressPage,
+    metamaskExtensionId
+  }
 }

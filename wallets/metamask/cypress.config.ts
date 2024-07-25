@@ -2,7 +2,8 @@ import { defineConfig } from 'cypress'
 import configureSynpress from './src/cypress/configureSynpress'
 
 export default defineConfig({
-  chromeWebSecurity: false,
+  userAgent: 'synpress',
+  chromeWebSecurity: true,
   e2e: {
     baseUrl: 'http://localhost:9999',
     specPattern: 'test/cypress/**/*.cy.{js,jsx,ts,tsx}',

@@ -9,12 +9,24 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
-// TODO: To be implemented
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//     }
-//   }
-// }
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      connectToDapp(): Chainable<void>
+      addNewAccount(accountName: string): Chainable<void>
+      getAccount(): Chainable<string>
+    }
+  }
+}
 
-export default function synpressCommands() {}
+export default function synpressCommands() {
+  Cypress.Commands.add('connectToDapp', () => {
+    return cy.task('connectToDapp')
+  })
+  Cypress.Commands.add('addNewAccount', (accountName: string) => {
+    return cy.task('addNewAccount', accountName)
+  })
+  Cypress.Commands.add('getAccount', () => {
+    return cy.task('getAccount')
+  })
+}
