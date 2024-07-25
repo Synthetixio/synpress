@@ -38,8 +38,8 @@ export class HomePage {
     await addNewAccount(this.page, accountName)
   }
 
-  async renameAccount(newAccountName: string) {
-    await renameAccount(this.page, newAccountName)
+  async renameAccount(currentAccountName: string, newAccountName: string) {
+    await renameAccount(this.page, currentAccountName, newAccountName)
   }
 
   async getAccountAddress() {
