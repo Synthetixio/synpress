@@ -1,6 +1,7 @@
 import type { BrowserContext, Page } from '@playwright/test'
 import { expect } from '@playwright/test'
 import { ensureRdpPort } from '@synthetixio/synpress-core'
+import Selectors from '../selectors/pages/HomePage'
 import getPlaywrightMetamask from './getPlaywrightMetamask'
 import importMetaMaskWallet from './support/importMetaMaskWallet'
 import { initMetaMask } from './support/initMetaMask'
@@ -73,11 +74,11 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
       return await metamaskExtensionPage.locator(metamask.homePage.selectors.currentNetwork).innerText()
     },
 
-    async connectToDapp() {
+    async connectToDapp(accounts?: string[]) {
       const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
 
       return metamask
-        .connectToDapp()
+        .connectToDapp(accounts)
         .then(() => true)
         .catch(() => false)
     },
@@ -101,6 +102,26 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
 
       await expect(metamaskExtensionPage.locator(metamask.homePage.selectors.accountMenu.accountButton)).toHaveText(
         accountName
+      )
+
+      return true
+    },
+
+    async renameAccount({
+      currentAccountName,
+      newAccountName
+    }: {
+      currentAccountName: string
+      newAccountName: string
+    }) {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      await metamask.renameAccount(currentAccountName, newAccountName)
+
+      await metamaskExtensionPage.locator(Selectors.threeDotsMenu.accountDetailsCloseButton).click()
+
+      await expect(metamaskExtensionPage.locator(metamask.homePage.selectors.accountMenu.accountButton)).toHaveText(
+        newAccountName
       )
 
       return true

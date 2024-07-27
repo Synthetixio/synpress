@@ -81,10 +81,11 @@ export class MetaMask extends MetaMaskAbstract {
   /**
    * Renames the currently selected account.
    *
+   * @param currentAccountName - The current account name.
    * @param newAccountName - The new name for the account.
    */
-  async renameAccount(newAccountName: string) {
-    await this.homePage.renameAccount(newAccountName)
+  async renameAccount(currentAccountName: string, newAccountName: string) {
+    await this.homePage.renameAccount(currentAccountName, newAccountName)
   }
 
   /**

@@ -8,10 +8,14 @@ it('should switch network', () => {
 })
 
 it('should switch network to the testnet', () => {
-  cy.getNetwork().should('eq', 'Linea Mainnet')
+  cy.getNetwork().should('eq', 'Ethereum Mainnet')
 
   const targetNetwork = 'Sepolia'
   cy.switchNetwork(targetNetwork, true).then(() => {
     cy.getNetwork().should('eq', targetNetwork)
   })
+})
+
+afterEach(() => {
+  cy.switchNetwork('Ethereum Mainnet')
 })

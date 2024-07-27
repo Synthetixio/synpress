@@ -15,9 +15,12 @@ declare global {
       getAccount(): Chainable<string>
       getNetwork(): Chainable<string>
 
-      connectToDapp(): Chainable<void>
+      connectToDapp(accounts?: string[]): Chainable<void>
+
       addNewAccount(accountName: string): Chainable<void>
       switchAccount(accountName: string): Chainable<void>
+      renameAccount(currentAccountName: string, newAccountName: string): Chainable<void>
+
       switchNetwork(networkName: string, isTestnet?: boolean): Chainable<void>
     }
   }
@@ -39,6 +42,9 @@ export default function synpressCommands() {
   })
   Cypress.Commands.add('switchAccount', (accountName: string) => {
     return cy.task('switchAccount', accountName)
+  })
+  Cypress.Commands.add('renameAccount', (currentAccountName: string, newAccountName: string) => {
+    return cy.task('renameAccount', { currentAccountName, newAccountName })
   })
   Cypress.Commands.add('switchNetwork', (networkName: string, isTestnet = false) => {
     return cy.task('switchNetwork', { networkName, isTestnet })
