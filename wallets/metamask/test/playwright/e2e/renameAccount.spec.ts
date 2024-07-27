@@ -11,7 +11,7 @@ test('should rename current account with specified name', async ({ context, meta
   const metamask = new MetaMask(context, metamaskPage, basicSetup.walletPassword)
 
   const accountName = 'Test Account'
-  await metamask.renameAccount(accountName)
+  await metamask.renameAccount('Account 1', accountName)
 
   await expect(metamaskPage.locator(metamask.homePage.selectors.accountMenu.accountButton)).toHaveText(accountName)
 })

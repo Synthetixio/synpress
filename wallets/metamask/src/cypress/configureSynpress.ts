@@ -1,6 +1,7 @@
 import type { BrowserContext, Page } from '@playwright/test'
 import { expect } from '@playwright/test'
 import { ensureRdpPort } from '@synthetixio/synpress-core'
+import Selectors from '../selectors/pages/HomePage'
 import getPlaywrightMetamask from './getPlaywrightMetamask'
 import importMetaMaskWallet from './support/importMetaMaskWallet'
 import { initMetaMask } from './support/initMetaMask'
@@ -61,11 +62,23 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
 
   on('task', {
     // Synpress API
-    async connectToDapp() {
+    async getAccount() {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      return await metamaskExtensionPage.locator(metamask.homePage.selectors.accountMenu.accountButton).innerText()
+    },
+
+    async getNetwork() {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      return await metamaskExtensionPage.locator(metamask.homePage.selectors.currentNetwork).innerText()
+    },
+
+    async connectToDapp(accounts?: string[]) {
       const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
 
       return metamask
-        .connectToDapp()
+        .connectToDapp(accounts)
         .then(() => true)
         .catch(() => false)
     },
@@ -82,10 +95,55 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
       return true
     },
 
-    async getAccount() {
+    async switchAccount(accountName: string) {
       const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
 
-      return await metamaskExtensionPage.locator(metamask.homePage.selectors.accountMenu.accountButton).innerText()
+      await metamask.switchAccount(accountName)
+
+      await expect(metamaskExtensionPage.locator(metamask.homePage.selectors.accountMenu.accountButton)).toHaveText(
+        accountName
+      )
+
+      return true
+    },
+
+    async renameAccount({
+      currentAccountName,
+      newAccountName
+    }: {
+      currentAccountName: string
+      newAccountName: string
+    }) {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      await metamask.renameAccount(currentAccountName, newAccountName)
+
+      await metamaskExtensionPage.locator(Selectors.threeDotsMenu.accountDetailsCloseButton).click()
+
+      await expect(metamaskExtensionPage.locator(metamask.homePage.selectors.accountMenu.accountButton)).toHaveText(
+        newAccountName
+      )
+
+      return true
+    },
+
+    async switchNetwork({
+      networkName,
+      isTestnet
+    }: {
+      networkName: string
+      isTestnet?: boolean
+    }) {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      return await metamask
+        .switchNetwork(networkName, isTestnet)
+        .then(() => {
+          return true
+        })
+        .catch(() => {
+          return false
+        })
     }
   })
 
