@@ -22,6 +22,9 @@ declare global {
       renameAccount(currentAccountName: string, newAccountName: string): Chainable<void>
 
       switchNetwork(networkName: string, isTestnet?: boolean): Chainable<void>
+      providePublicEncryptionKey(): Chainable<void>
+      decrypt(): Chainable<void>
+      confirmSignature(): Chainable<void>
     }
   }
 }
@@ -37,6 +40,7 @@ export default function synpressCommands() {
   Cypress.Commands.add('connectToDapp', () => {
     return cy.task('connectToDapp')
   })
+
   Cypress.Commands.add('addNewAccount', (accountName: string) => {
     return cy.task('addNewAccount', accountName)
   })
@@ -46,7 +50,17 @@ export default function synpressCommands() {
   Cypress.Commands.add('renameAccount', (currentAccountName: string, newAccountName: string) => {
     return cy.task('renameAccount', { currentAccountName, newAccountName })
   })
+
   Cypress.Commands.add('switchNetwork', (networkName: string, isTestnet = false) => {
     return cy.task('switchNetwork', { networkName, isTestnet })
+  })
+  Cypress.Commands.add('providePublicEncryptionKey', () => {
+    return cy.task('providePublicEncryptionKey')
+  })
+  Cypress.Commands.add('decrypt', () => {
+    return cy.task('decrypt')
+  })
+  Cypress.Commands.add('confirmSignature', () => {
+    return cy.task('confirmSignature')
   })
 }
