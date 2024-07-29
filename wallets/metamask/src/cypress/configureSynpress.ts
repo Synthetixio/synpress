@@ -144,6 +144,45 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
         .catch(() => {
           return false
         })
+    },
+
+    async providePublicEncryptionKey() {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      return await metamask
+        .providePublicEncryptionKey()
+        .then(() => {
+          return true
+        })
+        .catch(() => {
+          return false
+        })
+    },
+
+    async decrypt() {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      return await metamask
+        .decrypt()
+        .then(() => {
+          return true
+        })
+        .catch(() => {
+          return false
+        })
+    },
+
+    async confirmSignature() {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      return await metamask
+        .confirmSignature()
+        .then(() => {
+          return true
+        })
+        .catch(() => {
+          return false
+        })
     }
   })
 
