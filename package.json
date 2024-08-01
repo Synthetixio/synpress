@@ -1,6 +1,6 @@
 {
   "name": "@phantom/synpress",
-  "version": "4.0.0-alpha.36",
+  "version": "4.0.0-alpha.38",
   "packageManager": "pnpm@9.1.3",
   "description": "Synpress is e2e testing framework based around Cypress.io & playwright with included MetaMask support. Test your dapps with ease.",
   "keywords": [
@@ -55,7 +55,7 @@
     "@cypress/webpack-dev-server": "^3.5.2",
     "@drptbl/gremlins.js": "^2.2.1",
     "@foundry-rs/easy-foundryup": "^0.1.3",
-    "@playwright/test": "^1.37.0",
+    "@playwright/test": "^1.45.2",
     "@testing-library/cypress": "^9.0.0",
     "@testing-library/react": "^14.0.0",
     "@types/testing-library__cypress": "^5.0.9",

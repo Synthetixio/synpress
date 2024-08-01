@@ -69,7 +69,19 @@ module.exports = {
     await module.exports.goTo(extensionAdvancedSettingsUrl);
   },
   goToExperimentalSettings: async () => {
-    await module.exports.goTo(extensionExperimentalSettingsUrl);
+    await switchToPhantomIfNotActive();
+    await playwright.waitAndClick(
+      PROVIDER,
+      mainPageElements.settingsMenu.settingsMenuButton,
+    );
+    await playwright.waitAndClick(
+      PROVIDER,
+      mainPageElements.settingsMenu.settingsSidebarButton,
+    );
+    await playwright.waitAndClick(
+      PROVIDER,
+      mainPageElements.settingsMenu.experimentalSettingsRow,
+    );
   },
   goToAddNetwork: async () => {
     await module.exports.goTo(extensionAddNetworkUrl);
@@ -142,7 +154,10 @@ module.exports = {
       firstTimeFlowImportPageElements.confirmWordsButton,
     );
 
-    await playwright.waitFor(PROVIDER, firstTimeFlowImportPageElements.confirmWordsButton); // wait for continue button to be there
+    await playwright.waitFor(
+      PROVIDER,
+      firstTimeFlowImportPageElements.confirmWordsButton,
+    ); // wait for continue button to be there
 
     // STEP: Wait for confirm input
     // shortcut confirmation
@@ -269,10 +284,10 @@ module.exports = {
 
     if (
       await playwright
-      .windows(PROVIDER)
-      .locator(firstTimeFlowPageElements.importWalletButton)
-      .isVisible()
-      ) {      
+        .windows(PROVIDER)
+        .locator(firstTimeFlowPageElements.importWalletButton)
+        .isVisible()
+    ) {
       /**
        * SEED PHRASE IMPORT
        */
@@ -401,26 +416,28 @@ module.exports = {
     );
     return true;
   },
-  unlock: async (password, close = false, page = playwright.windows(PROVIDER)) => {
-
-
+  unlock: async (
+    password,
+    close = false,
+    page = playwright.windows(PROVIDER),
+  ) => {
     await playwright.waitAndType(
       PROVIDER,
       unlockPageElements.passwordInput,
       password,
       page,
     );
-      
+
     await playwright.waitAndClick(
       PROVIDER,
       unlockPageElements.unlockButton,
       page,
     );
 
-    if(close) {
+    if (close) {
       await module.exports.closePopupAndTooltips();
     }
-    
+
     return true;
   },
   lock: async () => {
@@ -524,7 +541,7 @@ module.exports = {
 
     await playwright
       .windows(PROVIDER)
-      .waitForSelector( mainPageElements.settingsMenu.defaultAppWalletRow)
+      .waitForSelector(mainPageElements.settingsMenu.defaultAppWalletRow);
 
     // go back to main menu
     await backToMainFromSettings();
@@ -603,7 +620,7 @@ async function switchToCypressIfNotActive() {
   return switchBackToCypressWindow;
 }
 
-async function backToMainFromSettings() {
+export async function backToMainFromSettings() {
   // click back
   await playwright.waitAndClick(
     PROVIDER,

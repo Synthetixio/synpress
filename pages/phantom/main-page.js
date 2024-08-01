@@ -60,7 +60,8 @@ const actionableMessage = {
 };
 
 const accountMenu = {
-  accountButton: number => `[data-testid="account-menu"] [data-testid="tooltip_interactive-wrapper"]:nth-child(${number})`,
+  accountButton: number =>
+    `[data-testid="account-menu"] [data-testid="tooltip_interactive-wrapper"]:nth-child(${number})`,
 };
 
 const settingsMenu = {
@@ -68,6 +69,8 @@ const settingsMenu = {
   settingsSidebarButton: '[data-testid="sidebar_menu-button-settings"]',
   settingsSidebarCloseButton: '[data-testid="settings-menu-close-button"]',
   settingsPreferencesButton: '[data-testid="settings-item-preferences"]',
+  experimentalSettingsRow:
+    '[data-testid="settings-item-experimental-features"]',
   trustedAppsRow: '[data-testid="settings-item-trusted-apps"]',
   developerSettingsRow: '[data-testid="settings-item-developer-settings"]',
   defaultAppWalletRow: '[data-testid="settings-item-metamask-override"]',
