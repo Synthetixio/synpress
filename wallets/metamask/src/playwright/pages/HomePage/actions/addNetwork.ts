@@ -1,8 +1,8 @@
 import type { Page } from '@playwright/test'
 import Selectors from '../../../../selectors/pages/HomePage'
+import { type Network, NetworkValidation } from '../../../../type/Network'
 import { waitFor } from '../../../utils/waitFor'
 import { closeNetworkAddedPopover, closeNewNetworkInfoPopover } from './popups'
-import { type Network, NetworkValidation } from '../../../../type/Network'
 
 export async function addNetwork(page: Page, network: Network) {
   const { name, rpcUrl, chainId, symbol, blockExplorerUrl } = NetworkValidation.parse(network)

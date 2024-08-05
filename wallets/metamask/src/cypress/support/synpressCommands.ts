@@ -9,7 +9,7 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
-import type { CreateAnvilOptions, Anvil } from '@viem/anvil'
+import type { Anvil, CreateAnvilOptions } from '@viem/anvil'
 import type { Network } from '../../type/Network'
 
 declare global {
@@ -78,10 +78,16 @@ export default function synpressCommands() {
   })
   Cypress.Commands.add('connectToAnvil', () => {
     return cy.task('createAnvilNode').then((anvilNetwork) => {
+      const anvilNetworkDetails = anvilNetwork as {
+        anvil: Anvil
+        rpcUrl: string
+        chainId: number
+      }
+
       const network = {
         name: 'Anvil',
-        rpcUrl: anvilNetwork.rpcUrl,
-        chainId: anvilNetwork.chainId,
+        rpcUrl: anvilNetworkDetails.rpcUrl,
+        chainId: anvilNetworkDetails.chainId,
         symbol: 'ETH',
         blockExplorerUrl: 'https://etherscan.io/'
       }

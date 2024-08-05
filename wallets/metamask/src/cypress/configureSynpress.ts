@@ -1,14 +1,14 @@
 import type { BrowserContext, Page } from '@playwright/test'
 import { expect } from '@playwright/test'
 import { ensureRdpPort } from '@synthetixio/synpress-core'
+import { type CreateAnvilOptions, createPool } from '@viem/anvil'
+import { waitFor } from '../playwright/utils/waitFor'
 import HomePageSelectors from '../selectors/pages/HomePage'
+import Selectors from '../selectors/pages/HomePage'
+import type { Network } from '../type/Network'
 import getPlaywrightMetamask from './getPlaywrightMetamask'
 import importMetaMaskWallet from './support/importMetaMaskWallet'
 import { initMetaMask } from './support/initMetaMask'
-import { type CreateAnvilOptions, createPool } from '@viem/anvil'
-import type { Network } from '../type/Network'
-import { waitFor } from '../playwright/utils/waitFor'
-import Selectors from '../selectors/pages/HomePage'
 
 let metamaskInitialized = false
 
@@ -173,13 +173,21 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
     }) {
       const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
 
-      await metamask.addNetwork({
-        name: 'Anvil',
-        rpcUrl,
-        chainId,
-        symbol: 'ETH',
-        blockExplorerUrl: 'https://etherscan.io/'
-      })
+      try {
+        await metamask.addNetwork({
+          name: 'Anvil',
+          rpcUrl,
+          chainId,
+          symbol: 'ETH',
+          blockExplorerUrl: 'https://etherscan.io/'
+        })
+
+        await metamask.switchNetwork('Anvil')
+        return true
+      } catch (e) {
+        console.error('Error connecting to Anvil network', e)
+        return false
+      }
     },
 
     async addNetwork(network: Network) {

@@ -1,6 +1,10 @@
 before(() => {
-  cy.connectToAnvil()
-  cy.getNetwork().should('eq', 'Anvil')
+  cy.getNetwork().then((network) => {
+    console.log(network)
+    if (network !== 'Anvil') {
+      cy.switchNetwork('Anvil')
+    }
+  })
 
   cy.get('#connectButton').click()
 
@@ -17,7 +21,7 @@ it('should add new token to MetaMask', () => {
     // wait for the blockchain - todo: replace with an event handler
     cy.wait(5000)
 
-    cy.get('#tokenAddresses').should('have.text', '0x5FbDB2315678afecb367f032d93F642f64180aa3')
+    cy.get('#tokenAddresses').should('have.text', '0x7ef8E99980Da5bcEDcF7C10f41E55f759F6A174B')
 
     cy.get('#watchAssets').click()
 

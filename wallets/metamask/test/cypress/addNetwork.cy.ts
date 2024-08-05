@@ -1,27 +1,31 @@
-it("should add network and close network added popup", () => {
+it('should add network and close network added popup', () => {
   cy.createAnvilNode().then(({ rpcUrl, chainId }) => {
     const network = {
-      name: "Anvil",
+      name: 'Anvil',
       rpcUrl,
       chainId,
-      symbol: "ETH",
-      blockExplorerUrl: "https://etherscan.io/",
-    };
+      symbol: 'ETH',
+      blockExplorerUrl: 'https://etherscan.io/'
+    }
 
-    cy.addNetwork(network).then(() => cy.getNetwork().should("eq", "Anvil"));
-  });
-});
+    cy.addNetwork(network).then(() => cy.getNetwork().should('eq', 'Anvil'))
+  })
+})
 
-it("should add network without block explorer", () => {
+it('should add network without block explorer', () => {
   cy.createAnvilNode().then(({ rpcUrl, chainId }) => {
     const network = {
-      name: "Anvil2",
+      name: 'Anvil2',
       rpcUrl,
       chainId,
-      symbol: "ETH",
-      blockExplorerUrl: undefined,
-    };
+      symbol: 'ETH',
+      blockExplorerUrl: undefined
+    }
 
-    cy.addNetwork(network).then(() => cy.getNetwork().should("eq", "Anvil2"));
-  });
-});
+    cy.addNetwork(network).then(() => cy.getNetwork().should('eq', 'Anvil2'))
+  })
+})
+
+after(() => {
+  cy.switchNetwork('Anvil', true)
+})
