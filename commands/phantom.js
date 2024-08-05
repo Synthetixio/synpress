@@ -601,6 +601,7 @@ module.exports = {
 
     return isDisconnected;
   },
+  backToMainFromSettings: backToMainFromSettings,
 };
 
 async function switchToPhantomIfNotActive() {
