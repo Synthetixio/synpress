@@ -620,7 +620,7 @@ async function switchToCypressIfNotActive() {
   return switchBackToCypressWindow;
 }
 
-export async function backToMainFromSettings() {
+async function backToMainFromSettings() {
   // click back
   await playwright.waitAndClick(
     PROVIDER,
