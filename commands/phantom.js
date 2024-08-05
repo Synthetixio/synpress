@@ -601,6 +601,7 @@ module.exports = {
 
     return isDisconnected;
   },
+  backToMainFromSettings: backToMainFromSettings,
 };
 
 async function switchToPhantomIfNotActive() {
@@ -620,7 +621,7 @@ async function switchToCypressIfNotActive() {
   return switchBackToCypressWindow;
 }
 
-export async function backToMainFromSettings() {
+async function backToMainFromSettings() {
   // click back
   await playwright.waitAndClick(
     PROVIDER,
