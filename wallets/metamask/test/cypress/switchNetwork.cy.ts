@@ -1,3 +1,7 @@
+before(() => {
+  cy.switchNetwork('Ethereum Mainnet')
+})
+
 it('should switch network', () => {
   cy.getNetwork().should('eq', 'Ethereum Mainnet')
 

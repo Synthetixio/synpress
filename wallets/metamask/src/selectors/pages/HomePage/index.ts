@@ -54,7 +54,7 @@ const popover = {
 }
 
 const networkAddedPopover = {
-  switchToNetworkButton: '.home__new-network-added button.btn-primary',
+  switchToNetworkButton: '.home__new-network-added__switch-to-button',
   dismissButton: '.home__new-network-added button.btn-secondary'
 }
 

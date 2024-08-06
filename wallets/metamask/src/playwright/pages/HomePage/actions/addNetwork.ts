@@ -1,21 +1,11 @@
 import type { Page } from '@playwright/test'
-import { z } from 'zod'
 import Selectors from '../../../../selectors/pages/HomePage'
+import { type Network, NetworkValidation } from '../../../../type/Network'
 import { waitFor } from '../../../utils/waitFor'
 import { closeNetworkAddedPopover, closeNewNetworkInfoPopover } from './popups'
 
-const Network = z.object({
-  name: z.string(),
-  rpcUrl: z.string(),
-  chainId: z.number(),
-  symbol: z.string(),
-  blockExplorerUrl: z.string().optional()
-})
-
-export type Network = z.infer<typeof Network>
-
 export async function addNetwork(page: Page, network: Network) {
-  const { name, rpcUrl, chainId, symbol, blockExplorerUrl } = Network.parse(network)
+  const { name, rpcUrl, chainId, symbol, blockExplorerUrl } = NetworkValidation.parse(network)
 
   await page.locator(Selectors.networkDropdown.dropdownButton).click()
   await page.locator(Selectors.networkDropdown.addNetworkButton).click()

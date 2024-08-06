@@ -1,6 +1,6 @@
-import type { Network } from '../playwright/pages/HomePage/actions'
 import type { GasSetting } from '../playwright/pages/NotificationPage/actions'
 import { SettingsSidebarMenus } from '../selectors/pages/HomePage/settings'
+import type { Network } from './Network'
 
 export abstract class MetaMaskAbstract {
   /**

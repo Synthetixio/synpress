@@ -1,7 +1,11 @@
 import type { BrowserContext, Page } from '@playwright/test'
 import { expect } from '@playwright/test'
 import { ensureRdpPort } from '@synthetixio/synpress-core'
+import { type CreateAnvilOptions, createPool } from '@viem/anvil'
+import { waitFor } from '../playwright/utils/waitFor'
+import HomePageSelectors from '../selectors/pages/HomePage'
 import Selectors from '../selectors/pages/HomePage'
+import type { Network } from '../type/Network'
 import getPlaywrightMetamask from './getPlaywrightMetamask'
 import importMetaMaskWallet from './support/importMetaMaskWallet'
 import { initMetaMask } from './support/initMetaMask'
@@ -118,7 +122,7 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
 
       await metamask.renameAccount(currentAccountName, newAccountName)
 
-      await metamaskExtensionPage.locator(Selectors.threeDotsMenu.accountDetailsCloseButton).click()
+      await metamaskExtensionPage.locator(HomePageSelectors.threeDotsMenu.accountDetailsCloseButton).click()
 
       await expect(metamaskExtensionPage.locator(metamask.homePage.selectors.accountMenu.accountButton)).toHaveText(
         newAccountName
@@ -145,6 +149,84 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
           return false
         })
     },
+
+    async createAnvilNode(options?: CreateAnvilOptions) {
+      const pool = createPool()
+
+      const nodeId = Array.from(pool.instances()).length
+      const anvil = await pool.start(nodeId, options)
+
+      const rpcUrl = `http://${anvil.host}:${anvil.port}`
+
+      const DEFAULT_ANVIL_CHAIN_ID = 31337
+      const chainId = options?.chainId ?? DEFAULT_ANVIL_CHAIN_ID
+
+      return { anvil, rpcUrl, chainId }
+    },
+
+    async connectToAnvil({
+      rpcUrl,
+      chainId
+    }: {
+      rpcUrl: string
+      chainId: number
+    }) {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      try {
+        await metamask.addNetwork({
+          name: 'Anvil',
+          rpcUrl,
+          chainId,
+          symbol: 'ETH',
+          blockExplorerUrl: 'https://etherscan.io/'
+        })
+
+        await metamask.switchNetwork('Anvil')
+        return true
+      } catch (e) {
+        console.error('Error connecting to Anvil network', e)
+        return false
+      }
+    },
+
+    async addNetwork(network: Network) {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      await metamask.addNetwork(network)
+
+      await waitFor(
+        () => metamaskExtensionPage.locator(HomePageSelectors.networkAddedPopover.switchToNetworkButton).isVisible(),
+        3_000,
+        false
+      )
+
+      await metamaskExtensionPage.locator(HomePageSelectors.networkAddedPopover.switchToNetworkButton).click()
+
+      return true
+    },
+
+    // Token
+
+    async deployToken() {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      await metamask.confirmTransaction()
+
+      return true
+    },
+
+    async addNewToken() {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      await metamask.addNewToken()
+
+      await expect(metamaskExtensionPage.locator(Selectors.portfolio.singleToken).nth(1)).toContainText('TST')
+
+      return true
+    },
+
+    // Others
 
     async providePublicEncryptionKey() {
       const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
@@ -177,6 +259,19 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
 
       return await metamask
         .confirmSignature()
+        .then(() => {
+          return true
+        })
+        .catch(() => {
+          return false
+        })
+    },
+
+    async confirmTransaction() {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      return await metamask
+        .confirmTransaction()
         .then(() => {
           return true
         })
