@@ -1,8 +1,8 @@
 import type { BrowserContext, Page } from '@playwright/test'
 import { SettingsSidebarMenus } from '../selectors/pages/HomePage/settings'
 import { MetaMaskAbstract } from '../type/MetaMaskAbstract'
+import type { Network } from '../type/Network'
 import { CrashPage, HomePage, LockPage, NotificationPage, OnboardingPage } from './pages'
-import type { Network } from './pages/HomePage/actions'
 import type { GasSetting } from './pages/NotificationPage/actions'
 import { SettingsPage } from './pages/SettingsPage/page'
 
