@@ -61,7 +61,7 @@ jobs:
           COMMIT_INFO_SHA: ${{ github.event.pull_request.head.sha }}
 
       - name: Archive e2e artifacts (${{ matrix.resolution }} res)
-        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # pin@v2
+        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # pin@v2
         if: always()
         with:
           name: e2e-artifacts-${{ matrix.resolution }}-res
