@@ -40,6 +40,7 @@ declare global {
       decrypt(): Chainable<void>
       confirmSignature(): Chainable<void>
       confirmTransaction(): Chainable<void>
+      confirmTransactionAndWaitForMining(): Chainable<void>
     }
   }
 }
@@ -121,5 +122,8 @@ export default function synpressCommands() {
   })
   Cypress.Commands.add('confirmTransaction', () => {
     return cy.task('confirmTransaction')
+  })
+  Cypress.Commands.add('confirmTransactionAndWaitForMining', () => {
+    return cy.task('confirmTransactionAndWaitForMining')
   })
 }

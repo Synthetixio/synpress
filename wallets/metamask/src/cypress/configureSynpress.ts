@@ -278,6 +278,19 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
         .catch(() => {
           return false
         })
+    },
+
+    async confirmTransactionAndWaitForMining() {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      return metamask
+        .confirmTransactionAndWaitForMining()
+        .then(() => {
+          return true
+        })
+        .catch(() => {
+          return false
+        })
     }
   })
 
