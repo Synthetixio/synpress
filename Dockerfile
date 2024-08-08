@@ -13,6 +13,9 @@ COPY pnpm-lock.yaml ./
 
 FROM base as test
 
+RUN npm install -g pnpm
+RUN pnpm i
+
 RUN pnpm install --frozen-lockfile --prefer-offline
 
 COPY . .
