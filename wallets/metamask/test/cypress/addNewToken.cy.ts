@@ -1,6 +1,5 @@
 before(() => {
   cy.getNetwork().then((network) => {
-    console.log(network)
     if (network !== 'Anvil') {
       cy.switchNetwork('Anvil')
     }
