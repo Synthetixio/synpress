@@ -1,7 +1,7 @@
 import type { BrowserContext, Page } from '@playwright/test'
 import { expect } from '@playwright/test'
 import { ensureRdpPort } from '@synthetixio/synpress-core'
-import { type CreateAnvilOptions, createPool } from '@viem/anvil'
+import { type CreateAnvilOptions, type Pool, createPool } from '@viem/anvil'
 import { waitFor } from '../playwright/utils/waitFor'
 import HomePageSelectors from '../selectors/pages/HomePage'
 import Selectors from '../selectors/pages/HomePage'
@@ -18,6 +18,8 @@ let context: BrowserContext
 let metamaskExtensionId: string
 
 let metamaskExtensionPage: Page
+
+let pool: Pool
 
 // TODO: Implement if needed to change the focus between pages
 // let cypressPage: Page
@@ -151,7 +153,7 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
     },
 
     async createAnvilNode(options?: CreateAnvilOptions) {
-      const pool = createPool()
+      pool = createPool()
 
       const nodeId = Array.from(pool.instances()).length
       const anvil = await pool.start(nodeId, options)
@@ -162,6 +164,11 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
       const chainId = options?.chainId ?? DEFAULT_ANVIL_CHAIN_ID
 
       return { anvil, rpcUrl, chainId }
+    },
+
+    async emptyAnvilNode() {
+      await pool.empty()
+      return true
     },
 
     async connectToAnvil({
@@ -222,6 +229,22 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
       await metamask.addNewToken()
 
       await expect(metamaskExtensionPage.locator(Selectors.portfolio.singleToken).nth(1)).toContainText('TST')
+
+      return true
+    },
+
+    async approveNewNetwork() {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      await metamask.approveNewNetwork()
+
+      return true
+    },
+
+    async approveSwitchNetwork() {
+      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+
+      await metamask.approveSwitchNetwork()
 
       return true
     },
