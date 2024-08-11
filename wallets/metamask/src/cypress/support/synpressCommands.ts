@@ -31,7 +31,10 @@ declare global {
         chainId: number
       }>
       connectToAnvil(): Chainable<void>
+      emptyAnvilNode(): Chainable<void>
       addNetwork(network: Network): Chainable<void>
+      approveNewNetwork(): Chainable<void>
+      approveSwitchNetwork(): Chainable<void>
 
       deployToken(): Chainable<void>
       addNewToken(): Chainable<void>
@@ -96,8 +99,17 @@ export default function synpressCommands() {
       return cy.task('addNetwork', network)
     })
   })
+  Cypress.Commands.add('emptyAnvilNode', () => {
+    return cy.task('emptyAnvilNode')
+  })
   Cypress.Commands.add('addNetwork', (network: Network) => {
     return cy.task('addNetwork', network)
+  })
+  Cypress.Commands.add('approveNewNetwork', () => {
+    return cy.task('approveNewNetwork')
+  })
+  Cypress.Commands.add('approveSwitchNetwork', () => {
+    return cy.task('approveSwitchNetwork')
   })
 
   // Token
