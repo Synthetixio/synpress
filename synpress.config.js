@@ -13,7 +13,6 @@ const supportFile = 'tests/e2e/support.js';
 
 module.exports = defineConfig({
   projectId: '7ty6ft',
-  CYPRESS_RECORD_KEY:'9698e3b3-e3e9-4fc4-8954-678cb1f4cad1',
   userAgent: 'synpress',
   retries: {
     runMode: process.env.CI ? 1 : 0,
