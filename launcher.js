@@ -84,7 +84,7 @@ const launcher = {
     }
     if (arguments_.record) {
       log(`record arg enabled`);
-      defaultArguments.push('--record --key 9698e3b3-e3e9-4fc4-8954-678cb1f4cad1');
+      defaultArguments.push('--record');
     }
     if (arguments_.key) {
       log(`Custom key arg detected: ${arguments_.key}`);
