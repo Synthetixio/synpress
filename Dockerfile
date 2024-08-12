@@ -7,7 +7,7 @@ WORKDIR /app
 
 RUN apt update && apt install -y nginx
 
-COPY nginx.conf /etc/nginx/sites-available/default
+#COPY nginx.conf /etc/nginx/sites-available/default
 
 COPY package.json ./
 COPY pnpm-lock.yaml ./
