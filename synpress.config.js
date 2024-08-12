@@ -12,6 +12,7 @@ log(`Detected synpress fixtures path is: ${fixturesFolder}`);
 const supportFile = 'tests/e2e/support.js';
 
 module.exports = defineConfig({
+  projectId: 'b9je7z',
   userAgent: 'synpress',
   retries: {
     runMode: process.env.CI ? 1 : 0,
