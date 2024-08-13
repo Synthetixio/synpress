@@ -1,0 +1,101 @@
+[
+    {
+        "id": null,
+        "actionTimestamp": null,
+        "actionBy": null,
+        "error": null,
+        "identifier": "CUST1",
+        "type": "CUSTODIAN",
+        "eventId": null
+    },
+    {
+        "id": null,
+        "actionTimestamp": null,
+        "actionBy": null,
+        "error": null,
+        "identifier": "CUST2",
+        "type": "CUSTODIAN",
+        "eventId": null
+    },
+    {
+        "id": null,
+        "actionTimestamp": null,
+        "actionBy": null,
+        "error": null,
+        "identifier": "TM1",
+        "type": "TRADER",
+        "eventId": null
+    },
+    {
+        "id": null,
+        "actionTimestamp": null,
+        "actionBy": null,
+        "error": null,
+        "identifier": "TM3",
+        "type": "TRADER",
+        "eventId": null
+    },
+    {
+        "id": null,
+        "actionTimestamp": null,
+        "actionBy": null,
+        "error": null,
+        "identifier": "FEES",
+        "type": "TRADER",
+        "eventId": null
+    },
+    {
+        "id": null,
+        "actionTimestamp": null,
+        "actionBy": null,
+        "error": null,
+        "identifier": "TM5",
+        "type": "TRADER",
+        "eventId": null
+    },
+    {
+        "id": null,
+        "actionTimestamp": null,
+        "actionBy": null,
+        "error": null,
+        "identifier": "TM6",
+        "type": "TRADER",
+        "eventId": null
+    },
+    {
+        "id": null,
+        "actionTimestamp": null,
+        "actionBy": null,
+        "error": null,
+        "identifier": "TM7",
+        "type": "TRADER",
+        "eventId": null
+    },
+    {
+        "id": null,
+        "actionTimestamp": null,
+        "actionBy": null,
+        "error": null,
+        "identifier": "TRADER_BLOCKFILLS",
+        "type": "TRADER",
+        "eventId": null
+    },
+    {
+        "id": null,
+        "actionTimestamp": null,
+        "actionBy": null,
+        "error": null,
+        "identifier": "TRADER_GCEX",
+        "type": "TRADER",
+        "eventId": null
+    },
+    {
+        "id": null,
+        "actionTimestamp": null,
+        "actionBy": null,
+        "error": null,
+        "identifier": "TRADER_OKCOIN",
+        "type": "TRADER",
+        "eventId": null
+    }
+]
