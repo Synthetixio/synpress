@@ -44,6 +44,8 @@ declare global {
       confirmSignature(): Chainable<void>
       confirmTransaction(): Chainable<void>
       confirmTransactionAndWaitForMining(): Chainable<void>
+      openTransactionDetails(txIndex: number): Chainable<void>
+      closeTransactionDetails(): Chainable<void>
     }
   }
 }
@@ -137,5 +139,11 @@ export default function synpressCommands() {
   })
   Cypress.Commands.add('confirmTransactionAndWaitForMining', () => {
     return cy.task('confirmTransactionAndWaitForMining')
+  })
+  Cypress.Commands.add('openTransactionDetails', (txIndex = 0) => {
+    return cy.task('openTransactionDetails', txIndex)
+  })
+  Cypress.Commands.add('closeTransactionDetails', () => {
+    return cy.task('closeTransactionDetails')
   })
 }

@@ -14,3 +14,7 @@ it('should add a new network', () => {
     })
   })
 })
+
+after(() => {
+  cy.switchNetwork('Ethereum Mainnet')
+})

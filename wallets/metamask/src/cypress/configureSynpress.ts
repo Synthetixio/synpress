@@ -1,16 +1,12 @@
 import type { BrowserContext, Page } from '@playwright/test'
-import { expect } from '@playwright/test'
 import { ensureRdpPort } from '@synthetixio/synpress-core'
-import { type CreateAnvilOptions, type Pool, createPool } from '@viem/anvil'
-import { waitFor } from '../playwright/utils/waitFor'
-import HomePageSelectors from '../selectors/pages/HomePage'
-import Selectors from '../selectors/pages/HomePage'
+import type { CreateAnvilOptions } from '@viem/anvil'
 import type { Network } from '../type/Network'
-import getPlaywrightMetamask from './getPlaywrightMetamask'
+import MetaMask from './MetaMask'
 import importMetaMaskWallet from './support/importMetaMaskWallet'
 import { initMetaMask } from './support/initMetaMask'
 
-let metamaskInitialized = false
+let metamask: MetaMask
 
 let rdpPort: number
 
@@ -18,8 +14,6 @@ let context: BrowserContext
 let metamaskExtensionId: string
 
 let metamaskExtensionPage: Page
-
-let pool: Pool
 
 // TODO: Implement if needed to change the focus between pages
 // let cypressPage: Page
@@ -46,7 +40,7 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
   })
 
   on('before:spec', async () => {
-    if (!metamaskInitialized) {
+    if (!metamask) {
       const {
         context: _context,
         metamaskExtensionId: _metamaskExtensionId,
@@ -62,259 +56,61 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
       // if (_cypressPage) {
       //   cypressPage = _cypressPage
       // }
-      metamaskInitialized = true
+      metamask = new MetaMask(context, metamaskExtensionPage, metamaskExtensionId)
     }
   })
 
   on('task', {
     // Synpress API
-    async getAccount() {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
 
-      return await metamaskExtensionPage.locator(metamask.homePage.selectors.accountMenu.accountButton).innerText()
-    },
-
-    async getNetwork() {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
-
-      return await metamaskExtensionPage.locator(metamask.homePage.selectors.currentNetwork).innerText()
-    },
-
-    async connectToDapp(accounts?: string[]) {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
-
-      return metamask
-        .connectToDapp(accounts)
-        .then(() => true)
-        .catch(() => false)
-    },
-
-    async addNewAccount(accountName: string) {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
-
-      await metamask.addNewAccount(accountName)
-
-      await expect(metamaskExtensionPage.locator(metamask.homePage.selectors.accountMenu.accountButton)).toHaveText(
-        accountName
-      )
-
-      return true
-    },
-
-    async switchAccount(accountName: string) {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
-
-      await metamask.switchAccount(accountName)
-
-      await expect(metamaskExtensionPage.locator(metamask.homePage.selectors.accountMenu.accountButton)).toHaveText(
-        accountName
-      )
-
-      return true
-    },
-
-    async renameAccount({
+    // Account
+    connectToDapp: () => metamask?.connectToDapp(),
+    getAccount: () => metamask?.getAccount(),
+    addNewAccount: (accountName: string) => metamask?.addNewAccount(accountName),
+    switchAccount: (accountName: string) => metamask?.switchAccount(accountName),
+    renameAccount: ({
       currentAccountName,
       newAccountName
     }: {
       currentAccountName: string
       newAccountName: string
-    }) {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+    }) => metamask?.renameAccount({ currentAccountName, newAccountName }),
 
-      await metamask.renameAccount(currentAccountName, newAccountName)
-
-      await metamaskExtensionPage.locator(HomePageSelectors.threeDotsMenu.accountDetailsCloseButton).click()
-
-      await expect(metamaskExtensionPage.locator(metamask.homePage.selectors.accountMenu.accountButton)).toHaveText(
-        newAccountName
-      )
-
-      return true
-    },
-
-    async switchNetwork({
+    // Network
+    getNetwork: () => metamask?.getNetwork(),
+    switchNetwork: ({
       networkName,
       isTestnet
     }: {
       networkName: string
       isTestnet?: boolean
-    }) {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+    }) =>
+      metamask?.switchNetwork({
+        networkName,
+        isTestnet
+      }),
+    addNetwork: (network: Network) => metamask?.addNetwork(network),
+    approveNewNetwork: () => metamask?.approveNewNetwork(),
+    approveSwitchNetwork: () => metamask?.approveSwitchNetwork(),
 
-      return await metamask
-        .switchNetwork(networkName, isTestnet)
-        .then(() => {
-          return true
-        })
-        .catch(() => {
-          return false
-        })
-    },
-
-    async createAnvilNode(options?: CreateAnvilOptions) {
-      pool = createPool()
-
-      const nodeId = Array.from(pool.instances()).length
-      const anvil = await pool.start(nodeId, options)
-
-      const rpcUrl = `http://${anvil.host}:${anvil.port}`
-
-      const DEFAULT_ANVIL_CHAIN_ID = 31337
-      const chainId = options?.chainId ?? DEFAULT_ANVIL_CHAIN_ID
-
-      return { anvil, rpcUrl, chainId }
-    },
-
-    async emptyAnvilNode() {
-      await pool.empty()
-      return true
-    },
-
-    async connectToAnvil({
-      rpcUrl,
-      chainId
-    }: {
-      rpcUrl: string
-      chainId: number
-    }) {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
-
-      try {
-        await metamask.addNetwork({
-          name: 'Anvil',
-          rpcUrl,
-          chainId,
-          symbol: 'ETH',
-          blockExplorerUrl: 'https://etherscan.io/'
-        })
-
-        await metamask.switchNetwork('Anvil')
-        return true
-      } catch (e) {
-        console.error('Error connecting to Anvil network', e)
-        return false
-      }
-    },
-
-    async addNetwork(network: Network) {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
-
-      await metamask.addNetwork(network)
-
-      await waitFor(
-        () => metamaskExtensionPage.locator(HomePageSelectors.networkAddedPopover.switchToNetworkButton).isVisible(),
-        3_000,
-        false
-      )
-
-      await metamaskExtensionPage.locator(HomePageSelectors.networkAddedPopover.switchToNetworkButton).click()
-
-      return true
-    },
+    // Anvil
+    createAnvilNode: (options?: CreateAnvilOptions) => metamask?.createAnvilNode(options),
+    emptyAnvilNode: () => metamask?.emptyAnvilNode(),
 
     // Token
+    deployToken: () => metamask?.deployToken(),
+    addNewToken: () => metamask?.addNewToken(),
 
-    async deployToken() {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
+    // Encryption
+    providePublicEncryptionKey: () => metamask?.providePublicEncryptionKey(),
+    decrypt: () => metamask?.decrypt(),
 
-      await metamask.confirmTransaction()
-
-      return true
-    },
-
-    async addNewToken() {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
-
-      await metamask.addNewToken()
-
-      await expect(metamaskExtensionPage.locator(Selectors.portfolio.singleToken).nth(1)).toContainText('TST')
-
-      return true
-    },
-
-    async approveNewNetwork() {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
-
-      await metamask.approveNewNetwork()
-
-      return true
-    },
-
-    async approveSwitchNetwork() {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
-
-      await metamask.approveSwitchNetwork()
-
-      return true
-    },
-
-    // Others
-
-    async providePublicEncryptionKey() {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
-
-      return await metamask
-        .providePublicEncryptionKey()
-        .then(() => {
-          return true
-        })
-        .catch(() => {
-          return false
-        })
-    },
-
-    async decrypt() {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
-
-      return await metamask
-        .decrypt()
-        .then(() => {
-          return true
-        })
-        .catch(() => {
-          return false
-        })
-    },
-
-    async confirmSignature() {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
-
-      return await metamask
-        .confirmSignature()
-        .then(() => {
-          return true
-        })
-        .catch(() => {
-          return false
-        })
-    },
-
-    async confirmTransaction() {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
-
-      return await metamask
-        .confirmTransaction()
-        .then(() => {
-          return true
-        })
-        .catch(() => {
-          return false
-        })
-    },
-
-    async confirmTransactionAndWaitForMining() {
-      const metamask = getPlaywrightMetamask(context, metamaskExtensionPage, metamaskExtensionId)
-
-      return metamask
-        .confirmTransactionAndWaitForMining()
-        .then(() => {
-          return true
-        })
-        .catch(() => {
-          return false
-        })
-    }
+    // Transactions
+    confirmSignature: () => metamask?.confirmSignature(),
+    confirmTransaction: () => metamask?.confirmTransaction(),
+    confirmTransactionAndWaitForMining: () => metamask?.confirmTransactionAndWaitForMining(),
+    openTransactionDetails: (txIndex: number) => metamask?.openTransactionDetails(txIndex),
+    closeTransactionDetails: () => metamask?.closeTransactionDetails()
   })
 
   return {
