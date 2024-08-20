@@ -77,7 +77,7 @@ export default class MetaMask {
 
   async switchNetwork({
     networkName,
-    isTestnet
+    isTestnet = false
   }: {
     networkName: string
     isTestnet?: boolean

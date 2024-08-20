@@ -80,7 +80,7 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
     getNetwork: () => metamask?.getNetwork(),
     switchNetwork: ({
       networkName,
-      isTestnet
+      isTestnet = false
     }: {
       networkName: string
       isTestnet?: boolean
