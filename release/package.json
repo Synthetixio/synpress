@@ -11,10 +11,6 @@
       "types": "./types/cypress/index.d.ts",
       "default": "./dist/cypress/index.js"
     },
-    "./cypress/support": {
-      "types": "./types/cypress/support.d.ts",
-      "default": "./dist/cypress/support.js"
-    },
     "./playwright": {
       "types": "./types/playwright/index.d.ts",
       "default": "./dist/playwright/index.js"
@@ -38,10 +34,10 @@
     "types:check": "tsc --noEmit"
   },
   "dependencies": {
-    "@synthetixio/ethereum-wallet-mock": "0.0.1-alpha.9",
+    "@synthetixio/ethereum-wallet-mock": "workspace:*",
     "@synthetixio/synpress-cache": "0.0.1-alpha.9",
     "@synthetixio/synpress-core": "0.0.1-alpha.9",
-    "@synthetixio/synpress-metamask": "0.0.1-alpha.9"
+    "@synthetixio/synpress-metamask": "workspace:*"
   },
   "devDependencies": {
     "@synthetixio/synpress-tsconfig": "0.0.1-alpha.9",
