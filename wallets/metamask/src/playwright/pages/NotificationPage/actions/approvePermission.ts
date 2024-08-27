@@ -13,7 +13,7 @@ const editTokenPermission = async (notificationPage: Page, customSpendLimit: 'ma
     .fill(customSpendLimit.toString())
 }
 
-const approveTokenPermission = async (notificationPage: Page, gasSetting: GasSetting) => {
+const approveTokenPermission = async (notificationPage: Page, gasSetting: GasSettings) => {
   // Click the "Next" button.
   await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
 

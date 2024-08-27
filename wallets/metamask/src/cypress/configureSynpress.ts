@@ -1,6 +1,7 @@
 import type { BrowserContext, Page } from '@playwright/test'
 import { ensureRdpPort } from '@synthetixio/synpress-core'
 import type { CreateAnvilOptions } from '@viem/anvil'
+import type { GasSettings } from '../type/GasSettings'
 import type { Network } from '../type/Network'
 import MetaMask from './MetaMask'
 import importMetaMaskWallet from './support/importMetaMaskWallet'
@@ -100,6 +101,10 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
     // Token
     deployToken: () => metamask?.deployToken(),
     addNewToken: () => metamask?.addNewToken(),
+    approveTokenPermission: (options?: {
+      spendLimit?: number | 'max'
+      gasSetting?: GasSettings
+    }) => metamask?.approveTokenPermission(options),
 
     // Encryption
     providePublicEncryptionKey: () => metamask?.providePublicEncryptionKey(),

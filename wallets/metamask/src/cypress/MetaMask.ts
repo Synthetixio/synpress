@@ -4,6 +4,8 @@ import { MetaMask as MetaMaskPlaywright } from '../playwright/MetaMask'
 import { waitFor } from '../playwright/utils/waitFor'
 import HomePageSelectors from '../selectors/pages/HomePage'
 import Selectors from '../selectors/pages/HomePage'
+import TransactionPage from '../selectors/pages/NotificationPage/transactionPage'
+import type { GasSettings } from '../type/GasSettings'
 import type { Network } from '../type/Network'
 import getPlaywrightMetamask from './getPlaywrightMetamask'
 
@@ -152,6 +154,13 @@ export default class MetaMask {
   // Token
 
   async deployToken() {
+    await waitFor(
+      () =>
+        this.metamaskExtensionPage.locator(TransactionPage.nftApproveAllConfirmationPopup.approveButton).isVisible(),
+      3_000,
+      false
+    )
+
     await this.metamaskPlaywright.confirmTransaction()
 
     return true
@@ -164,6 +173,22 @@ export default class MetaMask {
 
     return true
   }
+
+  async approveTokenPermission(options?: {
+    spendLimit?: number | 'max'
+    gasSetting?: GasSettings
+  }) {
+    return await this.metamaskPlaywright
+      .approveTokenPermission(options)
+      .then(() => {
+        return true
+      })
+      .catch(() => {
+        return false
+      })
+  }
+
+  // Network
 
   async approveNewNetwork() {
     await this.metamaskPlaywright.approveNewNetwork()

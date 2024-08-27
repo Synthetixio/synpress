@@ -1,36 +1,11 @@
 import type { Page } from '@playwright/test'
-import { z } from 'zod'
 import HomePageSelectors from '../../../../selectors/pages/HomePage'
 import Selectors from '../../../../selectors/pages/NotificationPage'
+import { GasSettingValidation, type GasSettings } from '../../../../type/GasSettings'
 import { waitFor } from '../../../utils/waitFor'
 
-const GasSetting = z.union([
-  z.literal('low'),
-  z.literal('market'),
-  z.literal('aggressive'),
-  z.literal('site'),
-  z
-    .object({
-      maxBaseFee: z.number(),
-      priorityFee: z.number(),
-      // TODO: Add gasLimit range validation.
-      gasLimit: z.number().optional()
-    })
-    .superRefine(({ maxBaseFee, priorityFee }, ctx) => {
-      if (priorityFee > maxBaseFee) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Max base fee cannot be lower than priority fee',
-          path: ['MetaMask', 'confirmTransaction', 'gasSetting', 'maxBaseFee']
-        })
-      }
-    })
-])
-
-export type GasSetting = z.input<typeof GasSetting>
-
-const confirmTransaction = async (notificationPage: Page, options: GasSetting) => {
-  const gasSetting = GasSetting.parse(options)
+const confirmTransaction = async (notificationPage: Page, options: GasSettings) => {
+  const gasSetting = GasSettingValidation.parse(options)
 
   const handleNftSetApprovalForAll = async (page: Page) => {
     try {
@@ -144,7 +119,7 @@ const confirmTransaction = async (notificationPage: Page, options: GasSetting) =
   await handleNftSetApprovalForAll(notificationPage)
 }
 
-const confirmTransactionAndWaitForMining = async (walletPage: Page, notificationPage: Page, options: GasSetting) => {
+const confirmTransactionAndWaitForMining = async (walletPage: Page, notificationPage: Page, options: GasSettings) => {
   await walletPage.locator(HomePageSelectors.activityTab.activityTabButton).click()
 
   const waitForUnapprovedTxs = async () => {

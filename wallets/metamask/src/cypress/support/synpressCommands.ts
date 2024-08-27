@@ -10,6 +10,7 @@
 // ***********************************************
 
 import type { Anvil, CreateAnvilOptions } from '@viem/anvil'
+import type { GasSettings } from '../../type/GasSettings'
 import type { Network } from '../../type/Network'
 
 declare global {
@@ -38,6 +39,10 @@ declare global {
 
       deployToken(): Chainable<void>
       addNewToken(): Chainable<void>
+      approveTokenPermission(options?: {
+        spendLimit?: number | 'max'
+        gasSetting?: GasSettings
+      }): Chainable<void>
 
       providePublicEncryptionKey(): Chainable<void>
       decrypt(): Chainable<void>
@@ -122,6 +127,15 @@ export default function synpressCommands() {
   Cypress.Commands.add('addNewToken', () => {
     return cy.task('addNewToken')
   })
+  Cypress.Commands.add(
+    'approveTokenPermission',
+    (options?: {
+      spendLimit?: number | 'max'
+      gasSetting?: GasSettings
+    }) => {
+      return cy.task('approveTokenPermission', options)
+    }
+  )
 
   // Others
 

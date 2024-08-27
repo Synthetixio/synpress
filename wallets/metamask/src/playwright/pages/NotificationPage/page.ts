@@ -1,8 +1,8 @@
 import type { Page } from '@playwright/test'
 import Selectors from '../../../selectors/pages/NotificationPage'
+import type { GasSettings } from '../../../type/GasSettings'
 import { getNotificationPageAndWaitForLoad } from '../../utils/getNotificationPageAndWaitForLoad'
 import {
-  type GasSetting,
   approvePermission,
   connectToDapp,
   decryptMessage,
@@ -99,7 +99,7 @@ export class NotificationPage {
     await network.rejectSwitchNetwork(notificationPage)
   }
 
-  async confirmTransaction(extensionId: string, options?: { gasSetting?: GasSetting }) {
+  async confirmTransaction(extensionId: string, options?: { gasSetting?: GasSettings }) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
     await transaction.confirm(notificationPage, options?.gasSetting ?? 'site')
@@ -111,7 +111,7 @@ export class NotificationPage {
     await transaction.reject(notificationPage)
   }
 
-  async confirmTransactionAndWaitForMining(extensionId: string, options?: { gasSetting?: GasSetting }) {
+  async confirmTransactionAndWaitForMining(extensionId: string, options?: { gasSetting?: GasSettings }) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
     await transaction.confirmAndWaitForMining(this.page, notificationPage, options?.gasSetting ?? 'site')
@@ -119,7 +119,7 @@ export class NotificationPage {
 
   async approveTokenPermission(
     extensionId: string,
-    options?: { spendLimit?: 'max' | number; gasSetting?: GasSetting }
+    options?: { spendLimit?: 'max' | number; gasSetting?: GasSettings }
   ) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
