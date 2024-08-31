@@ -1,6 +1,6 @@
-import type { GasSetting } from '../playwright/pages/NotificationPage/actions'
 import { SettingsSidebarMenus } from '../selectors/pages/HomePage/settings'
 import type { Network } from './Network'
+import type { GasSettings } from './GasSettings';
 
 export abstract class MetaMaskAbstract {
   /**
@@ -132,7 +132,7 @@ export abstract class MetaMaskAbstract {
    * @param options - The transaction options.
    * @param options.gasSetting - The gas setting to use for the transaction.
    */
-  abstract confirmTransaction(options?: { gasSetting?: GasSetting }): void
+  abstract confirmTransaction(options?: { gasSetting?: GasSettings }): void
 
   /**
    * Rejects a transaction request.
@@ -152,7 +152,7 @@ export abstract class MetaMaskAbstract {
    */
   abstract approveTokenPermission(options?: {
     spendLimit?: 'max' | number
-    gasSetting?: GasSetting
+    gasSetting?: GasSettings
   }): void
 
   /**
@@ -239,7 +239,7 @@ export abstract class MetaMaskAbstract {
    * @group Experimental Methods
    */
   abstract confirmTransactionAndWaitForMining(options?: {
-    gasSetting?: GasSetting
+    gasSetting?: GasSettings
   }): void
 
   /**

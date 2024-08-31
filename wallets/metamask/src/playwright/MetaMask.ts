@@ -1,9 +1,9 @@
 import type { BrowserContext, Page } from '@playwright/test'
 import { SettingsSidebarMenus } from '../selectors/pages/HomePage/settings'
+import type { GasSettings } from '../type/GasSettings'
 import { MetaMaskAbstract } from '../type/MetaMaskAbstract'
 import type { Network } from '../type/Network'
 import { CrashPage, HomePage, LockPage, NotificationPage, OnboardingPage } from './pages'
-import type { GasSetting } from './pages/NotificationPage/actions'
 import { SettingsPage } from './pages/SettingsPage/page'
 
 const NO_EXTENSION_ID_ERROR = new Error('MetaMask extensionId is not set')
@@ -186,7 +186,7 @@ export class MetaMask extends MetaMaskAbstract {
     await this.notificationPage.rejectSwitchNetwork(this.extensionId)
   }
 
-  async confirmTransaction(options?: { gasSetting?: GasSetting }) {
+  async confirmTransaction(options?: { gasSetting?: GasSettings }) {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -204,7 +204,7 @@ export class MetaMask extends MetaMaskAbstract {
 
   async approveTokenPermission(options?: {
     spendLimit?: 'max' | number
-    gasSetting?: GasSetting
+    gasSetting?: GasSettings
   }) {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
@@ -280,7 +280,7 @@ export class MetaMask extends MetaMaskAbstract {
   }
 
   async confirmTransactionAndWaitForMining(options?: {
-    gasSetting?: GasSetting
+    gasSetting?: GasSettings
   }) {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR

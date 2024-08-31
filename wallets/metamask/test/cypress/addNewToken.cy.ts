@@ -13,9 +13,6 @@ before(() => {
 it('should add new token to MetaMask', () => {
   cy.get('#createToken').click()
 
-  // wait for the blockchain - todo: replace with an event handler
-  cy.wait(5000)
-
   cy.deployToken().then(() => {
     // wait for the blockchain - todo: replace with an event handler
     cy.wait(5000)

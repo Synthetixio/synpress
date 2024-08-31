@@ -1,6 +1,7 @@
 import type { Page } from '@playwright/test'
 import Selectors from '../../../../selectors/pages/NotificationPage'
-import { type GasSetting, transaction } from './transaction'
+import { transaction } from './transaction'
+import type { GasSettings } from '../../../../type/GasSettings'
 
 const editTokenPermission = async (notificationPage: Page, customSpendLimit: 'max' | number) => {
   if (customSpendLimit === 'max') {
@@ -13,7 +14,7 @@ const editTokenPermission = async (notificationPage: Page, customSpendLimit: 'ma
     .fill(customSpendLimit.toString())
 }
 
-const approveTokenPermission = async (notificationPage: Page, gasSetting: GasSetting) => {
+const approveTokenPermission = async (notificationPage: Page, gasSetting: GasSettings) => {
   // Click the "Next" button.
   await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
 
