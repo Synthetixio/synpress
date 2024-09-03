@@ -316,15 +316,12 @@ module.exports = {
           .click(mainPageElements.welcome.takeTheTourButtonNext, {
             timeout: 10_000,
           });
-        await playwright.windows(PROVIDER).pause();
         await playwright
           .windows(PROVIDER)
           .click(mainPageElements.welcome.takeTheTourButtonNext, {
             timeout: 10_000,
           });
       } catch {}
-
-      await playwright.windows(PROVIDER).pause();
 
       walletAddress = await module.exports.getWalletAddress();
       await playwright.switchToCypressWindow();
