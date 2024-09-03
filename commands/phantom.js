@@ -280,6 +280,7 @@ module.exports = {
       playwright.windows(PROVIDER),
       app.root,
     );
+
     await playwright.switchToWindow(PROVIDER);
 
     if (
@@ -303,24 +304,27 @@ module.exports = {
         await playwright
           .windows(PROVIDER)
           .click(mainPageElements.welcome.takeTheTourButton, {
-            timeout: 1_000,
+            timeout: 10_000,
           });
         await playwright
           .windows(PROVIDER)
           .click(mainPageElements.welcome.takeTheTourButtonNext, {
-            timeout: 1_000,
+            timeout: 10_000,
           });
         await playwright
           .windows(PROVIDER)
           .click(mainPageElements.welcome.takeTheTourButtonNext, {
-            timeout: 1_000,
+            timeout: 10_000,
           });
+        await playwright.windows(PROVIDER).pause();
         await playwright
           .windows(PROVIDER)
           .click(mainPageElements.welcome.takeTheTourButtonNext, {
-            timeout: 1_000,
+            timeout: 10_000,
           });
       } catch {}
+
+      await playwright.windows(PROVIDER).pause();
 
       walletAddress = await module.exports.getWalletAddress();
       await playwright.switchToCypressWindow();

@@ -87,7 +87,7 @@ const welcome = {
 };
 
 const accountBar = {
-  title: '[data-testid="tooltip_interactive-wrapper"]',
+  title: '[data-testid="home-header-account-name"]',
   ethRow: '[data-testid="account-header-chain-eip155:1"]',
   solanaRow: '[data-testid="account-header-chain-solana:101"]',
 };
