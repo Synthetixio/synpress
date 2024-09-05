@@ -189,6 +189,11 @@ module.exports = {
       firstTimeFlowImportPageElements.continueAfterPasswordButton,
     );
     await new Promise(resolve => setTimeout(resolve, 1000)); // the transitioning is too fast
+    // we need to first wait for the button otherwise it is pressed too fast.
+    await playwright.waitFor(
+      PROVIDER,
+      firstTimeFlowImportPageElements.getStartedButton,
+    );
     // finish
     await playwright.waitAndClick(
       PROVIDER,
@@ -321,7 +326,8 @@ module.exports = {
           .click(mainPageElements.welcome.takeTheTourButtonNext, {
             timeout: 10_000,
           });
-      } catch {}
+      } catch {
+      }
 
       walletAddress = await module.exports.getWalletAddress();
       await playwright.switchToCypressWindow();
@@ -498,7 +504,7 @@ module.exports = {
     if (!Object.keys(mainPageElements.defaultWallet).includes(wallet)) {
       throw new Error(
         'Wallet not supported, support ' +
-          Object.keys(mainPageElements.defaultWallet).join(', '),
+        Object.keys(mainPageElements.defaultWallet).join(', '),
       );
     }
 
