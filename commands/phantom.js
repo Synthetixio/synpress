@@ -193,7 +193,7 @@ module.exports = {
       firstTimeFlowImportPageElements.getStartedButton,
       'Get Started',
     );
-    await new Promise(resolve => setTimeout(resolve, 1000)); // This is so we are not clicking too fast
+    await new Promise(resolve => setTimeout(resolve, 2_000)); // This is so we are not clicking too fast
     // finish
     await playwright.waitAndClick(
       PROVIDER,
