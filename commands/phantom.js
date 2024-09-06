@@ -188,13 +188,12 @@ module.exports = {
       PROVIDER,
       firstTimeFlowImportPageElements.continueAfterPasswordButton,
     );
-    await new Promise(resolve => setTimeout(resolve, 1000)); // the transitioning is too fast
-    // we need to first wait for the button otherwise it is pressed too fast.
-    await playwright.waitFor(
+    await playwright.waitForText(
       PROVIDER,
       firstTimeFlowImportPageElements.getStartedButton,
+      'Get Started',
     );
-    await new Promise(resolve => setTimeout(resolve, 3_000)); // We need to wait for the button to settle, otherwise it might push the get started page again
+    await new Promise(resolve => setTimeout(resolve, 1000)); // This is so we are not clicking too fast
     // finish
     await playwright.waitAndClick(
       PROVIDER,
