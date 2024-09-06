@@ -194,7 +194,7 @@ module.exports = {
       PROVIDER,
       firstTimeFlowImportPageElements.getStartedButton,
     );
-    await new Promise(resolve => setTimeout(resolve, 1000)); // We need to wait for the button to settle, otherwise it might push the get started page again
+    await new Promise(resolve => setTimeout(resolve, 3_000)); // We need to wait for the button to settle, otherwise it might push the get started page again
     // finish
     await playwright.waitAndClick(
       PROVIDER,
