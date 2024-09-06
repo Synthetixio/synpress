@@ -1,6 +1,6 @@
 import { SettingsSidebarMenus } from '../selectors/pages/HomePage/settings'
+import type { GasSettings } from './GasSettings'
 import type { Network } from './Network'
-import type { GasSettings } from './GasSettings';
 
 export abstract class MetaMaskAbstract {
   /**

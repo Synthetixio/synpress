@@ -61,12 +61,12 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
     }
   })
 
+  // Synpress API
   on('task', {
-    // Synpress API
-
     // Account
     connectToDapp: () => metamask?.connectToDapp(),
     getAccount: () => metamask?.getAccount(),
+    getAccountAddress: () => metamask?.getAccountAddress(),
     addNewAccount: (accountName: string) => metamask?.addNewAccount(accountName),
     switchAccount: (accountName: string) => metamask?.switchAccount(accountName),
     renameAccount: ({
@@ -112,7 +112,7 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
 
     // Transactions
     confirmSignature: () => metamask?.confirmSignature(),
-    confirmTransaction: () => metamask?.confirmTransaction(),
+    confirmTransaction: (options?: { gasSetting?: GasSettings }) => metamask?.confirmTransaction(options),
     confirmTransactionAndWaitForMining: () => metamask?.confirmTransactionAndWaitForMining(),
     openTransactionDetails: (txIndex: number) => metamask?.openTransactionDetails(txIndex),
     closeTransactionDetails: () => metamask?.closeTransactionDetails()

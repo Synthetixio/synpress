@@ -26,6 +26,10 @@ export default class MetaMask {
       .innerText()
   }
 
+  async getAccountAddress() {
+    return await this.metamaskPlaywright.getAccountAddress()
+  }
+
   async getNetwork() {
     return await this.metamaskExtensionPage
       .locator(this.metamaskPlaywright.homePage.selectors.currentNetwork)
@@ -237,15 +241,17 @@ export default class MetaMask {
       })
   }
 
-  async confirmTransaction() {
-    return await this.metamaskPlaywright
-      .confirmTransaction()
-      .then(() => {
-        return true
-      })
-      .catch(() => {
-        return false
-      })
+  async confirmTransaction(options?: { gasSetting?: GasSettings }) {
+    await waitFor(
+      () =>
+        this.metamaskExtensionPage.locator(TransactionPage.nftApproveAllConfirmationPopup.approveButton).isVisible(),
+      5_000,
+      false
+    )
+
+    await this.metamaskPlaywright.confirmTransaction(options)
+
+    return true
   }
 
   async confirmTransactionAndWaitForMining() {

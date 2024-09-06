@@ -24,6 +24,7 @@ declare global {
       addNewAccount(accountName: string): Chainable<void>
       switchAccount(accountName: string): Chainable<void>
       renameAccount(currentAccountName: string, newAccountName: string): Chainable<void>
+      getAccountAddress(): Chainable<string>
 
       switchNetwork(networkName: string, isTestnet?: boolean): Chainable<void>
       createAnvilNode(options?: CreateAnvilOptions): Chainable<{
@@ -47,7 +48,7 @@ declare global {
       providePublicEncryptionKey(): Chainable<void>
       decrypt(): Chainable<void>
       confirmSignature(): Chainable<void>
-      confirmTransaction(): Chainable<void>
+      confirmTransaction(options?: { gasSetting?: GasSettings }): Chainable<void>
       confirmTransactionAndWaitForMining(): Chainable<void>
       openTransactionDetails(txIndex: number): Chainable<void>
       closeTransactionDetails(): Chainable<void>
@@ -77,6 +78,9 @@ export default function synpressCommands() {
   })
   Cypress.Commands.add('renameAccount', (currentAccountName: string, newAccountName: string) => {
     return cy.task('renameAccount', { currentAccountName, newAccountName })
+  })
+  Cypress.Commands.add('getAccountAddress', () => {
+    return cy.task('getAccountAddress')
   })
 
   // Network
@@ -148,8 +152,8 @@ export default function synpressCommands() {
   Cypress.Commands.add('confirmSignature', () => {
     return cy.task('confirmSignature')
   })
-  Cypress.Commands.add('confirmTransaction', () => {
-    return cy.task('confirmTransaction')
+  Cypress.Commands.add('confirmTransaction', (options?: { gasSetting?: GasSettings }) => {
+    return cy.task('confirmTransaction', options)
   })
   Cypress.Commands.add('confirmTransactionAndWaitForMining', () => {
     return cy.task('confirmTransactionAndWaitForMining')

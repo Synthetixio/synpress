@@ -2,6 +2,7 @@
 
 # VS Code
 .vscode
+.history
 
 # JetBrains
 .idea
