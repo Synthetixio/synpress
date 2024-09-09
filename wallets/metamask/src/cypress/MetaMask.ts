@@ -192,6 +192,12 @@ export default class MetaMask {
       })
   }
 
+  async rejectTokenPermission() {
+    await this.metamaskPlaywright.rejectTokenPermission()
+
+    return true
+  }
+
   // Network
 
   async approveNewNetwork() {
@@ -202,6 +208,18 @@ export default class MetaMask {
 
   async approveSwitchNetwork() {
     await this.metamaskPlaywright.approveSwitchNetwork()
+
+    return true
+  }
+
+  async rejectNewNetwork() {
+    await this.metamaskPlaywright.rejectNewNetwork()
+
+    return true
+  }
+
+  async rejectSwitchNetwork() {
+    await this.metamaskPlaywright.rejectSwitchNetwork()
 
     return true
   }
@@ -241,6 +259,12 @@ export default class MetaMask {
       })
   }
 
+  async rejectSignature() {
+    await this.metamaskPlaywright.rejectSignature()
+
+    return true
+  }
+
   async confirmTransaction(options?: { gasSetting?: GasSettings }) {
     await waitFor(
       () =>
@@ -250,6 +274,12 @@ export default class MetaMask {
     )
 
     await this.metamaskPlaywright.confirmTransaction(options)
+
+    return true
+  }
+
+  async rejectTransaction() {
+    await this.metamaskPlaywright.rejectTransaction()
 
     return true
   }

@@ -93,6 +93,8 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
     addNetwork: (network: Network) => metamask?.addNetwork(network),
     approveNewNetwork: () => metamask?.approveNewNetwork(),
     approveSwitchNetwork: () => metamask?.approveSwitchNetwork(),
+    rejectNewNetwork: () => metamask?.rejectNewNetwork(),
+    rejectSwitchNetwork: () => metamask?.rejectSwitchNetwork(),
 
     // Anvil
     createAnvilNode: (options?: CreateAnvilOptions) => metamask?.createAnvilNode(options),
@@ -105,6 +107,7 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
       spendLimit?: number | 'max'
       gasSetting?: GasSettings
     }) => metamask?.approveTokenPermission(options),
+    rejectTokenPermission: () => metamask?.rejectTokenPermission(),
 
     // Encryption
     providePublicEncryptionKey: () => metamask?.providePublicEncryptionKey(),
@@ -112,7 +115,9 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
 
     // Transactions
     confirmSignature: () => metamask?.confirmSignature(),
+    rejectSignature: () => metamask?.rejectSignature(),
     confirmTransaction: (options?: { gasSetting?: GasSettings }) => metamask?.confirmTransaction(options),
+    rejectTransaction: () => metamask?.rejectTransaction(),
     confirmTransactionAndWaitForMining: () => metamask?.confirmTransactionAndWaitForMining(),
     openTransactionDetails: (txIndex: number) => metamask?.openTransactionDetails(txIndex),
     closeTransactionDetails: () => metamask?.closeTransactionDetails()
