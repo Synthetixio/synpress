@@ -32,7 +32,7 @@ export const waitForMetaMaskLoad = async (page: Page) => {
     })
   )
     .then(() => {
-      console.log('All loading indicators are hidden')
+      return true
     })
     .catch((error) => {
       console.error('Error: ', error)

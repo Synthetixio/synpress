@@ -26,6 +26,10 @@ export default class MetaMask {
       .innerText()
   }
 
+  async getAccountAddress() {
+    return await this.metamaskPlaywright.getAccountAddress()
+  }
+
   async getNetwork() {
     return await this.metamaskExtensionPage
       .locator(this.metamaskPlaywright.homePage.selectors.currentNetwork)
@@ -188,6 +192,12 @@ export default class MetaMask {
       })
   }
 
+  async rejectTokenPermission() {
+    await this.metamaskPlaywright.rejectTokenPermission()
+
+    return true
+  }
+
   // Network
 
   async approveNewNetwork() {
@@ -198,6 +208,18 @@ export default class MetaMask {
 
   async approveSwitchNetwork() {
     await this.metamaskPlaywright.approveSwitchNetwork()
+
+    return true
+  }
+
+  async rejectNewNetwork() {
+    await this.metamaskPlaywright.rejectNewNetwork()
+
+    return true
+  }
+
+  async rejectSwitchNetwork() {
+    await this.metamaskPlaywright.rejectSwitchNetwork()
 
     return true
   }
@@ -237,15 +259,29 @@ export default class MetaMask {
       })
   }
 
-  async confirmTransaction() {
-    return await this.metamaskPlaywright
-      .confirmTransaction()
-      .then(() => {
-        return true
-      })
-      .catch(() => {
-        return false
-      })
+  async rejectSignature() {
+    await this.metamaskPlaywright.rejectSignature()
+
+    return true
+  }
+
+  async confirmTransaction(options?: { gasSetting?: GasSettings }) {
+    await waitFor(
+      () =>
+        this.metamaskExtensionPage.locator(TransactionPage.nftApproveAllConfirmationPopup.approveButton).isVisible(),
+      5_000,
+      false
+    )
+
+    await this.metamaskPlaywright.confirmTransaction(options)
+
+    return true
+  }
+
+  async rejectTransaction() {
+    await this.metamaskPlaywright.rejectTransaction()
+
+    return true
   }
 
   async confirmTransactionAndWaitForMining() {

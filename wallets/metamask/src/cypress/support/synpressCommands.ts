@@ -24,6 +24,7 @@ declare global {
       addNewAccount(accountName: string): Chainable<void>
       switchAccount(accountName: string): Chainable<void>
       renameAccount(currentAccountName: string, newAccountName: string): Chainable<void>
+      getAccountAddress(): Chainable<string>
 
       switchNetwork(networkName: string, isTestnet?: boolean): Chainable<void>
       createAnvilNode(options?: CreateAnvilOptions): Chainable<{
@@ -36,6 +37,8 @@ declare global {
       addNetwork(network: Network): Chainable<void>
       approveNewNetwork(): Chainable<void>
       approveSwitchNetwork(): Chainable<void>
+      rejectNewNetwork(): Chainable<void>
+      rejectSwitchNetwork(): Chainable<void>
 
       deployToken(): Chainable<void>
       addNewToken(): Chainable<void>
@@ -43,11 +46,14 @@ declare global {
         spendLimit?: number | 'max'
         gasSetting?: GasSettings
       }): Chainable<void>
+      rejectTokenPermission(): Chainable<void>
 
       providePublicEncryptionKey(): Chainable<void>
       decrypt(): Chainable<void>
       confirmSignature(): Chainable<void>
-      confirmTransaction(): Chainable<void>
+      rejectSignature(): Chainable<void>
+      confirmTransaction(options?: { gasSetting?: GasSettings }): Chainable<void>
+      rejectTransaction(): Chainable<void>
       confirmTransactionAndWaitForMining(): Chainable<void>
       openTransactionDetails(txIndex: number): Chainable<void>
       closeTransactionDetails(): Chainable<void>
@@ -77,6 +83,9 @@ export default function synpressCommands() {
   })
   Cypress.Commands.add('renameAccount', (currentAccountName: string, newAccountName: string) => {
     return cy.task('renameAccount', { currentAccountName, newAccountName })
+  })
+  Cypress.Commands.add('getAccountAddress', () => {
+    return cy.task('getAccountAddress')
   })
 
   // Network
@@ -118,6 +127,12 @@ export default function synpressCommands() {
   Cypress.Commands.add('approveSwitchNetwork', () => {
     return cy.task('approveSwitchNetwork')
   })
+  Cypress.Commands.add('rejectNewNetwork', () => {
+    return cy.task('rejectNewNetwork')
+  })
+  Cypress.Commands.add('rejectSwitchNetwork', () => {
+    return cy.task('rejectSwitchNetwork')
+  })
 
   // Token
 
@@ -136,6 +151,9 @@ export default function synpressCommands() {
       return cy.task('approveTokenPermission', options)
     }
   )
+  Cypress.Commands.add('rejectTokenPermission', () => {
+    return cy.task('rejectTokenPermission')
+  })
 
   // Others
 
@@ -148,8 +166,14 @@ export default function synpressCommands() {
   Cypress.Commands.add('confirmSignature', () => {
     return cy.task('confirmSignature')
   })
-  Cypress.Commands.add('confirmTransaction', () => {
-    return cy.task('confirmTransaction')
+  Cypress.Commands.add('rejectSignature', () => {
+    return cy.task('rejectSignature')
+  })
+  Cypress.Commands.add('confirmTransaction', (options?: { gasSetting?: GasSettings }) => {
+    return cy.task('confirmTransaction', options)
+  })
+  Cypress.Commands.add('rejectTransaction', () => {
+    return cy.task('rejectTransaction')
   })
   Cypress.Commands.add('confirmTransactionAndWaitForMining', () => {
     return cy.task('confirmTransactionAndWaitForMining')

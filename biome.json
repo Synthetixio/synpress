@@ -13,7 +13,8 @@
       "**/playwright-report",
       "**/.cache-synpress",
       "**/.vitepress/cache",
-      "**/downloads"
+      "**/downloads",
+      "**/.history"
     ]
   },
   "formatter": {

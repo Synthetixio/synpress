@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
 import Selectors from '../../../../selectors/pages/NotificationPage'
-import { transaction } from './transaction'
 import type { GasSettings } from '../../../../type/GasSettings'
+import { transaction } from './transaction'
 
 const editTokenPermission = async (notificationPage: Page, customSpendLimit: 'max' | number) => {
   if (customSpendLimit === 'max') {
