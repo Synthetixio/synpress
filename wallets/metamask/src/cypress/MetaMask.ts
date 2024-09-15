@@ -316,4 +316,22 @@ export default class MetaMask {
         return false
       })
   }
+
+  // Lock/Unlock
+
+  async lock() {
+    await this.metamaskPlaywright.lock()
+    await expect(
+      this.metamaskExtensionPage.locator(this.metamaskPlaywright.lockPage.selectors.submitButton)
+    ).toBeVisible()
+
+    return true
+  }
+
+  async unlock() {
+    await this.metamaskPlaywright.unlock()
+    await expect(this.metamaskExtensionPage.locator(this.metamaskPlaywright.homePage.selectors.logo)).toBeVisible()
+
+    return true
+  }
 }

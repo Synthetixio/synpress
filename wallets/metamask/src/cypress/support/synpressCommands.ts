@@ -57,6 +57,9 @@ declare global {
       confirmTransactionAndWaitForMining(): Chainable<void>
       openTransactionDetails(txIndex: number): Chainable<void>
       closeTransactionDetails(): Chainable<void>
+
+      lock(): Chainable<void>
+      unlock(): Chainable<void>
     }
   }
 }
@@ -183,5 +186,12 @@ export default function synpressCommands() {
   })
   Cypress.Commands.add('closeTransactionDetails', () => {
     return cy.task('closeTransactionDetails')
+  })
+
+  Cypress.Commands.add('lock', () => {
+    return cy.task('lock')
+  })
+  Cypress.Commands.add('unlock', () => {
+    return cy.task('unlock')
   })
 }
