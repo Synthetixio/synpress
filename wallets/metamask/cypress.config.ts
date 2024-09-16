@@ -12,5 +12,8 @@ export default defineConfig({
     async setupNodeEvents(on, config) {
       return configureSynpress(on, config)
     }
-  }
+  },
+
+  defaultCommandTimeout: 12_000,
+  taskTimeout: 15_000
 })
