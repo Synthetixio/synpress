@@ -285,6 +285,13 @@ export default class MetaMask {
   }
 
   async confirmTransactionAndWaitForMining() {
+    await waitFor(
+      () =>
+        this.metamaskExtensionPage.locator(TransactionPage.nftApproveAllConfirmationPopup.approveButton).isVisible(),
+      5_000,
+      false
+    )
+
     return this.metamaskPlaywright
       .confirmTransactionAndWaitForMining()
       .then(() => {
