@@ -120,7 +120,11 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
     rejectTransaction: () => metamask?.rejectTransaction(),
     confirmTransactionAndWaitForMining: () => metamask?.confirmTransactionAndWaitForMining(),
     openTransactionDetails: (txIndex: number) => metamask?.openTransactionDetails(txIndex),
-    closeTransactionDetails: () => metamask?.closeTransactionDetails()
+    closeTransactionDetails: () => metamask?.closeTransactionDetails(),
+
+    // Lock/Unlock
+    lock: () => metamask?.lock(),
+    unlock: () => metamask?.unlock()
   })
 
   return {
