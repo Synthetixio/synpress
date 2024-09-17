@@ -15,14 +15,6 @@ const connectDeployAndMintNft = () => {
   })
 }
 
-before(() => {
-  cy.connectToAnvil().then(() => {
-    cy.get('#connectButton').click()
-
-    cy.connectToDapp()
-  })
-})
-
 describe('with default gas setting', () => {
   it('should confirm contract deployment', () => {
     cy.get('#tokenAddresses').should('be.empty')

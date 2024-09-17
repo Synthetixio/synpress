@@ -130,6 +130,10 @@ export default function configureSynpress(
     openTransactionDetails: (txIndex: number) => metamask?.openTransactionDetails(txIndex),
     closeTransactionDetails: () => metamask?.closeTransactionDetails(),
 
+    // Lock/Unlock
+    lock: () => metamask?.lock(),
+    unlock: () => metamask?.unlock()
+
     // Others
 
     goBackToHomePage: () => metamask?.goBackToHomePage()

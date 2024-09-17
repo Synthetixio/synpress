@@ -1,4 +1,6 @@
 before(() => {
+  cy.switchNetwork('Anvil')
+
   cy.get('#deployERC1155Button').click()
 
   cy.confirmTransaction().then(() => {

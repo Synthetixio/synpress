@@ -1,7 +1,3 @@
-before(() => {
-  cy.switchNetwork('Anvil')
-})
-
 it('should confirm `personal_sign`', () => {
   cy.get('#personalSign').click()
 

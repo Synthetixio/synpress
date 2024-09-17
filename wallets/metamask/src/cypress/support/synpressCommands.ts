@@ -61,6 +61,9 @@ declare global {
       openTransactionDetails(txIndex: number): Chainable<void>
       closeTransactionDetails(): Chainable<void>
 
+      lock(): Chainable<void>
+      unlock(): Chainable<void>
+
       goBackToHomePage(): Chainable<void>
     }
   }
@@ -167,6 +170,15 @@ export default function synpressCommands() {
   )
   Cypress.Commands.add('rejectTokenPermission', () => {
     return cy.task('rejectTokenPermission')
+  })
+  
+  // Lock/Unlock
+
+  Cypress.Commands.add('lock', () => {
+    return cy.task('lock')
+  })
+  Cypress.Commands.add('unlock', () => {
+    return cy.task('unlock')
   })
 
   // Others

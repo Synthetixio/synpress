@@ -296,6 +296,13 @@ export default class MetaMask {
   }
 
   async confirmTransactionAndWaitForMining() {
+    await waitFor(
+      () =>
+        this.metamaskExtensionPage.locator(TransactionPage.nftApproveAllConfirmationPopup.approveButton).isVisible(),
+      5_000,
+      false
+    )
+
     return this.metamaskPlaywright
       .confirmTransactionAndWaitForMining()
       .then(() => {
@@ -336,6 +343,22 @@ export default class MetaMask {
     await this.metamaskPlaywright.goBackToHomePage()
 
     await expect(this.metamaskExtensionPage.locator(HomePageSelectors.copyAccountAddressButton)).toBeVisible()
+  }
+  
+  // Lock/Unlock
+
+  async lock() {
+    await this.metamaskPlaywright.lock()
+    await expect(
+      this.metamaskExtensionPage.locator(this.metamaskPlaywright.lockPage.selectors.submitButton)
+    ).toBeVisible()
+
+    return true
+  }
+
+  async unlock() {
+    await this.metamaskPlaywright.unlock()
+    await expect(this.metamaskExtensionPage.locator(this.metamaskPlaywright.homePage.selectors.logo)).toBeVisible()
 
     return true
   }
