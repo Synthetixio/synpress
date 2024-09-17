@@ -132,7 +132,7 @@ export default function configureSynpress(
 
     // Lock/Unlock
     lock: () => metamask?.lock(),
-    unlock: () => metamask?.unlock()
+    unlock: () => metamask?.unlock(),
 
     // Others
 

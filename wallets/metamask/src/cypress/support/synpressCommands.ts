@@ -171,7 +171,7 @@ export default function synpressCommands() {
   Cypress.Commands.add('rejectTokenPermission', () => {
     return cy.task('rejectTokenPermission')
   })
-  
+
   // Lock/Unlock
 
   Cypress.Commands.add('lock', () => {

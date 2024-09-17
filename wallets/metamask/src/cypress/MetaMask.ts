@@ -344,7 +344,7 @@ export default class MetaMask {
 
     await expect(this.metamaskExtensionPage.locator(HomePageSelectors.copyAccountAddressButton)).toBeVisible()
   }
-  
+
   // Lock/Unlock
 
   async lock() {
