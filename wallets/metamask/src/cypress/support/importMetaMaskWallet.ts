@@ -4,7 +4,7 @@ import getPlaywrightMetamask from '../getPlaywrightMetamask'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'
 
-export default async function importMetaMaskWallet(port: number) {
+export default async function importMetaMaskWallet(port: number, importDefaultWallet = true) {
   const debuggerDetails = await fetch(`http://127.0.0.1:${port}/json/version`)
 
   const debuggerDetailsConfig = (await debuggerDetails.json()) as {
@@ -28,7 +28,7 @@ export default async function importMetaMaskWallet(port: number) {
 
     const metamask = getPlaywrightMetamask(context, extensionPage, metamaskExtensionId)
 
-    await metamask.importWallet(SEED_PHRASE)
+    if (importDefaultWallet) await metamask.importWallet(SEED_PHRASE)
 
     cypressPage = context.pages()[extensionPageIndex === 1 ? 0 : 1] as Page
     await cypressPage.bringToFront()
