@@ -19,7 +19,11 @@ let metamaskExtensionPage: Page
 // TODO: Implement if needed to change the focus between pages
 // let cypressPage: Page
 
-export default function configureSynpress(on: Cypress.PluginEvents, config: Cypress.PluginConfigOptions) {
+export default function configureSynpress(
+  on: Cypress.PluginEvents,
+  config: Cypress.PluginConfigOptions,
+  importDefaultWallet = true
+) {
   const browsers = config.browsers.filter((b) => b.name === 'chrome')
   if (browsers.length === 0) {
     throw new Error('No Chrome browser found in the configuration')
@@ -47,7 +51,7 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
         metamaskExtensionId: _metamaskExtensionId,
         extensionPage: _extensionPage,
         cypressPage: _cypressPage
-      } = await importMetaMaskWallet(rdpPort)
+      } = await importMetaMaskWallet(rdpPort, importDefaultWallet)
       if (_extensionPage && _metamaskExtensionId) {
         context = _context
         metamaskExtensionId = _metamaskExtensionId
@@ -63,8 +67,12 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
 
   // Synpress API
   on('task', {
-    // Account
+    // Wallet
     connectToDapp: () => metamask?.connectToDapp(),
+    importWallet: (seedPhrase: string) => metamask?.importWallet(seedPhrase),
+    importWalletFromPrivateKey: (privateKey: string) => metamask?.importWalletFromPrivateKey(privateKey),
+
+    // Account
     getAccount: () => metamask?.getAccount(),
     getAccountAddress: () => metamask?.getAccountAddress(),
     addNewAccount: (accountName: string) => metamask?.addNewAccount(accountName),
@@ -124,7 +132,11 @@ export default function configureSynpress(on: Cypress.PluginEvents, config: Cypr
 
     // Lock/Unlock
     lock: () => metamask?.lock(),
-    unlock: () => metamask?.unlock()
+    unlock: () => metamask?.unlock(),
+
+    // Others
+
+    goBackToHomePage: () => metamask?.goBackToHomePage()
   })
 
   return {

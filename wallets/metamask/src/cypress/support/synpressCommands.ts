@@ -16,6 +16,9 @@ import type { Network } from '../../type/Network'
 declare global {
   namespace Cypress {
     interface Chainable {
+      importWallet(seedPhrase: string): Chainable<void>
+      importWalletFromPrivateKey(privateKey: string): Chainable<void>
+
       getAccount(): Chainable<string>
       getNetwork(): Chainable<string>
 
@@ -60,16 +63,21 @@ declare global {
 
       lock(): Chainable<void>
       unlock(): Chainable<void>
+
+      goBackToHomePage(): Chainable<void>
     }
   }
 }
 
 export default function synpressCommands() {
-  Cypress.Commands.add('getAccount', () => {
-    return cy.task('getAccount')
+  // Wallet
+
+  Cypress.Commands.add('importWallet', (seedPhrase: string) => {
+    return cy.task('importWallet', seedPhrase)
   })
-  Cypress.Commands.add('getNetwork', () => {
-    return cy.task('getNetwork')
+
+  Cypress.Commands.add('importWalletFromPrivateKey', (privateKey: string) => {
+    return cy.task('importWalletFromPrivateKey', privateKey)
   })
 
   Cypress.Commands.add('connectToDapp', () => {
@@ -78,6 +86,9 @@ export default function synpressCommands() {
 
   // Account
 
+  Cypress.Commands.add('getAccount', () => {
+    return cy.task('getAccount')
+  })
   Cypress.Commands.add('addNewAccount', (accountName: string) => {
     return cy.task('addNewAccount', accountName)
   })
@@ -93,6 +104,9 @@ export default function synpressCommands() {
 
   // Network
 
+  Cypress.Commands.add('getNetwork', () => {
+    return cy.task('getNetwork')
+  })
   Cypress.Commands.add('switchNetwork', (networkName: string, isTestnet = false) => {
     return cy.task('switchNetwork', { networkName, isTestnet })
   })
@@ -158,6 +172,15 @@ export default function synpressCommands() {
     return cy.task('rejectTokenPermission')
   })
 
+  // Lock/Unlock
+
+  Cypress.Commands.add('lock', () => {
+    return cy.task('lock')
+  })
+  Cypress.Commands.add('unlock', () => {
+    return cy.task('unlock')
+  })
+
   // Others
 
   Cypress.Commands.add('providePublicEncryptionKey', () => {
@@ -187,11 +210,7 @@ export default function synpressCommands() {
   Cypress.Commands.add('closeTransactionDetails', () => {
     return cy.task('closeTransactionDetails')
   })
-
-  Cypress.Commands.add('lock', () => {
-    return cy.task('lock')
-  })
-  Cypress.Commands.add('unlock', () => {
-    return cy.task('unlock')
+  Cypress.Commands.add('goBackToHomePage', () => {
+    return cy.task('goBackToHomePage')
   })
 }

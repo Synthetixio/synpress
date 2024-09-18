@@ -37,10 +37,21 @@ export default class MetaMask {
   }
 
   async connectToDapp(accounts?: string[]) {
-    return this.metamaskPlaywright
-      .connectToDapp(accounts)
-      .then(() => true)
-      .catch(() => false)
+    await this.metamaskPlaywright.connectToDapp(accounts)
+
+    return true
+  }
+
+  async importWallet(seedPhrase: string) {
+    await this.metamaskPlaywright.importWallet(seedPhrase)
+
+    return true
+  }
+
+  async importWalletFromPrivateKey(privateKey: string) {
+    await this.metamaskPlaywright.importWalletFromPrivateKey(privateKey)
+
+    return true
   }
 
   async addNewAccount(accountName: string) {
@@ -322,6 +333,16 @@ export default class MetaMask {
       .catch(() => {
         return false
       })
+  }
+
+  async goBackToHomePage() {
+    await this.metamaskPlaywright.openSettings()
+
+    await expect(this.metamaskExtensionPage.locator(HomePageSelectors.copyAccountAddressButton)).not.toBeVisible()
+
+    await this.metamaskPlaywright.goBackToHomePage()
+
+    await expect(this.metamaskExtensionPage.locator(HomePageSelectors.copyAccountAddressButton)).toBeVisible()
   }
 
   // Lock/Unlock
