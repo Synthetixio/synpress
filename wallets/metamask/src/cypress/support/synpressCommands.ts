@@ -10,6 +10,7 @@
 // ***********************************************
 
 import type { Anvil, CreateAnvilOptions } from '@viem/anvil'
+import type { SettingsSidebarMenus } from '../../selectors/pages/HomePage/settings'
 import type { GasSettings } from '../../type/GasSettings'
 import type { Network } from '../../type/Network'
 
@@ -28,6 +29,7 @@ declare global {
       switchAccount(accountName: string): Chainable<void>
       renameAccount(currentAccountName: string, newAccountName: string): Chainable<void>
       getAccountAddress(): Chainable<string>
+      resetAccount(): Chainable<void>
 
       switchNetwork(networkName: string, isTestnet?: boolean): Chainable<void>
       createAnvilNode(options?: CreateAnvilOptions): Chainable<{
@@ -64,7 +66,12 @@ declare global {
       lock(): Chainable<void>
       unlock(): Chainable<void>
 
+      toggleShowTestNetworks(): Chainable<void>
+      toggleDismissSecretRecoveryPhraseReminder(): Chainable<void>
+
       goBackToHomePage(): Chainable<void>
+      openSettings(): Chainable<void>
+      openSidebarMenu(menu: SettingsSidebarMenus): Chainable<void>
     }
   }
 }
@@ -100,6 +107,9 @@ export default function synpressCommands() {
   })
   Cypress.Commands.add('getAccountAddress', () => {
     return cy.task('getAccountAddress')
+  })
+  Cypress.Commands.add('resetAccount', () => {
+    return cy.task('resetAccount')
   })
 
   // Network
@@ -181,6 +191,15 @@ export default function synpressCommands() {
     return cy.task('unlock')
   })
 
+  // Toggles
+
+  Cypress.Commands.add('toggleShowTestNetworks', () => {
+    return cy.task('toggleShowTestNetworks')
+  })
+  Cypress.Commands.add('toggleDismissSecretRecoveryPhraseReminder', () => {
+    return cy.task('toggleDismissSecretRecoveryPhraseReminder')
+  })
+
   // Others
 
   Cypress.Commands.add('providePublicEncryptionKey', () => {
@@ -212,5 +231,11 @@ export default function synpressCommands() {
   })
   Cypress.Commands.add('goBackToHomePage', () => {
     return cy.task('goBackToHomePage')
+  })
+  Cypress.Commands.add('openSettings', () => {
+    return cy.task('openSettings')
+  })
+  Cypress.Commands.add('openSidebarMenu', (menu: SettingsSidebarMenus) => {
+    return cy.task('openSidebarMenu', menu)
   })
 }
