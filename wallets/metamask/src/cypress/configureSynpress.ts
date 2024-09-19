@@ -1,6 +1,7 @@
 import type { BrowserContext, Page } from '@playwright/test'
 import { ensureRdpPort } from '@synthetixio/synpress-core'
 import type { CreateAnvilOptions } from '@viem/anvil'
+import type { SettingsSidebarMenus } from '../selectors/pages/HomePage/settings'
 import type { GasSettings } from '../type/GasSettings'
 import type { Network } from '../type/Network'
 import MetaMask from './MetaMask'
@@ -84,6 +85,7 @@ export default function configureSynpress(
       currentAccountName: string
       newAccountName: string
     }) => metamask?.renameAccount({ currentAccountName, newAccountName }),
+    resetAccount: () => metamask?.resetAccount(),
 
     // Network
     getNetwork: () => metamask?.getNetwork(),
@@ -134,9 +136,14 @@ export default function configureSynpress(
     lock: () => metamask?.lock(),
     unlock: () => metamask?.unlock(),
 
-    // Others
+    // Toggles
+    toggleShowTestNetworks: () => metamask?.toggleShowTestNetworks(),
+    toggleDismissSecretRecoveryPhraseReminder: () => metamask?.toggleDismissSecretRecoveryPhraseReminder(),
 
-    goBackToHomePage: () => metamask?.goBackToHomePage()
+    // Others
+    goBackToHomePage: () => metamask?.goBackToHomePage(),
+    openSettings: () => metamask?.openSettings(),
+    openSidebarMenu: (menu: SettingsSidebarMenus) => metamask?.openSidebarMenu(menu)
   })
 
   return {

@@ -4,6 +4,7 @@ import { MetaMask as MetaMaskPlaywright } from '../playwright/MetaMask'
 import { waitFor } from '../playwright/utils/waitFor'
 import HomePageSelectors from '../selectors/pages/HomePage'
 import Selectors from '../selectors/pages/HomePage'
+import type { SettingsSidebarMenus } from '../selectors/pages/HomePage/settings'
 import TransactionPage from '../selectors/pages/NotificationPage/transactionPage'
 import type { GasSettings } from '../type/GasSettings'
 import type { Network } from '../type/Network'
@@ -88,6 +89,12 @@ export default class MetaMask {
     await expect(
       this.metamaskExtensionPage.locator(this.metamaskPlaywright.homePage.selectors.accountMenu.accountButton)
     ).toHaveText(newAccountName)
+
+    return true
+  }
+
+  async resetAccount() {
+    await this.metamaskPlaywright.resetAccount()
 
     return true
   }
@@ -235,6 +242,24 @@ export default class MetaMask {
     return true
   }
 
+  // Lock/Unlock
+
+  async lock() {
+    await this.metamaskPlaywright.lock()
+    await expect(
+      this.metamaskExtensionPage.locator(this.metamaskPlaywright.lockPage.selectors.submitButton)
+    ).toBeVisible()
+
+    return true
+  }
+
+  async unlock() {
+    await this.metamaskPlaywright.unlock()
+    await expect(this.metamaskExtensionPage.locator(this.metamaskPlaywright.homePage.selectors.logo)).toBeVisible()
+
+    return true
+  }
+
   // Others
 
   async providePublicEncryptionKey() {
@@ -335,6 +360,18 @@ export default class MetaMask {
       })
   }
 
+  async toggleShowTestNetworks() {
+    await this.metamaskPlaywright.toggleShowTestNetworks()
+
+    return true
+  }
+
+  async toggleDismissSecretRecoveryPhraseReminder() {
+    await this.metamaskPlaywright.toggleDismissSecretRecoveryPhraseReminder()
+
+    return true
+  }
+
   async goBackToHomePage() {
     await this.metamaskPlaywright.openSettings()
 
@@ -343,22 +380,19 @@ export default class MetaMask {
     await this.metamaskPlaywright.goBackToHomePage()
 
     await expect(this.metamaskExtensionPage.locator(HomePageSelectors.copyAccountAddressButton)).toBeVisible()
-  }
-
-  // Lock/Unlock
-
-  async lock() {
-    await this.metamaskPlaywright.lock()
-    await expect(
-      this.metamaskExtensionPage.locator(this.metamaskPlaywright.lockPage.selectors.submitButton)
-    ).toBeVisible()
 
     return true
   }
 
-  async unlock() {
-    await this.metamaskPlaywright.unlock()
-    await expect(this.metamaskExtensionPage.locator(this.metamaskPlaywright.homePage.selectors.logo)).toBeVisible()
+  async openSettings() {
+    await this.metamaskPlaywright.openSettings()
+
+    return true
+  }
+
+  async openSidebarMenu(menu: SettingsSidebarMenus) {
+    await this.metamaskPlaywright.openSidebarMenu(menu)
+    await expect(this.metamaskExtensionPage.locator(HomePageSelectors.settings.sidebarMenu(menu))).toBeVisible()
 
     return true
   }
