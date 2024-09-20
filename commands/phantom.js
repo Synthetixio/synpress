@@ -300,34 +300,37 @@ module.exports = {
       if (secretWordsOrPrivateKey.includes(' ')) {
         // secret words
         await module.exports.importWallet(secretWordsOrPrivateKey, password);
+      } else {
+        throw new Error(
+          'Something is wrong with the secret words or private key',
+        );
       }
 
       await switchToPhantomIfNotActive();
 
-      // skip welcome page
-      try {
-        await playwright
-          .windows(PROVIDER)
-          .click(mainPageElements.welcome.takeTheTourButton, {
-            timeout: 10_000,
-          });
-        await playwright
-          .windows(PROVIDER)
-          .click(mainPageElements.welcome.takeTheTourButtonNext, {
-            timeout: 10_000,
-          });
-        await playwright
-          .windows(PROVIDER)
-          .click(mainPageElements.welcome.takeTheTourButtonNext, {
-            timeout: 10_000,
-          });
-        await playwright
-          .windows(PROVIDER)
-          .click(mainPageElements.welcome.takeTheTourButtonNext, {
-            timeout: 10_000,
-          });
-      } catch {
-      }
+      // // skip welcome page
+      // try {
+      //   await playwright
+      //     .windows(PROVIDER)
+      //     .click(mainPageElements.welcome.takeTheTourButton, {
+      //       timeout: 10_000,
+      //     });
+      //   await playwright
+      //     .windows(PROVIDER)
+      //     .click(mainPageElements.welcome.takeTheTourButtonNext, {
+      //       timeout: 10_000,
+      //     });
+      //   await playwright
+      //     .windows(PROVIDER)
+      //     .click(mainPageElements.welcome.takeTheTourButtonNext, {
+      //       timeout: 10_000,
+      //     });
+      //   await playwright
+      //     .windows(PROVIDER)
+      //     .click(mainPageElements.welcome.takeTheTourButtonNext, {
+      //       timeout: 10_000,
+      //     });
+      // } catch {}
 
       walletAddress = await module.exports.getWalletAddress();
       await playwright.switchToCypressWindow();
@@ -504,7 +507,7 @@ module.exports = {
     if (!Object.keys(mainPageElements.defaultWallet).includes(wallet)) {
       throw new Error(
         'Wallet not supported, support ' +
-        Object.keys(mainPageElements.defaultWallet).join(', '),
+          Object.keys(mainPageElements.defaultWallet).join(', '),
       );
     }
 
