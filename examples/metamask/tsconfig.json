@@ -1,0 +1,12 @@
+{
+  "extends": "@synthetixio/synpress-tsconfig/base.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "esModuleInterop": true,
+    "exactOptionalPropertyTypes": false, // Allows for `undefined` in `playwright.config.ts`
+    "types": ["cypress"],
+    "sourceMap": false
+  },
+  "include": ["cypress.config.ts", "test", "src"],
+  "files": ["environment.d.ts"]
+}

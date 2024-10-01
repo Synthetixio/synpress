@@ -60,7 +60,35 @@ importers:
         specifier: 1.1.4
         version: 1.1.4(@algolia/client-search@4.24.0)(@types/node@22.5.0)(axios@1.6.7)(postcss@8.4.41)(search-insights@2.17.0)(typescript@5.3.3)
 
-  examples/new-dawn:
+  examples/ethereum-wallet-mock:
+    dependencies:
+      '@synthetixio/synpress':
+        specifier: workspace:*
+        version: link:../../release
+      dotenv:
+        specifier: 16.4.2
+        version: 16.4.2
+    devDependencies:
+      '@metamask/test-dapp':
+        specifier: 8.1.0
+        version: 8.1.0
+      '@synthetixio/synpress-tsconfig':
+        specifier: 0.0.1-alpha.9
+        version: 0.0.1-alpha.9
+      '@types/node':
+        specifier: 20.11.17
+        version: 20.11.17
+      cypress:
+        specifier: 13.13.0
+        version: 13.13.0
+      serve:
+        specifier: 14.2.1
+        version: 14.2.1
+      typescript:
+        specifier: 5.3.3
+        version: 5.3.3
+
+  examples/metamask:
     dependencies:
       '@playwright/test':
         specifier: 1.44.0
@@ -75,6 +103,9 @@ importers:
       '@metamask/test-dapp':
         specifier: 8.1.0
         version: 8.1.0
+      '@synthetixio/synpress-tsconfig':
+        specifier: 0.0.1-alpha.9
+        version: 0.0.1-alpha.9
       '@types/node':
         specifier: 20.11.17
         version: 20.11.17

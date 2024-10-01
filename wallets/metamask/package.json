@@ -7,6 +7,10 @@
       "types": "./types/cypress/index.d.ts",
       "default": "./dist/cypress/index.js"
     },
+    "./cypress/support": {
+      "types": "./types/cypress/support/index.d.ts",
+      "default": "./dist/cypress/support/index.js"
+    },
     "./playwright": {
       "types": "./types/playwright/index.d.ts",
       "default": "./dist/playwright/index.js"
