@@ -14,7 +14,7 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import { synpressCommandsForEthereumWalletMock, mockEthereum } from '@synthetixio/synpress/cypress/support'
+import { mockEthereum, synpressCommandsForEthereumWalletMock } from '@synthetixio/synpress/cypress/support'
 
 synpressCommandsForEthereumWalletMock()
 mockEthereum()
