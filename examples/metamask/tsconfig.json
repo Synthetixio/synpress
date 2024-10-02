@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.build.json",
+  "extends": "@synthetixio/synpress-tsconfig/base.json",
   "compilerOptions": {
     "rootDir": ".",
     "esModuleInterop": true,
@@ -7,6 +7,6 @@
     "types": ["cypress"],
     "sourceMap": false
   },
-  "include": ["src", "test"],
-  "files": ["environment.d.ts", "playwright.config.ts", "vitest.config.ts"]
+  "include": ["cypress.config.ts", "test", "src"],
+  "files": ["environment.d.ts"]
 }

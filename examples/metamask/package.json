@@ -1,0 +1,28 @@
+{
+  "name": "@examples/metamask",
+  "version": "0.0.1-alpha.9",
+  "type": "module",
+  "scripts": {
+    "build:cache": "synpress",
+    "build:cache:force": "synpress --force",
+    "build:cache:headless": "synpress --headless",
+    "serve:test-dapp": "serve node_modules/@metamask/test-dapp/dist -p 9999",
+    "test:cypress:headful": "cypress run --browser chrome --headed",
+    "test:playwright:headful": "playwright test",
+    "test:playwright:headless": "HEADLESS=true playwright test",
+    "test:playwright:headless:ui": "HEADLESS=true playwright test --ui"
+  },
+  "dependencies": {
+    "@playwright/test": "1.44.0",
+    "@synthetixio/synpress": "workspace:*",
+    "dotenv": "16.4.2"
+  },
+  "devDependencies": {
+    "@metamask/test-dapp": "8.1.0",
+    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.9",
+    "@types/node": "20.11.17",
+    "cypress": "13.13.0",
+    "serve": "14.2.1",
+    "typescript": "5.3.3"
+  }
+}

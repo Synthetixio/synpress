@@ -5,7 +5,7 @@ import { defineConfig, devices } from '@playwright/test'
  */
 export default defineConfig({
   // Look for test files in the "test/e2e" directory, relative to this configuration file.
-  testDir: './test/e2e',
+  testDir: './test/playwright',
 
   // Run all tests in parallel.
   fullyParallel: true,

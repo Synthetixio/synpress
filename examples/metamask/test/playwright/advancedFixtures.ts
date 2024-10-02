@@ -1,5 +1,5 @@
 import { metaMaskFixtures } from '@synthetixio/synpress/playwright'
-import connectedSetup from './wallet-setup/connected.setup'
+import connectedSetup from '../wallet-setup/connected.setup'
 
 export const test = metaMaskFixtures(connectedSetup).extend<{
   deployToken: () => Promise<void>
