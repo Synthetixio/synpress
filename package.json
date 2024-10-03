@@ -1,6 +1,6 @@
 {
   "name": "@phantom/synpress",
-  "version": "4.0.0-alpha.49",
+  "version": "4.0.0-alpha.50",
   "packageManager": "yarn@4.5.0",
   "description": "Synpress is e2e testing framework based around Cypress.io & playwright with included MetaMask support. Test your dapps with ease.",
   "keywords": [
