@@ -276,29 +276,22 @@ module.exports = {
       enableExperimentalSettings,
     },
   ) {
-    console.log('initialSetup');
     await playwright.init(playwrightInstance);
-    console.log('assigning windows');
     await playwright.assignWindows(PROVIDER);
-    console.log('assigning active tab');
     await playwright.assignActiveTabName(PROVIDER);
-    console.log('get extension details');
     await module.exports.getExtensionDetails();
-    console.log('fix blank page');
     await playwright.fixBlankPage(
       PROVIDER,
       playwright.windows(PROVIDER),
       app.root,
     );
 
-    console.log('switch to phantom');
     await playwright.switchToWindow(PROVIDER);
 
     const isImportButtonVisible = await playwright
       .windows(PROVIDER)
       .locator(firstTimeFlowPageElements.importWalletButton)
       .isVisible();
-    console.log('isImportButtonVisible: ', isImportButtonVisible);
     if (isImportButtonVisible) {
       /**
        * SEED PHRASE IMPORT
