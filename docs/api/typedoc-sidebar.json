@@ -1,1 +1,4 @@
-[{"text":"defineWalletSetup","link":"/api/functions/defineWalletSetup.md"},{"text":"testWithSynpress","link":"/api/functions/testWithSynpress.md"}]
+[
+  { "text": "defineWalletSetup", "link": "/api/functions/defineWalletSetup.md" },
+  { "text": "testWithSynpress", "link": "/api/functions/testWithSynpress.md" }
+]
