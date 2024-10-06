@@ -34,7 +34,7 @@ Synpress provides a simple yet powerful and fully typed API that is easy to use.
 
 Our documentation is comprehensive, and we've made sure it covers everything you need to know about Synpress.
 
-Synpress can be used with ~~two~~ leading E2E testing frameworks out there, i.e., ~~both~~ [Playwright](https://playwright.dev/) ~~and [Cypress](https://www.cypress.io/)~~, with support for all of ~~their~~ its features.
+Synpress can be used with ~~two~~ leading E2E testing frameworks out there, i.e., both [Playwright](https://playwright.dev/) and [Cypress](https://www.cypress.io/), with support for all of their its features.
 
 ## Stability
 

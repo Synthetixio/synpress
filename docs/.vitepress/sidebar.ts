@@ -7,7 +7,14 @@ export const sidebar: DefaultTheme.Sidebar = {
       text: 'Introduction',
       items: [
         { text: 'Why Synpress?', link: '/docs/introduction' },
-        { text: 'Getting Started', link: '/docs/getting-started' },
+        {
+          text: 'Getting Started',
+          link: '/docs/getting-started',
+          items: [
+            { text: 'Start with Playwright', link: '/docs/setupPlaywright' },
+            { text: 'Start with Cypress', link: '/docs/setupCypress' }
+          ]
+        },
         { text: 'Migration Guide', link: '/docs/migration-guide' },
         { text: 'TypeScript', link: '/docs/typescript' },
         { text: 'Platform Compatibility', link: '/docs/platform-compatibility' },
