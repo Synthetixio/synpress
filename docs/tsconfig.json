@@ -3,5 +3,11 @@
   "compilerOptions": {
     "rootDir": "."
   },
-  "include": [".vitepress/**/*.ts", "node_modules/@synthetixio/synpress/src/index.ts"]
+  "include": [
+    ".vitepress/**/*.ts",
+    "node_modules/@synthetixio/synpress/src/index.ts",
+    "node_modules/@synthetixio/synpress/src/cypress/index.ts",
+    "node_modules/@synthetixio/synpress/src/cypress/support/index.ts",
+    "node_modules/@synthetixio/synpress/src/playwright/index.ts"
+  ]
 }

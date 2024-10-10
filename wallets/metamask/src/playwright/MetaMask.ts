@@ -8,61 +8,81 @@ import { SettingsPage } from './pages/SettingsPage/page'
 
 const NO_EXTENSION_ID_ERROR = new Error('MetaMask extensionId is not set')
 
+/**
+ * MetaMask class for interacting with the MetaMask extension in Playwright tests.
+ *
+ * This class provides methods to perform various operations on the MetaMask extension,
+ * such as importing wallets, switching networks, confirming transactions, and more.
+ *
+ * @class
+ * @extends MetaMaskAbstract
+ */
 export class MetaMask extends MetaMaskAbstract {
   /**
-   * This property can be used to access selectors for a given page.
+   * This property can be used to access selectors for the crash page.
    *
-   * @group Selectors
+   * @public
+   * @readonly
    */
   readonly crashPage: CrashPage
+
   /**
-   * This property can be used to access selectors for a given page.
+   * This property can be used to access selectors for the onboarding page.
    *
-   * @group Selectors
+   * @public
+   * @readonly
    */
   readonly onboardingPage: OnboardingPage
+
   /**
-   * This property can be used to access selectors for a given page.
+   * This property can be used to access selectors for the lock page.
    *
-   * @group Selectors
+   * @public
+   * @readonly
    */
   readonly lockPage: LockPage
+
   /**
-   * This property can be used to access selectors for a given page.
+   * This property can be used to access selectors for the home page.
    *
-   * @group Selectors
+   * @public
+   * @readonly
    */
   readonly homePage: HomePage
+
   /**
-   * This property can be used to access selectors for a given page.
+   * This property can be used to access selectors for the notification page.
    *
-   * @group Selectors
+   * @public
+   * @readonly
    */
   readonly notificationPage: NotificationPage
+
+  /**
+   * This property can be used to access selectors for the settings page.
+   *
+   * @public
+   * @readonly
+   */
   readonly settingsPage: SettingsPage
 
+  /**
+   * Creates an instance of MetaMask.
+   *
+   * @param context - The Playwright BrowserContext in which the MetaMask extension is running.
+   * @param page - The Playwright Page object representing the MetaMask extension's main page.
+   * @param password - The password for the MetaMask wallet.
+   * @param extensionId - The ID of the MetaMask extension. Optional if no interaction with dapps is required.
+   */
   constructor(
-    /**
-     * The browser context.
-     */
     readonly context: BrowserContext,
-    /**
-     * The MetaMask tab page.
-     */
     readonly page: Page,
-    /**
-     * The password of the MetaMask wallet.
-     */
     override readonly password: string,
-    /**
-     * The extension ID of the MetaMask extension. Optional if no interaction with the dapp is required.
-     */
     override readonly extensionId?: string
   ) {
     super(password, extensionId)
 
     this.crashPage = new CrashPage()
-
     this.onboardingPage = new OnboardingPage(page)
     this.lockPage = new LockPage(page)
     this.homePage = new HomePage(page)
@@ -70,11 +90,21 @@ export class MetaMask extends MetaMaskAbstract {
     this.settingsPage = new SettingsPage(page)
   }
 
-  async importWallet(seedPhrase: string) {
+  /**
+   * Imports a wallet using the given seed phrase.
+   *
+   * @param seedPhrase - The seed phrase to import.
+   */
+  async importWallet(seedPhrase: string): Promise<void> {
     await this.onboardingPage.importWallet(seedPhrase, this.password)
   }
 
-  async addNewAccount(accountName: string) {
+  /**
+   * Adds a new account with the given name.
+   *
+   * @param accountName - The name for the new account.
+   */
+  async addNewAccount(accountName: string): Promise<void> {
     await this.homePage.addNewAccount(accountName)
   }
 
@@ -84,7 +114,7 @@ export class MetaMask extends MetaMaskAbstract {
    * @param currentAccountName - The current account name.
    * @param newAccountName - The new name for the account.
    */
-  async renameAccount(currentAccountName: string, newAccountName: string) {
+  async renameAccount(currentAccountName: string, newAccountName: string): Promise<void> {
     await this.homePage.renameAccount(currentAccountName, newAccountName)
   }
 
@@ -93,28 +123,54 @@ export class MetaMask extends MetaMaskAbstract {
    *
    * @param privateKey - The private key to import.
    */
-
-  async importWalletFromPrivateKey(privateKey: string) {
+  async importWalletFromPrivateKey(privateKey: string): Promise<void> {
     await this.homePage.importWalletFromPrivateKey(privateKey)
   }
 
-  async switchAccount(accountName: string) {
+  /**
+   * Switches to the account with the given name.
+   *
+   * @param accountName - The name of the account to switch to.
+   */
+  async switchAccount(accountName: string): Promise<void> {
     await this.homePage.switchAccount(accountName)
   }
 
-  async addNetwork(network: Network) {
+  /**
+   * Adds a new network to MetaMask.
+   *
+   * @param network - The network configuration to add.
+   */
+  async addNetwork(network: Network): Promise<void> {
     await this.homePage.addNetwork(network)
   }
 
-  async getAccountAddress() {
+  /**
+   * Gets the address of the currently selected account.
+   *
+   * @returns The account address.
+   */
+  async getAccountAddress(): Promise<string> {
     return await this.homePage.getAccountAddress()
   }
 
-  async switchNetwork(networkName: string, isTestnet = false) {
+  /**
+   * Switches to the specified network.
+   *
+   * @param networkName - The name of the network to switch to.
+   * @param isTestnet - Whether the network is a testnet. Default is false.
+   */
+  async switchNetwork(networkName: string, isTestnet = false): Promise<void> {
     await this.homePage.switchNetwork(networkName, isTestnet)
   }
 
-  async connectToDapp(accounts?: string[]) {
+  /**
+   * Connects MetaMask to a dapp.
+   *
+   * @param accounts - Optional array of account addresses to connect.
+   * @throws {Error} If extensionId is not set.
+   */
+  async connectToDapp(accounts?: string[]): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -122,15 +178,26 @@ export class MetaMask extends MetaMaskAbstract {
     await this.notificationPage.connectToDapp(this.extensionId, accounts)
   }
 
-  async lock() {
+  /**
+   * Locks the MetaMask wallet.
+   */
+  async lock(): Promise<void> {
     await this.homePage.lock()
   }
 
-  async unlock() {
+  /**
+   * Unlocks the MetaMask wallet.
+   */
+  async unlock(): Promise<void> {
     await this.lockPage.unlock(this.password)
   }
 
-  async confirmSignature() {
+  /**
+   * Confirms a signature request.
+   *
+   * @throws {Error} If extensionId is not set.
+   */
+  async confirmSignature(): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -138,7 +205,12 @@ export class MetaMask extends MetaMaskAbstract {
     await this.notificationPage.signMessage(this.extensionId)
   }
 
-  async confirmSignatureWithRisk() {
+  /**
+   * Confirms a signature request with risk.
+   *
+   * @throws {Error} If extensionId is not set.
+   */
+  async confirmSignatureWithRisk(): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -146,7 +218,12 @@ export class MetaMask extends MetaMaskAbstract {
     await this.notificationPage.signMessageWithRisk(this.extensionId)
   }
 
-  async rejectSignature() {
+  /**
+   * Rejects a signature request.
+   *
+   * @throws {Error} If extensionId is not set.
+   */
+  async rejectSignature(): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -154,7 +231,12 @@ export class MetaMask extends MetaMaskAbstract {
     await this.notificationPage.rejectMessage(this.extensionId)
   }
 
-  async approveNewNetwork() {
+  /**
+   * Approves adding a new network.
+   *
+   * @throws {Error} If extensionId is not set.
+   */
+  async approveNewNetwork(): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -162,7 +244,12 @@ export class MetaMask extends MetaMaskAbstract {
     await this.notificationPage.approveNewNetwork(this.extensionId)
   }
 
-  async rejectNewNetwork() {
+  /**
+   * Rejects adding a new network.
+   *
+   * @throws {Error} If extensionId is not set.
+   */
+  async rejectNewNetwork(): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -170,7 +257,12 @@ export class MetaMask extends MetaMaskAbstract {
     await this.notificationPage.rejectNewNetwork(this.extensionId)
   }
 
-  async approveSwitchNetwork() {
+  /**
+   * Approves switching to a new network.
+   *
+   * @throws {Error} If extensionId is not set.
+   */
+  async approveSwitchNetwork(): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -178,7 +270,12 @@ export class MetaMask extends MetaMaskAbstract {
     await this.notificationPage.approveSwitchNetwork(this.extensionId)
   }
 
-  async rejectSwitchNetwork() {
+  /**
+   * Rejects switching to a new network.
+   *
+   * @throws {Error} If extensionId is not set.
+   */
+  async rejectSwitchNetwork(): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -186,7 +283,13 @@ export class MetaMask extends MetaMaskAbstract {
     await this.notificationPage.rejectSwitchNetwork(this.extensionId)
   }
 
-  async confirmTransaction(options?: { gasSetting?: GasSettings }) {
+  /**
+   * Confirms a transaction.
+   *
+   * @param options - Optional gas settings for the transaction.
+   * @throws {Error} If extensionId is not set.
+   */
+  async confirmTransaction(options?: { gasSetting?: GasSettings }): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -194,7 +297,12 @@ export class MetaMask extends MetaMaskAbstract {
     await this.notificationPage.confirmTransaction(this.extensionId, options)
   }
 
-  async rejectTransaction() {
+  /**
+   * Rejects a transaction.
+   *
+   * @throws {Error} If extensionId is not set.
+   */
+  async rejectTransaction(): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -202,10 +310,16 @@ export class MetaMask extends MetaMaskAbstract {
     await this.notificationPage.rejectTransaction(this.extensionId)
   }
 
+  /**
+   * Approves a token permission request.
+   *
+   * @param options - Optional settings for the approval.
+   * @throws {Error} If extensionId is not set.
+   */
   async approveTokenPermission(options?: {
     spendLimit?: 'max' | number
     gasSetting?: GasSettings
-  }) {
+  }): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -213,7 +327,12 @@ export class MetaMask extends MetaMaskAbstract {
     await this.notificationPage.approveTokenPermission(this.extensionId, options)
   }
 
-  async rejectTokenPermission() {
+  /**
+   * Rejects a token permission request.
+   *
+   * @throws {Error} If extensionId is not set.
+   */
+  async rejectTokenPermission(): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -221,41 +340,72 @@ export class MetaMask extends MetaMaskAbstract {
     await this.notificationPage.rejectTokenPermission(this.extensionId)
   }
 
-  async goBackToHomePage() {
+  /**
+   * Navigates back to the home page.
+   */
+  async goBackToHomePage(): Promise<void> {
     await this.homePage.goBackToHomePage()
   }
 
-  async openSettings() {
+  /**
+   * Opens the settings page.
+   */
+  async openSettings(): Promise<void> {
     await this.homePage.openSettings()
   }
 
-  async openSidebarMenu(menu: SettingsSidebarMenus) {
+  /**
+   * Opens a specific sidebar menu in the settings.
+   *
+   * @param menu - The menu to open.
+   */
+  async openSidebarMenu(menu: SettingsSidebarMenus): Promise<void> {
     await this.homePage.openSidebarMenu(menu)
   }
 
-  async toggleShowTestNetworks() {
+  /**
+   * Toggles the display of test networks.
+   */
+  async toggleShowTestNetworks(): Promise<void> {
     await this.homePage.toggleShowTestNetworks()
   }
 
-  async toggleDismissSecretRecoveryPhraseReminder() {
+  /**
+   * Toggles the dismissal of the secret recovery phrase reminder.
+   */
+  async toggleDismissSecretRecoveryPhraseReminder(): Promise<void> {
     await this.homePage.toggleDismissSecretRecoveryPhraseReminder()
   }
 
-  async resetAccount() {
+  /**
+   * Resets the account.
+   */
+  async resetAccount(): Promise<void> {
     await this.homePage.resetAccount()
   }
 
-  async unsafe_enableEthSign() {
+  /**
+   * Enables eth_sign (unsafe).
+   */
+  async unsafe_enableEthSign(): Promise<void> {
     await this.homePage.openSettings()
     await this.settingsPage.enableEthSign()
   }
 
-  async disableEthSign() {
+  /**
+   * Disables eth_sign.
+   */
+  async disableEthSign(): Promise<void> {
     await this.homePage.openSettings()
     await this.settingsPage.disableEthSign()
   }
 
-  async addNewToken() {
+  /**
+   * Adds a new token.
+   *
+   * @throws {Error} If extensionId is not set.
+   */
+  async addNewToken(): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -263,7 +413,12 @@ export class MetaMask extends MetaMaskAbstract {
     await this.notificationPage.addNewToken(this.extensionId)
   }
 
-  async providePublicEncryptionKey() {
+  /**
+   * Provides a public encryption key.
+   *
+   * @throws {Error} If extensionId is not set.
+   */
+  async providePublicEncryptionKey(): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -271,7 +426,12 @@ export class MetaMask extends MetaMaskAbstract {
     await this.notificationPage.providePublicEncryptionKey(this.extensionId)
   }
 
-  async decrypt() {
+  /**
+   * Decrypts a message.
+   *
+   * @throws {Error} If extensionId is not set.
+   */
+  async decrypt(): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -279,9 +439,15 @@ export class MetaMask extends MetaMaskAbstract {
     await this.notificationPage.decryptMessage(this.extensionId)
   }
 
+  /**
+   * Confirms a transaction and waits for it to be mined.
+   *
+   * @param options - Optional gas settings for the transaction.
+   * @throws {Error} If extensionId is not set.
+   */
   async confirmTransactionAndWaitForMining(options?: {
     gasSetting?: GasSettings
-  }) {
+  }): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
@@ -289,11 +455,19 @@ export class MetaMask extends MetaMaskAbstract {
     await this.notificationPage.confirmTransactionAndWaitForMining(this.extensionId, options)
   }
 
-  async openTransactionDetails(txIndex: number) {
+  /**
+   * Opens the details of a specific transaction.
+   *
+   * @param txIndex - The index of the transaction to open.
+   */
+  async openTransactionDetails(txIndex: number): Promise<void> {
     await this.homePage.openTransactionDetails(txIndex)
   }
 
-  async closeTransactionDetails() {
+  /**
+   * Closes the transaction details view.
+   */
+  async closeTransactionDetails(): Promise<void> {
     await this.homePage.closeTransactionDetails()
   }
 }

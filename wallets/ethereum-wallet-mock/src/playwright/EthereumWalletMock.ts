@@ -6,9 +6,23 @@ import type { Network } from '../type/Network'
 import type { WalletMock } from '../type/WalletMock'
 import { OPTIMISM_NETWORK_ID } from './utils'
 
+/**
+ * Mock implementation of an Ethereum wallet for testing purposes.
+ * Simulates wallet behavior in a controlled environment, allowing for consistent
+ * and reproducible tests without relying on actual blockchain interactions.
+ *
+ * @class
+ * @extends {EthereumWalletMockAbstract}
+ */
 export default class EthereumWalletMock extends EthereumWalletMockAbstract {
+  /** The Playwright Page object to interact with. */
   page: Page
 
+  /**
+   * Creates an instance of EthereumWalletMock.
+   * @param page - The Playwright Page object to interact with.
+   * @param wallet - The type of wallet to mock.
+   */
   constructor(page: Page, wallet: WalletMock = 'metamask') {
     super(wallet)
     this.page = page
@@ -17,10 +31,10 @@ export default class EthereumWalletMock extends EthereumWalletMockAbstract {
 
   /**
    * Imports a wallet using the given seed phrase.
-   *
    * @param seedPhrase - The seed phrase to import.
+   * @returns A promise that resolves when the wallet is imported.
    */
-  importWallet(seedPhrase: string) {
+  importWallet(seedPhrase: string): Promise<void> {
     this.seedPhrase = seedPhrase
 
     return this.page.evaluate(
@@ -47,7 +61,8 @@ export default class EthereumWalletMock extends EthereumWalletMockAbstract {
   }
 
   /**
-   * Retrieves the current account address.
+   * Retrieves all account addresses.
+   * @returns A promise that resolves to an array of account addresses.
    */
   async getAllAccounts(): Promise<`0x${string}`[] | undefined> {
     return this.page.evaluate(() => {
@@ -56,9 +71,10 @@ export default class EthereumWalletMock extends EthereumWalletMockAbstract {
   }
 
   /**
-   * Adds a new account. This account is based on the initially imported seed phrase.
+   * Adds a new account based on the initially imported seed phrase.
+   * @returns A promise that resolves when the new account is added.
    */
-  async addNewAccount() {
+  async addNewAccount(): Promise<void> {
     const accounts = await this.getAllAccounts()
 
     const newAccount = mnemonicToAccount(this.seedPhrase || '', {
@@ -81,10 +97,10 @@ export default class EthereumWalletMock extends EthereumWalletMockAbstract {
 
   /**
    * Imports a wallet using the given private key.
-   *
    * @param privateKey - The private key to import.
+   * @returns A promise that resolves when the wallet is imported.
    */
-  async importWalletFromPrivateKey(privateKey: `0x${string}`) {
+  async importWalletFromPrivateKey(privateKey: `0x${string}`): Promise<void> {
     const newAccount = privateKeyToAccount(privateKey)
 
     return this.page.evaluate(
@@ -102,11 +118,11 @@ export default class EthereumWalletMock extends EthereumWalletMockAbstract {
   }
 
   /**
-   * Switches to the account with the given name.
-   *
-   * @param accountAddress - The name of the account to switch to.
+   * Switches to the account with the given address.
+   * @param accountAddress - The address of the account to switch to.
+   * @returns A promise that resolves when the account switch is complete.
    */
-  async switchAccount(accountAddress: string) {
+  async switchAccount(accountAddress: string): Promise<void> {
     return this.page.evaluate(
       ([blockchain, wallet, accountAddress]) => {
         return Web3Mock.mock({
@@ -123,10 +139,10 @@ export default class EthereumWalletMock extends EthereumWalletMockAbstract {
 
   /**
    * Adds a new network.
-   *
    * @param network - The network object to use for adding the new network.
+   * @returns A promise that resolves when the network is added.
    */
-  async addNetwork(network: Network) {
+  async addNetwork(network: Network): Promise<void> {
     const networkInfo = {
       chainId: network.chainId,
       chainName: network.name,
@@ -151,6 +167,7 @@ export default class EthereumWalletMock extends EthereumWalletMockAbstract {
 
   /**
    * Retrieves the current account address.
+   * @returns A promise that resolves to the current account address.
    */
   async getAccountAddress(): Promise<`0x${string}` | undefined> {
     return (await this.getAllAccounts())?.[0]
@@ -158,10 +175,10 @@ export default class EthereumWalletMock extends EthereumWalletMockAbstract {
 
   /**
    * Switches to the network with the given name.
-   *
    * @param networkName - The name of the network to switch to.
+   * @returns A promise that resolves when the network switch is complete.
    */
-  async switchNetwork(networkName: string) {
+  async switchNetwork(networkName: string): Promise<void> {
     return this.page.evaluate(
       ([blockchain, wallet, networkName, chainId]) => {
         Web3Mock.mock({
@@ -184,10 +201,10 @@ export default class EthereumWalletMock extends EthereumWalletMockAbstract {
 
   /**
    * Connects wallet to the dapp.
-   *
    * @param wallet - The wallet to connect to the dapp.
+   * @returns A promise that resolves when the wallet is connected to the dapp.
    */
-  connectToDapp(wallet: WalletMock = 'metamask') {
+  connectToDapp(wallet: WalletMock = 'metamask'): Promise<void> {
     this.wallet = wallet
 
     return this.page.evaluate(

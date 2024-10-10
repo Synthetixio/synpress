@@ -2,5 +2,7 @@
 
 | Member | Description |
 | :------ | :------ |
-| [defineWalletSetup](functions/defineWalletSetup.md) | This function is used to define how a wallet should be set up. |
-| [testWithSynpress](functions/testWithSynpress.md) | - |
+| [cypress](cypress/index.md) | - |
+| [cypress/support](cypress/support/index.md) | - |
+| [index](index/index.md) | - |
+| [playwright](playwright/index.md) | - |
