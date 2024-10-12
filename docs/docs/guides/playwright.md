@@ -66,7 +66,7 @@ test('should connect wallet to the MetaMask Test Dapp', async ({ context, page, 
 
 You can notice the unusual `extensionId` fixture used here. This fixture is amongst a few others that are provided by Synpress. You can learn more about them in the [Built-in Fixtures](./fixtures) section.
 
-To access the MetaMask API, you must create an instance of the `MetaMask` class as shown above. To learn more about the constructor and all the methods this class provides, see [its API reference](/api/classes/MetaMask).
+To access the MetaMask API, you must create an instance of the `MetaMask` class as shown above. To learn more about the constructor and all the methods this class provides, see [its API reference](/api/playwright/classes/MetaMask.md).
 
 ::: tip
 
