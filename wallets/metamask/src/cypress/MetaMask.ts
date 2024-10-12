@@ -170,7 +170,6 @@ export default class MetaMask {
         return false
       })
   }
-  x
 
   /**
    * Creates an Anvil node for testing.
