@@ -4,7 +4,7 @@ import { ACCOUNT_MOCK, BLOCKCHAIN } from '../constants'
 import { EthereumWalletMockAbstract } from '../type/EthereumWalletMockAbstract'
 import type { Network } from '../type/Network'
 import type { WalletMock } from '../type/WalletMock'
-import { OPTIMISM_NETWORK_ID } from './utils'
+import { DEFAULT_NETWORK_ID } from './utils'
 
 /**
  * Mock implementation of an Ethereum wallet for testing purposes.
@@ -195,7 +195,7 @@ export default class EthereumWalletMock extends EthereumWalletMockAbstract {
           params: [{ chainId }]
         })
       },
-      [BLOCKCHAIN, this.wallet, networkName, OPTIMISM_NETWORK_ID]
+      [BLOCKCHAIN, this.wallet, networkName, DEFAULT_NETWORK_ID]
     )
   }
 

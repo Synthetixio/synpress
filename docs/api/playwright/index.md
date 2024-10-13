@@ -6,7 +6,7 @@
 | :------ | :------ |
 | [EthereumWalletMock](classes/EthereumWalletMock.md) | Mock implementation of an Ethereum wallet for testing purposes. |
 | [MetaMask](classes/MetaMask.md) | MetaMask class for interacting with the MetaMask extension in Playwright tests. |
-| [OPTIMISM\_NETWORK\_ID](variables/OPTIMISM_NETWORK_ID.md) | The network ID (Optimism network by default). |
+| [DEFAULT\_NETWORK\_ID](variables/DEFAULT_NETWORK_ID.md) | The network ID (Optimism network by default). |
 | [PRIVATE\_KEY](variables/PRIVATE_KEY.md) | The private key used for testing purposes. |
 | [web3MockPath](variables/web3MockPath.md) | Relative path to the web3-mock bundle. |
 | [ethereumWalletMockFixtures](functions/ethereumWalletMockFixtures.md) | Declares a test. |

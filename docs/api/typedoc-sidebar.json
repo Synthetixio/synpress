@@ -77,7 +77,7 @@
         "text": "Variables",
         "collapsed": true,
         "items": [
-          { "text": "OPTIMISM_NETWORK_ID", "link": "/api/playwright/variables/OPTIMISM_NETWORK_ID.md" },
+          { "text": "DEFAULT_NETWORK_ID", "link": "/api/playwright/variables/DEFAULT_NETWORK_ID.md" },
           { "text": "PRIVATE_KEY", "link": "/api/playwright/variables/PRIVATE_KEY.md" },
           { "text": "web3MockPath", "link": "/api/playwright/variables/web3MockPath.md" }
         ]

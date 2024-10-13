@@ -21,7 +21,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Docs', link: '/docs/getting-started' },
-      { text: 'API', link: '/api/' },
+      { text: 'API', link: '/api/index/' },
       { text: 'Examples', link: 'https://github.com/Synthetixio/synpress/tree/new-dawn/examples' },
       {
         text: pkg.version,

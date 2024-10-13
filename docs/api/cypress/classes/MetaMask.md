@@ -278,7 +278,7 @@ True if the connection was successful
 
 ```ts
 createAnvilNode(options?): Promise<{
-  "anvil": any;
+  "anvil": Anvil;
   "chainId": number;
   "rpcUrl": string;
 }>
@@ -295,7 +295,7 @@ Creates an Anvil node for testing.
 #### Returns
 
 `Promise`\<\{
-  `"anvil"`: `any`;
+  `"anvil"`: `Anvil`;
   `"chainId"`: `number`;
   `"rpcUrl"`: `string`;
  \}\>
@@ -304,7 +304,7 @@ Object containing the Anvil instance, RPC URL, and chain ID
 
 | Member | Type |
 | :------ | :------ |
-| `anvil` | `any` |
+| `anvil` | `Anvil` |
 | `chainId` | `number` |
 | `rpcUrl` | `string` |
 
