@@ -1,35 +1,97 @@
 [
   {
-    "text": "Classes",
+    "text": "cypress",
+    "link": "/api/cypress/",
     "collapsed": true,
     "items": [
       {
-        "text": "EthereumWalletMock",
-        "link": "/api/classes/EthereumWalletMock.md"
+        "text": "Classes",
+        "collapsed": true,
+        "items": [{ "text": "MetaMask", "link": "/api/cypress/classes/MetaMask.md" }]
       },
-      { "text": "MetaMask", "link": "/api/classes/MetaMask.md" }
+      {
+        "text": "Functions",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "configureSynpressForEthereumWalletMock",
+            "link": "/api/cypress/functions/configureSynpressForEthereumWalletMock.md"
+          },
+          { "text": "configureSynpressForMetaMask", "link": "/api/cypress/functions/configureSynpressForMetaMask.md" },
+          { "text": "initMetaMask", "link": "/api/cypress/functions/initMetaMask.md" }
+        ]
+      },
+      {
+        "text": "support",
+        "link": "/api/cypress/support/",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "Functions",
+            "collapsed": true,
+            "items": [
+              { "text": "mockEthereum", "link": "/api/cypress/support/functions/mockEthereum.md" },
+              {
+                "text": "synpressCommandsForEthereumWalletMock",
+                "link": "/api/cypress/support/functions/synpressCommandsForEthereumWalletMock.md"
+              },
+              {
+                "text": "synpressCommandsForMetaMask",
+                "link": "/api/cypress/support/functions/synpressCommandsForMetaMask.md"
+              }
+            ]
+          }
+        ]
+      }
     ]
   },
   {
-    "text": "Functions",
+    "text": "index",
+    "link": "/api/index/",
     "collapsed": true,
     "items": [
       {
-        "text": "defineWalletSetup",
-        "link": "/api/functions/defineWalletSetup.md"
+        "text": "Functions",
+        "collapsed": true,
+        "items": [
+          { "text": "defineWalletSetup", "link": "/api/index/functions/defineWalletSetup.md" },
+          { "text": "testWithSynpress", "link": "/api/index/functions/testWithSynpress.md" }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "playwright",
+    "link": "/api/playwright/",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "Classes",
+        "collapsed": true,
+        "items": [
+          { "text": "EthereumWalletMock", "link": "/api/playwright/classes/EthereumWalletMock.md" },
+          { "text": "MetaMask", "link": "/api/playwright/classes/MetaMask.md" }
+        ]
       },
       {
-        "text": "ethereumWalletMockFixtures",
-        "link": "/api/functions/ethereumWalletMockFixtures.md"
+        "text": "Variables",
+        "collapsed": true,
+        "items": [
+          { "text": "DEFAULT_NETWORK_ID", "link": "/api/playwright/variables/DEFAULT_NETWORK_ID.md" },
+          { "text": "PRIVATE_KEY", "link": "/api/playwright/variables/PRIVATE_KEY.md" },
+          { "text": "web3MockPath", "link": "/api/playwright/variables/web3MockPath.md" }
+        ]
       },
-      { "text": "getExtensionId", "link": "/api/functions/getExtensionId.md" },
       {
-        "text": "metaMaskFixtures",
-        "link": "/api/functions/metaMaskFixtures.md"
-      },
-      {
-        "text": "testWithSynpress",
-        "link": "/api/functions/testWithSynpress.md"
+        "text": "Functions",
+        "collapsed": true,
+        "items": [
+          { "text": "ethereumWalletMockFixtures", "link": "/api/playwright/functions/ethereumWalletMockFixtures.md" },
+          { "text": "getExtensionId", "link": "/api/playwright/functions/getExtensionId.md" },
+          { "text": "metaMaskFixtures", "link": "/api/playwright/functions/metaMaskFixtures.md" },
+          { "text": "mockEthereum", "link": "/api/playwright/functions/mockEthereum.md" },
+          { "text": "unlockForFixture", "link": "/api/playwright/functions/unlockForFixture.md" }
+        ]
       }
     ]
   }

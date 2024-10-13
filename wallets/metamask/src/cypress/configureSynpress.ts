@@ -20,6 +20,38 @@ let metamaskExtensionPage: Page
 // TODO: Implement if needed to change the focus between pages
 // let cypressPage: Page
 
+/**
+ * Configures Synpress for use with MetaMask.
+ *
+ * This function sets up the necessary configurations and hooks for running
+ * Cypress tests with MetaMask.
+ *
+ * @param on - Cypress plugin event handler
+ * @param config - Cypress plugin configuration options
+ * @param importDefaultWallet - Whether to import the default wallet
+ * @returns Modified Cypress configuration
+ * @throws Error If no Chrome browser is found in the configuration
+ *
+ * @remarks
+ * This function performs the following tasks:
+ *
+ * 1. Filters the available browsers to ensure only Chrome is used.
+ * 2. Sets up a 'before:browser:launch' hook to enable debug mode, establish
+ *    a Playwright connection, and initialize MetaMask.
+ * 3. Sets up a 'before:spec' hook to import the MetaMask wallet before
+ *    each test spec runs.
+ * 4. Provides task handlers for various MetaMask-related operations.
+ *
+ * @example
+ * ```typescript
+ * import { configureSynpress } from './configureSynpress';
+ *
+ * export default (on: Cypress.PluginEvents, config: Cypress.PluginConfigOptions) => {
+ *   return configureSynpress(on, config);
+ * };
+ * ```
+ */
+
 export default function configureSynpress(
   on: Cypress.PluginEvents,
   config: Cypress.PluginConfigOptions,

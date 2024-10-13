@@ -1,20 +1,14 @@
-# TypeScript
+# TypeScript Support in Synpress
 
-## Requirements
+## Requirements and Considerations
 
-Synpress has full TypeScript support. It is written in TypeScript and ships with its type definitions. There are a few things to keep in mind:
+Synpress offers comprehensive TypeScript support, being built with TypeScript and providing its own type definitions. Here are some key points to consider:
 
-- Types require TypeScript >= 5.0.4.
-- While in alpha, the types might change between releases. Locking the `@synthetixio/synpress` to a specific version is recommended.
+- **TypeScript Version**: Synpress requires TypeScript version 5.0.4 or higher.
+- **Version Stability**: Synpress is now a stable release, with consistent type definitions across versions. However, it's still recommended to specify the version of `@synthetixio/synpress` in your project for better control over updates.
 
-To ensure everything works as expected, make sure to enable the [`strict`](https://www.typescriptlang.org/tsconfig#strict) compiler option in your `tsconfig.json`:
+## Configuration
+
+To ensure optimal functionality and type checking, configure your TypeScript compiler with the `strict` option enabled. Update your `tsconfig.json` as follows:
 
 ::: code-group
-```json [tsconfig.json]
-{
-  "compilerOptions": {
-    "strict": true
-  }
-}
-```
-:::

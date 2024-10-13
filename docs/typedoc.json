@@ -1,7 +1,12 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "out": "./api",
-  "entryPoints": ["node_modules/@synthetixio/synpress/src/index.ts"],
+  "entryPoints": [
+    "node_modules/@synthetixio/synpress/src/index.ts",
+    "node_modules/@synthetixio/synpress/src/cypress/index.ts",
+    "node_modules/@synthetixio/synpress/src/cypress/support/index.ts",
+    "node_modules/@synthetixio/synpress/src/playwright/index.ts"
+  ],
   "plugin": ["typedoc-plugin-markdown", "typedoc-vitepress-theme"],
   "readme": "none",
   "hideGenerator": true,

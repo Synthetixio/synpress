@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "rootDir": "test",
+    "rootDir": ".",
     "target": "ES2022",
     "module": "ES2022",
     "moduleResolution": "bundler",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true,
+    "skipLibCheck": true, 
     "types": ["cypress"]
   },
   "include": ["cypress.config.ts", "test", "src"],
