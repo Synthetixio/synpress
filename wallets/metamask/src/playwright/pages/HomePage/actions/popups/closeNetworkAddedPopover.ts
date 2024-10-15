@@ -8,4 +8,12 @@ export async function closeNetworkAddedPopover(page: Page) {
 
   // TODO: Extract & make configurable
   await clickLocatorIfCondition(switchNetworkButtonLocator, () => switchNetworkButtonLocator.isVisible(), 1_000)
+
+  const switchCompleteCloseButtonLocator = page.locator(Selectors.networkAddedPopover.switchCompleteCloseButton)
+
+  await clickLocatorIfCondition(
+    switchCompleteCloseButtonLocator,
+    () => switchCompleteCloseButtonLocator.isVisible(),
+    1_000
+  )
 }

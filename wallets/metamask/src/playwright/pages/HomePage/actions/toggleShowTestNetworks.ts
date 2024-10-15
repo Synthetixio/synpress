@@ -8,4 +8,6 @@ export async function toggleShowTestNetworks(page: Page) {
   await page.locator(Selectors.networkDropdown.dropdownButton).click()
 
   await toggle(page.locator(Selectors.networkDropdown.showTestNetworksToggle))
+
+  await page.locator(Selectors.networkDropdown.closeNetworkPopupButton).click()
 }

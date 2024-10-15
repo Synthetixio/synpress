@@ -19,6 +19,8 @@ test('should toggle the "Show test networks" option from the networks dropdown',
 
   await metamask.toggleShowTestNetworks()
 
+  await metamaskPage.locator(Selectors.networkDropdown.dropdownButton).click()
+
   // We have to wait for the toggle to be "toggled". This is a hacky workaround, unfortunately.
   await expect(metamaskPage.locator(Selectors.networkDropdown.showTestNetworksToggle)).toHaveClass(/toggle-button--on/)
 
