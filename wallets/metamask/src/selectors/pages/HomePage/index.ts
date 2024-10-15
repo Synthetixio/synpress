@@ -55,7 +55,8 @@ const popover = {
 
 const networkAddedPopover = {
   switchToNetworkButton: '.home__new-network-added__switch-to-button',
-  dismissButton: '.home__new-network-added button.btn-secondary'
+  dismissButton: '.home__new-network-added button.btn-secondary',
+  switchCompleteCloseButton: '.popover-header .box.popover-header__title button.mm-box.mm-button-icon'
 }
 
 const newNetworkInfoPopover = {
@@ -75,7 +76,9 @@ const networkDropdown = {
   showTestNetworksToggle: `${networkDropdownContainer} > section > div > label.toggle-button`,
   addNetworkButton: `${networkDropdownContainer} div.mm-box.mm-box--padding-4 > button`,
   toggleOff: `${networkDropdownContainer} label.toggle-button.toggle-button--off`,
-  toggleOn: `${networkDropdownContainer} label.toggle-button.toggle-button--on`
+  toggleOn: `${networkDropdownContainer} label.toggle-button.toggle-button--on`,
+  closeNetworkPopupButton:
+    '.mm-modal-header button.mm-button-icon.mm-box--color-icon-default.mm-box--background-color-transparent.mm-box--rounded-lg'
 }
 
 const tabContainer = '.tabs__content'
