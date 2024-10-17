@@ -8,6 +8,7 @@ const packageJson = require('./package.json');
 const chains = require('viem/chains');
 const appRoot = require('app-root-path');
 const os = require('os');
+const unzipCrx = require('unzip-crx-3');
 
 let currentNetwork = chains.mainnet;
 // list of added networks to metamask
@@ -193,15 +194,38 @@ module.exports = {
       );
     }
   },
-  async download(url, destination) {
+  getPhantomReleases: async () => {
+    const PHANTOM_URL = 'https://crx-backup.phantom.dev/latest.crx';
+
+    return {
+      filename: 'phantom-chrome-latest',
+      downloadUrl: PHANTOM_URL,
+      tagName: 'phantom-chrome-latest',
+    };
+  },
+  download: async (provider, url, destination) => {
     try {
       log(
         `Trying to download and extract file from: ${url} to following path: ${destination}`,
       );
+
+      if (provider === 'phantom') {
+        await download(url, destination, {
+          headers: {
+            Accept: 'application/octet-stream',
+          },
+        });
+        await unzipCrx(`${destination}/latest.crx`, destination);
+        return;
+      }
+
       if (process.env.GH_USERNAME && process.env.GH_PAT) {
         await download(url, destination, {
           extract: true,
           auth: `${process.env.GH_USERNAME}:${process.env.GH_PAT}`,
+          headers: {
+            Accept: 'application/octet-stream',
+          },
         });
       } else {
         await download(url, destination, {
@@ -210,37 +234,43 @@ module.exports = {
       }
     } catch (e) {
       throw new Error(
-        `[download] Unable to download metamask release from: ${url} to: ${destination} with following error:\n${e}`,
+        `[download] Unable to download provider release from: ${url} to: ${destination} with following error:\n${e}`,
       );
     }
   },
-  async prepareMetamask(version) {
-    const release = await module.exports.getMetamaskReleases(version);
-
+  prepareProvider: async (provider, version) => {
+    const release =
+      provider === 'phantom'
+        ? await module.exports.getPhantomReleases(version)
+        : await module.exports.getMetamaskReleases(version);
     let downloadsDirectory;
     if (os.platform() === 'win32') {
       downloadsDirectory = appRoot.resolve('/node_modules');
     } else {
       downloadsDirectory = path.resolve(__dirname, 'downloads');
     }
-
     await module.exports.createDirIfNotExist(downloadsDirectory);
-    const metamaskDirectory = path.join(downloadsDirectory, release.tagName);
-    const metamaskDirectoryExists =
-      await module.exports.checkDirOrFileExist(metamaskDirectory);
-    const metamaskManifestFilePath = path.join(
+    const providerDirectory = path.join(downloadsDirectory, release.tagName);
+    const providerkDirectoryExists = await module.exports.checkDirOrFileExist(
+      providerDirectory,
+    );
+    const providerManifestFilePath = path.join(
       downloadsDirectory,
       release.tagName,
       'manifest.json',
     );
-    const metamaskManifestFileExists = await module.exports.checkDirOrFileExist(
-      metamaskManifestFilePath,
+    const providerManifestFileExists = await module.exports.checkDirOrFileExist(
+      providerManifestFilePath,
     );
-    if (!metamaskDirectoryExists && !metamaskManifestFileExists) {
-      await module.exports.download(release.downloadUrl, metamaskDirectory);
+    if (!providerkDirectoryExists && !providerManifestFileExists) {
+      await module.exports.download(
+        provider,
+        release.downloadUrl,
+        providerDirectory,
+      );
     } else {
-      log('Metamask is already downloaded');
+      log('provider is already downloaded');
     }
-    return metamaskDirectory;
+    return providerDirectory;
   },
 };

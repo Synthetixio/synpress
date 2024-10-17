@@ -2,6 +2,27 @@ import '@testing-library/cypress/add-commands';
 import 'cypress-wait-until';
 
 // playwright commands
+const addCommand = (commandName, legacyCommandName, promiseFn) => {
+  Cypress.Commands.add(commandName, parameters => {
+    if (promiseFn) {
+      return promiseFn(cy.task(commandName, parameters));
+    }
+    return cy.task(commandName, parameters);
+  });
+
+  if (legacyCommandName != null) {
+    Cypress.Commands.add(legacyCommandName, parameters => {
+      if (promiseFn) {
+        return promiseFn(cy.task(commandName, parameters));
+      }
+      return cy.task(legacyCommandName, parameters);
+    });
+  }
+};
+
+Cypress.Commands.add('selectProvider', providerName => {
+  return cy.task('selectProvider', providerName);
+});
 
 Cypress.Commands.add('initPlaywright', () => {
   return cy.task('initPlaywright');
@@ -129,9 +150,7 @@ Cypress.Commands.add('disconnectMetamaskWalletFromAllDapps', () => {
   return cy.task('disconnectMetamaskWalletFromAllDapps');
 });
 
-Cypress.Commands.add('confirmMetamaskSignatureRequest', () => {
-  return cy.task('confirmMetamaskSignatureRequest');
-});
+addCommand('confirmSignatureRequest', 'confirmMetamaskSignatureRequest');
 
 Cypress.Commands.add('confirmMetamaskEncryptionPublicKeyRequest', () => {
   return cy.task('confirmMetamaskEncryptionPublicKeyRequest');
@@ -190,23 +209,9 @@ Cypress.Commands.add('rejectMetamaskPermissionToSpend', () => {
   return cy.task('rejectMetamaskPermissionToSpend');
 });
 
-Cypress.Commands.add('acceptMetamaskAccess', options => {
-  return cy.task('acceptMetamaskAccess', options);
-});
-
-Cypress.Commands.add('rejectMetamaskAccess', () => {
-  return cy.task('rejectMetamaskAccess');
-});
-
-Cypress.Commands.add(
-  'confirmMetamaskTransaction',
-  ({ gasConfig, shouldWaitForPopupClosure = false } = {}) => {
-    return cy.task('confirmMetamaskTransaction', {
-      gasConfig,
-      shouldWaitForPopupClosure,
-    });
-  },
-);
+addCommand('acceptAccess', 'acceptMetamaskAccess');
+addCommand('confirmTransaction', 'confirmMetamaskTransaction');
+addCommand('rejectMetamaskAccess', 'rejectMetamaskAccess');
 
 Cypress.Commands.add(
   'confirmMetamaskTransactionAndWaitForMining',
@@ -263,26 +268,40 @@ Cypress.Commands.add('allowMetamaskToAddAndSwitchNetwork', () => {
   return cy.task('allowMetamaskToAddAndSwitchNetwork');
 });
 
+/**
+ * @deprecated
+ */
 Cypress.Commands.add('unlockMetamask', (password = 'Tester@1234') => {
   return cy.task('unlockMetamask', password);
 });
-
-Cypress.Commands.add('fetchMetamaskWalletAddress', () => {
-  cy.task('fetchMetamaskWalletAddress').then(address => {
-    return address;
-  });
+Cypress.Commands.add('unlock', (password = 'Tester@1234') => {
+  return cy.task('unlock', password);
 });
+
+Cypress.Commands.add('selectWallet', (wallet = 'metamask', mode = 'always') => {
+  return cy.task('selectWallet', wallet, mode);
+});
+
+addCommand('lock');
+
+addCommand('fetchWalletAddress', 'fetchMetamaskWalletAddress', taskPromise =>
+  taskPromise.then(address => address),
+);
+
+addCommand('confirmIncorrectNetworkStage');
 
 Cypress.Commands.add(
   'setupMetamask',
-  (
+  ({
+    provider = 'metamask',
     secretWordsOrPrivateKey = 'test test test test test test test test test test test junk',
     network = 'goerli',
     password = 'Tester@1234',
     enableAdvancedSettings = false,
     enableExperimentalSettings = false,
-  ) => {
-    return cy.task('setupMetamask', {
+  }) => {
+    return cy.task('setup', {
+      provider,
       secretWordsOrPrivateKey,
       network,
       password,
@@ -292,8 +311,27 @@ Cypress.Commands.add(
   },
 );
 
-Cypress.Commands.add('getCurrentNetwork', () => {
-  return cy.task('getCurrentNetwork');
+Cypress.Commands.add(
+  'setup',
+  ({
+    provider = 'metamask',
+    secretWordsOrPrivateKey = 'test test test test test test test test test test test junk',
+    network = 'goerli',
+    password = 'Tester@1234',
+    enableAdvancedSettings = false,
+  }) => {
+    return cy.task('setup', {
+      provider,
+      secretWordsOrPrivateKey,
+      network,
+      password,
+      enableAdvancedSettings,
+    });
+  },
+);
+
+Cypress.Commands.add('getNetwork', () => {
+  return cy.task('getNetwork');
 });
 
 // Etherscan commands

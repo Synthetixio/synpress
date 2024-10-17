@@ -1,5 +1,6 @@
 import './commands';
 import { configure } from '@testing-library/cypress';
+const providersHelper = require('../providers');
 
 configure({ testIdAttribute: 'data-testid' });
 
@@ -25,7 +26,13 @@ Cypress.on('window:before:load', win => {
 });
 
 before(() => {
-  if (!Cypress.env('SKIP_METAMASK_SETUP')) {
-    cy.setupMetamask();
+  if (!Cypress.env('SKIP_SETUP')) {
+    const providers = providersHelper.getProviders(Cypress.env('PROVIDERS'));
+    for (const provider of providers) {
+      if(provider.name === "metamask" && !Cypress.env('SKIP_METAMASK_SETUP')) {
+        continue;
+      }
+      cy.setup({ provider: provider.name });
+    }
   }
 });

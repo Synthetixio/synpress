@@ -11,6 +11,9 @@ const onboardingWelcomePage = `${onboardingFlow} [data-testid="onboarding-welcom
 const importWalletButton = `${onboardingWelcomePage} [data-testid="onboarding-import-wallet"]`;
 const onboardingTermsCheckbox = `${onboardingWelcomePage} [data-testid="onboarding-terms-checkbox"]`;
 const createWalletButton = `${onboardingWelcomePage} [data-testid="onboarding-create-wallet"]`;
+const acceptTermsCheckbox = `[data-testid="onboarding-terms-checkbox"]`;
+const agreeMetricsButton = `[data-testid="metametrics-i-agree"]`;
+
 module.exports.onboardingWelcomePageElements = {
   app,
   onboardingWelcomePage,
