@@ -325,6 +325,10 @@ const metamask = {
         waitForEvent: 'navi',
       },
     );
+    await playwright.waitUntilWindowIsStable(
+      PROVIDER,
+      await playwright.windows(PROVIDER),
+    );
     await playwright.waitAndClick(
       PROVIDER,
       endOfFlowPageElements.allDoneButton,
