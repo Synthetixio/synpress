@@ -2,25 +2,17 @@
   "mode": "pre",
   "tag": "alpha",
   "initialVersions": {
-    "docs": "0.0.0",
-    "example-new-dawn": "0.0.0",
-    "@synthetixio/synpress-cache": "0.0.0",
-    "@synthetixio/synpress-core": "0.0.0",
-    "@synthetixio/synpress-tsconfig": "0.0.0",
-    "@synthetixio/synpress": "3.0.0",
-    "@synthetixio/synpress-metamask": "0.0.0",
-    "@synthetixio/ethereum-wallet-mock": "0.0.1-alpha.3"
+    "docs": "0.0.1",
+    "@examples/ethereum-wallet-mock": "0.0.1-alpha.9",
+    "@examples/metamask": "0.0.1-alpha.9",
+    "@synthetixio/synpress-cache": "0.0.1-alpha.9",
+    "@synthetixio/synpress-core": "0.0.1-alpha.9",
+    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.9",
+    "@synthetixio/synpress": "4.0.0-alpha.9",
+    "@synthetixio/ethereum-wallet-mock": "0.0.1-alpha.9",
+    "@synthetixio/synpress-metamask": "0.0.1-alpha.9"
   },
   "changesets": [
-    "fluffy-hornets-tell",
-    "fluffy-trains-eat",
-    "fresh-walls-nail",
-    "great-buttons-whisper",
-    "great-paws-taste",
-    "poor-pianos-thank",
-    "quick-cups-breathe",
-    "quiet-tomatoes-work",
-    "warm-turtles-matter",
-    "wet-doors-clean"
+    "itchy-pumas-lick"
   ]
 }
