@@ -1,6 +1,6 @@
 {
   "name": "@synthetixio/synpress-cache",
-  "version": "0.0.1-alpha.9",
+  "version": "0.0.1-alpha.10",
   "type": "module",
   "exports": {
     "types": "./types/index.d.ts",
@@ -42,7 +42,7 @@
     "zod": "3.22.4"
   },
   "devDependencies": {
-    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.9",
+    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.10",
     "@types/archiver": "6.0.2",
     "@types/fs-extra": "11.0.4",
     "@types/gradient-string": "1.1.5",

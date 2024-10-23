@@ -1,6 +1,6 @@
 {
   "name": "@synthetixio/ethereum-wallet-mock",
-  "version": "0.0.1-alpha.9",
+  "version": "0.0.1-alpha.10",
   "type": "module",
   "exports": {
     "./cypress": {
@@ -37,12 +37,12 @@
     "@depay/web3-client": "10.18.6",
     "@depay/web3-mock": "14.17.0",
     "@depay/web3-mock-evm": "^14.17.0",
-    "@synthetixio/synpress-core": "0.0.1-alpha.9",
+    "@synthetixio/synpress-core": "0.0.1-alpha.10",
     "viem": "2.9.9"
   },
   "devDependencies": {
     "@depay/web3-mock": "14.17.0",
-    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.9",
+    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.10",
     "@types/node": "20.11.17",
     "@vitest/coverage-v8": "1.2.2",
     "cypress": "13.9.0",

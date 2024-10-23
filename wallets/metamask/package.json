@@ -1,6 +1,6 @@
 {
   "name": "@synthetixio/synpress-metamask",
-  "version": "0.0.1-alpha.9",
+  "version": "0.0.1-alpha.10",
   "type": "module",
   "exports": {
     "./cypress": {
@@ -49,7 +49,7 @@
     "zod": "3.22.4"
   },
   "devDependencies": {
-    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.9",
+    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.10",
     "@types/fs-extra": "11.0.4",
     "@types/node": "20.11.17",
     "@vitest/coverage-v8": "1.2.2",

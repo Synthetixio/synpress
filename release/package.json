@@ -1,6 +1,6 @@
 {
   "name": "@synthetixio/synpress",
-  "version": "4.0.0-alpha.9",
+  "version": "4.0.0-alpha.10",
   "type": "module",
   "exports": {
     ".": {
@@ -39,12 +39,12 @@
   },
   "dependencies": {
     "@synthetixio/ethereum-wallet-mock": "workspace:*",
-    "@synthetixio/synpress-cache": "0.0.1-alpha.9",
-    "@synthetixio/synpress-core": "0.0.1-alpha.9",
+    "@synthetixio/synpress-cache": "0.0.1-alpha.10",
+    "@synthetixio/synpress-core": "0.0.1-alpha.10",
     "@synthetixio/synpress-metamask": "workspace:*"
   },
   "devDependencies": {
-    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.9",
+    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.10",
     "@types/node": "20.11.17",
     "rimraf": "5.0.5",
     "tsup": "8.0.2",

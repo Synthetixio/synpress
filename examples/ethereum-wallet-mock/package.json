@@ -1,6 +1,6 @@
 {
   "name": "@examples/ethereum-wallet-mock",
-  "version": "0.0.1-alpha.9",
+  "version": "0.0.1-alpha.10",
   "private": true,
   "type": "module",
   "scripts": {
@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@metamask/test-dapp": "8.1.0",
-    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.9",
+    "@synthetixio/synpress-tsconfig": "0.0.1-alpha.10",
     "@types/node": "20.11.17",
     "cypress": "13.13.0",
     "serve": "14.2.1",
