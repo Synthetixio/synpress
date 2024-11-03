@@ -43,3 +43,7 @@ If you're running in prerelease mode, make sure you're also pushing the release 
 ```bash
 git push --follow-tags
 ```
+
+8. Run `pnpm build` again
+
+9. Commit lockfile

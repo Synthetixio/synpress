@@ -5,6 +5,7 @@ import { EthereumWalletMockAbstract } from '../type/EthereumWalletMockAbstract'
 import type { Network } from '../type/Network'
 import type { WalletMock } from '../type/WalletMock'
 import { DEFAULT_NETWORK_ID } from './utils'
+import { mockTransaction, sendTransaction } from './utils'
 
 /**
  * Mock implementation of an Ethereum wallet for testing purposes.
@@ -229,5 +230,27 @@ export default class EthereumWalletMock extends EthereumWalletMockAbstract {
       },
       [BLOCKCHAIN, [ACCOUNT_MOCK], wallet]
     )
+  }
+
+  /**
+   * Sends a transaction.
+   * @param to - Recipient address.
+   * @param value - Transaction value in wei.
+   * @returns Promise that resolves to the transaction hash.
+   */
+  async sendTransaction(to: string, value: string): Promise<string> {
+    // Mock the transaction
+    await mockTransaction(this.page, [
+      to,
+      ACCOUNT_MOCK, // from address
+      value
+    ])
+
+    // Send the transaction
+    return this.page.evaluate(sendTransaction, {
+      to,
+      from: ACCOUNT_MOCK,
+      value
+    })
   }
 }
