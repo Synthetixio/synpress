@@ -93,6 +93,7 @@ Here's an optimized example of how to write tests using Cypress with Synpress in
        // - Interacting with smart contracts
        // - Testing dapp-specific functionality
      })
+   })
    ```
 
 ## Running Tests
