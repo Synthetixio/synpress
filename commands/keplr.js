@@ -69,7 +69,7 @@ const keplr = {
   async getExtensionDetails() {
     const keplrExtensionData = (await playwright.getExtensionsData()).keplr;
 
-    extensionId = keplrExtensionData.id;
+    extensionId = keplrExtensionData.id.trim();
     extensionVersion = keplrExtensionData.version;
     registrationUrl = `chrome-extension://${extensionId}/register.html`;
     permissionsUrl = `chrome-extension://${extensionId}/popup.html#/setting/security/permission`;

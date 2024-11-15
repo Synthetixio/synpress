@@ -149,7 +149,7 @@ module.exports = {
       } else if (
         page
           .url()
-          .includes(`chrome-extension://${keplrExtensionData.id}/register.html`)
+          .includes(`chrome-extension://${keplrExtensionData.id.trim()}/register.html`)
       ) {
         keplrWindow = page;
       }
