@@ -11,4 +11,10 @@ Synpress offers comprehensive TypeScript support, being built with TypeScript an
 
 To ensure optimal functionality and type checking, configure your TypeScript compiler with the `strict` option enabled. Update your `tsconfig.json` as follows:
 
-::: code-group
+```json
+{
+  "compilerOptions": {
+    "strict": true
+  }
+}
+```
