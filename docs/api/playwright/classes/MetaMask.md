@@ -132,6 +132,24 @@ If extensionId is not set.
 
 ***
 
+### approveNewEthereumRPC()
+
+```ts
+approveNewEthereumRPC(): Promise<void>
+```
+
+Approves adding a new RPC provider for Ethereum Mainnet.
+
+#### Returns
+
+`Promise`\<`void`\>
+
+#### Throws
+
+If extensionId is not set.
+
+***
+
 ### approveNewNetwork()
 
 ```ts
