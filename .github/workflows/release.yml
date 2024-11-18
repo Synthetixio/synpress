@@ -1,6 +1,7 @@
 name: Release CI
 
 on:
+  pull_request:
   push:
     branches: [master]
   workflow_dispatch:
@@ -92,7 +93,6 @@ jobs:
           GIT_SIGNING_KEY: ${{ secrets.GIT_SIGNING_KEY }}
 
       - name: Release patch:beta
-        if: github.event_name == 'push'
         run: |
           git reset --hard
 
