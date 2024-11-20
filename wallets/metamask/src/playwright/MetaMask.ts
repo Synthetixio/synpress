@@ -284,7 +284,7 @@ export class MetaMask extends MetaMaskAbstract {
   }
 
   /**
-   * Approves switching to a new network.
+   * Approves adding a new RPC provider for Ethereum Mainnet.
    *
    * @throws {Error} If extensionId is not set.
    */
@@ -297,7 +297,7 @@ export class MetaMask extends MetaMaskAbstract {
   }
 
   /**
-   * Rejects switching to a new network.
+   * Rejects adding a new RPC provider for Ethereum Mainnet.
    *
    * @throws {Error} If extensionId is not set.
    */

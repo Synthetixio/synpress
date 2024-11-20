@@ -333,6 +333,26 @@ export default class MetaMask {
   }
 
   /**
+   * Approves adding a new RPC provider for Ethereum Mainnet.
+   *
+   * @returns True if the RPC provider was approved successfully
+   */
+  async approveNewEthereumRPC(): Promise<boolean> {
+    await this.metamaskPlaywright.approveNewEthereumRPC()
+    return true
+  }
+
+  /**
+   * Rejects adding a new RPC provider for Ethereum Mainnet.
+   *
+   * @returns True if the RPC provider was rejected successfully
+   */
+  async rejectNewEthereumRPC(): Promise<boolean> {
+    await this.metamaskPlaywright.rejectNewEthereumRPC()
+    return true
+  }
+
+  /**
    * Locks the MetaMask wallet.
    * @returns True if the wallet was locked successfully
    */
