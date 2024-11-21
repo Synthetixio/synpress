@@ -45,7 +45,7 @@ pnpm add -D @synthetixio/synpress@latest
 
 ## 📝 Documentation
 
-For comprehensive guides, API references, and examples, refer to our [official documentation](https://synpress.io/docs/getting-started).
+For comprehensive guides, API references, and examples, refer to our [official documentation](https://docs.synpress.io/docs/introduction).
 
 ## 🧑‍🤝‍🧑 Community
 
