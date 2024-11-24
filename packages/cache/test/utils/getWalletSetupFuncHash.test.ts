@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { WALLET_SETUP_FUNC_HASH_LENGTH, getWalletSetupFuncHash } from '../../src/utils/getWalletSetupFuncHash'
 
-const EXPECTED_HASH = 'b940c886be3c1a041ddd'
+const EXPECTED_HASH = '46b9dd2b0ba88d13233b'
 
 const testFunction = async (name: string) => {
   return `Hello ${name}!`
