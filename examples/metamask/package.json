@@ -16,6 +16,7 @@
   "dependencies": {
     "@playwright/test": "1.48.2",
     "@synthetixio/synpress": "workspace:*",
+    "@synthetixio/synpress-cache": "workspace:*",
     "dotenv": "16.4.2"
   },
   "devDependencies": {

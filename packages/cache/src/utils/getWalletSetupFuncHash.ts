@@ -13,9 +13,12 @@ export function getWalletSetupFuncHash(walletSetupFunc: AnyFunction) {
   const { code } = esbuild.transformSync(walletSetupFunc.toString(), {
     format: 'esm',
     minifyWhitespace: true,
+    target: 'ES2022',
     drop: ['console', 'debugger'],
     loader: 'ts',
-    logLevel: 'silent'
+    logLevel: 'silent',
+    platform: 'node',
+    treeShaking: true
   })
 
   const hash = createHash('shake256', {
