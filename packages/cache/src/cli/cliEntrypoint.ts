@@ -62,10 +62,10 @@ export const cliEntrypoint = async () => {
     process.exit(1)
   }
 
-  const compiledWalletSetupDirPath = await compileWalletSetupFunctions(walletSetupDir, flags.debug)
+  const { outDir: compiledWalletSetupDirPath, functionStrings } = await compileWalletSetupFunctions(walletSetupDir, flags.debug)
 
-  // TODO: We should be using `prepareExtension` function from the wallet itself!
-  await createCache(compiledWalletSetupDirPath, prepareExtension, flags.force)
+    // TODO: We should be using `prepareExtension` function from the wallet itself!
+  await createCache(compiledWalletSetupDirPath, functionStrings, prepareExtension, flags.force)
 
   if (!flags.debug) {
     await rimraf(compiledWalletSetupDirPath)

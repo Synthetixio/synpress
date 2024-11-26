@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { defineWalletSetup } from '../src'
 
 const PASSWORD = 'Quack Quack! 🦆'
-const EXPECTED_HASH = '46b9dd2b0ba88d13233b'
+const EXPECTED_HASH = '8a6a832d282f38a4683a'
 
 const testWalletSetupFunction = async (): Promise<void> => {
   const result = 1 + 2

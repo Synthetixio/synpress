@@ -1,5 +1,6 @@
 import type { BrowserContext, Page } from 'playwright-core'
 import { getWalletSetupFuncHash } from './utils/getWalletSetupFuncHash'
+import buildWalletSetupFunction from './utils/buildWalletSetupFunction';
 
 // TODO: Should we export this type in the `release` package?
 export type WalletSetupFunction = (context: BrowserContext, walletPage: Page) => Promise<void>
@@ -15,7 +16,9 @@ export type WalletSetupFunction = (context: BrowserContext, walletPage: Page) =>
  * @returns An object containing the hash of the function, the function itself, and the wallet password. The `testWithWalletSetup` function uses this object.
  */
 export function defineWalletSetup(walletPassword: string, fn: WalletSetupFunction) {
-  const hash = getWalletSetupFuncHash(fn)
+  const walletSetupFunction = buildWalletSetupFunction(fn.toString())
+
+  const hash = getWalletSetupFuncHash(walletSetupFunction)
 
   return {
     hash,
