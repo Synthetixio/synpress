@@ -10,7 +10,9 @@ describe('getWalletSetupFuncHash', () => {
       // biome-ignore lint/suspicious/noExplicitAny: any type here is intentional
     } as any
 
-    expect(() => getWalletSetupFuncHash(incorrectFunctionObject)).toThrowError('The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received an instance of Object')
+    expect(() => getWalletSetupFuncHash(incorrectFunctionObject)).toThrowError(
+      'The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received an instance of Object'
+    )
   })
 
   it('returns hash', async () => {

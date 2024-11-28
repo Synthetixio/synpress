@@ -1,6 +1,6 @@
 import type { BrowserContext, Page } from 'playwright-core'
+import buildWalletSetupFunction from './utils/buildWalletSetupFunction'
 import { getWalletSetupFuncHash } from './utils/getWalletSetupFuncHash'
-import buildWalletSetupFunction from './utils/buildWalletSetupFunction';
 
 // TODO: Should we export this type in the `release` package?
 export type WalletSetupFunction = (context: BrowserContext, walletPage: Page) => Promise<void>

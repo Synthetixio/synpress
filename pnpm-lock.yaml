@@ -237,11 +237,11 @@ importers:
         specifier: workspace:*
         version: link:../wallets/ethereum-wallet-mock
       '@synthetixio/synpress-cache':
-        specifier: 0.0.4
-        version: 0.0.4(playwright-core@1.48.2)(postcss@8.4.41)(typescript@5.3.3)
+        specifier: workspace:*
+        version: link:../packages/cache
       '@synthetixio/synpress-core':
-        specifier: 0.0.4
-        version: 0.0.4(@playwright/test@1.48.2)
+        specifier: workspace:*
+        version: link:../packages/core
       '@synthetixio/synpress-metamask':
         specifier: workspace:*
         version: link:../wallets/metamask
@@ -1527,12 +1527,6 @@ packages:
   '@sindresorhus/is@5.6.0':
     resolution: {integrity: sha512-TV7t8GKYaJWsn00tFDqBw8+Uqmr8A0fRU1tvTQhyZzGv0sJCGRQL3JGMI3ucuKo3XIZdUP+Lx7/gh2t3lewy7g==}
     engines: {node: '>=14.16'}
-
-  '@synthetixio/synpress-cache@0.0.4':
-    resolution: {integrity: sha512-G1qF0XgMyRDjQjTYFniuFvPaY6+AuSvcEi2bkdcMmKCD0NK+Zw/PLEk0wRy1r1LN1F4HLdXrjittiKU6mh5PLA==}
-    hasBin: true
-    peerDependencies:
-      playwright-core: 1.48.2
 
   '@synthetixio/synpress-core@0.0.4':
     resolution: {integrity: sha512-3zO8PGigi9sjdG359pZ0EB3BiBPweZVOyiobCopNDykKI/EoWNYY05bOttOG+/Wg0HynMzGTPTRwpJ0+a+k2Sg==}
@@ -6608,29 +6602,6 @@ snapshots:
   '@sinclair/typebox@0.27.8': {}
 
   '@sindresorhus/is@5.6.0': {}
-
-  '@synthetixio/synpress-cache@0.0.4(playwright-core@1.48.2)(postcss@8.4.41)(typescript@5.3.3)':
-    dependencies:
-      axios: 1.6.7
-      chalk: 5.3.0
-      commander: 12.0.0
-      esbuild: 0.20.0
-      fs-extra: 11.2.0
-      glob: 10.3.10
-      gradient-string: 2.0.2
-      playwright-core: 1.48.2
-      progress: 2.0.3
-      tsup: 8.0.2(postcss@8.4.41)(typescript@5.3.3)
-      unzipper: 0.10.14
-      zod: 3.22.4
-    transitivePeerDependencies:
-      - '@microsoft/api-extractor'
-      - '@swc/core'
-      - debug
-      - postcss
-      - supports-color
-      - ts-node
-      - typescript
 
   '@synthetixio/synpress-core@0.0.4(@playwright/test@1.48.2)':
     dependencies:

@@ -1,19 +1,15 @@
-import { transformSync } from "esbuild";
-import { FIXES_BANNER } from "../cli/compilationFixes";
+import { transformSync } from 'esbuild'
 
-export default function buildWalletSetupFunction(
-  walletSetupFunctionString: string
-) {
+export default function buildWalletSetupFunction(walletSetupFunctionString: string) {
   const { code } = transformSync(walletSetupFunctionString, {
-    format: "esm",
+    format: 'esm',
     minifyWhitespace: true,
-    target: "es2022",
-    drop: ["console", "debugger"],
-    loader: "ts",
-    logLevel: "silent",
-    platform: "node",
-    banner: FIXES_BANNER,
-  });
+    target: 'es2022',
+    drop: ['console', 'debugger'],
+    loader: 'ts',
+    logLevel: 'silent',
+    platform: 'node'
+  })
 
-  return code;
+  return code
 }

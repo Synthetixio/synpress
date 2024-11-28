@@ -1,30 +1,23 @@
-import { getUniqueWalletSetupFunctions } from "./utils/getUniqueWalletSetupFunctions";
-import { triggerCacheCreation } from "./utils/triggerCacheCreation";
+import { getUniqueWalletSetupFunctions } from './utils/getUniqueWalletSetupFunctions'
+import { triggerCacheCreation } from './utils/triggerCacheCreation'
 
 export async function createCache(
   walletSetupDirPath: string,
-  functionStrings: string[],
+  hashes: string[],
   downloadExtension: () => Promise<string>,
   force = false
 ) {
-  const setupFunctions = await getUniqueWalletSetupFunctions(
-    walletSetupDirPath
-  );
+  const setupFunctions = await getUniqueWalletSetupFunctions(walletSetupDirPath)
 
-  const cacheCreationPromises = await triggerCacheCreation(
-    setupFunctions,
-    functionStrings,
-    downloadExtension,
-    force
-  );
+  const cacheCreationPromises = await triggerCacheCreation(setupFunctions, hashes, downloadExtension, force)
 
   if (cacheCreationPromises.length === 0) {
-    console.log("No new setup functions to cache. Exiting...");
-    return;
+    console.log('No new setup functions to cache. Exiting...')
+    return
   }
 
   // TODO: This line has no unit test. Not sure how to do it. Look into it later.
-  await Promise.all(cacheCreationPromises);
+  await Promise.all(cacheCreationPromises)
 
-  console.log("All wallet setup functions are now cached!");
+  console.log('All wallet setup functions are now cached!')
 }
