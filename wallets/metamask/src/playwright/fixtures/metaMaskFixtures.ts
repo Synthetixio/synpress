@@ -42,7 +42,7 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
       }
     },
     context: async ({ context: currentContext, _contextPath }, use) => {
-      const { walletPassword, hash } = await walletSetup
+      const { walletPassword, hash } = walletSetup
 
       const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, hash)
       if (!(await fs.exists(cacheDirPath))) {
@@ -104,7 +104,7 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
       await use(extensionId)
     },
     metamask: async ({ context, extensionId }, use) => {
-      const { walletPassword } = await walletSetup
+      const { walletPassword } = walletSetup
 
       const metamask = new MetaMask(context, _metamaskPage, walletPassword, extensionId)
 

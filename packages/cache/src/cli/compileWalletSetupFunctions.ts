@@ -19,7 +19,7 @@ export async function compileWalletSetupFunctions(walletSetupDir: string, debug:
   fs.ensureDirSync(outDir)
 
   const globPattern = createGlobPattern(walletSetupDir)
-  const fileList = await glob(globPattern)
+  const fileList = (await glob(globPattern)).sort()
 
   if (debug) {
     console.log('[DEBUG] Found the following wallet setup files:')
