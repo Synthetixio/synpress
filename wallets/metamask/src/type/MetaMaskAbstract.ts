@@ -127,6 +127,16 @@ export abstract class MetaMaskAbstract {
   abstract rejectSwitchNetwork(): void
 
   /**
+   * Approves a new RPC provider request.
+   */
+  abstract approveNewEthereumRPC(): void
+
+  /**
+   * Rejects a new RPC provider request.
+   */
+  abstract rejectNewEthereumRPC(): void
+
+  /**
    * Confirms a transaction request.
    *
    * @param options - The transaction options.

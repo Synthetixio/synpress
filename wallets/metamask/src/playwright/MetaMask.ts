@@ -284,12 +284,40 @@ export class MetaMask extends MetaMaskAbstract {
   }
 
   /**
+   * Approves adding a new RPC provider for Ethereum Mainnet.
+   *
+   * @throws {Error} If extensionId is not set.
+   */
+  async approveNewEthereumRPC(): Promise<void> {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.approveNewEthereumRPC(this.extensionId)
+  }
+
+  /**
+   * Rejects adding a new RPC provider for Ethereum Mainnet.
+   *
+   * @throws {Error} If extensionId is not set.
+   */
+  async rejectNewEthereumRPC(): Promise<void> {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.notificationPage.rejectNewEthereumRPC(this.extensionId)
+  }
+
+  /**
    * Confirms a transaction.
    *
    * @param options - Optional gas settings for the transaction.
    * @throws {Error} If extensionId is not set.
    */
-  async confirmTransaction(options?: { gasSetting?: GasSettings }): Promise<void> {
+  async confirmTransaction(options?: {
+    gasSetting?: GasSettings
+  }): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }

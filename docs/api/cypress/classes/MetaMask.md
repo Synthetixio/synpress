@@ -101,6 +101,22 @@ True if the token was added successfully
 
 ***
 
+### approveNewEthereumRPC()
+
+```ts
+approveNewEthereumRPC(): Promise<boolean>
+```
+
+Approves adding a new RPC provider for Ethereum Mainnet.
+
+#### Returns
+
+`Promise`\<`boolean`\>
+
+True if the RPC provider was added successfully
+
+***
+
 ### approveNewNetwork()
 
 ```ts
@@ -555,6 +571,22 @@ Provides a public encryption key.
 `Promise`\<`boolean`\>
 
 True if the key was provided successfully, false otherwise
+
+***
+
+### rejectNewEthereumRPC()
+
+```ts
+rejectNewEthereumRPC(): Promise<boolean>
+```
+
+Rejects adding a new RPC provider for Ethereum Mainnet.
+
+#### Returns
+
+`Promise`\<`boolean`\>
+
+True if the new RPC provided was rejected successfully
 
 ***
 

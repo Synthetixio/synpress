@@ -135,8 +135,10 @@ export default function configureSynpress(
     addNetwork: (network: Network) => metamask?.addNetwork(network),
     approveNewNetwork: () => metamask?.approveNewNetwork(),
     approveSwitchNetwork: () => metamask?.approveSwitchNetwork(),
+    approveNewEthereumRPC: () => metamask?.approveNewEthereumRPC(),
     rejectNewNetwork: () => metamask?.rejectNewNetwork(),
     rejectSwitchNetwork: () => metamask?.rejectSwitchNetwork(),
+    rejectNewEthereumRPC: () => metamask?.rejectNewEthereumRPC(),
 
     // Anvil
     createAnvilNode: (options?: CreateAnvilOptions) => metamask?.createAnvilNode(options),

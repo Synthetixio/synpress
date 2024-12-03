@@ -6,6 +6,7 @@ import {
   approvePermission,
   connectToDapp,
   decryptMessage,
+  ethereumRpc,
   network,
   providePublicEncryptionKey,
   signSimpleMessage,
@@ -97,6 +98,18 @@ export class NotificationPage {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
     await network.rejectSwitchNetwork(notificationPage)
+  }
+
+  async approveNewEthereumRPC(extensionId: string) {
+    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+
+    await ethereumRpc.approveNewEthereumRPC(notificationPage)
+  }
+
+  async rejectNewEthereumRPC(extensionId: string) {
+    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+
+    await ethereumRpc.rejectNewEthereumRPC(notificationPage)
   }
 
   async confirmTransaction(extensionId: string, options?: { gasSetting?: GasSettings }) {

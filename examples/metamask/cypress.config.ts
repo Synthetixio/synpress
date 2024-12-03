@@ -2,7 +2,7 @@ import { configureSynpressForMetaMask } from '@synthetixio/synpress/cypress'
 import { defineConfig } from 'cypress'
 
 export default defineConfig({
-  chromeWebSecurity: false,
+  chromeWebSecurity: true,
   e2e: {
     baseUrl: 'http://localhost:9999',
     specPattern: 'test/cypress/**/*.cy.{js,jsx,ts,tsx}',

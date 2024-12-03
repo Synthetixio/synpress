@@ -42,8 +42,10 @@ declare global {
       addNetwork(network: Network): Chainable<void>
       approveNewNetwork(): Chainable<void>
       approveSwitchNetwork(): Chainable<void>
+      approveNewEthereumRPC(): Chainable<void>
       rejectNewNetwork(): Chainable<void>
       rejectSwitchNetwork(): Chainable<void>
+      rejectNewEthereumRPC(): Chainable<void>
 
       deployToken(): Chainable<void>
       addNewToken(): Chainable<void>
@@ -266,6 +268,20 @@ export default function synpressCommandsForMetaMask(): void {
    */
   Cypress.Commands.add('rejectSwitchNetwork', () => {
     return cy.task('rejectSwitchNetwork')
+  })
+
+  /**
+   * Approves adding a new RPC provider for Ethereum Mainnet
+   */
+  Cypress.Commands.add('approveNewEthereumRPC', () => {
+    return cy.task('approveNewEthereumRPC')
+  })
+
+  /**
+   * Rejects adding a new RPC provider for Ethereum Mainnet
+   */
+  Cypress.Commands.add('rejectNewEthereumRPC', () => {
+    return cy.task('rejectNewEthereumRPC')
   })
 
   // Token
