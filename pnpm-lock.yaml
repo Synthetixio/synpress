@@ -96,9 +96,6 @@ importers:
       '@synthetixio/synpress':
         specifier: workspace:*
         version: link:../../release
-      '@synthetixio/synpress-cache':
-        specifier: workspace:*
-        version: link:../../packages/cache
       dotenv:
         specifier: 16.4.2
         version: 16.4.2
