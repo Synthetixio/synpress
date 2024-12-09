@@ -4,3 +4,8 @@ export {
   initMetaMask,
   MetaMask
 } from '@synthetixio/synpress-metamask/cypress'
+export {
+  configureSynpress as configureSynpressForPhantom,
+  initPhantom,
+  Phantom
+} from '@synthetixio/synpress-phantom/cypress'
