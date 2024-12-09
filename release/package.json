@@ -40,9 +40,10 @@
   },
   "dependencies": {
     "@synthetixio/ethereum-wallet-mock": "workspace:*",
-    "@synthetixio/synpress-cache": "0.0.4",
-    "@synthetixio/synpress-core": "0.0.4",
-    "@synthetixio/synpress-metamask": "workspace:*"
+    "@synthetixio/synpress-cache": "workspace:*",
+    "@synthetixio/synpress-core": "workspace:*",
+    "@synthetixio/synpress-metamask": "workspace:*",
+    "@synthetixio/synpress-phantom": "workspace:*"
   },
   "devDependencies": {
     "@synthetixio/synpress-tsconfig": "0.0.4",

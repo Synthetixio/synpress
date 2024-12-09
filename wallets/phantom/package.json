@@ -1,0 +1,54 @@
+{
+  "name": "@synthetixio/synpress-phantom",
+  "version": "0.0.4",
+  "type": "module",
+  "exports": {
+    "./playwright": {
+      "types": "./types/playwright/index.d.ts",
+      "default": "./dist/playwright/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./types/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "types"
+  ],
+  "scripts": {
+    "build": "pnpm run clean && pnpm run build:dist && pnpm run build:types",
+    "build:cache": "synpress-cache test/playwright/wallet-setup --phantom --debug",
+    "build:cache:headless": "synpress-cache test/playwright/wallet-setup --phantom --headless",
+    "build:cache:headless:force": "synpress-cache test/playwright/wallet-setup --phantom --headless --force",
+    "build:dist": "tsup --tsconfig tsconfig.build.json",
+    "build:types": "tsc --emitDeclarationOnly --project tsconfig.build.json",
+    "clean": "rimraf dist types",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:playwright:headful": "playwright test",
+    "test:playwright:headless": "HEADLESS=true playwright test",
+    "test:playwright:headless:ui": "HEADLESS=true playwright test --ui",
+    "test:watch": "vitest watch",
+    "types:check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@synthetixio/synpress-cache": "workspace:*",
+    "@synthetixio/synpress-core": "workspace:*",
+    "@viem/anvil": "0.0.7",
+    "fs-extra": "11.2.0",
+    "zod": "3.22.4"
+  },
+  "devDependencies": {
+    "@synthetixio/synpress-tsconfig": "0.0.4",
+    "@types/fs-extra": "11.0.4",
+    "@types/node": "20.11.17",
+    "@vitest/coverage-v8": "1.2.2",
+    "rimraf": "5.0.5",
+    "tsup": "8.0.2",
+    "typescript": "5.3.3",
+    "vitest": "1.2.2"
+  },
+  "peerDependencies": {
+    "@playwright/test": "1.48.2"
+  }
+}
