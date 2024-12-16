@@ -41,6 +41,7 @@ const accountMenu = {
   accountButton: createDataTestSelector('settings-menu-open-button'),
   accountNames: `#accounts [role="button"] > p`,
   manageAccountsButton: createDataTestSelector('sidebar_menu-button-manage_accounts'),
+  settings: createDataTestSelector('sidebar_menu-button-settings'),
   addAccountMenu,
   renameAccountMenu
 }

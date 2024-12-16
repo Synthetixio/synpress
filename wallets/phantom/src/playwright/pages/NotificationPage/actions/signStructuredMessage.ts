@@ -13,7 +13,7 @@ const signMessage = async (notificationPage: Page) => {
 }
 
 const rejectMessage = async (notificationPage: Page) => {
-  await notificationPage.locator(Selectors.ActionFooter.rejectActionButton).click()
+  await notificationPage.locator(Selectors.ActionFooter.cancelActionButton).click()
 }
 
 // Used for:

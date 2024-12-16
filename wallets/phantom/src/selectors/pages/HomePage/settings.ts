@@ -29,7 +29,9 @@ const advanced = {
 }
 
 export default {
+  advanced,
+  lockWallet: createDataTestSelector('lock-menu-item'),
+  unlocWallet: createDataTestSelector('data-testid="unlock-form-submit-button"'),
   SettingsSidebarMenus,
-  sidebarMenu,
-  advanced
+  sidebarMenu
 }

@@ -29,8 +29,6 @@ declare global {
       getAccountAddress(): Chainable<string>
       resetAccount(): Chainable<void>
 
-      switchNetwork(networkName: string, isTestnet?: boolean): Chainable<void>
-
       addNewToken(): Chainable<void>
       approveTokenPermission(options?: {
         spendLimit?: number | 'max'
@@ -169,15 +167,6 @@ export default function synpressCommandsForPhantom(): void {
    */
   Cypress.Commands.add('getNetwork', () => {
     return cy.task('getNetwork')
-  })
-
-  /**
-   * Switches to a different network
-   * @param networkName - The name of the network to switch to
-   * @param isTestnet - Whether the network is a testnet
-   */
-  Cypress.Commands.add('switchNetwork', (networkName: string, isTestnet = false) => {
-    return cy.task('switchNetwork', { networkName, isTestnet })
   })
 
   // Token

@@ -12,7 +12,10 @@ const structuredMessage = {
 }
 
 const riskModal = {
-  signButton: createDataTestSelector('signature-warning-sign-button')
+  proceedAnyway: 'text=Proceed anyway (unsafe)',
+  confirmUnsafe: 'text=Confirm (unsafe)',
+  acknowledgeRisks: createDataTestSelector('acknowledge--button'),
+  reconfirmUnsafe: 'text=Yes, confirm (unsafe)'
 }
 
 export default {

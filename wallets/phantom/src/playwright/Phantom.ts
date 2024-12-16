@@ -4,7 +4,6 @@ import type { GasSettings } from '../type/GasSettings'
 import type { Networks } from '../type/Networks'
 import { PhantomAbstract } from '../type/PhantomAbstract'
 import { CrashPage, HomePage, LockPage, NotificationPage, OnboardingPage } from './pages'
-import { SettingsPage } from './pages/SettingsPage/page'
 
 const NO_EXTENSION_ID_ERROR = new Error('Phantom extensionId is not set')
 
@@ -59,14 +58,6 @@ export class Phantom extends PhantomAbstract {
   readonly notificationPage: NotificationPage
 
   /**
-   * This property can be used to access selectors for the settings page.
-   *
-   * @public
-   * @readonly
-   */
-  readonly settingsPage: SettingsPage
-
-  /**
    * Creates an instance of Phantom.
    *
    * @param context - The Playwright BrowserContext in which the Phantom extension is running.
@@ -87,7 +78,6 @@ export class Phantom extends PhantomAbstract {
     this.lockPage = new LockPage(page)
     this.homePage = new HomePage(page)
     this.notificationPage = new NotificationPage(page)
-    this.settingsPage = new SettingsPage(page)
   }
 
   /**
@@ -121,7 +111,9 @@ export class Phantom extends PhantomAbstract {
   /**
    * Imports a wallet using the given private key.
    *
+   * @param network - Network that the wallet belongs to.
    * @param privateKey - The private key to import.
+   * @param privateKey - Name given to the new wallet/account.
    */
   async importWalletFromPrivateKey(
     network: 'solana' | 'ethereum' | 'base' | 'polygon' | 'bitcoin',
@@ -143,20 +135,11 @@ export class Phantom extends PhantomAbstract {
   /**
    * Gets the address of the currently selected account.
    *
+   * @param network - Network that the address belongs to.
    * @returns The account address.
    */
   async getAccountAddress(network: Networks): Promise<string> {
     return await this.homePage.getAccountAddress(network)
-  }
-
-  /**
-   * Switches to the specified network.
-   *
-   * @param networkName - The name of the network to switch to.
-   * @param isTestnet - Whether the network is a testnet. Default is false.
-   */
-  async switchNetwork(networkName: string, isTestnet = false): Promise<void> {
-    await this.homePage.switchNetwork(networkName, isTestnet)
   }
 
   /**
@@ -165,12 +148,12 @@ export class Phantom extends PhantomAbstract {
    * @param accounts - Optional array of account addresses to connect.
    * @throws {Error} If extensionId is not set.
    */
-  async connectToDapp(accounts?: string[]): Promise<void> {
+  async connectToDapp(account?: string): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.connectToDapp(this.extensionId, accounts)
+    await this.notificationPage.connectToDapp(this.extensionId, account)
   }
 
   /**
@@ -327,22 +310,6 @@ export class Phantom extends PhantomAbstract {
    */
   async resetAccount(): Promise<void> {
     await this.homePage.resetAccount()
-  }
-
-  /**
-   * Enables eth_sign (unsafe).
-   */
-  async unsafe_enableEthSign(): Promise<void> {
-    await this.homePage.openSettings()
-    await this.settingsPage.enableEthSign()
-  }
-
-  /**
-   * Disables eth_sign.
-   */
-  async disableEthSign(): Promise<void> {
-    await this.homePage.openSettings()
-    await this.settingsPage.disableEthSign()
   }
 
   /**

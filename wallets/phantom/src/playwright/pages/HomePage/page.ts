@@ -10,7 +10,6 @@ import {
   renameAccount,
   settings,
   switchAccount,
-  switchNetwork,
   toggleShowTestNetworks,
   transactionDetails
 } from './actions'
@@ -75,10 +74,6 @@ export class HomePage {
 
   async toggleDismissSecretRecoveryPhraseReminder() {
     await settings.advanced.toggleDismissSecretRecoveryPhraseReminder(this.page)
-  }
-
-  async switchNetwork(networkName: string, isTestnet: boolean) {
-    await switchNetwork(this.page, networkName, isTestnet)
   }
 
   async openTransactionDetails(txIndex: number) {

@@ -143,30 +143,6 @@ export default class Phantom {
   }
 
   /**
-   * Switches to the specified network.
-   * @param options - Object containing the network name and testnet flag
-   * @param options.networkName - The name of the network to switch to
-   * @param options.isTestnet - Whether the network is a testnet (default: false)
-   * @returns True if the switch was successful, false otherwise
-   */
-  async switchNetwork({
-    networkName,
-    isTestnet = false
-  }: {
-    networkName: string
-    isTestnet?: boolean
-  }): Promise<boolean> {
-    return await this.phantomPlaywright
-      .switchNetwork(networkName, isTestnet)
-      .then(() => {
-        return true
-      })
-      .catch(() => {
-        return false
-      })
-  }
-
-  /**
    * Adds a new token to Phantom.
    * @returns True if the token was added successfully
    */

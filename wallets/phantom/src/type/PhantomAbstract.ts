@@ -57,17 +57,9 @@ export abstract class PhantomAbstract {
   abstract getAccountAddress(network: Networks): void
 
   /**
-   * Switches to the network with the given name.
-   *
-   * @param networkName - The name of the network to switch to.
-   * @param isTestnet - If switch to a test network.
-   */
-  abstract switchNetwork(networkName: string, isTestnet: boolean): void
-
-  /**
    * Connects to the dapp using the currently selected account.
    */
-  abstract connectToDapp(accounts?: string[]): void
+  abstract connectToDapp(account?: string): void
 
   /**
    * Locks Phantom.
@@ -174,17 +166,6 @@ export abstract class PhantomAbstract {
    * :::
    */
   abstract resetAccount(): void
-
-  /**
-   * Enables the eth_sign feature in Phantom advanced settings.
-   * This method is marked as unsafe because enabling eth_sign can have security implications.
-   */
-  abstract unsafe_enableEthSign(): void
-
-  /**
-   * Disables the eth_sign feature in Phantom advanced settings.
-   */
-  abstract disableEthSign(): void
 
   abstract addNewToken(): void
 

@@ -6,13 +6,14 @@ const signMessage = async (notificationPage: Page) => {
 }
 
 const rejectMessage = async (notificationPage: Page) => {
-  await notificationPage.locator(Selectors.ActionFooter.rejectActionButton).click()
+  await notificationPage.locator(Selectors.ActionFooter.cancelActionButton).click()
 }
 
 const signMessageWithRisk = async (notificationPage: Page) => {
-  await signMessage(notificationPage)
-
-  await notificationPage.locator(Selectors.SignaturePage.riskModal.signButton).click()
+  await notificationPage.locator(Selectors.SignaturePage.riskModal.proceedAnyway).click()
+  await notificationPage.locator(Selectors.SignaturePage.riskModal.confirmUnsafe).click()
+  await notificationPage.locator(Selectors.SignaturePage.riskModal.acknowledgeRisks).click()
+  await notificationPage.locator(Selectors.SignaturePage.riskModal.reconfirmUnsafe).click()
 }
 
 export const signSimpleMessage = {

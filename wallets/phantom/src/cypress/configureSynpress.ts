@@ -128,17 +128,6 @@ export default function configureSynpress(
 
     // Network
     getNetwork: () => phantom?.getNetwork(),
-    switchNetwork: ({
-      networkName,
-      isTestnet = false
-    }: {
-      networkName: string
-      isTestnet?: boolean
-    }) =>
-      phantom?.switchNetwork({
-        networkName,
-        isTestnet
-      }),
 
     // Token
     addNewToken: () => phantom?.addNewToken(),
