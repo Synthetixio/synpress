@@ -1,10 +1,9 @@
 import { z } from 'zod'
 
 export const GasSettingValidation = z.union([
-  z.literal('low'),
-  z.literal('market'),
-  z.literal('aggressive'),
-  z.literal('site'),
+  z.literal('Slow'),
+  z.literal('Fast'),
+  z.literal('Average'),
   z
     .object({
       maxBaseFee: z.number(),

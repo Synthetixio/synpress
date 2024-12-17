@@ -23,7 +23,7 @@ const approveTokenPermission = async (notificationPage: Page, gasSetting: GasSet
 }
 
 const rejectTokenPermission = async (notificationPage: Page) => {
-  await notificationPage.locator(Selectors.ActionFooter.rejectActionButton).click()
+  await notificationPage.locator(Selectors.ActionFooter.cancelActionButton).click()
 }
 
 export const approvePermission = {

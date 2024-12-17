@@ -77,7 +77,7 @@ export class NotificationPage {
   async confirmTransaction(extensionId: string, options?: { gasSetting?: GasSettings }) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
-    await transaction.confirm(notificationPage, options?.gasSetting ?? 'site')
+    await transaction.confirm(notificationPage, options?.gasSetting ?? 'Average')
   }
 
   async rejectTransaction(extensionId: string) {
@@ -89,7 +89,7 @@ export class NotificationPage {
   async confirmTransactionAndWaitForMining(extensionId: string, options?: { gasSetting?: GasSettings }) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
-    await transaction.confirmAndWaitForMining(this.page, notificationPage, options?.gasSetting ?? 'site')
+    await transaction.confirmAndWaitForMining(this.page, notificationPage, options?.gasSetting ?? 'Average')
   }
 
   async approveTokenPermission(
@@ -102,7 +102,7 @@ export class NotificationPage {
       await approvePermission.editTokenPermission(notificationPage, options.spendLimit)
     }
 
-    await approvePermission.approve(notificationPage, options?.gasSetting ?? 'site')
+    await approvePermission.approve(notificationPage, options?.gasSetting ?? 'Average')
   }
 
   async rejectTokenPermission(extensionId: string) {

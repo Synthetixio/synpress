@@ -60,8 +60,8 @@ export default class Phantom {
    * @param accounts - Optional array of account addresses to connect
    * @returns True if the connection was successful
    */
-  async connectToDapp(accounts?: string[]): Promise<boolean> {
-    await this.phantomPlaywright.connectToDapp(accounts)
+  async connectToDapp(account?: string): Promise<boolean> {
+    await this.phantomPlaywright.connectToDapp(account)
     return true
   }
 
