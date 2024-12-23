@@ -1,6 +1,5 @@
 import type { BrowserContext, Page } from '@playwright/test'
 import { ensureRdpPort } from '@synthetixio/synpress-core'
-import type { SettingsSidebarMenus } from '../selectors/pages/HomePage/settings'
 import type { GasSettings } from '../type/GasSettings'
 import type { Networks } from '../type/Networks'
 import Phantom from './Phantom'
@@ -124,44 +123,34 @@ export default function configureSynpress(
       currentAccountName: string
       newAccountName: string
     }) => phantom?.renameAccount({ currentAccountName, newAccountName }),
-    resetAccount: () => phantom?.resetAccount(),
+    resetApp: () => phantom?.resetApp(),
 
     // Network
     getNetwork: () => phantom?.getNetwork(),
 
     // Token
-    addNewToken: () => phantom?.addNewToken(),
     approveTokenPermission: (options?: {
       spendLimit?: number | 'max'
       gasSetting?: GasSettings
     }) => phantom?.approveTokenPermission(options),
     rejectTokenPermission: () => phantom?.rejectTokenPermission(),
 
-    // Encryption
-    providePublicEncryptionKey: () => phantom?.providePublicEncryptionKey(),
-    decrypt: () => phantom?.decrypt(),
-
     // Transactions
     confirmSignature: () => phantom?.confirmSignature(),
     rejectSignature: () => phantom?.rejectSignature(),
     confirmTransaction: (options?: { gasSetting?: GasSettings }) => phantom?.confirmTransaction(options),
     rejectTransaction: () => phantom?.rejectTransaction(),
-    confirmTransactionAndWaitForMining: () => phantom?.confirmTransactionAndWaitForMining(),
-    openTransactionDetails: (txIndex: number) => phantom?.openTransactionDetails(txIndex),
-    closeTransactionDetails: () => phantom?.closeTransactionDetails(),
 
     // Lock/Unlock
     lock: () => phantom?.lock(),
     unlock: () => phantom?.unlock(),
 
     // Toggles
-    toggleShowTestNetworks: () => phantom?.toggleShowTestNetworks(),
-    toggleDismissSecretRecoveryPhraseReminder: () => phantom?.toggleDismissSecretRecoveryPhraseReminder(),
+    toggleTestnetMode: () => phantom?.toggleTestnetMode(),
 
     // Others
     goBackToHomePage: () => phantom?.goBackToHomePage(),
-    openSettings: () => phantom?.openSettings(),
-    openSidebarMenu: (menu: SettingsSidebarMenus) => phantom?.openSidebarMenu(menu)
+    openSettings: () => phantom?.openSettings()
   })
 
   return {

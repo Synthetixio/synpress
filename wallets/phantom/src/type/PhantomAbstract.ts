@@ -1,4 +1,3 @@
-import { SettingsSidebarMenus } from '../selectors/pages/HomePage/settings'
 import type { GasSettings } from './GasSettings'
 import type { Networks } from './Networks'
 
@@ -135,28 +134,13 @@ export abstract class PhantomAbstract {
   abstract openSettings(): void
 
   /**
-   * Opens a given menu in the sidebar.
-   *
-   * @param menu - The menu to open.
-   */
-  abstract openSidebarMenu(menu: SettingsSidebarMenus): void
-  /**
    * Toggles the "Show Test Networks" setting.
    *
    * ::: warning
    * This function requires the correct menu to be already opened.
    * :::
    */
-  abstract toggleShowTestNetworks(): void
-
-  /**
-   * Toggles the "Dismiss Secret Recovery Phrase Reminder" setting.
-   *
-   * ::: warning
-   * This function requires the correct menu to be already opened.
-   * :::
-   */
-  abstract toggleDismissSecretRecoveryPhraseReminder(): void
+  abstract toggleTestnetMode(): void
 
   /**
    * Resets the account.
@@ -165,47 +149,5 @@ export abstract class PhantomAbstract {
    * This function requires the correct menu to be already opened.
    * :::
    */
-  abstract resetAccount(): void
-
-  abstract addNewToken(): void
-
-  abstract providePublicEncryptionKey(): void
-
-  abstract decrypt(): void
-
-  /// -------------------------------------------
-  /// ---------- EXPERIMENTAL FEATURES ----------
-  /// -------------------------------------------
-
-  /**
-   * Confirms a transaction request and waits for the transaction to be mined.
-   * This function utilizes the "Activity" tab of the Phantom tab.
-   *
-   * @param options - The transaction options.
-   * @param options.gasSetting - The gas setting to use for the transaction.
-   *
-   * @experimental
-   * @group Experimental Methods
-   */
-  abstract confirmTransactionAndWaitForMining(options?: {
-    gasSetting?: GasSettings
-  }): void
-
-  /**
-   * Opens the transaction details.
-   *
-   * @param txIndex - The index of the transaction in the "Activity" tab. Starts from `0`.
-   *
-   * @experimental
-   * @group Experimental Methods
-   */
-  abstract openTransactionDetails(txIndex: number): void
-
-  /**
-   * Closes the currently opened transaction details.
-   *
-   * @experimental
-   * @group Experimental Methods
-   */
-  abstract closeTransactionDetails(): void
+  abstract resetApp(): void
 }

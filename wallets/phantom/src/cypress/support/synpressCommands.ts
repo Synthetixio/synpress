@@ -9,7 +9,6 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
-import type { SettingsSidebarMenus } from '../../selectors/pages/HomePage/settings'
 import type { GasSettings } from '../../type/GasSettings'
 
 declare global {
@@ -27,36 +26,28 @@ declare global {
       switchAccount(accountName: string): Chainable<void>
       renameAccount(currentAccountName: string, newAccountName: string): Chainable<void>
       getAccountAddress(): Chainable<string>
-      resetAccount(): Chainable<void>
+      resetApp(): Chainable<void>
 
-      addNewToken(): Chainable<void>
       approveTokenPermission(options?: {
         spendLimit?: number | 'max'
         gasSetting?: GasSettings
       }): Chainable<void>
       rejectTokenPermission(): Chainable<void>
 
-      providePublicEncryptionKey(): Chainable<void>
-      decrypt(): Chainable<void>
       confirmSignature(): Chainable<void>
       rejectSignature(): Chainable<void>
       confirmTransaction(options?: {
         gasSetting?: GasSettings
       }): Chainable<void>
       rejectTransaction(): Chainable<void>
-      confirmTransactionAndWaitForMining(): Chainable<void>
-      openTransactionDetails(txIndex: number): Chainable<void>
-      closeTransactionDetails(): Chainable<void>
 
       lock(): Chainable<void>
       unlock(): Chainable<void>
 
-      toggleShowTestNetworks(): Chainable<void>
-      toggleDismissSecretRecoveryPhraseReminder(): Chainable<void>
+      toggleTestnetMode(): Chainable<void>
 
       goBackToHomePage(): Chainable<void>
       openSettings(): Chainable<void>
-      openSidebarMenu(menu: SettingsSidebarMenus): Chainable<void>
     }
   }
 }
@@ -156,8 +147,8 @@ export default function synpressCommandsForPhantom(): void {
   /**
    * Resets the current account
    */
-  Cypress.Commands.add('resetAccount', () => {
-    return cy.task('resetAccount')
+  Cypress.Commands.add('resetApp', () => {
+    return cy.task('resetApp')
   })
 
   // Network
@@ -170,13 +161,6 @@ export default function synpressCommandsForPhantom(): void {
   })
 
   // Token
-
-  /**
-   * Adds a new token
-   */
-  Cypress.Commands.add('addNewToken', () => {
-    return cy.task('addNewToken')
-  })
 
   /**
    * Approves token permission
@@ -219,32 +203,11 @@ export default function synpressCommandsForPhantom(): void {
   /**
    * Toggles showing test networks
    */
-  Cypress.Commands.add('toggleShowTestNetworks', () => {
-    return cy.task('toggleShowTestNetworks')
-  })
-
-  /**
-   * Toggles dismissing the secret recovery phrase reminder
-   */
-  Cypress.Commands.add('toggleDismissSecretRecoveryPhraseReminder', () => {
-    return cy.task('toggleDismissSecretRecoveryPhraseReminder')
+  Cypress.Commands.add('toggleTestnetMode', () => {
+    return cy.task('toggleTestnetMode')
   })
 
   // Others
-
-  /**
-   * Provides a public encryption key
-   */
-  Cypress.Commands.add('providePublicEncryptionKey', () => {
-    return cy.task('providePublicEncryptionKey')
-  })
-
-  /**
-   * Decrypts a message
-   */
-  Cypress.Commands.add('decrypt', () => {
-    return cy.task('decrypt')
-  })
 
   /**
    * Confirms a signature
@@ -277,28 +240,6 @@ export default function synpressCommandsForPhantom(): void {
   })
 
   /**
-   * Confirms a transaction and waits for mining
-   */
-  Cypress.Commands.add('confirmTransactionAndWaitForMining', () => {
-    return cy.task('confirmTransactionAndWaitForMining')
-  })
-
-  /**
-   * Opens transaction details
-   * @param txIndex - The index of the transaction to open
-   */
-  Cypress.Commands.add('openTransactionDetails', (txIndex = 0) => {
-    return cy.task('openTransactionDetails', txIndex)
-  })
-
-  /**
-   * Closes transaction details
-   */
-  Cypress.Commands.add('closeTransactionDetails', () => {
-    return cy.task('closeTransactionDetails')
-  })
-
-  /**
    * Goes back to the home page
    */
   Cypress.Commands.add('goBackToHomePage', () => {
@@ -310,13 +251,5 @@ export default function synpressCommandsForPhantom(): void {
    */
   Cypress.Commands.add('openSettings', () => {
     return cy.task('openSettings')
-  })
-
-  /**
-   * Opens a sidebar menu
-   * @param menu - The menu to open
-   */
-  Cypress.Commands.add('openSidebarMenu', (menu: SettingsSidebarMenus) => {
-    return cy.task('openSidebarMenu', menu)
   })
 }

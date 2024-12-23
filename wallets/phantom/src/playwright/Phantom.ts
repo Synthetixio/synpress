@@ -1,5 +1,4 @@
 import type { BrowserContext, Page } from '@playwright/test'
-import { SettingsSidebarMenus } from '../selectors/pages/HomePage/settings'
 import type { GasSettings } from '../type/GasSettings'
 import type { Networks } from '../type/Networks'
 import { PhantomAbstract } from '../type/PhantomAbstract'
@@ -283,103 +282,16 @@ export class Phantom extends PhantomAbstract {
   }
 
   /**
-   * Opens a specific sidebar menu in the settings.
-   *
-   * @param menu - The menu to open.
-   */
-  async openSidebarMenu(menu: SettingsSidebarMenus): Promise<void> {
-    await this.homePage.openSidebarMenu(menu)
-  }
-
-  /**
    * Toggles the display of test networks.
    */
-  async toggleShowTestNetworks(): Promise<void> {
-    await this.homePage.toggleShowTestNetworks()
-  }
-
-  /**
-   * Toggles the dismissal of the secret recovery phrase reminder.
-   */
-  async toggleDismissSecretRecoveryPhraseReminder(): Promise<void> {
-    await this.homePage.toggleDismissSecretRecoveryPhraseReminder()
+  async toggleTestnetMode(): Promise<void> {
+    await this.homePage.toggleTestnetMode()
   }
 
   /**
    * Resets the account.
    */
-  async resetAccount(): Promise<void> {
-    await this.homePage.resetAccount()
-  }
-
-  /**
-   * Adds a new token.
-   *
-   * @throws {Error} If extensionId is not set.
-   */
-  async addNewToken(): Promise<void> {
-    if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR
-    }
-
-    await this.notificationPage.addNewToken(this.extensionId)
-  }
-
-  /**
-   * Provides a public encryption key.
-   *
-   * @throws {Error} If extensionId is not set.
-   */
-  async providePublicEncryptionKey(): Promise<void> {
-    if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR
-    }
-
-    await this.notificationPage.providePublicEncryptionKey(this.extensionId)
-  }
-
-  /**
-   * Decrypts a message.
-   *
-   * @throws {Error} If extensionId is not set.
-   */
-  async decrypt(): Promise<void> {
-    if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR
-    }
-
-    await this.notificationPage.decryptMessage(this.extensionId)
-  }
-
-  /**
-   * Confirms a transaction and waits for it to be mined.
-   *
-   * @param options - Optional gas settings for the transaction.
-   * @throws {Error} If extensionId is not set.
-   */
-  async confirmTransactionAndWaitForMining(options?: {
-    gasSetting?: GasSettings
-  }): Promise<void> {
-    if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR
-    }
-
-    await this.notificationPage.confirmTransactionAndWaitForMining(this.extensionId, options)
-  }
-
-  /**
-   * Opens the details of a specific transaction.
-   *
-   * @param txIndex - The index of the transaction to open.
-   */
-  async openTransactionDetails(txIndex: number): Promise<void> {
-    await this.homePage.openTransactionDetails(txIndex)
-  }
-
-  /**
-   * Closes the transaction details view.
-   */
-  async closeTransactionDetails(): Promise<void> {
-    await this.homePage.closeTransactionDetails()
+  async resetApp(): Promise<void> {
+    await this.homePage.resetApp()
   }
 }

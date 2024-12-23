@@ -20,7 +20,7 @@ const Extensions = z.array(Extension)
  *
  * @returns The extension ID.
  */
-export async function getExtensionId(context: BrowserContext, extensionName: string) {
+export async function getExtensionIdPhantom(context: BrowserContext, extensionName: string) {
   const page = await context.newPage()
   await page.goto('chrome://extensions')
 

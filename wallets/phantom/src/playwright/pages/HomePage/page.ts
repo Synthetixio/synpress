@@ -1,6 +1,5 @@
 import type { Page } from '@playwright/test'
 import Selectors from '../../../selectors/pages/HomePage'
-import type { SettingsSidebarMenus } from '../../../selectors/pages/HomePage/settings'
 import type { Networks } from '../../../type/Networks'
 import {
   addNewAccount,
@@ -10,8 +9,7 @@ import {
   renameAccount,
   settings,
   switchAccount,
-  toggleShowTestNetworks,
-  transactionDetails
+  toggleTestnetMode
 } from './actions'
 
 export class HomePage {
@@ -25,7 +23,7 @@ export class HomePage {
   }
 
   async goBackToHomePage() {
-    await this.page.locator(Selectors.logo).click()
+    await this.page.locator(Selectors.settings.closeSettingsButton).click()
   }
 
   async lock() {
@@ -60,27 +58,11 @@ export class HomePage {
     await settings.openSettings(this.page)
   }
 
-  async openSidebarMenu(menu: SettingsSidebarMenus) {
-    await settings.openSidebarMenu(this.page, menu)
+  async toggleTestnetMode() {
+    await toggleTestnetMode(this.page)
   }
 
-  async toggleShowTestNetworks() {
-    await toggleShowTestNetworks(this.page)
-  }
-
-  async resetAccount() {
-    await settings.advanced.resetAccount(this.page)
-  }
-
-  async toggleDismissSecretRecoveryPhraseReminder() {
-    await settings.advanced.toggleDismissSecretRecoveryPhraseReminder(this.page)
-  }
-
-  async openTransactionDetails(txIndex: number) {
-    await transactionDetails.open(this.page, txIndex)
-  }
-
-  async closeTransactionDetails() {
-    await transactionDetails.close(this.page)
+  async resetApp() {
+    await settings.resetApp(this.page)
   }
 }

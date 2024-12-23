@@ -2,8 +2,6 @@ import { type BrowserContext, type Page, expect } from '@playwright/test'
 import { Phantom as PhantomPlaywright } from '../playwright/Phantom'
 import { waitFor } from '../playwright/utils/waitFor'
 import HomePageSelectors from '../selectors/pages/HomePage'
-import Selectors from '../selectors/pages/HomePage'
-import type { SettingsSidebarMenus } from '../selectors/pages/HomePage/settings'
 import TransactionPage from '../selectors/pages/NotificationPage/transactionPage'
 import type { GasSettings } from '../type/GasSettings'
 import type { Networks } from '../type/Networks'
@@ -137,18 +135,8 @@ export default class Phantom {
    * Resets the current account.
    * @returns True if the reset was successful
    */
-  async resetAccount(): Promise<boolean> {
-    await this.phantomPlaywright.resetAccount()
-    return true
-  }
-
-  /**
-   * Adds a new token to Phantom.
-   * @returns True if the token was added successfully
-   */
-  async addNewToken(): Promise<boolean> {
-    await this.phantomPlaywright.addNewToken()
-    await expect(this.phantomExtensionPage.locator(Selectors.portfolio.singleToken).nth(1)).toContainText('TST')
+  async resetApp(): Promise<boolean> {
+    await this.phantomPlaywright.resetApp()
     return true
   }
 
@@ -200,38 +188,10 @@ export default class Phantom {
    */
   async unlock(): Promise<boolean> {
     await this.phantomPlaywright.unlock()
-    await expect(this.phantomExtensionPage.locator(this.phantomPlaywright.homePage.selectors.logo)).toBeVisible()
+    await expect(
+      this.phantomExtensionPage.locator(this.phantomPlaywright.homePage.selectors.accountMenu.accountName)
+    ).toBeVisible()
     return true
-  }
-
-  /**
-   * Provides a public encryption key.
-   * @returns True if the key was provided successfully, false otherwise
-   */
-  async providePublicEncryptionKey(): Promise<boolean> {
-    return await this.phantomPlaywright
-      .providePublicEncryptionKey()
-      .then(() => {
-        return true
-      })
-      .catch(() => {
-        return false
-      })
-  }
-
-  /**
-   * Decrypts a message.
-   * @returns True if the message was decrypted successfully, false otherwise
-   */
-  async decrypt(): Promise<boolean> {
-    return await this.phantomPlaywright
-      .decrypt()
-      .then(() => {
-        return true
-      })
-      .catch(() => {
-        return false
-      })
   }
 
   /**
@@ -285,71 +245,11 @@ export default class Phantom {
   }
 
   /**
-   * Confirms a transaction and waits for it to be mined.
-   * @returns True if the transaction was confirmed and mined successfully, false otherwise
-   */
-  async confirmTransactionAndWaitForMining(): Promise<boolean> {
-    await waitFor(
-      () => this.phantomExtensionPage.locator(TransactionPage.nftApproveAllConfirmationPopup.approveButton).isVisible(),
-      5_000,
-      false
-    )
-    return this.phantomPlaywright
-      .confirmTransactionAndWaitForMining()
-      .then(() => {
-        return true
-      })
-      .catch(() => {
-        return false
-      })
-  }
-
-  /**
-   * Opens the details of a specific transaction.
-   * @param txIndex - The index of the transaction to open
-   * @returns True if the transaction details were opened successfully, false otherwise
-   */
-  async openTransactionDetails(txIndex: number): Promise<boolean> {
-    return this.phantomPlaywright
-      .openTransactionDetails(txIndex)
-      .then(() => {
-        return true
-      })
-      .catch(() => {
-        return false
-      })
-  }
-
-  /**
-   * Closes the transaction details view.
-   * @returns True if the transaction details were closed successfully, false otherwise
-   */
-  async closeTransactionDetails(): Promise<boolean> {
-    return this.phantomPlaywright
-      .closeTransactionDetails()
-      .then(() => {
-        return true
-      })
-      .catch(() => {
-        return false
-      })
-  }
-
-  /**
    * Toggles the display of test networks.
    * @returns True if the toggle was successful
    */
-  async toggleShowTestNetworks(): Promise<boolean> {
-    await this.phantomPlaywright.toggleShowTestNetworks()
-    return true
-  }
-
-  /**
-   * Toggles the dismissal of the secret recovery phrase reminder.
-   * @returns True if the toggle was successful
-   */
-  async toggleDismissSecretRecoveryPhraseReminder(): Promise<boolean> {
-    await this.phantomPlaywright.toggleDismissSecretRecoveryPhraseReminder()
+  async toggleTestnetMode(): Promise<boolean> {
+    await this.phantomPlaywright.toggleTestnetMode()
     return true
   }
 
@@ -371,17 +271,6 @@ export default class Phantom {
    */
   async openSettings(): Promise<boolean> {
     await this.phantomPlaywright.openSettings()
-    return true
-  }
-
-  /**
-   * Opens a specific sidebar menu in the settings.
-   * @param menu - The menu to open
-   * @returns True if the menu was opened successfully
-   */
-  async openSidebarMenu(menu: SettingsSidebarMenus): Promise<boolean> {
-    await this.phantomPlaywright.openSidebarMenu(menu)
-    await expect(this.phantomExtensionPage.locator(HomePageSelectors.settings.sidebarMenu(menu))).toBeVisible()
     return true
   }
 }

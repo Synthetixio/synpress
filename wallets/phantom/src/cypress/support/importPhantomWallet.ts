@@ -1,5 +1,5 @@
 import { type BrowserContext, type Page, chromium } from '@playwright/test'
-import { getExtensionId } from '../../playwright'
+import { getExtensionIdPhantom } from '../../playwright'
 import getPlaywrightPhantom from '../getPlaywrightPhantom'
 
 const SEED_PHRASE = 'test test test test test test test test test test test junk'
@@ -24,7 +24,7 @@ export default async function importPhantomWallet(port: number, importDefaultWal
   const extensionPageIndex = context.pages().findIndex((page) => page.url().includes('chrome-extension://'))
   if (extensionPageIndex !== -1) {
     extensionPage = context.pages()[extensionPageIndex] as Page
-    phantomExtensionId = await getExtensionId(context, 'Phantom')
+    phantomExtensionId = await getExtensionIdPhantom(context, 'Phantom')
 
     const phantom = getPlaywrightPhantom(context, extensionPage, phantomExtensionId)
 

@@ -15,9 +15,6 @@ const editTokenPermission = async (notificationPage: Page, customSpendLimit: 'ma
 }
 
 const approveTokenPermission = async (notificationPage: Page, gasSetting: GasSettings) => {
-  // Click the "Next" button.
-  await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
-
   // Approve flow is identical to the confirm transaction flow after we click the "Next" button.
   await transaction.confirm(notificationPage, gasSetting)
 }

@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { type Page, chromium } from '@playwright/test'
+import { type Page, chromium, expect } from '@playwright/test'
 import { test as base } from '@playwright/test'
 import {
   CACHE_DIR_NAME,
@@ -10,7 +10,7 @@ import {
 import fs from 'fs-extra'
 import { prepareExtensionPhantom } from '../../prepareExtensionPhantom'
 import { Phantom } from '../Phantom'
-import { getExtensionId, unlockForFixture } from '../fixture-actions'
+import { getExtensionIdPhantom, unlockForFixturePhantom } from '../fixture-actions'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
 import { waitForPhantomWindowToBeStable } from '../utils/waitFor'
 
@@ -19,6 +19,8 @@ type PhantomFixtures = {
   phantom: Phantom
   extensionId: string
   phantomPage: Page
+  aavePage: Page
+  solanaSandboxPage: Page
 }
 
 // If setup phantomPage in a fixture, browser does not handle it properly (even if ethereum.isConnected() is true, it's not reflected on the page).
@@ -73,7 +75,7 @@ export const phantomFixtures = (walletSetup: ReturnType<typeof defineWalletSetup
         await persistLocalStorage(origins, context)
       }
 
-      const extensionId = await getExtensionId(context, 'Phantom')
+      const extensionId = await getExtensionIdPhantom(context, 'Phantom')
 
       _phantomPage = context.pages()[0] as Page
 
@@ -81,7 +83,7 @@ export const phantomFixtures = (walletSetup: ReturnType<typeof defineWalletSetup
 
       await waitForPhantomWindowToBeStable(_phantomPage)
 
-      await unlockForFixture(_phantomPage, walletSetup.walletPassword)
+      await unlockForFixturePhantom(_phantomPage, walletSetup.walletPassword)
 
       await use(context)
 
@@ -91,7 +93,7 @@ export const phantomFixtures = (walletSetup: ReturnType<typeof defineWalletSetup
       await use(_phantomPage)
     },
     extensionId: async ({ context }, use) => {
-      const extensionId = await getExtensionId(context, 'Phantom')
+      const extensionId = await getExtensionIdPhantom(context, 'Phantom')
 
       await use(extensionId)
     },
@@ -102,6 +104,44 @@ export const phantomFixtures = (walletSetup: ReturnType<typeof defineWalletSetup
     },
     page: async ({ page }, use) => {
       await page.goto('/')
+
+      await use(page)
+    },
+    aavePage: async ({ page, phantom }, use) => {
+      await page.goto('https://app.aave.com')
+
+      await phantom.toggleTestnetMode()
+
+      await page.locator('button#settings-button').click()
+      await page.locator('li:has-text("Testnet mode")').click()
+      await expect(page.getByRole('button', { name: 'TESTNET' })).toBeVisible()
+
+      await page.getByRole('button', { name: 'Connect wallet' }).click()
+      await page.getByRole('button', { name: 'Browser wallet browser wallet' }).click()
+
+      await phantom.connectToDapp()
+
+      await expect(page.locator('button[aria-label="wallet"]')).toContainText('0xf3')
+
+      await use(page)
+    },
+    solanaSandboxPage: async ({ page, phantom }, use) => {
+      await phantom.importWalletFromPrivateKey(
+        'solana',
+        'XQaKFLLSKbzpVzmfJrj4yUjAyFy2Eu7JcNdbPdnLuod2Uw3yf3tjGd4ha1DBfFdjkZFX1PZg3knth2Tz2tvd8C4'
+      )
+
+      await phantom.toggleTestnetMode()
+
+      await page.goto('https://r3byv.csb.app/')
+      await page.locator('a:has-text("Yes, proceed to preview")').click()
+      await page.getByRole('button', { name: 'Connect to Phantom' }).click()
+
+      await phantom.connectToDapp()
+
+      await page.getByRole('button', { name: 'Clear Logs' }).click()
+
+      await expect(page.getByText('Click a button and watch magic happen...')).toBeVisible()
 
       await use(page)
     }

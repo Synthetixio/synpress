@@ -2,16 +2,7 @@ import type { Page } from '@playwright/test'
 import Selectors from '../../../selectors/pages/NotificationPage'
 import type { GasSettings } from '../../../type/GasSettings'
 import { getNotificationPageAndWaitForLoad } from '../../utils/getNotificationPageAndWaitForLoad'
-import {
-  approvePermission,
-  connectToDapp,
-  decryptMessage,
-  providePublicEncryptionKey,
-  signSimpleMessage,
-  signStructuredMessage,
-  token,
-  transaction
-} from './actions'
+import { approvePermission, connectToDapp, signSimpleMessage, signStructuredMessage, transaction } from './actions'
 
 export class NotificationPage {
   static readonly selectors = Selectors
@@ -86,21 +77,8 @@ export class NotificationPage {
     await transaction.reject(notificationPage)
   }
 
-  async confirmTransactionAndWaitForMining(extensionId: string, options?: { gasSetting?: GasSettings }) {
+  async approveTokenPermission(extensionId: string, options?: { gasSetting?: GasSettings }) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
-
-    await transaction.confirmAndWaitForMining(this.page, notificationPage, options?.gasSetting ?? 'Average')
-  }
-
-  async approveTokenPermission(
-    extensionId: string,
-    options?: { spendLimit?: 'max' | number; gasSetting?: GasSettings }
-  ) {
-    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
-
-    if (options?.spendLimit !== undefined) {
-      await approvePermission.editTokenPermission(notificationPage, options.spendLimit)
-    }
 
     await approvePermission.approve(notificationPage, options?.gasSetting ?? 'Average')
   }
@@ -109,23 +87,5 @@ export class NotificationPage {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
     await approvePermission.reject(notificationPage)
-  }
-
-  async addNewToken(extensionId: string) {
-    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
-
-    await token.addNew(notificationPage)
-  }
-
-  async providePublicEncryptionKey(extensionId: string) {
-    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
-
-    await providePublicEncryptionKey(notificationPage)
-  }
-
-  async decryptMessage(extensionId: string) {
-    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
-
-    await decryptMessage(notificationPage)
   }
 }
