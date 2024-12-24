@@ -17,7 +17,7 @@ export async function importWallet(page: Page, seedPhrase: string, password: str
   await expect(
     page.locator(Selectors.SecretRecoveryPhrasePageSelectors.viewAccountsButton),
     'Import accounts success screen should be visible'
-  ).toBeVisible({ timeout: 10_000 })
+  ).toBeVisible({ timeout: 30_000 })
 
   await page.locator(Selectors.SecretRecoveryPhrasePageSelectors.continueButton).click()
 

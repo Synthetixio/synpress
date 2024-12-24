@@ -22,6 +22,10 @@ export class HomePage {
     this.page = page
   }
 
+  async goToHomePage(extensionId: string) {
+    await this.page.goto(`chrome-extension://${extensionId}/popup.html`)
+  }
+
   async goBackToHomePage() {
     await this.page.locator(Selectors.settings.closeSettingsButton).click()
   }

@@ -18,7 +18,6 @@ declare global {
       importWalletFromPrivateKey(privateKey: string): Chainable<void>
 
       getAccount(): Chainable<string>
-      getNetwork(): Chainable<string>
 
       connectToDapp(accounts?: string[]): Chainable<void>
 
@@ -46,6 +45,7 @@ declare global {
 
       toggleTestnetMode(): Chainable<void>
 
+      goToHomePage(): Chainable<void>
       goBackToHomePage(): Chainable<void>
       openSettings(): Chainable<void>
     }
@@ -151,15 +151,6 @@ export default function synpressCommandsForPhantom(): void {
     return cy.task('resetApp')
   })
 
-  // Network
-
-  /**
-   * Gets the current network
-   */
-  Cypress.Commands.add('getNetwork', () => {
-    return cy.task('getNetwork')
-  })
-
   // Token
 
   /**
@@ -237,6 +228,13 @@ export default function synpressCommandsForPhantom(): void {
    */
   Cypress.Commands.add('rejectTransaction', () => {
     return cy.task('rejectTransaction')
+  })
+
+  /**
+   * Navigates to the Phantom extension home page
+   */
+  Cypress.Commands.add('goToHomePage', () => {
+    return cy.task('goToHomePage')
   })
 
   /**

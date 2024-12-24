@@ -125,9 +125,6 @@ export default function configureSynpress(
     }) => phantom?.renameAccount({ currentAccountName, newAccountName }),
     resetApp: () => phantom?.resetApp(),
 
-    // Network
-    getNetwork: () => phantom?.getNetwork(),
-
     // Token
     approveTokenPermission: (options?: {
       spendLimit?: number | 'max'
@@ -149,6 +146,7 @@ export default function configureSynpress(
     toggleTestnetMode: () => phantom?.toggleTestnetMode(),
 
     // Others
+    goToHomePage: () => phantom?.goToHomePage(),
     goBackToHomePage: () => phantom?.goBackToHomePage(),
     openSettings: () => phantom?.openSettings()
   })

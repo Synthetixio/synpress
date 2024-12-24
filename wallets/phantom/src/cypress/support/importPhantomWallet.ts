@@ -30,6 +30,8 @@ export default async function importPhantomWallet(port: number, importDefaultWal
 
     if (importDefaultWallet) await phantom.importWallet(SEED_PHRASE)
 
+    await phantom.goToHomePage()
+
     cypressPage = context.pages()[extensionPageIndex === 1 ? 0 : 1] as Page
     await cypressPage.bringToFront()
   }

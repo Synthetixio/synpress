@@ -268,6 +268,17 @@ export class Phantom extends PhantomAbstract {
   }
 
   /**
+   * Navigates to the home page or wallet dashboard.
+   */
+  async goToHomePage(): Promise<void> {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    await this.homePage.goToHomePage(this.extensionId)
+  }
+
+  /**
    * Navigates back to the home page.
    */
   async goBackToHomePage(): Promise<void> {

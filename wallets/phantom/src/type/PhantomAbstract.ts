@@ -124,6 +124,11 @@ export abstract class PhantomAbstract {
   abstract rejectTokenPermission(): void
 
   /**
+   * Navigates to the home page of Phantom tab.
+   */
+  abstract goToHomePage(): void
+
+  /**
    * Goes back to the home page of Phantom tab.
    */
   abstract goBackToHomePage(): void

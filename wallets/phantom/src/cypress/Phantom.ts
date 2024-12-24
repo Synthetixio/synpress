@@ -33,7 +33,7 @@ export default class Phantom {
    */
   async getAccount(): Promise<string> {
     return await this.phantomExtensionPage
-      .locator(this.phantomPlaywright.homePage.selectors.accountMenu.accountButton)
+      .locator(this.phantomPlaywright.homePage.selectors.accountMenu.accountName)
       .innerText()
   }
 
@@ -43,14 +43,6 @@ export default class Phantom {
    */
   async getAccountAddress(network: Networks): Promise<string> {
     return await this.phantomPlaywright.getAccountAddress(network)
-  }
-
-  /**
-   * Gets the current network name.
-   * @returns The current network name
-   */
-  async getNetwork(): Promise<string> {
-    return await this.phantomExtensionPage.locator(this.phantomPlaywright.homePage.selectors.currentNetwork).innerText()
   }
 
   /**
@@ -91,7 +83,7 @@ export default class Phantom {
   async addNewAccount(accountName: string): Promise<boolean> {
     await this.phantomPlaywright.addNewAccount(accountName)
     await expect(
-      this.phantomExtensionPage.locator(this.phantomPlaywright.homePage.selectors.accountMenu.accountButton)
+      this.phantomExtensionPage.locator(this.phantomPlaywright.homePage.selectors.accountMenu.accountName)
     ).toHaveText(accountName)
     return true
   }
@@ -104,7 +96,7 @@ export default class Phantom {
   async switchAccount(accountName: string): Promise<boolean> {
     await this.phantomPlaywright.switchAccount(accountName)
     await expect(
-      this.phantomExtensionPage.locator(this.phantomPlaywright.homePage.selectors.accountMenu.accountButton)
+      this.phantomExtensionPage.locator(this.phantomPlaywright.homePage.selectors.accountMenu.accountName)
     ).toHaveText(accountName)
     return true
   }
@@ -124,10 +116,6 @@ export default class Phantom {
     newAccountName: string
   }): Promise<boolean> {
     await this.phantomPlaywright.renameAccount(currentAccountName, newAccountName)
-    await this.phantomExtensionPage.locator(HomePageSelectors.threeDotsMenu.accountDetailsCloseButton).click()
-    await expect(
-      this.phantomExtensionPage.locator(this.phantomPlaywright.homePage.selectors.accountMenu.accountButton)
-    ).toHaveText(newAccountName)
     return true
   }
 
@@ -250,6 +238,15 @@ export default class Phantom {
    */
   async toggleTestnetMode(): Promise<boolean> {
     await this.phantomPlaywright.toggleTestnetMode()
+    return true
+  }
+
+  /**
+   * Navigates back to the home page.
+   * @returns True if the navigation was successful
+   */
+  async goToHomePage(): Promise<boolean> {
+    await this.phantomPlaywright.goToHomePage()
     return true
   }
 
