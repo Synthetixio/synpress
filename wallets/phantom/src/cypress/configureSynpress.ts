@@ -55,7 +55,7 @@ export default function configureSynpress(
   config: Cypress.PluginConfigOptions,
   importDefaultWallet = true
 ) {
-  const browsers = config.browsers.filter((b) => b.name === 'chrome')
+  const browsers = config.browsers.filter((b) => b.name === 'chrome') // b.name === "chrome"
   if (browsers.length === 0) {
     throw new Error('No Chrome browser found in the configuration')
   }
@@ -148,7 +148,16 @@ export default function configureSynpress(
     // Others
     goToHomePage: () => phantom?.goToHomePage(),
     goBackToHomePage: () => phantom?.goBackToHomePage(),
-    openSettings: () => phantom?.openSettings()
+    openSettings: () => phantom?.openSettings(),
+    shouldHavePhantomPageElement: ({
+      selector,
+      visible,
+      options
+    }: {
+      selector: string
+      visible: boolean
+      options?: { timeout: number }
+    }) => phantom?.shouldHavePhantomPageElement({ selector, visible, options })
   })
 
   return {

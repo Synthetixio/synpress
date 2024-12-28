@@ -10,12 +10,13 @@
 // ***********************************************
 
 import type { GasSettings } from '../../type/GasSettings'
+import type { Networks } from '../../type/Networks'
 
 declare global {
   namespace Cypress {
     interface Chainable {
       importWallet(seedPhrase: string): Chainable<void>
-      importWalletFromPrivateKey(privateKey: string): Chainable<void>
+      importWalletFromPrivateKey(network: Networks, privateKey: string, walletName?: string): Chainable<void>
 
       getAccount(): Chainable<string>
 
@@ -24,7 +25,7 @@ declare global {
       addNewAccount(accountName: string): Chainable<void>
       switchAccount(accountName: string): Chainable<void>
       renameAccount(currentAccountName: string, newAccountName: string): Chainable<void>
-      getAccountAddress(): Chainable<string>
+      getAccountAddress(network: Networks): Chainable<string>
       resetApp(): Chainable<void>
 
       approveTokenPermission(options?: {
@@ -48,6 +49,7 @@ declare global {
       goToHomePage(): Chainable<void>
       goBackToHomePage(): Chainable<void>
       openSettings(): Chainable<void>
+      shouldHavePhantomPageElement(selector: string, visible: boolean, options?: { timeout: number }): Chainable<void>
     }
   }
 }
@@ -91,8 +93,12 @@ export default function synpressCommandsForPhantom(): void {
    * Imports a wallet using a private key
    * @param privateKey - The private key to import
    */
-  Cypress.Commands.add('importWalletFromPrivateKey', (privateKey: string) => {
-    return cy.task('importWalletFromPrivateKey', privateKey)
+  Cypress.Commands.add('importWalletFromPrivateKey', (network: Networks, privateKey: string, walletName?: string) => {
+    return cy.task('importWalletFromPrivateKey', {
+      network,
+      privateKey,
+      walletName
+    })
   })
 
   /**
@@ -137,11 +143,11 @@ export default function synpressCommandsForPhantom(): void {
   })
 
   /**
-   * Gets the address of the current account
+   * Gets the address of the current account for a specific network
    * @returns The account address
    */
-  Cypress.Commands.add('getAccountAddress', () => {
-    return cy.task('getAccountAddress')
+  Cypress.Commands.add('getAccountAddress', (network: Networks) => {
+    return cy.task('getAccountAddress', network)
   })
 
   /**
@@ -250,4 +256,21 @@ export default function synpressCommandsForPhantom(): void {
   Cypress.Commands.add('openSettings', () => {
     return cy.task('openSettings')
   })
+
+  /**
+   * Verifies if an element is visible (or not) in Phantom page
+   * @param selector - Selector of the element to be asserted
+   * @param selector - Whether the element should be visible or not
+   * @param options.timeout - Optional custom timeout
+   */
+  Cypress.Commands.add(
+    'shouldHavePhantomPageElement',
+    (selector: string, visible: boolean, options?: { timeout: number }) => {
+      return cy.task('shouldHavePhantomPageElement', {
+        selector,
+        visible,
+        options
+      })
+    }
+  )
 }

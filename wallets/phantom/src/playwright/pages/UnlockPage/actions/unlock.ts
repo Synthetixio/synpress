@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import Selectors from '../../../../selectors/pages/LockPage'
+import Selectors from '../../../../selectors/pages/UnlockPage'
 import { waitForSpinnerToVanish } from '../../../utils/waitForSpinnerToVanish'
 
 export async function unlock(page: Page, password: string) {

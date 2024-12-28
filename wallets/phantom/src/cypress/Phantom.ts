@@ -1,7 +1,6 @@
 import { type BrowserContext, type Page, expect } from '@playwright/test'
 import { Phantom as PhantomPlaywright } from '../playwright/Phantom'
 import { waitFor } from '../playwright/utils/waitFor'
-import HomePageSelectors from '../selectors/pages/HomePage'
 import TransactionPage from '../selectors/pages/NotificationPage/transactionPage'
 import type { GasSettings } from '../type/GasSettings'
 import type { Networks } from '../type/Networks'
@@ -13,6 +12,8 @@ import getPlaywrightPhantom from './getPlaywrightPhantom'
 export default class Phantom {
   /** The Phantom instance for Playwright */
   readonly phantomPlaywright: PhantomPlaywright
+  /** The Phantom extension context */
+  readonly phantomContext: BrowserContext
   /** The Phantom extension page */
   readonly phantomExtensionPage: Page
 
@@ -24,6 +25,7 @@ export default class Phantom {
    */
   constructor(context: BrowserContext, phantomExtensionPage: Page, phantomExtensionId: string) {
     this.phantomPlaywright = getPlaywrightPhantom(context, phantomExtensionPage, phantomExtensionId)
+    this.phantomContext = context
     this.phantomExtensionPage = phantomExtensionPage
   }
 
@@ -42,6 +44,8 @@ export default class Phantom {
    * @returns The current account address
    */
   async getAccountAddress(network: Networks): Promise<string> {
+    // Grant clipboard permissions to browser context
+    await this.phantomContext.grantPermissions(['clipboard-read'])
     return await this.phantomPlaywright.getAccountAddress(network)
   }
 
@@ -165,7 +169,7 @@ export default class Phantom {
   async lock(): Promise<boolean> {
     await this.phantomPlaywright.lock()
     await expect(
-      this.phantomExtensionPage.locator(this.phantomPlaywright.lockPage.selectors.submitButton)
+      this.phantomExtensionPage.locator(this.phantomPlaywright.unlockPage.selectors.submitButton)
     ).toBeVisible()
     return true
   }
@@ -255,10 +259,7 @@ export default class Phantom {
    * @returns True if the navigation was successful
    */
   async goBackToHomePage(): Promise<boolean> {
-    await this.phantomPlaywright.openSettings()
-    await expect(this.phantomExtensionPage.locator(HomePageSelectors.copyAccountAddressButton)).not.toBeVisible()
     await this.phantomPlaywright.goBackToHomePage()
-    await expect(this.phantomExtensionPage.locator(HomePageSelectors.copyAccountAddressButton)).toBeVisible()
     return true
   }
 
@@ -268,6 +269,32 @@ export default class Phantom {
    */
   async openSettings(): Promise<boolean> {
     await this.phantomPlaywright.openSettings()
+    return true
+  }
+
+  /**
+   * Gets an element in Phantpm page
+   * @returns Element in Phantom page
+   */
+  async shouldHavePhantomPageElement({
+    selector,
+    visible,
+    options
+  }: {
+    selector: string
+    visible: boolean
+    options?: { timeout: number } | undefined
+  }): Promise<boolean> {
+    if (visible) {
+      await expect(this.phantomExtensionPage.locator(selector)).toBeVisible({
+        timeout: options?.timeout ?? 5_000
+      })
+    } else {
+      await expect(this.phantomExtensionPage.locator(selector)).not.toBeVisible({
+        timeout: options?.timeout ?? 5_000
+      })
+    }
+
     return true
   }
 }

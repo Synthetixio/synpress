@@ -49,7 +49,7 @@ export const cliEntrypoint = async () => {
   }
 
   if (flags.debug) {
-    console.log('[DEBUG] Running with the following options ===:')
+    console.log('[DEBUG] Running with the following options:')
     console.log(
       {
         cacheDir: walletSetupDir,

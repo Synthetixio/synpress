@@ -7,13 +7,12 @@ const test = testWithSynpress(phantomFixtures(basicSetup))
 
 const { expect } = test
 
+const privateKey = 'ea084c575a01e2bbefcca3db101eaeab1d8af15554640a510c73692db24d0a6a'
+
 test('should import a new wallet from private key', async ({ context, phantomPage }) => {
   const phantom = new Phantom(context, phantomPage, basicSetup.walletPassword)
 
-  await phantom.importWalletFromPrivateKey(
-    'ethereum',
-    'ea084c575a01e2bbefcca3db101eaeab1d8af15554640a510c73692db24d0a6a'
-  )
+  await phantom.importWalletFromPrivateKey('ethereum', privateKey)
 
   await phantomPage.locator(phantom.homePage.selectors.accountMenu.accountName).hover()
   await expect(phantomPage.locator(phantom.homePage.selectors.ethereumWalletAddress)).toContainText('0xa2ce...6801')
@@ -21,8 +20,6 @@ test('should import a new wallet from private key', async ({ context, phantomPag
 
 test('should throw an error if trying to import private key for the 2nd time', async ({ context, phantomPage }) => {
   const phantom = new Phantom(context, phantomPage, basicSetup.walletPassword)
-
-  const privateKey = 'ea084c575a01e2bbefcca3db101eaeab1d8af15554640a510c73692db24d0a6a'
 
   await phantom.importWalletFromPrivateKey('ethereum', privateKey)
 

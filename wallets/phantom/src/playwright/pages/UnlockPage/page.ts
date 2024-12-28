@@ -1,8 +1,8 @@
 import type { Page } from '@playwright/test'
-import Selectors from '../../../selectors/pages/LockPage'
+import Selectors from '../../../selectors/pages/UnlockPage'
 import { unlock } from './actions'
 
-export class LockPage {
+export class UnlockPage {
   static readonly selectors = Selectors
   readonly selectors = Selectors
 

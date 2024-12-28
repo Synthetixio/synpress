@@ -2,7 +2,7 @@ import type { BrowserContext, Page } from '@playwright/test'
 import type { GasSettings } from '../type/GasSettings'
 import type { Networks } from '../type/Networks'
 import { PhantomAbstract } from '../type/PhantomAbstract'
-import { CrashPage, HomePage, LockPage, NotificationPage, OnboardingPage } from './pages'
+import { CrashPage, HomePage, NotificationPage, OnboardingPage, UnlockPage } from './pages'
 
 const NO_EXTENSION_ID_ERROR = new Error('Phantom extensionId is not set')
 
@@ -38,7 +38,7 @@ export class Phantom extends PhantomAbstract {
    * @public
    * @readonly
    */
-  readonly lockPage: LockPage
+  readonly unlockPage: UnlockPage
 
   /**
    * This property can be used to access selectors for the home page.
@@ -74,7 +74,7 @@ export class Phantom extends PhantomAbstract {
 
     this.crashPage = new CrashPage()
     this.onboardingPage = new OnboardingPage(page)
-    this.lockPage = new LockPage(page)
+    this.unlockPage = new UnlockPage(page)
     this.homePage = new HomePage(page)
     this.notificationPage = new NotificationPage(page)
   }
@@ -166,7 +166,7 @@ export class Phantom extends PhantomAbstract {
    * Unlocks the Phantom wallet.
    */
   async unlock(): Promise<void> {
-    await this.lockPage.unlock(this.password)
+    await this.unlockPage.unlock(this.password)
   }
 
   /**

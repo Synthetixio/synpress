@@ -12,5 +12,5 @@ test('should lock the wallet', async ({ context, phantomPage }) => {
 
   await phantom.lock()
 
-  await expect(phantomPage.locator(phantom.lockPage.selectors.submitButton)).toBeVisible()
+  await expect(phantomPage.locator(phantom.unlockPage.selectors.submitButton)).toBeVisible()
 })
