@@ -37,7 +37,7 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Install Foundry
-        uses: foundry-rs/foundry-toolchain@8f1998e9878d786675189ef566a2e4bf24869773 # pin@v1.2.0
+        uses: foundry-rs/foundry-toolchain@de808b1eea699e761c404bda44ba8f21aba30b2c # pin@v1.3.1
 
       - name: Install Playwright dependencies
         run: pnpm dlx playwright@1.48.2 install-deps
@@ -70,7 +70,7 @@ jobs:
           xvfb-run pnpm run test:playwright:headful
 
       - name: Archive Playwright report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # pin@v4.6.0
         if: success() || failure()
         with:
           name: playwright-report-headful
