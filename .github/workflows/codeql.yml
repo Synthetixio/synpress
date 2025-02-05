@@ -19,12 +19,12 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4.2.2
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@af56b044b5d41c317aef5d19920b3183cb4fbbec # pin@v2.19.2
+        uses: github/codeql-action/init@7e3036b9cd87fc26dd06747b7aa4b96c27aaef3a # pin@v2.20.3
         with:
           queries: security-and-quality
           languages: javascript-typescript
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@af56b044b5d41c317aef5d19920b3183cb4fbbec # pin@v2.19.2
+        uses: github/codeql-action/analyze@7e3036b9cd87fc26dd06747b7aa4b96c27aaef3a # pin@v2.20.3
         with:
           category: "/language:javascript-typescript"
