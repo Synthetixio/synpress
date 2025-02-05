@@ -51,5 +51,10 @@ For comprehensive guides, API references, and examples, refer to our [official d
 
 Join our vibrant community for support, discussions, and updates:
 
+
+## How to Contribute
+
+We welcome contributions from the community! Please refer to our [contributing guidelines](https://docs.synpress.io/docs/contribution).
+
 - [Discord](https://discord.gg/XhZKSRGtWc)
 - [X (formerly Twitter)](https://twitter.com/Synpress_)

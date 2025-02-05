@@ -31,6 +31,10 @@ export const sidebar: DefaultTheme.Sidebar = {
         { text: 'Built-in Fixtures', link: '/docs/guides/fixtures' },
         { text: 'CI', link: '/docs/guides/ci' }
       ]
+    },
+    {
+      text: 'Contribution',
+      items: [{ text: 'Contribution Guide', link: '/docs/contribution' }]
     }
   ],
   '/api/': TypedocSidebar
