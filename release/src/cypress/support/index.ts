@@ -3,3 +3,4 @@ export {
   synpressCommands as synpressCommandsForEthereumWalletMock
 } from '@synthetixio/ethereum-wallet-mock/cypress/support'
 export { synpressCommands as synpressCommandsForMetaMask } from '@synthetixio/synpress-metamask/cypress/support'
+export { synpressCommands as synpressCommandsForPhantom } from '@synthetixio/synpress-phantom/cypress/support'

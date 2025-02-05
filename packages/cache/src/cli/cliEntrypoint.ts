@@ -6,6 +6,7 @@ import { rimraf } from 'rimraf'
 import { WALLET_SETUP_DIR_NAME } from '../constants'
 import { createCache } from '../createCache'
 import { prepareExtension } from '../prepareExtension'
+import { prepareExtensionPhantom } from '../prepareExtensionPhantom'
 import { compileWalletSetupFunctions } from './compileWalletSetupFunctions'
 import { footer } from './footer'
 
@@ -13,6 +14,7 @@ interface CliFlags {
   headless: boolean
   force: boolean
   debug: boolean
+  phantom: boolean
 }
 
 // TODO: Add unit tests for the CLI!
@@ -30,6 +32,7 @@ export const cliEntrypoint = async () => {
     )
     .option('-f, --force', 'Force the creation of cache even if it already exists', false)
     .option('-d, --debug', 'If this flag is present, the compilation files are not going to be deleted', false)
+    .option('-p, --phantom', 'If this flag is present, Phantom extension will be installed instead of Metamask', false)
     .helpOption(undefined, 'Display help for command')
     .addHelpText('afterAll', `\n${footer}\n`)
     .parse(process.argv)
@@ -47,7 +50,14 @@ export const cliEntrypoint = async () => {
 
   if (flags.debug) {
     console.log('[DEBUG] Running with the following options:')
-    console.log({ cacheDir: walletSetupDir, ...flags, headless: Boolean(process.env.HEADLESS) ?? false }, '\n')
+    console.log(
+      {
+        cacheDir: walletSetupDir,
+        ...flags,
+        headless: Boolean(process.env.HEADLESS) ?? false
+      },
+      '\n'
+    )
   }
 
   if (os.platform() === 'win32') {
@@ -64,8 +74,12 @@ export const cliEntrypoint = async () => {
 
   const compiledWalletSetupDirPath = await compileWalletSetupFunctions(walletSetupDir, flags.debug)
 
-  // TODO: We should be using `prepareExtension` function from the wallet itself!
-  await createCache(compiledWalletSetupDirPath, prepareExtension, flags.force)
+  // TODO: We should be using `prepareExtension` functions from the wallet itself!
+  if (flags.phantom) {
+    await createCache(compiledWalletSetupDirPath, prepareExtensionPhantom, flags.force)
+  } else {
+    await createCache(compiledWalletSetupDirPath, prepareExtension, flags.force)
+  }
 
   if (!flags.debug) {
     await rimraf(compiledWalletSetupDirPath)
