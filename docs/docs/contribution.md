@@ -44,10 +44,10 @@ Before you begin, ensure you have:
    pnpm lint
    ```
 
-4. Commit your changes using [gitmoji](https://gitmoji.dev/) convention:
+4. Commit your changes:
    ```bash
    git add .
-   git commit -m "✨ feat: Add new feature"
+   git commit -m "feat: Add new feature"
    ```
 
 5. Push your changes and create a pull request:
