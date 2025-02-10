@@ -1,6 +1,11 @@
 {
   "name": "@synthetixio/synpress-cache",
   "version": "0.0.5",
+  "homepage": "https://synpress.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Synthetixio/synpress.git"
+  },
   "license": "MIT",
   "type": "module",
   "exports": {

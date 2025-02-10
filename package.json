@@ -1,5 +1,10 @@
 {
   "private": true,
+  "homepage": "https://synpress.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Synthetixio/synpress.git"
+  },
   "license": "MIT",
   "scripts": {
     "build": "turbo build",
