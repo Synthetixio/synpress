@@ -1,6 +1,7 @@
 {
   "name": "@synthetixio/synpress-tsconfig",
   "version": "0.0.5",
+  "license": "MIT",
   "type": "module",
   "files": [
     "base.json"

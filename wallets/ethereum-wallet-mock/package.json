@@ -1,6 +1,7 @@
 {
   "name": "@synthetixio/ethereum-wallet-mock",
   "version": "0.0.5",
+  "license": "MIT",
   "type": "module",
   "exports": {
     "./cypress": {

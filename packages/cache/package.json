@@ -1,6 +1,7 @@
 {
   "name": "@synthetixio/synpress-cache",
   "version": "0.0.5",
+  "license": "MIT",
   "type": "module",
   "exports": {
     "types": "./types/index.d.ts",

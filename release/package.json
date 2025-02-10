@@ -1,6 +1,7 @@
 {
   "name": "@synthetixio/synpress",
   "version": "4.0.4",
+  "license": "MIT",
   "type": "module",
   "exports": {
     ".": {
