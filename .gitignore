@@ -53,3 +53,5 @@ playwright/.cache
 
 **/ethereum-wallet-mock/cypress
 **/metamask/cypress
+
+output
