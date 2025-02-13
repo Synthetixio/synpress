@@ -109,6 +109,8 @@ async function initializeBot() {
 
   async function sendLongMessage(channel: TextChannel, messageText: string, author: string) {
     const maxMessageLength = 1900
+
+    // If message fits in one chunk, send it as is
     if (messageText.length <= maxMessageLength) {
       await channel.send(`${author}, here's your response:\n${messageText}`)
       return
@@ -117,21 +119,51 @@ async function initializeBot() {
     const lines = messageText.split('\n')
     let currentMessage = ''
     let isFirstMessage = true
+    let insideCodeBlock = false
+    let codeBlockLang = ''
+    let pendingCodeBlockClose = false
 
     for (const line of lines) {
-      if (currentMessage.length + line.length + 1 > maxMessageLength) {
+      const isCodeBlockStart = line.trim().match(/^```(\w*)/)
+      const isCodeBlockEnd = line.trim() === '```'
+
+      // Track code block state
+      if (isCodeBlockStart && !insideCodeBlock) {
+        insideCodeBlock = true
+        codeBlockLang = isCodeBlockStart[1]
+      } else if (isCodeBlockEnd && insideCodeBlock) {
+        insideCodeBlock = false
+        pendingCodeBlockClose = false
+      }
+
+      // Check if adding this line would exceed the limit
+      const wouldExceedLimit = currentMessage.length + line.length + 1 > maxMessageLength
+
+      if (wouldExceedLimit) {
+        // If we're inside a code block, we need to close it properly
+        let messageToSend = currentMessage
+        if (insideCodeBlock) {
+          messageToSend += '\n```'
+          pendingCodeBlockClose = true
+        }
+
+        // Send the current chunk
         if (isFirstMessage) {
-          await channel.send(`${author}, here's your response:\n${currentMessage}`)
+          await channel.send(`${author}, here's your response:\n${messageToSend}`)
           isFirstMessage = false
         } else {
-          await channel.send(currentMessage)
+          await channel.send(messageToSend)
         }
-        currentMessage = line
+
+        // Start new chunk, reopening code block if needed
+        currentMessage = pendingCodeBlockClose ? `\`\`\`${codeBlockLang}\n${line}` : line
+        pendingCodeBlockClose = false
       } else {
         currentMessage += (currentMessage.length > 0 ? '\n' : '') + line
       }
     }
 
+    // Send any remaining content
     if (currentMessage.length > 0) {
       if (isFirstMessage) {
         await channel.send(`${author}, here's your response:\n${currentMessage}`)
