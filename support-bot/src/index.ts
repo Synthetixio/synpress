@@ -110,16 +110,22 @@ async function initializeBot() {
   async function sendLongMessage(channel: TextChannel, messageText: string, author: string) {
     const maxMessageLength = 1900
     if (messageText.length <= maxMessageLength) {
-      await channel.send(`${author}, here's the response:\n${messageText}`)
+      await channel.send(`${author}, here's your response:\n${messageText}`)
       return
     }
 
     const lines = messageText.split('\n')
     let currentMessage = ''
+    let isFirstMessage = true
 
     for (const line of lines) {
       if (currentMessage.length + line.length + 1 > maxMessageLength) {
-        await channel.send(`${author}, here's part of the response:\n${currentMessage}`)
+        if (isFirstMessage) {
+          await channel.send(`${author}, here's your response:\n${currentMessage}`)
+          isFirstMessage = false
+        } else {
+          await channel.send(currentMessage)
+        }
         currentMessage = line
       } else {
         currentMessage += (currentMessage.length > 0 ? '\n' : '') + line
@@ -127,7 +133,11 @@ async function initializeBot() {
     }
 
     if (currentMessage.length > 0) {
-      await channel.send(`${author}, here's part of the response:\n${currentMessage}`)
+      if (isFirstMessage) {
+        await channel.send(`${author}, here's your response:\n${currentMessage}`)
+      } else {
+        await channel.send(currentMessage)
+      }
     }
   }
 
