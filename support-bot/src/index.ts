@@ -57,7 +57,9 @@ async function initializeBot() {
 
   const modelConfig = {
     // model: 'gemini-2.0-pro-exp-02-05'
-    model: 'gemini-1.5-pro-latest'
+    model: 'gemini-1.5-pro-latest',
+    systemInstruction:
+      'When responding, make sure that response is not longer than 1900 characters. Also make sure to respond only to synpress-related questions.'
   }
 
   const generationConfig = {
@@ -211,9 +213,6 @@ async function initializeBot() {
                 },
                 {
                   text: fileContent
-                },
-                {
-                  text: 'When responding, make sure that response is not longer than 1900 characters. Also make sure to respond only to synpress-related questions.'
                 }
               ]
             },
