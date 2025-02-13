@@ -34,7 +34,7 @@ async function ensureSynpressSourceFile(): Promise<void> {
     }
 
     // Run flatten.cjs to generate the file
-    const workspaceRoot = path.resolve(process.cwd(), '..')
+    const workspaceRoot = process.cwd()
     console.log('Workspace root:', workspaceRoot)
     const flattenScript = path.join(workspaceRoot, 'flatten.cjs')
     console.log('Flatten script path:', flattenScript)
