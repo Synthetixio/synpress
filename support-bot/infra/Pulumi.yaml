@@ -1,0 +1,6 @@
+name: support-bot
+description: Support Bot infrastructure for GCP deployment
+runtime:
+  name: nodejs
+  options:
+    packagemanager: pnpm

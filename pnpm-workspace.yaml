@@ -4,4 +4,4 @@ packages:
   - "examples/*"
   - "release"
   - "docs"
-  - "support-bot"
+  - "support-bot/*"

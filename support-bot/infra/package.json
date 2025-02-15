@@ -1,0 +1,13 @@
+{
+  "name": "support-bot-infra",
+  "private": true,
+  "main": "index.ts",
+  "dependencies": {
+    "@pulumi/gcp": "8.19.1",
+    "@pulumi/pulumi": "3.150.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.13.4",
+    "typescript": "5.7.3"
+  }
+}

@@ -1,6 +1,7 @@
 {
   "name": "@synpress/support-bot",
   "version": "0.1.0",
+  "private": true,
   "description": "Discord support bot using Gemini AI for Synpress",
   "type": "module",
   "main": "dist/index.js",
