@@ -11,7 +11,7 @@
 > **We're Hiring 🎉** — Think you have what it takes? See open positions [here](https://mirror.xyz/synpress.eth/FXhd5-7e7wBmYYtfmqkF0h7FhDBRUGuGF6j-D7jPpvM).
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Synthetixio/synpress/dev/docs/public/synpress-logo.png" height="200" alt="Synpress Logo" />
+  <img src="https://raw.githubusercontent.com/Synthetixio/synpress/dev/images/synpress-logo.png" height="200" alt="Synpress Logo" />
   <p align="center">
     Synpress is a powerful and developer-friendly E2E testing library for Web3 dapps, built on top of <a href="https://www.cypress.io/">Cypress</a> and <a href="https://playwright.dev/">Playwright</a>.  It simplifies testing interactions with wallets like <a href="https://metamask.io/">MetaMask</a> and other blockchain-specific operations.
   </p>
@@ -19,13 +19,13 @@
 
 <p align="center">
     <i>Sponsored by: </i> <br/> <br/>
-    <a href="https://github.com/ethereum-optimism"><img src="https://raw.githubusercontent.com/Synthetixio/synpress/dev/docs/public/optimism-logo.png" height="100" alt="Optimism Logo" /></a>
+    <a href="https://github.com/ethereum-optimism"><img src="https://raw.githubusercontent.com/Synthetixio/synpress/dev/images/optimism-logo.png" height="100" alt="Optimism Logo" /></a>
 </p>
 
 ## ✨ Features
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Synthetixio/synpress/dev/docs/public/demo.gif" title="Synpress Demo" alt="Synpress Demo" style="margin-bottom: 10px;">
+  <img src="https://raw.githubusercontent.com/Synthetixio/synpress/dev/images/demo.gif" title="Synpress Demo" alt="Synpress Demo" style="margin-bottom: 10px;">
 </p>
 
 - **Playwright and Cypress Support**: Use either Playwright or Cypress as your testing framework, leveraging all their existing features and functionalities with Synpress.
@@ -50,7 +50,6 @@ For comprehensive guides, API references, and examples, refer to our [official d
 ## 🧑‍🤝‍🧑 Community
 
 Join our vibrant community for support, discussions, and updates:
-
 
 ## How to Contribute
 
