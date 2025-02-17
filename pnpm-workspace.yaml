@@ -3,5 +3,4 @@ packages:
   - "wallets/*"
   - "examples/*"
   - "release"
-  - "docs"
-  - "support-bot/*"
+  - "support-bot"
