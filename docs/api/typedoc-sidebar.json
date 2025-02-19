@@ -86,7 +86,7 @@
         "text": "Functions",
         "collapsed": true,
         "items": [
-          {  "text": "ethereumWalletMockFixtures", "link": "/api/playwright/functions/ethereumWalletMockFixtures.md" },
+          { "text": "ethereumWalletMockFixtures", "link": "/api/playwright/functions/ethereumWalletMockFixtures.md" },
           { "text": "getExtensionId", "link": "/api/playwright/functions/getExtensionId.md" },
           { "text": "metaMaskFixtures", "link": "/api/playwright/functions/metaMaskFixtures.md" },
           { "text": "mockEthereum", "link": "/api/playwright/functions/mockEthereum.md" },
