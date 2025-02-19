@@ -6,7 +6,7 @@ const test = synpress
 const { expect } = test
 
 test('should confirm `personal_sign`', async ({ page, phantom }) => {
-  connectPhantomToTestDapp(page, phantom)
+  await connectPhantomToTestDapp(page, phantom)
 
   await page.locator('#personalSign').click()
 
@@ -18,7 +18,7 @@ test('should confirm `personal_sign`', async ({ page, phantom }) => {
 })
 
 test('should confirm `eth_signTypedData`', async ({ page, phantom }) => {
-  connectPhantomToTestDapp(page, phantom)
+  await connectPhantomToTestDapp(page, phantom)
 
   await page.locator('#signTypedData').click()
 
@@ -34,7 +34,7 @@ test('should confirm `eth_signTypedData`', async ({ page, phantom }) => {
 })
 
 test('should confirm `eth_signTypedData_v3`', async ({ page, phantom }) => {
-  connectPhantomToTestDapp(page, phantom)
+  await connectPhantomToTestDapp(page, phantom)
 
   await page.locator('#signTypedDataV3').click()
 
@@ -50,7 +50,7 @@ test('should confirm `eth_signTypedData_v3`', async ({ page, phantom }) => {
 })
 
 test('should confirm `eth_signTypedData_v4`', async ({ page, phantom }) => {
-  connectPhantomToTestDapp(page, phantom)
+  await connectPhantomToTestDapp(page, phantom)
 
   await page.locator('#signTypedDataV4').click()
 
@@ -66,7 +66,7 @@ test('should confirm `eth_signTypedData_v4`', async ({ page, phantom }) => {
 })
 
 test('should confirm `eth_sign`', async ({ page, phantom }) => {
-  connectPhantomToTestDapp(page, phantom)
+  await connectPhantomToTestDapp(page, phantom)
 
   await page.locator('#ethSign').click()
 

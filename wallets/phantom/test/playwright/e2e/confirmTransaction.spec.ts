@@ -1,26 +1,31 @@
 import { connectPhantomToTestDapp } from '../commonSteps/connectPhantomToTestDapp'
+import { solanaSandboxSetup } from '../commonSteps/solanaSandboxSetup'
 import synpress from '../synpress'
 
 const test = synpress
 
 const { expect } = test
 
-test('should Sign Transaction ', async ({ solanaSandboxPage, phantom }) => {
-  await solanaSandboxPage.getByRole('button', { name: 'Sign Transaction' }).click()
+test('should Sign Transaction ', async ({ page, phantom }) => {
+  await solanaSandboxSetup(page, phantom)
+
+  await page.getByRole('button', { name: 'Sign Transaction' }).click()
   await phantom.confirmTransaction()
 
-  await expect(solanaSandboxPage.getByText('> success')).toBeVisible()
+  await expect(page.getByText('> success')).toBeVisible()
 })
 
-test('should Sign All Transactions ', async ({ solanaSandboxPage, phantom }) => {
-  await solanaSandboxPage.getByRole('button', { name: 'Sign All Transaction' }).click()
+test('should Sign All Transactions ', async ({ page, phantom }) => {
+  await solanaSandboxSetup(page, phantom)
+
+  await page.getByRole('button', { name: 'Sign All Transaction' }).click()
   await phantom.confirmTransaction()
 
-  await expect(solanaSandboxPage.getByText('> success')).toBeVisible()
+  await expect(page.getByText('> success')).toBeVisible()
 })
 
 test('should confirm contract deployment with default gas setting', async ({ page, phantom }) => {
-  connectPhantomToTestDapp(page, phantom)
+  await connectPhantomToTestDapp(page, phantom)
 
   await expect(page.locator('#tokenAddresses')).toBeEmpty()
   await page.locator('#createToken').click()
@@ -32,7 +37,7 @@ test('should confirm contract deployment with default gas setting', async ({ pag
 
 ;(['Slow', 'Fast'] as const).forEach((gasSetting) => {
   test(`should confirm contract deployment with ${gasSetting} gas setting`, async ({ page, phantom }) => {
-    connectPhantomToTestDapp(page, phantom)
+    await connectPhantomToTestDapp(page, phantom)
 
     await expect(page.locator('#tokenAddresses')).toBeEmpty()
     await page.locator('#createToken').click()

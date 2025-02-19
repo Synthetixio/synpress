@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { type Page, chromium, expect } from '@playwright/test'
+import { type Page, chromium } from '@playwright/test'
 import { test as base } from '@playwright/test'
 import {
   CACHE_DIR_NAME,
@@ -19,8 +19,6 @@ type PhantomFixtures = {
   phantom: Phantom
   extensionId: string
   phantomPage: Page
-  aavePage: Page
-  solanaSandboxPage: Page
 }
 
 // If setup phantomPage in a fixture, browser does not handle it properly (even if ethereum.isConnected() is true, it's not reflected on the page).
@@ -106,47 +104,6 @@ export const phantomFixtures = (walletSetup: ReturnType<typeof defineWalletSetup
     },
     page: async ({ page }, use) => {
       await page.goto('/')
-
-      await use(page)
-    },
-    aavePage: async ({ page, phantom }, use) => {
-      await page.goto('https://app.aave.com')
-
-      await phantom.toggleTestnetMode()
-
-      await page.locator('button#settings-button').click()
-      await page.locator('li:has-text("Testnet mode")').click()
-      await expect(page.getByRole('button', { name: 'TESTNET' })).toBeVisible()
-
-      await page.getByRole('button', { name: 'Connect wallet' }).first().click()
-      await page.getByRole('button', { name: 'Phantom' }).click()
-
-      await phantom.connectToDapp()
-      await phantom.page.waitForTimeout(1_000)
-      await phantom.closeUnsupportedNetworkWarning()
-
-      await expect(page.getByText('0xf3...2266'), '"0xf3...2266" should be visible').toBeVisible()
-
-      await use(page)
-    },
-    solanaSandboxPage: async ({ page, phantom }, use) => {
-      await phantom.page.waitForTimeout(1_000)
-      await phantom.importWalletFromPrivateKey(
-        'solana',
-        'XQaKFLLSKbzpVzmfJrj4yUjAyFy2Eu7JcNdbPdnLuod2Uw3yf3tjGd4ha1DBfFdjkZFX1PZg3knth2Tz2tvd8C4'
-      )
-
-      await phantom.toggleTestnetMode()
-
-      await page.goto('https://r3byv.csb.app/')
-      await page.locator('a:has-text("Yes, proceed to preview")').click()
-      await page.getByRole('button', { name: 'Connect to Phantom' }).click()
-
-      await phantom.connectToDapp()
-
-      await page.getByRole('button', { name: 'Clear Logs' }).click()
-
-      await expect(page.getByText('Click a button and watch magic happen...')).toBeVisible()
 
       await use(page)
     }

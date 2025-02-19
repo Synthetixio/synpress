@@ -96,7 +96,7 @@ export class NotificationPage {
     await approvePermission.reject(notificationPage)
   }
 
-  async closeUnsupportedNetworkWarning(extensionId: string, account?: string) {
+  async closeUnsupportedNetworkWarning(extensionId: string) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
     await closeUnsupportedNetworkWarning(notificationPage)

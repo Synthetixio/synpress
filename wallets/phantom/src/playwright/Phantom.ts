@@ -2,7 +2,7 @@ import type { BrowserContext, Page } from '@playwright/test'
 import type { GasSettings } from '../type/GasSettings'
 import type { Networks } from '../type/Networks'
 import { PhantomAbstract } from '../type/PhantomAbstract'
-import { CrashPage, HomePage, NotificationPage, OnboardingPage, UnlockPage } from './pages'
+import { HomePage, NotificationPage, OnboardingPage, UnlockPage } from './pages'
 
 const NO_EXTENSION_ID_ERROR = new Error('Phantom extensionId is not set')
 
@@ -16,14 +16,6 @@ const NO_EXTENSION_ID_ERROR = new Error('Phantom extensionId is not set')
  * @extends PhantomAbstract
  */
 export class Phantom extends PhantomAbstract {
-  /**
-   * This property can be used to access selectors for the crash page.
-   *
-   * @public
-   * @readonly
-   */
-  readonly crashPage: CrashPage
-
   /**
    * This property can be used to access selectors for the onboarding page.
    *
@@ -72,7 +64,6 @@ export class Phantom extends PhantomAbstract {
   ) {
     super(password, extensionId)
 
-    this.crashPage = new CrashPage()
     this.onboardingPage = new OnboardingPage(page)
     this.unlockPage = new UnlockPage(page)
     this.homePage = new HomePage(page)

@@ -6,7 +6,7 @@ const test = synpress
 const { expect } = test
 
 test('should reject `personal_sign`', async ({ page, phantom }) => {
-  connectPhantomToTestDapp(page, phantom)
+  await connectPhantomToTestDapp(page, phantom)
 
   await page.locator('#personalSign').click()
 
@@ -17,7 +17,7 @@ test('should reject `personal_sign`', async ({ page, phantom }) => {
 })
 
 test('should reject `eth_signTypedData`', async ({ page, phantom }) => {
-  connectPhantomToTestDapp(page, phantom)
+  await connectPhantomToTestDapp(page, phantom)
 
   await page.locator('#signTypedData').click()
 
@@ -27,7 +27,7 @@ test('should reject `eth_signTypedData`', async ({ page, phantom }) => {
 })
 
 test('should reject `eth_signTypedData_v3`', async ({ page, phantom }) => {
-  connectPhantomToTestDapp(page, phantom)
+  await connectPhantomToTestDapp(page, phantom)
 
   await page.locator('#signTypedDataV3').click()
 
@@ -37,7 +37,7 @@ test('should reject `eth_signTypedData_v3`', async ({ page, phantom }) => {
 })
 
 test('should reject `eth_signTypedData_v4`', async ({ page, phantom }) => {
-  connectPhantomToTestDapp(page, phantom)
+  await connectPhantomToTestDapp(page, phantom)
 
   await page.locator('#signTypedDataV4').click()
 
