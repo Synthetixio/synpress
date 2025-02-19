@@ -27,5 +27,5 @@ export async function getWalletSetupFiles(walletSetupDirPath: string) {
     )
   }
 
-  return fileList
+  return fileList.sort()
 }

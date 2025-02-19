@@ -61,7 +61,10 @@ describe('triggerCacheCreation', () => {
     const setupFunctions = new Map<string, { fileName: string; setupFunction: WalletSetupFunction }>()
 
     for (const hash of hashes) {
-      setupFunctions.set(hash, { fileName: path.join(ROOT_DIR, `${hash}.ts`), setupFunction: testSetupFunction })
+      setupFunctions.set(hash, {
+        fileName: path.join(ROOT_DIR, `${hash}.ts`),
+        setupFunction: testSetupFunction
+      })
     }
 
     return setupFunctions
@@ -96,25 +99,26 @@ describe('triggerCacheCreation', () => {
     vol.reset() // Clear the in-memory file system after each test
   })
 
+  const hashes = ['hash1', 'hash2']
+  const setupFunctions = prepareSetupFunctions(hashes)
+
   it('calls ensureCacheDirExists', async () => {
     const ensureCacheDirExistsSpy = vi.spyOn(EnsureCacheDirExists, 'ensureCacheDirExists')
 
-    const setupFunctions = prepareSetupFunctions(['hash1', 'hash2'])
-    await triggerCacheCreation(setupFunctions, downloadExtension, false)
+    await triggerCacheCreation(setupFunctions, hashes, downloadExtension, false)
 
     expect(ensureCacheDirExistsSpy).toHaveBeenCalledOnce()
   })
 
   it('calls passed downloadExtension function', async () => {
-    const setupFunctions = prepareSetupFunctions(['hash1', 'hash2'])
-    await triggerCacheCreation(setupFunctions, downloadExtension, false)
+    const setupFunctions = prepareSetupFunctions(hashes)
+    await triggerCacheCreation(setupFunctions, hashes, downloadExtension, false)
 
     expect(downloadExtension).toHaveBeenCalledOnce()
   })
 
   it('calls createCacheForWalletSetupFunction with correct arguments', async () => {
-    const setupFunctions = prepareSetupFunctions(['hash1', 'hash2'])
-    await triggerCacheCreation(setupFunctions, downloadExtension, false)
+    await triggerCacheCreation(setupFunctions, hashes, downloadExtension, false)
 
     expect(createCacheForWalletSetupFunctionSpy).toHaveBeenCalledTimes(2)
     expectCreateCacheForWalletSetupFunction(1, setupFunctions, 'hash1')
@@ -123,22 +127,19 @@ describe('triggerCacheCreation', () => {
 
   it('checks if cache already exists for each entry', async () => {
     const existsSpy = vi.spyOn(fsExtra, 'exists')
-
-    const setupFunctions = prepareSetupFunctions(['hash1', 'hash2'])
-    await triggerCacheCreation(setupFunctions, downloadExtension, false)
+    await triggerCacheCreation(setupFunctions, hashes, downloadExtension, false)
 
     expect(existsSpy).toHaveBeenCalledTimes(2)
     expect(existsSpy).toHaveBeenNthCalledWith(1, path.join(ROOT_DIR, 'hash1'))
     expect(existsSpy).toHaveBeenNthCalledWith(2, path.join(ROOT_DIR, 'hash2'))
   })
 
-  it('returns an array of createCacheForWalletSetupFunction promises', async () => {
-    const setupFunctions = prepareSetupFunctions(['hash1', 'hash2'])
-    const promises = await triggerCacheCreation(setupFunctions, downloadExtension, false)
+  it('returns an array of createCacheForWalletSetupFunction feedback', async () => {
+    const output = await triggerCacheCreation(setupFunctions, hashes, downloadExtension, false)
 
-    expect(promises).toHaveLength(2)
-    expect(promises[0]).toBeInstanceOf(Promise)
-    expect(promises[1]).toBeInstanceOf(Promise)
+    expect(output).toHaveLength(2)
+    expect(output[0]).toBe('Resolved Quack! 🦆')
+    expect(output[1]).toBe('Resolved Quack! 🦆')
   })
 
   describe('when force flag is false', () => {
@@ -148,9 +149,12 @@ describe('triggerCacheCreation', () => {
       // Creating cache for 2nd setup function.
       fs.mkdirSync(path.join(ROOT_DIR, 'hash2'))
 
-      const promises = await triggerCacheCreation(setupFunctions, downloadExtension, false)
+      const output = await triggerCacheCreation(setupFunctions, [...hashes, 'hash3'], downloadExtension, false)
 
-      expect(promises).toHaveLength(2)
+      // @ts-ignore
+      const filterGeneratedCacheOutput = (output) => output === 'Resolved Quack! 🦆'
+
+      expect(output.filter(filterGeneratedCacheOutput)).toHaveLength(2)
       expect(createCacheForWalletSetupFunctionSpy).toHaveBeenCalledTimes(2)
       expectCreateCacheForWalletSetupFunction(1, setupFunctions, 'hash1')
       expectCreateCacheForWalletSetupFunction(2, setupFunctions, 'hash3')
@@ -159,30 +163,30 @@ describe('triggerCacheCreation', () => {
 
   describe('when force flag is true', () => {
     it('removes cache if it already exists for given setup function', async () => {
-      const setupFunctions = prepareSetupFunctions(['hash1', 'hash2', 'hash3'])
+      const setupFunctions = prepareSetupFunctions([...hashes, 'hash3'])
 
       // Creating cache for 2nd setup function.
       const pathToExistingCache = path.join(ROOT_DIR, 'hash2')
       fs.mkdirSync(pathToExistingCache)
 
-      await triggerCacheCreation(setupFunctions, downloadExtension, true)
+      await triggerCacheCreation(setupFunctions, [...hashes, 'hash3'], downloadExtension, true)
 
       expect(fs.existsSync(pathToExistingCache)).toBe(false)
     })
 
     it('calls createCacheForWalletSetupFunction for setup functions that were previously cached', async () => {
-      const setupFunctions = prepareSetupFunctions(['hash1', 'hash2', 'hash3'])
+      const setupFunctions = prepareSetupFunctions([...hashes, 'hash3'])
 
       // Creating cache for 2nd setup function.
       fs.mkdirSync(path.join(ROOT_DIR, 'hash2'))
 
-      const promises = await triggerCacheCreation(setupFunctions, downloadExtension, true)
+      const output = await triggerCacheCreation(setupFunctions, [...hashes, 'hash3'], downloadExtension, true)
 
-      expect(promises).toHaveLength(3)
+      expect(output).toHaveLength(3)
       expect(createCacheForWalletSetupFunctionSpy).toHaveBeenCalledTimes(3)
       expectCreateCacheForWalletSetupFunction(1, setupFunctions, 'hash1')
-      expectCreateCacheForWalletSetupFunction(2, setupFunctions, 'hash2')
-      expectCreateCacheForWalletSetupFunction(3, setupFunctions, 'hash3')
+      expectCreateCacheForWalletSetupFunction(2, setupFunctions, 'hash3')
+      expectCreateCacheForWalletSetupFunction(3, setupFunctions, 'hash2')
     })
   })
 })

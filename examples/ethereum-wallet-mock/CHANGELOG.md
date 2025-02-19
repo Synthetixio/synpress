@@ -1,5 +1,28 @@
 # example-ethereum-wallet-mock
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies
+  - @synthetixio/synpress@4.0.6
+
+## 0.0.6
+
+### Patch Changes
+
+- Release
+- Updated dependencies
+  - @synthetixio/synpress@4.0.5
+
+## 0.0.5
+
+### Patch Changes
+
+- Release
+- Updated dependencies
+  - @synthetixio/synpress@4.0.4
+
 ## 0.0.4
 
 ### Patch Changes

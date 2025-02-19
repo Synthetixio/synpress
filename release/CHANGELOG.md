@@ -1,5 +1,38 @@
 # @synthetixio/synpress
 
+## 4.0.6
+
+### Patch Changes
+
+- Release
+- Updated dependencies
+  - @synthetixio/synpress-cache@0.0.7
+  - @synthetixio/synpress-core@0.0.7
+  - @synthetixio/ethereum-wallet-mock@0.0.7
+  - @synthetixio/synpress-metamask@0.0.7
+
+## 4.0.5
+
+### Patch Changes
+
+- Release
+- Updated dependencies
+  - @synthetixio/synpress-cache@0.0.6
+  - @synthetixio/synpress-core@0.0.6
+  - @synthetixio/ethereum-wallet-mock@0.0.6
+  - @synthetixio/synpress-metamask@0.0.6
+
+## 4.0.4
+
+### Patch Changes
+
+- Release
+- Updated dependencies
+  - @synthetixio/synpress-cache@0.0.5
+  - @synthetixio/synpress-core@0.0.5
+  - @synthetixio/ethereum-wallet-mock@0.0.5
+  - @synthetixio/synpress-metamask@0.0.5
+
 ## 4.0.3
 
 ### Patch Changes

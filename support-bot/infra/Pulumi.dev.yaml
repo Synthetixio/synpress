@@ -1,0 +1,5 @@
+encryptionsalt: v1:sWT/mMw+Vh8=:v1:E7nHaX+HYvauMdyx:m7XabdAaqeh1RpCULGOaGlkCX/s9ZA==
+config:
+  gcp:project: synpress
+  gcp:zone: us-central1-b
+  gcp:region: us-central1

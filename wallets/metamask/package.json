@@ -1,6 +1,12 @@
 {
   "name": "@synthetixio/synpress-metamask",
-  "version": "0.0.4",
+  "version": "0.0.7",
+  "homepage": "https://synpress.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Synthetixio/synpress.git"
+  },
+  "license": "MIT",
   "type": "module",
   "exports": {
     "./cypress": {
@@ -49,7 +55,7 @@
     "zod": "3.22.4"
   },
   "devDependencies": {
-    "@synthetixio/synpress-tsconfig": "0.0.4",
+    "@synthetixio/synpress-tsconfig": "0.0.7",
     "@types/fs-extra": "11.0.4",
     "@types/node": "20.11.17",
     "@vitest/coverage-v8": "1.2.2",

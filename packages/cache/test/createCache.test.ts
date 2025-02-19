@@ -10,9 +10,20 @@ const ROOT_DIR = '/tmp'
 
 const setupFunctions = new Map<string, { fileName: string; setupFunction: WalletSetupFunction }>()
 
-setupFunctions.set('hash1', { fileName: path.join(ROOT_DIR, 'hash1'), setupFunction: vi.fn() })
-setupFunctions.set('hash2', { fileName: path.join(ROOT_DIR, 'hash2'), setupFunction: vi.fn() })
-setupFunctions.set('hash3', { fileName: path.join(ROOT_DIR, 'hash3'), setupFunction: vi.fn() })
+setupFunctions.set('hash1', {
+  fileName: path.join(ROOT_DIR, 'hash1'),
+  setupFunction: vi.fn()
+})
+setupFunctions.set('hash2', {
+  fileName: path.join(ROOT_DIR, 'hash2'),
+  setupFunction: vi.fn()
+})
+setupFunctions.set('hash3', {
+  fileName: path.join(ROOT_DIR, 'hash3'),
+  setupFunction: vi.fn()
+})
+
+const functionStrings = ['function1', 'function2', 'function3']
 
 vi.mock('../src/utils/getUniqueWalletSetupFunctions', async () => {
   return {
@@ -44,7 +55,7 @@ describe('createCache', () => {
   it('calls getUniqueWalletSetupFunctions with correct arguments', async () => {
     const getUniqueWalletSetupFunctionsSpy = vi.spyOn(GetUniqueWalletSetupFunctions, 'getUniqueWalletSetupFunctions')
 
-    await createCache(ROOT_DIR, vi.fn(), false)
+    await createCache(ROOT_DIR, functionStrings, vi.fn(), false)
 
     expect(getUniqueWalletSetupFunctionsSpy).toHaveBeenCalledOnce()
     expect(getUniqueWalletSetupFunctionsSpy).toHaveBeenCalledWith(ROOT_DIR)
@@ -54,23 +65,23 @@ describe('createCache', () => {
     const triggerCacheCreationSpy = vi.spyOn(TriggerCacheCreation, 'triggerCacheCreation')
 
     const downloadExtension = vi.fn(async () => path.join(ROOT_DIR, 'extension'))
-    await createCache(ROOT_DIR, downloadExtension, false)
+    await createCache(ROOT_DIR, functionStrings, downloadExtension, false)
 
     expect(triggerCacheCreationSpy).toHaveBeenCalledOnce()
-    expect(triggerCacheCreationSpy).toHaveBeenCalledWith(setupFunctions, downloadExtension, false)
+    expect(triggerCacheCreationSpy).toHaveBeenCalledWith(setupFunctions, functionStrings, downloadExtension, false)
   })
 
   it('does nothing if no setup functions need caching', async () => {
     vi.spyOn(TriggerCacheCreation, 'triggerCacheCreation').mockResolvedValueOnce([])
 
-    await createCache(ROOT_DIR, vi.fn(), false)
+    await createCache(ROOT_DIR, functionStrings, vi.fn(), false)
 
     expect(consoleLogSpy).toHaveBeenCalledOnce()
     expect(consoleLogSpy).toHaveBeenCalledWith('No new setup functions to cache. Exiting...')
   })
 
   it('console.logs at the end', async () => {
-    await createCache(ROOT_DIR, vi.fn(), false)
+    await createCache(ROOT_DIR, functionStrings, vi.fn(), false)
 
     expect(consoleLogSpy).toHaveBeenCalledOnce()
     expect(consoleLogSpy).toHaveBeenCalledWith('All wallet setup functions are now cached!')

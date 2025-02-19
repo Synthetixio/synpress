@@ -1,18 +1,25 @@
 import path from 'node:path'
+import fs from 'fs-extra'
 import { glob } from 'glob'
 import { build } from 'tsup'
+
 import { ensureCacheDirExists } from '../ensureCacheDirExists'
+import buildWalletSetupFunction from '../utils/buildWalletSetupFunction'
+import { extractWalletSetupFunction } from '../utils/extractWalletSetupFunction'
+import { getWalletSetupFuncHash } from '../utils/getWalletSetupFuncHash'
 import { FIXES_BANNER } from './compilationFixes'
 
-const OUT_DIR_NAME = 'wallet-setup-dist'
+const OUT_DIR_NAME = '.wallet-setup-dist'
 
 const createGlobPattern = (walletSetupDir: string) => path.join(walletSetupDir, '**', '*.setup.{ts,js,mjs}')
 
 export async function compileWalletSetupFunctions(walletSetupDir: string, debug: boolean) {
   const outDir = path.join(ensureCacheDirExists(), OUT_DIR_NAME)
 
+  fs.ensureDirSync(outDir)
+
   const globPattern = createGlobPattern(walletSetupDir)
-  const fileList = await glob(globPattern)
+  const fileList = (await glob(globPattern)).sort()
 
   if (debug) {
     console.log('[DEBUG] Found the following wallet setup files:')
@@ -51,5 +58,16 @@ export async function compileWalletSetupFunctions(walletSetupDir: string, debug:
     }
   })
 
-  return outDir
+  const setupFunctionHashes = await Promise.all(
+    fileList.map(async (filePath) => {
+      const sourceCode = fs.readFileSync(filePath, 'utf8')
+      const functionString = extractWalletSetupFunction(sourceCode)
+
+      const rawFunctionBuild = buildWalletSetupFunction(functionString)
+
+      return getWalletSetupFuncHash(rawFunctionBuild)
+    })
+  )
+
+  return { outDir, setupFunctionHashes }
 }

@@ -1,5 +1,11 @@
 {
   "private": true,
+  "homepage": "https://synpress.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Synthetixio/synpress.git"
+  },
+  "license": "MIT",
   "scripts": {
     "build": "turbo build",
     "build:cache": "turbo build:cache --filter=@synthetixio/synpress-metamask",
@@ -27,7 +33,6 @@
     "@biomejs/biome": "1.2.2",
     "@changesets/cli": "2.27.1",
     "@metamask/test-dapp": "8.1.0",
-    "commitlint-config-gitmoji": "2.3.1",
     "husky": "9.0.10",
     "lint-staged": "15.2.2",
     "npm-check-updates": "16.14.15",

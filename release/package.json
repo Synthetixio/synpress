@@ -1,6 +1,12 @@
 {
   "name": "@synthetixio/synpress",
-  "version": "4.0.3",
+  "version": "4.0.6",
+  "homepage": "https://synpress.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Synthetixio/synpress.git"
+  },
+  "license": "MIT",
   "type": "module",
   "exports": {
     ".": {
@@ -46,7 +52,7 @@
     "@synthetixio/synpress-phantom": "workspace:*"
   },
   "devDependencies": {
-    "@synthetixio/synpress-tsconfig": "0.0.4",
+    "@synthetixio/synpress-tsconfig": "0.0.7",
     "@types/node": "20.11.17",
     "rimraf": "5.0.5",
     "tsup": "8.0.2",

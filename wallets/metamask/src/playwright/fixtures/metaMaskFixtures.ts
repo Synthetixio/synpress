@@ -42,12 +42,14 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
       }
     },
     context: async ({ context: currentContext, _contextPath }, use) => {
-      const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, walletSetup.hash)
+      const { walletPassword, hash } = walletSetup
+
+      const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, hash)
       if (!(await fs.exists(cacheDirPath))) {
-        throw new Error(`Cache for ${walletSetup.hash} does not exist. Create it first!`)
+        throw new Error(`Cache for ${hash} does not exist. Create it first!`)
       }
 
-      // Copying the cache to the temporary context directory.
+      // Copying the cache to the temporary context directory.ž
       await fs.copy(cacheDirPath, _contextPath)
 
       const metamaskPath = await prepareExtension()
@@ -87,7 +89,7 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
 
       await _metamaskPage.goto(`chrome-extension://${extensionId}/home.html`)
       await waitForMetaMaskWindowToBeStable(_metamaskPage)
-      await unlockForFixture(_metamaskPage, walletSetup.walletPassword)
+      await unlockForFixture(_metamaskPage, walletPassword)
 
       await use(context)
 
@@ -102,7 +104,9 @@ export const metaMaskFixtures = (walletSetup: ReturnType<typeof defineWalletSetu
       await use(extensionId)
     },
     metamask: async ({ context, extensionId }, use) => {
-      const metamask = new MetaMask(context, _metamaskPage, walletSetup.walletPassword, extensionId)
+      const { walletPassword } = walletSetup
+
+      const metamask = new MetaMask(context, _metamaskPage, walletPassword, extensionId)
 
       await use(metamask)
     },

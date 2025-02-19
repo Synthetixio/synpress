@@ -37,9 +37,10 @@ export const cliEntrypoint = async () => {
     .addHelpText('afterAll', `\n${footer}\n`)
     .parse(process.argv)
 
-  let walletSetupDir = program.args[0]
-  if (!walletSetupDir) {
-    walletSetupDir = path.join(process.cwd(), 'test', WALLET_SETUP_DIR_NAME)
+  let walletSetupDir = path.join(process.cwd(), 'test', WALLET_SETUP_DIR_NAME)
+
+  if (program.args[0]) {
+    walletSetupDir = path.join(process.cwd(), program.args[0])
   }
 
   const flags: CliFlags = program.opts()
@@ -72,13 +73,18 @@ export const cliEntrypoint = async () => {
     process.exit(1)
   }
 
-  const compiledWalletSetupDirPath = await compileWalletSetupFunctions(walletSetupDir, flags.debug)
+  console.log(chalk.greenBright('🚀 Building the cache for wallet setup functions... 🚀\n'))
+
+  const { outDir: compiledWalletSetupDirPath, setupFunctionHashes } = await compileWalletSetupFunctions(
+    walletSetupDir,
+    flags.debug
+  )
 
   // TODO: We should be using `prepareExtension` functions from the wallet itself!
   if (flags.phantom) {
-    await createCache(compiledWalletSetupDirPath, prepareExtensionPhantom, flags.force)
+    await createCache(compiledWalletSetupDirPath, setupFunctionHashes, prepareExtensionPhantom, flags.force)
   } else {
-    await createCache(compiledWalletSetupDirPath, prepareExtension, flags.force)
+    await createCache(compiledWalletSetupDirPath, setupFunctionHashes, prepareExtension, flags.force)
   }
 
   if (!flags.debug) {
