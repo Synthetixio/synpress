@@ -34,7 +34,6 @@ test('should confirm contract deployment with default gas setting', async ({ pag
 
   await expect(page.locator('#tokenAddresses')).toContainText('Creation Failed')
 })
-
 ;(['Slow', 'Fast'] as const).forEach((gasSetting) => {
   test(`should confirm contract deployment with ${gasSetting} gas setting`, async ({ page, phantom }) => {
     await connectPhantomToTestDapp(page, phantom)
