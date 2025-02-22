@@ -388,9 +388,6 @@ importers:
       '@vitest/coverage-v8':
         specifier: 1.2.2
         version: 1.2.2(vitest@1.2.2(@types/node@20.11.17))
-      cypress:
-        specifier: 13.17.0
-        version: 13.17.0
       rimraf:
         specifier: 5.0.5
         version: 5.0.5
@@ -1664,6 +1661,9 @@ packages:
     peerDependencies:
       '@playwright/test': 1.48.2
 
+  '@synthetixio/synpress-tsconfig@0.0.4':
+    resolution: {integrity: sha512-hbCj7Tr3fFt1oJ1ceu8aQeUgG8I8SHOUxM6V2sHHSK9+2caEKxg1ehqVBObY7Tt2X4WyZerJa92WPVpX/TKSRA==}
+
   '@synthetixio/synpress-tsconfig@0.0.7':
     resolution: {integrity: sha512-dY6Qos3SiLeqzpvNVpNCt2Masw8Y9EESgLm9pzp3r4K+ayB/2jsbsaTBfLkT4LieqgV7oQmstV0P03t09Vyc8g==}
 
@@ -2204,10 +2204,6 @@ packages:
     resolution: {integrity: sha512-NIxF55hv4nSqQswkAeiOi1r83xy8JldOFDTWiug55KBu9Jnblncd2U6ViHmYgHf01TPZS77NJBhBMKdWj9HQMQ==}
     engines: {node: '>=8'}
 
-  ci-info@4.1.0:
-    resolution: {integrity: sha512-HutrvTNsF48wnxkzERIXOe5/mlcfFcbfCmwcg6CJnizbSue78AbDt+1cgl26zwn61WFxhcPykPfZrbqjGmBb4A==}
-    engines: {node: '>=8'}
-
   clean-stack@2.2.0:
     resolution: {integrity: sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==}
     engines: {node: '>=6'}
@@ -2383,11 +2379,6 @@ packages:
 
   cypress@13.15.1:
     resolution: {integrity: sha512-DwUFiKXo4lef9kA0M4iEhixFqoqp2hw8igr0lTqafRb9qtU3X0XGxKbkSYsUFdkrAkphc7MPDxoNPhk5pj9PVg==}
-    engines: {node: ^16.0.0 || ^18.0.0 || >=20.0.0}
-    hasBin: true
-
-  cypress@13.17.0:
-    resolution: {integrity: sha512-5xWkaPurwkIljojFidhw8lFScyxhtiFHl/i/3zov+1Z5CmY4t9tjIdvSXfu82Y3w7wt0uR9KkucbhkVvJZLQSA==}
     engines: {node: ^16.0.0 || ^18.0.0 || >=20.0.0}
     hasBin: true
 
@@ -6531,6 +6522,8 @@ snapshots:
     dependencies:
       '@playwright/test': 1.48.2
 
+  '@synthetixio/synpress-tsconfig@0.0.4': {}
+
   '@synthetixio/synpress-tsconfig@0.0.7': {}
 
   '@szmarczak/http-timer@5.0.1':
@@ -7161,8 +7154,6 @@ snapshots:
 
   ci-info@3.9.0: {}
 
-  ci-info@4.1.0: {}
-
   clean-stack@2.2.0: {}
 
   cli-boxes@3.0.0: {}
@@ -7379,52 +7370,6 @@ snapshots:
       untildify: 4.0.0
       yauzl: 2.10.0
 
-  cypress@13.17.0:
-    dependencies:
-      '@cypress/request': 3.0.6
-      '@cypress/xvfb': 1.2.4(supports-color@8.1.1)
-      '@types/sinonjs__fake-timers': 8.1.1
-      '@types/sizzle': 2.3.8
-      arch: 2.2.0
-      blob-util: 2.0.2
-      bluebird: 3.7.2
-      buffer: 5.7.1
-      cachedir: 2.4.0
-      chalk: 4.1.2
-      check-more-types: 2.24.0
-      ci-info: 4.1.0
-      cli-cursor: 3.1.0
-      cli-table3: 0.6.5
-      commander: 6.2.1
-      common-tags: 1.8.2
-      dayjs: 1.11.13
-      debug: 4.3.6(supports-color@8.1.1)
-      enquirer: 2.4.1
-      eventemitter2: 6.4.7
-      execa: 4.1.0
-      executable: 4.1.1
-      extract-zip: 2.0.1(supports-color@8.1.1)
-      figures: 3.2.0
-      fs-extra: 9.1.0
-      getos: 3.2.1
-      is-installed-globally: 0.4.0
-      lazy-ass: 1.6.0
-      listr2: 3.14.0(enquirer@2.4.1)
-      lodash: 4.17.21
-      log-symbols: 4.1.0
-      minimist: 1.2.8
-      ospath: 1.2.2
-      pretty-bytes: 5.6.0
-      process: 0.11.10
-      proxy-from-env: 1.0.0
-      request-progress: 3.0.0
-      semver: 7.6.3
-      supports-color: 8.1.1
-      tmp: 0.2.3
-      tree-kill: 1.2.2
-      untildify: 4.0.0
-      yauzl: 2.10.0
-
   dashdash@1.14.1:
     dependencies:
       assert-plus: 1.0.0
@@ -7460,10 +7405,6 @@ snapshots:
       supports-color: 8.1.1
 
   debug@4.3.4:
-    dependencies:
-      ms: 2.1.2
-
-  debug@4.3.6:
     dependencies:
       ms: 2.1.2
 

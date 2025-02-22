@@ -16,9 +16,6 @@
     },
     "test:playwright:headless": {
       "dependsOn": ["build", "build:cache"]
-    },
-    "docs:build": {
-      "outputs": [".vitepress/dist/**"]
     }
   }
 }

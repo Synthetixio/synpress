@@ -61,9 +61,13 @@ jobs:
         run: |
           pnpm run serve:test-dapp &
 
-      - name: Build cache
+      - name: Build cache (metamask)
         run: |
-          xvfb-run pnpm run build:cache
+          xvfb-run pnpm run build:cache:metamask
+
+      - name: Build cache (phantom)
+        run: |
+          xvfb-run pnpm run build:cache:phantom
 
       - name: Run E2E tests (headful)
         run: |

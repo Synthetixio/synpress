@@ -8,9 +8,8 @@
   "license": "MIT",
   "scripts": {
     "build": "turbo build",
-    "build:cache": "turbo build:cache --filter=@synthetixio/synpress-metamask",
+    "build:cache:metamask": "turbo build:cache --filter=@synthetixio/synpress-metamask",
     "build:cache:phantom": "turbo build:cache --filter=@synthetixio/synpress-phantom",
-    "docs:build": "turbo docs:build --filter=docs",
     "format": "biome format . --write",
     "format:check": "biome format . --error-on-warnings",
     "preinstall": "npx only-allow pnpm",
