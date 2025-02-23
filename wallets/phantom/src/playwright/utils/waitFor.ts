@@ -26,7 +26,7 @@ export const waitToBeHidden = async (selector: string, page: Page) => {
 export const waitUntilStable = async (page: Page) => {
   await page.waitForLoadState('load', { timeout: 10_000 })
   await page.waitForLoadState('domcontentloaded', { timeout: 10_000 })
-  await page.waitForLoadState('networkidle', { timeout: 10_000 })
+  // await page.waitForLoadState('networkidle', { timeout: 10_000 })
 }
 
 export const waitForSelector = async (selector: string, page: Page, timeout: number) => {
