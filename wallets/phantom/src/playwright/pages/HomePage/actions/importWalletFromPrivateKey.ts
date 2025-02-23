@@ -2,6 +2,7 @@ import { type Page, expect } from '@playwright/test'
 import Selectors from '../../../../selectors/pages/HomePage'
 import type { Networks } from '../../../../type/Networks'
 import { waitFor } from '../../../utils/waitFor'
+import { closeSuiAndMonadIfPresent } from './closeSuiAndMonadScreen'
 
 export async function importWalletFromPrivateKey(
   page: Page,
@@ -16,24 +17,15 @@ export async function importWalletFromPrivateKey(
   // ===========
 
   await page.waitForTimeout(2_000)
+  await closeSuiAndMonadIfPresent(page)
 
-  await expect(async () => {
-    const suiIsVisible = await page.getByRole('button', { name: 'Enable Sui' }).isVisible()
+  await expect(page.locator(Selectors.accountMenu.accountButton)).toBeVisible()
+  await page.locator(Selectors.accountMenu.accountButton).click()
 
-    if (suiIsVisible) {
-      await page.getByRole('button', { name: 'Not Now' }).click()
-    }
+  await page.waitForTimeout(2_000)
+  await closeSuiAndMonadIfPresent(page)
 
-    const monadIsVisible = await page.getByRole('button', { name: 'Enable Monad' }).isVisible()
-
-    if (monadIsVisible) {
-      await page.getByRole('button', { name: 'Not Now' }).click()
-    }
-
-    await expect(page.locator(Selectors.accountMenu.accountButton)).toBeVisible()
-    await page.locator(Selectors.accountMenu.accountButton).click()
-  }).toPass()
-
+  await expect(page.locator(Selectors.accountMenu.addAccountMenu.addAccountButton)).toBeVisible()
   // ===========
 
   // await page.locator(Selectors.accountMenu.accountButton).click();
