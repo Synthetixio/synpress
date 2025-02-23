@@ -14,6 +14,9 @@ export const solanaSandboxSetup = async (page: Page, phantom: Phantom) => {
   await page.locator('a:has-text("Yes, proceed to preview")').click()
   await page.getByRole('button', { name: 'Connect to Phantom' }).click()
 
+  // Delay for avoiding random fails
+  await page.waitForTimeout(2_000)
+
   await phantom.connectToDapp()
 
   await page.getByRole('button', { name: 'Clear Logs' }).click()
