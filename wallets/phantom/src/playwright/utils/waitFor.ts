@@ -45,17 +45,17 @@ export const waitForSelector = async (selector: string, page: Page, timeout: num
 }
 
 export const waitForPhantomLoad = async (page: Page) => {
-  await Promise.all(
-    LoadingSelectors.loadingIndicators.map(async (selector) => {
-      await waitForSelector(selector, page, DEFAULT_TIMEOUT)
-    })
-  )
-    .then(() => {
-      return true
-    })
-    .catch((error) => {
-      console.error('Error: ', error)
-    })
+  // await Promise.all(
+  //   LoadingSelectors.loadingIndicators.map(async (selector) => {
+  //     await waitForSelector(selector, page, DEFAULT_TIMEOUT)
+  //   })
+  // )
+  //   .then(() => {
+  //     return true
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error: ', error)
+  //   })
 
   return page
 }
