@@ -10,6 +10,10 @@ test('should Sign Transaction ', async ({ page, phantom }) => {
   await solanaSandboxSetup(page, phantom)
 
   await page.getByRole('button', { name: 'Sign Transaction' }).click()
+
+  // Delay toavoid random fails
+  await page.waitForTimeout(2_000)
+
   await phantom.confirmTransaction()
 
   await expect(page.getByText('> success')).toBeVisible()
@@ -19,6 +23,10 @@ test('should Sign All Transactions ', async ({ page, phantom }) => {
   await solanaSandboxSetup(page, phantom)
 
   await page.getByRole('button', { name: 'Sign All Transaction' }).click()
+
+  // Delay toavoid random fails
+  await page.waitForTimeout(2_000)
+
   await phantom.confirmTransaction()
 
   await expect(page.getByText('> success')).toBeVisible()
@@ -30,6 +38,9 @@ test('should confirm contract deployment with default gas setting', async ({ pag
   await expect(page.locator('#tokenAddresses')).toBeEmpty()
   await page.locator('#createToken').click()
 
+  // Delay toavoid random fails
+  await page.waitForTimeout(2_000)
+
   await phantom.confirmTransaction()
 
   await expect(page.locator('#tokenAddresses')).toContainText('Creation Failed')
@@ -40,6 +51,9 @@ test('should confirm contract deployment with default gas setting', async ({ pag
 
     await expect(page.locator('#tokenAddresses')).toBeEmpty()
     await page.locator('#createToken').click()
+
+    // Delay toavoid random fails
+    await page.waitForTimeout(2_000)
 
     await phantom.confirmTransaction({ gasSetting })
 

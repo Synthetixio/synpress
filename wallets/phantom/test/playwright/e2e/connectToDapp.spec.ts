@@ -14,6 +14,9 @@ test('should connect wallet to dapp', async ({ context, page, extensionId }) => 
 
   await page.locator('#connectButton').click()
 
+  // Delay toavoid random fails
+  await page.waitForTimeout(2_000)
+
   await phantom.connectToDapp()
 
   await expect(page.locator('#accounts')).toHaveText('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
@@ -27,6 +30,9 @@ test('should connect multiple wallets to dapp', async ({ context, page, phantomP
 
   await page.goto('/')
   await page.locator('#connectButton').click()
+
+  // Delay toavoid random fails
+  await page.waitForTimeout(2_000)
 
   await phantom.connectToDapp('NewAccount1')
 

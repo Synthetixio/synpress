@@ -10,6 +10,9 @@ test('should confirm `personal_sign`', async ({ page, phantom }) => {
 
   await page.locator('#personalSign').click()
 
+  // Delay toavoid random fails
+  await page.waitForTimeout(2_000)
+
   await phantom.confirmSignature()
 
   await expect(page.locator('#personalSignResult')).toHaveText(
@@ -21,6 +24,9 @@ test('should confirm `eth_signTypedData`', async ({ page, phantom }) => {
   await connectPhantomToTestDapp(page, phantom)
 
   await page.locator('#signTypedData').click()
+
+  // Delay toavoid random fails
+  await page.waitForTimeout(2_000)
 
   await phantom.confirmSignature()
 
@@ -38,6 +44,9 @@ test('should confirm `eth_signTypedData_v3`', async ({ page, phantom }) => {
 
   await page.locator('#signTypedDataV3').click()
 
+  // Delay toavoid random fails
+  await page.waitForTimeout(2_000)
+
   await phantom.confirmSignature()
 
   await expect(page.locator('#signTypedDataV3Result')).toHaveText(
@@ -53,6 +62,9 @@ test('should confirm `eth_signTypedData_v4`', async ({ page, phantom }) => {
   await connectPhantomToTestDapp(page, phantom)
 
   await page.locator('#signTypedDataV4').click()
+
+  // Delay toavoid random fails
+  await page.waitForTimeout(2_000)
 
   await phantom.confirmSignature()
 
@@ -71,7 +83,7 @@ test('should confirm `eth_sign`', async ({ page, phantom }) => {
   await page.locator('#ethSign').click()
 
   // To avoid random fails
-  await page.waitForTimeout(1_000)
+  await page.waitForTimeout(2_000)
 
   await phantom.confirmSignatureWithRisk()
 

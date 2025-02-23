@@ -10,6 +10,10 @@ test('should Reject Transaction ', async ({ page, phantom }) => {
   await solanaSandboxSetup(page, phantom)
 
   await page.getByRole('button', { name: 'Sign Transaction' }).click()
+
+  // Delay toavoid random fails
+  await page.waitForTimeout(2_000)
+
   await phantom.rejectTransaction()
 
   await expect(page.getByText('User rejected the request.')).toBeVisible()
@@ -19,6 +23,10 @@ test('should Reject All Transactions ', async ({ page, phantom }) => {
   await solanaSandboxSetup(page, phantom)
 
   await page.getByRole('button', { name: 'Sign All Transaction' }).click()
+
+  // Delay toavoid random fails
+  await page.waitForTimeout(2_000)
+
   await phantom.rejectTransaction()
 
   await expect(page.getByText('User rejected the request.')).toBeVisible()
@@ -29,6 +37,9 @@ test('should reject contract deployment', async ({ page, phantom }) => {
 
   await expect(page.locator('#tokenAddresses')).toBeEmpty()
   await page.locator('#createToken').click()
+
+  // Delay toavoid random fails
+  await page.waitForTimeout(2_000)
 
   await phantom.rejectTransaction()
 

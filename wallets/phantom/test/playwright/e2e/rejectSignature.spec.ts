@@ -31,6 +31,9 @@ test('should reject `eth_signTypedData_v3`', async ({ page, phantom }) => {
 
   await page.locator('#signTypedDataV3').click()
 
+  // Delay toavoid random fails
+  await page.waitForTimeout(2_000)
+
   await phantom.rejectSignature()
 
   await expect(page.locator('#signTypedDataV3Result')).toHaveText('Error: User rejected the request.')
@@ -40,6 +43,9 @@ test('should reject `eth_signTypedData_v4`', async ({ page, phantom }) => {
   await connectPhantomToTestDapp(page, phantom)
 
   await page.locator('#signTypedDataV4').click()
+
+  // Delay toavoid random fails
+  await page.waitForTimeout(2_000)
 
   await phantom.rejectSignature()
 
