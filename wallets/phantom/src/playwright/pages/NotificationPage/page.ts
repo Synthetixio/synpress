@@ -7,7 +7,7 @@ import {
   closeUnsupportedNetworkWarning,
   connectToDapp,
   signSimpleMessage,
-  signStructuredMessage,
+  // signStructuredMessage,
   transaction
 } from './actions'
 
@@ -31,29 +31,31 @@ export class NotificationPage {
   private async beforeMessageSignature(extensionId: string) {
     const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
 
-    const scrollButton = notificationPage.locator(Selectors.SignaturePage.structuredMessage.scrollDownButton)
-    const isScrollButtonPresent = (await scrollButton.count()) > 0
+    // const scrollButton = notificationPage.locator(Selectors.SignaturePage.structuredMessage.scrollDownButton)
+    // const isScrollButtonPresent = (await scrollButton.count()) > 0
 
-    let isScrollButtonVisible = false
-    if (isScrollButtonPresent) {
-      await scrollButton.waitFor({ state: 'visible' })
-      isScrollButtonVisible = true
-    }
+    // let isScrollButtonVisible = false
+    // if (isScrollButtonPresent) {
+    //   await scrollButton.waitFor({ state: 'visible' })
+    //   isScrollButtonVisible = true
+    // }
 
     return {
-      notificationPage,
-      isScrollButtonVisible
+      notificationPage
+      // isScrollButtonVisible,
     }
   }
 
   async signMessage(extensionId: string) {
-    const { notificationPage, isScrollButtonVisible } = await this.beforeMessageSignature(extensionId)
+    // const { notificationPage, isScrollButtonVisible } =
+    const { notificationPage } = await this.beforeMessageSignature(extensionId)
 
-    if (isScrollButtonVisible) {
-      await signStructuredMessage.sign(notificationPage)
-    } else {
-      await signSimpleMessage.sign(notificationPage)
-    }
+    await signSimpleMessage.sign(notificationPage)
+    // if (isScrollButtonVisible) {
+    //   await signStructuredMessage.sign(notificationPage);
+    // } else {
+    //   await signSimpleMessage.sign(notificationPage);
+    // }
   }
 
   async signMessageWithRisk(extensionId: string) {
@@ -63,13 +65,16 @@ export class NotificationPage {
   }
 
   async rejectMessage(extensionId: string) {
-    const { notificationPage, isScrollButtonVisible } = await this.beforeMessageSignature(extensionId)
+    //const { notificationPage, isScrollButtonVisible } =
+    const { notificationPage } = await this.beforeMessageSignature(extensionId)
 
-    if (isScrollButtonVisible) {
-      await signStructuredMessage.reject(notificationPage)
-    } else {
-      await signSimpleMessage.reject(notificationPage)
-    }
+    await signSimpleMessage.reject(notificationPage)
+
+    // if (isScrollButtonVisible) {
+    //   await signStructuredMessage.reject(notificationPage);
+    // } else {
+    //   await signSimpleMessage.reject(notificationPage);
+    // }
   }
 
   async confirmTransaction(extensionId: string, options?: { gasSetting?: GasSettings }) {

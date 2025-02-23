@@ -13,13 +13,30 @@ export async function importWalletFromPrivateKey(
 
   await page.goto(extensionUrl.replace('onboarding', 'popup'))
 
-  await expect(page.getByRole('button', { name: 'Enable Sui' })).toBeVisible()
-  await page.getByRole('button', { name: 'Not Now' }).click()
+  // ===========
 
-  await expect(page.getByRole('button', { name: 'Enable Monad' })).toBeVisible()
-  await page.getByRole('button', { name: 'Not Now' }).click()
+  await page.waitForTimeout(2_000)
 
-  await page.locator(Selectors.accountMenu.accountButton).click()
+  await expect(async () => {
+    const suiIsVisible = await page.getByRole('button', { name: 'Enable Sui' }).isVisible()
+
+    if (suiIsVisible) {
+      await page.getByRole('button', { name: 'Not Now' }).click()
+    }
+
+    const monadIsVisible = await page.getByRole('button', { name: 'Enable Monad' }).isVisible()
+
+    if (monadIsVisible) {
+      await page.getByRole('button', { name: 'Not Now' }).click()
+    }
+
+    await expect(page.locator(Selectors.accountMenu.accountButton)).toBeVisible()
+    await page.locator(Selectors.accountMenu.accountButton).click()
+  }).toPass()
+
+  // ===========
+
+  // await page.locator(Selectors.accountMenu.accountButton).click();
 
   await page.locator(Selectors.accountMenu.addAccountMenu.addAccountButton).click()
 
