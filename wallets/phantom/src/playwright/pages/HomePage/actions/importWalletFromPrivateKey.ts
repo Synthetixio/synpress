@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test'
+import { type Page, expect } from '@playwright/test'
 import Selectors from '../../../../selectors/pages/HomePage'
 import type { Networks } from '../../../../type/Networks'
 import { waitFor } from '../../../utils/waitFor'
@@ -10,7 +10,14 @@ export async function importWalletFromPrivateKey(
   walletName?: string
 ) {
   const extensionUrl = page.url()
+
   await page.goto(extensionUrl.replace('onboarding', 'popup'))
+
+  await expect(page.getByRole('button', { name: 'Enable Sui' })).toBeVisible()
+  await page.getByRole('button', { name: 'Not Now' }).click()
+
+  await expect(page.getByRole('button', { name: 'Enable Monad' })).toBeVisible()
+  await page.getByRole('button', { name: 'Not Now' }).click()
 
   await page.locator(Selectors.accountMenu.accountButton).click()
 
