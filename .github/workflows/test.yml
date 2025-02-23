@@ -73,11 +73,20 @@ jobs:
         run: |
           xvfb-run pnpm run test:playwright:headful
 
-      - name: Archive Playwright report
+      - name: Archive Playwright report Phantom
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # pin@v4.6.0
         if: success() || failure()
         with:
-          name: playwright-report-headful
+          name: playwright-report-headful-phantom
+          path: |
+            wallets/phantom/playwright-report-headful/
+          if-no-files-found: error
+
+      - name: Archive Playwright report Metamask
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # pin@v4.6.0
+        if: success() || failure()
+        with:
+          name: playwright-report-headful-metamask
           path: |
             wallets/metamask/playwright-report-headful/
           if-no-files-found: error
