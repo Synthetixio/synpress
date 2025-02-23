@@ -70,6 +70,9 @@ test('should confirm `eth_sign`', async ({ page, phantom }) => {
 
   await page.locator('#ethSign').click()
 
+  // To avoid random fails
+  await page.waitForTimeout(1_000)
+
   await phantom.confirmSignatureWithRisk()
 
   await expect(page.locator('#ethSignResult')).toContainText(
