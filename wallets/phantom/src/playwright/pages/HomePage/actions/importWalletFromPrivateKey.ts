@@ -14,13 +14,13 @@ export async function importWalletFromPrivateKey(
 
   await page.goto(extensionUrl.replace('onboarding', 'popup'))
 
-  await page.waitForTimeout(5_000)
+  await page.waitForTimeout(2_000)
   await closeSuiAndMonadIfPresent(page)
 
   await expect(page.locator(Selectors.accountMenu.accountButton)).toBeVisible()
   await page.locator(Selectors.accountMenu.accountButton).click()
 
-  await page.waitForTimeout(3_000)
+  await page.waitForTimeout(2_000)
   await closeSuiAndMonadIfPresent(page)
 
   await expect(page.locator(Selectors.accountMenu.addAccountMenu.addAccountButton)).toBeVisible()
