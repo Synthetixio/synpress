@@ -1,7 +1,8 @@
-import type { Page } from '@playwright/test'
+import { type Page, expect } from '@playwright/test'
 import Selectors from '../../../../selectors/pages/HomePage'
 import type { Networks } from '../../../../type/Networks'
 import { waitFor } from '../../../utils/waitFor'
+import { closeSuiAndMonadIfPresent } from './closeSuiAndMonadScreen'
 
 export async function importWalletFromPrivateKey(
   page: Page,
@@ -9,11 +10,12 @@ export async function importWalletFromPrivateKey(
   privateKey: string,
   walletName?: string
 ) {
-  const extensionUrl = page.url()
-  await page.goto(extensionUrl.replace('onboarding', 'popup'))
+  await closeSuiAndMonadIfPresent(page)
 
+  await expect(page.locator(Selectors.accountMenu.accountButton)).toBeVisible()
   await page.locator(Selectors.accountMenu.accountButton).click()
 
+  await expect(page.locator(Selectors.accountMenu.addAccountMenu.addAccountButton)).toBeVisible()
   await page.locator(Selectors.accountMenu.addAccountMenu.addAccountButton).click()
 
   await page.locator(Selectors.accountMenu.addAccountMenu.importAccountPrivateKeyButton).click()
@@ -21,7 +23,10 @@ export async function importWalletFromPrivateKey(
   // SELECT NETWORK
   if (network !== 'solana') {
     await page.locator(Selectors.accountMenu.addAccountMenu.importAccountMenu.networkOpenMenu).click()
-    await page.locator(Selectors.accountMenu.addAccountMenu.importAccountMenu[`${network}Network`]).click()
+    await page
+      .locator(Selectors.accountMenu.addAccountMenu.importAccountMenu[`${network}Network`])
+      .first()
+      .click()
   }
 
   await page
@@ -44,4 +49,6 @@ export async function importWalletFromPrivateKey(
   }
 
   await importButton.click()
+
+  await expect(page.locator('[data-testid*="fungible-token-row-"]').first()).toBeVisible({ timeout: 10_000 })
 }

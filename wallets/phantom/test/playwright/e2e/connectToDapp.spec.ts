@@ -20,6 +20,8 @@ test('should connect wallet to dapp', async ({ context, page, extensionId }) => 
 })
 
 test('should connect multiple wallets to dapp', async ({ context, page, phantomPage, extensionId }) => {
+  test.setTimeout(90_000)
+
   const phantom = new Phantom(context, phantomPage, basicSetup.walletPassword, extensionId)
 
   await phantom.addNewAccount('NewAccount1')

@@ -1,5 +1,6 @@
 import type { BrowserContext, Page } from '@playwright/test'
-import { waitForPhantomLoad, waitUntilStable } from './waitFor'
+// import { waitForPhantomLoad, waitUntilStable } from './waitFor'
+import { waitUntilStable } from './waitFor'
 
 export async function getNotificationPageAndWaitForLoad(context: BrowserContext, extensionId: string) {
   const notificationPageUrl = `chrome-extension://${extensionId}/notification.html`
@@ -11,7 +12,8 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
 
   if (!notificationPage) {
     notificationPage = await context.waitForEvent('page', {
-      predicate: isNotificationPage
+      predicate: isNotificationPage,
+      timeout: 10_000
     })
   }
 
@@ -23,5 +25,6 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
     height: 592
   })
 
-  return await waitForPhantomLoad(notificationPage)
+  // return await waitForPhantomLoad(notificationPage);
+  return await notificationPage
 }

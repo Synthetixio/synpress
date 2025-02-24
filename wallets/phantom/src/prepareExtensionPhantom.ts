@@ -2,7 +2,6 @@ import path from 'node:path'
 import { downloadFile, ensureCacheDirExists, unzipArchivePhantom } from '@synthetixio/synpress-cache'
 import fs from 'fs-extra'
 
-export const DEFAULT_PHANTOM_VERSION = 'latest'
 export const PHANTOM_EXTENSION_DOWNLOAD_URL = 'https://crx-backup.phantom.dev/latest.crx'
 
 export async function prepareExtensionPhantom(forceCache = true) {

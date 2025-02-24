@@ -10,9 +10,11 @@ import {
 import fs from 'fs-extra'
 import { prepareExtensionPhantom } from '../../prepareExtensionPhantom'
 import { Phantom } from '../Phantom'
-import { getExtensionIdPhantom, unlockForFixturePhantom } from '../fixture-actions'
+import { getExtensionIdPhantom } from '../fixture-actions'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
-import { waitForPhantomWindowToBeStable } from '../utils/waitFor'
+import { closeSuiAndMonadIfPresent } from '../pages/HomePage/actions/closeSuiAndMonadScreen'
+import { unlock } from '../pages/UnlockPage/actions'
+import { loadAndWaitForPopupPage } from '../utils/loadAndWaitForPopupPage'
 
 type PhantomFixtures = {
   _contextPath: string
@@ -75,21 +77,33 @@ export const phantomFixtures = (walletSetup: ReturnType<typeof defineWalletSetup
 
       const extensionId = await getExtensionIdPhantom(context, 'Phantom')
 
-      _phantomPage = context.pages()[0] as Page
+      //
+      _phantomPage = await loadAndWaitForPopupPage(context, extensionId)
 
-      await _phantomPage.goto(`chrome-extension://${extensionId}/popup.html`)
-
-      await _phantomPage.waitForTimeout(1_000)
-
-      await waitForPhantomWindowToBeStable(_phantomPage)
-
-      await unlockForFixturePhantom(_phantomPage, walletSetup.walletPassword)
+      await unlock(_phantomPage, walletSetup.walletPassword)
 
       await use(context)
 
       await context.close()
+      ///
+
+      // _phantomPage = context.pages()[0] as Page
+
+      // await _phantomPage.goto(`chrome-extension://${extensionId}/popup.html`)
+
+      // await _phantomPage.waitForTimeout(1_000)
+
+      // await waitForPhantomWindowToBeStable(_phantomPage)
+
+      // await unlockForFixturePhantom(_phantomPage, walletSetup.walletPassword)
+
+      // await use(context)
+
+      // await context.close()
     },
     phantomPage: async ({ context: _ }, use) => {
+      await closeSuiAndMonadIfPresent(_phantomPage)
+
       await use(_phantomPage)
     },
     extensionId: async ({ context }, use) => {

@@ -11,15 +11,15 @@ const renameAccountMenu = {
 }
 
 const importAccountMenu = {
-  networkOpenMenu: '#button--listbox-input--1',
-  ethereumNetwork: `[data-label="Ethereum"]`,
-  baseNetwork: `[data-label="Base"]`,
-  polygonNetwork: `[data-label="Polygon"]`,
-  bitcoinNetwork: `[data-label="Bitcoin"]`,
-  nameInput: `input[name="name"]`,
-  privateKeyInput: `textarea[placeholder="Private key"]`,
-  importButton: `button:has-text("Import")`,
-  error: `textarea[placeholder="Private key"] + div`
+  networkOpenMenu: '[role="button"]:has-text("Solana")',
+  ethereumNetwork: '[data-label="Ethereum"]',
+  baseNetwork: '[data-label="Base"]',
+  polygonNetwork: '[data-label="Polygon"]',
+  bitcoinNetwork: '[data-label="Bitcoin"]',
+  nameInput: 'input[name="name"]',
+  privateKeyInput: 'textarea[placeholder="Private key"]',
+  importButton: 'button:has-text("Import")',
+  error: 'textarea[placeholder="Private key"] + div'
 }
 
 const addAccountMenu = {
@@ -31,7 +31,7 @@ const addAccountMenu = {
 }
 
 const editAccountMenu = {
-  accountNameButton: `button:has-text("Account Name")`
+  accountNameButton: 'button:has-text("Account Name")'
 }
 
 const accountMenu = {
@@ -55,7 +55,7 @@ export default {
   bitcoinWalletAddress: createDataTestSelector('account-header-chain-bip122:000000000019d6689c085ae165831e93'),
   copyAccountAddressButton: createDataTestSelector('address-copy-button-text'),
   currentNetwork: `${createDataTestSelector('network-display')} span:nth-of-type(1)`,
-  headerBackButton: createDataTestSelector('header--back'),
+  headerBackButton: `section:has-text("Developer Settings") ${createDataTestSelector('header--back')}`,
   settings,
   accountMenu,
   editAccountMenu,

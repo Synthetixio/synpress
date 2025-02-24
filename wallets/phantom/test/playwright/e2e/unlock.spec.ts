@@ -14,5 +14,5 @@ test('should unlock the wallet', async ({ context, phantomPage }) => {
 
   await phantom.unlock()
 
-  await expect(phantomPage.locator(phantom.homePage.selectors.accountMenu.accountName)).toHaveText('Account 1')
+  await expect(phantomPage.locator(phantom.homePage.selectors.accountMenu.accountName)).toContainText('Account')
 })

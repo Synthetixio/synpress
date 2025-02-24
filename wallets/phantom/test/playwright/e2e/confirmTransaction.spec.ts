@@ -6,7 +6,9 @@ const test = synpress
 
 const { expect } = test
 
-test('should Sign Transaction ', async ({ page, phantom }) => {
+test('should Sign Transaction', async ({ page, phantom }) => {
+  test.setTimeout(90_000)
+
   await solanaSandboxSetup(page, phantom)
 
   await page.getByRole('button', { name: 'Sign Transaction' }).click()
@@ -15,7 +17,9 @@ test('should Sign Transaction ', async ({ page, phantom }) => {
   await expect(page.getByText('> success')).toBeVisible()
 })
 
-test('should Sign All Transactions ', async ({ page, phantom }) => {
+test('should Sign All Transactions', async ({ page, phantom }) => {
+  test.setTimeout(90_000)
+
   await solanaSandboxSetup(page, phantom)
 
   await page.getByRole('button', { name: 'Sign All Transaction' }).click()

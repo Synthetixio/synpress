@@ -1,6 +1,5 @@
 import { downloadFile, ensureCacheDirExists, unzipArchivePhantom } from '.'
 
-export const DEFAULT_PHANTOM_VERSION = 'latest'
 export const PHANTOM_EXTENSION_DOWNLOAD_URL = 'https://crx-backup.phantom.dev/latest.crx'
 
 // NOTE: This function is copied from `wallets/phantom/src/prepareExtensionPhantom.ts` only TEMPORARILY!

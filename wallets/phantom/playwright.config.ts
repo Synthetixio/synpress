@@ -46,6 +46,8 @@ export default defineConfig({
     // Collect all traces on CI, and only traces for failed tests when running locally.
     // See https://playwright.dev/docs/trace-viewer.
     trace: process.env.CI ? 'on' : 'retain-on-failure',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
     // Added for getting account address
     permissions: ['clipboard-read']
   },
