@@ -11,7 +11,8 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
 
   if (!notificationPage) {
     notificationPage = await context.waitForEvent('page', {
-      predicate: isNotificationPage
+      predicate: isNotificationPage,
+      timeout: 10_000
     })
   }
 
@@ -23,5 +24,6 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
     height: 592
   })
 
-  return await waitForPhantomLoad(notificationPage)
+  // return await waitForPhantomLoad(notificationPage);
+  return notificationPage
 }
