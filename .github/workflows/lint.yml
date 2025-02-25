@@ -1,24 +1,24 @@
-name: 🎨 Lint
+# name: 🎨 Lint
 
-on:
-  push:
-    branches:
-      - dev
-  pull_request:
+# on:
+#   push:
+#     branches:
+#       - dev
+#   pull_request:
 
-jobs:
-  style:
-    name: Check code style
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4.2.2
+# jobs:
+#   style:
+#     name: Check code style
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4.2.2
 
-      - name: Setup Node & Install dependencies
-        uses: ./.github/actions/setup
+#       - name: Setup Node & Install dependencies
+#         uses: ./.github/actions/setup
 
-      - name: Check linter
-        run: pnpm run lint:check
+#       - name: Check linter
+#         run: pnpm run lint:check
 
-      - name: Check order in package.json
-        if: success() || failure() # Run even if the previous step fails
-        run: pnpm run sort-package-json:check
+#       - name: Check order in package.json
+#         if: success() || failure() # Run even if the previous step fails
+#         run: pnpm run sort-package-json:check

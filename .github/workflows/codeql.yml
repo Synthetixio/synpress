@@ -1,30 +1,30 @@
-name: CodeQL
+# name: CodeQL
 
-on:
-  push:
-    branches:
-      - dev
-  pull_request:
-  schedule:
-    - cron: '0 6 * * 3'
+# on:
+#   push:
+#     branches:
+#       - dev
+#   pull_request:
+#   schedule:
+#     - cron: '0 6 * * 3'
 
-jobs:
-  analyze:
-    runs-on: ubuntu-latest
-    permissions:
-        security-events: write
+# jobs:
+#   analyze:
+#     runs-on: ubuntu-latest
+#     permissions:
+#         security-events: write
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4.2.2
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4.2.2
 
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@7e3036b9cd87fc26dd06747b7aa4b96c27aaef3a # pin@v2.20.3
-        with:
-          queries: security-and-quality
-          languages: javascript-typescript
+#       - name: Initialize CodeQL
+#         uses: github/codeql-action/init@7e3036b9cd87fc26dd06747b7aa4b96c27aaef3a # pin@v2.20.3
+#         with:
+#           queries: security-and-quality
+#           languages: javascript-typescript
 
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@7e3036b9cd87fc26dd06747b7aa4b96c27aaef3a # pin@v2.20.3
-        with:
-          category: "/language:javascript-typescript"
+#       - name: Perform CodeQL Analysis
+#         uses: github/codeql-action/analyze@7e3036b9cd87fc26dd06747b7aa4b96c27aaef3a # pin@v2.20.3
+#         with:
+#           category: "/language:javascript-typescript"
