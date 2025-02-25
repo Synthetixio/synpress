@@ -7,7 +7,7 @@ const test = testWithSynpress(phantomFixtures(basicSetup))
 
 const { expect } = test
 
-test('should add a new account with specified name a - 11', async ({ context, phantomPage }) => {
+test('should add a new account with specified name a - 12', async ({ context, phantomPage }) => {
   const phantom = new Phantom(context, phantomPage, basicSetup.walletPassword)
 
   const accountName = 'Test Account'
