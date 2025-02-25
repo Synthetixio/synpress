@@ -21,7 +21,7 @@
     "sort-package-json": "sort-package-json 'package.json' '{packages,wallets,examples}/*/package.json'",
     "sort-package-json:check": "sort-package-json 'package.json' '{packages,wallets,examples}/*/package.json' --check",
     "test": "turbo test",
-    "test:playwright:headful": "turbo test:playwright:headful --filter=@synthetixio/synpress-metamask --filter=@synthetixio/ethereum-wallet-mock --filter=@synthetixio/synpress-phantom",
+    "test:playwright:headful": "turbo test:playwright:headful --filter=@synthetixio/synpress-phantom",
     "test:playwright:headless": "turbo test:playwright:headless --filter=@synthetixio/synpress-metamask --filter=@synthetixio/ethereum-wallet-mock --filter=@synthetixio/synpress-phantom",
     "update:deps": "ncu -u -ws --root"
   },
