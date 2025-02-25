@@ -12,6 +12,7 @@ import { prepareExtensionPhantom } from '../../prepareExtensionPhantom'
 import { Phantom } from '../Phantom'
 import { getExtensionIdPhantom, unlockForFixturePhantom } from '../fixture-actions'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
+import { closeSuiAndMonadIfPresent } from '../pages/HomePage/actions'
 import { waitForPhantomWindowToBeStable } from '../utils/waitFor'
 
 type PhantomFixtures = {
@@ -90,6 +91,8 @@ export const phantomFixtures = (walletSetup: ReturnType<typeof defineWalletSetup
       await context.close()
     },
     phantomPage: async ({ context: _ }, use) => {
+      await closeSuiAndMonadIfPresent(_phantomPage)
+
       await use(_phantomPage)
     },
     extensionId: async ({ context }, use) => {

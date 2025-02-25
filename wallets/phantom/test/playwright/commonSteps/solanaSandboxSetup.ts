@@ -2,7 +2,7 @@ import { type Page, expect } from '@playwright/test'
 import type { Phantom } from '../../../src/playwright'
 
 export const solanaSandboxSetup = async (page: Page, phantom: Phantom) => {
-  await phantom.page.waitForTimeout(1_000)
+  // await phantom.page.waitForTimeout(1_000)
   await phantom.importWalletFromPrivateKey(
     'solana',
     'XQaKFLLSKbzpVzmfJrj4yUjAyFy2Eu7JcNdbPdnLuod2Uw3yf3tjGd4ha1DBfFdjkZFX1PZg3knth2Tz2tvd8C4'
