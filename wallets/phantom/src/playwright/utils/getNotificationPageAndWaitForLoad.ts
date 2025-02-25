@@ -25,6 +25,8 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
     height: 592
   })
 
+  await waitUntilStable(notificationPage as Page)
+
   // return await waitForPhantomLoad(notificationPage);
   return notificationPage
 }
