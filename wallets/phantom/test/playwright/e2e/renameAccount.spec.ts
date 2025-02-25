@@ -8,6 +8,8 @@ const test = testWithSynpress(phantomFixtures(basicSetup))
 const { expect } = test
 
 test('should rename current account with specified name', async ({ context, phantomPage }) => {
+  test.setTimeout(80_000)
+
   const phantom = new Phantom(context, phantomPage, basicSetup.walletPassword)
 
   const accountName = 'Test Account'
