@@ -393,7 +393,7 @@ importers:
         version: 5.0.5
       tsup:
         specifier: 8.0.2
-        version: 8.0.2(postcss@8.4.41)(typescript@5.3.3)
+        version: 8.0.2(postcss@8.5.3)(typescript@5.3.3)
       typescript:
         specifier: 5.3.3
         version: 5.3.3
