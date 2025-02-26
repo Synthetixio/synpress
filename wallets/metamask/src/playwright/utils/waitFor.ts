@@ -3,7 +3,7 @@ import { errors } from '@playwright/test'
 import { LoadingSelectors } from '../../selectors'
 import { ErrorSelectors } from '../../selectors'
 
-const DEFAULT_TIMEOUT = 5000
+const DEFAULT_TIMEOUT = 10000
 
 export const waitUntilStable = async (page: Page) => {
   await page.waitForLoadState('domcontentloaded', { timeout: DEFAULT_TIMEOUT })

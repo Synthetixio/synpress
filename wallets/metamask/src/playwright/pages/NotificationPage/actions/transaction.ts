@@ -58,7 +58,7 @@ const attemptConfirmTransaction = async (notificationPage: Page, options: GasSet
       const nftApproveButtonLocator = page.locator(
         Selectors.TransactionPage.nftApproveAllConfirmationPopup.approveButton
       )
-      const isNfTPopupHidden = await waitFor(() => nftApproveButtonLocator.isHidden(), 3_000, false)
+      const isNfTPopupHidden = await waitFor(() => nftApproveButtonLocator.isHidden(), 10_000, false)
 
       if (!isNfTPopupHidden) {
         await nftApproveButtonLocator.click()
@@ -76,7 +76,7 @@ const attemptConfirmTransaction = async (notificationPage: Page, options: GasSet
   if (gasSetting === 'site') {
     // Make sure the confirm button is visible and stable before clicking
     const confirmButton = notificationPage.locator(Selectors.ActionFooter.confirmActionButton)
-    await confirmButton.waitFor({ state: 'visible', timeout: 5000 })
+    await confirmButton.waitFor({ state: 'visible', timeout: 10000 })
     await confirmButton.click()
 
     await handleNftSetApprovalForAll(notificationPage)
@@ -86,7 +86,7 @@ const attemptConfirmTransaction = async (notificationPage: Page, options: GasSet
 
   // TODO: This button can be invisible in case of a network issue. Verify this, and handle in the future.
   const editGasFeeButton = notificationPage.locator(Selectors.TransactionPage.editGasFeeMenu.editGasFeeButton)
-  await editGasFeeButton.waitFor({ state: 'visible', timeout: 5000 })
+  await editGasFeeButton.waitFor({ state: 'visible', timeout: 10000 })
   await editGasFeeButton.click()
 
   const estimationNotAvailableErrorMessage = (gasSetting: string) =>
@@ -137,11 +137,11 @@ const attemptConfirmTransaction = async (notificationPage: Page, options: GasSet
       const gasLimitErrorLocator = notificationPage.locator(
         Selectors.TransactionPage.editGasFeeMenu.advancedGasFeeMenu.gasLimitError
       )
-      const isGasLimitErrorHidden = await waitFor(() => gasLimitErrorLocator.isHidden(), 1_000, false) // TODO: Extract & make configurable
+      const isGasLimitErrorHidden = await waitFor(() => gasLimitErrorLocator.isHidden(), 10_000, false) // TODO: Extract & make configurable
 
       if (!isGasLimitErrorHidden) {
         const errorText = await gasLimitErrorLocator.textContent({
-          timeout: 1_000 // TODO: Extract & make configurable
+          timeout: 10_000 // TODO: Extract & make configurable
         })
 
         throw new Error(`[ConfirmTransaction] Invalid gas limit: ${errorText}`)
@@ -163,10 +163,10 @@ const attemptConfirmTransaction = async (notificationPage: Page, options: GasSet
   }
 
   // TODO: Extract & make configurable
-  await waitFor(waitForAction, 5_000, true) // Increased timeout from 3000 to 5000
+  await waitFor(waitForAction, 10_000, true) // Increased timeout from 3000 to 5000
 
   const confirmButton = notificationPage.locator(Selectors.ActionFooter.confirmActionButton)
-  await confirmButton.waitFor({ state: 'visible', timeout: 5000 })
+  await confirmButton.waitFor({ state: 'visible', timeout: 10000 })
   await confirmButton.click()
 
   await handleNftSetApprovalForAll(notificationPage)
