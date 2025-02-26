@@ -57,6 +57,6 @@
     "typescript": "5.3.3"
   },
   "peerDependencies": {
-    "@playwright/test": "1.48.2"
+    "@playwright/test": "*"
   }
 }
