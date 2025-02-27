@@ -1,10 +1,7 @@
 import type { Page } from '@playwright/test'
 import { errors } from '@playwright/test'
-import { LoadingSelectors } from '../../selectors'
-import { ErrorSelectors } from '../../selectors'
-import Selectors from '../../selectors/pages/UnlockPage'
 
-const DEFAULT_TIMEOUT = 2000
+import Selectors from '../../selectors/pages/UnlockPage'
 
 let retries = 0
 
