@@ -10,10 +10,12 @@ import {
 import fs from 'fs-extra'
 import { prepareExtensionPhantom } from '../../prepareExtensionPhantom'
 import { Phantom } from '../Phantom'
-import { getExtensionIdPhantom, unlockForFixturePhantom } from '../fixture-actions'
+import { getExtensionIdPhantom } from '../fixture-actions'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
 import { closeSuiAndMonadIfPresent } from '../pages/HomePage/actions'
-import { waitForPhantomWindowToBeStable } from '../utils/waitFor'
+import { unlock } from '../pages/UnlockPage/actions'
+import { waitForPopupPageLoad } from '../utils/waitForPopupPageLoad'
+import { waitForTestPageLoad } from '../utils/waitForTestPageLoad'
 
 type PhantomFixtures = {
   _contextPath: string
@@ -78,13 +80,13 @@ export const phantomFixtures = (walletSetup: ReturnType<typeof defineWalletSetup
 
       _phantomPage = context.pages()[0] as Page
 
+      await waitForTestPageLoad(context)
+
       await _phantomPage.goto(`chrome-extension://${extensionId}/popup.html`)
 
-      await _phantomPage.waitForTimeout(1_000)
+      await waitForPopupPageLoad(context, extensionId)
 
-      await waitForPhantomWindowToBeStable(_phantomPage)
-
-      await unlockForFixturePhantom(_phantomPage, walletSetup.walletPassword)
+      await unlock(_phantomPage, walletSetup.walletPassword)
 
       await use(context)
 
@@ -94,6 +96,8 @@ export const phantomFixtures = (walletSetup: ReturnType<typeof defineWalletSetup
       await closeSuiAndMonadIfPresent(_phantomPage)
 
       await use(_phantomPage)
+
+      await _phantomPage.close()
     },
     extensionId: async ({ context }, use) => {
       const extensionId = await getExtensionIdPhantom(context, 'Phantom')
@@ -109,6 +113,8 @@ export const phantomFixtures = (walletSetup: ReturnType<typeof defineWalletSetup
       await page.goto('/')
 
       await use(page)
+
+      await page.close()
     }
   })
 }

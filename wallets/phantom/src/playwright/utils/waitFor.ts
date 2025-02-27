@@ -2,6 +2,7 @@ import type { Page } from '@playwright/test'
 import { errors } from '@playwright/test'
 import { LoadingSelectors } from '../../selectors'
 import { ErrorSelectors } from '../../selectors'
+import Selectors from '../../selectors/pages/UnlockPage'
 
 const DEFAULT_TIMEOUT = 2000
 
@@ -26,7 +27,19 @@ export const waitToBeHidden = async (selector: string, page: Page) => {
 export const waitUntilStable = async (page: Page) => {
   await page.waitForLoadState('load', { timeout: 10_000 })
   await page.waitForLoadState('domcontentloaded', { timeout: 10_000 })
-  // await page.waitForLoadState('networkidle', { timeout: 10_000 })
+}
+
+export const waitUntilStableBeforeUnlock = async (page: Page) => {
+  await page.waitForLoadState('load', { timeout: 10_000 })
+  await page.waitForLoadState('domcontentloaded', { timeout: 10_000 })
+  await page.waitForSelector(Selectors.submitButton, { timeout: 10_000 })
+  await page.locator(Selectors.submitButton).waitFor({ timeout: 10_000 })
+}
+
+export const waitUntilStableNotificationPage = async (page: Page) => {
+  await page.waitForLoadState('load', { timeout: 10_000 })
+  await page.waitForLoadState('domcontentloaded', { timeout: 10_000 })
+  await page.locator('[data-testid="home-header-account-name"]').waitFor({ timeout: 10_000 })
 }
 
 export const waitForSelector = async (selector: string, page: Page, timeout: number) => {
@@ -40,60 +53,6 @@ export const waitForSelector = async (selector: string, page: Page, timeout: num
     } else {
       console.log(`Error while waiting for loading indicator '${selector}' to disappear`)
       throw error
-    }
-  }
-}
-
-export const waitForPhantomLoad = async (page: Page) => {
-  // await Promise.all(
-  //   LoadingSelectors.loadingIndicators.map(async (selector) => {
-  //     await waitForSelector(selector, page, DEFAULT_TIMEOUT)
-  //   })
-  // )
-  //   .then(() => {
-  //     return true
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error: ', error)
-  //   })
-
-  return page
-}
-
-export const waitForPhantomWindowToBeStable = async (page: Page) => {
-  await waitForPhantomLoad(page)
-  if ((await page.locator(ErrorSelectors.loadingOverlayErrorButtons).count()) > 0) {
-    const retryButton = await page.locator(ErrorSelectors.loadingOverlayErrorButtonsRetryButton)
-    await retryButton.click()
-    await waitForSelector(LoadingSelectors.loadingOverlay, page, DEFAULT_TIMEOUT)
-  }
-  await fixCriticalError(page)
-}
-
-export const fixCriticalError = async (page: Page) => {
-  for (let times = 0; times < 5; times++) {
-    if ((await page.locator(ErrorSelectors.criticalError).count()) > 0) {
-      console.log('[fixCriticalError] Phantom crashed with critical error, refreshing..')
-      if (times <= 3) {
-        await page.reload()
-        await waitForPhantomWindowToBeStable(page)
-      } else if (times === 4) {
-        const restartButton = await page.locator(ErrorSelectors.criticalErrorRestartButton)
-        await restartButton.click()
-        await waitForPhantomWindowToBeStable(page)
-      } else {
-        throw new Error('[fixCriticalError] Max amount of retries to fix critical phantom error has been reached.')
-      }
-    } else if ((await page.locator(ErrorSelectors.errorPage).count()) > 0) {
-      console.log('[fixCriticalError] Phantom crashed with error, refreshing..')
-      if (times <= 4) {
-        await page.reload()
-        await waitForPhantomWindowToBeStable(page)
-      } else {
-        throw new Error('[fixCriticalError] Max amount of retries to fix critical phantom error has been reached.')
-      }
-    } else {
-      break
     }
   }
 }

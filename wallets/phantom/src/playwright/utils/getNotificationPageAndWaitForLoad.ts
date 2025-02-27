@@ -1,6 +1,5 @@
 import type { BrowserContext, Page } from '@playwright/test'
-// import { waitForPhantomLoad, waitUntilStable } from './waitFor'
-import { waitUntilStable } from './waitFor'
+import { waitUntilStableNotificationPage } from './waitFor'
 
 export async function getNotificationPageAndWaitForLoad(context: BrowserContext, extensionId: string) {
   const notificationPageUrl = `chrome-extension://${extensionId}/notification.html`
@@ -17,7 +16,7 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
     })
   }
 
-  await waitUntilStable(notificationPage as Page)
+  await waitUntilStableNotificationPage(notificationPage as Page)
 
   // Set pop-up window viewport size to resemble the actual Phantom pop-up window.
   await notificationPage.setViewportSize({
@@ -25,8 +24,7 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
     height: 592
   })
 
-  await waitUntilStable(notificationPage as Page)
+  await waitUntilStableNotificationPage(notificationPage as Page)
 
-  // return await waitForPhantomLoad(notificationPage);
   return notificationPage
 }

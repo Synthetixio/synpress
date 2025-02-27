@@ -2,7 +2,7 @@ import { type Page, expect } from '@playwright/test'
 import Selectors from '../../../../selectors/pages/HomePage'
 import type { Networks } from '../../../../type/Networks'
 import { waitFor } from '../../../utils/waitFor'
-// import { closeSuiAndMonadIfPresent } from './closeSuiAndMonadScreen'
+import { closeSuiAndMonadIfPresent } from './closeSuiAndMonadScreen'
 
 export async function importWalletFromPrivateKey(
   page: Page,
@@ -10,18 +10,10 @@ export async function importWalletFromPrivateKey(
   privateKey: string,
   walletName?: string
 ) {
-  const extensionUrl = page.url()
-
-  await page.goto(extensionUrl.replace('onboarding', 'popup'))
-
-  // await page.waitForTimeout(5_000)
-  // await closeSuiAndMonadIfPresent(page)
+  await closeSuiAndMonadIfPresent(page)
 
   await expect(page.locator(Selectors.accountMenu.accountButton)).toBeVisible()
   await page.locator(Selectors.accountMenu.accountButton).click()
-
-  // await page.waitForTimeout(3_000)
-  // await closeSuiAndMonadIfPresent(page)
 
   await expect(page.locator(Selectors.accountMenu.addAccountMenu.addAccountButton)).toBeVisible()
 
@@ -55,4 +47,6 @@ export async function importWalletFromPrivateKey(
   }
 
   await importButton.click()
+
+  await expect(page.locator('[data-testid*="fungible-token-row-"]').first()).toBeVisible({ timeout: 10_000 })
 }

@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test'
+import { type Page } from '@playwright/test'
 import Selectors from '../../../../selectors/pages/UnlockPage'
 import { waitForSpinnerToVanish } from '../../../utils/waitForSpinnerToVanish'
 
