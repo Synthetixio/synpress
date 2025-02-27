@@ -1,3 +1,4 @@
+import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import chalk from 'chalk'
@@ -13,6 +14,16 @@ interface CliFlags {
   headless: boolean
   force: boolean
   debug: boolean
+}
+
+// Helper function to check if running in WSL
+const isRunningInWsl = (): boolean => {
+  try {
+    const releaseContent = fs.readFileSync('/proc/version', 'utf8').toLowerCase()
+    return releaseContent.includes('microsoft') || releaseContent.includes('wsl')
+  } catch (error) {
+    return false
+  }
 }
 
 // TODO: Add unit tests for the CLI!
@@ -58,7 +69,7 @@ export const cliEntrypoint = async () => {
     )
   }
 
-  if (os.platform() === 'win32') {
+  if (os.platform() === 'win32' && !isRunningInWsl()) {
     console.log(
       [
         chalk.redBright('🚨 Sorry, Windows is currently not supported. Please use WSL instead! 🚨'),
