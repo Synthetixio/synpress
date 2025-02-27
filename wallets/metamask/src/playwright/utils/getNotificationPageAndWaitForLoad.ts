@@ -35,6 +35,34 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
         height: 592
       })
 
+      try {
+        // First attempt to position the window using CDP directly
+        // This helps prevent issues where part of the popup is off-screen
+        // and transaction confirmation buttons can't be clicked
+        await positionWindowWithCDP(notificationPage)
+      } catch (positionError) {
+        console.warn(
+          `[getNotificationPageAndWaitForLoad] CDP positioning failed: ${positionError}. Trying alternative method.`
+        )
+
+        try {
+          // Fallback method: Use Playwright's own window positioning if available
+          await notificationPage.evaluate(() => {
+            // Position window safely on screen
+            window.moveTo(50, 50)
+
+            // Alternative strategy if window.moveTo doesn't work
+            if (window.screenX > window.screen.availWidth - 400 || window.screenY > window.screen.availHeight - 650) {
+              // If popup is positioned off-screen, try to move it to a visible area
+              window.moveTo(Math.min(50, window.screen.availWidth - 400), Math.min(50, window.screen.availHeight - 650))
+            }
+          })
+        } catch (fallbackError) {
+          // If all positioning attempts fail, log but continue (non-critical)
+          console.warn(`[getNotificationPageAndWaitForLoad] Fallback positioning also failed: ${fallbackError}`)
+        }
+      }
+
       // Wait for MetaMask UI to load
       return await waitForMetaMaskLoad(notificationPage)
     } catch (error) {
@@ -61,4 +89,33 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
 
   // This should never be reached
   throw new Error('[getNotificationPageAndWaitForLoad] Unexpected end of function reached')
+}
+
+// Helper function to position window using Chrome DevTools Protocol
+async function positionWindowWithCDP(page: Page): Promise<void> {
+  // We need to access internal Playwright CDP connection
+  // Since this is internal implementation detail, we need to use a type assertion
+  // to bypass TypeScript's type checking
+  const cdpPage = page as Page & {
+    _mainFrame: {
+      _page: {
+        _targetId: string
+        _browserContext: {
+          _browser: {
+            _connection: {
+              send: (method: string, params: Record<string, unknown>) => Promise<void>
+            }
+          }
+        }
+      }
+    }
+  }
+
+  await cdpPage._mainFrame._page._browserContext._browser._connection.send('Browser.setWindowBounds', {
+    windowId: cdpPage._mainFrame._page._targetId,
+    bounds: {
+      left: 50, // Position from left edge of screen
+      top: 50 // Position from top edge of screen
+    }
+  })
 }
