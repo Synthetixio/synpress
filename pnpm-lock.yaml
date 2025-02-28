@@ -1552,6 +1552,9 @@ packages:
     peerDependencies:
       '@playwright/test': '*'
 
+  '@synthetixio/synpress-tsconfig@0.0.4':
+    resolution: {integrity: sha512-hbCj7Tr3fFt1oJ1ceu8aQeUgG8I8SHOUxM6V2sHHSK9+2caEKxg1ehqVBObY7Tt2X4WyZerJa92WPVpX/TKSRA==}
+
   '@synthetixio/synpress-tsconfig@0.0.9':
     resolution: {integrity: sha512-wLwdoHVg2lPAMcm4m36BnJyaxEXZmIfZEMLHAE0eWN16ObqidxzfwFjAVK26GqhVlngjhKTUSUWt3XB9GFNjTQ==}
 
@@ -6251,6 +6254,8 @@ snapshots:
   '@synthetixio/synpress-core@0.0.9(@playwright/test@1.48.2)':
     dependencies:
       '@playwright/test': 1.48.2
+
+  '@synthetixio/synpress-tsconfig@0.0.4': {}
 
   '@synthetixio/synpress-tsconfig@0.0.9': {}
 

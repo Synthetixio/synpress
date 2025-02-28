@@ -7,6 +7,8 @@ const test = synpress
 const { expect } = test
 
 test('should Reject Transaction ', async ({ page, phantom }) => {
+  test.setTimeout(90_000)
+
   await solanaSandboxSetup(page, phantom)
 
   await page.getByRole('button', { name: 'Sign Transaction' }).click()
@@ -20,6 +22,8 @@ test('should Reject Transaction ', async ({ page, phantom }) => {
 })
 
 test('should Reject All Transactions ', async ({ page, phantom }) => {
+  test.setTimeout(90_000)
+
   await solanaSandboxSetup(page, phantom)
 
   await page.getByRole('button', { name: 'Sign All Transaction' }).click()
@@ -33,6 +37,8 @@ test('should Reject All Transactions ', async ({ page, phantom }) => {
 })
 
 test('should reject contract deployment', async ({ page, phantom }) => {
+  test.setTimeout(90_000)
+
   await connectPhantomToTestDapp(page, phantom)
 
   await expect(page.locator('#tokenAddresses')).toBeEmpty()

@@ -15,7 +15,6 @@ import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
 import { closeSuiAndMonadIfPresent } from '../pages/HomePage/actions'
 import { unlock } from '../pages/UnlockPage/actions'
 import { loadAndWaitForPopupPage } from '../utils/waitForPopupPageLoad'
-// import { waitForTestPageLoad } from "../utils/waitForTestPageLoad";
 
 type PhantomFixtures = {
   _contextPath: string
