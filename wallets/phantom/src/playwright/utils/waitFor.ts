@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import { errors } from '@playwright/test'
+import { errors, expect } from '@playwright/test'
 
 import Selectors from '../../selectors/pages/UnlockPage'
 
@@ -29,8 +29,10 @@ export const waitUntilStable = async (page: Page) => {
 export const waitUntilStableBeforeUnlock = async (page: Page) => {
   await page.waitForLoadState('load', { timeout: 10_000 })
   await page.waitForLoadState('domcontentloaded', { timeout: 10_000 })
-  await page.waitForSelector(Selectors.submitButton, { timeout: 10_000 })
-  await page.locator(Selectors.submitButton).waitFor({ timeout: 10_000 })
+
+  await expect(async () => {
+    await expect(page.locator(Selectors.submitButton), '"Unlock" buttonshouldbe visible').toBeVisible()
+  }).toPass({ timeout: 10_000 })
 }
 
 export const waitUntilStableNotificationPage = async (page: Page) => {
