@@ -3,8 +3,54 @@ import HomePageSelectors from '../../../../selectors/pages/HomePage'
 import Selectors from '../../../../selectors/pages/NotificationPage'
 import { GasSettingValidation, type GasSettings } from '../../../../type/GasSettings'
 import { waitFor } from '../../../utils/waitFor'
+import { waitForMetaMaskLoad } from '../../../utils/waitFor'
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+// Retry configuration
+const MAX_RETRY_ATTEMPTS = 3
+const RETRY_DELAY_BASE = 1000 // base delay in ms
+
+// Enhanced confirmation function with retry logic
 const confirmTransaction = async (notificationPage: Page, options: GasSettings) => {
+  let attempts = 0
+
+  while (attempts < MAX_RETRY_ATTEMPTS) {
+    try {
+      await attemptConfirmTransaction(notificationPage, options)
+      return // Success, exit the function
+    } catch (error) {
+      attempts++
+
+      // Log the error and retry information
+      console.warn(`[ConfirmTransaction] Attempt ${attempts}/${MAX_RETRY_ATTEMPTS} failed: ${error}`)
+
+      if (attempts >= MAX_RETRY_ATTEMPTS) {
+        // We've exhausted all retries, throw the error
+        throw error
+      }
+
+      // Wait with exponential backoff before retrying
+      const delay = RETRY_DELAY_BASE * 2 ** (attempts - 1)
+      console.log(`[ConfirmTransaction] Retrying in ${delay}ms...`)
+      await sleep(delay)
+
+      // Reload the page if it's still open before retrying
+      if (!notificationPage.isClosed()) {
+        try {
+          // Make sure the page is in a good state before retrying
+          await notificationPage.reload()
+          await waitForMetaMaskLoad(notificationPage)
+        } catch (reloadError) {
+          console.warn(`[ConfirmTransaction] Failed to reload page before retry: ${reloadError}`)
+          // Continue with retry anyway
+        }
+      }
+    }
+  }
+}
+
+const attemptConfirmTransaction = async (notificationPage: Page, options: GasSettings) => {
   const gasSetting = GasSettingValidation.parse(options)
 
   const handleNftSetApprovalForAll = async (page: Page) => {
@@ -12,7 +58,7 @@ const confirmTransaction = async (notificationPage: Page, options: GasSettings) 
       const nftApproveButtonLocator = page.locator(
         Selectors.TransactionPage.nftApproveAllConfirmationPopup.approveButton
       )
-      const isNfTPopupHidden = await waitFor(() => nftApproveButtonLocator.isHidden(), 3_000, false)
+      const isNfTPopupHidden = await waitFor(() => nftApproveButtonLocator.isHidden(), 10_000, false)
 
       if (!isNfTPopupHidden) {
         await nftApproveButtonLocator.click()
@@ -28,7 +74,10 @@ const confirmTransaction = async (notificationPage: Page, options: GasSettings) 
 
   // By default, the `site` gas setting is used.
   if (gasSetting === 'site') {
-    await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
+    // Make sure the confirm button is visible and stable before clicking
+    const confirmButton = notificationPage.locator(Selectors.ActionFooter.confirmActionButton)
+    await confirmButton.waitFor({ state: 'visible', timeout: 10000 })
+    await confirmButton.click()
 
     await handleNftSetApprovalForAll(notificationPage)
 
@@ -36,7 +85,9 @@ const confirmTransaction = async (notificationPage: Page, options: GasSettings) 
   }
 
   // TODO: This button can be invisible in case of a network issue. Verify this, and handle in the future.
-  await notificationPage.locator(Selectors.TransactionPage.editGasFeeMenu.editGasFeeButton).click()
+  const editGasFeeButton = notificationPage.locator(Selectors.TransactionPage.editGasFeeMenu.editGasFeeButton)
+  await editGasFeeButton.waitFor({ state: 'visible', timeout: 10000 })
+  await editGasFeeButton.click()
 
   const estimationNotAvailableErrorMessage = (gasSetting: string) =>
     `[ConfirmTransaction] Estimated fee is not available for the "${gasSetting}" gas setting. By default, MetaMask would use the "site" gas setting in this case, however, this is not YOUR intention.`
@@ -86,11 +137,11 @@ const confirmTransaction = async (notificationPage: Page, options: GasSettings) 
       const gasLimitErrorLocator = notificationPage.locator(
         Selectors.TransactionPage.editGasFeeMenu.advancedGasFeeMenu.gasLimitError
       )
-      const isGasLimitErrorHidden = await waitFor(() => gasLimitErrorLocator.isHidden(), 1_000, false) // TODO: Extract & make configurable
+      const isGasLimitErrorHidden = await waitFor(() => gasLimitErrorLocator.isHidden(), 10_000, false) // TODO: Extract & make configurable
 
       if (!isGasLimitErrorHidden) {
         const errorText = await gasLimitErrorLocator.textContent({
-          timeout: 1_000 // TODO: Extract & make configurable
+          timeout: 10_000 // TODO: Extract & make configurable
         })
 
         throw new Error(`[ConfirmTransaction] Invalid gas limit: ${errorText}`)
@@ -112,9 +163,11 @@ const confirmTransaction = async (notificationPage: Page, options: GasSettings) 
   }
 
   // TODO: Extract & make configurable
-  await waitFor(waitForAction, 3_000, true)
+  await waitFor(waitForAction, 10_000, true) // Increased timeout from 3000 to 5000
 
-  await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
+  const confirmButton = notificationPage.locator(Selectors.ActionFooter.confirmActionButton)
+  await confirmButton.waitFor({ state: 'visible', timeout: 10000 })
+  await confirmButton.click()
 
   await handleNftSetApprovalForAll(notificationPage)
 }

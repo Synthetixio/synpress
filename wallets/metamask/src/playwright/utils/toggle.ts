@@ -3,7 +3,7 @@ import { waitFor } from './waitFor'
 
 export async function toggle(toggleLocator: Locator) {
   // TODO: Extract timeout
-  const classes = await toggleLocator.getAttribute('class', { timeout: 3_000 })
+  const classes = await toggleLocator.getAttribute('class', { timeout: 10_000 })
 
   if (!classes) {
     throw new Error('[ToggleShowTestNetworks] Toggle class returned null')
@@ -28,5 +28,5 @@ export async function toggle(toggleLocator: Locator) {
   }
 
   // TODO: Extract timeout
-  await waitFor(waitForAction, 3_000, true)
+  await waitFor(waitForAction, 10_000, true)
 }

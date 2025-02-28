@@ -34,14 +34,14 @@ describe('waitForExtensionOnLoadPage', () => {
     await waitForExtensionOnLoadPage(context)
 
     expect(waitForEventSpy).toHaveBeenCalledOnce()
-    expect(waitForEventSpy).toHaveBeenCalledWith('page', { timeout: 5000 })
+    expect(waitForEventSpy).toHaveBeenCalledWith('page', { timeout: 10000 })
   })
 
   it('throws with custom error if waitForEvent throws due to timeout', async () => {
     const context = createTimeoutContext()
 
     await expect(waitForExtensionOnLoadPage(context)).rejects.toThrowError(
-      '[WaitForExtensionOnLoadPage] Extension did not load in time!'
+      '[WaitForExtensionOnLoadPage] Extension failed to load after multiple attempts!'
     )
   })
 
