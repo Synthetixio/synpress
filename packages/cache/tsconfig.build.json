@@ -8,5 +8,5 @@
     "declarationMap": true
   },
   "include": ["src"],
-  "files": ["environment.d.ts"]
+  "files": ["environment.d.ts", "unzip-crx-3.d.ts"]
 }

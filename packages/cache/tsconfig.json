@@ -4,9 +4,6 @@
     "rootDir": ".",
     "lib": ["DOM"]
   },
-  "include": [
-    "src",
-    "test"
-  ],
-  "files": ["environment.d.ts"]
+  "include": ["src", "test"],
+  "files": ["environment.d.ts", "unzip-crx-3.d.ts"]
 }

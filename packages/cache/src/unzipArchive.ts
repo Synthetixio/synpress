@@ -1,5 +1,6 @@
 import path from 'node:path'
 import fs from 'fs-extra'
+import unzipCrx from 'unzip-crx-3'
 import unzippper from 'unzipper'
 
 type UnzipArchiveOptions = {
@@ -72,4 +73,28 @@ export async function unzipArchive(options: UnzipArchiveOptions) {
   return resultPromise.catch((error: Error) => {
     throw new Error(`[UnzipFile] Error unzipping the file - ${error.message}`)
   })
+}
+
+export async function unzipArchivePhantom(options: UnzipArchiveOptions) {
+  const { archivePath, overwrite } = options
+
+  const archiveFileExtension = archivePath.split('.').slice(-1)
+  const outputPath = archivePath.replace(`.${archiveFileExtension}`, '')
+
+  const fileExists = fs.existsSync(outputPath)
+  if (fileExists && !overwrite) {
+    return {
+      outputPath,
+      unzipSkipped: true
+    }
+  }
+
+  // Creates the output directory
+  fs.mkdirSync(outputPath, { recursive: true })
+
+  await unzipCrx(archivePath, outputPath)
+
+  // TODO: Handle errors
+
+  return { outputPath }
 }

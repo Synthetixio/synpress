@@ -127,6 +127,9 @@ importers:
       tsup:
         specifier: 8.0.2
         version: 8.0.2(postcss@8.5.3)(typescript@5.3.3)
+      unzip-crx-3:
+        specifier: 0.2.0
+        version: 0.2.0
       unzipper:
         specifier: 0.10.14
         version: 0.10.14
@@ -218,6 +221,9 @@ importers:
       '@synthetixio/synpress-metamask':
         specifier: workspace:*
         version: link:../wallets/metamask
+      '@synthetixio/synpress-phantom':
+        specifier: workspace:*
+        version: link:../wallets/phantom
     devDependencies:
       '@synthetixio/synpress-tsconfig':
         specifier: 0.0.9
@@ -336,6 +342,52 @@ importers:
       cypress:
         specifier: 13.15.1
         version: 13.15.1
+      rimraf:
+        specifier: 5.0.5
+        version: 5.0.5
+      tsup:
+        specifier: 8.0.2
+        version: 8.0.2(postcss@8.5.3)(typescript@5.3.3)
+      typescript:
+        specifier: 5.3.3
+        version: 5.3.3
+      vitest:
+        specifier: 1.2.2
+        version: 1.2.2(@types/node@20.11.17)
+
+  wallets/phantom:
+    dependencies:
+      '@playwright/test':
+        specifier: 1.48.2
+        version: 1.48.2
+      '@synthetixio/synpress-cache':
+        specifier: workspace:*
+        version: link:../../packages/cache
+      '@synthetixio/synpress-core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@viem/anvil':
+        specifier: 0.0.7
+        version: 0.0.7
+      fs-extra:
+        specifier: 11.2.0
+        version: 11.2.0
+      zod:
+        specifier: 3.22.4
+        version: 3.22.4
+    devDependencies:
+      '@synthetixio/synpress-tsconfig':
+        specifier: 0.0.4
+        version: 0.0.4
+      '@types/fs-extra':
+        specifier: 11.0.4
+        version: 11.0.4
+      '@types/node':
+        specifier: 20.11.17
+        version: 20.11.17
+      '@vitest/coverage-v8':
+        specifier: 1.2.2
+        version: 1.2.2(vitest@1.2.2(@types/node@20.11.17))
       rimraf:
         specifier: 5.0.5
         version: 5.0.5
@@ -1499,6 +1551,9 @@ packages:
     resolution: {integrity: sha512-pXQw5w/iVtDMfuVMR1OAaczMlWMeVYKn+clQB9+RQCTO6RJjC8sM7JEqJ+2Gwkrvq2LFJ+QkbCtinfPOmg4o6g==}
     peerDependencies:
       '@playwright/test': '*'
+
+  '@synthetixio/synpress-tsconfig@0.0.4':
+    resolution: {integrity: sha512-hbCj7Tr3fFt1oJ1ceu8aQeUgG8I8SHOUxM6V2sHHSK9+2caEKxg1ehqVBObY7Tt2X4WyZerJa92WPVpX/TKSRA==}
 
   '@synthetixio/synpress-tsconfig@0.0.9':
     resolution: {integrity: sha512-wLwdoHVg2lPAMcm4m36BnJyaxEXZmIfZEMLHAE0eWN16ObqidxzfwFjAVK26GqhVlngjhKTUSUWt3XB9GFNjTQ==}
@@ -2881,6 +2936,9 @@ packages:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
 
+  immediate@3.0.6:
+    resolution: {integrity: sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==}
+
   import-lazy@4.0.0:
     resolution: {integrity: sha512-rKtvo6a868b5Hu3heneU+L4yEQ4jYKLtjpnPeUdK7h0yzXGmyBTypknlkCvHFBqfX9YlorEiMM6Dnq/5atfHkw==}
     engines: {node: '>=8'}
@@ -3228,6 +3286,9 @@ packages:
     resolution: {integrity: sha512-gqXddjPqQ6G40VdnI6T6yObEC+pDNvyP95wdQhkWkg7crHH3km5qP1FsOXEkzEQwnz6gz5qGTn1c2Y52wP3OyQ==}
     engines: {'0': node >=0.6.0}
 
+  jszip@3.10.1:
+    resolution: {integrity: sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g==}
+
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
@@ -3250,6 +3311,9 @@ packages:
   lazystream@1.0.1:
     resolution: {integrity: sha512-b94GiNHQNy6JNTrt5w6zNyffMrNkXZb3KTkCZJb2V1xaEGCk093vkZ2jk3tpaeP33/OiXC+WvK9AxUebnf5nbw==}
     engines: {node: '>= 0.6.3'}
+
+  lie@3.3.0:
+    resolution: {integrity: sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ==}
 
   lilconfig@3.0.0:
     resolution: {integrity: sha512-K2U4W2Ff5ibV7j7ydLr+zLAkIg5JJ4lPn1Ltsdt+Tz/IjQ8buJ55pZAxoP34lqIiwtF9iAvtLv3JGv7CAyAg+g==}
@@ -3749,6 +3813,9 @@ packages:
     resolution: {integrity: sha512-rJVZeIwHTUta23sIZgEIM62WYwbmGbThdbnkt81ravBplQv+HjyroqnLRNH2+sLJHcGZmLRmhPwACqhfTcOmnA==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     hasBin: true
+
+  pako@1.0.11:
+    resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
 
   parse-github-url@1.0.3:
     resolution: {integrity: sha512-tfalY5/4SqGaV/GIGzWyHnFjlpTPTNpENR9Ea2lLldSJ8EWXMsvacWucqY3m3I4YPtas15IxTLQVQ5NSYXPrww==}
@@ -4740,6 +4807,9 @@ packages:
     resolution: {integrity: sha512-KK8xQ1mkzZeg9inewmFVDNkg3l5LUhoq9kN6iWYB/CC9YMG8HA+c1Q8HwDe6dEX7kErrEVNVBO3fWsVq5iDgtw==}
     engines: {node: '>=8'}
 
+  unzip-crx-3@0.2.0:
+    resolution: {integrity: sha512-0+JiUq/z7faJ6oifVB5nSwt589v1KCduqIJupNVDoWSXZtWDmjDGO3RAEOvwJ07w90aoXoP4enKsR7ecMrJtWQ==}
+
   unzipper@0.10.14:
     resolution: {integrity: sha512-ti4wZj+0bQTiX2KmKWuwj7lhV+2n//uXEotUmGuQqrbVZSEGFMbI68+c6JCQ8aAmUWYvtHEz2A8K6wXvueR/6g==}
 
@@ -4974,6 +5044,9 @@ packages:
   y18n@5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}
     engines: {node: '>=10'}
+
+  yaku@0.16.7:
+    resolution: {integrity: sha512-Syu3IB3rZvKvYk7yTiyl1bo/jiEFaaStrgv1V2TIJTqYPStSMQVO8EQjg/z+DRzLq/4LIIharNT3iH1hylEIRw==}
 
   yallist@2.1.2:
     resolution: {integrity: sha512-ncTzHV7NvsQZkYe1DW7cbDLm0YpzHmZF5r/iyP3ZnQtMiJ+pjzisCiMNI+Sj+xQF5pXhSHxSB3uDbsBTzY/c2A==}
@@ -6181,6 +6254,8 @@ snapshots:
   '@synthetixio/synpress-core@0.0.9(@playwright/test@1.48.2)':
     dependencies:
       '@playwright/test': 1.48.2
+
+  '@synthetixio/synpress-tsconfig@0.0.4': {}
 
   '@synthetixio/synpress-tsconfig@0.0.9': {}
 
@@ -7881,6 +7956,8 @@ snapshots:
 
   ignore@5.3.2: {}
 
+  immediate@3.0.6: {}
+
   import-lazy@4.0.0: {}
 
   imurmurhash@0.1.4: {}
@@ -8186,6 +8263,13 @@ snapshots:
       json-schema: 0.4.0
       verror: 1.10.0
 
+  jszip@3.10.1:
+    dependencies:
+      lie: 3.3.0
+      pako: 1.0.11
+      readable-stream: 2.3.8
+      setimmediate: 1.0.5
+
   keyv@4.5.4:
     dependencies:
       json-buffer: 3.0.1
@@ -8203,6 +8287,10 @@ snapshots:
   lazystream@1.0.1:
     dependencies:
       readable-stream: 2.3.8
+
+  lie@3.3.0:
+    dependencies:
+      immediate: 3.0.6
 
   lilconfig@3.0.0: {}
 
@@ -8821,6 +8909,8 @@ snapshots:
     transitivePeerDependencies:
       - bluebird
       - supports-color
+
+  pako@1.0.11: {}
 
   parse-github-url@1.0.3: {}
 
@@ -9860,6 +9950,12 @@ snapshots:
 
   untildify@4.0.0: {}
 
+  unzip-crx-3@0.2.0:
+    dependencies:
+      jszip: 3.10.1
+      mkdirp: 0.5.6
+      yaku: 0.16.7
+
   unzipper@0.10.14:
     dependencies:
       big-integer: 1.6.52
@@ -10131,6 +10227,8 @@ snapshots:
   y18n@4.0.3: {}
 
   y18n@5.0.8: {}
+
+  yaku@0.16.7: {}
 
   yallist@2.1.2: {}
 
