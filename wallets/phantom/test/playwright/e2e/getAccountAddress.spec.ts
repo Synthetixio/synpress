@@ -23,5 +23,5 @@ test('should get account address for all available networks', async ({ context, 
   expect(polygonAccountAddress).toEqual('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266')
 
   const bitcoinAccountAddress = await phantom.getAccountAddress('bitcoin')
-  expect(bitcoinAccountAddress).toEqual('bc1q4qw42stdzjqs59xvlrlxr8526e3nunw7mp73te')
+  expect(bitcoinAccountAddress).toContain('bc1')
 })

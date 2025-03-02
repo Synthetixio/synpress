@@ -23,6 +23,8 @@
     "test": "turbo test",
     "test:playwright:headful": "turbo test:playwright:headful --filter=@synthetixio/synpress-metamask --filter=@synthetixio/ethereum-wallet-mock --filter=@synthetixio/synpress-phantom",
     "test:playwright:headless": "turbo test:playwright:headless --filter=@synthetixio/synpress-metamask --filter=@synthetixio/ethereum-wallet-mock --filter=@synthetixio/synpress-phantom",
+    "test:playwright:phantom:headful": "turbo test:playwright:headful --filter=@synthetixio/synpress-phantom",
+    "test:playwright:wallet-mock-and-metamask:headful": "turbo test:playwright:headful --filter=@synthetixio/synpress-metamask --filter=@synthetixio/ethereum-wallet-mock",
     "update:deps": "ncu -u -ws --root"
   },
   "lint-staged": {

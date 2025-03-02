@@ -18,7 +18,7 @@ const passwordStep = {
   error: `${createDataTestSelector('create-password-new')} + h6 > span > span`
 }
 
-const allDone = `text=You're all done!`
+const allDone = `text=You're all ready!`
 
 export default {
   recoveryStep,

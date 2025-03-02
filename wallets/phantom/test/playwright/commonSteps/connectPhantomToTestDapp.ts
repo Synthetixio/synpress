@@ -2,9 +2,14 @@ import { type Page, expect } from '@playwright/test'
 import type { Phantom } from '../../../src/playwright'
 
 export const connectPhantomToTestDapp = async (page: Page, phantom: Phantom) => {
-  await page.locator('#connectButton').click()
+  await expect(async () => {
+    await page.goto('/')
 
-  await phantom.connectToDapp()
+    // Delay to avoid random fails
+    await page.locator('#connectButton').click({ delay: 2_000 })
 
-  await expect(page.locator('#accounts')).toHaveText('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
+    await phantom.connectToDapp()
+
+    await expect(page.locator('#accounts')).toHaveText('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
+  }).toPass()
 }

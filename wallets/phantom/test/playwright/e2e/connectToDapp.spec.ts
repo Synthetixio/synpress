@@ -7,18 +7,6 @@ const test = testWithSynpress(phantomFixtures(basicSetup))
 
 const { expect } = test
 
-test('should connect wallet to dapp', async ({ context, page, extensionId }) => {
-  const phantom = new Phantom(context, page, basicSetup.walletPassword, extensionId)
-
-  await page.goto('/')
-
-  await page.locator('#connectButton').click()
-
-  await phantom.connectToDapp()
-
-  await expect(page.locator('#accounts')).toHaveText('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
-})
-
 test('should connect multiple wallets to dapp', async ({ context, page, phantomPage, extensionId }) => {
   test.setTimeout(90_000)
 
@@ -28,7 +16,8 @@ test('should connect multiple wallets to dapp', async ({ context, page, phantomP
   await phantom.addNewAccount('NewAccount2')
 
   await page.goto('/')
-  await page.locator('#connectButton').click()
+  // Delay to avoid random fails
+  await page.locator('#connectButton').click({ delay: 2_000 })
 
   await phantom.connectToDapp('NewAccount1')
 

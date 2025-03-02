@@ -7,28 +7,24 @@ export async function closeSuiAndMonadIfPresent(page: Page) {
 
   // Reload page to trigger Sui and/or Monad screens
   await page.reload()
+
   // Wait for Phantom page to fully load
   await expect(page.getByText(walletValueUsdRegExp), 'Wallet value should be visible').toBeVisible({ timeout: 15_000 })
+
   // Wait for Sui / Monad screen to load (if it does)
   await page.waitForTimeout(2_000)
 
-  // Loop until Sui/Monad screens have been closed and Phantompage is ready for testing
-  //   => 'ready for testing' = top 'fungible token' row is clickable
-  await expect(async () => {
-    const suiIsVisible = await page.getByRole('button', { name: 'Enable Sui' }).isVisible()
+  const suiIsVisible = await page.getByRole('button', { name: 'Enable Sui' }).isVisible()
 
-    if (suiIsVisible) {
-      await page.getByRole('button', { name: 'Not Now' }).click()
-      // Wait for Nomad page to load (if it does)
-      await page.waitForTimeout(1_000)
-    }
+  if (suiIsVisible) {
+    await page.getByRole('button', { name: 'Not Now' }).click()
+    // Wait for Nomad page to load (if it does)
+    await page.waitForTimeout(1_000)
+  }
 
-    const monadIsVisible = await page.getByRole('button', { name: 'Enable Monad' }).isVisible()
+  const monadIsVisible = await page.getByRole('button', { name: 'Enable Monad' }).isVisible()
 
-    if (monadIsVisible) {
-      await page.getByRole('button', { name: 'Not Now' }).click()
-    }
-
-    await page.locator('[data-testid*="fungible-token-row-"]').first().click({ timeout: 3_000 })
-  }).toPass()
+  if (monadIsVisible) {
+    await page.getByRole('button', { name: 'Not Now' }).click()
+  }
 }

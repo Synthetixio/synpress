@@ -11,7 +11,7 @@ const renameAccountMenu = {
 }
 
 const importAccountMenu = {
-  networkOpenMenu: '[role="button"]:has-text("Solana")',
+  networkOpenMenu: '[aria-haspopup="listbox"][role="button"]:has-text("Solana")',
   ethereumNetwork: '[data-label="Ethereum"]',
   baseNetwork: '[data-label="Base"]',
   polygonNetwork: '[data-label="Polygon"]',

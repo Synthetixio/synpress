@@ -77,7 +77,6 @@ export const phantomFixtures = (walletSetup: ReturnType<typeof defineWalletSetup
 
       const extensionId = await getExtensionIdPhantom(context, 'Phantom')
 
-      //
       _phantomPage = await loadAndWaitForPopupPage(context, extensionId)
 
       await unlock(_phantomPage, walletSetup.walletPassword)
@@ -85,21 +84,6 @@ export const phantomFixtures = (walletSetup: ReturnType<typeof defineWalletSetup
       await use(context)
 
       await context.close()
-      ///
-
-      // _phantomPage = context.pages()[0] as Page
-
-      // await _phantomPage.goto(`chrome-extension://${extensionId}/popup.html`)
-
-      // await _phantomPage.waitForTimeout(1_000)
-
-      // await waitForPhantomWindowToBeStable(_phantomPage)
-
-      // await unlockForFixturePhantom(_phantomPage, walletSetup.walletPassword)
-
-      // await use(context)
-
-      // await context.close()
     },
     phantomPage: async ({ context: _ }, use) => {
       await closeSuiAndMonadIfPresent(_phantomPage)

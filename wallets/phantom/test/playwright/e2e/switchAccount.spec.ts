@@ -17,12 +17,14 @@ test('should switch account', async ({ context, phantomPage }) => {
     'ea084c575a01e2bbefcca3db101eaeab1d8af15554640a510c73692db24d0a6a',
     'Imp1'
   )
+  await expect(phantomPage.getByTestId('home-header-account-name')).toContainText('Imp1')
 
   await phantom.importWalletFromPrivateKey(
     'ethereum',
     '7dd4aab86170c0edbdcf97600eff0ae319fdc94149c5e8c33d5439f8417a40bf',
     'Imp2'
   )
+  await expect(phantomPage.getByTestId('home-header-account-name')).toContainText('Imp2')
 
   await phantom.switchAccount('Imp1')
 
