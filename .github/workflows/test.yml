@@ -40,11 +40,11 @@ jobs:
         uses: foundry-rs/foundry-toolchain@de808b1eea699e761c404bda44ba8f21aba30b2c # pin@v1.3.1
 
       - name: Install Playwright dependencies
-        run: pnpm dlx playwright@1.48.2 install-deps
+        run: pnpm dlx playwright@1.51.0 install-deps
 
       # For now, we only need Chromium.
       - name: Install browsers for Playwright
-        run: pnpm dlx playwright@1.48.2 install chromium
+        run: pnpm dlx playwright@1.51.0 install chromium
 
       - name: Build project
         run: pnpm run build

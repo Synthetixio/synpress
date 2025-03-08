@@ -64,6 +64,6 @@
     "vitest": "1.2.2"
   },
   "peerDependencies": {
-    "playwright-core": "1.48.2"
+    "playwright-core": "1.51.0"
   }
 }
