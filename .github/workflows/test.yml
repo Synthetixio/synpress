@@ -44,7 +44,7 @@ jobs:
 
       # For now, we only need Chromium.
       - name: Install browsers for Playwright
-        run: pnpm dlx playwright@1.51.0 install chromium
+        run: pnpm dlx playwright@1.51.0 install
 
       - name: Build project
         run: pnpm run build
