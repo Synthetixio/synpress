@@ -15,26 +15,34 @@ const RELOAD_DELAY = 1000
 // Polling interval for finding extension page
 const POLLING_INTERVAL = 500
 
-// MetaMask specific selectors
-const METAMASK_SELECTORS = {
-  APP: '#app-content .app'
+const APP_SELECTORS = {
+  METAMASK: '#app-content .app',
+  PHANTOM: '#root'
 }
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 /**
- * Checks if a page is blank (no MetaMask app content)
+ * Checks if a page is blank (no MetaMask or Phantom app content)
  */
-async function isPageBlank(page: Page): Promise<boolean> {
+async function isPageBlank(page: Page, extensionPath: string): Promise<boolean> {
+  const app = (extensionPath: string) => {
+    if (extensionPath.includes('metamask')) {
+      return 'METAMASK'
+    } else {
+      return 'PHANTOM'
+    }
+  }
+
   try {
-    // Check specifically for MetaMask app element
+    // Check for specific app element
     const appElementCount = await page
-      .locator(METAMASK_SELECTORS.APP)
+      .locator(APP_SELECTORS[app(extensionPath)])
       .count()
       .catch(() => 0)
 
     if (appElementCount === 0) {
-      console.log('[WaitForExtensionOnLoadPage] MetaMask app element not found, page appears to be blank')
+      console.log(`[WaitForExtensionOnLoadPage] ${app(extensionPath)} app element not found, page appears to be blank`)
       return true
     }
 
@@ -50,11 +58,11 @@ async function isPageBlank(page: Page): Promise<boolean> {
 /**
  * Attempts to fix a blank page by reloading
  */
-async function fixBlankPage(page: Page): Promise<boolean> {
+async function fixBlankPage(page: Page, extensionPath: string): Promise<boolean> {
   for (let attempt = 0; attempt < MAX_BLANK_PAGE_RETRIES; attempt++) {
     console.log(`[WaitForExtensionOnLoadPage] Checking page state (attempt ${attempt + 1}/${MAX_BLANK_PAGE_RETRIES})`)
 
-    const isBlank = await isPageBlank(page)
+    const isBlank = await isPageBlank(page, extensionPath)
 
     if (isBlank) {
       console.log('[WaitForExtensionOnLoadPage] Page is blank, reloading...')
@@ -90,7 +98,7 @@ async function findExtensionPage(context: BrowserContext): Promise<Page | null> 
 /**
  * Waits for the extension page to load and ensures it's not blank or has errors
  */
-export async function waitForExtensionOnLoadPage(context: BrowserContext): Promise<Page> {
+export async function waitForExtensionOnLoadPage(context: BrowserContext, extensionPath: string): Promise<Page> {
   let retries = 0
   console.log(
     `[WaitForExtensionOnLoadPage] Starting with timeout: ${EXTENSION_LOAD_TIMEOUT}ms and max retries: ${MAX_RETRIES}`
@@ -136,7 +144,7 @@ export async function waitForExtensionOnLoadPage(context: BrowserContext): Promi
 
       // Now check if the page is blank or has errors and fix if needed
       console.log('[WaitForExtensionOnLoadPage] Checking if extension page is properly loaded...')
-      const isFixed = await fixBlankPage(extensionPage)
+      const isFixed = await fixBlankPage(extensionPage, extensionPath)
 
       if (isFixed) {
         console.log('[WaitForExtensionOnLoadPage] Extension page is properly loaded and ready')

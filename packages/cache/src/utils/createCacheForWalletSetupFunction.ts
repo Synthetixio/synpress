@@ -23,7 +23,7 @@ export async function createCacheForWalletSetupFunction(
     args: browserArgs
   })
 
-  const extensionPage = await waitForExtensionOnLoadPage(context)
+  const extensionPage = await waitForExtensionOnLoadPage(context, extensionPath)
 
   try {
     await walletSetup(context, extensionPage)
