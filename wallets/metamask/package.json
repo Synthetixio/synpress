@@ -1,6 +1,6 @@
 {
   "name": "@synthetixio/synpress-metamask",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "homepage": "https://synpress.io",
   "repository": {
     "type": "git",
@@ -55,7 +55,7 @@
     "zod": "3.22.4"
   },
   "devDependencies": {
-    "@synthetixio/synpress-tsconfig": "0.0.10",
+    "@synthetixio/synpress-tsconfig": "0.0.11",
     "@types/fs-extra": "11.0.4",
     "@types/node": "20.11.17",
     "@vitest/coverage-v8": "1.2.2",
