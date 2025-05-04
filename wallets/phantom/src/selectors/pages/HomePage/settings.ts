@@ -13,7 +13,7 @@ export default {
   securityAndPrivacyButton: createDataTestSelector('settings-item-security-and-privacy'),
   lockWallet: createDataTestSelector('lock-menu-item'),
   unlocWallet: createDataTestSelector('data-testid="unlock-form-submit-button"'),
-  developerSettingsButton: createDataTestSelector('settings-item-developer-settings'),
+  developerSettingsButton: 'button:has-text("Developer Settings")',
   closeSettingsButton: createDataTestSelector('settings-menu-close-button'),
 
   devSettings,

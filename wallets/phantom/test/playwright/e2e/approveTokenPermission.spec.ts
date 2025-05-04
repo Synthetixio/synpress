@@ -5,7 +5,8 @@ const test = synpress
 
 const { expect } = test
 
-test('should approve token with the default limit', async ({ page, phantom }) => {
+// TODO - Either add funds with https://app.aave.com/faucet/ or find another app for the test
+test.skip('should approve token with the default limit', async ({ page, phantom }) => {
   test.setTimeout(80_000)
 
   await aaveSetup(page, phantom)

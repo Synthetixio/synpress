@@ -86,7 +86,7 @@ describe('createCacheForWalletSetupFunction', () => {
     expect(waitForExtensionOnLoadPageSpy).toHaveBeenCalledOnce()
 
     const context = launchPersistentContextSpy.mock.results[0]?.value
-    expect(waitForExtensionOnLoadPageSpy).toHaveBeenCalledWith(context)
+    expect(waitForExtensionOnLoadPageSpy).toHaveBeenCalledWith(context, '/tmp/extension')
   })
 
   it('calls walletSetup', async () => {
