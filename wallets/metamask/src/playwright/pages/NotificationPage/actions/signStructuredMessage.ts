@@ -3,7 +3,7 @@ import Selectors from '../../../../selectors/pages/NotificationPage'
 
 const signMessage = async (notificationPage: Page) => {
   const scrollDownButton = notificationPage.locator(Selectors.SignaturePage.structuredMessage.scrollDownButton)
-  const signButton = notificationPage.locator(Selectors.SignaturePage.structuredMessage.signButton)
+  const signButton = notificationPage.locator(Selectors.ActionFooter.confirmActionButton)
 
   while (await signButton.isDisabled()) {
     await scrollDownButton.click()
