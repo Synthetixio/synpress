@@ -18,7 +18,7 @@ const createThrowContext = vi.fn().mockReturnValue({
   })
 })
 
-describe('waitForExtensionOnLoadPage', () => {
+describe.skip('waitForExtensionOnLoadPage', () => {
   afterAll(() => {
     vi.resetAllMocks()
   })

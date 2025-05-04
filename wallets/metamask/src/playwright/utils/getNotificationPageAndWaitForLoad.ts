@@ -93,29 +93,33 @@ export async function getNotificationPageAndWaitForLoad(context: BrowserContext,
 
 // Helper function to position window using Chrome DevTools Protocol
 async function positionWindowWithCDP(page: Page): Promise<void> {
-  // We need to access internal Playwright CDP connection
-  // Since this is internal implementation detail, we need to use a type assertion
-  // to bypass TypeScript's type checking
-  const cdpPage = page as Page & {
-    _mainFrame: {
-      _page: {
-        _targetId: string
-        _browserContext: {
-          _browser: {
-            _connection: {
-              send: (method: string, params: Record<string, unknown>) => Promise<void>
-            }
-          }
-        }
-      }
-    }
-  }
+  try {
+    // Create a new CDP session using Playwright's public API
+    const cdpSession = await page.context().newCDPSession(page)
 
-  await cdpPage._mainFrame._page._browserContext._browser._connection.send('Browser.setWindowBounds', {
-    windowId: cdpPage._mainFrame._page._targetId,
-    bounds: {
-      left: 50, // Position from left edge of screen
-      top: 50 // Position from top edge of screen
-    }
-  })
+    // Get the target info to retrieve the target ID
+    const targetInfo = await cdpSession.send('Target.getTargetInfo')
+    const targetId = targetInfo.targetInfo.targetId
+
+    // Get the window ID for the target using the proper CDP method
+    const windowForTarget = await cdpSession.send('Browser.getWindowForTarget', {
+      targetId: targetId
+    })
+    const windowId = windowForTarget.windowId
+
+    // Set the window position using the CDP session with the correct window ID
+    await cdpSession.send('Browser.setWindowBounds', {
+      windowId: windowId,
+      bounds: {
+        left: 50, // Position from left edge of screen
+        top: 50 // Position from top edge of screen
+      }
+    })
+
+    // Close the CDP session when done
+    await cdpSession.detach()
+  } catch (error) {
+    // Log the error but don't throw, as this is a non-critical operation
+    console.warn(`[positionWindowWithCDP] Failed to position window using CDP: ${error}`)
+  }
 }
