@@ -1,3 +1,3 @@
-export * from "./unlockForFixture";
-export * from "./getExtensionId";
-export * from "./prepareExtensionPetra";
+export * from './unlockForFixture'
+export * from './getExtensionId'
+export * from './prepareExtensionPetra'

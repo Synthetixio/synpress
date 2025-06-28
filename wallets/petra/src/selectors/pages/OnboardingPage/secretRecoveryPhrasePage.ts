@@ -1,29 +1,29 @@
 import { createDataTestSelector } from '../../createDataTestSelector'
+import { createNameSelector } from '../../createNameSelector'
 
 const recoveryStep = {
-  secretRecoveryPhraseWord: (index: number) => createDataTestSelector(`secret-recovery-phrase-word-input-${index}`),
-  confirmSecretRecoveryPhraseButton: createDataTestSelector('onboarding-form-submit-button'),
+  secretRecoveryPhraseWord: (character: string) => createNameSelector(`mnemonic-${character}`),
   error: createDataTestSelector('onboarding-import-secret-recovery-phrase-error-message')
 }
 
-const viewAccountsButton = createDataTestSelector('onboarding-form-secondary-button')
-
-const continueButton = createDataTestSelector('onboarding-form-submit-button')
+const continueButton = "button:has-text('Continue')"
+const doneButton = "button:has-text('Done')"
 
 const passwordStep = {
-  passwordInput: createDataTestSelector('onboarding-form-password-input'),
-  confirmPasswordInput: createDataTestSelector('onboarding-form-confirm-password-input'),
-  acceptTermsCheckbox: createDataTestSelector('onboarding-form-terms-of-service-checkbox'),
+  passwordInput: createNameSelector('initialPassword'),
+  confirmPasswordInput: createNameSelector('confirmPassword'),
+  acceptTermsCheckbox: "label:has-text('I agree to the')",
   continue: continueButton,
+  doneButton,
   error: `${createDataTestSelector('create-password-new')} + h6 > span > span`
 }
 
-const allDone = `text=You're all ready!`
+const allDone = 'text=Welcome to your wallet'
 
 export default {
   recoveryStep,
-  viewAccountsButton,
   continueButton,
   passwordStep,
-  allDone
+  allDone,
+  doneButton
 }

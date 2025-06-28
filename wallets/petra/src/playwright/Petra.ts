@@ -1,15 +1,10 @@
-import type { BrowserContext, Page } from "@playwright/test";
-import type { GasSettings } from "../type/GasSettings";
-import type { Networks } from "../type/Networks";
-import { PetraAbstract } from "../type/PetraAbstract";
-import {
-  HomePage,
-  NotificationPage,
-  OnboardingPage,
-  UnlockPage,
-} from "./pages";
+import type { BrowserContext, Page } from '@playwright/test'
+import type { GasSettings } from '../type/GasSettings'
+import type { Networks } from '../type/Networks'
+import { PetraAbstract } from '../type/PetraAbstract'
+import { HomePage, NotificationPage, OnboardingPage, UnlockPage } from './pages'
 
-const NO_EXTENSION_ID_ERROR = new Error("Petra extensionId is not set");
+const NO_EXTENSION_ID_ERROR = new Error('Petra extensionId is not set')
 
 /**
  * Phantom class for interacting with the Phantom extension in Playwright tests.
@@ -27,7 +22,7 @@ export class Petra extends PetraAbstract {
    * @public
    * @readonly
    */
-  readonly onboardingPage: OnboardingPage;
+  readonly onboardingPage: OnboardingPage
 
   /**
    * This property can be used to access selectors for the lock page.
@@ -35,7 +30,7 @@ export class Petra extends PetraAbstract {
    * @public
    * @readonly
    */
-  readonly unlockPage: UnlockPage;
+  readonly unlockPage: UnlockPage
 
   /**
    * This property can be used to access selectors for the home page.
@@ -43,7 +38,7 @@ export class Petra extends PetraAbstract {
    * @public
    * @readonly
    */
-  readonly homePage: HomePage;
+  readonly homePage: HomePage
 
   /**
    * This property can be used to access selectors for the notification page.
@@ -51,7 +46,7 @@ export class Petra extends PetraAbstract {
    * @public
    * @readonly
    */
-  readonly notificationPage: NotificationPage;
+  readonly notificationPage: NotificationPage
 
   /**
    * Creates an instance of Phantom.
@@ -67,12 +62,12 @@ export class Petra extends PetraAbstract {
     override readonly password: string,
     override readonly extensionId?: string
   ) {
-    super(password, extensionId);
+    super(password, extensionId)
 
-    this.onboardingPage = new OnboardingPage(page);
-    this.unlockPage = new UnlockPage(page);
-    this.homePage = new HomePage(page);
-    this.notificationPage = new NotificationPage(page);
+    this.onboardingPage = new OnboardingPage(page)
+    this.unlockPage = new UnlockPage(page)
+    this.homePage = new HomePage(page)
+    this.notificationPage = new NotificationPage(page)
   }
 
   /**
@@ -81,8 +76,7 @@ export class Petra extends PetraAbstract {
    * @param seedPhrase - The seed phrase to import.
    */
   async importWallet(seedPhrase: string): Promise<void> {
-    console.log("importWallet", seedPhrase);
-    await this.onboardingPage.importWallet(seedPhrase, this.password);
+    await this.onboardingPage.importWallet(seedPhrase, this.password)
   }
 
   /**
@@ -91,7 +85,7 @@ export class Petra extends PetraAbstract {
    * @param accountName - The name for the new account.
    */
   async addNewAccount(accountName: string): Promise<void> {
-    await this.homePage.addNewAccount(accountName);
+    await this.homePage.addNewAccount(accountName)
   }
 
   /**
@@ -100,11 +94,8 @@ export class Petra extends PetraAbstract {
    * @param currentAccountName - The current account name.
    * @param newAccountName - The new name for the account.
    */
-  async renameAccount(
-    currentAccountName: string,
-    newAccountName: string
-  ): Promise<void> {
-    await this.homePage.renameAccount(currentAccountName, newAccountName);
+  async renameAccount(currentAccountName: string, newAccountName: string): Promise<void> {
+    await this.homePage.renameAccount(currentAccountName, newAccountName)
   }
 
   /**
@@ -114,16 +105,8 @@ export class Petra extends PetraAbstract {
    * @param privateKey - The private key to import.
    * @param privateKey - Name given to the new wallet/account.
    */
-  async importWalletFromPrivateKey(
-    network: Networks,
-    privateKey: string,
-    walletName?: string
-  ): Promise<void> {
-    await this.homePage.importWalletFromPrivateKey(
-      network,
-      privateKey,
-      walletName
-    );
+  async importWalletFromPrivateKey(network: Networks, privateKey: string, walletName?: string): Promise<void> {
+    await this.homePage.importWalletFromPrivateKey(network, privateKey, walletName)
   }
 
   /**
@@ -132,7 +115,7 @@ export class Petra extends PetraAbstract {
    * @param accountName - The name of the account to switch to.
    */
   async switchAccount(accountName: string): Promise<void> {
-    await this.homePage.switchAccount(accountName);
+    await this.homePage.switchAccount(accountName)
   }
 
   /**
@@ -142,7 +125,7 @@ export class Petra extends PetraAbstract {
    * @returns The account address.
    */
   async getAccountAddress(network: Networks): Promise<string> {
-    return await this.homePage.getAccountAddress(network);
+    return await this.homePage.getAccountAddress(network)
   }
 
   /**
@@ -153,24 +136,24 @@ export class Petra extends PetraAbstract {
    */
   async connectToDapp(account?: string): Promise<void> {
     if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR;
+      throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.connectToDapp(this.extensionId, account);
+    await this.notificationPage.connectToDapp(this.extensionId, account)
   }
 
   /**
    * Locks the Phantom wallet.
    */
   async lock(): Promise<void> {
-    await this.homePage.lock();
+    await this.homePage.lock()
   }
 
   /**
    * Unlocks the Phantom wallet.
    */
   async unlock(): Promise<void> {
-    await this.unlockPage.unlock(this.password);
+    await this.unlockPage.unlock(this.password)
   }
 
   /**
@@ -180,10 +163,10 @@ export class Petra extends PetraAbstract {
    */
   async confirmSignature(): Promise<void> {
     if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR;
+      throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.signMessage(this.extensionId);
+    await this.notificationPage.signMessage(this.extensionId)
   }
 
   /**
@@ -193,10 +176,10 @@ export class Petra extends PetraAbstract {
    */
   async confirmSignatureWithRisk(): Promise<void> {
     if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR;
+      throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.signMessageWithRisk(this.extensionId);
+    await this.notificationPage.signMessageWithRisk(this.extensionId)
   }
 
   /**
@@ -206,10 +189,10 @@ export class Petra extends PetraAbstract {
    */
   async rejectSignature(): Promise<void> {
     if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR;
+      throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.rejectMessage(this.extensionId);
+    await this.notificationPage.rejectMessage(this.extensionId)
   }
 
   /**
@@ -219,13 +202,13 @@ export class Petra extends PetraAbstract {
    * @throws {Error} If extensionId is not set.
    */
   async confirmTransaction(options?: {
-    gasSetting?: GasSettings;
+    gasSetting?: GasSettings
   }): Promise<void> {
     if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR;
+      throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.confirmTransaction(this.extensionId, options);
+    await this.notificationPage.confirmTransaction(this.extensionId, options)
   }
 
   /**
@@ -235,10 +218,10 @@ export class Petra extends PetraAbstract {
    */
   async rejectTransaction(): Promise<void> {
     if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR;
+      throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.rejectTransaction(this.extensionId);
+    await this.notificationPage.rejectTransaction(this.extensionId)
   }
 
   /**
@@ -248,17 +231,14 @@ export class Petra extends PetraAbstract {
    * @throws {Error} If extensionId is not set.
    */
   async approveTokenPermission(options?: {
-    spendLimit?: "max" | number;
-    gasSetting?: GasSettings;
+    spendLimit?: 'max' | number
+    gasSetting?: GasSettings
   }): Promise<void> {
     if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR;
+      throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.approveTokenPermission(
-      this.extensionId,
-      options
-    );
+    await this.notificationPage.approveTokenPermission(this.extensionId, options)
   }
 
   /**
@@ -268,10 +248,10 @@ export class Petra extends PetraAbstract {
    */
   async rejectTokenPermission(): Promise<void> {
     if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR;
+      throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.rejectTokenPermission(this.extensionId);
+    await this.notificationPage.rejectTokenPermission(this.extensionId)
   }
 
   /**
@@ -279,38 +259,38 @@ export class Petra extends PetraAbstract {
    */
   async goToHomePage(): Promise<void> {
     if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR;
+      throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.homePage.goToHomePage(this.extensionId);
+    await this.homePage.goToHomePage(this.extensionId)
   }
 
   /**
    * Navigates back to the home page.
    */
   async goBackToHomePage(): Promise<void> {
-    await this.homePage.goBackToHomePage();
+    await this.homePage.goBackToHomePage()
   }
 
   /**
    * Opens the settings page.
    */
   async openSettings(): Promise<void> {
-    await this.homePage.openSettings();
+    await this.homePage.openSettings()
   }
 
   /**
    * Toggles the display of test networks.
    */
   async toggleTestnetMode(): Promise<void> {
-    await this.homePage.toggleTestnetMode();
+    await this.homePage.toggleTestnetMode()
   }
 
   /**
    * Resets the account.
    */
   async resetApp(): Promise<void> {
-    await this.homePage.resetApp();
+    await this.homePage.resetApp()
   }
 
   /**
@@ -321,11 +301,9 @@ export class Petra extends PetraAbstract {
    */
   async closeUnsupportedNetworkWarning(): Promise<void> {
     if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR;
+      throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.closeUnsupportedNetworkWarning(
-      this.extensionId
-    );
+    await this.notificationPage.closeUnsupportedNetworkWarning(this.extensionId)
   }
 }

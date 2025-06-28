@@ -1,7 +1,7 @@
-import type { Page } from "@playwright/test";
-import { errors as playwrightErrors } from "@playwright/test";
-import { Petra } from "..";
-import { waitForSpinnerToVanish } from "../utils/waitForSpinnerToVanish";
+import type { Page } from '@playwright/test'
+import { errors as playwrightErrors } from '@playwright/test'
+import { Petra } from '..'
+import { waitForSpinnerToVanish } from '../utils/waitForSpinnerToVanish'
 
 /**
  *  A more advanced version of the `Phantom.unlock()` function that incorporates various workarounds for Phantom issues, among other things.
@@ -11,26 +11,24 @@ import { waitForSpinnerToVanish } from "../utils/waitForSpinnerToVanish";
  * @param password - The password of the Phantom wallet.
  */
 export async function unlockForFixturePhantom(page: Page, password: string) {
-  const phantom = new Petra(page.context(), page, password);
+  const phantom = new Petra(page.context(), page, password)
 
-  await unlockWalletButReloadIfSpinnerDoesNotVanish(phantom);
+  await unlockWalletButReloadIfSpinnerDoesNotVanish(phantom)
 }
 
 async function unlockWalletButReloadIfSpinnerDoesNotVanish(phantom: Petra) {
   try {
-    await phantom.unlock();
+    await phantom.unlock()
   } catch (e) {
     if (e instanceof playwrightErrors.TimeoutError) {
-      console.warn(
-        "[UnlockWalletButReloadIfSpinnerDoesNotVanish] Unlocking Phantom timed out. Reloading page..."
-      );
+      console.warn('[UnlockWalletButReloadIfSpinnerDoesNotVanish] Unlocking Phantom timed out. Reloading page...')
 
-      const page = phantom.page;
+      const page = phantom.page
 
-      await page.reload();
-      await waitForSpinnerToVanish(page);
+      await page.reload()
+      await waitForSpinnerToVanish(page)
     } else {
-      throw e;
+      throw e
     }
   }
 }

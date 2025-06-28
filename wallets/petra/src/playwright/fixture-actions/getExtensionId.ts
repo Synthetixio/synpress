@@ -1,12 +1,12 @@
-import type { BrowserContext } from "@playwright/test";
-import { z } from "zod";
+import type { BrowserContext } from '@playwright/test'
+import { z } from 'zod'
 
 const Extension = z.object({
   id: z.string(),
-  name: z.string(),
-});
+  name: z.string()
+})
 
-const Extensions = z.array(Extension);
+const Extensions = z.array(Extension)
 
 /**
  * Returns the extension ID for the given extension name. The ID is fetched from the `chrome://extensions` page.
@@ -20,32 +20,27 @@ const Extensions = z.array(Extension);
  *
  * @returns The extension ID.
  */
-export async function getExtensionIdPetra(
-  context: BrowserContext,
-  extensionName: "Petra"
-) {
-  const page = await context.newPage();
-  await page.goto("chrome://extensions");
+export async function getExtensionIdPetra(context: BrowserContext, extensionName: 'Petra') {
+  const page = await context.newPage()
+  await page.goto('chrome://extensions')
 
-  const unparsedExtensions = await page.evaluate("chrome.management.getAll()");
+  const unparsedExtensions = await page.evaluate('chrome.management.getAll()')
 
-  const allExtensions = Extensions.parse(unparsedExtensions);
+  const allExtensions = Extensions.parse(unparsedExtensions)
   const targetExtension = allExtensions.find(
     (extension) => extension.name.toLowerCase() === extensionName.toLowerCase()
-  );
+  )
 
   if (!targetExtension) {
     throw new Error(
       [
         `[GetExtensionId] Extension with name ${extensionName} not found.`,
-        `Available extensions: ${allExtensions
-          .map((extension) => extension.name)
-          .join(", ")}`,
-      ].join("\n")
-    );
+        `Available extensions: ${allExtensions.map((extension) => extension.name).join(', ')}`
+      ].join('\n')
+    )
   }
 
-  await page.close();
+  await page.close()
 
-  return targetExtension.id;
+  return targetExtension.id
 }

@@ -31,7 +31,7 @@
     "package.json": "sort-package-json"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.2.2",
+    "@biomejs/biome": "2.0.6",
     "@changesets/cli": "2.27.1",
     "@metamask/test-dapp": "8.1.0",
     "husky": "9.0.10",

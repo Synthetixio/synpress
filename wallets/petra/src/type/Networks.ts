@@ -1,1 +1,1 @@
-export type Networks = "aptos";
+export type Networks = 'aptos'

@@ -7,8 +7,12 @@ export async function createPassword(page: Page, password: string) {
   await page.locator(StepSelectors.passwordInput).fill(password)
   await page.locator(StepSelectors.confirmPasswordInput).fill(password)
 
-  // Using `locator.click()` instead of `locator.check()` as a workaround due to dynamically appearing elements.
+  // Using `locator.click()` here because we target the input label.
   await page.locator(StepSelectors.acceptTermsCheckbox).click()
 
   await page.locator(StepSelectors.continue).click()
+
+  await page.getByRole('status').getByRole('button').click()
+
+  await page.locator(StepSelectors.doneButton).click()
 }

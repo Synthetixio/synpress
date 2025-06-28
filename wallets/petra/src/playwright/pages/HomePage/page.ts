@@ -1,6 +1,6 @@
-import type { Page } from "@playwright/test";
-import Selectors from "../../../selectors/pages/HomePage";
-import type { Networks } from "../../../type/Networks";
+import type { Page } from '@playwright/test'
+import Selectors from '../../../selectors/pages/HomePage'
+import type { Networks } from '../../../type/Networks'
 import {
   addNewAccount,
   getAccountAddress,
@@ -9,69 +9,60 @@ import {
   renameAccount,
   settings,
   switchAccount,
-  toggleTestnetMode,
-} from "./actions";
+  toggleTestnetMode
+} from './actions'
 
 export class HomePage {
-  static readonly selectors = Selectors;
-  readonly selectors = Selectors;
+  static readonly selectors = Selectors
+  readonly selectors = Selectors
 
-  readonly page: Page;
+  readonly page: Page
 
   constructor(page: Page) {
-    this.page = page;
+    this.page = page
   }
 
   async goToHomePage(extensionId: string) {
-    await this.page.goto(`chrome-extension://${extensionId}/popup.html`);
+    await this.page.goto(`chrome-extension://${extensionId}/popup.html`)
   }
 
   async goBackToHomePage() {
-    await this.page.locator(Selectors.settings.closeSettingsButton).click();
+    await this.page.locator(Selectors.settings.closeSettingsButton).click()
   }
 
   async lock() {
-    await lock(this.page);
+    await lock(this.page)
   }
 
   async addNewAccount(accountName: string) {
-    await addNewAccount(this.page, accountName);
+    await addNewAccount(this.page, accountName)
   }
 
   async renameAccount(currentAccountName: string, newAccountName: string) {
-    await renameAccount(this.page, currentAccountName, newAccountName);
+    await renameAccount(this.page, currentAccountName, newAccountName)
   }
 
   async getAccountAddress(network: Networks) {
-    return await getAccountAddress(network, this.page);
+    return await getAccountAddress(network, this.page)
   }
 
-  async importWalletFromPrivateKey(
-    network: Networks,
-    privateKey: string,
-    walletName?: string
-  ) {
-    await importWalletFromPrivateKey(
-      this.page,
-      network,
-      privateKey,
-      walletName
-    );
+  async importWalletFromPrivateKey(network: Networks, privateKey: string, walletName?: string) {
+    await importWalletFromPrivateKey(this.page, network, privateKey, walletName)
   }
 
   async switchAccount(accountName: string) {
-    await switchAccount(this.page, accountName);
+    await switchAccount(this.page, accountName)
   }
 
   async openSettings() {
-    await settings.openSettings(this.page);
+    await settings.openSettings(this.page)
   }
 
   async toggleTestnetMode() {
-    await toggleTestnetMode(this.page);
+    await toggleTestnetMode(this.page)
   }
 
   async resetApp() {
-    await settings.resetApp(this.page);
+    await settings.resetApp(this.page)
   }
 }
