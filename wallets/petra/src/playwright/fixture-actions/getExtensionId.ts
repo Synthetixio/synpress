@@ -16,11 +16,11 @@ const Extensions = z.array(Extension)
  * :::
  *
  * @param context - The browser context.
- * @param extensionName - The name of the extension, e.g., `Phantom`.
+ * @param extensionName - The name of the extension, e.g., `Petra`.
  *
  * @returns The extension ID.
  */
-export async function getExtensionIdPetra(context: BrowserContext, extensionName: 'Petra') {
+export async function getExtensionIdPetra(context: BrowserContext, extensionName: 'Petra Aptos Wallet') {
   const page = await context.newPage()
   await page.goto('chrome://extensions')
 

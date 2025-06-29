@@ -1,4 +1,10 @@
-type FieldName = 'initialPassword' | 'confirmPassword' | 'termsOfService' | `mnemonic-${string}` | (string & {})
+type FieldName =
+  | 'initialPassword'
+  | 'confirmPassword'
+  | 'termsOfService'
+  | 'password'
+  | `mnemonic-${string}`
+  | (string & {})
 
 export const createNameSelector = (fieldName: FieldName) => {
   if (fieldName === '') {

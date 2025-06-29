@@ -1,8 +1,7 @@
 import type { BrowserContext, Page } from '@playwright/test'
 import type { GasSettings } from '../type/GasSettings'
-import type { Networks } from '../type/Networks'
 import { PetraAbstract } from '../type/PetraAbstract'
-import { HomePage, NotificationPage, OnboardingPage, UnlockPage } from './pages'
+import { HomePage, PromptPage, OnboardingPage, UnlockPage } from './pages'
 
 const NO_EXTENSION_ID_ERROR = new Error('Petra extensionId is not set')
 
@@ -46,7 +45,7 @@ export class Petra extends PetraAbstract {
    * @public
    * @readonly
    */
-  readonly notificationPage: NotificationPage
+  readonly promptPage: PromptPage
 
   /**
    * Creates an instance of Phantom.
@@ -67,7 +66,7 @@ export class Petra extends PetraAbstract {
     this.onboardingPage = new OnboardingPage(page)
     this.unlockPage = new UnlockPage(page)
     this.homePage = new HomePage(page)
-    this.notificationPage = new NotificationPage(page)
+    this.promptPage = new PromptPage(page)
   }
 
   /**
@@ -85,7 +84,8 @@ export class Petra extends PetraAbstract {
    * @param accountName - The name for the new account.
    */
   async addNewAccount(accountName: string): Promise<void> {
-    await this.homePage.addNewAccount(accountName)
+    await this.homePage.addNewAccount()
+    await this.homePage.renameAccount(accountName)
   }
 
   /**
@@ -94,8 +94,8 @@ export class Petra extends PetraAbstract {
    * @param currentAccountName - The current account name.
    * @param newAccountName - The new name for the account.
    */
-  async renameAccount(currentAccountName: string, newAccountName: string): Promise<void> {
-    await this.homePage.renameAccount(currentAccountName, newAccountName)
+  async renameAccount(newAccountName: string): Promise<void> {
+    await this.homePage.renameAccount(newAccountName)
   }
 
   /**
@@ -105,8 +105,8 @@ export class Petra extends PetraAbstract {
    * @param privateKey - The private key to import.
    * @param privateKey - Name given to the new wallet/account.
    */
-  async importWalletFromPrivateKey(network: Networks, privateKey: string, walletName?: string): Promise<void> {
-    await this.homePage.importWalletFromPrivateKey(network, privateKey, walletName)
+  async importWalletFromPrivateKey(privateKey: string, walletName?: string): Promise<void> {
+    await this.homePage.importWalletFromPrivateKey(privateKey, walletName)
   }
 
   /**
@@ -124,8 +124,8 @@ export class Petra extends PetraAbstract {
    * @param network - Network that the address belongs to.
    * @returns The account address.
    */
-  async getAccountAddress(network: Networks): Promise<string> {
-    return await this.homePage.getAccountAddress(network)
+  async getAccountAddress(): Promise<string> {
+    return await this.homePage.getAccountAddress()
   }
 
   /**
@@ -139,7 +139,7 @@ export class Petra extends PetraAbstract {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.connectToDapp(this.extensionId, account)
+    await this.promptPage.connectToDapp(this.extensionId, account)
   }
 
   /**
@@ -166,7 +166,7 @@ export class Petra extends PetraAbstract {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.signMessage(this.extensionId)
+    await this.promptPage.signMessage(this.extensionId)
   }
 
   /**
@@ -179,7 +179,7 @@ export class Petra extends PetraAbstract {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.signMessageWithRisk(this.extensionId)
+    await this.promptPage.signMessageWithRisk(this.extensionId)
   }
 
   /**
@@ -192,7 +192,7 @@ export class Petra extends PetraAbstract {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.rejectMessage(this.extensionId)
+    await this.promptPage.rejectMessage(this.extensionId)
   }
 
   /**
@@ -201,14 +201,12 @@ export class Petra extends PetraAbstract {
    * @param options - Optional gas settings for the transaction.
    * @throws {Error} If extensionId is not set.
    */
-  async confirmTransaction(options?: {
-    gasSetting?: GasSettings
-  }): Promise<void> {
+  async confirmTransaction(options?: { gasSetting?: GasSettings }): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.confirmTransaction(this.extensionId, options)
+    await this.promptPage.confirmTransaction(this.extensionId, options)
   }
 
   /**
@@ -221,7 +219,7 @@ export class Petra extends PetraAbstract {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.rejectTransaction(this.extensionId)
+    await this.promptPage.rejectTransaction(this.extensionId)
   }
 
   /**
@@ -230,15 +228,12 @@ export class Petra extends PetraAbstract {
    * @param options - Optional settings for the approval.
    * @throws {Error} If extensionId is not set.
    */
-  async approveTokenPermission(options?: {
-    spendLimit?: 'max' | number
-    gasSetting?: GasSettings
-  }): Promise<void> {
+  async approveTokenPermission(options?: { spendLimit?: 'max' | number; gasSetting?: GasSettings }): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.approveTokenPermission(this.extensionId, options)
+    await this.promptPage.approveTokenPermission(this.extensionId, options)
   }
 
   /**
@@ -251,7 +246,7 @@ export class Petra extends PetraAbstract {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.rejectTokenPermission(this.extensionId)
+    await this.promptPage.rejectTokenPermission(this.extensionId)
   }
 
   /**
@@ -304,6 +299,6 @@ export class Petra extends PetraAbstract {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.notificationPage.closeUnsupportedNetworkWarning(this.extensionId)
+    await this.promptPage.closeUnsupportedNetworkWarning(this.extensionId)
   }
 }

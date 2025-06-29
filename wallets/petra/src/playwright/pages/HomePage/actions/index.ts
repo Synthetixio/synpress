@@ -1,5 +1,4 @@
 export * from './addNewAccount'
-export * from './closeSuiAndMonadScreen'
 export * from './importWalletFromPrivateKey'
 export * from './lock'
 export * from './renameAccount'

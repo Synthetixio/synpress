@@ -1,16 +1,16 @@
 import { testWithSynpress } from '@synthetixio/synpress-core'
-import { Phantom, phantomFixtures } from '../../../src/playwright'
+import { Petra, petraFixtures } from '../../../src/playwright'
 
 import basicSetup from '../wallet-setup/basic.setup'
 
-const test = testWithSynpress(phantomFixtures(basicSetup))
+const test = testWithSynpress(petraFixtures(basicSetup))
 
 const { expect } = test
 
-test('should lock the wallet', async ({ context, phantomPage }) => {
-  const phantom = new Phantom(context, phantomPage, basicSetup.walletPassword)
+test('should lock the wallet', async ({ context, petraPage }) => {
+  const petra = new Petra(context, petraPage, basicSetup.walletPassword)
 
-  await phantom.lock()
+  await petra.lock()
 
-  await expect(phantomPage.locator(phantom.unlockPage.selectors.submitButton)).toBeVisible()
+  await expect(petraPage.locator(petra.unlockPage.selectors.submitButton)).toBeVisible()
 })

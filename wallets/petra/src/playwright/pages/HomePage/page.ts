@@ -1,6 +1,5 @@
 import type { Page } from '@playwright/test'
 import Selectors from '../../../selectors/pages/HomePage'
-import type { Networks } from '../../../type/Networks'
 import {
   addNewAccount,
   getAccountAddress,
@@ -34,20 +33,20 @@ export class HomePage {
     await lock(this.page)
   }
 
-  async addNewAccount(accountName: string) {
-    await addNewAccount(this.page, accountName)
+  async addNewAccount() {
+    await addNewAccount(this.page)
   }
 
-  async renameAccount(currentAccountName: string, newAccountName: string) {
-    await renameAccount(this.page, currentAccountName, newAccountName)
+  async renameAccount(newAccountName: string) {
+    await renameAccount(this.page, newAccountName)
   }
 
-  async getAccountAddress(network: Networks) {
-    return await getAccountAddress(network, this.page)
+  async getAccountAddress() {
+    return await getAccountAddress(this.page)
   }
 
-  async importWalletFromPrivateKey(network: Networks, privateKey: string, walletName?: string) {
-    await importWalletFromPrivateKey(this.page, network, privateKey, walletName)
+  async importWalletFromPrivateKey(privateKey: string, walletName?: string) {
+    await importWalletFromPrivateKey(this.page, privateKey, walletName)
   }
 
   async switchAccount(accountName: string) {

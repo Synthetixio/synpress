@@ -1,21 +1,21 @@
 import { type Page, expect } from '@playwright/test'
-import type { Phantom } from '../../../src/playwright'
+import type { Petra } from '../../../src/playwright'
 
-export const aaveSetup = async (page: Page, phantom: Phantom) => {
+export const aaveSetup = async (page: Page, petra: Petra) => {
   await page.goto('https://app.aave.com')
 
-  await phantom.toggleTestnetMode()
+  await petra.toggleTestnetMode()
 
   await page.locator('button#settings-button').click()
   await page.locator('li:has-text("Testnet mode")').click()
   await expect(page.getByRole('button', { name: 'TESTNET' })).toBeVisible()
 
   await page.getByRole('button', { name: 'Connect wallet' }).first().click()
-  await page.getByRole('button', { name: 'Phantom' }).click()
+  await page.getByRole('button', { name: 'Petra' }).click()
 
-  await phantom.connectToDapp()
-  await phantom.page.waitForTimeout(1_000)
-  await phantom.closeUnsupportedNetworkWarning()
+  await petra.connectToDapp()
+  await petra.page.waitForTimeout(1_000)
+  await petra.closeUnsupportedNetworkWarning()
 
   await expect(page.getByText('0xf3...2266'), '"0xf3...2266" should be visible').toBeVisible()
 

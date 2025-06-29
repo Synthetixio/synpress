@@ -35,10 +35,10 @@ export const waitUntilStableBeforeUnlock = async (page: Page) => {
   }).toPass({ timeout: 10_000 })
 }
 
-export const waitUntilStableNotificationPage = async (page: Page) => {
+export const waitUntilStablePromptPage = async (page: Page) => {
   await page.waitForLoadState('load', { timeout: 10_000 })
   await page.waitForLoadState('domcontentloaded', { timeout: 10_000 })
-  await page.locator('[data-testid="home-header-account-name"]').waitFor({ timeout: 10_000 })
+  await page.locator('p:has-text("Connection request")').waitFor({ timeout: 10_000 })
 }
 
 export const waitForSelector = async (selector: string, page: Page, timeout: number) => {

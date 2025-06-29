@@ -1,14 +1,8 @@
 import { type Page, expect } from '@playwright/test'
 import Selectors from '../../../../selectors/pages/HomePage'
-import type { Networks } from '../../../../type/Networks'
 import { waitFor } from '../../../utils/waitFor'
 
-export async function importWalletFromPrivateKey(
-  page: Page,
-  network: Networks,
-  privateKey: string,
-  walletName?: string
-) {
+export async function importWalletFromPrivateKey(page: Page, privateKey: string, walletName?: string) {
   await expect(page.locator(Selectors.accountMenu.accountButton)).toBeVisible()
   await page.locator(Selectors.accountMenu.accountButton).click()
 
@@ -16,15 +10,6 @@ export async function importWalletFromPrivateKey(
   await page.locator(Selectors.accountMenu.addAccountMenu.addAccountButton).click()
 
   await page.locator(Selectors.accountMenu.addAccountMenu.importAccountPrivateKeyButton).click()
-
-  // SELECT NETWORK
-  if (network) {
-    await page.locator(Selectors.accountMenu.addAccountMenu.importAccountMenu.networkOpenMenu).click()
-    await page
-      .locator(Selectors.accountMenu.addAccountMenu.importAccountMenu[`${network}Network`])
-      .first()
-      .click()
-  }
 
   await page
     .locator(Selectors.accountMenu.addAccountMenu.importAccountMenu.nameInput)

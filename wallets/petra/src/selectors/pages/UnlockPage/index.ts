@@ -1,6 +1,6 @@
-import { createDataTestSelector } from '../../createDataTestSelector'
+import { createNameSelector } from '../../createNameSelector'
 
 export default {
-  passwordInput: createDataTestSelector('unlock-form-password-input'),
-  submitButton: createDataTestSelector('unlock-form-submit-button')
+  passwordInput: createNameSelector('password'),
+  submitButton: 'button:has-text("Unlock")'
 }

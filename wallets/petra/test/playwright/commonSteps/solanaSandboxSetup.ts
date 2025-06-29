@@ -1,10 +1,10 @@
 import { type Page, expect } from '@playwright/test'
-import type { Phantom } from '../../../src/playwright'
+import type { Petra } from '../../../src/playwright'
 
-export const solanaSandboxSetup = async (page: Page, phantom: Phantom) => {
+export const solanaSandboxSetup = async (page: Page, phantom: Petra) => {
   await phantom.page.waitForTimeout(1_000)
   await phantom.importWalletFromPrivateKey(
-    'solana',
+    'aptos',
     'XQaKFLLSKbzpVzmfJrj4yUjAyFy2Eu7JcNdbPdnLuod2Uw3yf3tjGd4ha1DBfFdjkZFX1PZg3knth2Tz2tvd8C4'
   )
 

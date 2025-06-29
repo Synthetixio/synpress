@@ -1,7 +1,7 @@
 import * as core from '@synthetixio/synpress-cache'
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
 
-import { PHANTOM_EXTENSION_DOWNLOAD_URL, prepareExtensionPhantom } from '../../src/prepareExtensionPetra'
+import { PETRA_EXTENSION_DOWNLOAD_URL, prepareExtensionPetra } from '../../src/prepareExtensionPetra'
 
 const MOCK_CACHE_DIR_PATH = 'mockCacheDirPath'
 const MOCK_EXTENSION_ARCHIVE_PATH = 'mockExtensionArchivePath'
@@ -41,7 +41,7 @@ describe('prepareExtensionPhantom', () => {
   it('creates cache directory', async () => {
     const ensureCacheDirExistsSpy = vi.spyOn(core, 'ensureCacheDirExists')
 
-    await prepareExtensionPhantom()
+    await prepareExtensionPetra()
 
     expect(ensureCacheDirExistsSpy).toHaveBeenCalledOnce()
     expect(ensureCacheDirExistsSpy).toReturnWith(MOCK_CACHE_DIR_PATH)
@@ -50,11 +50,11 @@ describe('prepareExtensionPhantom', () => {
   it('downloads Phantom extension archive', async () => {
     const downloadFileSpy = vi.spyOn(core, 'downloadFile')
 
-    await prepareExtensionPhantom()
+    await prepareExtensionPetra()
 
     expect(downloadFileSpy).toHaveBeenCalledOnce()
     expect(downloadFileSpy).toHaveBeenCalledWith({
-      url: PHANTOM_EXTENSION_DOWNLOAD_URL,
+      url: PETRA_EXTENSION_DOWNLOAD_URL,
       outputDir: MOCK_CACHE_DIR_PATH,
       fileName: 'phantom-chrome-latest.crx'
     })
@@ -66,7 +66,7 @@ describe('prepareExtensionPhantom', () => {
   it('unzips Phantom extension archive', async () => {
     const unzipArchiveSpy = vi.spyOn(core, 'unzipArchivePhantom')
 
-    await prepareExtensionPhantom()
+    await prepareExtensionPetra()
 
     expect(unzipArchiveSpy).toHaveBeenCalledOnce()
     expect(unzipArchiveSpy).toHaveBeenCalledWith({
@@ -78,7 +78,7 @@ describe('prepareExtensionPhantom', () => {
   })
 
   it('returns correct unzipped extension path', async () => {
-    const extensionPath = await prepareExtensionPhantom()
+    const extensionPath = await prepareExtensionPetra()
     expect(extensionPath).toEqual(MOCK_EXTENSION_FINAL_PATH)
   })
 })

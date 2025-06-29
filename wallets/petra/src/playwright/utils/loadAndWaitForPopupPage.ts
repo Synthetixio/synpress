@@ -10,7 +10,7 @@ export async function loadAndWaitForPopupPage(context: BrowserContext, extension
 
     await waitForTestPageLoad(context)
 
-    await popupPage.goto(`chrome-extension://${extensionId}/popup.html`)
+    await popupPage.goto(`chrome-extension://${extensionId}/index.html`)
 
     await waitUntilStableBeforeUnlock(popupPage)
   }).toPass()

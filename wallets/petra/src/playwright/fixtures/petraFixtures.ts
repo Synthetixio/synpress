@@ -4,7 +4,7 @@ import { test as base } from '@playwright/test'
 import {
   CACHE_DIR_NAME,
   createTempContextDir,
-  defineWalletSetup,
+  type defineWalletSetup,
   removeTempContextDir
 } from '@synthetixio/synpress-cache'
 import fs from 'fs-extra'
@@ -12,7 +12,6 @@ import { prepareExtensionPetra } from '../../prepareExtensionPetra'
 import { Petra } from '../Petra'
 import { getExtensionIdPetra } from '../fixture-actions'
 import { persistLocalStorage } from '../fixture-actions/persistLocalStorage'
-import { closeSuiAndMonadIfPresent } from '../pages/HomePage/actions/closeSuiAndMonadScreen'
 import { unlock } from '../pages/UnlockPage/actions'
 import { loadAndWaitForPopupPage } from '../utils/loadAndWaitForPopupPage'
 
@@ -75,7 +74,7 @@ export const petraFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
         await persistLocalStorage(origins, context)
       }
 
-      const extensionId = await getExtensionIdPetra(context, 'Petra')
+      const extensionId = await getExtensionIdPetra(context, 'Petra Aptos Wallet')
 
       _petra = await loadAndWaitForPopupPage(context, extensionId)
 
@@ -86,12 +85,10 @@ export const petraFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
       await context.close()
     },
     petraPage: async ({ context: _ }, use) => {
-      await closeSuiAndMonadIfPresent(_petra)
-
       await use(_petra)
     },
     extensionId: async ({ context }, use) => {
-      const extensionId = await getExtensionIdPetra(context, 'Petra')
+      const extensionId = await getExtensionIdPetra(context, 'Petra Aptos Wallet')
 
       await use(extensionId)
     },
@@ -101,7 +98,7 @@ export const petraFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
       await use(petra)
     },
     page: async ({ page }, use) => {
-      await page.goto('/')
+      await page.goto(`/`)
 
       await use(page)
     }

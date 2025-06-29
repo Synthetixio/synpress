@@ -1,43 +1,17 @@
 import { type Page, expect } from '@playwright/test'
 import Selectors from '../../../../selectors/pages/HomePage'
-import { allTextContents } from '../../../utils/allTextContents'
+import { z } from 'zod'
 
-export async function renameAccount(page: Page, currentAccountName: string, newAccountName: string) {
-  // TODO: Use zod to validate this.
-  if (newAccountName.length === 0) {
-    throw new Error('[RenameAccount] Account name cannot be an empty string')
-  }
+export async function renameAccount(page: Page, newAccountName: string) {
+  const parsedNewAccountName = z.string().min(1, 'Account name cannot be an empty string').parse(newAccountName)
 
-  await page.locator(Selectors.accountMenu.accountButton).click()
+  await page.getByRole('link', { name: /account settings/i }).click()
 
-  let accountNames: string[] = []
+  await page.locator('div.css-oj1c81 > button').click()
 
-  await expect(async () => {
-    const accountNamesLocators = await page.locator(Selectors.accountMenu.accountNames).all()
-
-    accountNames = await allTextContents(accountNamesLocators)
-
-    expect(accountNames.length).toBeGreaterThan(0)
-  }).toPass()
-
-  const seekedAccountNames = accountNames.filter(
-    (name) => name.toLocaleLowerCase() === currentAccountName.toLocaleLowerCase()
-  )
-
-  if (seekedAccountNames.length === 0) {
-    throw new Error(`[SwitchAccount] Account with name ${currentAccountName} not found`)
-  }
-
-  await page.locator(Selectors.accountMenu.manageAccountsButton).click()
-
-  await page.locator(Selectors.manageAccountButton(currentAccountName)).click()
-
-  await page.locator(Selectors.editAccountMenu.accountNameButton).click()
-
-  await page.locator(Selectors.accountMenu.addAccountMenu.addNewAccountMenu.accountNameInput).fill(newAccountName)
-
-  await page.locator(Selectors.accountMenu.renameAccountMenu.saveButton).click()
+  await page.locator('input[name="name"]').fill(parsedNewAccountName)
+  await page.locator('button[type="submit"]:has-text("Save")').click()
 
   // Verify that account has been renamed
-  await expect(page.locator(Selectors.editAccountMenu.accountNameButton)).toContainText(newAccountName)
+  await expect(page.locator(Selectors.accountMenu.accountButton)).toContainText(parsedNewAccountName)
 }

@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
 import Selectors from '../../../selectors/pages/NotificationPage'
 import type { GasSettings } from '../../../type/GasSettings'
-import { getNotificationPageAndWaitForLoad } from '../../utils/getNotificationPageAndWaitForLoad'
+import { gePromptPageAndWaitForLoad } from '../../utils/getPromptPageAndWaitForLoad'
 import {
   approvePermission,
   closeUnsupportedNetworkWarning,
@@ -10,7 +10,7 @@ import {
   transaction
 } from './actions'
 
-export class NotificationPage {
+export class PromptPage {
   static readonly selectors = Selectors
   readonly selectors = Selectors
   readonly page: Page
@@ -20,14 +20,14 @@ export class NotificationPage {
   }
 
   async connectToDapp(extensionId: string, account?: string) {
-    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+    const promptPage = await gePromptPageAndWaitForLoad(this.page.context(), extensionId)
 
-    await connectToDapp(notificationPage, account)
+    await connectToDapp(promptPage, account)
   }
 
   // TODO: Revisit this logic in the future to see if we can increase the performance by utilizing `Promise.race`.
   private async beforeMessageSignature(extensionId: string) {
-    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+    const notificationPage = await gePromptPageAndWaitForLoad(this.page.context(), extensionId)
 
     return {
       notificationPage
@@ -53,31 +53,31 @@ export class NotificationPage {
   }
 
   async confirmTransaction(extensionId: string, options?: { gasSetting?: GasSettings }) {
-    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+    const notificationPage = await gePromptPageAndWaitForLoad(this.page.context(), extensionId)
 
     await transaction.confirm(notificationPage, options?.gasSetting ?? 'Average')
   }
 
   async rejectTransaction(extensionId: string) {
-    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+    const notificationPage = await gePromptPageAndWaitForLoad(this.page.context(), extensionId)
 
     await transaction.reject(notificationPage)
   }
 
   async approveTokenPermission(extensionId: string, options?: { gasSetting?: GasSettings }) {
-    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+    const notificationPage = await gePromptPageAndWaitForLoad(this.page.context(), extensionId)
 
     await approvePermission.approve(notificationPage, options?.gasSetting ?? 'Average')
   }
 
   async rejectTokenPermission(extensionId: string) {
-    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+    const notificationPage = await gePromptPageAndWaitForLoad(this.page.context(), extensionId)
 
     await approvePermission.reject(notificationPage)
   }
 
   async closeUnsupportedNetworkWarning(extensionId: string) {
-    const notificationPage = await getNotificationPageAndWaitForLoad(this.page.context(), extensionId)
+    const notificationPage = await gePromptPageAndWaitForLoad(this.page.context(), extensionId)
 
     await closeUnsupportedNetworkWarning(notificationPage)
   }

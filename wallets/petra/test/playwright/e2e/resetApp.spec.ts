@@ -1,28 +1,28 @@
 import { testWithSynpress } from '@synthetixio/synpress-core'
-import { Phantom, phantomFixtures } from '../../../src/playwright'
+import { Petra, petraFixtures } from '../../../src/playwright'
 
 import basicSetup from '../wallet-setup/basic.setup'
 
-const test = testWithSynpress(phantomFixtures(basicSetup))
+const test = testWithSynpress(petraFixtures(basicSetup))
 
 const { expect } = test
 
 // Skipping since After Hooks fail in CI - Context closed
-test.skip('reset the app', async ({ context, phantomPage }) => {
+test.skip('reset the app', async ({ context, petraPage }) => {
   test.setTimeout(40_000)
 
-  const phantom = new Phantom(context, phantomPage, basicSetup.walletPassword)
+  const petra = new Petra(context, petraPage, basicSetup.walletPassword)
 
-  await expect(phantomPage.locator(phantom.homePage.selectors.accountMenu.accountName)).toHaveText('Account 1')
+  await expect(petraPage.locator(petra.homePage.selectors.accountMenu.accountName)).toHaveText('Account 1')
 
-  await phantom.resetApp()
+  await petra.resetApp()
 
   await expect(async () => {
-    const newPhantomPage = context.pages()[1]
+    const newPetraPage = context.pages()[1]
 
-    if (newPhantomPage) {
-      const newPhantomPageUrl = newPhantomPage?.url()
-      expect(newPhantomPageUrl).toContain('onboarding')
+    if (newPetraPage) {
+      const newPetraPageUrl = newPetraPage?.url()
+      expect(newPetraPageUrl).toContain('onboarding')
     }
   }).toPass()
 })
