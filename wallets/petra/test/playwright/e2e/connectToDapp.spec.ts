@@ -36,7 +36,7 @@ test('should connect multiple wallets to dapp', async ({ context, page, petraPag
   await petra.connectToDapp('')
 
   const testDappAccountAddress = await page.locator('#accounts').innerText()
-  const petraMainAccount1Address = await petra.getAccountAddress('aptos')
+  const petraMainAccount1Address = await petra.getAccountAddress()
 
   // Two accounts connected
   expect(testDappAccountAddress.toLowerCase()).toEqual(petraMainAccount1Address.toLowerCase())
