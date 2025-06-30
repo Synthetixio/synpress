@@ -25,7 +25,6 @@ test('should connect multiple wallets to dapp', async ({ context, page, petraPag
 
   // Get address for account connected to testdapp
   await expect(page.locator('#accounts')).toContainText('0x')
-  // const testDappAccountAddress = await page.locator('#accounts').innerText()
 
   // Verify that active account in Petra extension is 'Main Account 2'
   await expect(petraPage.locator(petra.homePage.selectors.accountMenu.accountName)).toHaveText('Main Account 2')
@@ -35,8 +34,13 @@ test('should connect multiple wallets to dapp', async ({ context, page, petraPag
   await page.reload()
   await petra.connectToDapp('')
 
-  const testDappAccountAddress = await page.locator('#accounts').innerText()
   const petraMainAccount1Address = await petra.getAccountAddress()
+
+  await page.locator('#accounts').click()
+  await page.getByRole('menuitem', { name: /copy address/i }).click()
+
+  const handle = await page.evaluateHandle(() => navigator.clipboard.readText())
+  const testDappAccountAddress = await handle.jsonValue()
 
   // Two accounts connected
   expect(testDappAccountAddress.toLowerCase()).toEqual(petraMainAccount1Address.toLowerCase())

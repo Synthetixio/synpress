@@ -7,39 +7,39 @@ const test = testWithSynpress(petraFixtures(basicSetup))
 
 const { expect } = test
 
-const privateKey = 'ea084c575a01e2bbefcca3db101eaeab1d8af15554640a510c73692db24d0a6a'
+const privateKey = 'ed25519-priv-0x5fa805e3b357f501fbc3dcb9a8f29134493c2558468892b195f3b7a2154fdc6e'
 
 test('should import a new wallet from private key', async ({ context, petraPage }) => {
   const petra = new Petra(context, petraPage, basicSetup.walletPassword)
 
-  await petra.importWalletFromPrivateKey('aptos', privateKey)
+  await petra.importWalletFromPrivateKey(privateKey)
 
-  await petraPage.locator(petra.homePage.selectors.accountMenu.accountName).hover()
-  await expect(petraPage.locator(petra.homePage.selectors.ethereumWalletAddress)).toContainText('0xa2ce...6801')
+  await expect(petraPage.locator(petra.homePage.selectors.accountMenu.accountButton)).toContainText('Account')
 })
 
 // Flaky test - To be improved
-test.skip('should throw an error if trying to import private key for the 2nd time', async ({ context, petraPage }) => {
-  const phantom = new Petra(context, petraPage, basicSetup.walletPassword)
+test('should throw an error if trying to import private key for the 2nd time', async ({ context, petraPage }) => {
+  const petra = new Petra(context, petraPage, basicSetup.walletPassword)
+  const toastElement = petra.homePage.selectors.toasts
 
-  await phantom.importWalletFromPrivateKey('aptos', privateKey)
+  await petra.importWalletFromPrivateKey(privateKey)
 
   // To avoid random fails
-  await petraPage.waitForTimeout(2_000)
+  await petraPage.waitForTimeout(1_000)
 
-  const importWalletPromise = phantom.importWalletFromPrivateKey('aptos', privateKey)
+  // Remove the current visible toast notification
+  await petraPage.locator(toastElement).locator('button').click()
 
-  await expect(importWalletPromise).rejects.toThrowError(
-    '[ImportWalletFromPrivateKey] Importing failed due to error: This account already exists in your wallet'
-  )
+  await petra.importWalletFromPrivateKey(privateKey)
+
+  await expect(petraPage.locator(toastElement)).toContainText(/error importing account/i)
 })
 
-test('should throw an error if the private key is invalid', async ({ context, petraPage }) => {
-  const phantom = new Petra(context, petraPage, basicSetup.walletPassword)
+test('should display an error if the private key is invalid', async ({ context, petraPage }) => {
+  const petra = new Petra(context, petraPage, basicSetup.walletPassword)
+  const toastElement = petra.homePage.selectors.toasts
 
-  const importWalletPromise = phantom.importWalletFromPrivateKey('aptos', '0xdeadbeef')
+  await petra.importWalletFromPrivateKey('0xdeadbeef')
 
-  await expect(importWalletPromise).rejects.toThrowError(
-    '[ImportWalletFromPrivateKey] Importing failed due to error: Incorrect format'
-  )
+  await expect(petraPage.locator(toastElement)).toContainText(/Error: Private key must be exactly 64 characters./i)
 })

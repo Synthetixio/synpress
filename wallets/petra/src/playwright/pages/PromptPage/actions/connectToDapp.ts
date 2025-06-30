@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import Selectors from '../../../../selectors/pages/NotificationPage'
+import Selectors from '../../../../selectors/pages/PromptPage'
 import { switchAccount } from '../../HomePage/actions'
 
 async function confirmConnection(page: Page) {

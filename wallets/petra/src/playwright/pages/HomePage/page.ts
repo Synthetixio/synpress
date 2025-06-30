@@ -22,11 +22,11 @@ export class HomePage {
   }
 
   async goToHomePage(extensionId: string) {
-    await this.page.goto(`chrome-extension://${extensionId}/popup.html`)
+    await this.page.goto(`chrome-extension://${extensionId}/index.html`)
   }
 
   async goBackToHomePage() {
-    await this.page.locator(Selectors.settings.closeSettingsButton).click()
+    await this.page.locator(Selectors.headerBackButton).click()
   }
 
   async lock() {
@@ -45,8 +45,8 @@ export class HomePage {
     return await getAccountAddress(this.page)
   }
 
-  async importWalletFromPrivateKey(privateKey: string, walletName?: string) {
-    await importWalletFromPrivateKey(this.page, privateKey, walletName)
+  async importWalletFromPrivateKey(privateKey: string) {
+    await importWalletFromPrivateKey(this.page, privateKey)
   }
 
   async switchAccount(accountName: string) {

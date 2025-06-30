@@ -8,15 +8,15 @@ const test = testWithSynpress(petraFixtures(basicSetup))
 const { expect } = test
 
 test('should go back to the home page', async ({ context, petraPage }) => {
-  const phantom = new Petra(context, petraPage, basicSetup.walletPassword)
+  const petra = new Petra(context, petraPage, basicSetup.walletPassword)
 
-  await expect(petraPage.locator(phantom.homePage.selectors.settings.lockWallet)).not.toBeVisible()
+  await expect(petraPage.locator(petra.homePage.selectors.settings.lockWallet)).not.toBeVisible()
 
-  await phantom.openSettings()
+  await petra.openSettings()
 
-  await expect(petraPage.locator(phantom.homePage.selectors.settings.lockWallet)).toBeVisible()
+  await expect(petraPage.locator(petra.homePage.selectors.settings.lockWallet)).toBeVisible()
 
-  await phantom.goBackToHomePage()
+  await petra.goBackToHomePage()
 
-  await expect(petraPage.locator(phantom.homePage.selectors.settings.lockWallet)).not.toBeVisible()
+  await expect(petraPage.locator(petra.homePage.selectors.settings.lockWallet)).not.toBeVisible()
 })

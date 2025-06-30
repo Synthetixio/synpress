@@ -11,15 +11,9 @@ const renameAccountMenu = {
 }
 
 const importAccountMenu = {
-  networkOpenMenu: '[aria-haspopup="listbox"][role="button"]:has-text("Solana")',
-  ethereumNetwork: '[data-label="Ethereum"]',
-  baseNetwork: '[data-label="Base"]',
-  polygonNetwork: '[data-label="Polygon"]',
-  aptosNetwork: '[data-label="Aptos"]',
-  bitcoinNetwork: '[data-label="Bitcoin"]',
   nameInput: 'input[name="name"]',
-  privateKeyInput: 'textarea[placeholder="Private key"]',
-  importButton: 'button:has-text("Import")',
+  privateKeyInput: 'input[name="privateKey"]',
+  importButton: 'button:has-text("Submit")',
   error: 'textarea[placeholder="Private key"] + div'
 }
 
@@ -46,7 +40,6 @@ const accountMenu = {
   activeAddress: 'p.css-89mcmc',
   activeAccountName: 'div.css-1eg4ank > div.css-dd0s7k:has(> *:nth-child(3))',
   manageAccountsButton: createDataTestSelector('sidebar_menu-button-manage_accounts'),
-  settings: createDataTestSelector('sidebar_menu-button-settings'),
   addAccountMenu,
   renameAccountMenu
 }
@@ -55,15 +48,8 @@ const manageAccountButton = (accountName: string) =>
   `[role="button"][data-testid="manage-accounts-sortable-${accountName}"]`
 
 export default {
-  solanaWalletAddress: createDataTestSelector('account-header-chain-solana:101'),
-  ethereumWalletAddress: createDataTestSelector('account-header-chain-eip155:1'),
-  baseWalletAddress: createDataTestSelector('account-header-chain-eip155:8453'),
-  polygonWalletAddress: createDataTestSelector('account-header-chain-eip155:137'),
-  bitcoinWalletAddress: createDataTestSelector('account-header-chain-bip122:000000000019d6689c085ae165831e93'),
-  copyAccountAddressButton: createDataTestSelector('address-copy-button-text'),
-  aptosWalletAddress: createDataTestSelector('account-header-chain-aptos:1'),
-  currentNetwork: `${createDataTestSelector('network-display')} span:nth-of-type(1)`,
-  headerBackButton: `section:has-text("Developer Settings") ${createDataTestSelector('header--back')}`,
+  headerBackButton: `button[aria-label="back"]`,
+  toasts: 'div[role="status"]',
   settings,
   accountMenu,
   editAccountMenu,

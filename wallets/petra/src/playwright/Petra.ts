@@ -105,8 +105,8 @@ export class Petra extends PetraAbstract {
    * @param privateKey - The private key to import.
    * @param privateKey - Name given to the new wallet/account.
    */
-  async importWalletFromPrivateKey(privateKey: string, walletName?: string): Promise<void> {
-    await this.homePage.importWalletFromPrivateKey(privateKey, walletName)
+  async importWalletFromPrivateKey(privateKey: string): Promise<void> {
+    await this.homePage.importWalletFromPrivateKey(privateKey)
   }
 
   /**

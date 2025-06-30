@@ -2,8 +2,7 @@ import type { Page } from '@playwright/test'
 import { homePage, notificationPage } from '../../../../selectors'
 
 async function openSettings(page: Page) {
-  await page.locator(homePage.accountMenu.accountButton).click()
-  await page.locator(homePage.accountMenu.settings).click()
+  await page.locator(homePage.settings.settingsButton).click()
 }
 
 async function resetApp(page: Page) {
