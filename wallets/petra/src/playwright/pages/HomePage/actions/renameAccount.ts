@@ -13,5 +13,5 @@ export async function renameAccount(page: Page, newAccountName: string) {
   await page.locator('button[type="submit"]:has-text("Save")').click()
 
   // Verify that account has been renamed
-  await expect(page.locator(Selectors.accountMenu.accountButton)).toContainText(parsedNewAccountName)
+  await expect(page.locator(Selectors.accountMenu.accountName)).toContainText(parsedNewAccountName)
 }

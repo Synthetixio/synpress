@@ -7,7 +7,7 @@ export async function addNewAccount(page: Page, accountName: string) {
     throw new Error('[AddNewAccount] Account name cannot be an empty string')
   }
 
-  await page.locator(Selectors.accountMenu.accountButton).click()
+  await page.locator(Selectors.accountMenu.accountName).click()
 
   await page.locator(Selectors.accountMenu.addAccountMenu.addAccountButton).click()
 

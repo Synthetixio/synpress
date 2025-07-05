@@ -9,8 +9,8 @@ export async function importWalletFromPrivateKey(
   privateKey: string,
   walletName?: string
 ) {
-  await expect(page.locator(Selectors.accountMenu.accountButton)).toBeVisible()
-  await page.locator(Selectors.accountMenu.accountButton).click()
+  await expect(page.locator(Selectors.accountMenu.accountName)).toBeVisible()
+  await page.locator(Selectors.accountMenu.accountName).click()
 
   await expect(page.locator(Selectors.accountMenu.addAccountMenu.addAccountButton)).toBeVisible()
   await page.locator(Selectors.accountMenu.addAccountMenu.addAccountButton).click()
@@ -20,10 +20,7 @@ export async function importWalletFromPrivateKey(
   // SELECT NETWORK
   if (network !== 'solana') {
     await page.locator(Selectors.accountMenu.addAccountMenu.importAccountMenu.networkOpenMenu).click()
-    await page
-      .locator(Selectors.accountMenu.addAccountMenu.importAccountMenu[`${network}Network`])
-      .first()
-      .click()
+    await page.locator(Selectors.accountMenu.addAccountMenu.importAccountMenu[`${network}Network`]).first().click()
   }
 
   await page

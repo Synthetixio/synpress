@@ -8,6 +8,7 @@ export async function importWallet(page: Page, seedPhrase: string, password: str
   await page.locator(Selectors.GetStartedPageSelectors.importRecoveryPhraseButton).click()
 
   await confirmSecretRecoveryPhrase(page, seedPhrase)
+  await page.locator(Selectors.SecretRecoveryPhrasePageSelectors.continueButton).click()
 
   await createPassword(page, password)
 

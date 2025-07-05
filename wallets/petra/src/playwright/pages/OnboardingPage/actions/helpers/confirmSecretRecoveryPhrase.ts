@@ -14,13 +14,4 @@ export async function confirmSecretRecoveryPhrase(page: Page, seedPhrase: string
     const alphabet = generateAlphabets()[index] ?? ''
     await page.locator(StepSelectors.secretRecoveryPhraseWord(alphabet)).fill(word)
   }
-
-  await page.locator(Selectors.SecretRecoveryPhrasePageSelectors.continueButton).click()
-
-  if (await page.locator(StepSelectors.error).isVisible({ timeout: 2_000 })) {
-    const errorText = await page.locator(StepSelectors.error).textContent({
-      timeout: 1000
-    })
-    throw new Error(`[ConfirmSecretRecoveryPhrase] Invalid seed phrase. Error from Phantom: ${errorText}`)
-  }
 }

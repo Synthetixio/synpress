@@ -1,21 +1,14 @@
-import { createDataTestSelector } from '../../createDataTestSelector'
-
-const devSettings = {
-  toggleTestnetMode: createDataTestSelector('toggleTestNetwork'),
-  toggleEnableCopyTransaction: createDataTestSelector('solana-copy-transaction')
-}
-
 const securityAndPrivacy = {
-  resetApp: 'button:has-text("Reset App")'
+  resetApp: 'a[href="/settings/security_privacy"]'
 }
 
 export default {
-  securityAndPrivacyButton: createDataTestSelector('settings-item-security-and-privacy'),
   lockWallet: 'a:has-text("Lock wallet")',
-  unlocWallet: createDataTestSelector('data-testid="unlock-form-submit-button"'),
   developerSettingsButton: 'button:has-text("Developer Settings")',
-  closeSettingsButton: createDataTestSelector('settings-menu-close-button'),
   settingsButton: '[aria-label="Account Settings"]',
-  devSettings,
+  networkSettings: 'a[href="/settings/network"]',
+  testnetButton: 'label p.css-avjjns:has-text("Testnet")',
+  mainnetButton: 'label p.css-avjjns:has-text("Mainnet")',
+  devnetButton: 'label p.css-avjjns:has-text("Devnet")',
   securityAndPrivacy
 }

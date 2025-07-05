@@ -1,5 +1,5 @@
-import type { GasSettings } from './GasSettings'
-import type { Networks } from './Networks'
+import type { Page } from '@playwright/test'
+import type { NetworkMode } from './Networks'
 
 export abstract class PetraAbstract {
   /**
@@ -38,10 +38,15 @@ export abstract class PetraAbstract {
 
   /**
    * Imports a wallet using the given private key.
-   *
    * @param privateKey - The private key to import.
    */
-  abstract importWalletFromPrivateKey(network: Networks, privateKey: string, walletName?: string): void
+  abstract importWalletFromPrivateKey(privateKey: string): void
+
+  /**
+   * Imports a wallet using the given Mnemonic Phrase.
+   * @param seedPhrase - The private key to import.
+   */
+  abstract importWalletFromMnemonicPhrase(seedPhrase: string): Promise<void>
 
   /**
    * Switches to the account with the given name.
@@ -53,12 +58,19 @@ export abstract class PetraAbstract {
   /**
    * Retrieves the current account address.
    */
-  abstract getAccountAddress(network: Networks): void
+  abstract getAccountAddress(): void
 
   /**
    * Connects to the dapp using the currently selected account.
    */
   abstract connectToDapp(account?: string): void
+
+  /**
+   * Get's the prompt popup. This is useful for situations where simulated transactions fail
+   * and we need to assert that the "Confirm" button is not disabled due to an error during the
+   * simulation of the transaction.
+   */
+  abstract getPromptPage(): Promise<Page>
 
   /**
    * Locks Phantom.
@@ -76,11 +88,6 @@ export abstract class PetraAbstract {
   abstract confirmSignature(): void
 
   /**
-   * Confirms a signature request with potential risk.
-   */
-  abstract confirmSignatureWithRisk(): void
-
-  /**
    * Rejects a signature request. This function supports all types of commonly used signatures.
    */
   abstract rejectSignature(): void
@@ -91,37 +98,12 @@ export abstract class PetraAbstract {
    * @param options - The transaction options.
    * @param options.gasSetting - The gas setting to use for the transaction.
    */
-  abstract confirmTransaction(options?: { gasSetting?: GasSettings }): void
+  abstract confirmTransaction(): void
 
   /**
    * Rejects a transaction request.
    */
   abstract rejectTransaction(): void
-
-  /**
-   * Approves a permission request to spend tokens.
-   *
-   * ::: warning
-   * For NFT approvals, use `confirmTransaction` method.
-   * :::
-   *
-   * @param options - The permission options.
-   * @param options.spendLimit - The spend limit to use for the permission.
-   * @param options.gasSetting - The gas setting to use for the approval transaction.
-   */
-  abstract approveTokenPermission(options?: {
-    spendLimit?: 'max' | number
-    gasSetting?: GasSettings
-  }): void
-
-  /**
-   * Rejects a permission request to spend tokens.
-   *
-   * ::: warning
-   * For NFT approvals, use `confirmTransaction` method.
-   * :::
-   */
-  abstract rejectTokenPermission(): void
 
   /**
    * Navigates to the home page of Phantom tab.
@@ -145,14 +127,5 @@ export abstract class PetraAbstract {
    * This function requires the correct menu to be already opened.
    * :::
    */
-  abstract toggleTestnetMode(): void
-
-  /**
-   * Resets the account.
-   *
-   * ::: warning
-   * This function requires the correct menu to be already opened.
-   * :::
-   */
-  abstract resetApp(): void
+  abstract toggleNetworkMode(networMode: NetworkMode): void
 }

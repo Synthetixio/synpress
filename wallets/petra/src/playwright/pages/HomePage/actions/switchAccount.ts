@@ -3,7 +3,7 @@ import Selectors from '../../../../selectors/pages/HomePage'
 import { allTextContents } from '../../../utils/allTextContents'
 
 export async function switchAccount(page: Page, accountName: string) {
-  await page.locator(Selectors.accountMenu.accountButton).click()
+  await page.locator(Selectors.accountMenu.accountName).click()
 
   let accountNamesLocators: Locator[] = []
   let accountNames: string[] = []

@@ -9,7 +9,8 @@ export const connectPetraToTestDapp = async (page: Page, petra: Petra) => {
     await page.locator('#connectButton').click({ delay: 2_000 })
 
     await petra.connectToDapp()
+    const userAddress = await petra.getAccountAddress()
 
-    await expect(page.locator('#accounts')).toHaveText('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266')
+    expect(userAddress).toBe('0xbfef909638ef90885158fdab9f56e216fd811fe25b32ead0bc2a272d66522bb0')
   }).toPass()
 }

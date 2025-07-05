@@ -2,6 +2,7 @@ import { testWithSynpress } from '@synthetixio/synpress-core'
 import { Petra, petraFixtures } from '../../../src/playwright'
 
 import basicSetup from '../wallet-setup/basic.setup'
+import { petraPrivateKeyOne, petraPrivateKeyTwo } from '../../constants'
 
 const test = testWithSynpress(petraFixtures(basicSetup))
 
@@ -11,27 +12,21 @@ test('should switch account', async ({ context, petraPage }) => {
   test.setTimeout(90_000)
 
   const petra = new Petra(context, petraPage, basicSetup.walletPassword)
+  const accountButton = petraPage.locator(petra.homePage.selectors.accountMenu.accountName)
 
-  await petra.importWalletFromPrivateKey(
-    'aptos',
-    'ea084c575a01e2bbefcca3db101eaeab1d8af15554640a510c73692db24d0a6a',
-    'Imp1'
-  )
-  await expect(petraPage.getByTestId('home-header-account-name')).toContainText('Imp1')
+  await petra.importWalletFromPrivateKey(petraPrivateKeyOne)
+  await petra.renameAccount('Tobelabs 1')
+  await expect(accountButton).toContainText('Tobelabs 1')
 
-  await petra.importWalletFromPrivateKey(
-    'aptos',
-    '7dd4aab86170c0edbdcf97600eff0ae319fdc94149c5e8c33d5439f8417a40bf',
-    'Imp2'
-  )
-  await expect(petraPage.getByTestId('home-header-account-name')).toContainText('Imp2')
+  await petra.importWalletFromPrivateKey(petraPrivateKeyTwo)
+  await petra.renameAccount('Tobelabs 2')
+  await expect(accountButton).toContainText('Tobelabs 2')
 
-  await petra.switchAccount('Imp1')
+  await petra.switchAccount('Tobelabs 1')
+  await expect(accountButton).toContainText('Tobelabs 1')
 
-  await expect(petraPage.getByTestId('home-header-account-name')).toContainText('Imp1')
-
-  await petraPage.locator(petra.homePage.selectors.accountMenu.accountName).hover()
-  await expect(petraPage.locator(petra.homePage.selectors.ethereumWalletAddress)).toContainText('0xa2ce...6801')
+  const accountAddress = await petra.getAccountAddress()
+  expect(accountAddress).toEqual('0x4e5fc4bf420c2525f31c89b779fdd792e204362ec77213c46d2ff82ee0b16e87')
 })
 
 test('should throw an error if there is no account with target name', async ({ context, petraPage }) => {

@@ -47,7 +47,7 @@ describe('prepareExtensionPhantom', () => {
     expect(ensureCacheDirExistsSpy).toReturnWith(MOCK_CACHE_DIR_PATH)
   })
 
-  it('downloads Phantom extension archive', async () => {
+  it('downloads Petra extension archive', async () => {
     const downloadFileSpy = vi.spyOn(core, 'downloadFile')
 
     await prepareExtensionPetra()
@@ -56,7 +56,7 @@ describe('prepareExtensionPhantom', () => {
     expect(downloadFileSpy).toHaveBeenCalledWith({
       url: PETRA_EXTENSION_DOWNLOAD_URL,
       outputDir: MOCK_CACHE_DIR_PATH,
-      fileName: 'phantom-chrome-latest.crx'
+      fileName: 'petra-chrome-latest.crx'
     })
     expect(downloadFileSpy).toReturnWith({
       filePath: MOCK_EXTENSION_ARCHIVE_PATH

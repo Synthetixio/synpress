@@ -1,40 +1,42 @@
 import { connectPetraToTestDapp } from '../commonSteps/connectPetraToTestDapp'
-import { solanaSandboxSetup } from '../commonSteps/solanaSandboxSetup'
 import synpress from '../synpress'
 
 const test = synpress
 
 const { expect } = test
 
-test('should Reject Transaction ', async ({ page, petra }) => {
+test('should Reject signing message Transaction', async ({ page, petra }) => {
   test.setTimeout(90_000)
 
-  await solanaSandboxSetup(page, petra)
-
-  await page.getByRole('button', { name: 'Sign Transaction' }).click()
-  await petra.rejectTransaction()
-
-  await expect(page.getByText('User rejected the request.')).toBeVisible()
-})
-
-test('should Reject All Transactions ', async ({ page, petra }) => {
-  test.setTimeout(90_000)
-
-  await solanaSandboxSetup(page, petra)
-
-  await page.getByRole('button', { name: 'Sign All Transaction' }).click()
-  await petra.rejectTransaction()
-
-  await expect(page.getByText('User rejected the request.')).toBeVisible()
-})
-
-test('should reject contract deployment', async ({ page, petra }) => {
   await connectPetraToTestDapp(page, petra)
+  await page.getByRole('button', { name: /^sign message$/i }).click()
 
-  await expect(page.locator('#tokenAddresses')).toBeEmpty()
-  await page.locator('#createToken').click()
+  await Promise.all([
+    expect(page.getByRole('alert').locator('> section')).toContainText('User has rejected the request'),
+    petra.rejectSignature()
+  ])
+})
 
-  await petra.rejectTransaction()
+test('should Reject All Transactions', async ({ page, petra }) => {
+  test.setTimeout(90_000)
 
-  await expect(page.locator('#tokenAddresses')).toContainText('Creation Failed')
+  await connectPetraToTestDapp(page, petra)
+  await page.getByRole('button', { name: /^sign message and verify$/i }).click()
+
+  await Promise.all([
+    expect(page.getByRole('alert').locator('> section')).toContainText('Failed to sign a message'),
+    petra.rejectSignature()
+  ])
+})
+
+test('should reject sign transaction', async ({ page, petra }) => {
+  await connectPetraToTestDapp(page, petra)
+  await petra.toggleNetworkMode('testnet')
+
+  await page.getByRole('button', { name: /^sign transaction$/i }).click()
+
+  await Promise.all([
+    expect(page.getByRole('alert').locator('> section')).toContainText('User has rejected the request'),
+    petra.rejectSignature()
+  ])
 })

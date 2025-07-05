@@ -7,9 +7,9 @@ const test = testWithSynpress(petraFixtures(basicSetup))
 const { expect } = test
 
 test('should open settings', async ({ context, petraPage }) => {
-  const phantom = new Petra(context, petraPage, basicSetup.walletPassword)
+  const petra = new Petra(context, petraPage, basicSetup.walletPassword)
 
-  await phantom.openSettings()
+  await petra.openSettings()
 
-  await expect(petraPage.locator(phantom.homePage.selectors.settings.lockWallet)).toBeVisible()
+  await expect(petraPage.locator(petra.homePage.selectors.settings.lockWallet)).toBeVisible()
 })

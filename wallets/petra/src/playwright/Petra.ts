@@ -1,7 +1,7 @@
 import type { BrowserContext, Page } from '@playwright/test'
-import type { GasSettings } from '../type/GasSettings'
 import { PetraAbstract } from '../type/PetraAbstract'
 import { HomePage, PromptPage, OnboardingPage, UnlockPage } from './pages'
+import type { NetworkMode } from '../type/Networks'
 
 const NO_EXTENSION_ID_ERROR = new Error('Petra extensionId is not set')
 
@@ -100,13 +100,18 @@ export class Petra extends PetraAbstract {
 
   /**
    * Imports a wallet using the given private key.
-   *
-   * @param network - Network that the wallet belongs to.
    * @param privateKey - The private key to import.
-   * @param privateKey - Name given to the new wallet/account.
    */
   async importWalletFromPrivateKey(privateKey: string): Promise<void> {
     await this.homePage.importWalletFromPrivateKey(privateKey)
+  }
+
+  /**
+   * Imports a wallet using the given Mnemonic Phrase.
+   * @param seedPhrase - The private key to import.
+   */
+  async importWalletFromMnemonicPhrase(seedPhrase: string): Promise<void> {
+    await this.homePage.importWalletFromMnemonicPhrase(seedPhrase)
   }
 
   /**
@@ -143,6 +148,19 @@ export class Petra extends PetraAbstract {
   }
 
   /**
+   * Get's the prompt popup. This is useful for situations where simulated transactions fail
+   * and we need to assert that the "Confirm" button is not disabled due to an error during the
+   * simulation of the transaction.
+   */
+  async getPromptPage(): Promise<Page> {
+    if (!this.extensionId) {
+      throw NO_EXTENSION_ID_ERROR
+    }
+
+    return await this.promptPage.getPromptPage(this.extensionId)
+  }
+
+  /**
    * Locks the Phantom wallet.
    */
   async lock(): Promise<void> {
@@ -170,19 +188,6 @@ export class Petra extends PetraAbstract {
   }
 
   /**
-   * Confirms a signature request with risk.
-   *
-   * @throws {Error} If extensionId is not set.
-   */
-  async confirmSignatureWithRisk(): Promise<void> {
-    if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR
-    }
-
-    await this.promptPage.signMessageWithRisk(this.extensionId)
-  }
-
-  /**
    * Rejects a signature request.
    *
    * @throws {Error} If extensionId is not set.
@@ -201,12 +206,12 @@ export class Petra extends PetraAbstract {
    * @param options - Optional gas settings for the transaction.
    * @throws {Error} If extensionId is not set.
    */
-  async confirmTransaction(options?: { gasSetting?: GasSettings }): Promise<void> {
+  async confirmTransaction(): Promise<void> {
     if (!this.extensionId) {
       throw NO_EXTENSION_ID_ERROR
     }
 
-    await this.promptPage.confirmTransaction(this.extensionId, options)
+    await this.promptPage.confirmTransaction(this.extensionId)
   }
 
   /**
@@ -220,33 +225,6 @@ export class Petra extends PetraAbstract {
     }
 
     await this.promptPage.rejectTransaction(this.extensionId)
-  }
-
-  /**
-   * Approves a token permission request.
-   *
-   * @param options - Optional settings for the approval.
-   * @throws {Error} If extensionId is not set.
-   */
-  async approveTokenPermission(options?: { spendLimit?: 'max' | number; gasSetting?: GasSettings }): Promise<void> {
-    if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR
-    }
-
-    await this.promptPage.approveTokenPermission(this.extensionId, options)
-  }
-
-  /**
-   * Rejects a token permission request.
-   *
-   * @throws {Error} If extensionId is not set.
-   */
-  async rejectTokenPermission(): Promise<void> {
-    if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR
-    }
-
-    await this.promptPage.rejectTokenPermission(this.extensionId)
   }
 
   /**
@@ -277,28 +255,7 @@ export class Petra extends PetraAbstract {
   /**
    * Toggles the display of test networks.
    */
-  async toggleTestnetMode(): Promise<void> {
-    await this.homePage.toggleTestnetMode()
-  }
-
-  /**
-   * Resets the account.
-   */
-  async resetApp(): Promise<void> {
-    await this.homePage.resetApp()
-  }
-
-  /**
-   * Connects Phantom to a dapp.
-   *
-   * @param accounts - Optional array of account addresses to connect.
-   * @throws {Error} If extensionId is not set.
-   */
-  async closeUnsupportedNetworkWarning(): Promise<void> {
-    if (!this.extensionId) {
-      throw NO_EXTENSION_ID_ERROR
-    }
-
-    await this.promptPage.closeUnsupportedNetworkWarning(this.extensionId)
+  async toggleNetworkMode(networkMode: NetworkMode): Promise<void> {
+    await this.homePage.toggleNetworkMode(networkMode)
   }
 }

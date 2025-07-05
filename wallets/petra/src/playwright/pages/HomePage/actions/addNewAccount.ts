@@ -2,7 +2,7 @@ import type { Page } from '@playwright/test'
 import Selectors from '../../../../selectors/pages/HomePage'
 
 export async function addNewAccount(page: Page) {
-  await page.locator(Selectors.accountMenu.accountButton).click()
+  await page.locator(Selectors.accountMenu.accountName).click()
 
   await page.locator(Selectors.accountMenu.addAccountMenu.addAccountButton).click()
 

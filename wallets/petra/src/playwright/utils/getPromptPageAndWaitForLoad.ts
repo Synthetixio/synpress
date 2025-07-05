@@ -1,7 +1,7 @@
 import type { BrowserContext, Page } from '@playwright/test'
 import { waitUntilStablePromptPage } from './waitFor'
 
-export async function gePromptPageAndWaitForLoad(context: BrowserContext, extensionId: string) {
+export async function getPromptPageAndWaitForLoad(context: BrowserContext, extensionId: string) {
   const promptPageUrl = `chrome-extension://${extensionId}/prompt.html`
 
   const isPromptPage = (page: Page) => page.url().includes(promptPageUrl)

@@ -3,7 +3,7 @@ import Selectors from '../../../../selectors/pages/NotificationPage'
 import { switchAccount } from '../../HomePage/actions'
 
 async function confirmConnection(notificationPage: Page) {
-  await notificationPage.locator(Selectors.ActionFooter.connectActionButton).click()
+  await notificationPage.locator(Selectors.ActionFooter.confirmActionButton).click()
 }
 
 // By default, the last account will be selected. If you want to select a specific account, pass `account` parameter.

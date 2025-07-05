@@ -7,7 +7,5 @@ export default async function getAccountAddress(page: Page): Promise<string> {
 
   const accountAddress = await handle.jsonValue()
 
-  console.log('Account address ----> ', accountAddress)
-
   return accountAddress
 }

@@ -8,7 +8,7 @@ export async function renameAccount(page: Page, currentAccountName: string, newA
     throw new Error('[RenameAccount] Account name cannot be an empty string')
   }
 
-  await page.locator(Selectors.accountMenu.accountButton).click()
+  await page.locator(Selectors.accountMenu.accountName).click()
 
   let accountNames: string[] = []
 

@@ -1,52 +1,42 @@
 import { connectPetraToTestDapp } from '../commonSteps/connectPetraToTestDapp'
-import { solanaSandboxSetup } from '../commonSteps/solanaSandboxSetup'
 import synpress from '../synpress'
 
 const test = synpress
 
 const { expect } = test
 
-test('should Sign Transaction', async ({ page, petra }) => {
+test('should Sign Message', async ({ page, petra }) => {
   test.setTimeout(90_000)
 
-  await solanaSandboxSetup(page, petra)
-
-  await page.getByRole('button', { name: 'Sign Transaction' }).click()
-  await petra.confirmTransaction()
-
-  await expect(page.getByText('> success')).toBeVisible()
-})
-
-test('should Sign All Transactions', async ({ page, petra }) => {
-  test.setTimeout(90_000)
-
-  await solanaSandboxSetup(page, petra)
-
-  await page.getByRole('button', { name: 'Sign All Transaction' }).click()
-  await petra.confirmTransaction()
-
-  await expect(page.getByText('> success')).toBeVisible()
-})
-
-test('should confirm contract deployment with default gas setting', async ({ page, petra }) => {
   await connectPetraToTestDapp(page, petra)
 
-  await expect(page.locator('#tokenAddresses')).toBeEmpty()
-  await page.locator('#createToken').click()
+  await page.getByRole('button', { name: /^sign message$/i }).click()
 
+  await petra.confirmSignature()
+
+  await expect(page.locator('p[aria-label="Signed result"]')).toContainText(
+    'Hello world from synpress. This is for test only.'
+  )
+})
+
+test('should Sign and verify message', async ({ page, petra }) => {
+  test.setTimeout(90_000)
+
+  await connectPetraToTestDapp(page, petra)
+  await page.getByRole('button', { name: /^sign message and verify$/i }).click()
+  await petra.confirmSignature()
+
+  await expect(page.locator('p[aria-label="Verification result"]')).toContainText('Message is verified')
+})
+
+test('should Sign and submit transaction', async ({ page, petra }) => {
+  test.setTimeout(90_000)
+
+  await connectPetraToTestDapp(page, petra)
+  await petra.toggleNetworkMode('testnet')
+
+  await page.getByRole('button', { name: /^sign transaction$/i }).click()
   await petra.confirmTransaction()
 
-  await expect(page.locator('#tokenAddresses')).toContainText('Creation Failed')
-})
-;(['Slow', 'Fast'] as const).forEach((gasSetting) => {
-  test(`should confirm contract deployment with ${gasSetting} gas setting`, async ({ page, petra }) => {
-    await connectPetraToTestDapp(page, petra)
-
-    await expect(page.locator('#tokenAddresses')).toBeEmpty()
-    await page.locator('#createToken').click()
-
-    await petra.confirmTransaction({ gasSetting })
-
-    await expect(page.locator('#tokenAddresses')).toContainText('Creation Failed')
-  })
+  await expect(page.locator('p[aria-label="Transaction successful"]')).toContainText('Transaction successful')
 })

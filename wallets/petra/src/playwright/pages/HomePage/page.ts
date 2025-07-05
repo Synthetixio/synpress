@@ -8,8 +8,10 @@ import {
   renameAccount,
   settings,
   switchAccount,
-  toggleTestnetMode
+  toggleNetworkMode
 } from './actions'
+import type { NetworkMode } from '../../../type/Networks'
+import { importWalletFromMnemonicPhrase } from './actions/importWalletFromMnemonic'
 
 export class HomePage {
   static readonly selectors = Selectors
@@ -49,6 +51,10 @@ export class HomePage {
     await importWalletFromPrivateKey(this.page, privateKey)
   }
 
+  async importWalletFromMnemonicPhrase(seedPhrase: string) {
+    await importWalletFromMnemonicPhrase(this.page, seedPhrase)
+  }
+
   async switchAccount(accountName: string) {
     await switchAccount(this.page, accountName)
   }
@@ -57,11 +63,7 @@ export class HomePage {
     await settings.openSettings(this.page)
   }
 
-  async toggleTestnetMode() {
-    await toggleTestnetMode(this.page)
-  }
-
-  async resetApp() {
-    await settings.resetApp(this.page)
+  async toggleNetworkMode(networkMode: NetworkMode) {
+    await toggleNetworkMode(this.page, networkMode)
   }
 }
