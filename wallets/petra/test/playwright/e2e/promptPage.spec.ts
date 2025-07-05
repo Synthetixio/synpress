@@ -19,7 +19,7 @@ test('should check that the confirm button is not disabled', async ({ page, petr
   await expect(approveButton).not.toBeDisabled()
 })
 
-test('should check that the confirm button is  disabled', async ({ page, petra }) => {
+test('should check that the confirm button is disabled', async ({ page, petra }) => {
   test.setTimeout(90_000)
 
   await connectPetraToTestDapp(page, petra)
