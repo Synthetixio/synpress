@@ -1,6 +1,6 @@
 import path from 'node:path'
 import fs from 'fs-extra'
-import { downloadFile, ensureCacheDirExists, unzipArchivePhantom } from '.'
+import { downloadFile, ensureCacheDirExists, unzipCrxArchive } from '.'
 
 export const PETRA_EXTENSION_ID = 'ejjladinnckdgjemekebdpeokbikhfci'
 export const PETRA_EXTENSION_DOWNLOAD_URL = `https://clients2.google.com/service/update2/crx?response=redirect&prodversion=9999.0&acceptformat=crx2,crx3&x=id%3D${encodeURIComponent(
@@ -25,7 +25,7 @@ export async function prepareExtensionPetra(forceCache = true) {
     fileName: 'petra-chrome-latest.crx'
   })
 
-  const unzipResult = await unzipArchivePhantom({
+  const unzipResult = await unzipCrxArchive({
     archivePath: downloadResult.filePath
   })
 

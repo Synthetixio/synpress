@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { downloadFile, ensureCacheDirExists, unzipArchivePhantom } from '@synthetixio/synpress-cache'
+import { downloadFile, ensureCacheDirExists, unzipCrxArchive } from '@synthetixio/synpress-cache'
 import fs from 'fs-extra'
 
 export const PHANTOM_EXTENSION_DOWNLOAD_URL = 'https://crx-backup.phantom.dev/latest.crx'
@@ -22,7 +22,7 @@ export async function prepareExtensionPhantom(forceCache = true) {
     fileName: 'phantom-chrome-latest.crx'
   })
 
-  const unzipResult = await unzipArchivePhantom({
+  const unzipResult = await unzipCrxArchive({
     archivePath: downloadResult.filePath
   })
 
