@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
 import Selectors from '../../../../selectors/pages/HomePage'
 import { allTextContents } from '../../../utils/allTextContents'
-import { closeRecoveryPhraseReminder } from './popups'
+import { closeRecoveryPhraseReminder, closeNewNetworkInfoPopover, closeWhatsNewPopover } from './popups'
 
 async function openTestnetSection(page: Page) {
   const toggleButtonLocator = page.locator(Selectors.networkDropdown.showTestNetworksToggle)
@@ -33,6 +33,10 @@ export async function switchNetwork(page: Page, networkName: string, includeTest
   }
 
   await seekedNetworkLocator.click()
+
+  // Handle network switch popovers (close What's new first as it overlays)
+  await closeWhatsNewPopover(page)
+  await closeNewNetworkInfoPopover(page)
 
   // TODO: This is not really needed if we do `metamask.toggleDismissSecretRecoveryPhraseReminder()` by default. Figure this out!
   await closeRecoveryPhraseReminder(page)
