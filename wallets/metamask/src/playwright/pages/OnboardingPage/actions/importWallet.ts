@@ -22,10 +22,10 @@ export async function importWallet(page: Page, seedPhrase: string, password: str
   await page.locator(Selectors.PinExtensionPageSelectors.nextButton).click()
   await page.locator(Selectors.PinExtensionPageSelectors.confirmButton).click()
 
-  // Close "What's new" popover first as it can overlay other popovers
-  await closeWhatsNewPopover(page)
-  await closePopover(page)
+  // Close popovers in order from top to bottom (z-index order)
   await closeNewNetworkInfoPopover(page)
+  await closePopover(page)
+  await closeWhatsNewPopover(page)
 
   await verifyImportedWallet(page)
 }
