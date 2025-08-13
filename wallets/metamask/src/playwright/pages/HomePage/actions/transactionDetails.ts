@@ -16,11 +16,11 @@ const openTransactionDetails = async (page: Page, txIndex: number) => {
   await page.locator(Selectors.activityTab.completedTransactions).nth(txIndex).click()
 
   // TODO: Extract timeout.
-  await waitFor(() => page.locator(Selectors.popover.closeButton).isVisible(), 3_000)
+  await waitFor(() => page.locator(Selectors.popover.closeButton).first().isVisible(), 3_000)
 }
 
 const closeTransactionDetails = async (page: Page) => {
-  await page.locator(Selectors.popover.closeButton).click()
+  await page.locator(Selectors.popover.closeButton).first().click()
 }
 
 export const transactionDetails = {

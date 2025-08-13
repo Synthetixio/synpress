@@ -4,7 +4,7 @@ import type { Page } from '@playwright/test'
 import HomePageSelectors from '../../../../selectors/pages/HomePage'
 import Selectors from '../../../../selectors/pages/OnboardingPage'
 
-import { closePopover } from '../../HomePage/actions'
+import { closePopover, closeNewNetworkInfoPopover, closeWhatsNewPopover } from '../../HomePage/actions'
 import { confirmSecretRecoveryPhrase, createPassword } from './helpers'
 
 export async function importWallet(page: Page, seedPhrase: string, password: string) {
@@ -22,7 +22,10 @@ export async function importWallet(page: Page, seedPhrase: string, password: str
   await page.locator(Selectors.PinExtensionPageSelectors.nextButton).click()
   await page.locator(Selectors.PinExtensionPageSelectors.confirmButton).click()
 
+  // Close popovers in order from top to bottom (z-index order)
+  await closeNewNetworkInfoPopover(page)
   await closePopover(page)
+  await closeWhatsNewPopover(page)
 
   await verifyImportedWallet(page)
 }
