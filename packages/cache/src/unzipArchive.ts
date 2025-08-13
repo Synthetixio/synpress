@@ -75,7 +75,7 @@ export async function unzipArchive(options: UnzipArchiveOptions) {
   })
 }
 
-export async function unzipArchivePhantom(options: UnzipArchiveOptions) {
+export async function unzipCrxArchive(options: UnzipArchiveOptions) {
   const { archivePath, overwrite } = options
 
   const archiveFileExtension = archivePath.split('.').slice(-1)

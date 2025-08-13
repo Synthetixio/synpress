@@ -7,6 +7,7 @@ import { rimraf } from 'rimraf'
 import { WALLET_SETUP_DIR_NAME } from '../constants'
 import { createCache } from '../createCache'
 import { prepareExtension } from '../prepareExtension'
+import { prepareExtensionPetra } from '../prepareExtensionPetra'
 import { prepareExtensionPhantom } from '../prepareExtensionPhantom'
 import { compileWalletSetupFunctions } from './compileWalletSetupFunctions'
 import { footer } from './footer'
@@ -16,6 +17,7 @@ interface CliFlags {
   force: boolean
   debug: boolean
   phantom: boolean
+  petra: boolean
 }
 
 // Helper function to check if running in WSL
@@ -44,6 +46,7 @@ export const cliEntrypoint = async () => {
     .option('-f, --force', 'Force the creation of cache even if it already exists', false)
     .option('-d, --debug', 'If this flag is present, the compilation files are not going to be deleted', false)
     .option('-p, --phantom', 'If this flag is present, Phantom extension will be installed instead of Metamask', false)
+    .option('-ptr, --petra', 'If this flag is present, Petra extension will be installed instead of Metamask', false)
     .helpOption(undefined, 'Display help for command')
     .addHelpText('afterAll', `\n${footer}\n`)
     .parse(process.argv)
@@ -94,6 +97,8 @@ export const cliEntrypoint = async () => {
   // TODO: We should be using `prepareExtension` functions from the wallet itself!
   if (flags.phantom) {
     await createCache(compiledWalletSetupDirPath, setupFunctionHashes, prepareExtensionPhantom, flags.force)
+  } else if (flags.petra) {
+    await createCache(compiledWalletSetupDirPath, setupFunctionHashes, prepareExtensionPetra, flags.force)
   } else {
     await createCache(compiledWalletSetupDirPath, setupFunctionHashes, prepareExtension, flags.force)
   }
