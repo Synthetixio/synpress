@@ -2,7 +2,7 @@ import type { Page } from '@playwright/test'
 import { errors as playwrightErrors } from '@playwright/test'
 import { MetaMask } from '..'
 import { CrashPage, HomePage } from '../pages'
-import { closePopover, closeRecoveryPhraseReminder } from '../pages/HomePage/actions'
+import { closePopover, closeRecoveryPhraseReminder, closeNewNetworkInfoPopover } from '../pages/HomePage/actions'
 import { waitForSpinnerToVanish } from '../utils/waitForSpinnerToVanish'
 
 /**
@@ -20,6 +20,7 @@ export async function unlockForFixture(page: Page, password: string) {
   await retryIfMetaMaskCrashAfterUnlock(page)
 
   await closePopover(page)
+  await closeNewNetworkInfoPopover(page)
   await closeRecoveryPhraseReminder(page)
 }
 
@@ -44,7 +45,7 @@ async function retryIfMetaMaskCrashAfterUnlock(page: Page) {
   const homePageLogoLocator = page.locator(HomePage.selectors.logo)
 
   const isHomePageLogoVisible = await homePageLogoLocator.isVisible()
-  const isPopoverVisible = await page.locator(HomePage.selectors.popover.closeButton).isVisible()
+  const isPopoverVisible = await page.locator(HomePage.selectors.popover.closeButton).first().isVisible()
 
   if (!isHomePageLogoVisible && !isPopoverVisible) {
     if (await page.locator(CrashPage.selectors.header).isVisible()) {
