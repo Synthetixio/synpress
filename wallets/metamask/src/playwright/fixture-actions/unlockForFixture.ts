@@ -2,7 +2,7 @@ import type { Page } from '@playwright/test'
 import { errors as playwrightErrors } from '@playwright/test'
 import { MetaMask } from '..'
 import { CrashPage, HomePage } from '../pages'
-import { closeNewNetworkInfoPopover, closePopover, closeRecoveryPhraseReminder } from '../pages/HomePage/actions'
+import { closePopover, closeRecoveryPhraseReminder, closeNewNetworkInfoPopover } from '../pages/HomePage/actions'
 import { waitForSpinnerToVanish } from '../utils/waitForSpinnerToVanish'
 
 /**

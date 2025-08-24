@@ -1,8 +1,8 @@
 import { testWithSynpress } from '@synthetixio/synpress-core'
 import { Petra, petraFixtures } from '../../../src/playwright'
 
-import { testSeedPhrase } from '../../constants'
 import basicSetup from '../wallet-setup/basic.setup'
+import { testSeedPhrase } from '../../constants'
 
 const test = testWithSynpress(petraFixtures(basicSetup))
 

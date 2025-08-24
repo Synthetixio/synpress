@@ -98,7 +98,7 @@ export const petraFixtures = (walletSetup: ReturnType<typeof defineWalletSetup>,
       await use(petra)
     },
     page: async ({ page }, use) => {
-      await page.goto('/')
+      await page.goto(`/`)
 
       await use(page)
     }

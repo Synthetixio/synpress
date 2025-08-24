@@ -1,7 +1,7 @@
 import { testWithSynpress } from '@synthetixio/synpress-core'
-import { ZodError } from 'zod'
 import { Petra, petraFixtures } from '../../../src/playwright'
 import basicSetup from '../wallet-setup/basic.setup'
+import { ZodError } from 'zod'
 
 const test = testWithSynpress(petraFixtures(basicSetup))
 
