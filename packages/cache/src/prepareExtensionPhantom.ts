@@ -1,4 +1,4 @@
-import { downloadFile, ensureCacheDirExists, unzipCrxArchive } from '.'
+import { downloadFile, ensureCacheDirExists, unzipArchivePhantom } from '.'
 
 export const PHANTOM_EXTENSION_DOWNLOAD_URL = 'https://crx-backup.phantom.dev/latest.crx'
 
@@ -12,7 +12,7 @@ export async function prepareExtensionPhantom() {
     fileName: 'phantom-chrome-latest.crx'
   })
 
-  const unzipResult = await unzipCrxArchive({
+  const unzipResult = await unzipArchivePhantom({
     archivePath: downloadResult.filePath
   })
 

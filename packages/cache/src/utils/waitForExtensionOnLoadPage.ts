@@ -17,8 +17,7 @@ const POLLING_INTERVAL = 500
 
 const APP_SELECTORS = {
   METAMASK: '#app-content .app',
-  PHANTOM: '#root',
-  PETRA: '#onboarding'
+  PHANTOM: '#root'
 }
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -30,8 +29,6 @@ async function isPageBlank(page: Page, extensionPath: string): Promise<boolean> 
   const app = (extensionPath: string) => {
     if (extensionPath.includes('metamask')) {
       return 'METAMASK'
-    } else if (extensionPath.includes('petra')) {
-      return 'PETRA'
     } else {
       return 'PHANTOM'
     }

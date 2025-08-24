@@ -1,8 +1,0 @@
-export * from './addNewAccount'
-export * from './importWalletFromPrivateKey'
-export * from './lock'
-export * from './renameAccount'
-export * from './settings'
-export * from './switchAccount'
-export * from './toggleNetworkMode'
-export { default as getAccountAddress } from './getAccountAddress'
