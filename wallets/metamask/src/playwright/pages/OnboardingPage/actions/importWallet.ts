@@ -4,7 +4,7 @@ import type { Page } from '@playwright/test'
 import HomePageSelectors from '../../../../selectors/pages/HomePage'
 import Selectors from '../../../../selectors/pages/OnboardingPage'
 
-import { closePopover, closeNewNetworkInfoPopover, closeWhatsNewPopover } from '../../HomePage/actions'
+import { closeNewNetworkInfoPopover, closePopover, closeWhatsNewPopover } from '../../HomePage/actions'
 import { confirmSecretRecoveryPhrase, createPassword } from './helpers'
 
 export async function importWallet(page: Page, seedPhrase: string, password: string) {
