@@ -1,6 +1,6 @@
 import { type Page, expect } from '@playwright/test'
-import Selectors from '../../../../selectors/pages/HomePage'
 import { z } from 'zod'
+import Selectors from '../../../../selectors/pages/HomePage'
 
 export async function renameAccount(page: Page, newAccountName: string) {
   const parsedNewAccountName = z.string().min(1, 'Account name cannot be an empty string').parse(newAccountName)

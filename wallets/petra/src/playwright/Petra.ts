@@ -1,7 +1,7 @@
 import type { BrowserContext, Page } from '@playwright/test'
-import { PetraAbstract } from '../type/PetraAbstract'
-import { HomePage, PromptPage, OnboardingPage, UnlockPage } from './pages'
 import type { NetworkMode } from '../type/Networks'
+import { PetraAbstract } from '../type/PetraAbstract'
+import { HomePage, OnboardingPage, PromptPage, UnlockPage } from './pages'
 
 const NO_EXTENSION_ID_ERROR = new Error('Petra extensionId is not set')
 

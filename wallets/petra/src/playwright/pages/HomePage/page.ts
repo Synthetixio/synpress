@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test'
 import Selectors from '../../../selectors/pages/HomePage'
+import type { NetworkMode } from '../../../type/Networks'
 import {
   addNewAccount,
   getAccountAddress,
@@ -10,7 +11,6 @@ import {
   switchAccount,
   toggleNetworkMode
 } from './actions'
-import type { NetworkMode } from '../../../type/Networks'
 import { importWalletFromMnemonicPhrase } from './actions/importWalletFromMnemonic'
 
 export class HomePage {

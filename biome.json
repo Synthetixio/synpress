@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "experimentalScannerIgnores": [
+    "ignore": [
       "**/node_modules",
       ".changeset",
       ".vscode",
@@ -20,12 +20,12 @@
   "formatter": {
     "lineWidth": 120,
     "indentStyle": "space",
-    "indentWidth": 2
+    "indentSize": 2
   },
   "javascript": {
     "formatter": {
       "quoteStyle": "single",
-      "trailingCommas": "none",
+      "trailingComma": "none",
       "semicolons": "asNeeded"
     }
   }

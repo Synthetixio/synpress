@@ -20,7 +20,10 @@ export async function importWalletFromPrivateKey(
   // SELECT NETWORK
   if (network !== 'solana') {
     await page.locator(Selectors.accountMenu.addAccountMenu.importAccountMenu.networkOpenMenu).click()
-    await page.locator(Selectors.accountMenu.addAccountMenu.importAccountMenu[`${network}Network`]).first().click()
+    await page
+      .locator(Selectors.accountMenu.addAccountMenu.importAccountMenu[`${network}Network`])
+      .first()
+      .click()
   }
 
   await page

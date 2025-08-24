@@ -7,7 +7,9 @@ export const PETRA_EXTENSION_ID = 'ejjladinnckdgjemekebdpeokbikhfci'
 //   PETRA_EXTENSION_ID
 // )}%26uc`
 
-const PETRA_EXTENSION_DOWNLOAD_URL = `https://clients2.google.com/service/update2/crx?response=redirect&prodversion=114.0&x=id%3D${encodeURIComponent(PETRA_EXTENSION_ID)}%26installsource%3Dondemand%26uc%26v%3D1.2.103
+const PETRA_EXTENSION_DOWNLOAD_URL = `https://clients2.google.com/service/update2/crx?response=redirect&prodversion=114.0&x=id%3D${encodeURIComponent(
+  PETRA_EXTENSION_ID
+)}%26installsource%3Dondemand%26uc%26v%3D1.2.103
 `
 
 export async function prepareExtensionPetra(forceCache = true) {

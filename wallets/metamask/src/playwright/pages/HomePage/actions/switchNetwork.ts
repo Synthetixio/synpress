@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
 import Selectors from '../../../../selectors/pages/HomePage'
 import { allTextContents } from '../../../utils/allTextContents'
-import { closeRecoveryPhraseReminder, closeNewNetworkInfoPopover, closeWhatsNewPopover } from './popups'
+import { closeNewNetworkInfoPopover, closeRecoveryPhraseReminder, closeWhatsNewPopover } from './popups'
 
 async function openTestnetSection(page: Page) {
   const toggleButtonLocator = page.locator(Selectors.networkDropdown.showTestNetworksToggle)
