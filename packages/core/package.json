@@ -1,6 +1,6 @@
 {
   "name": "@synthetixio/synpress-core",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "homepage": "https://synpress.io",
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
     "types:check": "tsc --noEmit"
   },
   "devDependencies": {
-    "@synthetixio/synpress-tsconfig": "0.0.12",
+    "@synthetixio/synpress-tsconfig": "0.0.13",
     "@types/node": "20.11.17",
     "rimraf": "5.0.5",
     "tsup": "8.0.2",

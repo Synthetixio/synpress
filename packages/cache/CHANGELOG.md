@@ -1,5 +1,11 @@
 # @synthetixio/synpress-cache
 
+## 0.0.13
+
+### Patch Changes
+
+- Release
+
 ## 0.0.12
 
 ### Patch Changes

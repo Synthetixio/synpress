@@ -1,6 +1,6 @@
 {
   "name": "@synthetixio/synpress-phantom",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "type": "module",
   "exports": {
     "./playwright": {
@@ -39,7 +39,7 @@
     "zod": "3.22.4"
   },
   "devDependencies": {
-    "@synthetixio/synpress-tsconfig": "0.0.12",
+    "@synthetixio/synpress-tsconfig": "0.0.13",
     "@types/fs-extra": "11.0.4",
     "@types/node": "20.11.17",
     "@vitest/coverage-v8": "1.2.2",
