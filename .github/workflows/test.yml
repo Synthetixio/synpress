@@ -70,7 +70,7 @@ jobs:
           xvfb-run pnpm run test:playwright:wallet-mock-and-metamask:headful
 
       - name: Archive Playwright report (metamask)
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # pin@v4.6.0
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # pin@v4.6.2
         if: success() || failure()
         with:
           name: playwright-report-headful-metamask
@@ -121,7 +121,7 @@ jobs:
           xvfb-run pnpm run test:playwright:phantom:headful
 
       - name: Archive Playwright report (phantom)
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # pin@v4.6.0
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # pin@v4.6.2
         if: success() || failure()
         with:
           name: playwright-report-headful-phantom
