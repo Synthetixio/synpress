@@ -59,7 +59,7 @@ export default function configureSynpress(
 ) {
   const browsers = config.browsers.filter((b) => b.name === 'chrome')
   if (browsers.length === 0) {
-    throw new Error('No Chrome browser found in the configuration')
+    throw new Error('No Chrome browser found while configuring Metamask. Only Chrome is currently supported by Synpress.')
   }
 
   on('before:browser:launch', async (browser, launchOptions) => {
