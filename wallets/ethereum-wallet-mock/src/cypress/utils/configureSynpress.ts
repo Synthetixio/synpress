@@ -23,9 +23,9 @@ let port: number
  */
 
 export default function configureSynpress(on: Cypress.PluginEvents, config: Cypress.PluginConfigOptions) {
-  const browsers = config.browsers.filter((b) => b.name === 'chrome')
+  const browsers = config.browsers.filter((b) => b.name === 'chrome-for-testing')
   if (browsers.length === 0) {
-    throw new Error('No Chrome browser found in the configuration')
+    throw new Error('No Chrome for testing browser found while configuring Metamask. Only Chrome for testing is currently supported by Synpress.')
   }
 
   on('before:browser:launch', async (_, launchOptions) => {
