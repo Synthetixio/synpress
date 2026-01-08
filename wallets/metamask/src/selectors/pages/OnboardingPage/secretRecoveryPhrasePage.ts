@@ -9,11 +9,11 @@ const recoveryStep = {
 }
 
 const passwordStep = {
-  passwordInput: createDataTestSelector('create-password-new'),
-  confirmPasswordInput: createDataTestSelector('create-password-confirm'),
+  passwordInput: createDataTestSelector('create-password-new-input'),
+  confirmPasswordInput: createDataTestSelector('create-password-confirm-input'),
   acceptTermsCheckbox: createDataTestSelector('create-password-terms'),
-  importWalletButton: createDataTestSelector('create-password-import'),
-  error: `${createDataTestSelector('create-password-new')} + h6 > span > span`
+  importWalletButton: createDataTestSelector('create-password-submit'),
+  error: `${createDataTestSelector('create-password-new-input')} + h6 > span > span`
 }
 
 export default {
