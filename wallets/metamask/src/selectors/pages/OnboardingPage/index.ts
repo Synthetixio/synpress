@@ -1,6 +1,5 @@
 import AnalyticsPageSelectors from './analyticsPage'
 import GetStartedPageSelectors from './getStartedPage'
-import PinExtensionPageSelectors from './pinExtensionPage'
 import SecretRecoveryPhrasePageSelectors from './secretRecoveryPhrasePage'
 import WalletCreationSuccessPageSelectors from './walletCreationSuccessPage'
 
@@ -18,8 +17,5 @@ export default {
   SecretRecoveryPhrasePageSelectors,
 
   // 4th Page
-  WalletCreationSuccessPageSelectors,
-
-  // 5th Page
-  PinExtensionPageSelectors,
-};
+  WalletCreationSuccessPageSelectors
+}
