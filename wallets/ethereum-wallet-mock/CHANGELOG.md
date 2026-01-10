@@ -1,5 +1,13 @@
 # @synthetixio/ethereum-wallet-mock
 
+## 0.0.14
+
+### Patch Changes
+
+- Release
+- Updated dependencies
+  - @synthetixio/synpress-core@0.0.14
+
 ## 0.0.13
 
 ### Patch Changes
