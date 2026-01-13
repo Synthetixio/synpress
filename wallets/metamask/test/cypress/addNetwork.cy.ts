@@ -1,4 +1,7 @@
 it('should add network and close network added popup', () => {
+
+  cy.wait(10000000)
+
   cy.createAnvilNode().then(({ rpcUrl, chainId }) => {
     const network = {
       name: 'Anvil',

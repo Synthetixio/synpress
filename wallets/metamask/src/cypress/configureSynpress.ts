@@ -7,6 +7,11 @@ import type { Network } from '../type/Network'
 import MetaMask from './MetaMask'
 import importMetaMaskWallet from './support/importMetaMaskWallet'
 import { initMetaMask } from './support/initMetaMask'
+import { prepareExtension } from '../prepareExtension';
+import { CACHE_DIR_NAME, createTempContextDir } from '@synthetixio/synpress-cache';
+import path from 'node:path';
+import basicSetup from '../../test/playwright/wallet-setup/basic.setup';
+import fs from 'fs-extra';
 
 let metamask: MetaMask
 
@@ -67,11 +72,35 @@ export default function configureSynpress(
     const args = Array.isArray(launchOptions) ? launchOptions : launchOptions.args
     rdpPort = ensureRdpPort(args)
 
-    if (browser.family === 'chromium') {
-      const { extensions, browserArgs } = await initMetaMask()
 
-      launchOptions.extensions.push(...extensions)
+    console.log(process.env.IGNORE_CHROME_PREFERENCES)
+
+    if (browser.family === 'chromium') {
+      const metamaskPath = await prepareExtension()
+
+      // We don't need the `--load-extension` arg since the extension is already loaded in the cache.
+      const browserArgs = [`--disable-extensions-except=${metamaskPath}`]
+
+      const contextPath = await createTempContextDir("test", "10")
+
+      const cacheDirPath = path.join(process.cwd(), CACHE_DIR_NAME, basicSetup.hash)
+      if (!(await fs.exists(cacheDirPath))) {
+        throw new Error(`Cache for ${basicSetup.hash} does not exist. Create it first!`)
+      }
+
+      // Copying the cache to the temporary context directory.
+      await fs.copy(cacheDirPath, contextPath)
+
+      browserArgs.push(`--user-data-dir=${contextPath}`)
+
+
+      // launchOptions.extensions.push(...extensions)
       args.push(...browserArgs)
+
+
+      console.log({
+        args
+      })
     }
 
     return launchOptions

@@ -21,16 +21,30 @@ export default async function importMetaMaskWallet(port: number, importDefaultWa
   let extensionPage: Page | undefined
   let cypressPage: Page | undefined
 
+  // const newContext = await chromium.launchPersistentContext(cacheDirPath, {
+  //   headless: false,
+  //   args: browserArgs
+  // })
+
+  // const context = browser.contexts()[0] as BrowserContext
+  //
+  // // await context.waitForEvent('response')
+  //
+  // let metamaskExtensionId: string | undefined
+  // let extensionPage: Page | undefined
+  // let cypressPage: Page | undefined
+  //
   const extensionPageIndex = context.pages().findIndex((page) => page.url().includes('chrome-extension://'))
   if (extensionPageIndex !== -1) {
     extensionPage = context.pages()[extensionPageIndex] as Page
     metamaskExtensionId = await getExtensionId(context, 'MetaMask')
 
-    const metamask = getPlaywrightMetamask(context, extensionPage, metamaskExtensionId)
-
-    if (importDefaultWallet) await metamask.importWallet(SEED_PHRASE)
+    // const metamask = getPlaywrightMetamask(context, extensionPage, metamaskExtensionId)
+    //
+    // if (importDefaultWallet) await metamask.importWallet(SEED_PHRASE)
 
     cypressPage = context.pages()[extensionPageIndex === 1 ? 0 : 1] as Page
+
     await cypressPage.bringToFront()
   }
 

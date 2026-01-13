@@ -14,6 +14,10 @@ export default defineConfig({
     }
   },
 
+  env: {
+    IGNORE_CHROME_PREFERENCES: true
+  },
+
   defaultCommandTimeout: 12_000,
   taskTimeout: 15_000
 })

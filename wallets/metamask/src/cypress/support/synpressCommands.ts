@@ -17,6 +17,9 @@ import type { Network } from '../../type/Network'
 declare global {
   namespace Cypress {
     interface Chainable {
+      setLocalStorage(key: string, value: string): Chainable<void>
+
+
       importWallet(seedPhrase: string): Chainable<void>
       importWalletFromPrivateKey(privateKey: string): Chainable<void>
 
@@ -103,6 +106,15 @@ declare global {
  * Initializes Synpress commands for MetaMask
  */
 export default function synpressCommandsForMetaMask(): void {
+  // Cache
+
+  Cypress.Commands.add('setLocalStorage', (key, value) => {
+    cy.window().then((win) => {
+      win.localStorage.setItem(key, value);
+    });
+  });
+
+
   // Wallet
 
   /**

@@ -39,7 +39,7 @@
     "clean": "rimraf dist types",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:cypress:headful": "cypress run --browser chrome --headed",
+    "test:cypress:headful": "export IGNORE_CHROME_PREFERENCES=true && cypress run --browser chrome --headed",
     "test:cypress:headful:no-wallet": "cypress run --browser chrome --headed --config-file ./cypress-no-wallet.config.ts",
     "test:playwright:headful": "playwright test",
     "test:playwright:headless": "HEADLESS=true playwright test",
